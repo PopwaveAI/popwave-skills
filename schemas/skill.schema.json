@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://popwaveai.github.io/popwave-skills/schemas/skill.schema.json",
+  "title": "Popwave Skill Manifest",
+  "type": "object",
+  "required": ["id", "version", "description", "entry"],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 8
+    },
+    "entry": {
+      "type": "string",
+      "default": "SKILL.md"
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "slashCommands": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "default": {
+          "type": "boolean"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "readProjectFiles": { "type": "boolean" },
+        "writeProjectFiles": { "type": "boolean" },
+        "network": { "type": "boolean" },
+        "shell": { "type": "boolean" }
+      }
+    },
+    "loadPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeReferences": {
+          "enum": ["never", "on-demand", "always"]
+        },
+        "maxPromptChars": {
+          "type": "integer",
+          "minimum": 1000
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "example-writing",
+  "version": "0.1.0",
+  "displayName": "example-writing",
+  "description": "A minimal writing skill used to verify the Popwave Skill Hub publishing workflow.",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["example-writing"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": false
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 40000
+  }
+}
