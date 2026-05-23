@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
+    "skills:new": "node scripts/new-skill.mjs",
     "skills:validate": "node scripts/validate-skills.mjs",
     "skills:build": "node scripts/build-registry.mjs",
     "build": "npm run skills:validate && npm run skills:build"
