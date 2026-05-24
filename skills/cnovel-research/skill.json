@@ -1,11 +1,11 @@
 {
-  "id": "example-writing",
+  "id": "cnovel-research",
   "version": "0.1.0",
-  "displayName": "example-writing",
+  "displayName": "cnovel-research",
   "description": "A minimal writing skill used to verify the Popwave Skill Hub publishing workflow.",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["example-writing"],
+    "slashCommands": ["cnovel-research"],
     "default": false
   },
   "permissions": {
