@@ -15,6 +15,14 @@ concurrency:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    env:
+      SKILL_HUB_S3_PROVIDER: ${{ secrets.SKILL_HUB_S3_PROVIDER }}
+      SKILL_HUB_S3_ENDPOINT: ${{ secrets.SKILL_HUB_S3_ENDPOINT }}
+      SKILL_HUB_S3_REGION: ${{ secrets.SKILL_HUB_S3_REGION }}
+      SKILL_HUB_S3_BUCKET: ${{ secrets.SKILL_HUB_S3_BUCKET }}
+      SKILL_HUB_ACCESS_KEY_ID: ${{ secrets.SKILL_HUB_ACCESS_KEY_ID }}
+      SKILL_HUB_SECRET_ACCESS_KEY: ${{ secrets.SKILL_HUB_SECRET_ACCESS_KEY }}
+      SKILL_HUB_CDN_REFRESH_WEBHOOK: ${{ secrets.SKILL_HUB_CDN_REFRESH_WEBHOOK }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,24 +51,23 @@ jobs:
       # Optional:
       # - SKILL_HUB_CDN_REFRESH_WEBHOOK: https://example.com/refresh-cdn
       - name: Install rclone
-        if: ${{ secrets.SKILL_HUB_S3_BUCKET != '' }}
+        if: ${{ env.SKILL_HUB_S3_BUCKET != '' }}
         run: |
           curl https://rclone.org/install.sh | sudo bash
 
       - name: Sync dist to domestic object storage
-        if: ${{ secrets.SKILL_HUB_S3_BUCKET != '' }}
+        if: ${{ env.SKILL_HUB_S3_BUCKET != '' }}
         env:
           RCLONE_CONFIG_SKILLHUB_TYPE: s3
-          RCLONE_CONFIG_SKILLHUB_PROVIDER: ${{ secrets.SKILL_HUB_S3_PROVIDER }}
-          RCLONE_CONFIG_SKILLHUB_ACCESS_KEY_ID: ${{ secrets.SKILL_HUB_ACCESS_KEY_ID }}
-          RCLONE_CONFIG_SKILLHUB_SECRET_ACCESS_KEY: ${{ secrets.SKILL_HUB_SECRET_ACCESS_KEY }}
-          RCLONE_CONFIG_SKILLHUB_ENDPOINT: ${{ secrets.SKILL_HUB_S3_ENDPOINT }}
-          RCLONE_CONFIG_SKILLHUB_REGION: ${{ secrets.SKILL_HUB_S3_REGION }}
-          SKILL_HUB_S3_BUCKET: ${{ secrets.SKILL_HUB_S3_BUCKET }}
+          RCLONE_CONFIG_SKILLHUB_PROVIDER: ${{ env.SKILL_HUB_S3_PROVIDER }}
+          RCLONE_CONFIG_SKILLHUB_ACCESS_KEY_ID: ${{ env.SKILL_HUB_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_SKILLHUB_SECRET_ACCESS_KEY: ${{ env.SKILL_HUB_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_SKILLHUB_ENDPOINT: ${{ env.SKILL_HUB_S3_ENDPOINT }}
+          RCLONE_CONFIG_SKILLHUB_REGION: ${{ env.SKILL_HUB_S3_REGION }}
         run: |
           rclone sync dist "skillhub:${SKILL_HUB_S3_BUCKET}" --s3-acl public-read --checksum --fast-list
 
       - name: Refresh CDN
-        if: ${{ secrets.SKILL_HUB_CDN_REFRESH_WEBHOOK != '' }}
+        if: ${{ env.SKILL_HUB_CDN_REFRESH_WEBHOOK != '' }}
         run: |
-          curl -fsS -X POST "${{ secrets.SKILL_HUB_CDN_REFRESH_WEBHOOK }}"
+          curl -fsS -X POST "${SKILL_HUB_CDN_REFRESH_WEBHOOK}"
