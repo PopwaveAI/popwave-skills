@@ -1,0 +1,20 @@
+# 忽略运行时文件
+.env
+runtime.conf
+
+# 忽略临时数据
+*.json
+*.csv
+*sessions/
+*work/
+
+# 忽略 Python 缓存
+__pycache__/
+*.pyc
+
+# 忽略系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略 node（AnySearch JS 备选）
+node_modules/
