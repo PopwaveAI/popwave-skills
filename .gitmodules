@@ -1,3 +1,6 @@
 [submodule "skills/novel-agent-pro"]
 	path = skills/novel-agent-pro
 	url = https://github.com/PopwaveAI/Popwriting.git
+[submodule "skills/html-anything"]
+	path = skills/html-anything
+	url = git@github.com:PopwaveAI/html-anything.git
