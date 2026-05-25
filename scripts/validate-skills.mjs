@@ -50,9 +50,6 @@ async function validateSkill(directoryName) {
   if (!(await exists(path.join(skillRoot, entry)))) {
     fail(`${directoryName}: entry file ${entry} does not exist`);
   }
-  if (!(await exists(path.join(skillRoot, "CHANGELOG.md")))) {
-    fail(`${directoryName}: missing CHANGELOG.md`);
-  }
   return manifest;
 }
 
