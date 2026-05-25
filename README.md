@@ -34,6 +34,8 @@ skills/
 
 ## 作者工作流
 
+面向非技术人员的详细操作说明见：[Skill 新增与修改操作手册](docs/skill-operation-guide.md)。
+
 1. 创建或编辑 `skills/<skill-id>`。
 2. 按照 SemVer 规范更新 `skill.json.version`。
 3. 更新 `CHANGELOG.md`。
