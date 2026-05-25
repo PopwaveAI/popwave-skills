@@ -1,22 +1,22 @@
 # Popwave Skills
 
-This repository is the remote Skill Hub for Paopao projects.
+本仓库是泡泡项目的远程 Skill Hub。
 
-Skill authors add or update packages under `skills/<skill-id>`. CI validates each skill, builds zip packages, generates `dist/registry.json`, and publishes the `dist` folder to a domestic object storage bucket behind CDN.
+Skill 作者在 `skills/<skill-id>` 下新增或更新技能包。CI 会校验每个 Skill，构建 zip 包，生成 `dist/registry.json`，并将 `dist` 目录发布到接入 CDN 的国内对象存储桶。
 
-Default registry URL:
+默认 registry 地址：
 
 ```text
 https://skills.popwave.cn/registry.json
 ```
 
-Backup registry URL:
+备用 registry 地址：
 
 ```text
 https://skills-backup.popwave.cn/registry.json
 ```
 
-## Skill Layout
+## Skill 目录结构
 
 ```text
 skills/
@@ -30,35 +30,35 @@ skills/
     scripts/
 ```
 
-`skill.json` is the app-facing manifest. `SKILL.md` is the model-facing instruction entry.
+`skill.json` 是面向应用的清单文件。`SKILL.md` 是面向模型的指令入口。
 
-## Author Workflow
+## 作者工作流
 
-1. Create or edit `skills/<skill-id>`.
-2. Bump `skill.json.version` using SemVer.
-3. Update `CHANGELOG.md`.
-4. Run:
+1. 创建或编辑 `skills/<skill-id>`。
+2. 按照 SemVer 规范更新 `skill.json.version`。
+3. 更新 `CHANGELOG.md`。
+4. 运行：
 
 ```bash
 npm install
 npm run build
 ```
 
-5. Open a PR.
+5. 发起 PR。
 
-After merge, GitHub Actions builds the registry and syncs `dist/` to the configured domestic object storage bucket. Paopao users can refresh Skills in the app, install the new version, and the project will lock that version in `.paopao/skills/config.json`.
+合并后，GitHub Actions 会构建 registry，并将 `dist/` 同步到已配置的国内对象存储桶。泡泡用户可以在应用中刷新 Skills、安装新版本，项目会在 `.paopao/skills/config.json` 中锁定该版本。
 
-## Domestic CDN Publishing
+## 国内 CDN 发布
 
-Runtime users should not depend on GitHub availability. Keep GitHub as the collaboration repo, and publish the built static hub to a domestic CDN.
+运行时用户不应依赖 GitHub 的可用性。建议将 GitHub 作为协作仓库，同时把构建后的静态 Skill Hub 发布到国内 CDN。
 
-Recommended target:
+推荐目标架构：
 
 ```text
 skills.popwave.cn -> CDN -> OSS/COS/TOS/Kodo/USS bucket
 ```
 
-The bucket root must contain:
+存储桶根目录必须包含：
 
 ```text
 registry.json
@@ -68,7 +68,7 @@ skills/
       skill-package.zip
 ```
 
-Configure repository secrets in GitHub Actions with placeholders for your chosen S3-compatible provider:
+在 GitHub Actions 中配置仓库 secrets。以下是适用于所选 S3 兼容服务商的占位示例：
 
 ```text
 SKILL_HUB_S3_PROVIDER=Alibaba
@@ -80,8 +80,8 @@ SKILL_HUB_SECRET_ACCESS_KEY=<secret-access-key>
 SKILL_HUB_CDN_REFRESH_WEBHOOK=<optional-refresh-webhook>
 ```
 
-Common provider values for `rclone` include `Alibaba`, `TencentCOS`, `AWS`, and `Minio`. If your provider is not S3-compatible, keep `npm run build` and replace only the publish step in `.github/workflows/publish.yml`.
+`rclone` 常见的服务商取值包括 `Alibaba`、`TencentCOS`、`AWS` 和 `Minio`。如果你的服务商不兼容 S3，请保留 `npm run build`，只替换 `.github/workflows/publish.yml` 中的发布步骤。
 
-## Release Channels
+## 发布通道
 
-The build script publishes a `stable` channel for normal versions and a `beta` channel for prerelease versions. The latest stable version is used as `latest` when available.
+构建脚本会为普通版本发布 `stable` 通道，为预发布版本发布 `beta` 通道。当存在稳定版本时，最新稳定版本会作为 `latest` 使用。
