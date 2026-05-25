@@ -1,6 +1,6 @@
 {
   "id": "cnovel-research",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "cnovel-research",
   "description": "A minimal writing skill used to verify the Popwave Skill Hub publishing workflow.",
   "entry": "SKILL.md",
@@ -11,8 +11,8 @@
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true,
-    "network": false,
-    "shell": false
+    "network": true,
+    "shell": true
   },
   "loadPolicy": {
     "includeReferences": "on-demand",
