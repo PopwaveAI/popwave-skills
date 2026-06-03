@@ -9,12 +9,12 @@ project_config.py — 项目路径解析层
   from glue.project_config import resolve_path, resolve_shared, get_project_config
 
   # 解析项目内路径
-  prd_path = resolve_path("/E/AI小说/灰骑士之主正在杀穿多元宇宙", "prd")
-  # → "/E/AI小说/灰骑士之主正在杀穿多元宇宙/v10/00-原始设定/L0-产品层/PRD.md"
+  prd_path = resolve_path("/path/to/project", "prd")
+  # → "/path/to/project/00-原始设定/L0-产品层/PRD.md"
 
   # 解析共享资源路径
   db_path = resolve_shared("scene_fragments_db")
-  # → "/E/AI小说/_shared/studio/scene_fragments.db"
+  # → 根据配置返回对应路径
 
   # 批量检查（启动模块前调用）
   check_paths(project_dir, ["prd", "constitution", "l1_dir"])
@@ -22,9 +22,7 @@ project_config.py — 项目路径解析层
 
 在 project.yaml 中扩展 paths 段：
   paths:
-    prd: "00-总控/PRD.md"               # 示例（旧项目）
-    # 或
-    prd: "v10/00-原始设定/L0-产品层/PRD.md"  # 灰骑士
+    prd: "00-原始设定/L0-产品层/PRD.md"
 """
 
 import os

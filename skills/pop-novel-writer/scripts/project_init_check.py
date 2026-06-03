@@ -8,7 +8,7 @@ project_init_check.py — 项目初始化检查 & 引导
   输出清晰的下步操作指引。
 
 使用方式（在任何写作步骤前运行）：
-  python scripts/project_init_check.py --project-dir "E:\AI小说\这诡异游戏也太真实了"
+  python scripts/project_init_check.py --project-dir "E:\project\your-novel"
 
 输出：
   - 当前项目阶段判定

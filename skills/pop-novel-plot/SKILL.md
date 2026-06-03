@@ -489,7 +489,7 @@ act:
         content: "直视阶梯尽头黑暗，San值骤降但保持清醒"
       # 功能标签（降级为辅助）
       function_tags: ["引入", "世界观揭幕", "主角登场"]
-      key_event: "沈渊降临渊界，激活铭牌"
+      key_event: "主角穿越异界，激活金手指"
       
     - number: 2
       title: "铭牌激活"
