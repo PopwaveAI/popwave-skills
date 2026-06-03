@@ -3,7 +3,7 @@
 <!-- ⚠️ 职责：一次性适配层。把已有正文"翻译"成 bootstrap/constitution/plot 能消费的输入格式。 -->
 <!-- ⚠️ 完成交接后即退役，长期写作走 bootstrap→plot→writer 正常管线。 -->
 ---
-name: continuation
+name: pop-novel-continuation
 display_name: "续写适配"
 category: continuation
 scenario: production

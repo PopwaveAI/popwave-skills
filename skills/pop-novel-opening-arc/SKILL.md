@@ -1,7 +1,7 @@
 <!-- SOURCE_OF_TRUTH -->
 <!-- ⚠️ 此文件是唯一源。修改技能时必须改这个文件 -->
 ---
-name: opening-arc
+name: pop-novel-opening-arc
 display_name: "黄金三章"
 category: writing
 scenario: design
@@ -17,7 +17,7 @@ orchestration:
   dependencies: ["project.yaml", "constitution.yaml"]
   inject_context: ["project.yaml#reader_profile", "constitution.yaml", "01-写作资产/拆解报告/"]
   subagent_required: true
-directory: skill-opening-arc
+directory: pop-novel-opening-arc
 
 produces:
   - 03-正文/ch001.md ~ ch003.md

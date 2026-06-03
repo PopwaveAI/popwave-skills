@@ -1,5 +1,5 @@
 ---
-name: book-deconstructor
+name: pop-novel-deconstructor
 display_name: "一体化拆书"
 category: deconstruct
 scenario: research

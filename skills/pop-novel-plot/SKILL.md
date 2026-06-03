@@ -1,7 +1,7 @@
 <!-- SOURCE_OF_TRUTH -->
 <!-- ⚠️ 此文件是唯一源。修改技能时必须改这个文件 -->
 ---
-name: plot-architecture
+name: pop-novel-plot
 display_name: "剧情架构"
 category: plot
 scenario: design
