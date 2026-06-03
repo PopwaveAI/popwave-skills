@@ -5,6 +5,17 @@
 
 ---
 
+## v3.3.3 (2026-06-03)
+
+**根因**: skill-project-bootstrap — SKILL.md 按需加载拆分
+**类型**: refactor
+**改动**:
+- **✂️ 瘦身 SKILL.md**：890行 → 115行，仅保留 frontmatter + 输入表 + 执行顺序索引
+- **📁 新增 phases/**：13个独立 phase 文件（phase-0.md ~ phase-6.md），每文件≤60行
+- **📁 新增 references/**：质量标准、版本历史、产出目录结构独立文件
+- **📄 新增 templates/chapter-state-template.yaml**：章状态追踪模板（写作数据一致性基础）
+**效果**: agent 执行当前 Phase 时只加载对应的小文件（≤60行），不再被890行裹挟；后续新增 Phase 只需添加文件，不碰 SKILL.md 骨架
+
 ## v3.3.2 (2026-06-03)
 
 **根因**: skill-project-bootstrap v2.9 — 设定文档深度强化
