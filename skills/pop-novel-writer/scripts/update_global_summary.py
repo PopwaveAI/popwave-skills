@@ -14,9 +14,9 @@ update_global_summary.py — 全局摘要 & 角色状态锚 自动化更新
 
 用法：
   python scripts/update_global_summary.py ^
-      --project-dir "E:\AI小说\这诡异游戏也太真实了" ^
+      --project-dir "E:\project\your-novel" ^
       --chapter 10 ^
-      --chapter-file "03-正文\v7.6\ch010.md"
+      --chapter-file "03-正文\ch010.md"
 
 依赖：
   pip install openai python-dotenv
@@ -116,7 +116,7 @@ CHARACTER_STATE_PROMPT = """## 当前全局摘要
 def _load_env():
     """从 .env 加载 API 配置（从脚本所在目录向上找）"""
     script_dir = Path(__file__).resolve().parent
-    # 向上找 .env：scripts/ → skill-emergent-writer/ → skills/ → novel-agent-pro/
+    # 向上找 .env：scripts/ → pop-novel-writer/ → skills/
     for p in [script_dir, script_dir.parent, script_dir.parent.parent,
               script_dir.parent.parent.parent]:
         env_file = p / ".env"

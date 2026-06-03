@@ -138,7 +138,7 @@ def main():
         print(f"  下步操作:")
         print(f"    1. 运行 skill-project-bootstrap 创建项目")
         print(f"    2. 完成后刷新项目总控台：")
-        print(f"       python <novel-agent-pro>/skills/skill-emergent-writer/scripts/update_project_status.py --project-dir \"{project_dir}\"")
+        print(f"       python scripts/update_project_status.py --project-dir \"{project_dir}\"")
         print(f"    3. 运行 skill-plot-architecture 设计剧情架构")
         print(f"    4. 运行 skill-chapter-outline 生成章纲")
         print(f"    5. 运行 skill-emergent-writer 开始写作")
@@ -155,7 +155,7 @@ def main():
         print(f"")
         print(f"  下步操作:")
         print(f"    1. 刷新项目总控台（了解全貌）：")
-        print(f"       python <novel-agent-pro>/skills/skill-emergent-writer/scripts/update_project_status.py --project-dir \"{project_dir}\"")
+        print(f"       python scripts/update_project_status.py --project-dir \"{project_dir}\"")
         print(f"    2. 编写第一章正文")
         print(f"    3. 通过 QC 质检")
         print(f"    4. 运行更新摘要（单章模式）:")
@@ -164,7 +164,7 @@ def main():
         print(f"           --chapter 1 ^")
         print(f"           --chapter-file \"03-正文/ch001.md\"")
         print(f"    5. 再次刷新总控台：")
-        print(f"       python <novel-agent-pro>/skills/skill-emergent-writer/scripts/update_project_status.py --project-dir \"{project_dir}\"")
+        print(f"       python scripts/update_project_status.py --project-dir \"{project_dir}\"")
 
     elif latest_chapter and not has_global_summary.exists():
         scenario = "mid_project_no_summary"
@@ -181,7 +181,7 @@ def main():
         print(f"           --max-chapter {latest_chapter}")
         print(f"")
         print(f"    刷新总控台：")
-        print(f"       python <novel-agent-pro>/skills/skill-emergent-writer/scripts/update_project_status.py --project-dir \"{project_dir}\"")
+        print(f"       python scripts/update_project_status.py --project-dir \"{project_dir}\"")
         print(f"")
         print(f"    完成后即可进入正常写作循环。")
 
@@ -236,7 +236,7 @@ def main():
         print("请手动检查项目结构。")
     print()
     print(f"  💡 随时刷新 project-status.html 仪表盘：")
-    print(f"     python <novel-agent-pro>/skills/skill-emergent-writer/scripts/update_project_status.py --project-dir \"{project_dir}\"")
+    print(f"     python scripts/update_project_status.py --project-dir \"{project_dir}\"")
     print("=" * 60)
 
 
