@@ -1,0 +1,29 @@
+rule_id: R-002
+source: retrospective
+status: active
+severity: P0
+problem: 否定式描写多发：'不是A而是B'及变体未完全覆盖
+root_cause: REDLINE 规则只覆盖了'不是A而是B'，未覆盖变体
+enforce:
+  redline:
+    patterns:
+    - 不是[^，。\n]{1,30}而是
+    - 不是[^，。\n]+不是[^，。\n]+是[一|种|某种]
+    - 说不清[楚的]{0,2}(?:的)?\s*(?:颜色|感觉|味道|声音|情绪|恐惧)
+    - 是(?:某种|一种)\s*说不清
+    - 直觉告诉
+    - 他没有问|她没有问
+    target: full_text
+  qc_check:
+    id: QC-R002
+    description: 否定式描写检测：'不是A而是B'/'说不清'/'直觉告诉'/'他没有问'
+    method: regex
+  director_constraint:
+    text: 禁止使用否定式描写结构：'不是A而是B'、'说不清的颜色/感觉'、'直觉告诉'、'他没有/她没有问'。直接用肯定句呈现。
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 5
+tags:
+- 正文写作
+- 否定句式

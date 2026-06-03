@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+node_modules/
+.venv/
+qa-output/
+data.json
+analysis.json
+analysis_ready.json

@@ -1,0 +1,774 @@
+[
+  {
+    "id": 0,
+    "name": "疯狂小杨哥",
+    "platform": "抖音",
+    "category": "搞笑/生活",
+    "gender": "男",
+    "region": "安徽",
+    "followers": 10800,
+    "engagement": 4.5,
+    "avgLikes": 520000,
+    "avgComments": 38000,
+    "avgShares": 120000,
+    "postFreq": 5.2,
+    "followersGrowth": -2.1,
+    "collabBrands": 500,
+    "avgPrice": "50-200万/场",
+    "roi": "较高",
+    "cpm": 200,
+    "grade": "S",
+    "avColor": "#f97316",
+    "desc": "抖音首个个人号破亿粉丝的超级头部KOL，以搞笑家庭情景剧和直播带货著称。2024年因'美诚月饼'虚假宣传事件遭重罚，被罚没6895万元，停播半年。目前处于恢复期。",
+    "scores": {
+      "spread": 95,
+      "content": 88,
+      "commercial": 78,
+      "match": 72,
+      "risk": 55
+    },
+    "riskLevel": "高风险",
+    "risks": [
+      {
+        "sev": "high",
+        "date": "2024-09",
+        "title": "美诚月饼虚假宣传事件",
+        "detail": "带货'美诚月饼'涉嫌仿冒香港品牌，被合肥市监局罚没6895万元，三只羊旗下所有主播停播半年，小杨哥掉粉近千万。此事件严重损害品牌信任度。",
+        "status": "已处罚但影响持续"
+      },
+      {
+        "sev": "high",
+        "date": "2024-10",
+        "title": "三只羊公司停播整顿",
+        "detail": "公司全面停播，多个品牌终止合作。2025年3月才获准恢复经营。",
+        "status": "已恢复但有记录"
+      },
+      {
+        "sev": "med",
+        "date": "2025-05",
+        "title": "粉丝增长乏力",
+        "detail": "连续三年头部KOL粉丝增速放缓，恢复直播后活跃度较事件前下降约30%。",
+        "status": "持续观察"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "多个日用品品牌",
+        "year": "2023-2024",
+        "type": "直播带货",
+        "result": "曾单场GMV破亿，日用品、零食品类转化率领先",
+        "roi": "约1:4.5",
+        "note": "事件前数据"
+      },
+      {
+        "brand": "多个品牌暂停合作",
+        "year": "2024-2025",
+        "type": "全面暂停",
+        "result": "月饼事件后品牌方纷纷暂停合作，目前逐步恢复中",
+        "roi": "N/A",
+        "note": "恢复期"
+      }
+    ],
+    "tags": [
+      "超头部",
+      "搞笑IP",
+      "带货能力强",
+      "高风险警示"
+    ]
+  },
+  {
+    "id": 1,
+    "name": "李佳琦",
+    "platform": "淘宝直播",
+    "category": "美妆",
+    "gender": "男",
+    "region": "上海",
+    "followers": 7200,
+    "engagement": 3.8,
+    "avgLikes": 380000,
+    "avgComments": 45000,
+    "avgShares": 85000,
+    "postFreq": 4.5,
+    "followersGrowth": 0.3,
+    "collabBrands": 800,
+    "avgPrice": "80-300万/场",
+    "roi": "极高",
+    "cpm": 210,
+    "grade": "S",
+    "avColor": "#ec4899",
+    "desc": "淘宝直播'口红一哥'，美妆垂类绝对头部。粉丝购买决策力极强，品牌背书效应显著。2023年花西子事件后形象有所受损但仍是顶流。",
+    "scores": {
+      "spread": 92,
+      "content": 82,
+      "commercial": 96,
+      "match": 88,
+      "risk": 65
+    },
+    "riskLevel": "中风险",
+    "risks": [
+      {
+        "sev": "high",
+        "date": "2023-09",
+        "title": "花西子眉笔事件",
+        "detail": "直播中对质疑价格的观众说出'有时候找找自己的原因，这么多年了工资涨没涨，有没有认真工作'等言论，引发全网舆论风暴。花西子品牌形象严重受损，双方合作受到重大影响。",
+        "status": "舆论已平息但影响仍在"
+      },
+      {
+        "sev": "med",
+        "date": "2024",
+        "title": "花西子诉自媒体案",
+        "detail": "花西子起诉自媒体案件二审期间，李佳琦出庭作证，再次引发媒体关注。",
+        "status": "法律程序进行中"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "完美日记",
+        "year": "2018-2021",
+        "type": "深度合作推广",
+        "result": "完美日记合作约15000个KOL，李佳琦为最核心渠道之一，助力品牌3年从0到上市",
+        "roi": "约1:6",
+        "note": "新消费品牌教科书案例"
+      },
+      {
+        "brand": "花西子",
+        "year": "2019-2023",
+        "type": "深度绑定推广",
+        "result": "花西子凭借李佳琦直播间快速崛起，成为国货美妆头部品牌",
+        "roi": "约1:8(事件前)",
+        "note": "2023年事件后合作受到重大影响"
+      }
+    ],
+    "tags": [
+      "美妆一哥",
+      "高转化",
+      "S级",
+      "舆情敏感"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "何同学",
+    "platform": "B站",
+    "category": "科技数码",
+    "gender": "男",
+    "region": "北京",
+    "followers": 1100,
+    "engagement": 5.8,
+    "avgLikes": 180000,
+    "avgComments": 25000,
+    "avgShares": 45000,
+    "postFreq": 1.2,
+    "followersGrowth": 2.5,
+    "collabBrands": 30,
+    "avgPrice": "44-100万/条",
+    "roi": "中等",
+    "cpm": 150,
+    "grade": "B",
+    "avColor": "#6366f1",
+    "desc": "B站科技区标志性UP主，以硬核科技创意视频著称。内容质量极高但更新频率极低（月均1条），商业合作稀缺但单价高。",
+    "scores": {
+      "spread": 80,
+      "content": 95,
+      "commercial": 62,
+      "match": 78,
+      "risk": 55
+    },
+    "riskLevel": "中风险",
+    "risks": [
+      {
+        "sev": "med",
+        "date": "2025",
+        "title": "言论争议影响商业合作",
+        "detail": "何同学部分公开言论引发争议，业内人士表示将对其商业合作产生影响。品牌方开始重新评估与其合作的风险。",
+        "status": "持续影响中"
+      },
+      {
+        "sev": "low",
+        "date": "2025",
+        "title": "更新频率过低",
+        "detail": "月均仅发布1条广告视频，品牌方需等待较长排期。相比同级别UP主（影视飓风月均2条以上），商业效率偏低。",
+        "status": "持续存在"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "多个科技品牌",
+        "year": "2022-2025",
+        "type": "深度定制视频",
+        "result": "单条视频播放量常破千万，创意内容带来极强的品牌记忆度",
+        "roi": "品牌向为主",
+        "note": "适合品牌曝光而非直接转化"
+      },
+      {
+        "brand": "某手机品牌",
+        "year": "2024",
+        "type": "产品植入",
+        "result": "视频呈现方式独特，播放量超800万，品牌讨论度显著提升",
+        "roi": "品牌声量+35%",
+        "note": "创意优先型合作"
+      }
+    ],
+    "tags": [
+      "创意型",
+      "低频高质",
+      "品牌向",
+      "B站顶流"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "影视飓风Tim",
+    "platform": "B站",
+    "category": "科技影视",
+    "gender": "男",
+    "region": "杭州",
+    "followers": 1095,
+    "engagement": 6.2,
+    "avgLikes": 195000,
+    "avgComments": 28000,
+    "avgShares": 52000,
+    "postFreq": 3.8,
+    "followersGrowth": 4.2,
+    "collabBrands": 45,
+    "avgPrice": "30-80万/条",
+    "roi": "中高",
+    "cpm": 120,
+    "grade": "A",
+    "avColor": "#10b981",
+    "desc": "B站影视科技领域顶流UP主，从影视技术科普到商业广告制作，内容工业化程度高、更新稳定。已从个人UP主转型为CEO，商业化模式成熟。",
+    "scores": {
+      "spread": 82,
+      "content": 90,
+      "commercial": 85,
+      "match": 82,
+      "risk": 82
+    },
+    "riskLevel": "低风险",
+    "risks": [
+      {
+        "sev": "low",
+        "date": "2025",
+        "title": "'哄抬相机价格'争议(已澄清)",
+        "detail": "被网友质疑通过视频恶意哄抬相机价格，Tim已公开否认并澄清，未参与过任何倒卖行为。事件影响有限。",
+        "status": "已澄清"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "多个影视器材品牌",
+        "year": "2022-2025",
+        "type": "深度评测/植入",
+        "result": "专业性极高，粉丝质量好，月均2条以上广告视频，商业化效率高于同级UP主",
+        "roi": "品牌认知+40%",
+        "note": "内容商业化标杆"
+      },
+      {
+        "brand": "某相机品牌",
+        "year": "2024",
+        "type": "深度合作",
+        "result": "视频播放量破600万，直接带动相关产品讨论热度和销量",
+        "roi": "约1:3.5",
+        "note": "垂类精准匹配"
+      }
+    ],
+    "tags": [
+      "商业化标杆",
+      "高频稳定",
+      "低风险",
+      "B站顶流"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "某美妆博主K",
+    "platform": "小红书",
+    "category": "美妆护肤",
+    "gender": "女",
+    "region": "广州",
+    "followers": 58,
+    "engagement": 5.2,
+    "avgLikes": 8500,
+    "avgComments": 1200,
+    "avgShares": 2300,
+    "postFreq": 6.5,
+    "followersGrowth": 8.3,
+    "collabBrands": 35,
+    "avgPrice": "2-8万/条",
+    "roi": "中高",
+    "cpm": 189,
+    "grade": "A",
+    "avColor": "#06b6d4",
+    "desc": "小红书美妆垂类腰部KOL，内容以实测+教程为主，粉丝忠诚度高。互动率超5%远高于平台平均水平。2026年4月起出现数据异常波动。",
+    "scores": {
+      "spread": 55,
+      "content": 88,
+      "commercial": 68,
+      "match": 90,
+      "risk": 52
+    },
+    "riskLevel": "中风险",
+    "risks": [
+      {
+        "sev": "med",
+        "date": "2026-04",
+        "title": "数据异常波动",
+        "detail": "近30天互动量异常增长42%，部分笔记互动数据不符合平台常规规律。需复核是否存在刷量行为。已标记为'数据待复核'。",
+        "status": "待复核"
+      },
+      {
+        "sev": "low",
+        "date": "2025-12",
+        "title": "合作品牌数量快速增长",
+        "detail": "半年内合作品牌从12个增至35个，商单密度可能影响内容质量和粉丝信任度。",
+        "status": "持续观察"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "某国货美妆品牌A",
+        "year": "2025-Q4",
+        "type": "小红书种草",
+        "result": "4篇笔记总曝光210万，互动率4.8%，带动品牌搜索量提升28%",
+        "roi": "约1:3.2",
+        "note": "表现优秀"
+      },
+      {
+        "brand": "某护肤品牌B",
+        "year": "2026-Q1",
+        "type": "产品实测系列",
+        "result": "6篇实测教程内容，总互动12.5万，粉丝对实测型内容信任度高",
+        "roi": "约1:2.8",
+        "note": "内容质量高"
+      }
+    ],
+    "tags": [
+      "腰部达人",
+      "美妆垂类",
+      "高互动",
+      "数据待复核"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "东北雨姐",
+    "platform": "抖音",
+    "category": "三农/生活",
+    "gender": "女",
+    "region": "辽宁",
+    "followers": 2400,
+    "engagement": 2.1,
+    "avgLikes": 120000,
+    "avgComments": 18000,
+    "avgShares": 35000,
+    "postFreq": 3.2,
+    "followersGrowth": -15.5,
+    "collabBrands": 25,
+    "avgPrice": "10-30万/条",
+    "roi": "低",
+    "cpm": 60,
+    "grade": "D",
+    "avColor": "#ef4444",
+    "desc": "曾以农村生活记录走红的抖音头部KOL，2024年因红薯粉丝虚假宣传事件被处罚，目前已淡出主流视野。",
+    "scores": {
+      "spread": 50,
+      "content": 42,
+      "commercial": 25,
+      "match": 30,
+      "risk": 18
+    },
+    "riskLevel": "高风险",
+    "risks": [
+      {
+        "sev": "high",
+        "date": "2024-Q4",
+        "title": "红薯粉丝虚假宣传被处罚",
+        "detail": "带货的一款红薯粉丝产品涉嫌虚假宣传，被市场监管部门立案调查并处罚。事件后掉粉严重，商业价值大幅缩水。",
+        "status": "已处罚"
+      },
+      {
+        "sev": "high",
+        "date": "2025",
+        "title": "账号活跃度持续下降",
+        "detail": "事件后更新频率和内容质量大幅下降，粉丝活跃度不足事件前的30%。多个品牌方已将合作列为黑名单。",
+        "status": "持续恶化"
+      }
+    ],
+    "campaigns": [],
+    "tags": [
+      "高风险",
+      "建议终止合作",
+      "负面案例"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "广东夫妇",
+    "platform": "抖音",
+    "category": "生活/带货",
+    "gender": "组合",
+    "region": "广东",
+    "followers": 5500,
+    "engagement": 3.2,
+    "avgLikes": 280000,
+    "avgComments": 22000,
+    "avgShares": 65000,
+    "postFreq": 4.0,
+    "followersGrowth": 1.8,
+    "collabBrands": 300,
+    "avgPrice": "30-150万/场",
+    "roi": "高",
+    "cpm": 210,
+    "grade": "A",
+    "avColor": "#8b5cf6",
+    "desc": "抖音头部带货CP组合，客单价约千元，总销量可与超头KOL比肩。精准定位高消费人群，转化效率优秀。",
+    "scores": {
+      "spread": 88,
+      "content": 72,
+      "commercial": 90,
+      "match": 80,
+      "risk": 78
+    },
+    "riskLevel": "低风险",
+    "risks": [
+      {
+        "sev": "low",
+        "date": "2025-03",
+        "title": "选品标准需加强",
+        "detail": "个别合作品牌被投诉产品质量问题，虽然未涉及虚假宣传，但对信任度有轻微影响。",
+        "status": "已改进选品流程"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "多个高端品牌",
+        "year": "2023-2025",
+        "type": "直播带货",
+        "result": "客单价约千元，千元级产品GMV与头部KOL差距不大",
+        "roi": "约1:4",
+        "note": "高端人群精准触达"
+      },
+      {
+        "brand": "某家电品牌",
+        "year": "2025",
+        "type": "专场直播",
+        "result": "单场直播GMV超5000万，转化率行业领先",
+        "roi": "约1:5.2",
+        "note": "标杆案例"
+      }
+    ],
+    "tags": [
+      "高端定位",
+      "高客单价",
+      "低风险",
+      "带货力强"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "某中腰部达人M",
+    "platform": "抖音",
+    "category": "美食",
+    "gender": "女",
+    "region": "成都",
+    "followers": 35,
+    "engagement": 4.2,
+    "avgLikes": 5500,
+    "avgComments": 800,
+    "avgShares": 1200,
+    "postFreq": 5.8,
+    "followersGrowth": 12.5,
+    "collabBrands": 12,
+    "avgPrice": "5000-2万/条",
+    "roi": "中",
+    "cpm": 80,
+    "grade": "B",
+    "avColor": "#eab308",
+    "desc": "抖音美食垂类成长型达人，内容风格清新自然。处于快速上升期，品牌合作初期性价比极高。2026年Q1粉丝增长数据存在异常。",
+    "scores": {
+      "spread": 38,
+      "content": 75,
+      "commercial": 48,
+      "match": 65,
+      "risk": 60
+    },
+    "riskLevel": "中风险",
+    "risks": [
+      {
+        "sev": "med",
+        "date": "2026-Q1",
+        "title": "粉丝增长数据异常",
+        "detail": "2026年Q1粉丝增长12.5%远高于同垂类平均水平(3.2%)，增长曲线存在疑似'阶梯式增长'特征，需核查是否存在刷粉行为。",
+        "status": "待复核"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "某零食品牌",
+        "year": "2025-Q4",
+        "type": "内容植入",
+        "result": "3条美食推荐内容，总曝光45万，互动率4.5%，引入店铺流量明显",
+        "roi": "约1:2.5",
+        "note": "性价比高"
+      },
+      {
+        "brand": "某餐饮连锁",
+        "year": "2026-Q1",
+        "type": "探店系列",
+        "result": "4条探店内容，本地流量转化效果显著，到店率提升可量化",
+        "roi": "约1:3.0",
+        "note": "本地生活效果好"
+      }
+    ],
+    "tags": [
+      "成长型",
+      "性价比高",
+      "美食垂类",
+      "数据待复核"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "某穿搭博主F",
+    "platform": "小红书",
+    "category": "穿搭时尚",
+    "gender": "女",
+    "region": "上海",
+    "followers": 82,
+    "engagement": 4.8,
+    "avgLikes": 12000,
+    "avgComments": 1800,
+    "avgShares": 3500,
+    "postFreq": 7.2,
+    "followersGrowth": 6.5,
+    "collabBrands": 42,
+    "avgPrice": "3-12万/条",
+    "roi": "中高",
+    "cpm": 170,
+    "grade": "A",
+    "avColor": "#f472b6",
+    "desc": "小红书穿搭垂类头部KOL之一，风格以日常通勤+轻奢混搭为主，粉丝画像集中在25-35岁一线城市女性。品牌合作调性匹配度高。",
+    "scores": {
+      "spread": 62,
+      "content": 85,
+      "commercial": 75,
+      "match": 88,
+      "risk": 72
+    },
+    "riskLevel": "低风险",
+    "risks": [
+      {
+        "sev": "low",
+        "date": "2025-11",
+        "title": "合作伙伴竞品冲突",
+        "detail": "同时合作两个竞品服装品牌，被其中一方要求排他。需在合作前明确排他条款。",
+        "status": "已解决"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "某轻奢女装品牌",
+        "year": "2025",
+        "type": "穿搭种草系列",
+        "result": "6篇穿搭笔记，总曝光380万，互动率4.5%，品牌搜索量提升35%",
+        "roi": "约1:3.8",
+        "note": "调性匹配度极高"
+      },
+      {
+        "brand": "某小众设计师品牌",
+        "year": "2025",
+        "type": "联名合作",
+        "result": "联名款上线24小时内售罄，社交媒体讨论度爆发",
+        "roi": "约1:6",
+        "note": "垂类精准匹配的标杆"
+      }
+    ],
+    "tags": [
+      "穿搭垂类",
+      "高匹配度",
+      "低风险",
+      "品牌调性好"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "某母婴博主Y",
+    "platform": "小红书",
+    "category": "母婴育儿",
+    "gender": "女",
+    "region": "杭州",
+    "followers": 45,
+    "engagement": 6.8,
+    "avgLikes": 9500,
+    "avgComments": 2200,
+    "avgShares": 4800,
+    "postFreq": 5.5,
+    "followersGrowth": 9.2,
+    "collabBrands": 28,
+    "avgPrice": "1.5-6万/条",
+    "roi": "高",
+    "cpm": 160,
+    "grade": "A",
+    "avColor": "#a855f7",
+    "desc": "小红书母婴垂类高信任度博主，内容以科学育儿+好物实测为主，粉丝粘性极强。互动率6.8%在母婴垂类中名列前茅。",
+    "scores": {
+      "spread": 48,
+      "content": 90,
+      "commercial": 72,
+      "match": 86,
+      "risk": 78
+    },
+    "riskLevel": "低风险",
+    "risks": [
+      {
+        "sev": "low",
+        "date": "2026-02",
+        "title": "产品推荐被质疑",
+        "detail": "推荐的一款婴儿辅食产品被部分粉丝质疑配方成分，博主及时回应并补充了检测报告，信任度未受损。",
+        "status": "已妥善处理"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "某国际奶粉品牌",
+        "year": "2025",
+        "type": "深度测评",
+        "result": "3篇深度测评内容，总互动18万+，评论区购买意向表达强烈",
+        "roi": "约1:4.2",
+        "note": "母婴垂类高信任度代表"
+      },
+      {
+        "brand": "某国产母婴品牌",
+        "year": "2026",
+        "type": "长期合作",
+        "result": "月均2条内容，品牌认知度从12%提升至38%",
+        "roi": "长期品牌建设",
+        "note": "持续性合作效果好"
+      }
+    ],
+    "tags": [
+      "母婴垂类",
+      "高信任度",
+      "科学育儿",
+      "低风险"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "某数码博主D",
+    "platform": "微博",
+    "category": "数码评测",
+    "gender": "男",
+    "region": "深圳",
+    "followers": 220,
+    "engagement": 2.5,
+    "avgLikes": 8000,
+    "avgComments": 1500,
+    "avgShares": 3000,
+    "postFreq": 4.8,
+    "followersGrowth": 1.2,
+    "collabBrands": 55,
+    "avgPrice": "5-25万/条",
+    "roi": "中",
+    "cpm": 130,
+    "grade": "B",
+    "avColor": "#0ea5e9",
+    "desc": "微博数码垂类资深博主，以硬核参数分析和横向对比评测著称。粉丝以数码发烧友为主，购买决策受内容影响大。",
+    "scores": {
+      "spread": 58,
+      "content": 82,
+      "commercial": 68,
+      "match": 80,
+      "risk": 72
+    },
+    "riskLevel": "低风险",
+    "risks": [
+      {
+        "sev": "low",
+        "date": "2025-08",
+        "title": "评测争议",
+        "detail": "对某品牌新品的评测结论与其他媒体差异较大，被部分网友质疑立场。博主补充了测试方法和原始数据后争议平息。",
+        "status": "已澄清"
+      }
+    ],
+    "campaigns": [
+      {
+        "brand": "某手机品牌",
+        "year": "2025",
+        "type": "新品评测",
+        "result": "评测内容全网阅读量超500万，精准触达目标用户群",
+        "roi": "品牌向",
+        "note": "专业内容背书力强"
+      },
+      {
+        "brand": "某PC品牌",
+        "year": "2025",
+        "type": "横向对比",
+        "result": "5款产品横向对比内容，成为用户购买决策重要参考",
+        "roi": "间接转化",
+        "note": "内容长尾效应显著"
+      }
+    ],
+    "tags": [
+      "专业评测",
+      "数码垂类",
+      "长尾效应",
+      "低风险"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "某探店达人T",
+    "platform": "抖音",
+    "category": "旅游探店",
+    "gender": "女",
+    "region": "成都",
+    "followers": 68,
+    "engagement": 5.5,
+    "avgLikes": 18000,
+    "avgComments": 2800,
+    "avgShares": 7500,
+    "postFreq": 6.0,
+    "followersGrowth": 10.8,
+    "collabBrands": 32,
+    "avgPrice": "1-5万/条",
+    "roi": "高",
+    "cpm": 95,
+    "grade": "A",
+    "avColor": "#14b8a6",
+    "desc": "抖音本地生活领域快速崛起的内容创作者，以'真实探店+性价比测评'风格走红。本地商家合作转化率极高，到店率可量化。",
+    "scores": {
+      "spread": 58,
+      "content": 78,
+      "commercial": 82,
+      "match": 82,
+      "risk": 75
+    },
+    "riskLevel": "低风险",
+    "risks": [],
+    "campaigns": [
+      {
+        "brand": "某连锁火锅品牌",
+        "year": "2025",
+        "type": "探店视频",
+        "result": "单条视频播放量320万，到店核销率达行业均值2.3倍",
+        "roi": "约1:5.5",
+        "note": "本地生活转化标杆"
+      },
+      {
+        "brand": "某度假酒店",
+        "year": "2026",
+        "type": "体验种草",
+        "result": "2条种草视频带动酒店周末入住率从60%提升至95%",
+        "roi": "约1:4.8",
+        "note": "旅游消费决策影响强"
+      }
+    ],
+    "tags": [
+      "本地生活",
+      "高转化",
+      "探店",
+      "性价比高"
+    ]
+  }
+]

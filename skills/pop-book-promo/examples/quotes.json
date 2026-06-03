@@ -1,0 +1,37 @@
+{
+  "novel": "穿成白月光替身后",
+  "quotes": [
+    {
+      "id": 1,
+      "character": "乔晚",
+      "quote": "我就是一个替身，拜托你们不要这么认真。",
+      "chapter": "第5章",
+      "context": "乔晚对马怀真吐槽自己的处境",
+      "image_prompt": "Chinese fantasy novel character portrait, half body: a young woman in white cultivation robes, delicate features with a hint of mischief in her eyes, long black hair loosely tied, slight smile with shallow dimples, ink wash painting style, warm lighting"
+    },
+    {
+      "id": 2,
+      "character": "乔晚",
+      "quote": "认命是我的强项，但你们不能一直刷新我的底线。",
+      "chapter": "第23章",
+      "context": "面对接连不断的麻烦，乔晚终于忍无可忍",
+      "image_prompt": "Chinese fantasy novel character portrait, half body: a young woman with a determined expression, white robes flowing, standing on a misty mountain peak, wind blowing her hair, dramatic lighting, watercolor style"
+    },
+    {
+      "id": 3,
+      "character": "乔晚",
+      "quote": "当白月光死了，替身就成了新的白月光——这是什么破逻辑？",
+      "chapter": "第48章",
+      "context": "乔晚发现自己在门派中的地位变化后哭笑不得",
+      "image_prompt": "Chinese fantasy novel character portrait, half body: young woman with exasperated expression, leaning on an ancient tree, cultivation robes slightly disheveled, sunset lighting, traditional Chinese painting style"
+    },
+    {
+      "id": 4,
+      "character": "乔晚",
+      "quote": "我叫乔晚，晚来的晚，不是替身的替。",
+      "chapter": "第102章",
+      "context": "对质疑她身份的人，乔晚第一次正面宣告自己的存在",
+      "image_prompt": "Chinese fantasy novel character portrait, half body: a young woman standing tall and proud, white robes immaculate, eyes burning with quiet defiance, misty mountain background, golden hour light, traditional ink wash painting style"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "web-access",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "web-access",
+      "browser"
+    ]
+  },
+  "permissions": {
+    "network": true,
+    "shell": true
+  }
+}

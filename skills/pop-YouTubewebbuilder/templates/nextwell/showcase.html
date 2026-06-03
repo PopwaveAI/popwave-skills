@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="nextwell">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>/* INJECT:BRAND_NAME */</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   Nextwell · SaaS/产品型
+   浅灰底 · 红色强调 #e4290f · Geist + IBM Plex Mono
+   居中 Hero · SaaS 产品布局
+   ═══════════════════════════════════════════ */
+
+:root {
+  --clr-bg: #f7f7f7;
+  --clr-surface: #ffffff;
+  --clr-text: #555555;
+  --clr-text-heading: #111111;
+  --clr-border: #e5e5e5;
+  --clr-accent: #e4290f;
+  --clr-accent-bg: rgba(228,41,15,0.08);
+  --clr-accent-border: rgba(228,41,15,0.5);
+  --clr-social-bg: rgba(247,247,247,0.5);
+  --clr-card-bg: rgba(255,255,255,0.65);
+  --clr-shadow: rgba(0,0,0,0.04);
+  --clr-tag-bg: #e8e8e8;
+
+  --font-body: 'Inter', 'Geist', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Inter', 'Geist', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Geist Mono', ui-monospace, Consolas, monospace;
+
+  --fs-h1: clamp(38px, 5.5vw, 60px);
+  --fs-h2: clamp(22px, 2.8vw, 34px);
+  --fs-h3: clamp(18px, 1.8vw, 24px);
+  --fs-body: clamp(15px, 1.1vw, 17px);
+  --fs-small: 13px;
+  --fs-tag: 11px;
+
+  --space-max: 1100px;
+  --space-section: clamp(60px, 8vw, 120px);
+  --space-grid: 24px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: var(--space-max); margin: 0 auto; padding: 0 24px; }
+
+/* ═══ Navigation ═══ */
+.nav-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--clr-bg);
+  border-bottom: 1px solid var(--clr-border);
+}
+.nav-inner {
+  max-width: var(--space-max); margin: 0 auto;
+  padding: 1rem 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-logo { font-weight: 700; font-size: 1.2rem; color: var(--clr-text-heading); text-decoration: none; letter-spacing: -0.02em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--clr-text); font-size: 14px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: var(--clr-accent); }
+.nav-cta {
+  background: var(--clr-accent); color: #fff;
+  padding: 10px 28px; text-decoration: none;
+  font-size: 13px; font-weight: 600; transition: all 0.2s;
+}
+.nav-cta:hover { background: #c02008; }
+
+/* ═══ Hero (居中·SaaS产品型) ═══ */
+.hero { min-height: 88vh; display: flex; align-items: center; justify-content: center; padding-top: 80px; text-align: center; position: relative; }
+.hero h1 { font-size: var(--fs-h1); line-height: 1.08; font-weight: 800; color: var(--clr-text-heading); letter-spacing: -0.025em; margin-bottom: 1.25rem; max-width: 750px; margin-left: auto; margin-right: auto; }
+.hero .highlight { color: var(--clr-accent); }
+.hero-desc { font-size: var(--fs-body); max-width: 520px; margin: 0 auto 2rem; line-height: 1.7; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.btn-primary {
+  background: var(--clr-accent); color: #fff;
+  padding: 15px 34px; text-decoration: none;
+  font-size: 14px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: #c02008; }
+.btn-secondary {
+  background: transparent; color: var(--clr-text-heading);
+  padding: 15px 34px; text-decoration: none;
+  font-size: 14px; font-weight: 500; border: 1.5px solid var(--clr-border);
+  transition: all 0.2s; display: inline-flex; align-items: center;
+}
+.btn-secondary:hover { border-color: var(--clr-text-heading); }
+
+/* ═══ Hero Screenshot ═══ */
+.hero-screenshot { margin: 2.5rem auto 0; max-width: 900px; position: relative; }
+.hero-screenshot img { width: 100%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); border: 1px solid var(--clr-border); display: block; }
+.hero-screenshot .badge {
+  position: absolute; top: -12px; right: 24px;
+  background: var(--clr-accent); color: #fff;
+  font-size: 11px; font-weight: 600; font-family: var(--font-mono);
+  padding: 4px 14px; border-radius: 4px;
+}
+
+/* ═══ Stats ═══ */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-grid); margin: 3rem 0; }
+.stat-card { background: var(--clr-card-bg); backdrop-filter: blur(4px); padding: 1.5rem; text-align: center; border: 1px solid var(--clr-border); }
+.stat-card .num { font-size: 2rem; font-weight: 700; color: var(--clr-text-heading); line-height: 1.1; font-family: var(--font-mono); }
+.stat-card .lbl { font-size: var(--fs-small); color: var(--clr-text); margin-top: 4px; }
+
+/* ═══ Section ═══ */
+.section { padding: var(--space-section) 0; }
+.section-tag { font-size: 12px; color: var(--clr-accent); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; font-family: var(--font-mono); }
+.section h2 { font-size: var(--fs-h2); font-weight: 700; color: var(--clr-text-heading); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 2rem; }
+
+/* ═══ Featured Grid ═══ */
+.featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-grid); }
+.featured-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; overflow: hidden; transition: all 0.25s; }
+.featured-card:hover { border-color: var(--clr-accent-border); box-shadow: 0 6px 24px var(--clr-shadow); }
+.featured-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--clr-tag-bg); }
+.featured-card-body { padding: 1.25rem; }
+.featured-card-body h3 { font-size: 18px; font-weight: 600; color: var(--clr-text-heading); margin-bottom: 0.4rem; }
+.featured-card-body p { font-size: 14px; color: var(--clr-text); line-height: 1.6; margin-bottom: 0.75rem; }
+.featured-card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.featured-card-meta .tag { font-size: 10px; background: var(--clr-accent-bg); color: var(--clr-accent); padding: 2px 10px; font-weight: 500; font-family: var(--font-mono); border-radius: 3px; }
+.featured-card-meta .views { font-size: 12px; color: var(--clr-text); opacity: 0.6; margin-left: auto; }
+
+/* ═══ Features Grid (SaaS) ═══ */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-grid); }
+.feature-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; padding: 2rem; transition: all 0.25s; }
+.feature-card:hover { border-color: var(--clr-accent-border); box-shadow: 0 6px 24px var(--clr-shadow); }
+.feature-card .icon-feat { width: 48px; height: 48px; background: var(--clr-accent-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
+.feature-card h3 { font-size: var(--fs-h3); font-weight: 600; color: var(--clr-text-heading); margin-bottom: 0.5rem; }
+.feature-card p { font-size: 14px; color: var(--clr-text); line-height: 1.6; }
+
+/* ═══ Services ═══ */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-grid); }
+.service-card { background: var(--clr-card-bg); backdrop-filter: blur(4px); border: 1px solid var(--clr-border); border-radius: 8px; padding: 2rem; transition: all 0.25s; }
+.service-card:hover { background: var(--clr-surface); border-color: var(--clr-accent-border); }
+.service-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.service-card h3 { font-size: var(--fs-h3); font-weight: 600; color: var(--clr-text-heading); margin-bottom: 0.5rem; }
+.service-card p { font-size: 14px; color: var(--clr-text); line-height: 1.6; }
+
+/* ═══ Projects Grid ═══ */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-grid); }
+.project-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; padding: 0; overflow: hidden; transition: all 0.25s; }
+.project-card:hover { border-color: var(--clr-accent-border); }
+.project-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; background: var(--clr-tag-bg); }
+.project-card-body { padding: 1rem 1.25rem 1.25rem; }
+.project-card-body h3 { font-size: 16px; font-weight: 600; color: var(--clr-text-heading); margin-bottom: 0.25rem; }
+.project-card-body p { font-size: 13px; color: var(--clr-text); }
+.project-card-body .tags { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.project-card-body .tags span { font-size: 10px; background: var(--clr-accent-bg); color: var(--clr-accent); padding: 1px 8px; font-weight: 500; font-family: var(--font-mono); border-radius: 3px; }
+
+/* ═══ Testimonials ═══ */
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: var(--space-grid); }
+.testimonial-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; padding: 2rem; }
+.testimonial-card .quote { font-size: 15px; font-style: italic; line-height: 1.7; color: var(--clr-text-heading); margin-bottom: 1.5rem; }
+.testimonial-card .author { display: flex; align-items: center; gap: 1rem; }
+.testimonial-card .author img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.testimonial-card .author-info .name { font-size: 14px; font-weight: 600; color: var(--clr-text-heading); }
+.testimonial-card .author-info .role { font-size: 12px; color: var(--clr-text); }
+
+/* ═══ Blog ═══ */
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-grid); }
+.blog-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 8px; overflow: hidden; transition: all 0.25s; }
+.blog-card:hover { border-color: var(--clr-accent-border); }
+.blog-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.blog-card-body { padding: 1.25rem; }
+.blog-card-body .date { font-size: 11px; color: var(--clr-accent); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); }
+.blog-card-body h3 { font-size: 17px; font-weight: 600; color: var(--clr-text-heading); margin: 0.5rem 0; line-height: 1.3; }
+.blog-card-body p { font-size: 13px; color: var(--clr-text); line-height: 1.5; }
+
+/* ═══ Gallery ═══ */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.gallery-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+
+/* ═══ Contact ═══ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.contact-info p { font-size: var(--fs-body); line-height: 1.7; margin-bottom: 1rem; }
+.contact-info .detail { font-size: 14px; color: var(--clr-text-heading); font-weight: 500; margin-top: 0.5rem; font-family: var(--font-mono); }
+.contact-form { display: flex; flex-direction: column; gap: 0.75rem; }
+.contact-form input, .contact-form textarea {
+  padding: 14px 18px; border: 1px solid var(--clr-border); border-radius: 6px; background: var(--clr-surface);
+  font-family: var(--font-body); font-size: 15px; color: var(--clr-text-heading);
+}
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--clr-accent); }
+.contact-form textarea { min-height: 100px; resize: vertical; }
+.contact-form button {
+  background: var(--clr-accent); color: #fff; border: none; border-radius: 6px;
+  padding: 14px 32px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.contact-form button:hover { background: #c02008; }
+
+/* ═══ Footer ═══ */
+.footer { padding: 3rem 0 2rem; border-top: 1px solid var(--clr-border); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-socials { display: flex; gap: 0.5rem; }
+.footer-socials a { width: 44px; height: 44px; border-radius: 50%; background: var(--clr-surface); border: 1px solid var(--clr-border); display: flex; align-items: center; justify-content: center; color: var(--clr-text-heading); text-decoration: none; font-size: 12px; transition: all 0.2s; }
+.footer-socials a:hover { background: var(--clr-accent); color: #fff; border-color: var(--clr-accent); }
+.footer-copy { font-size: 13px; color: var(--clr-text); }
+
+/* ═══ Responsive ═══ */
+@media (max-width: 991px) {
+  .nav-links { display: none; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .featured-grid, .services-grid, .testimonials-grid, .blog-grid, .features-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-row { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Navigation ═══ -->
+<nav class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><!-- ▲ INJECT:BRAND_NAME ▲ -->Nextwell</a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta"><!-- ▲ INJECT:CTA_PRIMARY ▲ -->Try Demo</a>
+  </div>
+</nav>
+
+<!-- ═══ Hero (居中·SaaS产品型) ═══ -->
+<section class="hero">
+  <div class="container">
+    <div class="section-tag"><!-- ▲ INJECT:TAGLINE ▲ -->Nextwell Platform</div>
+    <h1 class="hero-title">
+      <span class="highlight"><!-- ▲ INJECT:HERO_TITLE_HIGHLIGHT ▲ -->Smarter</span> Tools,<br>
+      <!-- ▲ INJECT:HERO_TITLE ▲ -->Better Outcomes
+    </h1>
+    <p class="hero-desc"><!-- ▲ INJECT:HERO_DESC ▲ -->A modern SaaS platform designed to streamline your workflow, boost productivity, and drive growth. Ship faster with confidence.</p>
+    <div class="hero-actions">
+      <a href="#features" class="btn-primary"><!-- ▲ INJECT:CTA_PRIMARY_ALT ▲ -->Get Started Free →</a>
+      <a href="#contact" class="btn-secondary">Book a Demo</a>
+    </div>
+
+    <!-- ▲ INJECT:HERO_SCREENSHOT ▲ -->
+    <div class="hero-screenshot">
+      <div class="badge">v2.0</div>
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900" alt="Nextwell dashboard preview">
+    </div>
+
+    <!-- ▲ INJECT:STATS_BAR ▲ -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">10K+</div><div class="lbl">Active Users</div></div>
+      <div class="stat-card"><div class="num">99.9%</div><div class="lbl">Uptime Guarantee</div></div>
+      <div class="stat-card"><div class="num">4.9★</div><div class="lbl">Customer Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Features (SaaS) ═══ -->
+<!-- ▲ INJECT:FEATURES_SECTION ▲ -->
+<section class="section" id="features" style="background:var(--clr-surface);">
+  <div class="container">
+    <div class="section-tag">Features</div>
+    <h2>Everything You Need</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon-feat">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Optimized performance with sub-second response times. Your data, instantly accessible.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-feat">🔒</div>
+        <h3>Enterprise Security</h3>
+        <p>End-to-end encryption, SOC 2 compliance, and role-based access control built in.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-feat">📊</div>
+        <h3>Advanced Analytics</h3>
+        <p>Real-time dashboards and customizable reports to track every metric that matters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-feat">🔗</div>
+        <h3>Seamless Integration</h3>
+        <p>Connect with 200+ tools and services through our open API and pre-built connectors.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-feat">🤖</div>
+        <h3>AI-Powered</h3>
+        <p>Smart automation and predictive insights to help you make better decisions faster.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-feat">👥</div>
+        <h3>Team Collaboration</h3>
+        <p>Real-time collaboration with built-in communication, commenting, and workflow tools.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Featured ═══ -->
+<section class="section" id="work">
+  <div class="container">
+    <div class="section-tag"><!-- ▲ INJECT:FEATURED_SUBTITLE ▲ -->Featured</div>
+    <h2><!-- ▲ INJECT:FEATURED_TITLE ▲ -->Latest Projects</h2>
+    <!-- ▲ INJECT:FEATURED_GRID ▲ -->
+    <div class="featured-grid">
+      <div class="featured-card">
+        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=640" alt="">
+        <div class="featured-card-body">
+          <h3>Project Alpha</h3>
+          <p>A modern SaaS onboarding flow.</p>
+          <div class="featured-card-meta">
+            <span class="tag">Design</span>
+            <span class="tag">UX</span>
+            <span class="views">2.8K views</span>
+          </div>
+        </div>
+      </div>
+      <div class="featured-card">
+        <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?w=640" alt="">
+        <div class="featured-card-body">
+          <h3>Project Beta</h3>
+          <p>Full-stack platform development.</p>
+          <div class="featured-card-meta">
+            <span class="tag">Development</span>
+            <span class="views">1.5K views</span>
+          </div>
+        </div>
+      </div>
+      <div class="featured-card">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640" alt="">
+        <div class="featured-card-body">
+          <h3>Project Gamma</h3>
+          <p>Data analytics dashboard redesign.</p>
+          <div class="featured-card-meta">
+            <span class="tag">Strategy</span>
+            <span class="tag">Analytics</span>
+            <span class="views">4.2K views</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Services ═══ -->
+<!-- ▲ INJECT:SERVICES_SECTION ▲ -->
+<section class="section" id="services" style="background:var(--clr-surface);">
+  <div class="container">
+    <div class="section-tag">What We Do</div>
+    <h2>Our Expertise</h2>
+    <div class="services-grid">
+      <div class="service-card"><div class="icon">🎨</div><h3>Brand Design</h3><p>Strategic brand identity that tells your story and connects with your audience.</p></div>
+      <div class="service-card"><div class="icon">⚡</div><h3>Web Development</h3><p>Modern, performant websites built with cutting-edge technology.</p></div>
+      <div class="service-card"><div class="icon">📱</div><h3>Product Design</h3><p>User-centered product design from concept to launch.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Projects ═══ -->
+<!-- ▲ INJECT:PROJECTS_GRID ▲ -->
+<section class="section">
+  <div class="container">
+    <div class="section-tag">Portfolio</div>
+    <h2>Selected Work</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400" alt="">
+        <div class="project-card-body"><h3>Brand Refresh</h3><p>Complete identity for tech startup</p><div class="tags"><span>Brand</span></div></div>
+      </div>
+      <div class="project-card">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" alt="">
+        <div class="project-card-body"><h3>Analytics Dashboard</h3><p>Data visualization platform</p><div class="tags"><span>UX</span><span>Dev</span></div></div>
+      </div>
+      <div class="project-card">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="">
+        <div class="project-card-body"><h3>Mobile App</h3><p>Cross-platform mobile solution</p><div class="tags"><span>Mobile</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▲ INJECT:TESTIMONIALS_SECTION ▲ -->
+<!-- ▲ INJECT:GALLERY_SECTION ▲ -->
+<!-- ▲ INJECT:BLOG_SECTION ▲ -->
+
+<!-- ═══ Contact ═══ -->
+<section class="section" id="contact" style="background:var(--clr-surface);">
+  <div class="container">
+    <div class="section-tag">Let's Talk</div>
+    <h2><!-- ▲ INJECT:CONTACT_TITLE ▲ -->Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p><!-- ▲ INJECT:CONTACT_DESC ▲ -->Ready to transform your workflow? Let's talk about how Nextwell can help.</p>
+        <div class="detail"><!-- ▲ INJECT:CONTACT_EMAIL ▲ -->hello@nextwell.io</div>
+        <div class="detail"><!-- ▲ INJECT:CONTACT_PHONE ▲ -->+86 138-0000-0000</div>
+      </div>
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <textarea placeholder="Your Message"></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-copy"><!-- ▲ INJECT:FOOTER_COPY ▲ -->© 2026 Nextwell. All rights reserved.</div>
+      <div class="footer-socials">
+        <!-- ▲ INJECT:SOCIAL_LINKS ▲ -->
+        <a href="#">YT</a>
+        <a href="#">IG</a>
+        <a href="#">TW</a>
+        <a href="#">GH</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

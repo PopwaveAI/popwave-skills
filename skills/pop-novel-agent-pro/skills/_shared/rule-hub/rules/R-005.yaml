@@ -1,0 +1,17 @@
+rule_id: R-005
+source: qa-review
+status: active
+severity: P0
+problem: 主角/角色缺少性格辨识度，无法通过台词区分
+root_cause: 开书阶段 L0 角色人设契约太薄——只有关键词，没有行为锚定
+enforce:
+  director_constraint:
+    text: 本章涉及的核心角色必须有可区分的说话方式/行为模式。每个角色在压力下的反应不能趋同。如果某角色只有出场没有性格表现，标注「该角色缺乏行为锚定」。
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 2
+tags:
+- 对话博弈
+- 角色人设
+- 开书设定

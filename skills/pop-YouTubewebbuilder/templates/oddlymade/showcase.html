@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>oddlymade — Showcase</title>
+<style>
+  /* ── Fonts ── */
+  @font-face {
+    font-family: 'TASA Orbiter';
+    src: local('TASA Orbiter Text'), local('TASAOrbiterText-Regular');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'TASA Orbiter';
+    src: local('TASA Orbiter Text Bold'), local('TASAOrbiterText-Bold');
+    font-weight: 700;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+  :root {
+    --bg: #f8f7f5;
+    --bg-alt: #f0efeb;
+    --text: #1c1c1c;
+    --text-light: #7a7874;
+    --accent: #2d2d2d;
+    --border: #e0ddd7;
+    --font-primary: 'TASA Orbiter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-secondary: 'Instrument Serif', Georgia, serif;
+    --max-w: 1280px;
+    --radius: 16px;
+    --section-pad: 110px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-primary); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 28px; }
+
+  /* ── Header ── */
+  header { padding: 28px 0; }
+  header .container { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-family: var(--font-secondary); font-size: 26px; font-style: italic; color: var(--text); letter-spacing: -0.01em; }
+  /* INJECT:BRAND_NAME */
+  nav { display: flex; gap: 24px; }
+  nav a { text-decoration: none; color: var(--text-light); font-size: 13px; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; transition: color .2s; }
+  nav a:hover { color: var(--text); }
+
+  /* ── Hero ── */
+  .hero { padding: 80px 0 60px; text-align: center; }
+  .hero h1 { font-family: var(--font-primary); font-size: clamp(40px,6vw,72px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; max-width: 900px; margin: 0 auto 20px; }
+  /* INJECT:HERO_TITLE */
+  .hero p { font-size: 18px; color: var(--text-light); max-width: 580px; margin: 0 auto 40px; }
+  .hero-media { max-width: 900px; margin: 0 auto; position: relative; }
+  .hero-media .video-placeholder { width: 100%; border-radius: var(--radius); overflow: hidden; }
+  .hero-media img, .hero-media video { width: 100%; display: block; }
+  .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 72px; height: 72px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(4px); transition: transform .2s; }
+  .play-btn:hover { transform: translate(-50%,-50%) scale(1.08); }
+  .play-btn::after { content: '▶'; color: var(--text); font-size: 22px; margin-left: 3px; }
+
+  /* ── Section common ── */
+  section { padding: var(--section-pad) 0; }
+  .section-label { font-family: var(--font-secondary); font-style: italic; font-size: 20px; color: var(--text-light); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-primary); font-size: clamp(30px,4vw,48px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .section-desc { font-size: 16px; color: var(--text-light); max-width: 560px; margin-bottom: 48px; }
+
+  /* ── About ── */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-layout p { font-size: 16px; color: var(--text-light); line-height: 1.7; }
+  .about-layout img { width: 100%; border-radius: var(--radius); }
+
+  /* ── Archive (7-col grid) ── */
+  .archive-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 16px; }
+  .archive-item { aspect-ratio: 3/4; background: var(--bg-alt); border-radius: 8px; overflow: hidden; position: relative; transition: transform .3s; }
+  .archive-item:hover { transform: translateY(-4px); }
+  .archive-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .archive-item .meta { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; background: linear-gradient(to top,rgba(0,0,0,0.6),transparent); color: #fff; font-size: 11px; font-weight: 400; letter-spacing: 0.05em; opacity: 0; transition: opacity .3s; }
+  .archive-item:hover .meta { opacity: 1; }
+
+  /* ── Marquee ── */
+  .marquee-wrap { overflow: hidden; padding: 40px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .marquee-inner { display: flex; gap: 60px; white-space: nowrap; animation: marquee 25s linear infinite; font-family: var(--font-secondary); font-size: 32px; font-style: italic; color: var(--text-light); }
+  .marquee-inner span { opacity: 0.6; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── Services ── */
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+  .service-card { padding: 40px 32px; border: 1px solid var(--border); border-radius: var(--radius); transition: all .3s; }
+  .service-card:hover { border-color: var(--text); background: var(--bg-alt); }
+  .service-num { font-family: var(--font-secondary); font-size: 48px; color: var(--text-light); opacity: 0.3; margin-bottom: 12px; }
+  .service-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .service-card p { font-size: 14px; color: var(--text-light); }
+  /* INJECT:SERVICES_SECTION */
+
+  /* ── Work (Grid) ── */
+  .work-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .work-card { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4/3; }
+  .work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+  .work-card:hover img { transform: scale(1.04); }
+  .work-overlay { position: absolute; inset: 0; background: linear-gradient(to top,rgba(0,0,0,0.6),transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; color: #fff; }
+  .work-overlay h4 { font-size: 18px; font-weight: 700; }
+  .work-overlay span { font-size: 12px; opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase; }
+  /* INJECT:PROJECTS_GRID */
+
+  /* ── Testimonials ── */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 28px; }
+  .testimonial-card { background: var(--bg-alt); border-radius: var(--radius); padding: 36px; }
+  .testimonial-card blockquote { font-family: var(--font-secondary); font-size: 20px; font-style: italic; line-height: 1.5; margin-bottom: 24px; color: var(--text); }
+  .testimonial-card .author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-card .author img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--border); }
+  .testimonial-card .author strong { font-size: 14px; }
+  .testimonial-card .author span { font-size: 12px; color: var(--text-light); }
+  /* INJECT:TESTIMONIALS_SECTION */
+
+  /* ── Featured / Stats ── */
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; text-align: center; padding: 32px 0; }
+  .stat-num { font-family: var(--font-secondary); font-size: clamp(36px,4.5vw,56px); font-style: italic; color: var(--text); }
+  .stat-label { font-size: 13px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+  /* INJECT:STATS_BAR */
+
+  /* ── Contact ── */
+  .contact-section { text-align: center; }
+  .contact-section h2 { font-family: var(--font-primary); font-size: clamp(30px,4vw,48px); font-weight: 700; margin-bottom: 16px; }
+  .contact-section p { color: var(--text-light); margin-bottom: 32px; font-size: 16px; }
+  .contact-email { font-family: var(--font-secondary); font-size: 28px; font-style: italic; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color .2s; }
+  .contact-email:hover { border-color: var(--text); }
+  /* INJECT:CONTACT_EMAIL */
+  .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 28px; }
+  .social-links a { color: var(--text-light); text-decoration: none; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; transition: color .2s; }
+  .social-links a:hover { color: var(--text); }
+  /* INJECT:SOCIAL_LINKS */
+
+  /* ── Footer ── */
+  footer { padding: 40px 0; border-top: 1px solid var(--border); text-align: center; }
+  footer p { font-size: 12px; color: var(--text-light); letter-spacing: 0.04em; }
+  /* INJECT:FOOTER_COPY */
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .archive-grid { grid-template-columns: repeat(4,1fr); }
+    .work-grid, .services-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 768px) {
+    .about-layout { grid-template-columns: 1fr; gap: 32px; }
+    .archive-grid { grid-template-columns: repeat(3,1fr); }
+    .stats-row { grid-template-columns: repeat(2,1fr); gap: 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .hero { padding: 50px 0 40px; }
+  }
+  @media (max-width: 480px) {
+    .archive-grid { grid-template-columns: repeat(2,1fr); }
+    .work-grid, .services-grid { grid-template-columns: 1fr; }
+    nav { gap: 14px; }
+    nav a { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="brand">/* INJECT:BRAND_NAME */</div>
+    <nav>
+      <a href="#">About</a>
+      <a href="#">Archive</a>
+      <a href="#">Services</a>
+      <a href="#">Work</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>/* INJECT:HERO_TITLE */</h1>
+    <p>We build thoughtfully crafted digital experiences that feel as good as they look. Every detail matters.</p>
+    <div class="hero-media">
+      <div class="video-placeholder" style="background:#e0ddd7;padding-top:56.25%;position:relative;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22900%22 height=%22506%22><rect fill=%22%23e0ddd7%22 width=%22900%22 height=%22506%22/><text x=%22450%22 y=%22253%22 text-anchor=%22middle%22 fill=%22%237a7874%22 font-size=%2220%22 font-family=%22Georgia%22>Showreel Preview</text></svg>');background-size:cover;"></div>
+      <div class="play-btn"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>Oddly Made</span><span>—</span><span>Art Direction</span><span>—</span><span>Creative Studio</span><span>—</span><span>Brand Identity</span><span>—</span><span>Digital Design</span><span>—</span><span>Oddly Made</span><span>—</span><span>Art Direction</span><span>—</span><span>Creative Studio</span><span>—</span><span>Brand Identity</span><span>—</span><span>Digital Design</span>
+  </div>
+</div>
+
+<!-- About -->
+<section>
+  <div class="container about-layout">
+    <div>
+      <div class="section-label">About</div>
+      <h2 class="section-title">What drives us</h2>
+      <p>We are a small collective of designers, developers, and storytellers who believe in the power of doing things differently. Every project begins with curiosity and ends with something truly oddly made.</p>
+    </div>
+    <div style="background:#e0ddd7;border-radius:var(--radius);padding-top:75%;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22450%22><rect fill=%22%23e0ddd7%22 width=%22600%22 height=%22450%22/></svg>');background-size:cover;"></div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section style="padding-top:0;">
+  <div class="container">
+    <div class="stats-row">/* INJECT:STATS_BAR */</div>
+  </div>
+</section>
+
+<!-- Archive -->
+<section>
+  <div class="container">
+    <div class="section-label">Archive</div>
+    <h2 class="section-title">Selected works</h2>
+    <p class="section-desc">A curated collection of projects and experiments.</p>
+    <div class="archive-grid">
+      <div class="archive-item"><div style="background:#ddd9d0;width:100%;height:100%;"></div><div class="meta">Project 01</div></div>
+      <div class="archive-item"><div style="background:#d5d0c5;width:100%;height:100%;"></div><div class="meta">Project 02</div></div>
+      <div class="archive-item"><div style="background:#ccc7bb;width:100%;height:100%;"></div><div class="meta">Project 03</div></div>
+      <div class="archive-item"><div style="background:#c4bfb2;width:100%;height:100%;"></div><div class="meta">Project 04</div></div>
+      <div class="archive-item"><div style="background:#bbb6a8;width:100%;height:100%;"></div><div class="meta">Project 05</div></div>
+      <div class="archive-item"><div style="background:#b3ad9f;width:100%;height:100%;"></div><div class="meta">Project 06</div></div>
+      <div class="archive-item"><div style="background:#aba496;width:100%;height:100%;"></div><div class="meta">Project 07</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section>
+  <div class="container">
+    <div class="section-label">Services</div>
+    <h2 class="section-title">What we offer</h2>
+    <p class="section-desc">A range of creative services to bring your vision to life.</p>
+    <div class="services-grid">/* INJECT:SERVICES_SECTION */</div>
+  </div>
+</section>
+
+<!-- Work -->
+<section>
+  <div class="container">
+    <div class="section-label">Work</div>
+    <h2 class="section-title">Recent projects</h2>
+    <p class="section-desc">A selection of recent client and personal work.</p>
+    <div class="work-grid">/* INJECT:PROJECTS_GRID */</div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section>
+  <div class="container">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">Kind words</h2>
+    <p class="section-desc">What people say about working with us.</p>
+    <div class="testimonials-grid">/* INJECT:TESTIMONIALS_SECTION */</div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section">
+  <div class="container">
+    <h2>Let's create something</h2>
+    <p>Reach out — we'd love to hear your story.</p>
+    <a href="mailto:" class="contact-email">/* INJECT:CONTACT_EMAIL */</a>
+    <div class="social-links">/* INJECT:SOCIAL_LINKS */</div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>/* INJECT:FOOTER_COPY */</p>
+  </div>
+</footer>
+
+</body>
+</html>

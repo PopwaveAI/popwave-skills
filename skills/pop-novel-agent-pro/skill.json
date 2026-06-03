@@ -1,0 +1,21 @@
+{
+  "id": "novel-agent-pro",
+  "version": "0.4.0",
+  "displayName": "Novel Agent Pro",
+  "description": "A single Popwave skill for the Vibe Creating Chinese web-novel pipeline: project bootstrap, plot architecture, chapter writing, ESM state operations, QA, deconstruction, research, continuation, and publishing workflows.",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["novel-agent-pro", "novel-agent", "vibe-creating"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}

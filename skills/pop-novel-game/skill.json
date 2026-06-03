@@ -1,0 +1,15 @@
+{
+  "id": "pop-novel-game",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "pop-novel-game",
+      "文游化"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "shell": true
+  }
+}

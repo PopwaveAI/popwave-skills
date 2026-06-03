@@ -1,0 +1,15 @@
+rule_id: R-006
+source: user-feedback
+status: active
+severity: P0
+problem: HTML 展示站发布前未明确需求规格，反复返工
+root_cause: 缺少前置 spec 需求规范——Agent 靠猜用户需求
+enforce:
+  director_constraint:
+    text: 在创建/修改任何用户可见的 HTML 输出前，必须先输出一个简短的需求确认清单（目标用户/核心功能/外部依赖/单文件或多页面/视觉参考），用户确认后再动手。
+lifecycle:
+  discovered_at: '2026-06-02'
+  elevated_at: '2026-06-02'
+  occurrences: 2
+tags:
+- 发布/HTML

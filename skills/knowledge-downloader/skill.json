@@ -1,0 +1,16 @@
+{
+  "id": "knowledge-downloader",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "knowledge-downloader",
+      "download"
+    ]
+  },
+  "permissions": {
+    "network": true,
+    "shell": true,
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

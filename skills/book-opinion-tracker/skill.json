@@ -1,0 +1,26 @@
+{
+  "id": "book-opinion-tracker",
+  "version": "1.8.0",
+  "displayName": "book-opinion-tracker",
+  "description": "网文舆情追踪 v1.8。输入书名扫8平台舆情，输出标准化舆情报告。基于 cnovel-research 的平台采集能力，覆盖龙空/晋江/贴吧/知乎/豆瓣/微博/B站等平台。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["book-opinion-tracker"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 40000
+  },
+  "dependencies": {
+    "python": [],
+    "env": [],
+    "api": {}
+  }
+}

@@ -1,0 +1,24 @@
+﻿{
+  "name": "prd-builder",
+  "version": "1.0.0",
+  "description": "从产品想法到 PRD 到飞书文档到交互 Demo 的全流程自动化",
+  "triggers": [
+    "做PRD", "产品需求文档", "产品原型", "交互Demo",
+    "prd builder", "product prototype", "idea to demo",
+    "从想法到产品", "产品概念", "生成demo"
+  ],
+  "depends_on": ["feishu-docs"],
+  "references": {
+    "kol_templates": "references/kol_templates.json",
+    "platform_benchmarks": "references/platform_benchmarks.json",
+    "prd_structure": "references/prd_structure.md",
+    "demo_framework": "references/demo_framework.md"
+  },
+  "workflow_phases": [
+    "Phase 1: 需求澄清 (AskUserQuestion)",
+    "Phase 2: PRD生成 + 飞书同步",
+    "Phase 3: 飞书反馈处理 (汇总模式/自动处理模式)",
+    "Phase 4: 生成交互Demo (单HTML)"
+  ],
+  "notes": "通用框架，不限产品类别。KOL评估平台仅为参考案例。"
+}

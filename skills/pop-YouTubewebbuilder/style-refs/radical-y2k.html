@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>> RADICAL Y2K WEB ZONE !! -- best viewed at 1024x768</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET / BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background: repeating-linear-gradient(
+    45deg,
+    #ff00ff 0px, #ff00ff 40px,
+    #00ff00 40px, #00ff00 80px,
+    #ffff00 80px, #ffff00 120px,
+    #ff6600 120px, #ff6600 160px
+  );
+  min-height: 100vh;
+  padding: 20px;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23ff00ff' stroke='%2300ff00' stroke-width='2'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+/* ===== STAR PATTERN BG (tiled) ===== */
+.star-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpolygon points='30,2 36,22 58,22 40,35 46,56 30,43 14,56 20,35 2,22 24,22' fill='%23ffff00' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
+}
+
+/* ===== MAIN WRAPPER (table-like layout) ===== */
+.main-table {
+  max-width: 960px;
+  margin: 0 auto;
+  border: 6px ridge #ff00ff;
+  border-collapse: separate;
+  background: #000066;
+  box-shadow: 12px 12px 0px #00ff00, -4px -4px 0px #ff00ff;
+}
+
+/* ===== BEVEL / 3D BORDERS ===== */
+.bevel-3d {
+  border: 4px outset #cccccc;
+  background: #333366;
+  padding: 4px;
+}
+.bevel-ridge {
+  border: 5px ridge #ff00ff;
+}
+.bevel-groove {
+  border: 5px groove #00ff00;
+}
+
+/* ===== SECTION BOXES ===== */
+.section-box {
+  border: 4px ridge #ff6600;
+  background: #000033;
+  padding: 16px;
+  margin: 12px;
+  color: #ffffff;
+}
+
+/* ===== HEADER ===== */
+.header-bar {
+  background: linear-gradient(180deg, #ff00ff 0%, #990099 40%, #330033 100%);
+  border: 6px ridge #ffff00;
+  padding: 20px 10px;
+  text-align: center;
+  margin: 8px;
+}
+.header-bar h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 22px;
+  color: #ffff00;
+  text-shadow:
+    3px 3px 0 #ff00ff,
+    -2px -2px 0 #00ff00,
+    0 0 20px #ffff00;
+  letter-spacing: 4px;
+  line-height: 2;
+}
+.header-bar .subhead {
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  color: #00ff00;
+  background: #000000;
+  display: inline-block;
+  padding: 4px 16px;
+  border: 2px inset #ffff00;
+}
+
+/* ===== FIRE TEXT ===== */
+.fire-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(0deg,
+    #ff0000 0%,
+    #ff3300 15%,
+    #ff6600 30%,
+    #ffaa00 45%,
+    #ffff00 60%,
+    #ffff66 75%,
+    #ffffff 100%
+  );
+  background-size: 100% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fireRise 0.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 20px #ff4400) drop-shadow(0 0 40px #ff8800);
+  padding: 20px 0;
+}
+@keyframes fireRise {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+/* ===== MARQUEE ===== */
+.marquee-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  border: 3px inset #ffff00;
+  background: #000000;
+  padding: 6px 0;
+  margin: 10px 0;
+}
+.marquee-wrap .marquee-content {
+  display: inline-block;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  color: #00ff00;
+  animation: marqueeScroll 12s linear infinite;
+}
+@keyframes marqueeScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.marquee-wrap .marquee-content span {
+  display: inline-block;
+}
+.marquee-wrap .marquee-content .sep {
+  color: #ff00ff;
+  padding: 0 30px;
+}
+
+/* ===== BLINK ===== */
+.blink {
+  animation: blinker 0.8s step-end infinite;
+}
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+.blink-slow {
+  animation: blinker 1.5s step-end infinite;
+}
+
+/* ===== VISITOR COUNTER ===== */
+.counter-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #ffff00;
+  background: #000000;
+  border: 3px groove #00ff00;
+  padding: 12px 20px;
+  margin: 10px auto;
+  width: fit-content;
+}
+.counter-digits {
+  display: flex;
+  gap: 4px;
+}
+.counter-digit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 44px;
+  background: #111111;
+  border: 2px inset #666666;
+  font-family: 'VT323', monospace;
+  font-size: 30px;
+  color: #00ff00;
+  text-shadow: 0 0 8px #00ff00;
+}
+
+/* ===== STAR DIVIDER ===== */
+.star-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px 0;
+  overflow: hidden;
+}
+.star-divider svg {
+  flex-shrink: 0;
+}
+.star-divider .line {
+  flex: 1;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff00ff, #00ff00, #ffff00, transparent);
+}
+
+/* ===== NEON TEXT ===== */
+.neon-text {
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+  color: #ff00ff;
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 40px #ff00ff,
+    0 0 80px #ff00ff;
+  animation: neonPulse 1.5s ease-in-out infinite alternate;
+}
+@keyframes neonPulse {
+  0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+  100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 80px #00ff00, 0 0 120px #00ff00; }
+}
+
+/* ===== VIDEO CARDS ===== */
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+.video-card {
+  flex: 1 1 200px;
+  max-width: 260px;
+  border: 5px ridge #ff6600;
+  background: #111133;
+  padding: 8px;
+  transition: all 0.15s;
+}
+.video-card:hover {
+  border-color: #00ff00;
+  border-style: groove;
+  transform: scale(1.02);
+}
+.video-card .thumb {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #ff00ff, #00ff00, #ffff00, #ff6600);
+  background-size: 400% 400%;
+  animation: bgWarp 3s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px inset #333333;
+  margin-bottom: 6px;
+}
+@keyframes bgWarp {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+.video-card .thumb svg {
+  opacity: 0.8;
+}
+.video-card .card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #ffff00;
+  text-align: center;
+  padding: 4px 0;
+  line-height: 1.6;
+}
+.video-card .card-desc {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #cccccc;
+  text-align: center;
+}
+
+/* ===== 3D BUTTONS ===== */
+.btn-3d {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 10px 24px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #ffff00;
+  background: #336699;
+  border: 4px outset #66aaff;
+  cursor: pointer;
+  transition: none;
+  text-align: center;
+}
+.btn-3d:active {
+  border-style: inset;
+  background: #224466;
+  transform: translate(1px, 1px);
+}
+.btn-3d:hover {
+  background: #4477aa;
+  border-color: #88ccff;
+}
+
+/* ===== STATS PIXEL GRID ===== */
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 10px 0;
+}
+.pixel-stat {
+  background: #000000;
+  border: 4px groove #ffff00;
+  padding: 12px;
+  text-align: center;
+}
+.pixel-stat .stat-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: #00ff00;
+  display: block;
+}
+.pixel-stat .stat-label {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #ff00ff;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-content {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #ccccff;
+  line-height: 1.8;
+  text-align: center;
+}
+.about-content .highlight {
+  color: #ffff00;
+  background: #ff00ff;
+  padding: 0 6px;
+  border: 2px outset #ffffff;
+}
+
+/* ===== FOOTER ===== */
+.footer-section {
+  background: #000011;
+  border: 6px ridge #ff00ff;
+  padding: 20px;
+  margin: 8px;
+  text-align: center;
+}
+.footer-section .footer-text {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #999999;
+}
+.footer-section .footer-text .highlight-link {
+  color: #00ff00;
+  text-decoration: underline wavy #ff00ff;
+}
+
+/* ===== CONSTRUCTION GIF PLACEHOLDER ===== */
+.construction-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  background: #000000;
+  border: 3px double #ffff00;
+  margin: 8px 0;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #ffff00;
+}
+
+/* ===== NAV BAR (3D buttons row) ===== */
+.nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  margin: 8px;
+  background: #000033;
+  border: 5px groove #ff00ff;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 16px;
+}
+::-webkit-scrollbar-track {
+  background: #000033;
+  border: 2px inset #666666;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff00ff, #00ff00, #ffff00);
+  border: 2px outset #cccccc;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  body { padding: 8px; }
+  .header-bar h1 { font-size: 14px; }
+  .fire-text { font-size: 22px; }
+  .video-grid { flex-direction: column; align-items: center; }
+  .video-card { max-width: 100%; }
+  .counter-digits .counter-digit { width: 24px; height: 34px; font-size: 22px; }
+  .pixel-grid { grid-template-columns: 1fr 1fr; }
+  .main-table { margin: 0; }
+}
+
+/* ===== EXTRA UGLY DECORATIONS ===== */
+.ugly-border {
+  border: 8px dashed #ff00ff;
+  outline: 4px dotted #00ff00;
+  outline-offset: 4px;
+}
+.rainbow-bg {
+  background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0088);
+  background-size: 400% 100%;
+  animation: rainbowSlide 3s linear infinite;
+}
+@keyframes rainbowSlide {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 400% 0%; }
+}
+
+/* ===== COMIC SANS ALTERNATIVE (for that extra spice) ===== */
+.extra-silly {
+  font-family: 'Comic Sans MS', 'VT323', cursive;
+}
+
+/* ===== CURSOR TRAIL (JS will activate) ===== */
+.trail-dot {
+  position: fixed;
+  pointer-events: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff00ff;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transition: opacity 0.3s;
+}
+</style>
+</head>
+<body>
+
+<div class="main-table">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header-bar" id="top">
+    <svg width="60" height="60" viewBox="0 0 60 60" style="display:block;margin:0 auto 8px;">
+      <polygon points="30,3 36,22 56,22 40,35 46,54 30,42 14,54 20,35 4,22 24,22" fill="#ffff00" stroke="#ff00ff" stroke-width="2"/>
+      <circle cx="30" cy="30" r="8" fill="#00ff00"/>
+    </svg>
+    <h1>RADICAL Y2K ZONE</h1>
+    <div class="subhead">>> the future was SO last millennium <<</div>
+    <div style="margin-top:10px;font-family:'VT323',monospace;font-size:16px;color:#00ff00;">
+      <span class="blink">NOW ONLINE</span> <span style="color:#ff00ff;">||</span> since 1999
+    </div>
+  </div>
+
+  <!-- ===== NAV BAR ===== -->
+  <div class="nav-bar">
+    <a href="#top" class="btn-3d">HOME</a>
+    <a href="#hero" class="btn-3d">FIRE</a>
+    <a href="#stats" class="btn-3d">STATS</a>
+    <a href="#about" class="btn-3d">ABOUT</a>
+    <a href="#videos" class="btn-3d">VIDEOS</a>
+    <a href="#footer" class="btn-3d">EXIT</a>
+  </div>
+
+  <!-- ===== CONSTRUCTION BAR ===== -->
+  <div class="construction-bar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="6" width="20" height="12" fill="#ffff00" stroke="#ff00ff" stroke-width="2"/>
+      <line x1="12" y1="6" x2="12" y2="18" stroke="#ff00ff" stroke-width="2"/>
+      <line x1="2" y1="12" x2="22" y2="12" stroke="#ff00ff" stroke-width="2"/>
+    </svg>
+    <span class="blink">UNDER CONSTRUCTION</span>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="6" width="20" height="12" fill="#ffff00" stroke="#ff00ff" stroke-width="2"/>
+      <line x1="12" y1="6" x2="12" y2="18" stroke="#ff00ff" stroke-width="2"/>
+      <line x1="2" y1="12" x2="22" y2="12" stroke="#ff00ff" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <div class="section-box star-bg" id="hero">
+    <div class="fire-text">WELCOME TO THE FUTURE</div>
+
+    <!-- Marquee -->
+    <div class="marquee-wrap">
+      <div class="marquee-content">
+        <span>-- RADICAL Y2K VIBES ONLY --</span>
+        <span class="sep">***</span>
+        <span>BEST VIEWED IN 1024x768 --</span>
+        <span class="sep">***</span>
+        <span>-- NOW WITH EXTRA PIXELS --</span>
+        <span class="sep">***</span>
+        <span>DOWNLOAD MORE RAM AT OUR STORE --</span>
+        <span class="sep">***</span>
+        <span>-- FREE AOL TRIAL CD INCLUDED --</span>
+      </div>
+    </div>
+
+    <!-- Blinking subtitle -->
+    <h2 class="blink" style="font-family:'Press Start 2P',monospace;font-size:14px;color:#ff00ff;text-align:center;margin:16px 0;line-height:2;">
+      CONNECTING AT 56K MODEM SPEED...
+    </h2>
+
+    <p style="font-family:'VT323',monospace;font-size:22px;color:#00ff00;text-align:center;">
+      <span class="blink-slow">>></span> you have entered the RADICAL ZONE <span class="blink-slow"><<</span>
+    </p>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:20px 0;">
+      <span class="btn-3d" onclick="alert('CLICK! Welcome to the Y2K zone!')">ENTER SITE</span>
+      <span class="btn-3d" onclick="alert('NO SIGNAL! Try again with more RAM.')">SIGN GUESTBOOK</span>
+      <span class="btn-3d" onclick="alert('WARNING: PAGE MAY CONTAIN EXTREME COOLNESS')">VIEW SOURCE</span>
+    </div>
+  </div>
+
+  <!-- ===== STAR DIVIDER ===== -->
+  <div class="star-divider">
+    <div class="line"></div>
+    <svg width="30" height="30" viewBox="0 0 30 30">
+      <polygon points="15,1 18,11 29,11 20,18 23,29 15,22 7,29 10,18 1,11 12,11" fill="#ffff00" stroke="#ff00ff" stroke-width="1"/>
+    </svg>
+    <svg width="20" height="20" viewBox="0 0 20 20">
+      <polygon points="10,1 12,8 19,8 14,13 16,20 10,15 4,20 6,13 1,8 8,8" fill="#00ff00" stroke="#ffff00" stroke-width="1"/>
+    </svg>
+    <svg width="30" height="30" viewBox="0 0 30 30">
+      <polygon points="15,1 18,11 29,11 20,18 23,29 15,22 7,29 10,18 1,11 12,11" fill="#ffff00" stroke="#ff00ff" stroke-width="1"/>
+    </svg>
+    <div class="line"></div>
+  </div>
+
+  <!-- ===== STATS SECTION ===== -->
+  <div class="section-box" id="stats">
+    <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:#00ff00;text-align:center;margin-bottom:16px;">
+      > SITE STATISTICS_
+    </h2>
+
+    <div class="pixel-grid">
+      <div class="pixel-stat">
+        <span class="stat-number blink">999+</span>
+        <span class="stat-label">VISITORS</span>
+      </div>
+      <div class="pixel-stat">
+        <span class="stat-number">42</span>
+        <span class="stat-label">GUESTBOOK SIGNS</span>
+      </div>
+      <div class="pixel-stat">
+        <span class="stat-number blink">88x88</span>
+        <span class="stat-label">BUTTONS</span>
+      </div>
+      <div class="pixel-stat">
+        <span class="stat-number">2</span>
+        <span class="stat-label">MIDI FILES</span>
+      </div>
+    </div>
+
+    <!-- Visitor Counter -->
+    <div class="counter-box">
+      <svg width="20" height="20" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="8" fill="none" stroke="#00ff00" stroke-width="2"/>
+        <text x="10" y="14" font-size="12" fill="#00ff00" text-anchor="middle" font-family="monospace">1</text>
+      </svg>
+      <span>YOU ARE VISITOR #</span>
+      <div class="counter-digits">
+        <span class="counter-digit">0</span>
+        <span class="counter-digit">0</span>
+        <span class="counter-digit">4</span>
+        <span class="counter-digit">2</span>
+        <span class="counter-digit">7</span>
+        <span class="counter-digit">1</span>
+      </div>
+      <svg width="20" height="20" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="8" fill="none" stroke="#00ff00" stroke-width="2"/>
+        <text x="10" y="14" font-size="12" fill="#00ff00" text-anchor="middle" font-family="monospace">1</text>
+      </svg>
+      <span class="blink">ONLINE</span>
+    </div>
+  </div>
+
+  <!-- ===== STAR DIVIDER ===== -->
+  <div class="star-divider">
+    <div class="line"></div>
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <polygon points="12,1 14,9 22,9 16,15 18,23 12,18 6,23 8,15 2,9 10,9" fill="#ff00ff" stroke="#00ff00" stroke-width="1"/>
+    </svg>
+    <svg width="16" height="16" viewBox="0 0 16 16">
+      <polygon points="8,1 9,6 14,6 10,10 12,15 8,11 4,15 6,10 2,6 7,6" fill="#00ff00" stroke="#ffff00" stroke-width="1"/>
+    </svg>
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <polygon points="12,1 14,9 22,9 16,15 18,23 12,18 6,23 8,15 2,9 10,9" fill="#ff00ff" stroke="#00ff00" stroke-width="1"/>
+    </svg>
+    <div class="line"></div>
+  </div>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <div class="section-box star-bg" id="about">
+    <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:#ffff00;text-align:center;margin-bottom:16px;" class="blink-slow">
+      > ABOUT THIS PAGE_
+    </h2>
+    <div class="about-content">
+      <p>
+        <span class="neon-text">HELLO RADICAL INTERNET FRIEND!</span>
+      </p>
+      <p style="margin-top:12px;">
+        This page is dedicated to the <span class="highlight">CUTTING EDGE</span> of web design --
+        circa <span class="highlight">1999</span>. We've got
+        <span class="highlight">FIRE TEXT</span>,
+        <span class="highlight">MARQUEE</span> madness,
+        and enough <span class="highlight">BLINK</span> to trigger an
+        <span class="highlight">epileptic warning</span>.
+      </p>
+      <p style="margin-top:12px;">
+        Built with <span class="highlight">PURE HTML</span> and
+        <span class="highlight">CSS</span> -- no frameworks needed.
+        This site is <span class="highlight">OPTIMIZED</span> for
+        Netscape Navigator 4.7 and Internet Explorer 5.0.
+      </p>
+      <p style="margin-top:12px;font-size:18px;color:#ff6666;">
+        <span class="blink">Best experienced with a 56k modem and too much free time.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== STAR DIVIDER ===== -->
+  <div class="star-divider">
+    <div class="line"></div>
+    <svg width="36" height="36" viewBox="0 0 36 36">
+      <polygon points="18,2 22,14 35,14 25,23 28,36 18,27 8,36 11,23 1,14 14,14" fill="#ffff00" stroke="#ff00ff" stroke-width="1.5"/>
+      <circle cx="18" cy="18" r="4" fill="#00ff00"/>
+    </svg>
+    <div class="line"></div>
+  </div>
+
+  <!-- ===== VIDEOS SECTION ===== -->
+  <div class="section-box" id="videos">
+    <h2 style="font-family:'Press Start 2P',monospace;font-size:14px;color:#00ff00;text-align:center;margin-bottom:16px;">
+      > RADICAL VIDEOS_
+    </h2>
+
+    <div class="video-grid">
+      <!-- Video Card 1 -->
+      <div class="video-card">
+        <div class="thumb">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <polygon points="12,8 40,24 12,40" fill="#ffff00" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="6" width="36" height="36" fill="none" stroke="#fff" stroke-width="2" rx="4"/>
+          </svg>
+        </div>
+        <div class="card-title">DIGITAL DREAM</div>
+        <div class="card-desc">a visionary experience</div>
+        <div style="text-align:center;margin-top:6px;">
+          <span class="btn-3d" style="font-size:8px;padding:6px 12px;" onclick="alert('LOADING... (14.4K modem estimate: 3 hours)')">WATCH NOW</span>
+        </div>
+      </div>
+
+      <!-- Video Card 2 -->
+      <div class="video-card">
+        <div class="thumb">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <polygon points="12,8 40,24 12,40" fill="#ff00ff" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="6" width="36" height="36" fill="none" stroke="#fff" stroke-width="2" rx="4"/>
+          </svg>
+        </div>
+        <div class="card-title">NEON NIGHTS</div>
+        <div class="card-desc">glowing through time</div>
+        <div style="text-align:center;margin-top:6px;">
+          <span class="btn-3d" style="font-size:8px;padding:6px 12px;" onclick="alert('BUFFERING... please wait')">WATCH NOW</span>
+        </div>
+      </div>
+
+      <!-- Video Card 3 -->
+      <div class="video-card">
+        <div class="thumb">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <polygon points="12,8 40,24 12,40" fill="#00ff00" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="6" width="36" height="36" fill="none" stroke="#fff" stroke-width="2" rx="4"/>
+          </svg>
+        </div>
+        <div class="card-title">PIXEL REVOLT</div>
+        <div class="card-desc">8-bit uprising</div>
+        <div style="text-align:center;margin-top:6px;">
+          <span class="btn-3d" style="font-size:8px;padding:6px 12px;" onclick="alert('STREAMING AT 240P - MAXIMUM QUALITY')">WATCH NOW</span>
+        </div>
+      </div>
+
+      <!-- Video Card 4 -->
+      <div class="video-card">
+        <div class="thumb">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <polygon points="12,8 40,24 12,40" fill="#ff6600" stroke="#000" stroke-width="2"/>
+            <rect x="6" y="6" width="36" height="36" fill="none" stroke="#fff" stroke-width="2" rx="4"/>
+          </svg>
+        </div>
+        <div class="card-title">CYBER WAVE</div>
+        <div class="card-desc">surfing the matrix</div>
+        <div style="text-align:center;margin-top:6px;">
+          <span class="btn-3d" style="font-size:8px;padding:6px 12px;" onclick="alert('REALPLAYER required - download now!')">WATCH NOW</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STAR DIVIDER ===== -->
+  <div class="star-divider">
+    <div class="line"></div>
+    <svg width="20" height="20" viewBox="0 0 20 20">
+      <polygon points="10,1 12,8 19,8 14,13 16,20 10,15 4,20 6,13 1,8 8,8" fill="#ffff00" stroke="#ff00ff" stroke-width="1"/>
+    </svg>
+    <svg width="28" height="28" viewBox="0 0 28 28">
+      <polygon points="14,2 17,11 27,11 19,18 22,27 14,20 6,27 9,18 1,11 11,11" fill="#ff00ff" stroke="#00ff00" stroke-width="1"/>
+    </svg>
+    <svg width="20" height="20" viewBox="0 0 20 20">
+      <polygon points="10,1 12,8 19,8 14,13 16,20 10,15 4,20 6,13 1,8 8,8" fill="#ffff00" stroke="#ff00ff" stroke-width="1"/>
+    </svg>
+    <div class="line"></div>
+  </div>
+
+  <!-- ===== GUIESTBOOK / LINKS ===== -->
+  <div class="section-box" style="text-align:center;">
+    <h2 style="font-family:'Press Start 2P',monospace;font-size:12px;color:#ff00ff;margin-bottom:12px;" class="blink">
+      > WEB RINGS & LINKS_
+    </h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:12px 0;">
+      <!-- 88x31 button 1 -->
+      <a href="#" style="display:inline-block;width:88px;height:31px;border:2px outset #cccccc;background:linear-gradient(135deg,#ff00ff,#00ff00);text-decoration:none;font-family:'VT323',monospace;font-size:10px;color:#000;display:flex;align-items:center;justify-content:center;">
+        <span>RADICAL ZONE</span>
+      </a>
+      <!-- 88x31 button 2 -->
+      <a href="#" style="display:inline-block;width:88px;height:31px;border:2px outset #cccccc;background:linear-gradient(135deg,#00ff00,#ffff00);text-decoration:none;font-family:'VT323',monospace;font-size:10px;color:#000;display:flex;align-items:center;justify-content:center;">
+        <span>FREE AOL CD!</span>
+      </a>
+      <!-- 88x31 button 3 -->
+      <a href="#" style="display:inline-block;width:88px;height:31px;border:2px outset #cccccc;background:linear-gradient(135deg,#ffff00,#ff6600);text-decoration:none;font-family:'VT323',monospace;font-size:10px;color:#000;display:flex;align-items:center;justify-content:center;">
+        <span>MADE WITH HTML</span>
+      </a>
+      <!-- 88x31 button 4 -->
+      <a href="#" style="display:inline-block;width:88px;height:31px;border:2px outset #cccccc;background:linear-gradient(135deg,#ff6600,#ff00ff);text-decoration:none;font-family:'VT323',monospace;font-size:10px;color:#000;display:flex;align-items:center;justify-content:center;">
+        <span>POWERED BY CSS</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer-section" id="footer">
+    <!-- Star divider in footer -->
+    <div class="star-divider">
+      <div class="line"></div>
+      <svg width="20" height="20" viewBox="0 0 20 20">
+        <polygon points="10,1 12,8 19,8 14,13 16,20 10,15 4,20 6,13 1,8 8,8" fill="#ff00ff" stroke="#00ff00" stroke-width="1"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <polygon points="8,1 9,6 14,6 10,10 12,15 8,11 4,15 6,10 2,6 7,6" fill="#00ff00" stroke="#ffff00" stroke-width="1"/>
+      </svg>
+      <svg width="20" height="20" viewBox="0 0 20 20">
+        <polygon points="10,1 12,8 19,8 14,13 16,20 10,15 4,20 6,13 1,8 8,8" fill="#ff00ff" stroke="#00ff00" stroke-width="1"/>
+      </svg>
+      <div class="line"></div>
+    </div>
+
+    <p class="footer-text">
+      <span class="highlight-link">Best viewed in 1024 x 768</span>
+      <br>
+      <span style="color:#ff00ff;font-family:'VT323',monospace;font-size:16px;">
+        Optimized for Netscape Navigator 4.7 and Internet Explorer 5.0
+      </span>
+    </p>
+
+    <p class="footer-text" style="margin-top:12px;">
+      <span style="font-size:14px;color:#666666;">
+        (c) 1999-2000 Radical Y2K Web Design Collective
+      </span>
+      <br>
+      <span style="font-size:12px;color:#444444;">
+        All rights reserved. No frames were harmed in the making of this page.
+      </span>
+      <br>
+      <span style="font-size:10px;color:#333333;">
+        Page last updated: December 31, 1999 11:59 PM
+      </span>
+    </p>
+
+    <!-- Tiny star line -->
+    <div class="star-divider" style="padding:8px 0;">
+      <div class="line"></div>
+      <svg width="12" height="12" viewBox="0 0 12 12">
+        <polygon points="6,1 7,5 11,5 8,8 9,12 6,9 3,12 4,8 1,5 5,5" fill="#ffff00"/>
+      </svg>
+      <div class="line"></div>
+    </div>
+
+    <p class="footer-text" style="font-size:14px;">
+      <span class="blink">This site is part of the Y2K WEB RING</span>
+      <br>
+      <a href="#" class="highlight-link" style="font-size:12px;" onclick="alert('PREVIOUS SITE - LOADING...')">[&lt;&lt; PREV]</a>
+      <span style="color:#444444;"> | </span>
+      <a href="#" class="highlight-link" style="font-size:12px;" onclick="alert('RANDOM SITE - HOPPP!')">[RANDOM]</a>
+      <span style="color:#444444;"> | </span>
+      <a href="#" class="highlight-link" style="font-size:12px;" onclick="alert('NEXT SITE - LOADING...')">[NEXT &gt;&gt;]</a>
+    </p>
+
+    <p style="margin-top:16px;">
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <rect x="2" y="2" width="36" height="36" fill="none" stroke="#ff00ff" stroke-width="3" rx="4"/>
+        <text x="20" y="26" font-size="20" fill="#00ff00" text-anchor="middle" font-family="monospace">2K</text>
+      </svg>
+    </p>
+  </div>
+
+</div>
+
+<!-- ===== CURSOR TRAIL JS ===== -->
+<script>
+(function(){
+  // Cursor trail effect
+  var trails = [];
+  var maxTrails = 20;
+
+  document.addEventListener('mousemove', function(e) {
+    var dot = document.createElement('div');
+    dot.className = 'trail-dot';
+    dot.style.left = (e.clientX - 5) + 'px';
+    dot.style.top = (e.clientY - 5) + 'px';
+    document.body.appendChild(dot);
+    trails.push(dot);
+
+    if (trails.length > maxTrails) {
+      var old = trails.shift();
+      if (old && old.parentNode) {
+        old.style.opacity = '0';
+        setTimeout(function() { if (old.parentNode) old.parentNode.removeChild(old); }, 300);
+      }
+    }
+  });
+
+  // Random color cycling for header every 2 seconds
+  var header = document.querySelector('.header-bar');
+  if (header) {
+    setInterval(function() {
+      var colors = ['#ff00ff', '#00ff00', '#ffff00', '#ff6600', '#00ffff', '#ff0088'];
+      var rand = colors[Math.floor(Math.random() * colors.length)];
+      header.style.borderColor = rand;
+    }, 2000);
+  }
+
+  // Fake "loading" status in title
+  var titleEl = document.querySelector('title');
+  if (titleEl) {
+    var frames = ['-', '\\', '|', '/'];
+    var fi = 0;
+    setInterval(function() {
+      titleEl.textContent = '> ' + frames[fi] + ' RADICAL Y2K WEB ZONE ' + frames[fi] + ' <';
+      fi = (fi + 1) % frames.length;
+    }, 250);
+  }
+
+  // Visitor counter auto-increment
+  var digits = document.querySelectorAll('.counter-digit');
+  if (digits.length > 0) {
+    setInterval(function() {
+      var all = Array.from(digits);
+      var carry = 1;
+      for (var i = all.length - 1; i >= 0 && carry > 0; i--) {
+        var val = parseInt(all[i].textContent) + carry;
+        if (val >= 10) { val = 0; carry = 1; }
+        else { carry = 0; }
+        all[i].textContent = val;
+      }
+    }, 5000);
+  }
+})();
+</script>
+
+</body>
+</html>

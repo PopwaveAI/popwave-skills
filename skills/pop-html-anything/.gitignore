@@ -1,0 +1,15 @@
+# 操作系统垃圾文件
+__MACOSX/
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 日志
+*.log
+
+# _tooling/ 的依赖由 _tooling/.gitignore 管理

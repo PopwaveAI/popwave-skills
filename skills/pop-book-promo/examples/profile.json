@@ -1,0 +1,27 @@
+{
+  "novel": "穿成白月光替身后",
+  "name": "乔晚",
+  "aliases": ["晚儿", "阿晚", "白月光替身"],
+  "appearance": "十七八岁的少女模样，乌黑长发随意挽起，眉眼清秀温婉，但眼底总藏着一丝不属于这个年纪的狡黠。常穿一袭素白的昆山弟子服，腰间挂着一枚不起眼的储物玉佩。笑起来的时候有两个浅浅的梨涡，生气时会不自觉地咬下唇。",
+  "personality": "外柔内刚，表面乖巧听话实则腹黑吐槽。最大的优点是认命——穿书了？好，认了。当替身？好，认了。剧情崩了？……这个不太能认。内心永远在演独角戏：嘴上说的和脑子里想的完全是两回事。懒散是她的保护色，聪明才是她的真底牌。",
+  "desc": "穿进小说成为白月光替身的现代人，在阴谋与情缘中一步步走出属于自己的路。",
+  "image_prompt": "Chinese fantasy novel character portrait: a young woman around 18, delicate features with a hint of mischief in her eyes, long black hair loosely tied, wearing pure white robes of a cultivation sect, a jade storage pendant at her waist, standing on a misty mountain peak at dawn, ethereal lighting, watercolor ink wash style, cinematic composition",
+  "timeline": [
+    {"chapter": 1, "event": "穿书成为白月光替身，在玉清峰与周衍初次对峙"},
+    {"chapter": 2, "event": "替身契约被周衍烧毁，被迫升格为道侣"},
+    {"chapter": 3, "event": "系统警告剧情偏离度超90%，结识马怀真"},
+    {"chapter": 12, "event": "穆笑笑死讯传来，乔晚开始暗中调查真相"},
+    {"chapter": 28, "event": "第一次见到陆辟寒的霜寒剑出鞘，被卷入仙门争斗"},
+    {"chapter": 45, "event": "在灵药堂意外发现穆笑笑的遗物，里面有关于她的信息"},
+    {"chapter": 67, "event": "三教论法大会上，乔晚被迫以昆山派道侣身份出席"},
+    {"chapter": 103, "event": "与马怀真夜谈，第一次听到关于魔域的真相"},
+    {"chapter": 156, "event": "在一处上古遗迹中发现与自身穿越有关的线索"},
+    {"chapter": 218, "event": "周衍与陆辟寒的生死决斗——乔晚在决斗中做出了自己的选择"}
+  ],
+  "quotes": [
+    {"text": "我就是一个替身，拜托你们不要这么认真。", "chapter": "第5章"},
+    {"text": "认命是我的强项，但你们不能一直刷新我的底线。", "chapter": "第23章"},
+    {"text": "当白月光死了，替身就成了新的白月光——这是什么破逻辑？", "chapter": "第48章"},
+    {"text": "我叫乔晚，晚来的晚，不是替身的替。", "chapter": "第102章"}
+  ]
+}

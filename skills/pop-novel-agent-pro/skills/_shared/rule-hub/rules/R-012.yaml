@@ -1,0 +1,16 @@
+rule_id: R-012
+source: qa-review
+status: active
+severity: P1
+problem: 同一代价类型/钩子类型重复使用（如纸人被撕碎多次）
+root_cause: 无跨章代价类型差异化检查；骨架无去重机制
+enforce:
+  director_constraint:
+    text: 本章的代价/钩子类型与最近 3 章对比，避免重复使用同一种呈现方式（如连续多次'低头看印→纹路变多'）。如果重复 → 换一种呈现方式或调整场景编排。
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 2
+tags:
+- 正文写作
+- 爽点释放

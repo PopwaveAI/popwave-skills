@@ -1,0 +1,4 @@
+display_name: 小说 IP Demo
+short_description: 输入书名，快速生成演示用女主角 IP 卡。
+default_prompt: 用多模态衍生 demo，生成《千屿》的女主角 IP 卡。
+skill_id: novel-ip-demo

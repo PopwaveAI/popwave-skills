@@ -1,0 +1,19 @@
+rule_id: R-004
+source: retrospective
+status: active
+severity: P0
+problem: 战斗场景无锚定章参考，画面感全靠 LLM 默认语感
+root_cause: Pass 2 的输入包中缺少锚定章片段注入环节
+enforce:
+  director_constraint:
+    text: 本章包含战斗/对抗场景时，必须从锚定章库选取至少 1 个同类型战斗片段作为参考。如果锚定章库无匹配战斗片段，标注缺失并在场景设计中补充视觉细节要求。
+    trigger_scene_types:
+    - 战斗对抗
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 3
+tags:
+- 战斗对抗
+- 战斗描写
+- 正文写作

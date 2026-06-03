@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>穿成白月光替身后 · 百科全书</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap');
+  :root{--bg:#020308;--text:#f2f4f8;--muted:#9ca6b5;--dim:#637083;--line:rgba(242,244,248,.10);--soft:rgba(242,244,248,.045);--accent:#58a6ff}
+  /* ── 密度自适应变量（由 adapter 控制，默认 = sparse/宽裕） ── */
+  :root{--entry-fs:14px;--entry-mh:38px;--entry-gap:2px;--entry-py:6px;--entry-sub-fs:11px;--cat-fs:13px;--cat-py:9px;--cat-gap:5px;--idx-mh:548px}
+  :root[data-density="normal"]{--entry-fs:13px;--entry-mh:32px;--entry-gap:1px;--entry-py:4px;--entry-sub-fs:10px;--cat-fs:12px;--cat-py:7px;--cat-gap:4px;--idx-mh:420px}
+  :root[data-density="dense"]{--entry-fs:12px;--entry-mh:28px;--entry-gap:1px;--entry-py:3px;--entry-sub-fs:10px;--cat-fs:11px;--cat-py:6px;--cat-gap:3px;--idx-mh:360px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC','Inter Tight',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  button,input{font:inherit} button{color:inherit}
+  #particleCanvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:-3;background:#020308}
+  .world::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 62% 49%,rgba(88,166,255,.045),transparent 42%),linear-gradient(90deg,rgba(2,3,8,.96),rgba(2,3,8,.46) 26%,rgba(2,3,8,.12) 56%,rgba(2,3,8,.62)),linear-gradient(180deg,rgba(2,3,8,.50),rgba(2,3,8,.10) 38%,rgba(2,3,8,.94))}
+  .world::after{content:"";position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:-1;pointer-events:none;background:linear-gradient(180deg,transparent,var(--bg))}
+  .page{width:min(1320px,calc(100vw - 52px));margin:0 auto;min-height:100vh;padding:30px 0 32px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:22px}
+
+  .masthead{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);grid-template-areas:"issue search" "title title" "lead lead";gap:10px 36px;align-items:start;padding-top:4px}
+  .issue{display:block;color:color-mix(in srgb,var(--accent) 46%,var(--dim));font-family:'Inter Tight',sans-serif;font-size:10px;font-weight:800;letter-spacing:.18em;margin-bottom:12px;text-transform:uppercase}
+  .masthead section:first-child{display:contents}
+  .issue{grid-area:issue;margin:0;align-self:center}
+  h1{grid-area:title;max-width:760px;font-size:clamp(28px,3.1vw,42px);line-height:1.08;font-weight:800;letter-spacing:0;margin:4px 0 0;text-wrap:balance}
+  .lead{grid-area:lead;max-width:640px;color:var(--muted);font-size:12px;line-height:1.78;margin-top:2px}
+  .search-wrap{grid-area:search;position:relative;padding-top:0;padding-bottom:0;align-self:start}
+  .search-wrap::before{content:"INDEX";display:block;color:var(--dim);font-family:'Inter Tight',sans-serif;font-size:10px;font-weight:800;letter-spacing:.16em;margin-bottom:7px}
+  .search-label{display:none}
+  .search-input{width:100%;height:38px;border:0;border-radius:0;background:transparent;color:var(--text);outline:none;font-size:13px;padding:0 2px 8px;border-bottom:1px solid rgba(242,244,248,.12)}
+  .search-input:focus{border-bottom-color:color-mix(in srgb,var(--accent) 58%,rgba(242,244,248,.12))}
+  .search-input::placeholder{color:var(--dim)}
+
+  .category-nav{display:grid;gap:var(--cat-gap,5px);margin-bottom:20px}
+  .cat-tab{border:0;border-radius:9px;background:transparent;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;cursor:pointer;color:var(--muted);font-size:var(--cat-fs,13px);font-weight:800;padding:var(--cat-py,9px) 11px;text-align:left;transition:background .18s ease,color .18s ease,padding .18s ease}
+  .cat-tab:hover{background:rgba(242,244,248,.04);color:var(--text)}
+  .cat-tab.active{background:color-mix(in srgb,var(--cat-color) 16%,rgba(242,244,248,.035));color:var(--text);padding-left:calc(var(--cat-py,9px) + 3px)}
+  .cat-tab.active .cat-mark{box-shadow:0 0 18px color-mix(in srgb,var(--cat-color) 56%,transparent)}
+  .cat-mark{display:inline-block;flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--cat-color)}
+  .cat-name{display:inline-flex;align-items:center;gap:7px;border-bottom:0;padding-bottom:0}
+  .cat-count{display:block;color:var(--dim);font-family:'Inter Tight',sans-serif;font-size:12px;font-weight:800}
+
+  .atlas{position:relative;display:grid;grid-template-columns:218px minmax(0,1fr);gap:26px;align-items:stretch;min-height:calc(100vh - 220px);background:transparent}
+  .atlas::before{content:"";position:absolute;inset:-42px -110px -34px 188px;pointer-events:none;background:radial-gradient(circle at 56% 50%,rgba(242,244,248,.055),transparent 38%),linear-gradient(90deg,rgba(2,3,8,.58),transparent 24%,rgba(2,3,8,.30));z-index:-1}
+  .index-panel,.entry-article{min-width:0}
+  .index-panel{padding:18px 0 20px 0;align-self:start}
+  .panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:10px;margin-bottom:4px}
+  .panel-title{font-size:12px;font-weight:800;color:var(--dim)}
+  .panel-note{display:none}
+  .index-list{display:grid;gap:var(--entry-gap,2px);align-content:start;max-height:var(--idx-mh,548px);overflow-y:auto;padding-right:4px}
+  .entry-row{width:100%;min-height:var(--entry-mh);border:0;border-radius:7px;background:transparent;padding:var(--entry-py) 8px var(--entry-py) 0;display:grid;grid-template-columns:24px minmax(0,1fr);align-items:center;gap:8px;cursor:pointer;text-align:left;color:var(--muted);transition:color .18s ease,background .18s ease,padding .18s ease}
+  .entry-row:hover{color:var(--text);background:rgba(255,255,255,.025)}
+  .entry-row.active{color:var(--text);background:rgba(242,244,248,.072);padding-left:8px;border-left:3px solid var(--accent)}
+  .entry-row.active .entry-no{color:var(--entry-color)}
+  .entry-no{color:var(--dim);font-family:'Inter Tight',sans-serif;font-size:11px;font-weight:800}
+  .entry-name{display:block;font-size:var(--entry-fs);font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit}
+  .entry-type{display:block;margin-top:2px;color:var(--dim);font-size:var(--entry-sub-fs);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .entry-count{display:none}
+
+  .map-panel{position:relative;grid-column:2;grid-row:1;min-height:calc(100vh - 220px);isolation:isolate}
+  .map-title,.map-hint,.map-label{display:none}
+  .entity-map{position:absolute;inset:0 0 250px 0}
+  .map-node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;color:rgba(156,166,181,.62);cursor:pointer;text-align:center;min-width:44px;z-index:3}
+  .map-node::before{content:"";display:block;width:6px;height:6px;border-radius:50%;background:var(--node-color);margin:0 auto 5px;box-shadow:0 0 14px color-mix(in srgb,var(--node-color) 42%,transparent)}
+  .map-node span{display:block;font-size:11px;font-weight:800;white-space:nowrap;text-shadow:0 1px 0 rgba(0,0,0,.78),0 0 12px rgba(0,0,0,.8),0 0 4px rgba(0,0,0,.9)}
+.map-node small{display:none}
+.map-node:hover,.map-node.active{color:var(--text)}
+.map-node.active span{font-size:13px}
+  .map-node.active::before{width:9px;height:9px;box-shadow:0 0 24px color-mix(in srgb,var(--node-color) 70%,transparent)}
+  .map-link{position:absolute;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 24%,transparent),transparent);opacity:.32;transform-origin:left center;z-index:1}
+
+  .entry-article{position:absolute;right:18px;bottom:42px;z-index:8;width:min(420px,52vw);padding:18px 20px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,rgba(12,16,25,.68),rgba(7,10,18,.55));box-shadow:0 24px 80px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.10);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transform:translate3d(var(--card-x,0px),var(--card-y,0px),0);cursor:grab;touch-action:none;user-select:none}
+  .entry-article::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.10),transparent 38%,rgba(255,255,255,.035));opacity:.55}
+  .entry-article::after{content:"";position:absolute;right:16px;top:14px;width:24px;height:4px;border-radius:999px;background:rgba(242,244,248,.18)}
+  .entry-article.dragging{cursor:grabbing}
+  .entry-article button{user-select:none}
+  .article-no,.article-kicker{display:none}
+  .article-name{position:relative;z-index:1;font-size:34px;line-height:1.02;font-weight:800;margin-bottom:11px;text-wrap:balance}
+  .article-desc{position:relative;z-index:1;color:rgba(242,244,248,.82);font-size:13px;line-height:1.75;margin-bottom:14px;text-shadow:0 1px 0 rgba(0,0,0,.42)}
+  .fact-grid{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:10px 16px;margin-bottom:13px;color:rgba(242,244,248,.72);font-size:12px}
+  .fact,.related{padding-top:0}
+  .fact-label{display:none}
+  .fact-value{color:rgba(242,244,248,.78);font-size:12px;font-weight:700;line-height:1.4}
+  .related{position:relative;z-index:1}
+  .related-list{display:flex;flex-wrap:wrap;gap:7px}
+  .related-tag{border:0;border-radius:999px;background:rgba(242,244,248,.075);color:var(--muted);padding:5px 9px;cursor:pointer;font-size:11px}
+  .related-tag:hover{background:color-mix(in srgb,var(--accent) 18%,rgba(242,244,248,.06));color:var(--text)}
+  .no-results{padding:24px 0;color:var(--dim);font-size:13px}
+
+  @media(max-width:1100px){.page{width:min(100vw - 36px,900px);padding:24px 0}.masthead{grid-template-columns:minmax(0,1fr) minmax(200px,280px);gap:10px 24px}.atlas{grid-template-columns:1fr;min-height:auto}.atlas::before{inset:-30px}.index-panel{padding:4px 0}.map-panel{grid-column:1;grid-row:2;min-height:620px}.entity-map{inset:0 0 300px}.entry-article{width:min(420px,82vw);right:12px;bottom:28px}.index-list{max-height:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}}
+  @media(max-width:640px){.page{width:calc(100vw - 28px);padding:18px 0}.masthead{grid-template-columns:1fr;grid-template-areas:"issue" "title" "lead" "search";gap:10px}h1{font-size:28px}.lead{font-size:12px}.search-wrap{max-width:none}.article-name{font-size:28px}.category-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.cat-tab{padding:8px 9px}.map-panel{min-height:540px}.entity-map{inset:24px 0 330px}.entry-article{left:0;right:auto;bottom:0;width:100%;padding:16px 16px 14px}.map-node span{font-size:10px}.fact-grid{gap:8px 12px}.index-list{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="particleCanvas"></canvas>
+<div class="world">
+  <div class="page">
+    <header class="masthead">
+      <section>
+        <div class="issue">小说世界百科</div>
+        <h1>《穿成白月光替身后》百科全书</h1>
+        <p class="lead">一张可检索的小说世界图谱：人物、地点、物品、组织与概念不再是孤立条目，而是共同组成这本书的世界结构。</p>
+      </section>
+      <section class="search-wrap">
+        <div class="search-label">全书索引</div>
+        <input class="search-input" type="search" id="searchInput" placeholder="搜索实体、类型或描述" oninput="filterEntries()">
+      </section>
+    </header>
+
+    <main class="atlas">
+      <section class="index-panel">
+        <nav class="category-nav" id="categoryNav"></nav>
+        <div class="panel-head">
+          <div class="panel-title" id="indexTitle">实体目录</div>
+          <div class="panel-note" id="indexNote"></div>
+        </div>
+        <div class="index-list" id="indexList"></div>
+      </section>
+
+      <section class="map-panel">
+        <div class="map-title">WORLD ATLAS / ENTITY MAP</div>
+        <div class="entity-map" id="entityMap"></div>
+        <div class="map-label kunshan">昆山群峰</div>
+        <div class="map-label peak">玉清峰</div>
+        <div class="map-label town">太仓郡</div>
+        <div class="map-hint">点击地图节点或左侧目录，可切换当前百科词条；相关实体会继续跳转到世界中的其他节点。</div>
+      </section>
+
+      <article class="entry-article">
+        <div class="article-no" id="visualNumber">01</div>
+        <div class="article-kicker" id="visualKicker"></div>
+        <div class="article-name" id="visualName"></div>
+        <div class="article-desc" id="visualDesc"></div>
+        <div id="detailStrip"></div>
+      </article>
+    </main>
+  </div>
+</div>
+
+<script>
+/* INJECT:CATEGORIES */const CATEGORIES = {
+    "characters": {
+        "name": "角色",
+        "icon": "👤",
+        "color": "#58a6ff",
+        "entries": [
+            {
+                "name": "乔晚",
+                "type": "女主",
+                "desc": "穿进小说成为白月光替身的现代人。一心只想当工具人混吃等死下线，结果剧情全线崩盘，被各路大佬缠上。性格懒散但关键时刻绝不掉链子。",
+                "mentions": 2890,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "周衍",
+                    "陆辟寒",
+                    "穆笑笑",
+                    "马怀真"
+                ]
+            },
+            {
+                "name": "周衍",
+                "type": "男主",
+                "desc": "昆山派掌门，化神期剑仙。原剧情中对白月光穆笑笑痴心一片，如今却对替身乔晚步步紧逼。表面清冷，实则城府极深。",
+                "mentions": 1642,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "穆笑笑",
+                    "陆辟寒"
+                ]
+            },
+            {
+                "name": "陆辟寒",
+                "type": "男配",
+                "desc": "沧澜宗少主，元婴期修士。手握霜寒剑，一身玄色长袍走天下。对乔晚的态度从一开始的不屑到后来的执着，转变令人玩味。",
+                "mentions": 895,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "穆笑笑",
+                "type": "原女主/白月光",
+                "desc": "原著的女主角，周衍的白月光。据传死于意外，但真相远没有那么简单。她与乔晚之间有着远超替身关系的隐秘联系。",
+                "mentions": 723,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "马怀真",
+                "type": "男配",
+                "desc": "昆山派二师兄，金丹期修士。表面懒散不羁，实则心细如发。是乔晚在昆山上为数不多的真正朋友。",
+                "mentions": 412,
+                "firstChapter": "第3章 初入昆山",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            }
+        ]
+    },
+    "places": {
+        "name": "地点",
+        "icon": "📍",
+        "color": "#34d399",
+        "entries": [
+            {
+                "name": "昆山派",
+                "type": "仙门",
+                "desc": "正道第一仙宗，坐落于昆山群峰之巅。十二峰拱卫主峰玉清，弟子数千。灵气浓郁如雾，是修真者梦寐以求的修炼圣地。",
+                "mentions": 567,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "玉清峰",
+                    "玉清宫",
+                    "灵药堂"
+                ]
+            },
+            {
+                "name": "玉清峰",
+                "type": "山峰",
+                "desc": "昆山派主峰，常年云雾缭绕。峰顶有玉清宫，是掌门周衍的居所。灵脉汇聚之地，有护山大阵守护。",
+                "mentions": 234,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "昆山派",
+                    "玉清宫"
+                ]
+            },
+            {
+                "name": "太仓郡",
+                "type": "城镇",
+                "desc": "昆山脚下的凡人城镇，是修士与凡人交汇之地。街道繁华，有各种灵药铺和法器店。也是许多散修的落脚处。",
+                "mentions": 156,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "昆山派"
+                ]
+            }
+        ]
+    },
+    "items": {
+        "name": "物品",
+        "icon": "⚔",
+        "color": "#f0883e",
+        "entries": [
+            {
+                "name": "替身契约",
+                "type": "契约法器",
+                "desc": "乔晚与周衍签订的替身契约，泛着金色灵光。契约上白纸黑字写着替身的权利与义务，以及契约终止的条件。后被周衍亲手烧毁。",
+                "mentions": 87,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "霜寒剑",
+                "type": "法器",
+                "desc": "沧澜宗少主陆辟寒的佩剑，剑身晶莹如冰，出鞘时带有极寒剑气。品级为天阶上品法器。",
+                "mentions": 145,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "陆辟寒",
+                    "沧澜宗"
+                ]
+            },
+            {
+                "name": "魔骨",
+                "type": "邪物",
+                "desc": "上古魔族陨落后遗留的骨骼碎片，蕴含着庞大的魔气。是各方势力争夺的目标，藏着修真界最深层的秘密。",
+                "mentions": 203,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "太仓郡",
+                    "魔域"
+                ]
+            }
+        ]
+    },
+    "organizations": {
+        "name": "组织",
+        "icon": "🏛",
+        "color": "#b89eff",
+        "entries": [
+            {
+                "name": "昆山派",
+                "type": "仙门正宗",
+                "desc": "修真界第一仙宗，由十二峰峰主共同管理。掌门周衍为化神期剑仙。门下弟子以剑修为主，兼修丹道符箓。",
+                "mentions": 567,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "周衍",
+                    "乔晚",
+                    "马怀真"
+                ]
+            },
+            {
+                "name": "沧澜宗",
+                "type": "修真世家",
+                "desc": "海外修真大派，少主陆辟寒为元婴期修士。以水系功法见长，与大陆仙门往来密切。",
+                "mentions": 198,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "陆辟寒"
+                ]
+            },
+            {
+                "name": "魔域",
+                "type": "反派势力",
+                "desc": "魔道修士的聚集地，位于修真界边陲。与正道仙门水火不容，但内部也并非铁板一块。",
+                "mentions": 312,
+                "firstChapter": "第5章 魔域来客",
+                "related": [
+                    "魔骨",
+                    "昆山派"
+                ]
+            },
+            {
+                "name": "大光明殿",
+                "type": "佛门圣地",
+                "desc": "修真界的佛门重地，与昆山派暗中往来密切。殿主为渡劫期高僧，精通因果推演之术。",
+                "mentions": 145,
+                "firstChapter": "第15章 佛光普照",
+                "related": [
+                    "昆山派"
+                ]
+            }
+        ]
+    },
+    "concepts": {
+        "name": "概念",
+        "icon": "💡",
+        "color": "#e4bf3f",
+        "entries": [
+            {
+                "name": "替身契约",
+                "type": "设定机制",
+                "desc": "一种修真界特殊的灵魂契约，允许一方暂时替代另一个人在因果线中的位置。契约到期后替身将回到原本的命运轨迹，不留任何痕迹。",
+                "mentions": 120,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "穆笑笑"
+                ]
+            },
+            {
+                "name": "天道",
+                "type": "世界法则",
+                "desc": "修真界的至高法则，掌管气运、因果和剧情走向。当剧情严重偏离时，天道会降下惩罚试图修正。",
+                "mentions": 345,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚"
+                ]
+            },
+            {
+                "name": "三教论法",
+                "type": "修真事件",
+                "desc": "道、佛、魔三教每百年举行一次的论法大会。表面是学术讨论，实则是三大势力重新划分势力范围的政治博弈。",
+                "mentions": 67,
+                "firstChapter": "第48章 论法前夕",
+                "related": [
+                    "昆山派",
+                    "大光明殿",
+                    "魔域"
+                ]
+            }
+        ]
+    }
+};/* ENDINJECT */
+/* INJECT:CAT_STATS */const CAT_STATS = {"characters": 5, "places": 3, "items": 3, "organizations": 4, "concepts": 3};/* ENDINJECT */
+let activeCategory='characters', searchTerm='', selectedEntryId=null, currentEntry=null;
+/* INJECT:mapPositions */const mapPositions={characters:[[45,54],[55,44],[38,61],[50,63],[42,48]],places:[[52,28],[43,41],[76,64]],items:[[58,66],[36,58],[82,52]],organizations:[[51,34],[32,50],[84,38],[66,28]],concepts:[[48,22],[63,18],[72,45]]};/* ENDINJECT */
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function escAttr(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function allEntries(){return Object.entries(CATEGORIES).flatMap(([catKey,cat])=>cat.entries.map((entry,index)=>({...entry,catKey,cat,index,id:`${catKey}:${index}`,pos:(mapPositions[catKey]||[])[index]||[50,50]})))}
+function getCurrentEntries(){const term=searchTerm.toLowerCase();if(term)return allEntries().filter(e=>e.name.toLowerCase().includes(term)||e.type.toLowerCase().includes(term)||e.desc.toLowerCase().includes(term));const cat=CATEGORIES[activeCategory];return cat.entries.map((entry,index)=>({...entry,catKey:activeCategory,cat,index,id:`${activeCategory}:${index}`,pos:(mapPositions[activeCategory]||[])[index]||[50,50]}))}
+function render(){renderCategories();const entries=getCurrentEntries();if(!entries.length){document.getElementById('indexTitle').textContent=searchTerm?'搜索结果':'实体目录';document.getElementById('indexNote').textContent='0 条';document.getElementById('indexList').innerHTML=`<div class="no-results">没有找到匹配「${esc(searchTerm)}」的条目</div>`;document.getElementById('entityMap').innerHTML='';document.getElementById('visualKicker').textContent='';document.getElementById('visualName').textContent='无结果';document.getElementById('visualDesc').textContent='请更换关键词或返回分类目录。';document.getElementById('detailStrip').innerHTML='';return}if(!selectedEntryId||!entries.some(e=>e.id===selectedEntryId))selectedEntryId=entries[0].id;const selected=entries.find(e=>e.id===selectedEntryId)||entries[0];currentEntry=selected;renderIndex(entries);renderMap(entries,selected);renderArticle(selected,entries.findIndex(e=>e.id===selected.id))}
+function renderCategories(){document.getElementById('categoryNav').innerHTML=Object.entries(CATEGORIES).map(([key,cat])=>`<button class="cat-tab ${key===activeCategory&&!searchTerm?'active':''}" style="--cat-color:${cat.color}" onclick="switchCategory('${key}')" type="button"><span class="cat-name"><span class="cat-mark"></span>${esc(cat.name)}</span><span class="cat-count">${cat.entries.length}</span></button>`).join('')}
+function renderIndex(entries){document.getElementById('indexTitle').textContent=searchTerm?'搜索结果':`${CATEGORIES[activeCategory].name}目录`;document.getElementById('indexNote').textContent=`${entries.length} 条`;document.getElementById('indexList').innerHTML=entries.map((entry,idx)=>`<button class="entry-row ${entry.id===selectedEntryId?'active':''}" style="--entry-color:${entry.cat.color}" onclick="selectEntry('${entry.id}')" type="button"><span class="entry-no">${String(idx+1).padStart(2,'0')}</span><span class="entry-main"><span class="entry-name">${esc(entry.name)}</span><span class="entry-type">${searchTerm?`${esc(entry.cat.name)} · `:''}${esc(entry.type)}</span></span><span class="entry-count">${Number(entry.mentions||0).toLocaleString()}</span></button>`).join('')}
+function renderMap(entries,selected){const map=document.getElementById('entityMap');const all=searchTerm?entries:allEntries();const links=(selected.related||[]).map(r=>all.find(e=>e.name===r)).filter(Boolean);let html='';links.forEach(e=>{html+=linkHtml(selected.pos,e.pos)});all.forEach(e=>{const visible=searchTerm?entries.some(x=>x.id===e.id):(e.catKey===activeCategory||e.id===selected.id||links.some(l=>l.id===e.id));if(!visible)return;html+=`<button class="map-node ${e.id===selected.id?'active':''}" style="--node-color:${e.cat.color};left:${e.pos[0]}%;top:${e.pos[1]}%" onclick="selectEntry('${e.id}')" type="button"><span>${esc(e.name)}</span><small>${esc(e.cat.name)}</small></button>`});map.innerHTML=html}
+function linkHtml(a,b){const x1=a[0],y1=a[1],x2=b[0],y2=b[1],dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;return`<i class="map-link" style="left:${x1}%;top:${y1}%;width:${len}%;transform:rotate(${ang}deg)"></i>`}
+function renderArticle(entry,idx){document.documentElement.style.setProperty('--accent',entry.cat.color);document.getElementById('visualNumber').textContent='';document.getElementById('visualKicker').textContent='';document.getElementById('visualName').textContent=entry.name;document.getElementById('visualDesc').textContent=entry.desc;const related=(entry.related||[]).length?entry.related.map(r=>`<button class="related-tag" onclick="jumpRelated('${escAttr(r)}')" type="button">${esc(r)}</button>`).join(''):'';document.getElementById('detailStrip').innerHTML=`<div class="fact-grid"><div class="fact"><div class="fact-value">${esc(entry.firstChapter)}</div></div><div class="fact"><div class="fact-value">${Number(entry.mentions||0).toLocaleString()} 次提及</div></div></div>${related?`<div class="related"><div class="related-list">${related}</div></div>`:''}`;particleSetEntry(entry)}
+window.switchCategory=function(key){activeCategory=key;searchTerm='';document.getElementById('searchInput').value='';selectedEntryId=null;render()}
+window.selectEntry=function(id){selectedEntryId=id;const e=allEntries().find(x=>x.id===id);if(e&&!searchTerm)activeCategory=e.catKey;render()}
+window.filterEntries=function(){searchTerm=document.getElementById('searchInput').value.trim();selectedEntryId=null;render()}
+window.jumpRelated=function(name){const matches=allEntries().filter(e=>e.name===name);if(!matches.length)return;const preferred=matches.find(e=>e.catKey===activeCategory)||matches[0];activeCategory=preferred.catKey;searchTerm='';document.getElementById('searchInput').value='';selectedEntryId=preferred.id;render()}
+function initDraggableCard(){const card=document.querySelector('.entry-article');if(!card)return;let dragging=false,startX=0,startY=0,baseX=0,baseY=0;card.addEventListener('pointerdown',e=>{if(e.target.closest('button,input,a'))return;dragging=true;startX=e.clientX;startY=e.clientY;baseX=Number(card.dataset.x||0);baseY=Number(card.dataset.y||0);card.classList.add('dragging');card.setPointerCapture(e.pointerId)});card.addEventListener('pointermove',e=>{if(!dragging)return;const x=baseX+e.clientX-startX,y=baseY+e.clientY-startY;card.dataset.x=x;card.dataset.y=y;card.style.setProperty('--card-x',`${x}px`);card.style.setProperty('--card-y',`${y}px`)});function stopDrag(e){if(!dragging)return;dragging=false;card.classList.remove('dragging');try{card.releasePointerCapture(e.pointerId)}catch(err){}}card.addEventListener('pointerup',stopDrag);card.addEventListener('pointercancel',stopDrag)}
+
+const canvas=document.getElementById('particleCanvas'),ctx=canvas.getContext('2d');let particles=[],targets=[],particleColor='#58a6ff',particleEntry=null,burstUntil=0;const PARTICLE_COUNT=7600;
+function resizeCanvas(){const dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.floor(innerWidth*dpr);canvas.height=Math.floor(innerHeight*dpr);canvas.dataset.dpr=dpr;buildTargets(particleEntry)}
+function initParticles(){particles=Array.from({length:PARTICLE_COUNT},()=>({x:(Math.random()-.5)*canvas.width*.9,y:(Math.random()-.5)*canvas.height*.9,z:(Math.random()-.5)*canvas.width*.7,tx:0,ty:0,tz:0,vx:0,vy:0,vz:0,r:.42+Math.random()*.92,a:.18+Math.random()*.42,c:particleColor,phase:Math.random()*Math.PI*2,hot:Math.random()<.18}))}
+function particleSetEntry(entry){particleColor=entry.cat.color;particleEntry=entry;burstUntil=performance.now()+980;buildTargets(entry)}
+function buildTargets(entry){if(!canvas.width||!canvas.height||!entry)return;const w=canvas.width,h=canvas.height,s=Math.min(w,h)*.92,main=hexMix(entry.cat.color,'#f4f7ff',.16),soft=hexMix(entry.cat.color,'#c8d2e6',.46),seed=hashString(`${entry.catKey}-${entry.name}-${entry.type}`),rnd=mulberry32(seed);sampleEntryImage(entry,s,main,soft,rnd,pts=>{targets=pts.length?pts:[{x:0,y:0,z:0,c:main}];if(!particles.length)initParticles();particles.forEach((p,i)=>{const t=targets[i%targets.length],j=s*.015;p.tx=t.x+(rnd()-.5)*j;p.ty=t.y+(rnd()-.5)*j;p.tz=t.z+(rnd()-.5)*j;p.c=t.c||main;p.hot=!!t.e||rnd()<.20;if(rnd()<.20){p.x+=(rnd()-.5)*s*.82;p.y+=(rnd()-.5)*s*.82;p.z+=(rnd()-.5)*s*.82}})})}
+const imageParticleCache=new Map();
+function sampleEntryImage(entry,s,main,soft,rnd,done){const key=`${entry.catKey}:${entry.name}`,cached=imageParticleCache.get(key);if(cached){done(projectImagePoints(cached,s,main,soft,rnd));return}const img=new Image();img.onload=()=>{const off=document.createElement('canvas');off.width=360;off.height=360;const octx=off.getContext('2d',{willReadFrequently:true});octx.clearRect(0,0,360,360);octx.drawImage(img,0,0,360,360);const pixels=octx.getImageData(0,0,360,360).data,points=[];for(let y=0;y<360;y+=2){for(let x=0;x<360;x+=2){const i=(y*360+x)*4,a=pixels[i+3];if(a>32){const bright=(pixels[i]+pixels[i+1]+pixels[i+2])/765;points.push({x:x-180,y:y-180,a:a/255,b:bright})}}}imageParticleCache.set(key,points);done(projectImagePoints(points,s,main,soft,rnd))};img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(entryReferenceSvg(entry))}
+function projectImagePoints(points,s,main,soft,rnd){const out=[];const max=Math.min(points.length,7200);const step=Math.max(1,Math.floor(points.length/max));for(let i=0;i<points.length;i+=step){const p=points[i],depth=(p.b-.5)*s*.20+(rnd()-.5)*s*.11,outX=p.x/180*s*.82,outY=p.y/180*s*.82,outZ=depth,edge=p.a<.82||p.b>.70;out.push({x:outX,y:outY,z:outZ,c:p.b>.62?main:soft,e:edge})}addSpatialMist(out,s,soft,rnd,820);return out}
+/* INJECT:entryReferenceSvg */function entryReferenceSvg(entry){const key=`${entry.catKey}:${entry.name}`,title=escAttr(entry.name);const defs=`<defs><filter id="soft"><feGaussianBlur stdDeviation="1.2"/></filter><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" offset="0"/><stop stop-color="#b8c7df" offset="1"/></linearGradient></defs>`;const map={
+  'characters:乔晚':`<circle cx="180" cy="96" r="24" fill="white"/><path d="M151 78c-28-22-55 9-31 31 18-2 32-11 31-31Zm58 0c28-22 55 9 31 31-18-2-32-11-31-31Z" fill="white"/><path d="M138 150c38-35 87-31 91 0l38 130c-45 35-132 34-174 0Z" fill="url(#g)"/><path d="M88 211c74 18 144-1 188-60M91 252c68-17 128-6 185 34" stroke="white" stroke-width="14" fill="none" opacity=".8"/><circle cx="248" cy="184" r="34" fill="none" stroke="white" stroke-width="10"/><path d="M64 274 286 113" stroke="white" stroke-width="8"/>`,
+  'characters:周衍':`<circle cx="184" cy="82" r="23" fill="white"/><path d="M160 53h48v18h-48zM180 34h8v32h-8z" fill="white"/><path d="M136 130c45-32 87-22 101 2l34 156c-56 30-122 31-176 0Z" fill="url(#g)"/><path d="M224 38 205 306" stroke="white" stroke-width="9"/><path d="M139 138c58 47 100 48 142 0" stroke="white" stroke-width="10" fill="none"/><ellipse cx="184" cy="188" rx="104" ry="44" fill="none" stroke="white" stroke-width="8"/>`,
+  'characters:陆辟寒':`<circle cx="176" cy="86" r="23" fill="white"/><path d="M133 130c50-36 96-23 112 9l39 151c-64 24-139 23-189-1Z" fill="url(#g)"/><path d="M82 84 286 292" stroke="white" stroke-width="10"/><path d="M99 100 70 72M258 264l33 35" stroke="white" stroke-width="8"/><path d="M103 220c48-33 105-38 175-14M91 171c71-25 125-25 180 2" stroke="white" stroke-width="7" fill="none" opacity=".78"/><path d="m72 227 16-32 16 32-16 33Z M286 122l14-28 15 28-15 29Z" fill="white"/>`,
+  'characters:穆笑笑':`<circle cx="180" cy="86" r="23" fill="white"/><path d="M143 136c38-30 76-26 105 0l16 93c-40 31-124 32-168 0Z" fill="url(#g)"/><path d="M221 94c46 31 39 93-10 122 28-47 20-84-11-111Z" fill="white" opacity=".88"/><path d="M242 128 213 290" stroke="white" stroke-width="8"/><path d="M88 264c59-61 124-67 195-23" stroke="white" stroke-width="10" fill="none" opacity=".8"/>`,
+  'characters:马怀真':`<circle cx="178" cy="91" r="23" fill="white"/><path d="M135 136c45-35 85-26 106 0l28 145c-53 27-121 27-174 0Z" fill="url(#g)"/><path d="M81 172c57-46 120-54 189-25-25 63-85 96-162 102Z" fill="none" stroke="white" stroke-width="10"/><path d="M105 195h136M123 219h91M140 244h60" stroke="white" stroke-width="7"/><path d="M80 294c61-34 140-39 205-6" stroke="white" stroke-width="9" fill="none" opacity=".72"/>`,
+  'places:昆山派':`<path d="M30 292 102 112l52 120 58-156 70 216Z" fill="url(#g)"/><path d="M108 252h144v47H108zM88 252l92-65 92 65" fill="white"/><path d="M180 187v112M136 258v41M224 258v41" stroke="#021" stroke-width="10" opacity=".55"/><circle cx="180" cy="188" r="138" fill="none" stroke="white" stroke-width="7" opacity=".75"/><path d="M66 314c57-64 157-68 229-5" stroke="white" stroke-width="8" fill="none"/>`,
+  'places:玉清峰':`<path d="M74 310 180 36 294 310Z" fill="url(#g)"/><path d="M134 156h92v40h-92zM118 156l62-45 62 45" fill="white"/><path d="M65 230c74-25 154-28 233 2M92 265c58-18 118-18 180 0" stroke="white" stroke-width="9" fill="none" opacity=".75"/><path d="M180 50v246" stroke="white" stroke-width="7" opacity=".9"/>`,
+  'places:太仓郡':`<path d="M48 250h264v64H48z" fill="url(#g)"/><path d="M58 250h52v-58H58zm72 0h52v-88h-52zm72 0h52v-70h-52zm72 0h38v-48h-38z" fill="white"/><path d="M36 190h288M64 162l38-34 38 34M165 132l48-42 48 42" stroke="white" stroke-width="9" fill="none"/><path d="M40 322c86-43 176-42 280 2" stroke="white" stroke-width="9" fill="none" opacity=".7"/>`,
+  'items:替身契约':`<rect x="84" y="70" width="192" height="224" rx="18" fill="url(#g)"/><circle cx="180" cy="184" r="42" fill="none" stroke="#021" stroke-width="12" opacity=".52"/><path d="M118 122h124M118 148h124M118 230h124M118 256h82" stroke="#021" stroke-width="11" opacity=".5"/><path d="M84 72c-24 25 0 46-24 70M276 292c28-24 1-48 25-74" stroke="white" stroke-width="12" fill="none"/>`,
+  'items:霜寒剑':`<path d="M180 28 204 232h-48Z" fill="url(#g)"/><path d="M128 232h104v24H128zM165 256h30l12 62h-54Z" fill="white"/><path d="M180 44v188" stroke="#021" stroke-width="8" opacity=".45"/><path d="m82 137 24-45 24 45-24 45Zm198 0 20-37 20 37-20 37ZM91 268l16-30 16 30-16 30Z" fill="white" opacity=".82"/><ellipse cx="180" cy="178" rx="106" ry="44" fill="none" stroke="white" stroke-width="8" opacity=".75"/>`,
+  'items:魔骨':`<path d="M177 48c-34 45-27 72 4 104 28 29 30 63-2 111-12 18-20 36-21 55" stroke="white" stroke-width="24" fill="none"/><path d="M110 86h92M133 132h112M105 185h102M138 230h112M106 278h96" stroke="white" stroke-width="14"/><path d="M84 116c62 63 148 62 205 8M76 250c63-54 141-54 211 1" stroke="white" stroke-width="8" fill="none" opacity=".6"/>`,
+  'organizations:昆山派':`<path d="M44 292 92 142l56 116 34-170 62 170 36-96 40 130Z" fill="url(#g)"/><path d="M100 244h160v58H100zM80 244l100-72 100 72" fill="white"/><circle cx="180" cy="206" r="126" fill="none" stroke="white" stroke-width="8"/><path d="M180 172v130M132 258v44M228 258v44" stroke="#021" stroke-width="10" opacity=".5"/>`,
+  'organizations:沧澜宗':`<path d="M74 246c56-64 151-65 213 0v54H74Z" fill="url(#g)"/><path d="M100 246c25-62 58-91 80-91s56 30 80 91" fill="none" stroke="white" stroke-width="11"/><path d="M45 146c54 36 104 34 150 0s89-35 128 0M45 184c54 36 104 34 150 0s89-35 128 0" stroke="white" stroke-width="9" fill="none" opacity=".8"/><circle cx="180" cy="212" r="108" fill="none" stroke="white" stroke-width="7"/>`,
+  'organizations:魔域':`<path d="M92 308V110l88-64 88 64v198Z" fill="url(#g)"/><path d="M122 128c31 30 83 30 116 0M98 92l36 42M262 92l-36 42" stroke="#021" stroke-width="14" opacity=".45"/><path d="M70 264c65-46 149-47 221 0M76 182c68 58 139 58 209 0" stroke="white" stroke-width="10" fill="none" opacity=".74"/>`,
+  'organizations:大光明殿':`<path d="M82 258h196v54H82zM64 258l116-91 116 91" fill="url(#g)"/><path d="M112 258v54M150 258v54M188 258v54M226 258v54" stroke="#021" stroke-width="10" opacity=".48"/><circle cx="180" cy="176" r="104" fill="none" stroke="white" stroke-width="8"/><path d="M180 90c47 42 47 84 0 126-45-42-45-84 0-126Z" fill="white" opacity=".78"/>`,
+  'concepts:替身契约':`<circle cx="137" cy="178" r="70" fill="none" stroke="white" stroke-width="18"/><circle cx="223" cy="178" r="70" fill="none" stroke="white" stroke-width="18"/><path d="M76 282c62-36 144-38 208 0M180 74v216" stroke="white" stroke-width="10" opacity=".72"/><circle cx="180" cy="178" r="32" fill="url(#g)"/>`,
+  'concepts:天道':`<path d="M54 180c78-86 174-86 252 0-78 86-174 86-252 0Z" fill="none" stroke="white" stroke-width="16"/><circle cx="180" cy="180" r="48" fill="url(#g)"/><circle cx="180" cy="180" r="124" fill="none" stroke="white" stroke-width="7"/><path d="M180 42v276M42 180h276" stroke="white" stroke-width="8" opacity=".55"/>`,
+  'concepts:三教论法':`<circle cx="180" cy="94" r="58" fill="none" stroke="white" stroke-width="14"/><circle cx="102" cy="230" r="58" fill="none" stroke="white" stroke-width="14"/><circle cx="258" cy="230" r="58" fill="none" stroke="white" stroke-width="14"/><path d="M180 152 102 172M180 152l78 20M102 230h156" stroke="white" stroke-width="9"/><circle cx="180" cy="180" r="28" fill="url(#g)"/>`
+};return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360"><rect width="360" height="360" fill="transparent"/>${defs}<title>${title}</title><g filter="url(#soft)">${map[key]||map['concepts:天道']}</g></svg>`}/* ENDINJECT */
+function push3(pts,x,y,z,c){pts.push({x,y,z,c})}
+function addSpatialMist(pts,s,c,rnd,count){for(let i=0;i<count;i++){const a=rnd()*Math.PI*2,b=Math.acos(2*rnd()-1),r=s*(.2+rnd()*.92);push3(pts,Math.sin(b)*Math.cos(a)*r,Math.sin(b)*Math.sin(a)*r*.58,Math.cos(b)*r,c)}}
+function addHelixField(pts,s,main,soft,rnd){for(let i=0;i<2200;i++){const t=i/22+rnd()*.32,r=s*(.24+rnd()*.08),wave=Math.sin(t*1.7)*s*.045;const side=i%2?Math.PI:0;push3(pts,Math.cos(t+side)*r,((i/2200)-.5)*s*1.16+wave,Math.sin(t+side)*r,main)}for(let i=0;i<950;i++){const t=rnd()*Math.PI*12,r=s*(.36+rnd()*.18);push3(pts,Math.cos(t)*r,Math.sin(t*.45)*s*.28,Math.sin(t)*r,soft)}}
+function addNebulaTerrain(pts,s,main,soft,rnd){for(let i=0;i<2500;i++){const x=(rnd()-.5)*s*1.7,z=(rnd()-.5)*s*1.25,y=Math.sin(x/s*7+rnd())*s*.09+Math.cos(z/s*6)*s*.07+(rnd()-.5)*s*.06;push3(pts,x,y,z,i%4?main:soft)}for(let i=0;i<850;i++){const a=rnd()*Math.PI*2,r=s*(.16+rnd()*.72);push3(pts,Math.cos(a)*r,Math.sin(a*3)*s*.16,Math.sin(a)*r*.72,soft)}}
+function addBladeOrbit(pts,s,main,soft,rnd){for(let i=0;i<2100;i++){const t=(i/2100-.5),twist=t*Math.PI*4,x=t*s*1.35,y=Math.sin(twist)*s*.055,z=Math.cos(twist)*s*.20;push3(pts,x,y,z,main)}for(let i=0;i<1100;i++){const a=i/1100*Math.PI*2,r=s*(.36+rnd()*.045);push3(pts,Math.cos(a)*r,Math.sin(a*2)*s*.05,Math.sin(a)*r*.78,soft)}for(let i=0;i<350;i++){const t=rnd()*2-1;push3(pts,t*s*.22,-s*.36-rnd()*s*.10,(rnd()-.5)*s*.07,main)}}
+function addOrbitalSystem(pts,s,main,soft,rnd){for(let ring=0;ring<5;ring++){const count=520-ring*35,tilt=(ring-2)*.23,rr=s*(.18+ring*.13);for(let i=0;i<count;i++){const a=i/count*Math.PI*2+rnd()*.02,x=Math.cos(a)*rr,y=Math.sin(a)*rr*Math.sin(tilt),z=Math.sin(a)*rr*Math.cos(tilt);push3(pts,x,y,z,ring%2?main:soft)}}for(let i=0;i<650;i++){const a=rnd()*Math.PI*2,b=rnd()*Math.PI*2,r=s*(.05+rnd()*.16);push3(pts,Math.cos(a)*r,Math.sin(b)*r,Math.sin(a)*r,main)}}
+function addVortexField(pts,s,main,soft,rnd){for(let i=0;i<2900;i++){const t=i*.055,r=s*(i/2900)*.78,a=t+rnd()*.08,y=(i/2900-.5)*s*.78;push3(pts,Math.cos(a)*r,y,Math.sin(a)*r,i%3?main:soft)}for(let i=0;i<550;i++){const a=rnd()*Math.PI*2,r=s*(.08+rnd()*.28);push3(pts,Math.cos(a)*r,(rnd()-.5)*s*.16,Math.sin(a)*r,soft)}}
+function addEntryParticleForm(pts,s,main,soft,rnd,entry){const key=`${entry.catKey}:${entry.name}`;({
+  'characters:乔晚':()=>{addHumanSilhouette(pts,s,main,soft,.04);addHairBow3(pts,s,main,.04,-.35);addRobeLayer3(pts,s,soft,.04,.20,.34);addRibbonArc(pts,s,main,-.16,.05,.44,.19);addContractSeal(pts,s,soft,.24,.05,.13);addSword3(pts,s,main,-.34,-.18,.28,.38,-.10);addMistVeil3(pts,s,soft,rnd,.02)},
+  'characters:周衍':()=>{addHumanSilhouette(pts,s,main,soft,.10);addTallRobe3(pts,s,soft,.10);addSword3(pts,s,main,.20,-.54,.12,.58,.08);addSwordHalo3(pts,s,main,.10);addPeakHalo3(pts,s,soft,.32);addHairCrown3(pts,s,main,.10,-.35)},
+  'characters:陆辟寒':()=>{addHumanSilhouette(pts,s,main,soft,.05);addLongCoat3(pts,s,soft,.05);addSword3(pts,s,main,-.36,-.48,.32,.48,-.16);addIceShards(pts,s,soft,rnd,1200);addColdBreath3(pts,s,main,rnd);addCircle3(pts,0,s*.02,0,s*.45,soft,460,'xz')},
+  'characters:穆笑笑':()=>{addHumanSilhouette(pts,s,main,soft,.00);addShortFightingDress3(pts,s,soft,.00);addCrescent3(pts,s,main,.16,-.20,.24);addSword3(pts,s,main,.24,-.08,.10,.42,.05);addMoonPath3(pts,s,soft,rnd);addRibbonArc(pts,s,soft,.08,.10,.36,.13)},
+  'characters:马怀真':()=>{addHumanSilhouette(pts,s,main,soft,-.04);addFanArc(pts,s,main,-.24,.04,.38);addDeskScrolls3(pts,s,soft);addShadowNetwork3(pts,s,main,rnd);addLooseStars(pts,s,soft,rnd,620)},
+  'places:昆山派':()=>{addMountainGate(pts,s,main,soft,1.22);addTemple3(pts,s,main,0,.02,.46);addPeakRing(pts,s,soft,12,.58);addCloudBand(pts,s,soft,rnd,.04);addStairPath3(pts,s,main,-.04,.28)},
+  'places:玉清峰':()=>{addSinglePeak(pts,s,main,0,-.07,1.06);addTemple3(pts,s,soft,0,-.23,.24);addCloudBand(pts,s,soft,rnd,.03);addVerticalAura3(pts,s,main,rnd);addCircle3(pts,0,-s*.04,0,s*.42,soft,430,'xz')},
+  'places:太仓郡':()=>{addCityGrid(pts,s,main,soft);addMarketRoofs3(pts,s,main,soft);addRiverCurve(pts,s,soft);addGate3(pts,s,main,.18,.18,.34);addLanterns3(pts,s,main,rnd)},
+  'items:替身契约':()=>{addScroll3(pts,s,main,soft);addBurnEdges3(pts,s,main,rnd);addContractSeal(pts,s,main,0,.04,.20);addLinkedRunes3(pts,s,soft,.34);addRibbonArc(pts,s,soft,0,.02,.50,.17)},
+  'items:霜寒剑':()=>{addDetailedSword3(pts,s,main,soft);addIceShards(pts,s,soft,rnd,1500);addFrostOrbit3(pts,s,main,soft);addColdBreath3(pts,s,soft,rnd)},
+  'items:魔骨':()=>{addSpineBone3(pts,s,main,soft);addDemonRunes3(pts,s,main);addVortexField(pts,s*.70,soft,main,rnd);addJaggedCrown(pts,s,soft)},
+  'organizations:昆山派':()=>{addTemple3(pts,s,main,0,0,.48);addMountainGate(pts,s,soft,main,1.08);addPeakRing(pts,s,soft,12,.60);addCircle3(pts,0,0,0,s*.46,main,480,'xz');addStairPath3(pts,s,main,0,.30)},
+  'organizations:沧澜宗':()=>{addWaveSigil(pts,s,main,soft);addSeaPavilion3(pts,s,main,soft);addCircle3(pts,0,0,0,s*.46,soft,480,'xz');addCircle3(pts,0,0,0,s*.27,main,300,'xy')},
+  'organizations:魔域':()=>{addGate3(pts,s,main,0,.02,.62);addDemonRunes3(pts,s,soft);addVortexField(pts,s*.78,main,soft,rnd);addJaggedCrown(pts,s,soft);addBoneCurve(pts,s*.72,soft,main)},
+  'organizations:大光明殿':()=>{addTemple3(pts,s,main,0,.04,.54);addMandala3(pts,s,main,soft);addLotus3(pts,s,soft);addCircle3(pts,0,0,0,s*.54,soft,580,'xy')},
+  'concepts:替身契约':()=>{addLinkedRings(pts,s,main,soft);addHumanSilhouette(pts,s,soft,soft,-.24);addHumanSilhouette(pts,s,main,soft,.24);addContractSeal(pts,s,main,0,.02,.16);addRibbonArc(pts,s,soft,0,.02,.56,.16)},
+  'concepts:天道':()=>{addEye3(pts,s,main,soft);addOrbitalSystem(pts,s*.72,soft,main,rnd);addVerticalAura3(pts,s,main,rnd);addLinkedRunes3(pts,s,soft,.48)},
+  'concepts:三教论法':()=>{addTriad3(pts,s,main,soft);addTemple3(pts,s,soft,-.30,.10,.22);addGate3(pts,s,main,.32,.08,.28);addMandala3(pts,s,soft,main);addCircle3(pts,0,0,0,s*.50,soft,460,'xz')}
+}[key]||(()=>{if(entry.catKey==='characters')addHelixField(pts,s,main,soft,rnd);else if(entry.catKey==='places')addNebulaTerrain(pts,s,main,soft,rnd);else if(entry.catKey==='items')addBladeOrbit(pts,s,main,soft,rnd);else if(entry.catKey==='organizations')addOrbitalSystem(pts,s,main,soft,rnd);else addVortexField(pts,s,main,soft,rnd)}))()}
+function addLine3(pts,x1,y1,z1,x2,y2,z2,c,count){for(let i=0;i<=count;i++){const t=i/count;push3(pts,x1+(x2-x1)*t,y1+(y2-y1)*t,z1+(z2-z1)*t,c)}}
+function addCircle3(pts,cx,cy,cz,r,c,count,plane='xy'){for(let i=0;i<count;i++){const a=i/count*Math.PI*2,x=Math.cos(a)*r,y=Math.sin(a)*r;if(plane==='xz')push3(pts,cx+x,cy,cz+y,c);else if(plane==='yz')push3(pts,cx,cy+x,cz+y,c);else push3(pts,cx+x,cy+y,cz,c)}}
+function addHumanSilhouette(pts,s,main,soft,offset){const ox=s*offset;addCircle3(pts,ox,-s*.24,0,s*.075,main,150,'xy');addLine3(pts,ox,-s*.16,0,ox,s*.22,0,main,150);addLine3(pts,ox-s*.17,-s*.02,0,ox+s*.17,-s*.02,0,soft,90);addLine3(pts,ox,s*.20,0,ox-s*.14,s*.48,0,main,90);addLine3(pts,ox,s*.20,0,ox+s*.14,s*.48,0,main,90);for(let i=0;i<420;i++){const a=Math.PI*(.12+Math.random()*.76),r=s*(.14+Math.random()*.10);push3(pts,ox+Math.cos(a)*r,s*.15+Math.sin(a)*r,(Math.random()-.5)*s*.08,soft)}}
+function addHairBow3(pts,s,c,cx,cy){const ox=s*cx,oy=s*cy;addCircle3(pts,ox-s*.048,oy,0,s*.055,c,90,'xy');addCircle3(pts,ox+s*.048,oy,0,s*.055,c,90,'xy');addLine3(pts,ox-s*.10,oy,0,ox+s*.10,oy,0,c,48)}
+function addHairCrown3(pts,s,c,cx,cy){const ox=s*cx,oy=s*cy;addLine3(pts,ox-s*.07,oy,0,ox+s*.07,oy,0,c,44);addLine3(pts,ox,oy-s*.055,0,ox,oy+s*.035,0,c,36);addCircle3(pts,ox,oy,0,s*.025,c,60,'xy')}
+function addRobeLayer3(pts,s,c,cx,cy,w){const ox=s*cx,oy=s*cy;for(let k=0;k<4;k++){const yy=oy+s*(k*.075);addLine3(pts,ox-s*w*(.55-k*.08),yy,s*.02*k,ox+s*w*(.55-k*.08),yy,-s*.02*k,c,80)}}
+function addTallRobe3(pts,s,c,cx){const ox=s*cx;addLine3(pts,ox-s*.16,-s*.10,0,ox-s*.25,s*.48,s*.04,c,120);addLine3(pts,ox+s*.16,-s*.10,0,ox+s*.25,s*.48,-s*.04,c,120);for(let i=0;i<6;i++)addLine3(pts,ox-s*.18+i*s*.07,-s*.03,0,ox-s*.14+i*s*.055,s*.43,0,c,62)}
+function addLongCoat3(pts,s,c,cx){const ox=s*cx;addLine3(pts,ox-s*.18,-s*.05,0,ox-s*.31,s*.52,s*.06,c,120);addLine3(pts,ox+s*.18,-s*.05,0,ox+s*.31,s*.52,-s*.06,c,120);addRibbonArc(pts,s,c,cx-.05,.20,.30,.11)}
+function addShortFightingDress3(pts,s,c,cx){const ox=s*cx;addLine3(pts,ox-s*.16,-s*.02,0,ox+s*.16,-s*.02,0,c,70);addLine3(pts,ox-s*.14,s*.18,0,ox+s*.14,s*.18,0,c,70);addLine3(pts,ox-s*.16,-s*.02,0,ox-s*.14,s*.18,0,c,42);addLine3(pts,ox+s*.16,-s*.02,0,ox+s*.14,s*.18,0,c,42)}
+function addMistVeil3(pts,s,c,rnd,cx){for(let i=0;i<720;i++){const t=rnd()*Math.PI*2,r=s*(.12+rnd()*.36);push3(pts,s*cx+Math.cos(t)*r,s*(.04+Math.sin(t*2)*.16),Math.sin(t)*r*.32,c)}}
+function addSwordHalo3(pts,s,c,cx){addCircle3(pts,s*cx,-s*.02,0,s*.36,c,360,'xz');for(let i=0;i<5;i++)addLine3(pts,s*(cx-.28+i*.14),-s*.38,0,s*(cx-.18+i*.10),s*.34,0,c,52)}
+function addPeakHalo3(pts,s,c,r){for(let i=0;i<8;i++){const a=i/8*Math.PI*2;addSinglePeak(pts,s,c,Math.cos(a)*r,Math.sin(a)*r*.08,.10)}}
+function addColdBreath3(pts,s,c,rnd){for(let i=0;i<760;i++){const t=rnd()*Math.PI*2,r=s*(.15+rnd()*.54);push3(pts,Math.cos(t)*r,s*(.05+Math.sin(t*3)*.05),(rnd()-.5)*s*.34,c)}}
+function addMoonPath3(pts,s,c,rnd){for(let i=0;i<520;i++){const t=i/519,x=s*(-.42+t*.72),y=s*(-.04+Math.sin(t*Math.PI)*.24),z=s*(.22+Math.cos(t*Math.PI)*.16);push3(pts,x,y,z,c)}for(let i=0;i<220;i++)push3(pts,(rnd()-.5)*s*.70,-s*.28+rnd()*s*.10,(rnd()-.5)*s*.40,c)}
+function addDeskScrolls3(pts,s,c){for(let i=0;i<3;i++){const y=s*(.16+i*.08);addLine3(pts,-s*.30,y,0,s*.22,y,s*.04,c,70);addCircle3(pts,-s*.32,y,0,s*.035,c,48,'xy')}}
+function addShadowNetwork3(pts,s,c,rnd){for(let i=0;i<7;i++){const a=rnd()*Math.PI*2;addLine3(pts,0,0,0,Math.cos(a)*s*.44,Math.sin(a)*s*.26,(rnd()-.5)*s*.36,c,54)}}
+function addStairPath3(pts,s,c,cx,cy){for(let i=0;i<8;i++){const y=s*(cy-i*.045),w=s*(.08+i*.045);addLine3(pts,s*cx-w,y,0,s*cx+w,y,0,c,36)}}
+function addVerticalAura3(pts,s,c,rnd){for(let i=0;i<650;i++){const x=(rnd()-.5)*s*.32,y=(rnd()-.5)*s*.95,z=(rnd()-.5)*s*.22;push3(pts,x,y,z,c)}}
+function addMarketRoofs3(pts,s,main,soft){for(let i=-3;i<=3;i++){const x=s*i*.10,y=s*(.14+Math.abs(i)*.012);addLine3(pts,x-s*.055,y,0,x,y-s*.055,s*.03,main,24);addLine3(pts,x,y-s*.055,s*.03,x+s*.055,y,0,soft,24)}}
+function addLanterns3(pts,s,c,rnd){for(let i=0;i<9;i++){const x=s*(-.38+i*.095),y=s*(.05+rnd()*.24);addCircle3(pts,x,y,0,s*.018,c,28,'xy')}}
+function addBurnEdges3(pts,s,c,rnd){for(let i=0;i<280;i++){const side=rnd()<.5?-1:1;push3(pts,side*s*(.28+rnd()*.035),s*((rnd()-.5)*.56),(rnd()-.5)*s*.06,c)}}
+function addLinkedRunes3(pts,s,c,r){for(let i=0;i<9;i++){const a=i/9*Math.PI*2, x=Math.cos(a)*s*r, y=Math.sin(a)*s*r*.58;addContractSeal(pts,s,c,x/s,y/s,.035)}}
+function addDetailedSword3(pts,s,main,soft){addSword3(pts,s,main,0,-.66,0,.62,0);addLine3(pts,-s*.026,-s*.52,0,s*.026,s*.46,0,soft,220);addLine3(pts,-s*.16,s*.26,0,s*.16,s*.26,0,main,80);addCircle3(pts,0,s*.38,0,s*.045,main,72,'xy')}
+function addFrostOrbit3(pts,s,main,soft){addCircle3(pts,0,-s*.02,0,s*.38,soft,440,'xz');addCircle3(pts,0,-s*.02,0,s*.25,main,300,'yz')}
+function addSpineBone3(pts,s,main,soft){for(let i=0;i<12;i++){const t=i/11,y=s*(-.38+t*.76),x=Math.sin(t*Math.PI*1.5)*s*.08,z=Math.cos(t*Math.PI*1.5)*s*.10;addCircle3(pts,x,y,z,s*(.035+i%2*.008),i%2?main:soft,58,'xy');addLine3(pts,x-s*.11,y,z,x+s*.11,y,z,soft,30)}}
+function addDemonRunes3(pts,s,c){for(let i=0;i<6;i++){const a=i/6*Math.PI*2;addLine3(pts,Math.cos(a)*s*.22,Math.sin(a)*s*.18,0,Math.cos(a)*s*.42,Math.sin(a)*s*.30,s*.08,c,42)}}
+function addSeaPavilion3(pts,s,main,soft){addTemple3(pts,s,main,0,-.06,.28);for(let i=0;i<4;i++)addLine3(pts,-s*.38,s*(.20+i*.045),0,s*.38,s*(.20+i*.045),0,i%2?main:soft,90)}
+function addLotus3(pts,s,c){for(let i=0;i<8;i++){const a=i/8*Math.PI*2;for(let j=0;j<80;j++){const t=j/79*Math.PI;push3(pts,Math.cos(a)*s*.12+Math.cos(a)*Math.sin(t)*s*.12,Math.sin(a)*s*.08+Math.sin(a)*Math.sin(t)*s*.08,Math.cos(t)*s*.08,c)}}}
+function addSword3(pts,s,c,x1,y1,x2,y2,z){addLine3(pts,s*x1,s*y1,s*z,s*x2,s*y2,-s*z,c,360);addLine3(pts,s*(x2-.055),s*(y2-.08),-s*z,s*(x2+.055),s*(y2-.08),-s*z,c,42);addLine3(pts,s*(x1-.035),s*(y1+.12),s*z,s*(x1+.035),s*(y1+.12),s*z,c,42)}
+function addRibbonArc(pts,s,c,cx,cy,r,amp){for(let i=0;i<520;i++){const t=i/519*Math.PI*1.35+Math.PI*.84;push3(pts,s*(cx+Math.cos(t)*r),s*(cy+Math.sin(t)*amp),s*Math.sin(t)*r*.28,c)}}
+function addContractSeal(pts,s,c,cx,cy,r){addCircle3(pts,s*cx,s*cy,0,s*r,c,180,'xy');for(let i=0;i<6;i++){const a=i/6*Math.PI*2;addLine3(pts,s*cx,s*cy,0,s*(cx+Math.cos(a)*r*.75),s*(cy+Math.sin(a)*r*.75),0,c,26)}}
+function addCrescent3(pts,s,c,cx,cy,r){for(let i=0;i<360;i++){const a=Math.PI*.18+i/359*Math.PI*1.48;push3(pts,s*(cx+Math.cos(a)*r),s*(cy+Math.sin(a)*r),s*Math.sin(a)*r*.12,c);push3(pts,s*(cx+Math.cos(a)*(r*.68)+r*.08),s*(cy+Math.sin(a)*(r*.68)),s*Math.sin(a)*r*.10,c)}}
+function addFanArc(pts,s,c,cx,cy,r){for(let i=0;i<7;i++){const a=Math.PI*(.15+i*.11);addLine3(pts,s*cx,s*cy,0,s*(cx+Math.cos(a)*r),s*(cy+Math.sin(a)*r),s*.08,c,64)}for(let i=0;i<360;i++){const a=Math.PI*(.15+i/359*.66);push3(pts,s*(cx+Math.cos(a)*r),s*(cy+Math.sin(a)*r),s*.08,c)}}
+function addLooseStars(pts,s,c,rnd,count){for(let i=0;i<count;i++)push3(pts,(rnd()-.5)*s*.82,(rnd()-.5)*s*.52,(rnd()-.5)*s*.52,c)}
+function addMountainGate(pts,s,main,soft,scale){for(let i=0;i<5;i++){const x=(-.44+i*.22)*scale;addSinglePeak(pts,s,i%2?soft:main,x,.10,.34+Math.random()*.10)}}
+function addSinglePeak(pts,s,c,cx,cy,scale){addLine3(pts,s*(cx-.18*scale),s*(cy+.28*scale),0,s*cx,s*(cy-.28*scale),s*.04,c,160);addLine3(pts,s*cx,s*(cy-.28*scale),s*.04,s*(cx+.18*scale),s*(cy+.28*scale),0,c,160);addLine3(pts,s*(cx-.18*scale),s*(cy+.28*scale),0,s*(cx+.18*scale),s*(cy+.28*scale),0,c,90)}
+function addTemple3(pts,s,c,cx,cy,scale){const w=.34*scale,h=.16*scale;addLine3(pts,s*(cx-w),s*(cy+h),0,s*(cx+w),s*(cy+h),0,c,90);addLine3(pts,s*(cx-w*.76),s*cy,0,s*(cx+w*.76),s*cy,0,c,80);addLine3(pts,s*(cx-w*.92),s*cy,0,s*cx,s*(cy-h),s*.04,c,70);addLine3(pts,s*cx,s*(cy-h),s*.04,s*(cx+w*.92),s*cy,0,c,70);for(let i=-2;i<=2;i++)addLine3(pts,s*(cx+i*w*.28),s*cy,0,s*(cx+i*w*.28),s*(cy+h),0,c,35)}
+function addPeakRing(pts,s,c,count,r){for(let i=0;i<count;i++){const a=i/count*Math.PI*2;addSinglePeak(pts,s,c,Math.cos(a)*r,Math.sin(a)*r*.20,.16)}}
+function addCloudBand(pts,s,c,rnd,cy){for(let i=0;i<900;i++){const a=rnd()*Math.PI*2,r=s*(.18+rnd()*.44);push3(pts,Math.cos(a)*r,s*(cy+Math.sin(a*3)*.035),(Math.sin(a)*r*.52),c)}}
+function addCityGrid(pts,s,main,soft){for(let x=-3;x<=3;x++)addLine3(pts,s*x*.09,s*.18,0,s*x*.09,s*.44,0,x%2?main:soft,60);for(let y=0;y<4;y++)addLine3(pts,-s*.34,s*(.20+y*.06),0,s*.34,s*(.20+y*.06),0,y%2?main:soft,80)}
+function addRiverCurve(pts,s,c){let px=-s*.42,py=s*.05,pz=0;for(let i=1;i<170;i++){const t=i/169,x=s*(-.42+t*.84),y=s*(.05+Math.sin(t*7)*.05),z=s*Math.cos(t*4)*.10;addLine3(pts,px,py,pz,x,y,z,c,3);px=x;py=y;pz=z}}
+function addGate3(pts,s,c,cx,cy,scale){const w=.22*scale,h=.38*scale;addLine3(pts,s*(cx-w),s*(cy+h),0,s*(cx-w),s*(cy-h),0,c,90);addLine3(pts,s*(cx+w),s*(cy+h),0,s*(cx+w),s*(cy-h),0,c,90);addLine3(pts,s*(cx-w),s*(cy-h),0,s*(cx+w),s*(cy-h),0,c,80)}
+function addScroll3(pts,s,main,soft){addLine3(pts,-s*.28,-s*.28,0,s*.28,-s*.28,0,main,120);addLine3(pts,-s*.28,s*.28,0,s*.28,s*.28,0,main,120);addLine3(pts,-s*.28,-s*.28,0,-s*.28,s*.28,0,soft,100);addLine3(pts,s*.28,-s*.28,0,s*.28,s*.28,0,soft,100);for(let i=-2;i<=2;i++)addLine3(pts,-s*.18,s*i*.07,0,s*.18,s*i*.07,0,soft,50)}
+function addIceShards(pts,s,c,rnd,count){for(let i=0;i<count;i++){const a=rnd()*Math.PI*2,r=s*(.08+rnd()*.36);push3(pts,Math.cos(a)*r,Math.sin(a)*r,(rnd()-.5)*s*.20,c)}}
+function addBoneCurve(pts,s,main,soft){for(let i=0;i<900;i++){const t=i/899*Math.PI*1.5-Math.PI*.75,x=Math.cos(t)*s*.32,y=Math.sin(t)*s*.18,z=Math.sin(t*2)*s*.12;push3(pts,x,y,z,i%3?main:soft)}addCircle3(pts,-s*.30,-s*.10,0,s*.10,main,130,'xy');addCircle3(pts,s*.30,s*.10,0,s*.10,soft,130,'xy')}
+function addWaveSigil(pts,s,main,soft){for(let row=-1;row<=1;row++){let px=-s*.42,py=s*row*.08,pz=0;for(let i=1;i<180;i++){const t=i/179,x=s*(-.42+t*.84),y=s*(row*.08+Math.sin(t*Math.PI*2)*.045),z=s*Math.cos(t*Math.PI*2)*.10;addLine3(pts,px,py,pz,x,y,z,row?soft:main,3);px=x;py=y;pz=z}}}
+function addJaggedCrown(pts,s,c){for(let i=0;i<7;i++){const x=s*(-.36+i*.12);addLine3(pts,x,s*.26,0,x+s*.06,s*(.08+(i%2)*.08),s*.05,c,36);addLine3(pts,x+s*.06,s*(.08+(i%2)*.08),s*.05,x+s*.12,s*.26,0,c,36)}}
+function addMandala3(pts,s,main,soft){for(let i=0;i<8;i++){const a=i/8*Math.PI*2;addCircle3(pts,Math.cos(a)*s*.16,Math.sin(a)*s*.16,0,s*.13,i%2?main:soft,120,'xy')}}
+function addLinkedRings(pts,s,main,soft){addCircle3(pts,-s*.13,0,0,s*.20,main,260,'xy');addCircle3(pts,s*.13,0,0,s*.20,soft,260,'xy');addLine3(pts,-s*.02,0,0,s*.02,0,0,main,24)}
+function addEye3(pts,s,main,soft){for(let i=0;i<420;i++){const t=i/419*Math.PI*2;push3(pts,Math.cos(t)*s*.42,Math.sin(t)*s*.16,Math.sin(t)*s*.06,soft)}addCircle3(pts,0,0,0,s*.12,main,180,'xy');addCircle3(pts,0,0,0,s*.48,soft,380,'xz')}
+function addTriad3(pts,s,main,soft){for(let i=0;i<3;i++){const a=i/3*Math.PI*2-Math.PI/2;addCircle3(pts,Math.cos(a)*s*.20,Math.sin(a)*s*.16,0,s*.22,i?soft:main,260,'xy')}for(let i=0;i<3;i++){const a=i/3*Math.PI*2-Math.PI/2;addLine3(pts,0,0,0,Math.cos(a)*s*.36,Math.sin(a)*s*.28,0,main,80)}}
+function hashString(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hexMix(a,b,t){const pa=parseHex(a),pb=parseHex(b),r=Math.round(pa.r*(1-t)+pb.r*t),g=Math.round(pa.g*(1-t)+pb.g*t),bl=Math.round(pa.b*(1-t)+pb.b*t);return`#${[r,g,bl].map(v=>v.toString(16).padStart(2,'0')).join('')}`}
+function parseHex(hex){const c=String(hex).replace('#',''),n=parseInt(c.length===3?c.split('').map(x=>x+x).join(''):c,16);return{r:(n>>16)&255,g:(n>>8)&255,b:n&255}}
+function drawEnergyRings(ctx,w,h,ts,color,cx,cy,dpr){
+  ctx.save();ctx.globalCompositeOperation='lighter';ctx.lineCap='round';
+  for(let i=0;i<3;i++){const rot=ts*(.00028+i*.00008)+i*.94,rx=w*(.16+i*.052),ry=h*(.058+i*.026),alpha=.16-i*.025;ctx.lineWidth=Math.max(1,dpr*(1.35-i*.18));ctx.setLineDash([22*dpr,34*dpr]);ctx.lineDashOffset=-ts*(.042+i*.018);ctx.strokeStyle=hexToRgba(color,alpha);ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,rot,0,Math.PI*2);ctx.stroke()}
+  ctx.setLineDash([]);ctx.restore();
+}
+function drawComets(ctx,w,h,ts,color,cx,cy,dpr){
+  ctx.save();ctx.globalCompositeOperation='lighter';ctx.lineCap='round';
+  for(let i=0;i<9;i++){const a=ts*.00042+i*.698,rx=w*(.12+(i%3)*.07),ry=h*(.05+(i%4)*.018),x=cx+Math.cos(a)*rx,y=cy+Math.sin(a*1.35)*ry,len=(18+i*4)*dpr;ctx.strokeStyle=hexToRgba(color,.10+(i%3)*.025);ctx.lineWidth=Math.max(1,dpr*(1.1+(i%2)*.35));ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-Math.sin(a)*len,y-Math.cos(a*1.35)*len*.55);ctx.stroke()}
+  ctx.restore();
+}
+function drawBurst(ctx,w,h,ts,color,cx,cy,dpr){
+  const now=performance.now(),left=burstUntil-now;if(left<=0)return;const t=1-left/980,alpha=(1-t);ctx.save();ctx.globalCompositeOperation='lighter';ctx.strokeStyle=hexToRgba(color,alpha*.26);ctx.lineWidth=Math.max(1,dpr*1.6);ctx.beginPath();ctx.arc(cx,cy,Math.max(w,h)*(.06+t*.24),0,Math.PI*2);ctx.stroke();ctx.strokeStyle=hexToRgba(hexMix(color,'#ffffff',.42),alpha*.18);for(let i=0;i<28;i++){const a=i/28*Math.PI*2+ts*.0009,r1=Math.max(w,h)*(.08+t*.14),r2=r1+Math.max(w,h)*(.05+Math.sin(i)*.02)*alpha;ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);ctx.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);ctx.stroke()}ctx.restore();
+}
+function drawParticles(ts=0){
+  const w=canvas.width,h=canvas.height,dpr=Number(canvas.dataset.dpr||1),centerX=w*.63,centerY=h*.50;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#020308';ctx.fillRect(0,0,w,h);
+  const grad=ctx.createRadialGradient(centerX,centerY,0,centerX,centerY,Math.max(w,h)*.72);grad.addColorStop(0,hexToRgba(particleColor,.13));grad.addColorStop(.42,hexToRgba(particleColor,.045));grad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  const ringColor=hexMix(particleColor,'#ffffff',.34);drawEnergyRings(ctx,w,h,ts,ringColor,centerX,centerY,dpr);drawComets(ctx,w,h,ts,ringColor,centerX,centerY,dpr);drawBurst(ctx,w,h,ts,particleColor,centerX,centerY,dpr);
+  const mode=(particleEntry&&particleEntry.catKey)||'characters',speed={characters:.00032,places:.00022,items:.00036,organizations:.00025,concepts:.00039}[mode]||.00029,ay=ts*speed,ax=Math.sin(ts*.00018)*.30,cy=Math.cos(ay),sy=Math.sin(ay),cx=Math.cos(ax),sx=Math.sin(ax),fov=Math.min(w,h)*1.08,projected=[];
+  particles.forEach(p=>{const dx=p.tx-p.x,dy=p.ty-p.y,dz=p.tz-p.z;p.vx=(p.vx+dx*.014)*.85;p.vy=(p.vy+dy*.014)*.85;p.vz=(p.vz+dz*.014)*.85;p.x+=p.vx;p.y+=p.vy;p.z+=p.vz;const pulse=Math.sin(ts*.0016+p.phase)*8,rx=(p.x+p.hot*pulse)*cy-p.z*sy,rz=(p.x+p.hot*pulse)*sy+p.z*cy,ry=p.y*cx-rz*sx,rz2=p.y*sx+rz*cx,scale=fov/(fov+rz2+fov*.30),sx2=centerX+rx*scale,sy2=centerY+ry*scale,depth=Math.max(.18,Math.min(1.34,scale)),twinkle=.78+Math.sin(ts*.0016+p.phase)*.22;if(sx2<-34||sx2>w+34||sy2<-34||sy2>h+34)return;projected.push({x:sx2,y:sy2,z:rz2,r:Math.max(.34,p.r*dpr*depth),a:Math.min(.88,p.a*depth*twinkle),c:p.c||particleColor,hot:p.hot,phase:p.phase})});
+  projected.sort((a,b)=>b.z-a.z);ctx.globalCompositeOperation='lighter';
+  projected.forEach((p,i)=>{if(p.hot){ctx.beginPath();ctx.fillStyle=hexToRgba(hexMix(p.c,'#ffffff',.38),p.a*.16);ctx.arc(p.x,p.y,p.r*6.1,0,Math.PI*2);ctx.fill()}else if(i%4===0){ctx.beginPath();ctx.fillStyle=hexToRgba(p.c,p.a*.11);ctx.arc(p.x,p.y,p.r*3.7,0,Math.PI*2);ctx.fill()}ctx.beginPath();ctx.fillStyle=hexToRgba(p.hot?hexMix(p.c,'#ffffff',.28):p.c,p.a*(p.hot?.92:.76));ctx.arc(p.x,p.y,p.r*(p.hot?1.28:1),0,Math.PI*2);ctx.fill()});
+  ctx.globalCompositeOperation='source-over';requestAnimationFrame(drawParticles);
+}
+function hexToRgba(hex,alpha){const c=String(hex).replace('#',''),n=parseInt(c.length===3?c.split('').map(x=>x+x).join(''):c,16),r=(n>>16)&255,g=(n>>8)&255,b=n&255;return`rgba(${r},${g},${b},${alpha})`}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();initParticles();drawParticles();render();initDraggableCard();
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "novel": "穿成白月光替身后",
+  "scenes": [
+    {
+      "id": 1,
+      "title": "替身真相",
+      "chapter": "第1章",
+      "description": "乔晚穿入修真小说，发现自己竟是与失踪白月光容貌相似的无名弟子。她跪在玉清峰大殿，面前的男人便是宗门掌门——也是她名义上要替代的对象。她内心轰鸣，面上却勾出一个极淡的笑：好，我认命。",
+      "dialogue": "“你就是那个替身？”\n“是。”\n“好，以后你就是了。”",
+      "emotion": "激烈",
+      "characters": ["乔晚", "周衍"],
+      "image_prompt": "Chinese xianxia novel dramatic scene, interior of an ancient mountain temple hall: a young woman in plain white disciple robes kneeling on a stone floor, facing a tall imposing man in elaborate dark blue sect master robes standing before a carved jade throne, tense atmosphere, golden sunlight streaming through lattice windows, dust particles dancing in light beams, traditional Chinese ink wash aesthetic, cinematic composition, dramatic chiaroscuro lighting"
+    },
+    {
+      "id": 2,
+      "title": "契约焚毁",
+      "chapter": "第2章",
+      "description": "周衍当着全派的面烧了替身契约。他目光沉沉地看向乔晚，嗓音平静却不容置疑——\u201c从今天起，你不是替身。你是我的道侣。\u201d满座哗然，乔晚瞪大眼睛，脑中只有一个念头：更麻烦了啊。",
+      "dialogue": "“契约已毁。从今往后，你是我的道侣。”\n“等等，我、我只是个替……”\n“没有替身。只有你。”",
+      "emotion": "温馨",
+      "characters": ["乔晚", "周衍"],
+      "image_prompt": "Chinese xianxia novel romantic scene: a grand hall filled with cultivation sect disciples, a burning parchment scroll floating in midair consumed by blue spiritual flames, a tall man in dark blue robes gazing intensely at a young woman in white, her eyes wide with surprise, warm golden light emanating from the burning contract, petals drifting through air, traditional Chinese painting style with soft atmospheric lighting, cinematic wide shot"
+    },
+    {
+      "id": 3,
+      "title": "三教论法",
+      "chapter": "第67章",
+      "description": "三教论法大会上，乔晚被迫以昆山派道侣身份出席。台下千百道目光注视着她，台上坐着各大宗门的掌权者。她深吸一口气，在所有人怀疑的视线中一步步走向高台。",
+      "dialogue": "“听说她只是昆山随便找的替身……”\n“这样的场合她能行吗？”\n乔晚踏上最后一级台阶，转身——全场静默。",
+      "emotion": "悲壮",
+      "characters": ["乔晚"],
+      "image_prompt": "Chinese xianxia epic scene: a vast open-air cultivation assembly on a mountain peak, thousands of cultivators in various sect robes filling the grounds below, on a raised jade platform a young woman in white robes stands alone, facing rows of powerful elders, dramatic cloud-covered mountain peaks in background, sunlight breaking through clouds, wind billowing her robes, solemn atmosphere, epic cinematic wide shot, traditional Chinese painting style with rich colors"
+    },
+    {
+      "id": 4,
+      "title": "最终抉择",
+      "chapter": "第218章",
+      "description": "周衍与陆辟寒的生死决斗场，剑气纵横。所有人都看向乔晚——她必须选择站在哪一边。她闭了闭眼，然后迈出一步。这一步决定了三个人的命运。",
+      "dialogue": "“选他，还是选我？”\n“我选——我自己。”",
+      "emotion": "悲壮",
+      "characters": ["乔晚", "周衍", "陆辟寒"],
+      "image_prompt": "Chinese xianxia dramatic scene: a devastated mountain peak battlefield, two powerful male cultivators facing each other with drawn swords, crackling spiritual energy and sword aura tearing through the air, a young woman in white robes standing between them, head held high, expression resolute, dramatic storm clouds overhead, lightning and sword glow illuminating the scene, epic cinematic composition, traditional ink wash meets fantasy art style"
+    }
+  ]
+}

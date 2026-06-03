@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>穿成白月光替身后 · 百科全书</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg-color: #06070a;
+    --surface: rgba(13, 17, 23, 0.85);
+    --surface-border: #21262d;
+    --text-primary: #e6e6ea;
+    --text-body: #c0c4cc;
+    --text-muted: #8b949e;
+    --text-dim: #484f58;
+    --accent-char: #58a6ff;
+    --accent-place: #34d399;
+    --accent-item: #f0883e;
+    --accent-org: #b89eff;
+    --accent-concept: #e4bf3f;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg-color);
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--text-body);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .orb { position:fixed; border-radius:50%; pointer-events:none; filter:blur(130px); opacity:0.06; z-index:0; }
+  .orb-1 { width:500px; height:500px; top:-100px; left:-80px; background:radial-gradient(circle, #7c5cff, transparent); }
+  .orb-2 { width:450px; height:450px; bottom:-120px; right:-60px; background:radial-gradient(circle, #58a6ff, transparent); }
+
+  /* 顶栏 */
+  .topbar {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(6,7,10,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--surface-border);
+    padding: 0 28px;
+    display: flex; align-items: center; gap: 16px;
+    height: 56px;
+  }
+  .topbar h1 {
+    font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.01em; font-family: 'Noto Sans SC', sans-serif;
+  }
+  .topbar .meta {
+    font-size: 0.62rem; color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* 搜索栏 */
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+  .search-input {
+    padding: 6px 14px 6px 32px;
+    border-radius: 8px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.75rem; font-family: 'Noto Sans SC', sans-serif;
+    outline: none; width: 200px;
+    transition: border-color 0.15s, width 0.2s;
+  }
+  .search-input:focus { border-color: rgba(124,92,255,0.5); width: 260px; }
+  .search-input::placeholder { color: var(--text-dim); }
+  .search-icon {
+    position: absolute; left: 10px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem; color: var(--text-dim); pointer-events: none;
+  }
+
+  /* 布局 */
+  .layout {
+    padding-top: 80px;
+    display: flex; min-height: calc(100vh - 56px);
+    position: relative; z-index: 1;
+  }
+
+  /* 左侧边栏 */
+  .sidebar {
+    position: fixed; top: 56px; left: 0; width: 180px; bottom: 0;
+    padding: 24px 16px;
+    border-right: 1px solid var(--surface-border);
+    overflow-y: auto;
+    background: rgba(6,7,10,0.7);
+    backdrop-filter: blur(8px);
+  }
+  .sidebar .cat-tab {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; margin-bottom: 4px;
+    border-radius: 8px; cursor: pointer;
+    font-size: 0.78rem; color: var(--text-muted);
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .cat-tab:hover { background: rgba(255,255,255,0.03); color: var(--text-primary); }
+  .cat-tab.active { background: rgba(124,92,255,0.1); border-color: rgba(124,92,255,0.3); color: var(--text-primary); }
+  .cat-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .cat-count {
+    margin-left: auto;
+    font-size: 0.6rem; font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+  }
+  .sidebar-footer {
+    margin-top: 20px; padding-top: 16px;
+    border-top: 1px solid var(--surface-border);
+    font-size: 0.58rem; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.5;
+  }
+
+  /* 右侧内容 */
+  .content {
+    margin-left: 180px;
+    flex: 1; padding: 24px 32px;
+  }
+  .content .section-title {
+    font-size: 1.15rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Noto Serif SC', serif;
+  }
+  .content .section-subtitle {
+    font-size: 0.62rem; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 24px;
+  }
+
+  /* 卡片网格 */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px; padding: 20px;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: rgba(124,92,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .card-name {
+    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+    font-family: 'Noto Serif SC', sans-serif;
+  }
+  .card-type {
+    font-size: 0.6rem; font-weight: 500;
+    padding: 2px 8px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    display: inline-block; margin-top: 3px;
+  }
+  .card-desc {
+    font-size: 0.78rem; color: var(--text-muted);
+    line-height: 1.6; margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-meta {
+    font-size: 0.6rem; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .card-related {
+    margin-top: 10px;
+    display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  .related-tag {
+    padding: 2px 8px; border-radius: 4px;
+    font-size: 0.58rem; font-family: 'Noto Sans SC', sans-serif;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--surface-border);
+    color: var(--text-muted);
+  }
+
+  /* 无结果 */
+  .no-results {
+    text-align: center; padding: 60px 20px;
+    color: var(--text-dim); font-size: 0.85rem;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .sidebar { width: 120px; padding: 16px 8px; }
+    .sidebar .cat-tab { font-size: 0.68rem; padding: 8px 10px; }
+    .content { margin-left: 120px; padding: 16px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .search-input { width: 140px; }
+    .search-input:focus { width: 180px; }
+  }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- 顶栏 -->
+<div class="topbar">
+  <h1>《穿成白月光替身后》百科全书</h1>
+  <span class="meta" id="topMeta">共 18 条目</span>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="searchInput" placeholder="搜索实体..." oninput="filterEntries()">
+  </div>
+</div>
+
+<!-- 布局 -->
+<div class="layout">
+  <!-- 侧边栏 -->
+  <div class="sidebar" id="sidebar"></div>
+
+  <!-- 内容区 -->
+  <div class="content" id="contentArea"></div>
+</div>
+
+<script>
+/* INJECT:CATEGORIES */const CATEGORIES = {
+    "characters": {
+        "name": "角色",
+        "icon": "👤",
+        "color": "#58a6ff",
+        "entries": [
+            {
+                "name": "乔晚",
+                "type": "女主",
+                "desc": "穿进小说成为白月光替身的现代人。一心只想当工具人混吃等死下线，结果剧情全线崩盘，被各路大佬缠上。性格懒散但关键时刻绝不掉链子。",
+                "mentions": 2890,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "周衍",
+                    "陆辟寒",
+                    "穆笑笑",
+                    "马怀真"
+                ]
+            },
+            {
+                "name": "周衍",
+                "type": "男主",
+                "desc": "昆山派掌门，化神期剑仙。原剧情中对白月光穆笑笑痴心一片，如今却对替身乔晚步步紧逼。表面清冷，实则城府极深。",
+                "mentions": 1642,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "穆笑笑",
+                    "陆辟寒"
+                ]
+            },
+            {
+                "name": "陆辟寒",
+                "type": "男配",
+                "desc": "沧澜宗少主，元婴期修士。手握霜寒剑，一身玄色长袍走天下。对乔晚的态度从一开始的不屑到后来的执着，转变令人玩味。",
+                "mentions": 895,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "穆笑笑",
+                "type": "原女主/白月光",
+                "desc": "原著的女主角，周衍的白月光。据传死于意外，但真相远没有那么简单。她与乔晚之间有着远超替身关系的隐秘联系。",
+                "mentions": 723,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "马怀真",
+                "type": "男配",
+                "desc": "昆山派二师兄，金丹期修士。表面懒散不羁，实则心细如发。是乔晚在昆山上为数不多的真正朋友。",
+                "mentions": 412,
+                "firstChapter": "第3章 初入昆山",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            }
+        ]
+    },
+    "places": {
+        "name": "地点",
+        "icon": "📍",
+        "color": "#34d399",
+        "entries": [
+            {
+                "name": "昆山派",
+                "type": "仙门",
+                "desc": "正道第一仙宗，坐落于昆山群峰之巅。十二峰拱卫主峰玉清，弟子数千。灵气浓郁如雾，是修真者梦寐以求的修炼圣地。",
+                "mentions": 567,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "玉清峰",
+                    "玉清宫",
+                    "灵药堂"
+                ]
+            },
+            {
+                "name": "玉清峰",
+                "type": "山峰",
+                "desc": "昆山派主峰，常年云雾缭绕。峰顶有玉清宫，是掌门周衍的居所。灵脉汇聚之地，有护山大阵守护。",
+                "mentions": 234,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "昆山派",
+                    "玉清宫"
+                ]
+            },
+            {
+                "name": "太仓郡",
+                "type": "城镇",
+                "desc": "昆山脚下的凡人城镇，是修士与凡人交汇之地。街道繁华，有各种灵药铺和法器店。也是许多散修的落脚处。",
+                "mentions": 156,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "昆山派"
+                ]
+            }
+        ]
+    },
+    "items": {
+        "name": "物品",
+        "icon": "⚔",
+        "color": "#f0883e",
+        "entries": [
+            {
+                "name": "替身契约",
+                "type": "契约法器",
+                "desc": "乔晚与周衍签订的替身契约，泛着金色灵光。契约上白纸黑字写着替身的权利与义务，以及契约终止的条件。后被周衍亲手烧毁。",
+                "mentions": 87,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "乔晚",
+                    "周衍"
+                ]
+            },
+            {
+                "name": "霜寒剑",
+                "type": "法器",
+                "desc": "沧澜宗少主陆辟寒的佩剑，剑身晶莹如冰，出鞘时带有极寒剑气。品级为天阶上品法器。",
+                "mentions": 145,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "陆辟寒",
+                    "沧澜宗"
+                ]
+            },
+            {
+                "name": "魔骨",
+                "type": "邪物",
+                "desc": "上古魔族陨落后遗留的骨骼碎片，蕴含着庞大的魔气。是各方势力争夺的目标，藏着修真界最深层的秘密。",
+                "mentions": 203,
+                "firstChapter": "第2章 他不对劲",
+                "related": [
+                    "太仓郡",
+                    "魔域"
+                ]
+            }
+        ]
+    },
+    "organizations": {
+        "name": "组织",
+        "icon": "🏛",
+        "color": "#b89eff",
+        "entries": [
+            {
+                "name": "昆山派",
+                "type": "仙门正宗",
+                "desc": "修真界第一仙宗，由十二峰峰主共同管理。掌门周衍为化神期剑仙。门下弟子以剑修为主，兼修丹道符箓。",
+                "mentions": 567,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "周衍",
+                    "乔晚",
+                    "马怀真"
+                ]
+            },
+            {
+                "name": "沧澜宗",
+                "type": "修真世家",
+                "desc": "海外修真大派，少主陆辟寒为元婴期修士。以水系功法见长，与大陆仙门往来密切。",
+                "mentions": 198,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "陆辟寒"
+                ]
+            },
+            {
+                "name": "魔域",
+                "type": "反派势力",
+                "desc": "魔道修士的聚集地，位于修真界边陲。与正道仙门水火不容，但内部也并非铁板一块。",
+                "mentions": 312,
+                "firstChapter": "第5章 魔域来客",
+                "related": [
+                    "魔骨",
+                    "昆山派"
+                ]
+            },
+            {
+                "name": "大光明殿",
+                "type": "佛门圣地",
+                "desc": "修真界的佛门重地，与昆山派暗中往来密切。殿主为渡劫期高僧，精通因果推演之术。",
+                "mentions": 145,
+                "firstChapter": "第15章 佛光普照",
+                "related": [
+                    "昆山派"
+                ]
+            }
+        ]
+    },
+    "concepts": {
+        "name": "概念",
+        "icon": "💡",
+        "color": "#e4bf3f",
+        "entries": [
+            {
+                "name": "替身契约",
+                "type": "设定机制",
+                "desc": "一种修真界特殊的灵魂契约，允许一方暂时替代另一个人在因果线中的位置。契约到期后替身将回到原本的命运轨迹，不留任何痕迹。",
+                "mentions": 120,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚",
+                    "穆笑笑"
+                ]
+            },
+            {
+                "name": "天道",
+                "type": "世界法则",
+                "desc": "修真界的至高法则，掌管气运、因果和剧情走向。当剧情严重偏离时，天道会降下惩罚试图修正。",
+                "mentions": 345,
+                "firstChapter": "第1章 白月光替身",
+                "related": [
+                    "乔晚"
+                ]
+            },
+            {
+                "name": "三教论法",
+                "type": "修真事件",
+                "desc": "道、佛、魔三教每百年举行一次的论法大会。表面是学术讨论，实则是三大势力重新划分势力范围的政治博弈。",
+                "mentions": 67,
+                "firstChapter": "第48章 论法前夕",
+                "related": [
+                    "昆山派",
+                    "大光明殿",
+                    "魔域"
+                ]
+            }
+        ]
+    }
+};/* ENDINJECT */
+/* INJECT:CAT_STATS */const CAT_STATS = {"characters": 5, "places": 3, "items": 3, "organizations": 4, "concepts": 3};/* ENDINJECT */
+
+let activeCategory = 'characters';
+let searchTerm = '';
+
+// 构建侧边栏
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  let html = '';
+  Object.entries(CATEGORIES).forEach(([key, cat]) => {
+    html += `
+      <div class="cat-tab${key === activeCategory ? ' active' : ''}" data-cat="${key}" onclick="switchCategory('${key}')">
+        <span class="cat-dot" style="background:${cat.color}"></span>
+        ${cat.icon} ${cat.name}
+        <span class="cat-count">${cat.entries.length}</span>
+      </div>
+    `;
+  });
+  html += `<div class="sidebar-footer">穿成白月光替身后<br>共 18 实体条目</div>`;
+  sidebar.innerHTML = html;
+}
+
+// 渲染条目
+function renderEntries() {
+  const cat = CATEGORIES[activeCategory];
+  const color = cat.color;
+  let entries = cat.entries;
+
+  // 搜索过滤
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase();
+    entries = entries.filter(e =>
+      e.name.toLowerCase().includes(term) ||
+      e.type.toLowerCase().includes(term) ||
+      e.desc.toLowerCase().includes(term)
+    );
+  }
+
+  const area = document.getElementById('contentArea');
+  if (entries.length === 0) {
+    area.innerHTML = `<div class="no-results">没有找到匹配 "${searchTerm}" 的条目</div>`;
+    return;
+  }
+
+  let cards = '';
+  entries.forEach(e => {
+    const relatedHtml = (e.related || []).map(r =>
+      `<span class="related-tag">${r}</span>`
+    ).join('');
+
+    cards += `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:${color}15;color:${color}">${cat.icon}</div>
+          <div>
+            <div class="card-name">${e.name}</div>
+            <span class="card-type" style="background:${color}12;color:${color}">${e.type}</span>
+          </div>
+        </div>
+        <div class="card-desc">${e.desc}</div>
+        <div class="card-meta">
+          <span>提及 ${e.mentions.toLocaleString()} 次</span>
+          <span>初登场 ${e.firstChapter}</span>
+        </div>
+        ${relatedHtml ? `<div class="card-related">${relatedHtml}</div>` : ''}
+      </div>
+    `;
+  });
+
+  area.innerHTML = `
+    <div class="section-title">${cat.icon} ${cat.name}</div>
+    <div class="section-subtitle">${cat.entries.length} 个条目${searchTerm ? ` · 搜索结果: ${entries.length}` : ''}</div>
+    <div class="card-grid">${cards}</div>
+  `;
+}
+
+function switchCategory(key) {
+  activeCategory = key;
+  // 更新侧边栏高亮
+  document.querySelectorAll('.cat-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.cat === key);
+  });
+  renderEntries();
+}
+
+function filterEntries() {
+  searchTerm = document.getElementById('searchInput').value.trim();
+  // 如果搜索，可以跨类别显示（保持当前类别但也示意）
+  renderEntries();
+}
+
+// 初始化超大类搜索：如果搜索，可以选择在所有类别中搜索
+function globalSearch() {
+  const term = searchTerm.toLowerCase();
+  if (!term) {
+    renderEntries();
+    return;
+  }
+
+  // 跨所有类别搜索
+  const area = document.getElementById('contentArea');
+  let allCards = '';
+  let totalFound = 0;
+
+  Object.entries(CATEGORIES).forEach(([key, cat]) => {
+    const matches = cat.entries.filter(e =>
+      e.name.toLowerCase().includes(term) ||
+      e.type.toLowerCase().includes(term) ||
+      e.desc.toLowerCase().includes(term)
+    );
+    if (matches.length > 0) {
+      totalFound += matches.length;
+      matches.forEach(e => {
+        const relatedHtml = (e.related || []).map(r =>
+          `<span class="related-tag">${r}</span>`
+        ).join('');
+        allCards += `
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon" style="background:${cat.color}15;color:${cat.color}">${cat.icon}</div>
+              <div>
+                <div class="card-name">${e.name}</div>
+                <span class="card-type" style="background:${cat.color}12;color:${cat.color}">${e.type}</span>
+              </div>
+            </div>
+            <div class="card-desc">${e.desc}</div>
+            <div class="card-meta">
+              <span>提及 ${e.mentions.toLocaleString()} 次</span>
+              <span>初登场 ${e.firstChapter}</span>
+            </div>
+            ${relatedHtml ? `<div class="card-related">${relatedHtml}</div>` : ''}
+          </div>
+        `;
+      });
+    }
+  });
+
+  if (totalFound === 0) {
+    area.innerHTML = `<div class="no-results">没有找到匹配 "${searchTerm}" 的条目</div>`;
+    return;
+  }
+
+  area.innerHTML = `
+    <div class="section-title">🔍 搜索结果</div>
+    <div class="section-subtitle">找到 ${totalFound} 个条目匹配 "${searchTerm}"</div>
+    <div class="card-grid">${allCards}</div>
+  `;
+}
+
+// 重写搜索为全局搜索
+const origFilter = filterEntries;
+filterEntries = function() {
+  searchTerm = document.getElementById('searchInput').value.trim();
+  if (searchTerm) {
+    globalSearch();
+  } else {
+    renderEntries();
+  }
+};
+
+// 初始化
+buildSidebar();
+renderEntries();
+</script>
+</body>
+</html>

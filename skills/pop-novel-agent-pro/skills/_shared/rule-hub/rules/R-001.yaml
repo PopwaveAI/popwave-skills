@@ -1,0 +1,25 @@
+rule_id: R-001
+source: qa-review
+status: active
+severity: P0
+problem: 章末以'旁白总结'收束，非事件断裂
+root_cause: QC 层未检查章末钩子类型；跨项目共同问题
+enforce:
+  redline:
+    patterns:
+    - 本章说明了|本章揭示了|这就是为什么|就这样
+    target: chapter_end
+  qc_check:
+    id: QC-R001
+    description: 章末钩子必须为事件断裂/悬念收束/代价提示之一，不允许纯旁白总结
+    method: llm_judgment
+  director_constraint:
+    text: 本章结尾必须在事件断裂或悬念上，不要用'旁白总结'收束。连续 2 章以总结收尾=读者流失风险。
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 3
+tags:
+- 过渡推进
+- 章末钩子
+- 正文写作

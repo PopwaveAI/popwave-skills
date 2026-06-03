@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>穿成白月光替身后 · 角色实体卡片</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg-color: #06070a;
+    --surface: rgba(13, 17, 23, 0.85);
+    --surface-border: #21262d;
+    --text-primary: #e6e6ea;
+    --text-body: #c0c4cc;
+    --text-muted: #8b949e;
+    --text-dim: #484f58;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg-color);
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--text-body);
+    min-height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .orb { position:fixed; border-radius:50%; pointer-events:none; filter:blur(130px); opacity:0.08; }
+  .orb-1 { width:500px; height:500px; top:-100px; right:-80px; background:radial-gradient(circle, #7c5cff, transparent); }
+  .orb-2 { width:450px; height:450px; bottom:-100px; left:-60px; background:radial-gradient(circle, #58a6ff, transparent); }
+  .orb-3 { width:350px; height:350px; top:50%; left:50%; background:radial-gradient(circle, #ff2bd6, transparent); }
+
+  /* 顶栏 */
+  .topbar {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(6,7,10,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--surface-border);
+    padding: 0 28px; height: 56px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .topbar h1 {
+    font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+  .topbar .meta {
+    font-size: 0.62rem; color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .dot-nav {
+    margin-left: auto; display: flex; gap: 8px; align-items: center;
+  }
+  .dot-ind {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--text-dim); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot-ind.active {
+    background: #7c5cff; box-shadow: 0 0 8px rgba(124,92,255,0.5);
+    width: 10px; height: 10px;
+  }
+
+  /* 卡片滑动区 */
+  .cards-stage {
+    position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+    overflow-y: scroll; scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  .cards-stage::-webkit-scrollbar { display: none; }
+
+  /* 单张卡片 = 全屏高度 */
+  .char-card {
+    min-height: calc(100vh - 56px);
+    scroll-snap-align: start;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+  }
+
+  .card-inner {
+    max-width: 700px; width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+    padding: 48px 40px;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+  }
+  /* 顶部色条 */
+  .card-accent-bar {
+    position: absolute; top:0; left:0; right:0; height: 4px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  /* 角色名区域 */
+  .char-name-block {
+    margin-bottom: 24px;
+  }
+  .char-name {
+    font-size: 2.2rem; font-weight: 900; color: var(--text-primary);
+    letter-spacing: -0.03em; line-height: 1.2;
+    font-family: 'Noto Serif SC', serif;
+  }
+  .char-aliases {
+    margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px;
+    align-items: center;
+  }
+  .char-alias {
+    font-size: 0.68rem; color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px; border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--surface-border);
+  }
+
+  /* Badges 行 */
+  .char-badges {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;
+  }
+  .badge {
+    padding: 4px 14px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* 描述 */
+  .char-desc {
+    font-size: 0.92rem; color: var(--text-body);
+    line-height: 1.9; margin-bottom: 32px;
+    font-family: 'Noto Serif SC', serif;
+    padding-left: 16px;
+    border-left: 2px solid rgba(124,92,255,0.3);
+  }
+
+  /* 统计 */
+  .char-stats {
+    display: flex; gap: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--surface-border);
+    border-bottom: 1px solid var(--surface-border);
+    margin-bottom: 20px;
+  }
+  .stat {
+    text-align: center; flex: 1;
+  }
+  .stat .num {
+    display: block; font-size: 1.3rem; font-weight: 800;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat .label {
+    font-size: 0.58rem; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-top: 4px; display: block;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* 导航提示 */
+  .card-nav-hint {
+    text-align: center; font-size: 0.62rem; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .card-nav-hint .nav-arrows button {
+    background: none; border: none; color: var(--text-muted);
+    cursor: pointer; font-size: 1rem; font-family: monospace;
+    padding: 4px 10px; border-radius: 4px;
+    border: 1px solid var(--surface-border);
+    transition: all 0.15s;
+  }
+  .card-nav-hint .nav-arrows button:hover { border-color: rgba(124,92,255,0.5); color: #b89eff; }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .card-inner { padding: 32px 20px; }
+    .char-name { font-size: 1.6rem; }
+    .char-desc { font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- 顶栏 -->
+<div class="topbar">
+  <h1>《穿成白月光替身后》角色图鉴</h1>
+  <span class="meta" id="topMeta">共 5 名角色</span>
+  <div class="dot-nav" id="dotNav"></div>
+</div>
+
+<!-- 卡片滑动区 -->
+<div class="cards-stage" id="cardsStage"></div>
+
+<script>
+/* INJECT:CHARACTERS */const CHARACTERS = [
+    {
+        "name": "乔晚",
+        "aliases": [
+            "晚儿",
+            "阿晚",
+            "白月光替身"
+        ],
+        "faction": "昆山派",
+        "type": "女主",
+        "desc": "穿进小说成为白月光替身的现代人。一心只想当工具人混吃等死下线，结果剧情全线崩盘，被各路大佬缠上。性格懒散但关键时刻绝不掉链子。内心腹黑吐槽，表面乖巧听话。拥有系统辅助，但系统也经常不靠谱。",
+        "mention": 2890,
+        "firstChapter": "第1章 白月光替身",
+        "group": "main",
+        "color": "#7c5cff"
+    },
+    {
+        "name": "周衍",
+        "aliases": [
+            "周掌门",
+            "衍哥"
+        ],
+        "faction": "昆山派",
+        "type": "男主",
+        "desc": "昆山派掌门，化神期剑仙。原剧情中对白月光穆笑笑痴心一片，如今却对替身乔晚步步紧逼。表面清冷如谪仙，实则腹黑深沉，手段凌厉。剑法超绝，修真界战力天花板之一。",
+        "mention": 1642,
+        "firstChapter": "第1章 白月光替身",
+        "group": "main",
+        "color": "#58a6ff"
+    },
+    {
+        "name": "陆辟寒",
+        "aliases": [
+            "陆少主"
+        ],
+        "faction": "沧澜宗",
+        "type": "男配",
+        "desc": "沧澜宗少主，元婴期修士。手握天阶法器霜寒剑，一身玄色长袍行走修真界。性格冷峻寡言，但对认定的人极其执着。与周衍既是对手又隐隐互相忌惮。",
+        "mention": 895,
+        "firstChapter": "第1章 白月光替身",
+        "group": "core",
+        "color": "#f0883e"
+    },
+    {
+        "name": "穆笑笑",
+        "aliases": [
+            "穆师姐",
+            "白月光"
+        ],
+        "faction": "散修",
+        "type": "原女主",
+        "desc": "原著女主角，周衍的白月光。气质清冷出尘，天赋卓绝。据传死于意外，但真相远非如此。与乔晚之间有着超越替身关系的隐秘羁绊。",
+        "mention": 723,
+        "firstChapter": "第1章 白月光替身",
+        "group": "core",
+        "color": "#ff2bd6"
+    },
+    {
+        "name": "马怀真",
+        "aliases": [
+            "马师兄",
+            "怀真"
+        ],
+        "faction": "昆山派",
+        "type": "男配",
+        "desc": "昆山派二师兄，金丹期修士。表面懒散散漫，整天披着外袍到处晃，实则心思细腻，观察力惊人。是乔晚在昆山上为数不多的真诚友人，总是在关键时刻出现帮忙。",
+        "mention": 412,
+        "firstChapter": "第3章 初入昆山",
+        "group": "support",
+        "color": "#34d399"
+    }
+];/* ENDINJECT */
+
+// 构建圆点导航
+function buildDotNav() {
+  const nav = document.getElementById('dotNav');
+  CHARACTERS.forEach((ch, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot-ind';
+    if (i === 0) dot.classList.add('active');
+    dot.title = ch.name;
+    dot.onclick = () => scrollToCard(i);
+    nav.appendChild(dot);
+  });
+}
+
+// 渲染卡片
+function renderCards() {
+  const stage = document.getElementById('cardsStage');
+  let html = '';
+  CHARACTERS.forEach((ch, i) => {
+    const color = ch.color || '#58a6ff';
+    const aliasesHtml = (ch.aliases || []).map(a =>
+      `<span class="char-alias">${a}</span>`
+    ).join('');
+
+    html += `
+      <div class="char-card" data-index="${i}">
+        <div class="card-inner">
+          <div class="card-accent-bar" style="background:${color}"></div>
+          <div class="char-name-block">
+            <div class="char-name">${ch.name}</div>
+            ${aliasesHtml ? `<div class="char-aliases">${aliasesHtml}</div>` : ''}
+          </div>
+          <div class="char-badges">
+            <span class="badge" style="background:${color}12;color:${color};border:1px solid ${color}33">${ch.faction || ''}</span>
+            <span class="badge" style="background:rgba(255,255,255,0.03);color:var(--text-muted);border:1px solid var(--surface-border)">${ch.type || ''}</span>
+          </div>
+          <div class="char-desc">${ch.desc || '暂无简介'}</div>
+          <div class="char-stats">
+            <div class="stat">
+              <span class="num">${(ch.mention || 0).toLocaleString()}</span>
+              <span class="label">提及次数</span>
+            </div>
+            <div class="stat">
+              <span class="num">${ch.firstChapter || '?'}</span>
+              <span class="label">初登场</span>
+            </div>
+            <div class="stat">
+              <span class="num">${(ch.aliases || []).length}</span>
+              <span class="label">别名</span>
+            </div>
+          </div>
+          <div class="card-nav-hint">
+            <span>${i + 1} / ${CHARACTERS.length}</span>
+            <span class="nav-arrows">
+              <button onclick="prevCard(event, ${i})" ${i === 0 ? 'disabled' : ''}>&#8249;</button>
+              <button onclick="nextCard(event, ${i})" ${i >= CHARACTERS.length - 1 ? 'disabled' : ''}>&#8250;</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  stage.innerHTML = html;
+}
+
+function scrollToCard(idx) {
+  const cards = document.querySelectorAll('.char-card');
+  if (cards[idx]) {
+    cards[idx].scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function nextCard(e, idx) {
+  e.stopPropagation();
+  if (idx < CHARACTERS.length - 1) scrollToCard(idx + 1);
+}
+function prevCard(e, idx) {
+  e.stopPropagation();
+  if (idx > 0) scrollToCard(idx - 1);
+}
+
+// 滚动监听：更新圆点
+function updateActiveDot() {
+  const cards = document.querySelectorAll('.char-card');
+  const viewCenter = window.innerHeight / 2;
+  let closest = 0;
+  let minDist = Infinity;
+
+  cards.forEach((card, i) => {
+    const rect = card.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const dist = Math.abs(center - viewCenter);
+    if (dist < minDist) { minDist = dist; closest = i; }
+  });
+
+  document.querySelectorAll('.dot-ind').forEach((dot, i) => {
+    dot.classList.toggle('active', i === closest);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildDotNav();
+  renderCards();
+});
+
+const stageObserver = document.getElementById('cardsStage') || window;
+document.addEventListener('scroll', updateActiveDot, { passive: true });
+
+// 键盘导航
+document.addEventListener('keydown', function(e) {
+  const active = document.querySelector('.dot-ind.active');
+  const dots = Array.from(document.querySelectorAll('.dot-ind'));
+  const idx = dots.indexOf(active);
+  if (e.key === 'ArrowDown' && idx < CHARACTERS.length - 1) scrollToCard(idx + 1);
+  if (e.key === 'ArrowUp' && idx > 0) scrollToCard(idx - 1);
+});
+
+// 用 wheel 实现平滑拦截(可选)
+document.querySelector('.cards-stage').addEventListener('wheel', function(e) {
+  // 让原生滚动处理，不做额外拦截
+}, { passive: true });
+</script>
+</body>
+</html>

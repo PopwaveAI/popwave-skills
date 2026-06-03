@@ -1,0 +1,157 @@
+# rule-schema.yaml — 规则中枢 Schema 定义
+#
+# 职责：定义经验教训从「记录」到「自动执行」的结构化契约。
+# 所有规则只有一个源头（rule-hub），hub.py 负责将规则喷射到各执行层。
+#
+# 原则：
+#   - SSOT: 规则只写在这里。REDLINE / QC / Director 只是执行方式
+#   - 渐进升级: 1次问题→记录 → 2次同类→通知 → 3次→自动升级为规则
+#   - 生命周期: active → verified → superseded/expired
+
+version: v1.0
+last_updated: "2026-06-02"
+
+# ─── 规则 Schema ───────────────────────────────────────
+
+rule_schema:
+  # 必填字段
+  required:
+    - rule_id
+    - source
+    - status
+    - severity
+    - problem
+  
+  # 字段定义
+  fields:
+    rule_id:
+      type: string
+      pattern: "^R-\\d{3}$"
+      description: "规则唯一编号，自动分配"
+    
+    source:
+      type: string
+      enum: ["experience-log", "qa-review", "user-feedback", "retrospective", "manual"]
+      description: "规则的发现来源"
+    
+    status:
+      type: string
+      enum: ["active", "verified", "superseded", "expired"]
+      description: "规则当前生命周期状态"
+    
+    severity:
+      type: string
+      enum: ["P0", "P1", "P2", "P3"]
+      description: "严重级别：P0=致死/P1=重要/P2=品质/P3=管线"
+    
+    problem:
+      type: string
+      max_length: 200
+      description: "问题的一句话描述"
+    
+    root_cause:
+      type: string
+      max_length: 300
+      description: "根因分析（可选）"
+    
+    enforce:
+      type: object
+      description: "执行方案——至少命中一种方式"
+      properties:
+        redline:
+          type: object
+          description: "A. REDLINE 正则扫描规则"
+          properties:
+            patterns:
+              type: array
+              items: { type: string }
+              description: "正则表达式列表"
+            target:
+              type: string
+              enum: ["full_text", "chapter_end", "chapter_begin", "dialogue"]
+              description: "扫描范围"
+        
+        qc_check:
+          type: object
+          description: "B. QC 检查项"
+          properties:
+            id:
+              type: string
+              pattern: "^QC-R\\d{3}$"
+            description:
+              type: string
+              max_length: 200
+            method:
+              type: string
+              enum: ["regex", "llm_judgment", "word_count", "entity_count", "dialogue_ratio"]
+        
+        director_constraint:
+          type: object
+          description: "C. Director 预注入约束"
+          properties:
+            text:
+              type: string
+              max_length: 500
+              description: "注入到 Director Prompt 的约束文本"
+            trigger_scene_types:
+              type: array
+              items: { type: string }
+              description: "仅在匹配的场景类型时注入，空=始终注入"
+    
+    lifecycle:
+      type: object
+      description: "生命周期追踪"
+      properties:
+        discovered_at: { type: string, pattern: "^\\d{4}-\\d{2}-\\d{2}$" }
+        elevated_at: { type: string, pattern: "^\\d{4}-\\d{2}-\\d{2}$" }
+        verified_at: { type: string, pattern: "^\\d{4}-\\d{2}-\\d{2}$" }
+        occurrences: { type: integer, minimum: 1 }
+        verified_chapters:
+          type: array
+          items: { type: string }
+          description: "已验证通过的章节列表"
+    
+    tags:
+      type: array
+      items: { type: string }
+      description: "标签，用于按场景类型/题材等过滤"
+
+
+# ─── 规则升级阈值 ───────────────────────────────────
+
+elevation_thresholds:
+  same_scene_type_count: 2    # 同一 scene_type 出现 ≥2 次 → 通知
+  total_occurrences: 3         # 累计出现 ≥3 次 → 自动升级 active
+  cross_project: true          # 跨项目共同问题 → 直接 active
+  verified_after_chapters: 5   # 连续 5 章无复发 → 标记 verified
+  max_unverified_gate: 10      # 超过 10 条未 verified 规则 → pre_flight 警告
+
+
+# ─── 初始标签分类 ───────────────────────────────────
+
+tag_categories:
+  scene_type:
+    - "战斗对抗"
+    - "对话博弈"
+    - "悬疑揭示"
+    - "压抑蓄力"
+    - "爽点释放"
+    - "轻松调剂"
+    - "过渡推进"
+  
+  issue_domain:
+    - "章末钩子"
+    - "否定句式"
+    - "信息密度"
+    - "对话占比"
+    - "角色人设"
+    - "战斗描写"
+    - "节奏控制"
+    - "世界观呈现"
+  
+  pipeline_stage:
+    - "开书设定"
+    - "幕纲设计"
+    - "正文写作"
+    - "QC质检"
+    - "发布/HTML"

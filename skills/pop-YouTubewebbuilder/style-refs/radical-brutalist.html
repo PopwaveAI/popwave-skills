@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONTENT CREATOR — BRUTALIST</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:auto}
+body{background:#000;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.2;-webkit-font-smoothing:none;-moz-osx-font-smoothing:unset;font-smooth:never}
+a,a:visited,a:hover,a:active{color:#fff;text-decoration:none}
+img,svg,video,canvas,iframe{display:none!important}
+/* ─── HEADER ─── */
+header{background:#000;color:#fff;width:100%;border-bottom:4px solid #fff}
+header .inner{display:flex;justify-content:space-between;align-items:baseline;font-size:48px;font-weight:700;padding:16px 8px;border:0}
+header .inner span.tagline{font-size:12px;font-weight:400;color:#fff}
+/* ─── SEPARATORS ─── */
+.sep{width:100%;line-height:1;font-size:16px;color:#ff0000;letter-spacing:0;border:0;padding:4px 0;white-space:nowrap;overflow:hidden}
+.sep-thin{width:100%;line-height:1;font-size:12px;color:#fff;border:0;padding:2px 0;white-space:nowrap;overflow:hidden}
+/* ─── SECTIONS ─── */
+section{width:100%;border:0}
+section.black{background:#000;color:#fff}
+section.white{background:#fff;color:#000}
+/* ─── HERO ─── */
+.hero{padding:24px 8px 16px 8px;border-bottom:4px solid #fff}
+.hero h1{font-size:96px;font-weight:900;line-height:1;letter-spacing:-3px;text-transform:uppercase;color:#fff;word-break:break-word;margin:0;border:0}
+.hero .sub{font-size:12px;margin-top:16px;color:#fff;border:0}
+.hero .sub strong{color:#ff0000;font-weight:700}
+/* ─── STATS ─── */
+.stats-row{display:flex;flex-wrap:wrap;border-bottom:4px solid #fff}
+.stat-box{background:#fff;color:#000;border:4px solid #000;flex:1 1 25%;min-width:120px;text-align:center;padding:0}
+.stat-box .num{font-size:64px;font-weight:900;line-height:1;color:#000;border:0;padding:8px 0 0 0}
+.stat-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#000;border:0;padding:0 0 8px 0}
+/* ─── ABOUT ─── */
+.about{padding:24px 8px;border-bottom:4px solid #fff}
+.about .block{text-align:right;max-width:640px;margin-left:auto;border:0}
+.about .block p{margin:0;text-indent:0;border:0;font-size:12px;line-height:1.2}
+.about .block p+p{margin-top:0}
+/* ─── VIDEOS GRID ─── */
+.videos-grid{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:4px solid #fff}
+.vid-card{background:#000;color:#fff;border:4px solid #fff;padding:0;min-height:120px;display:flex;flex-direction:column;justify-content:flex-start}
+.vid-card .vid-frame{font-size:10px;color:#ff0000;line-height:1;padding:6px 6px 2px 6px;border:0}
+.vid-card .vid-title{font-size:14px;font-weight:700;color:#fff;padding:2px 6px 6px 6px;border:0;line-height:1.2}
+.vid-card .vid-meta{font-size:10px;color:#fff;padding:0 6px 6px 6px;border:0}
+/* ─── FRAME BOX ─── */
+.frame-box{border:4px solid #fff;padding:16px 8px;margin:0}
+.frame-box .frame-content{font-size:12px;color:#fff;line-height:1.4;border:0}
+/* ─── TEXT BLOCK ─── */
+.text-block{padding:16px 8px;border:0}
+.text-block p{font-size:12px;line-height:1.2;margin:0;border:0;color:#fff}
+/* ─── TWO COLUMN ─── */
+.two-col{display:flex;flex-wrap:wrap;border-bottom:4px solid #fff}
+.two-col .col{flex:1 1 50%;border:0;padding:16px 8px}
+.two-col .col-left{border-right:4px solid #fff}
+.two-col .col p{margin:0;border:0;font-size:12px;line-height:1.2}
+/* ─── TIMELINE ─── */
+.timeline{padding:16px 8px;border-bottom:4px solid #fff}
+.timeline .entry{display:flex;border:0}
+.timeline .entry+.entry{border-top:1px solid #fff}
+.timeline .year{flex:0 0 80px;font-size:24px;font-weight:900;color:#ff0000;border:0;padding:8px 0}
+.timeline .desc{flex:1;border:0;padding:12px 0 8px 8px;font-size:12px;color:#fff}
+/* ─── TABLE ─── */
+.data-table{width:100%;border-collapse:collapse;border:0}
+.data-table td{border:1px solid #fff;padding:8px;font-size:12px;color:#fff}
+.data-table td:first-child{font-weight:700;color:#ff0000}
+/* ─── NUMBERS BIG ─── */
+.num-big{font-size:72px;font-weight:900;color:#fff;display:block;line-height:1}
+.num-label{font-size:12px;color:#ff0000;display:block}
+/* ─── WHITE SECTION ─── */
+section.white-bg{background:#fff;color:#000;border-bottom:4px solid #000}
+section.white-bg p{color:#000}
+/* ─── BLACK STRIP ─── */
+.black-strip{background:#000;color:#fff;padding:8px;border:4px solid #fff;text-align:center;font-size:10px;margin:0}
+/* ─── FOOTER ─── */
+footer{background:#000;color:#fff;width:100%;padding:12px 8px;font-size:10px;border:0}
+footer .footer-inner{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;border:0}
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+.hero h1{font-size:48px;letter-spacing:-1px}
+.stat-box{flex:1 1 45%;min-width:100px}
+.stat-box .num{font-size:48px}
+.videos-grid{grid-template-columns:1fr 1fr}
+.two-col .col{flex:1 1 100%}
+.two-col .col-left{border-right:0;border-bottom:4px solid #fff}
+.timeline .year{font-size:18px;flex:0 0 60px}
+}
+@media(max-width:480px){
+.hero h1{font-size:36px}
+.stat-box{flex:1 1 100%}
+.videos-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ HEADER ════════════════════════════════════════ -->
+<header>
+<div class="inner">
+<span>POP</span>
+<span class="tagline">┌───┤ BRUTALIST ├───┐</span>
+</div>
+</header>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ HERO ════════════════════════════════════════ -->
+<section class="hero">
+<div class="sep-thin">══════════════════════════════════════════════════════════════════════════════════════</div>
+<h1>CONTENT<br>CREATOR</h1>
+<div class="sep-thin">══════════════════════════════════════════════════════════════════════════════════════</div>
+<div class="sub">
+┌─ <strong>RAW</strong> ── <strong>UNFILTERED</strong> ── <strong>NO SCRIPT</strong> ── <strong>NO EDIT</strong> ─┐<br>
+│&nbsp;EVERYTHING. NOTHING. ALL AT ONCE. NONE OF IT MATTERS.&nbsp;│<br>
+└──────────────────────────────────────────────────────────┘
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ STATS ════════════════════════════════════════ -->
+<section class="stats-row">
+<div class="stat-box">
+<div class="num">2.4M</div>
+<div class="lbl">SUBSCRIBERS</div>
+</div>
+<div class="stat-box">
+<div class="num">847</div>
+<div class="lbl">VIDEOS</div>
+</div>
+<div class="stat-box">
+<div class="num">1.2B</div>
+<div class="lbl">VIEWS</div>
+</div>
+<div class="stat-box">
+<div class="num">9YR</div>
+<div class="lbl">ACTIVE</div>
+</div>
+<div class="stat-box">
+<div class="num">0</div>
+<div class="lbl">SPONSORS</div>
+</div>
+<div class="stat-box">
+<div class="num">47</div>
+<div class="lbl">COUNTRIES</div>
+</div>
+<div class="stat-box">
+<div class="num">14</div>
+<div class="lbl">LANGUAGES</div>
+</div>
+<div class="stat-box">
+<div class="num">1</div>
+<div class="lbl">CHAIR</div>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ ABOUT ─── RIGHT ALIGNED ─── ═══════════════════ -->
+<section class="about">
+<div class="block">
+<p>I MAKE VIDEOS. YOU WATCH THEM. THAT IS THE CONTRACT.</p>
+<p>NO INTRODUCTION. NO BRAND DEAL. NO SPONSOR SEGMENT.</p>
+<p>JUST A PERSON AND A CAMERA AND SOMETHING TO SAY.</p>
+<p>I STARTED IN 2017 WITH A LAPTOP AND A DREAM AND A BROKEN MICROPHONE.</p>
+<p>NINE YEARS LATER THE MICROPHONE IS BETTER BUT THE MESSAGE IS THE SAME.</p>
+<p>EVERY VIDEO IS A MISTAKE. EVERY VIDEO IS NECESSARY.</p>
+<p>I DO NOT BELIEVE IN ALGORITHMS. I BELIEVE IN MAKING THINGS.</p>
+<p>IF YOU WANT POLISH GO WATCH A MOVIE. IF YOU WANT TRUTH STAY HERE.</p>
+<p>THERE IS NO CALL TO ACTION. THERE IS ONLY THE NEXT VIDEO.</p>
+<p>THE ALGORITHM DOES NOT LOVE YOU. THE ALGORITHM DOES NOT HATE YOU.</p>
+<p>THE ALGORITHM IS A MACHINE THAT MISTAKES ATTENTION FOR MEANING.</p>
+<p>I REFUSE TO BE OPTIMIZED. I REFUSE TO BE A/B TESTED.</p>
+<p>MY THUMBNAIL IS A TITLE. MY TITLE IS THE TRUTH. THAT IS ALL.</p>
+<p>I DO NOT HAVE A CONTENT STRATEGY. I HAVE A CONSCIENCE.</p>
+<p>THEY ARE NOT THE SAME THING AND THEY NEVER WILL BE.</p>
+<p>EVERY TIME I UPLOAD I LOSE A FEW SUBSCRIBERS. GOOD.</p>
+<p>I AM NOT HERE TO GROW. I AM HERE TO MAKE.</p>
+<p>┌──────────────────────────────────────────────────────────────────┐</p>
+<p>│&nbsp;&nbsp;THE INTERNET IS A DUMPSTER FIRE. I AM JUST HOLDING A MATCH.&nbsp;&nbsp;│</p>
+<p>└──────────────────────────────────────────────────────────────────┘</p>
+<p>WATCH. CLICK. LEAVE. THAT IS THE CYCLE.</p>
+<p>I DO NOT ASK YOU TO STAY. I DO NOT ASK YOU TO SUBSCRIBE.</p>
+<p>I ASK YOU TO PAY ATTENTION. FOR FOURTEEN MINUTES. TO SOMETHING REAL.</p>
+<p>IF THAT IS TOO MUCH TO ASK THEN CLOSE THE TAB.</p>
+<p>I WILL BE HERE WHEN YOU COME BACK. OR I WON'T.</p>
+<p>EITHER WAY THE NEXT VIDEO GOES UP ON THURSDAY.</p>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ VIDEOS GRID ════════════════════════════════════ -->
+<section class="videos-grid">
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">WHY NOTHING MATTERS</div>
+<div class="vid-meta">42M views &middot; 3yr ago &middot; 14:29</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">THE ALGORITHM IS LYING</div>
+<div class="vid-meta">31M views &middot; 2yr ago &middot; 22:11</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">I BUILT A PC FROM TRASH</div>
+<div class="vid-meta">18M views &middot; 1yr ago &middot; 31:07</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">DELETE YOUR SOCIAL MEDIA</div>
+<div class="vid-meta">67M views &middot; 4yr ago &middot; 9:43</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">INTERVIEW WITH A LIAR</div>
+<div class="vid-meta">24M views &middot; 6mo ago &middot; 48:12</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+<div class="vid-card">
+<div class="vid-frame">┌──────────────────────────┐</div>
+<div class="vid-title">THE LAST VERTICAL VIDEO</div>
+<div class="vid-meta">53M views &middot; 8mo ago &middot; 1:02</div>
+<div class="vid-frame">└──────────────────────────┘</div>
+</div>
+
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ MANIFESTO ════════════════════════════════════════ -->
+<section class="frame-box">
+<div class="frame-content">
+┌────────────────────────────────────────────────────────────────────────────────────┐<br>
+│&nbsp;BRUTALISM IS NOT A STYLE. IT IS A REFUSAL TO PRETEND.                              │<br>
+│&nbsp;NO CURVES. NO COMFORT. NO CONCESSIONS. NO COMPROMISE.                             │<br>
+│&nbsp;THE INTERNET HAS BECOME A CATALOGUE OF LIES WRAPPED IN ROUNDED CORNERS AND SOFT   │<br>
+│&nbsp;GRADIENTS. EVERY PIXEL IS POLISHED TO OBLIVION. EVERY WORD IS OPTIMIZED TO DEATH.│<br>
+│&nbsp;THIS SITE HAS EDGES. THIS SITE HAS TEETH. THIS SITE BITES.                       │<br>
+│&nbsp;EVERY PIXEL IS AN ACCUSATION. EVERY LINE BREAK IS A VERDICT.                     │<br>
+│&nbsp;YOU ARE NOT HERE TO ENJOY YOURSELF. YOU ARE HERE TO READ.                        │<br>
+│&nbsp;COMFORT IS THE ENEMY OF TRUTH. BEAUTY IS A DISTRACTION.                          │<br>
+│&nbsp;IF YOU WANT BEAUTIFUL GO SOMEWHERE ELSE. IF YOU WANT HONEST STAY.                │<br>
+│&nbsp;THIS IS NOT A PORTFOLIO. THIS IS A WARNING.                                      │<br>
+│&nbsp;THE WEB WAS SUPPOSED TO BE WILD. WE TAMED IT WITH FRAMEWORKS AND DESIGN SYSTEMS.  │<br>
+│&nbsp;I AM SETTING IT ON FIRE. ONE PIXEL AT A TIME.                                    │<br>
+└────────────────────────────────────────────────────────────────────────────────────┘<br>
+<br>
+<span style="color:#ff0000;font-weight:700;font-size:14px;display:block;text-align:center;">
+&gt;&gt;&gt; NO RETREAT. NO REFINEMENT. NO REGRET. &lt;&lt;&lt;
+</span>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ QUOTE ════════════════════════════════════════ -->
+<section class="text-block" style="text-align:center;">
+<p style="font-size:14px;color:#fff;">"THE ROLE OF THE ARTIST IS TO MAKE THE AUDIENCE UNCOMFORTABLE."</p>
+<p style="font-size:10px;color:#ff0000;">— ATTRIBUTED TO EVERYONE WHO EVER MEANT IT</p>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ TWO COLUMN ─── LEFT/RIGHT ═════════════════════ -->
+<section class="two-col">
+<div class="col col-left">
+<p style="font-size:24px;font-weight:900;color:#ff0000;">▌PHILOSOPHY</p>
+<p>&nbsp;</p>
+<p>I DO NOT BELIEVE IN BRAND VOICE.</p>
+<p>I BELIEVE IN HAVING SOMETHING TO SAY.</p>
+<p>&nbsp;</p>
+<p>I DO NOT BELIEVE IN CONTENT STRATEGY.</p>
+<p>I BELIEVE IN TELLING THE TRUTH.</p>
+<p>&nbsp;</p>
+<p>I DO NOT BELIEVE IN GROWTH HACKING.</p>
+<p>I BELIEVE IN MAKING BETTER VIDEOS.</p>
+<p>&nbsp;</p>
+<p>THESE ARE NOT CONTROVERSIAL OPINIONS.</p>
+<p>THEY ARE FORGOTTEN COMMON SENSE.</p>
+<p>&nbsp;</p>
+<p>THE INTERNET REMEMBERS EVERYTHING.</p>
+<p>THE INTERNET FORGIVES NOTHING.</p>
+<p>ACT ACCORDINGLY.</p>
+</div>
+<div class="col">
+<p style="font-size:24px;font-weight:900;color:#ff0000;">▌BELIEFS</p>
+<p>&nbsp;</p>
+<p>1. MAKE THINGS. TALK ABOUT THEM. REPEAT.</p>
+<p>2. DO NOT LIE. IT IS EASIER TO REMEMBER THE TRUTH.</p>
+<p>3. DO NOT CHASE TRENDS. TRENDS ARE TOMBS.</p>
+<p>4. DO NOT READ THE COMMENTS. NOT EVEN THE GOOD ONES.</p>
+<p>5. UPLOAD ON SCHEDULE. YOUR SCHEDULE. NOT THEIRS.</p>
+<p>6. THE FIRST DRAFT IS THE BEST DRAFT. TRUST YOUR INSTINCT.</p>
+<p>7. SEVEN SECONDS IS TOO LONG FOR AN INTRO. CUT IT.</p>
+<p>8. YOUR AUDIENCE IS SMARTER THAN YOU THINK. RESPECT THAT.</p>
+<p>9. THE ALGORITHM IS NOT YOUR BOSS. YOU ARE.</p>
+<p>10. IF YOU WOULD NOT SAY IT TO A FRIEND, DO NOT SAY IT ONLINE.</p>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ TIMELINE ════════════════════════════════════════ -->
+<section style="border-bottom:4px solid #fff;">
+<div class="black-strip" style="border-left:0;border-right:0;border-top:0;text-align:left;font-size:14px;font-weight:700;">
+┌── HISTORY OF FAILURE ──┐
+</div>
+<div class="timeline">
+<div class="entry">
+<div class="year">2017</div>
+<div class="desc">FIRST VIDEO UPLOADED. LAPTOP WAS A GAMING LAPTOP FROM 2014. MICROPHONE WAS THE BUILT-IN ONE. AUDIO SOUNDED LIKE A TIN CAN IN A HURRICANE. 47 VIEWS. 12 LIKES. 3 COMMENTS. ALL FROM FAMILY. TOOK IT AS A WIN.</div>
+</div>
+<div class="entry">
+<div class="year">2018</div>
+<div class="desc">BOUGHT A REAL MICROPHONE. DISCOVERED AUDIO IS MORE IMPORTANT THAN VIDEO. MADE 47 VIDEOS. 3 OF THEM WERE GOOD. DELETED THE REST. SUBSCRIBERS WENT FROM 200 TO 1,800. SYSTEM IS FLAWED. WORKING WITHIN IT ANYWAY.</div>
+</div>
+<div class="entry">
+<div class="year">2019</div>
+<div class="desc">FIRST VIDEO WENT PAST 100K VIEWS. DID NOT SLEEP FOR 3 DAYS. MADE A VIDEO ABOUT WHY SLEEP IS OVERRATED. IT FLOPPED. THE UNIVERSE HAS A SENSE OF HUMOR. LEARNED TO LAUGH. KEPT MAKING.</div>
+</div>
+<div class="entry">
+<div class="year">2020</div>
+<div class="desc">EVERYONE WAS HOME. EVERYONE WAS WATCHING. MADE A VIDEO ABOUT BEING ALONE. 2 MILLION VIEWS. THE ALGORITHM FOUND ME. I DID NOT FIND IT. 100K SUBSCRIBERS IN A WEEK. DID NOT CHANGE. THE MICROPHONE DID NOT CHANGE. THE MESSAGE DID NOT CHANGE. THE AUDIENCE CHANGED.</div>
+</div>
+<div class="entry">
+<div class="year">2021</div>
+<div class="desc">BURNED OUT. DID NOT UPLOAD FOR 6 MONTHS. LOST 40K SUBSCRIBERS. GAINED MY SANITY BACK. CAME BACK WITH A VIDEO ABOUT WHY I LEFT. IT GOT 3 MILLION VIEWS. THE SYSTEM MAKES NO SENSE. GAVE UP TRYING TO UNDERSTAND IT.</div>
+</div>
+<div class="entry">
+<div class="year">2022</div>
+<div class="desc">HIT 1 MILLION SUBSCRIBERS. FELT NOTHING. MADE A VIDEO ABOUT FEELING NOTHING. IT WAS MY BEST WORK. HALF THE PEOPLE WHO WATCHED IT UNSUBSCRIBED. THE OTHER HALF BECAME PATRONS. QUALITY OVER QUANTITY IS NOT A STRATEGY. IT IS A SURVIVAL MECHANISM.</div>
+</div>
+<div class="entry">
+<div class="year">2023</div>
+<div class="desc">SOLD EVERYTHING. BOUGHT A VAN. MADE VIDEOS FROM THE ROAD. 14 COUNTRIES. 47 CITIES. 1 BROKEN LENS. 0 REGRETS. THE BEST CONTENT COMES FROM LIVING. NOT FROM STUDYING ANALYTICS.</div>
+</div>
+<div class="entry">
+<div class="year">2024</div>
+<div class="desc">STOPPED MAKING TUTORIALS. STARTED MAKING STATEMENTS. MY CHANNEL BECAME A PLACE FOR IDEAS INSTEAD OF INSTRUCTIONS. RETENTION DROPPED. SATISFACTION INCREASED. THAT IS THE TRADE AND I WOULD MAKE IT AGAIN.</div>
+</div>
+<div class="entry">
+<div class="year">2025</div>
+<div class="desc">2.4 MILLION SUBSCRIBERS. 847 VIDEOS. 1.2 BILLION VIEWS. 0 CORPORATE PARTNERSHIPS. 0 BRAND DEALS. 0 REGRET. THE SYSTEM WANTS YOU TO GROW. I WANT TO MAKE. THESE THINGS ARE INCOMPATIBLE. I CHOSE MAKING.</div>
+</div>
+<div class="entry">
+<div class="year">2026</div>
+<div class="desc">STILL HERE. STILL MAKING. STILL BROKE. STILL FREE. THE MICROPHONE IS THE SAME. THE MESSAGE IS THE SAME. THE ALGORITHM HAS CHANGED 47 TIMES. I HAVE CHANGED ONCE. I DECIDED TO STOP CARING. BEST DECISION I EVER MADE.</div>
+</div>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ EQUIPMENT ─── FRAMED ─── ══════════════════════ -->
+<section class="frame-box">
+<div class="frame-content">
+┌─────────────────────────────────────────────────────────┐<br>
+│&nbsp;TOOLS OF THE TRADE (ALL OF THEM BROKEN)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+├─────────────────────────────────────────────────────────┤<br>
+│&nbsp;CAMERA:&nbsp;&nbsp;&nbsp;SONY A7S III (BROKEN LCD)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;LENS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24MM F/1.4 (TAPED FOCUS RING)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;MIC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SM7B (RUN OVER BY CAR ONCE)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;EDITOR:&nbsp;&nbsp;&nbsp;DAVINCI RESOLVE (CRACKED)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;LIGHT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 WINDOW FACING NORTH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;CHAIR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OFFICE DEPOT SPECIAL ($39.99)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;DESK:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 WOOD PLANKS + 2 FILING CABINETS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;MONITOR:&nbsp;&nbsp;&nbsp;DELL 24" (DEAD PIXEL IN TOP LEFT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;KEYBOARD:&nbsp;HP MEMBRANE (STOLEN FROM OFFICE)&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;MOUSE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOGITECH (LEFT CLICK STICKS)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+│&nbsp;ATTITUDE:&nbsp;IRREPARABLY DAMAGED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+└─────────────────────────────────────────────────────────┘
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ DATA TABLE ════════════════════════════════════ -->
+<section class="white-bg" style="padding:0;">
+<div class="black-strip" style="border-left:0;border-right:0;border-top:0;text-align:left;font-size:14px;font-weight:700;color:#ff0000;">
+┌── COLD HARD NUMBERS ──┐
+</div>
+<table class="data-table">
+<tr><td>PLATFORM</td><td>SUBSCRIBERS</td><td>VIDEOS</td><td>VIEWS</td><td>ENGAGEMENT</td></tr>
+<tr><td>YOUTUBE</td><td>2,400,000</td><td>847</td><td>1,200,000,000</td><td>4.7%</td></tr>
+<tr><td> TWITCH</td><td>180,000</td><td>1,200 STREAMS</td><td>52,000,000</td><td>6.1%</td></tr>
+<tr><td> SPOTIFY</td><td>94,000</td><td>47 EPISODES</td><td>8,400,000</td><td>3.2%</td></tr>
+<tr><td>RUMBLE</td><td>22,000</td><td>184</td><td>4,100,000</td><td>8.9%</td></tr>
+<tr><td>ODYSEE</td><td>11,000</td><td>312</td><td>2,300,000</td><td>12.4%</td></tr>
+<tr><td>NEBULA</td><td>N/A</td><td>34</td><td>N/A</td><td>N/A</td></tr>
+</table>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ BIG NUMBERS ════════════════════════════════════ -->
+<section class="frame-box" style="text-align:center;">
+<div class="frame-content">
+<span class="num-big">≈ 1,847</span>
+<span class="num-label">TOTAL VIDEOS PRODUCED (INCLUDING DELETED)</span>
+<br><br>
+<span class="num-big">≈ 2,100</span>
+<span class="num-label">TOTAL HOURS OF RAW FOOTAGE</span>
+<br><br>
+<span class="num-big">≈ 340</span>
+<span class="num-label">TOTAL HOURS OF PUBLISHED CONTENT</span>
+<br><br>
+<span class="num-big">0</span>
+<span class="num-label">BRAND DEALS ACCEPTED</span>
+<br><br>
+<span class="num-big">12</span>
+<span class="num-label">TIMES I HAVE BEEN DEMONETIZED</span>
+<br><br>
+<span class="num-big">∞</span>
+<span class="num-label">TIMES I HAVE BEEN TOLD TO "FIX MY THUMBNAILS"</span>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ TESTIMONIALS ─── ALL NEGATIVE ─── ════════════════ -->
+<section class="white-bg" style="padding:16px 8px;">
+<p style="font-size:24px;font-weight:900;color:#000;margin-bottom:8px;">▌WHAT PEOPLE SAY</p>
+<div style="border:2px solid #000;padding:8px;margin-bottom:8px;">
+<p style="font-size:10px;color:#000;">"THIS GUY IS UNWATCHABLE. HIS THUMBNAILS ARE TERRIBLE AND HIS VOICE IS ANNOYING."</p>
+<p style="font-size:8px;color:#ff0000;text-align:right;">— TOP COMMENT ON MY MOST POPULAR VIDEO</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:8px;">
+<p style="font-size:10px;color:#000;">"I WATCHED FOR 5 MINUTES AND LEARNED NOTHING. WHAT IS THE POINT OF THIS CHANNEL?"</p>
+<p style="font-size:8px;color:#ff0000;text-align:right;">— SOMEONE WHO MISSED THE ENTIRE POINT</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:8px;">
+<p style="font-size:10px;color:#000;">"HE USED TO BE GOOD. NOW HE JUST COMPLAINS ABOUT THE PLATFORM."</p>
+<p style="font-size:8px;color:#ff0000;text-align:right;">— CORRECT. AND I WILL CONTINUE.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:8px;">
+<p style="font-size:10px;color:#000;">"THE AUDIO QUALITY IS TERRIBLE. FIX YOUR MIC SETUP."</p>
+<p style="font-size:8px;color:#ff0000;text-align:right;">— THE MICROPHONE WAS RUN OVER BY A CAR. IT HAS CHARACTER.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;">
+<p style="font-size:10px;color:#000;">"I UNSUBSCRIBED AFTER THE VAN VIDEO. HE CHANGED."</p>
+<p style="font-size:8px;color:#ff0000;text-align:right;">— YES. I GOT BETTER.</p>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ CONTACT ─── HOSTILE ─── ═══════════════════════ -->
+<section class="text-block" style="text-align:center;">
+<p>DON'T CONTACT ME. I WILL FIND YOU.</p>
+<p style="font-size:10px;color:#ff0000;">┌─────────────────────────────────────────────────────────────────────────┐</p>
+<p style="font-size:10px;color:#ff0000;">│&nbsp;business@contentcreator.xyz &middot; @REAL_CONTENT_CREATOR &middot; NO EMAILS&nbsp;│</p>
+<p style="font-size:10px;color:#ff0000;">└─────────────────────────────────────────────────────────────────────────┘</p>
+<p style="font-size:8px;color:#fff;margin-top:4px;">I DO NOT CHECK MY DMs. I DO NOT READ MY COMMENTS. I DO NOT CARE.</p>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ FAQ ─── AGGRESSIVE ─── ════════════════════════ -->
+<section class="white-bg" style="padding:16px 8px;">
+<p style="font-size:24px;font-weight:900;color:#000;margin-bottom:8px;">▌FREQUENTLY ASKED (AND ANSWERED) QUESTIONS</p>
+<div style="border:2px solid #000;padding:8px;margin-bottom:4px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: HOW DO YOU GROW YOUR CHANNEL?</p>
+<p style="font-size:12px;color:#000;">A: I DON'T. I MAKE VIDEOS. GROWTH IS A SIDE EFFECT, NOT A GOAL.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:4px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: WHAT CAMERA DO YOU USE?</p>
+<p style="font-size:12px;color:#000;">A: THE ONE THAT WORKS. IT DOES NOT MATTER. STOP ASKING ABOUT GEAR.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:4px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: HOW DO YOU EDIT YOUR VIDEOS?</p>
+<p style="font-size:12px;color:#000;">A: BADLY. ON PURPOSE. PERFECTION IS THE ENEMY OF PUBLISHED.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:4px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: CAN I COLLAB WITH YOU?</p>
+<p style="font-size:12px;color:#000;">A: NO. I WORK ALONE. COLLABORATION IS DILUTION.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;margin-bottom:4px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: WHY ARE YOUR VIDEOS SO LONG?</p>
+<p style="font-size:12px;color:#000;">A: SOME IDEAS TAKE TIME. IF YOU WANT SHORT GO WATCH TIKTOK.</p>
+</div>
+<div style="border:2px solid #000;padding:8px;">
+<p style="font-size:12px;font-weight:700;color:#ff0000;">Q: WILL YOU SHOUT ME OUT?</p>
+<p style="font-size:12px;color:#000;">A: NO. EARN YOUR AUDIENCE. LIKE I DID.</p>
+</div>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ FINAL STATEMENT ════════════════════════════════════ -->
+<section class="text-block" style="text-align:center;padding:24px 8px;">
+<p style="font-size:10px;color:#fff;">┌──────────────────────────────────────────────────┐</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;THIS SITE WAS BUILT IN 15 MINUTES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;WITH NO DESIGN SOFTWARE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;AND NO REGARD FOR YOUR OPINION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;NO CSS FRAMEWORKS WERE HARMED IN ITS CREATION&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;NO USERS WERE CONSIDERED DURING LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">│&nbsp;ZERO ACCESSIBILITY. ZERO PRETENSE.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</p>
+<p style="font-size:10px;color:#fff;">└──────────────────────────────────────────────────┘</p>
+<br>
+<p style="font-size:48px;font-weight:900;color:#fff;line-height:1;">▇</p>
+<br>
+<p style="font-size:10px;color:#ff0000;">THE END. THERE IS NO MORE. GO MAKE SOMETHING.</p>
+</section>
+<div class="sep">▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</div>
+
+<!-- ════════════════════════════════════════ FOOTER ════════════════════════════════════════ -->
+<footer>
+<div class="footer-inner">
+<span>&copy; 2026 CONTENT CREATOR — ALL RIGHTS RESERVED — ALL HOPE ABANDONED</span>
+<span>┌──┤ NO COOKIES. NO TRACKERS. NO MERCY. ├──┐</span>
+</div>
+<div class="footer-inner" style="margin-top:4px;font-size:9px;color:#ff0000;">
+<span>THIS SITE IS BEST VIEWED ON A MONITOR THAT HAS BEEN DROPPED AT LEAST ONCE</span>
+</div>
+<div class="footer-inner" style="margin-top:2px;font-size:8px;color:#ff0000;">
+<span>MADE WITH HATE. HOSTED ON A LAPTOP THAT HAS NEVER BEEN CLEANED. POWERED BY SPITE.</span>
+</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghibli Journal | YouTuber Brand Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #3d3a36;
+  background-color: #faf6f0;
+  line-height: 1.7;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #2d2a27;
+  letter-spacing: 0.02em;
+}
+
+a { text-decoration: none; color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== HAND-DRAWN DIVIDER SVG ===== */
+.divider {
+  text-align: center;
+  margin: 32px 0 28px;
+  opacity: 0.3;
+}
+.divider svg { width: 200px; height: 20px; }
+
+/* ===== SKETCH BORDER MIXIN ===== */
+.sketch-border {
+  position: relative;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(2px);
+}
+.sketch-border::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 21px;
+  border: 2px solid rgba(193,105,79,0.2);
+  z-index: -1;
+}
+.sketch-border::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(193,105,79,0.1);
+  z-index: -2;
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-title h2 {
+  font-size: 2rem;
+  color: #c1694f;
+  position: relative;
+  display: inline-block;
+}
+.section-title h2::after {
+  content: '';
+  display: block;
+  width: 60%;
+  height: 2px;
+  background: #7a9e7e;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* ===== HEADER ===== */
+header {
+  padding: 20px 0 12px;
+  position: relative;
+}
+.header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #c1694f;
+  position: relative;
+}
+.logo svg {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.logo span { color: #7a9e7e; }
+nav { display: flex; gap: 28px; align-items: center; }
+nav a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5a554f;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #c1694f;
+  transition: width 0.3s;
+}
+nav a:hover { color: #c1694f; }
+nav a:hover::after { width: 100%; }
+
+/* ===== HERO ===== */
+.hero {
+  padding: 60px 0 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -80px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(193,105,79,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(122,158,126,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.hero-text .overline {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  color: #7a9e7e;
+  margin-bottom: 8px;
+}
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+.hero-text h1 .highlight {
+  color: #c1694f;
+  font-style: italic;
+}
+.hero-text p {
+  font-size: 1.05rem;
+  color: #6b6560;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: #c1694f;
+  color: #fff;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+.hero-cta:hover {
+  background: #a85a43;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(193,105,79,0.25);
+}
+.hero-cta svg { transition: transform 0.3s; }
+.hero-cta:hover svg { transform: translateX(4px); }
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.hero-illustration {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(193,105,79,0.12), rgba(122,158,126,0.10));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.hero-illustration::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px dashed rgba(193,105,79,0.2);
+  animation: spin 30s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero-illustration svg { width: 160px; height: 160px; opacity: 0.6; }
+
+/* floating sketch elements */
+.floating-sketch {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.18;
+}
+.floating-sketch.tl { top: -10px; left: -8px; }
+.floating-sketch.br { bottom: -6px; right: -4px; }
+.floating-sketch.tr { top: -12px; right: -10px; }
+.floating-sketch.bl { bottom: -8px; left: -6px; }
+
+/* ===== STATS ===== */
+.stats-section {
+  padding: 30px 0 40px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stat-card {
+  text-align: center;
+  padding: 28px 16px 24px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.6);
+  border: 1.5px solid rgba(193,105,79,0.12);
+  transition: all 0.3s;
+  position: relative;
+}
+.stat-card:hover {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(193,105,79,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+}
+.stat-icon { margin-bottom: 12px; opacity: 0.55; }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #c1694f;
+  display: block;
+  line-height: 1.2;
+}
+.stat-label {
+  font-size: 0.85rem;
+  color: #7a7570;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* ===== ABOUT ===== */
+.about-section {
+  padding: 50px 0;
+  position: relative;
+}
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: start;
+}
+.about-text p {
+  font-size: 0.98rem;
+  color: #4d4844;
+  margin-bottom: 18px;
+  line-height: 1.8;
+}
+.about-text p:last-of-type { margin-bottom: 0; }
+.about-quote {
+  background: rgba(193,105,79,0.05);
+  padding: 36px 32px;
+  border-radius: 18px;
+  position: relative;
+  border-left: 3px solid #c1694f;
+}
+.about-quote blockquote {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #c1694f;
+  line-height: 1.5;
+}
+.about-quote blockquote::before {
+  content: '\201C';
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: rgba(193,105,79,0.15);
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  line-height: 1;
+}
+.about-quote .quote-attribution {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #8a847e;
+  margin-top: 12px;
+  text-align: right;
+}
+
+/* ===== VIDEOS ===== */
+.videos-section {
+  padding: 50px 0;
+}
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.video-card {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  border: 1px solid rgba(193,105,79,0.06);
+}
+.video-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 0 0 2px rgba(193,105,79,0.1);
+}
+.video-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(145deg, #e8e2d8, #f0ece4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.video-thumb svg { opacity: 0.2; transition: all 0.4s; }
+.video-card:hover .video-thumb svg { opacity: 0.35; transform: scale(1.05); }
+.video-duration {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(45,42,39,0.75);
+  color: #faf6f0;
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s;
+  background: rgba(193,105,79,0.08);
+}
+.video-card:hover .video-play-overlay { opacity: 1; }
+.video-play-overlay svg { opacity: 0.7; }
+.video-info {
+  padding: 18px 20px 22px;
+}
+.video-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  color: #2d2a27;
+  line-height: 1.4;
+}
+.video-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.82rem;
+  color: #8a847e;
+}
+.video-meta .views { display: flex; align-items: center; gap: 4px; }
+.video-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: #cac4bd; }
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 48px 0 36px;
+  border-top: 1px solid rgba(193,105,79,0.08);
+  margin-top: 20px;
+}
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+.footer-logo {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  color: #c1694f;
+}
+.footer-socials {
+  display: flex;
+  gap: 24px;
+}
+.footer-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(193,105,79,0.08);
+  transition: all 0.3s;
+}
+.footer-socials a:hover {
+  background: #c1694f;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(193,105,79,0.25);
+}
+.footer-socials a:hover svg { color: #fff; }
+.footer-socials a svg { transition: color 0.3s; color: #c1694f; }
+.footer-bottom {
+  font-size: 0.82rem;
+  color: #9a9490;
+  text-align: center;
+}
+.footer-bottom a { color: #c1694f; font-weight: 500; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .videos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 820px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-text p { margin-left: auto; margin-right: auto; }
+  .about-layout { grid-template-columns: 1fr; gap: 36px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  header { padding: 14px 0 8px; }
+  .header-inner { flex-direction: column; gap: 12px; }
+  nav { gap: 18px; }
+  nav a { font-size: 0.82rem; }
+  .hero { padding: 30px 0; }
+  .hero-text h1 { font-size: 2rem; }
+  .hero-illustration { width: 220px; height: 220px; }
+  .hero-illustration svg { width: 100px; height: 100px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat-card { padding: 20px 12px; }
+  .stat-number { font-size: 1.7rem; }
+  .videos-grid { grid-template-columns: 1fr; }
+  .section-title h2 { font-size: 1.5rem; }
+  .about-quote { padding: 24px 20px; }
+  .about-quote blockquote { font-size: 1.3rem; }
+  .footer-socials { gap: 16px; }
+  .footer-socials a { width: 38px; height: 38px; }
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.animate-on-view {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.animate-on-view.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="13" cy="13" r="11" stroke="#c1694f" stroke-width="1.8" fill="none"/>
+        <path d="M13 5 L13 21 M5 13 L21 13" stroke="#7a9e7e" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="13" cy="13" r="3" fill="#c1694f" opacity="0.6"/>
+      </svg>
+      Ghibli<span>Journal</span>
+    </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#videos">Videos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="overline">Chapter One &mdash; Beginnings</div>
+        <h1>Crafting Stories<br>with a <span class="highlight">Warm</span> Heart</h1>
+        <p>A cozy corner where everyday moments bloom into gentle narratives. Join me on a journey through soft illustrations, quiet reflections, and the beauty found in imperfection.</p>
+        <a href="#videos" class="hero-cta">
+          Explore Stories
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-illustration">
+          <!-- inkwell / quill illustration -->
+          <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="80" cy="100" rx="50" ry="12" stroke="#c1694f" stroke-width="1.5" fill="none" opacity="0.3"/>
+            <path d="M80 60 L80 100 M70 68 L80 60 L90 68" stroke="#7a9e7e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+            <path d="M45 110 C50 90 70 75 80 60 C90 75 110 90 115 110" stroke="#c1694f" stroke-width="1.5" fill="none" opacity="0.35"/>
+            <circle cx="80" cy="48" r="6" fill="#c1694f" opacity="0.2"/>
+            <circle cx="80" cy="48" r="3" fill="#c1694f" opacity="0.35"/>
+            <path d="M60 120 L80 108 L100 120" stroke="#7a9e7e" stroke-width="1.2" fill="none" opacity="0.25"/>
+          </svg>
+          <!-- floating sketches -->
+          <svg class="floating-sketch tl" width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M4 18 C12 8 24 8 32 18" stroke="#7a9e7e" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+            <path d="M6 20 C14 12 22 12 30 20" stroke="#c1694f" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.5"/>
+          </svg>
+          <svg class="floating-sketch br" width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M4 14 L14 6 L24 14" stroke="#7a9e7e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M8 17 L14 11 L20 17" stroke="#c1694f" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card animate-on-view">
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="3" y="10" width="22" height="15" rx="3" stroke="#c1694f" stroke-width="1.5" fill="none"/>
+            <circle cx="14" cy="17" r="4" stroke="#c1694f" stroke-width="1.2" fill="none"/>
+            <path d="M10 10 L14 3 L18 10" stroke="#c1694f" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="stat-number" data-target="128">0</span>
+        <span class="stat-label">Videos Crafted</span>
+      </div>
+      <div class="stat-card animate-on-view">
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 4 C8 4 4 8 4 14 C4 20 8 24 14 24 C20 24 24 20 24 14 C24 8 20 4 14 4Z" stroke="#c1694f" stroke-width="1.5" fill="none"/>
+            <path d="M14 10 L14 14 L18 16" stroke="#c1694f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="stat-number" data-target="3.4">0</span>
+        <span class="stat-label">Million Views</span>
+      </div>
+      <div class="stat-card animate-on-view">
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 3 L18 11 L27 12 L20 18 L22 27 L14 22 L6 27 L8 18 L1 12 L10 11 L14 3Z" stroke="#c1694f" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="stat-number" data-target="248">0</span>
+        <span class="stat-label">Subscribers K</span>
+      </div>
+      <div class="stat-card animate-on-view">
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="6" y="8" width="16" height="16" rx="3" stroke="#c1694f" stroke-width="1.5" fill="none"/>
+            <path d="M10 8 L10 5 M18 8 L18 5" stroke="#c1694f" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M8 13 L20 13" stroke="#c1694f" stroke-width="1" opacity="0.5"/>
+            <circle cx="14" cy="18" r="2.5" stroke="#7a9e7e" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <span class="stat-number" data-target="7">0</span>
+        <span class="stat-label">Years Creating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider">
+  <svg viewBox="0 0 200 20" fill="none">
+    <path d="M10 10 C30 3 50 17 70 10 C90 3 110 17 130 10 C150 3 170 17 190 10" stroke="#c1694f" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+    <circle cx="100" cy="10" r="3" fill="#7a9e7e" opacity="0.3"/>
+  </svg>
+</div></div>
+
+<!-- ===== ABOUT ===== -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="section-title animate-on-view">
+      <h2>The Storyteller</h2>
+    </div>
+    <div class="about-layout">
+      <div class="about-text animate-on-view">
+        <p>Every great story begins with a single brushstroke of curiosity. I started this channel on a quiet autumn afternoon, with nothing but a notebook and the belief that tenderness could be its own kind of strength. What began as a personal diary of sketches and voiceovers has since bloomed into a community of kindred spirits who find comfort in the gentle pace of narrative.</p>
+        <p>My creative process is rooted in observation&mdash;the way light falls through a window at 4pm, the texture of weathered wood, the silence between conversations. These fragments become the palette from which I paint each video. I believe that the most resonant stories are not loud ones; they are the ones that arrive softly and linger long after.</p>
+        <p>Beyond the camera, I am a collector of vintage stationery, a devoted tea drinker, and a wanderer of old bookshops. Every video I make carries a piece of that soul&mdash;an invitation to slow down, to notice, and to find the extraordinary hidden within the ordinary.</p>
+      </div>
+      <div class="about-quote animate-on-view">
+        <blockquote>
+          The world is full of magic things, patiently waiting for our senses to grow sharper.
+        </blockquote>
+        <div class="quote-attribution">&mdash; wandering through the pages of everyday life</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider">
+  <svg viewBox="0 0 200 20" fill="none">
+    <path d="M10 10 C30 3 50 17 70 10 C90 3 110 17 130 10 C150 3 170 17 190 10" stroke="#c1694f" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+    <circle cx="100" cy="10" r="3" fill="#7a9e7e" opacity="0.3"/>
+  </svg>
+</div></div>
+
+<!-- ===== VIDEOS ===== -->
+<section class="videos-section" id="videos">
+  <div class="container">
+    <div class="section-title animate-on-view">
+      <h2>Recent Stories</h2>
+    </div>
+    <div class="videos-grid">
+      <!-- Card 1 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">12:34</span>
+        </div>
+        <div class="video-info">
+          <h3>A Sunday Morning in the Countryside</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              24K
+            </span>
+            <span class="dot"></span>
+            <span>2 weeks ago</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">8:17</span>
+        </div>
+        <div class="video-info">
+          <h3>The Art of Letter Writing &mdash; A Revival</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              18K
+            </span>
+            <span class="dot"></span>
+            <span>3 weeks ago</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">15:02</span>
+        </div>
+        <div class="video-info">
+          <h3>Building a Cosy Reading Nook &mdash; Vlog</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              31K
+            </span>
+            <span class="dot"></span>
+            <span>1 month ago</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">11:48</span>
+        </div>
+        <div class="video-info">
+          <h3>Autumn Porch &mdash; Watercolour Session</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              42K
+            </span>
+            <span class="dot"></span>
+            <span>2 months ago</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">9:24</span>
+        </div>
+        <div class="video-info">
+          <h3>Five Books That Feel Like a Warm Hug</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              57K
+            </span>
+            <span class="dot"></span>
+            <span>2 months ago</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="video-card animate-on-view">
+        <div class="video-thumb">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="48" height="48" rx="24" stroke="#c1694f" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <polygon points="24,20 36,28 24,36" fill="#c1694f" opacity="0.4"/>
+          </svg>
+          <div class="video-play-overlay">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="20" stroke="#c1694f" stroke-width="1.5" fill="rgba(193,105,79,0.1)"/>
+              <polygon points="18,14 30,22 18,30" fill="#c1694f"/>
+            </svg>
+          </div>
+          <span class="video-duration">14:05</span>
+        </div>
+        <div class="video-info">
+          <h3>Winter Solstice &mdash; A Quiet Celebration</h3>
+          <div class="video-meta">
+            <span class="views">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2.5C3.5 2.5 1 7 1 7C1 7 3.5 11.5 7 11.5C10.5 11.5 13 7 13 7C13 7 10.5 2.5 7 2.5Z" stroke="#8a847e" stroke-width="1" fill="none"/>
+                <circle cx="7" cy="7" r="2" stroke="#8a847e" stroke-width="1" fill="none"/>
+              </svg>
+              33K
+            </span>
+            <span class="dot"></span>
+            <span>3 months ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="22" height="22" viewBox="0 0 26 26" fill="none" style="vertical-align:middle;margin-right:4px;">
+        <circle cx="13" cy="13" r="11" stroke="#c1694f" stroke-width="1.8" fill="none"/>
+        <path d="M13 5 L13 21 M5 13 L21 13" stroke="#7a9e7e" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="13" cy="13" r="3" fill="#c1694f" opacity="0.6"/>
+      </svg>
+      GhibliJournal
+    </div>
+    <div class="footer-socials">
+      <!-- YouTube -->
+      <a href="#" aria-label="YouTube">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M21.582 6.186C21.352 5.32 20.674 4.648 19.8 4.42C18.23 4 12 4 12 4C12 4 5.77 4 4.2 4.42C3.326 4.648 2.648 5.32 2.418 6.186C2 7.746 2 11 2 11C2 11 2 14.254 2.418 15.814C2.648 16.68 3.326 17.352 4.2 17.58C5.77 18 12 18 12 18C12 18 18.23 18 19.8 17.58C20.674 17.352 21.352 16.68 21.582 15.814C22 14.254 22 11 22 11C22 11 22 7.746 21.582 6.186Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="10,8 16,11 10,14" fill="currentColor"/>
+        </svg>
+      </a>
+      <!-- Twitter / X -->
+      <a href="#" aria-label="Twitter">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M4 4L10.5 12.5M20 4L13.5 12.5M20 20L13.5 11.5M4 20L10.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.5 12.5L4 20M13.5 12.5L20 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.5 12.5H13.5" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+      <!-- Instagram -->
+      <a href="#" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="17" cy="7" r="1" fill="currentColor"/>
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+      </a>
+      <!-- Pinterest -->
+      <a href="#" aria-label="Pinterest">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M12 7C9.5 9 8 12 9 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 12L10 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="9" r="0.8" fill="currentColor"/>
+        </svg>
+      </a>
+      <!-- Email -->
+      <a href="#" aria-label="Email">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M3 7L12 13L21 7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GhibliJournal. Every stroke tells a story. Crafted with <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:inline;vertical-align:middle;"><path d="M6 10C6 10 2 7 2 4.5C2 3 3 2 4.5 2C5.5 2 6 3 6 3C6 3 6.5 2 7.5 2C9 2 10 3 10 4.5C10 7 6 10 6 10Z" stroke="#c1694f" stroke-width="1" fill="none"/></svg> by <a href="#">GhibliJournal Studio</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== COUNT-UP ANIMATION =====
+  const statNumbers = document.querySelectorAll('.stat-number');
+  let countersAnimated = false;
+
+  function animateCounters() {
+    if (countersAnimated) return;
+    countersAnimated = true;
+    statNumbers.forEach(function(el) {
+      var target = parseFloat(el.getAttribute('data-target'));
+      var isDecimal = target % 1 !== 0;
+      var duration = 1800;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = eased * target;
+        el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = isDecimal ? target.toFixed(1) : target;
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // ===== SCROLL OBSERVER =====
+  var animatedElements = document.querySelectorAll('.animate-on-view');
+
+  function isInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight - 60 && rect.bottom > 0;
+  }
+
+  function checkVisibility() {
+    var anyStatVisible = false;
+    animatedElements.forEach(function(el) {
+      if (isInViewport(el)) {
+        el.classList.add('visible');
+        if (el.classList.contains('stat-card') || el.querySelector('.stat-number')) {
+          anyStatVisible = true;
+        }
+      }
+    });
+    if (anyStatVisible && !countersAnimated) {
+      animateCounters();
+    }
+  }
+
+  // check on load, scroll, and resize
+  window.addEventListener('load', function() {
+    setTimeout(checkVisibility, 300);
+  });
+  window.addEventListener('scroll', checkVisibility, { passive: true });
+  window.addEventListener('resize', checkVisibility, { passive: true });
+
+  // also animate counters immediately if stats are already visible on page load
+  // (fallback in case load event fires after we already missed the window)
+  checkVisibility();
+
+  // ===== SMOOTH SCROLL FOR NAV =====
+  document.querySelectorAll('nav a, .hero-cta').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "id": "pop-YouTubewebbuilder",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "pop-YouTubewebbuilder",
+      "youtuber-site",
+      "个人站"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  }
+}

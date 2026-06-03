@@ -1,0 +1,16 @@
+rule_id: R-010
+source: retrospective
+status: active
+severity: P1
+problem: '''天黑=危险要来''公式化触发，场景时间设定单一'
+root_cause: 幕纲设计时场景时间连续 ≥ 3 章使用同一模式
+enforce:
+  director_constraint:
+    text: 本章场景时间需与前一章差异化。连续 ≤ 3 章使用同一时间模式（如全部天黑触发）。过半数事件在夜间→调整部分事件发生时间。
+lifecycle:
+  discovered_at: '2026-05-25'
+  elevated_at: '2026-06-02'
+  occurrences: 2
+tags:
+- 幕纲设计
+- 节奏控制
