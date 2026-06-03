@@ -1,5 +1,5 @@
 ---
-name: qa-payoff
+name: pop-novel-qa
 display_name: "爽点QA"
 category: qa
 scenario: review
@@ -15,7 +15,7 @@ orchestration:
   dependencies: ["project.yaml"]
   inject_context: ["project.yaml#reader_profile"]
   subagent_required: true
-directory: skill-qa-payoff
+directory: pop-novel-qa
 
 produces:
   - 大纲层QC报告（Phase 0）

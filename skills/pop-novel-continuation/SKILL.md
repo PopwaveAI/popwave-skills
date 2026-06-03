@@ -1,5 +1,5 @@
 <!-- SOURCE_OF_TRUTH -->
-<!-- ⚠️ 此目录不是正式 skill，不注册 skill-mapping.yaml，不参与同步 -->
+
 <!-- ⚠️ 职责：一次性适配层。把已有正文"翻译"成 bootstrap/constitution/plot 能消费的输入格式。 -->
 <!-- ⚠️ 完成交接后即退役，长期写作走 bootstrap→plot→writer 正常管线。 -->
 ---
@@ -14,7 +14,7 @@ fidelity: wireframe
 description: "一次性适配层。从已有正文逆向提取 L0/L1/宪法/卷大纲，产出格式与 bootstrap/constitution/plot 完全一致。完成后下游 skill 感知不到区别。"
 version: v2.0
 novel_agent_version: v3.3
-directory: _continuation
+directory: pop-novel-continuation
 status: adapter  # 一次性适配层，非正式 skill
 orchestration:
   preflight: []
@@ -375,9 +375,9 @@ L1 元设定层：  ✓（01-07 全部就绪，含数值体系）
 下一步：从 [卷X 幕X 第N+1章] 开始正常写作
 
 建议路径：
-  1. skill-plot-architecture v2.7 → 确认幕纲设计（含事件数/scene_type/字数基线检查）
-  2. skill-emergent-writer v9.2 → Director → 骨架 → ESM before → Pass 2 → 写后自评
-  3. skill-qa-payoff v0.4.1 → 大纲层 QC / 骨架层 QC / 正文层 QC
+  1. pop-novel-plot v2.7 → 确认幕纲设计（含事件数/scene_type/字数基线检查）
+  2. pop-novel-writer v9.2 → Director → 骨架 → ESM before → Pass 2 → 写后自评
+  3. pop-novel-qa v0.4.1 → 大纲层 QC / 骨架层 QC / 正文层 QC
   4. ESM autocheck → 字数/否定句/钩子自动化检查
   5. ESM after → state_changelog + global-summary 更新
 ```

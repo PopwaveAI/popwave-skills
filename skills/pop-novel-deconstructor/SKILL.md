@@ -15,7 +15,7 @@ orchestration:
   dependencies: []
   inject_context: []
   subagent_required: true
-directory: skill-book-deconstructor
+directory: pop-novel-deconstructor
 
 produces:
   - 01-写作资产/拆解报告/节奏地图-*.md（模式A）
@@ -54,12 +54,12 @@ produces:
 
 ## 协作边界
 
-> ⚠️ **拆书定位声明：** 本 skill（book-deconstructor）是 **novel-agent-pro 内部拆书引擎**，面向"拆书为写"——产出供给 emergent-writer 的 14 项输入包和 scene_fragments.db。
+> ⚠️ **拆书定位声明：** 本 skill（book-deconstructor）是 **novel-agent-pro 内部拆书引擎**，面向"拆书为写"——产出供给 pop-novel-writer 的 14 项输入包和 scene_fragments.db。
 >
 > 同级 skill `pop-reader-making` 是 **独立拆书管线**，面向"拆书为读"——产出供读者查阅的叙事笔记 and 供 pop-html-anything 渲染的结构化 YAML。
 >
 > **分工：**
-> - book-deconstructor → 消费方：emergent-writer / project-bootstrap → 产出：scene_fragments.db + 节奏地图 + 对标规则
+> - book-deconstructor → 消费方：pop-novel-writer / pop-novel-bootstrap → 产出：scene_fragments.db + 节奏地图 + 对标规则
 > - pop-reader-making → 消费方：读者 / pop-html-anything → 产出：叙事笔记.md + 结构化YAML（含 image_prompt）
 
 ## 版本概要
@@ -303,9 +303,9 @@ produces:
 
 | 文件 | 用途 |
 |------|------|
-| `_工具配置/novel-agent-pro/skills/skill-book-deconstructor/system-prompt/` | 子 Agent 系统提示词模板 |
-| `_工具配置/novel-agent-pro/skills/skill-book-deconstructor/fragment-pipeline/` | 片段语义管线的配置与索引 |
-| `_工具配置/novel-agent-pro/constitution/书籍宪法.md` | 宪法条款（如有指定） |
+| `skills/pop-novel-deconstructor/fragment-pipeline/` | 子 Agent 系统提示词模板 |
+| `skills/pop-novel-deconstructor/fragment-pipeline/` | 片段语义管线的配置与索引 |
+| `skills/pop-novel-deconstructor/fragment-pipeline/` | 宪法条款（如有指定） |
 | 目标作品源文件（txt / docx / md） | 拆解素材 |
 
 ---

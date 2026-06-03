@@ -33,7 +33,7 @@ produces:
 > - novel_agent_version 升级到 v3.3
 > - 新增 reader_profile 感知——在节点C·黄金思考中检查读者画像（平台/年龄/阅读习惯）
 > - 章节字数基线明确为 2200-2500 字
-> - QC 指引更新：写完后输出 qa-payoff 三层质检（大纲层/骨架层/正文层纯感受报告）
+> - QC 指引更新：写完后输出 pop-novel-qa 三层质检（大纲层/骨架层/正文层纯感受报告）
 >
 > 核心原则：前三章不是"起头"，是**整本书的浓缩核**。读者用前三章决定追不追，编辑用前三章决定签不签。
 >
@@ -84,7 +84,7 @@ L0灵魂对齐（来自 skill-project-bootstrap）
     │
     ▼
 黄金三章·幕纲设计
-  │  参照 skill-plot-architecture v2.0 输出格式
+  │  参照 pop-novel-plot v2.0 输出格式
   │  但 payff_distribution 不适用"微/中/大/终极"
   │  改为三章专属分布：
   │    CH1：中爽点×2（打脸/获得/解谜各一）+ 大爽点级章末钩子
@@ -124,7 +124,7 @@ L0灵魂对齐（来自 skill-project-bootstrap）
   │        输入：上一章结尾正文（CH1用风格种子）+ 幕纲本章数据
   │        输出：3-4行→ 上章情绪承接 + 本章开头策略
   │
-  Step 2  上下文组装（复用 emergent-writer output-template.md）
+  Step 2  上下文组装（复用 pop-novel-writer output-template.md）
   │        6块素材：
   │          ① 全局摘要（含前三章累积摘要）
   │          ② 本章爽点兑现（幕纲锁定）
@@ -144,18 +144,18 @@ L0灵魂对齐（来自 skill-project-bootstrap）
   │          □ 三章连起来读，节奏是否稳定？(CH1拉人→CH2压住→CH3释放)
   │
   Step 5  QC 质检（v1.2 新增）
-  │        ⭐ 调用 skill-qa-payoff v0.4.1 执行正文层 QC：
+  │        ⭐ 调用 pop-novel-qa v0.4.1 执行正文层 QC：
   │          "读完了还是刷过去了？会弃书吗？"
   │          红线：想跳过≥2处或会弃书 → 退回重写
   │        可选：大纲层 QC（在写作前检查幕纲计划）
   │
   Step 6  更新全局摘要
-  │        python update_global_summary.py ...
+  │        python scripts/update_global_summary.py ...
   │
   Step 7  继续下一章
     │
     ▼ CH3写完后
-转入 emergent-writer 正常循环
+转入 pop-novel-writer 正常循环
   │  前三章的 global_summary + character_state 已积累
   │  从 CH4 起按 v7.8 普通流程运行
 ```
@@ -191,10 +191,10 @@ L0灵魂对齐（来自 skill-project-bootstrap）
 
 前三章写完后：
 - 已有累积的 `global_summary` 和 `character_state`
-- 从 CH4 开始，`skill-emergent-writer v9.2` 的 14 项输入包标准模板正常运行
+- 从 CH4 开始，`pop-novel-writer v9.2` 的 14 项输入包标准模板正常运行
 - 风格种子不再注入（第2章+不注入）
 - 简略章纲分析改为可选
-- 后续 QC 走 emergent-writer 内嵌的 qa-payoff 三层介入（大纲层/骨架层/正文层）
+- 后续 QC 走 pop-novel-writer 内嵌的 pop-novel-qa 三层介入（大纲层/骨架层/正文层）
 
 ---
 

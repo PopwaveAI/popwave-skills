@@ -1,5 +1,5 @@
 ---
-name: emergent-writer
+name: pop-novel-writer
 display_name: "正文写作引擎"
 category: writing
 scenario: production
@@ -23,7 +23,7 @@ orchestration:
     - "01-写作资产/"
     - "01-事实骨架/"
   subagent_required: true
-directory: skill-emergent-writer
+directory: pop-novel-writer
 
 produces:
   - 设计说明 + 决策日志（Phase 1）
@@ -70,10 +70,10 @@ produces:
 6. **★ spec.md 已审批就绪**（v4.0 新增 — 规格文档必须在正文写作前通过审批）
 
 如果以上任意一项不满足：
-→ 无 act-XX.yaml → 先调 skill-plot-architecture 设计幕纲
+→ 无 act-XX.yaml → 先调 pop-novel-plot 设计幕纲
 → 无 v3.db → 确认项目已通过 bootstrap Phase 3 骨架创建
 → 无 reader_profile → 执行 bootstrap Phase 4 嵌入
-→ ★ 无 spec.md → 先调 spec-bridge 生成规格文档，审批通过后再进入正文写作
+→ ★ 无 spec.md → 先调 pop-novel-master 生成规格文档，审批通过后再进入正文写作
 → 提示用户缺失依赖，不进入正文写作
 
 ---
@@ -108,13 +108,13 @@ Phase 1 · Director Agent ⭐ 升级：
     └── 爽点触发方式: "视觉冲击型"
         └── 原因: ...
 
-  → ⭐ 大纲层 QC（qa-payoff Phase 0）通过才能进入下一步
+  → ⭐ 大纲层 QC（pop-novel-qa Phase 0）通过才能进入下一步
 
 Phase 2 · Pass 1 · 骨架 Agent：
   遵循导演约束 → 输出事实骨架 + 预估字数
   → 骨架 {实体名} 计数 ≥ 8 → 通过
   → 预估字数 < 1800 → 退回加场景或合并章节
-  → ⭐ 骨架层 QC（qa-payoff Phase 1）通过才能渲染
+  → ⭐ 骨架层 QC（pop-novel-qa Phase 1）通过才能渲染
 
 Phase 3 · ESM before（零LLM，v3.3 升级 / v4.0 spec 注入）：
   ├── 第0项 · 读者画像（全管线共享）
@@ -135,7 +135,7 @@ Phase 4 · Pass 2 · 渲染 Agent：
       "字数差了多少？差的篇幅本来应该写什么？"
   → 自评不通过 → 补一段最核心的缺失（不重写整章）
 
-Phase 5 · QC Agent ⭐（qa-payoff v3.3）：
+Phase 5 · QC Agent ⭐（pop-novel-qa v3.3）：
   ├── 正文层 QC → 纯感受报告
   ├── 红线标记: "想跳过"≥2 或 "会弃书"
   └── → 不通过 → 退回 Pass 2 重写
@@ -252,8 +252,4 @@ ESM before 加载时：扫描 status="active" 的条目 → 匹配当前 chapter
 
 
 
-### 9.0.0 — 2026-05-24
-- ESM v2.0 SQLite数据中台
-- 五步流水线：导演思考→Pass 1→ESM before→Pass 2→ESM after
-- K1-K4知识注入体系
-- 场景模板池七类场景
+
