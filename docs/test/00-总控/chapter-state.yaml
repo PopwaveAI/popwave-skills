@@ -8,7 +8,7 @@ protagonist:
   military_rank: "无品"
   merits: 0
   equipment:
-    armor: "无"
+    armor: null
     primary: null
     secondary: null
   enhancements: []

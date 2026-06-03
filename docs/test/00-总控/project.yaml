@@ -24,8 +24,8 @@ phase_progress:
   phase_12: true
   phase_13: false
   phase_15: false
-  phase_2: false
-  phase_3: false
+  phase_2: true
+  phase_3: true
   phase_4: false
   phase_5: false
   phase_6: false
