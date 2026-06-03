@@ -15,7 +15,6 @@
     "shell": true
   },
   "loadPolicy": {
-    "includeReferences": "on-demand",
-    "maxPromptChars": 80000
+    "includeReferences": "on-demand"
   }
 }
