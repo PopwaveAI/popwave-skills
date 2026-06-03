@@ -1,5 +1,10 @@
 # CHANGELOG — pop-novel-master
 
+## v1.2.0 (2026-06-03)
+- **续写路由更新**：pop-novel-continuation 已合并进 pop-novel-bootstrap 的 reverse 模式
+- **技能群索引精简**：移除已删除的 continuation / opening-arc 条目
+- **路由表更新**：续写任务指向 `pop-novel-bootstrap (reverse mode)`
+
 ## v1.1.0 (2026-06-03)
 - **pop 身份声明加入**：新增 pop-identity-declaration.md 作为系统级强制规则
 - **SKILL.md 重构为 Think→Execute→Reflect 三层工作流**：每次任务先加载审视框架想清楚，再路由，再反思产出

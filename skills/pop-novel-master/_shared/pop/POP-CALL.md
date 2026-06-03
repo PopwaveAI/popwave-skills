@@ -38,8 +38,8 @@
 | 用户输入关键词 | 路由 skill |
 |:---|:---|
 | 开书 / 新书 / 设计设定 | skill-project-bootstrap |
-| 幕纲 / 大纲 / 剧情 | skill-plot-architecture |
-| 前三章 / 开篇 | skill-opening-arc |
+| 幕纲 / 大纲 / 剧情 | pop-novel-plot |
+| 前三章 / 开篇 | pop-novel-writer（黄金三章模式） |
 | 写第N章 / 正文 | skill-emergent-writer |
 | 拆书 / 解构 / 分析 | skill-book-deconstructor |
 | 审稿 / QA / 质检 | skill-qa-payoff |
@@ -68,7 +68,7 @@
 
 任务理解：设计第二幕（act-02）的幕纲
 场景判断：plot → design
-路由技能：skill-plot-architecture v2.6（推荐排序 2）
+路由技能：pop-novel-plot v2.7（推荐排序 2）
 前置条件：project.yaml → ✅ / PRD → ✅ / L1 → ✅
 执行路径：check_db → 情绪曲线 → 爽点版场景卡 → validate
 ```

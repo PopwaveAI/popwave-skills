@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-bootstrap
 
+## v2.9.2 (2026-06-03)
+- **merge continuation skill**：pop-novel-continuation 合并入 bootstrap，新增 reverse 模式
+- **新增 7 个相位文件**：phase-r1~r6（共 6 执行 + 1 参考）
+  - r1：逆向工程逐章事件日志（含独立 ref 模板）
+  - r2：L0 产品层提取（复用 phase-0.ref.md）
+  - r3：L1 元设定层提取（复用 phase-1.ref.md）
+  - r4：宪法提取（复用 phase-3.ref.md）
+  - r5：卷大纲确认
+  - r6：交接验证
+- **SKILL.md 新增模式选择**：forward（正向新书）/ reverse（逆向续写），相位索引表分列
+- **master 路由更新**：续写任务指向 `pop-novel-bootstrap (reverse mode)`
+
 ## v2.9.1 (2026-06-03)
 - **phase 文件名规范化**：`phase-03`→`phase-0.3`、`phase-04`→`phase-0.4`、`phase-05`→`phase-0.5`、`phase-12`→`phase-1.2`、`phase-13`→`phase-1.3`、`phase-15`→`phase-1.5`（共6个）
 - **全量 phase 重写**：13个文件全部新增「存在意义」「没有它的后果」「必须回答的问题」三段式框架，执行步骤围绕问题组织而非机械罗列

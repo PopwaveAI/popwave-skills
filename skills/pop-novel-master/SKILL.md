@@ -63,13 +63,11 @@ version: 1.1.0
 
 | 子skill | 职责 |
 |:--------|:-----|
-| `pop-novel-bootstrap` | 开书启动：灵魂对齐→设定展开→稳定性检验→数值体系 |
+| `pop-novel-bootstrap` | 开书启动+续写适配：灵魂对齐→设定展开→稳定性检验→数值体系。正向(forward)新书，反向(reverse)续写 |
 | `pop-novel-deconstructor` | 拆书解构：五模式拆解参考书 |
 | `pop-novel-plot` | 剧情架构：卷/幕级爽点分布设计 |
-| `pop-novel-opening-arc` | 黄金三章：开篇节奏校准与钩子设计 |
-| `pop-novel-writer` | 正文写作：六阶段管线（Director→骨架→ESM→渲染→QC） |
+| `pop-novel-writer` | 正文写作：六阶段管线（Director→骨架→ESM→渲染→QC），含黄金三章模式 |
 | `pop-novel-qa` | 爽点质检：三层介入纯感受报告 |
-| `pop-novel-continuation` | 续写适配：已有项目逆向提取与交接 |
 | `pop-novel-html-renderer` | HTML化发布：可视化展示 |
 
 ---
@@ -83,10 +81,10 @@ version: 1.1.0
 | 开新书/设世界观 | pop-novel-bootstrap | `skills/pop-novel-bootstrap/` |
 | 拆书/分析参考书 | pop-novel-deconstructor | `skills/pop-novel-deconstructor/` |
 | 剧情设计/幕纲 | pop-novel-plot | `skills/pop-novel-plot/` |
-| 黄金三章/开篇 | pop-novel-opening-arc | `skills/pop-novel-opening-arc/` |
 | 写正文/章节 | pop-novel-writer | `skills/pop-novel-writer/` |
+| 黄金三章/开篇 | ← 已合并到 pop-novel-writer（内置黄金三章模式，CH1–CH3 自动启用） |
 | 质检/审稿/QA | pop-novel-qa | `skills/pop-novel-qa/` |
-| 续写/交接已有项目 | pop-novel-continuation | `skills/pop-novel-continuation/` |
+| 续写/交接已有项目 | pop-novel-bootstrap (reverse mode) | `skills/pop-novel-bootstrap/` (走 reverse 相位 r1-r6) |
 | HTML化/发布 | pop-novel-html-renderer | `skills/pop-novel-html-renderer/` |
 
 ---

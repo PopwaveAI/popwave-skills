@@ -38,12 +38,12 @@ produces:
 
 <HARD-GATE>
 在开始幕纲设计之前，必须确认以下前提已完成：
-1. 项目已通过 skill-project-bootstrap 完成开书启动（含 L0 灵魂对齐 + PRD + L1 元设定层）
-2. 是从零开始的新书 → 必须先调 skill-project-bootstrap 完成初始化
+1. project 已通过 pop-novel-bootstrap 完成开书启动（含 L0 灵魂对齐 + PRD + L1 元设定层）
+2. 是从零开始的新书 → 必须先调 pop-novel-bootstrap 完成初始化
 3. 不允许在无 PRD 和 L1 设定的情况下"直接进入剧情架构"
 
 如果用户要求"先设计剧情"而以上条件不满足：
-→ 无项目骨架 → 调 skill-project-bootstrap 先开书
+→ 无项目骨架 → 调 pop-novel-bootstrap 先开书
 → 有项目骨架但无 PRD → 检查 project.yaml paths.prd 路径是否存在
 </HARD-GATE>
 
@@ -556,11 +556,10 @@ act:
   ─ 产出：【节点B设计说明】（散文式判断链，非结构字段）
   ─ 如发现上游设计冲突 → 输出「待确认/疑问」返回上游
     ↓
-【黄金三章】← ★ 独立阶段（CH1-CH3）
+【黄金三章】← pop-novel-writer 内置模式（CH1-CH3 自动启用）
   │  幕纲爽点提级（中爽点起步，三章内有大爽点）
   │  场景卡全量验证（每章核心事件各1段，≥6段）
-  │  简略章纲分析强制（每章做）
-  │  写完 → 转入正常管线
+  │  写完 → 转入 pop-novel-writer 正常管线
     ↓
 【剧情架构】→ 幕纲设计（情绪弧线 + 爽点分布 + 情绪叠加模型）
     ↓

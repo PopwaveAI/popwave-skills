@@ -139,7 +139,7 @@ def main():
         print(f"    1. 运行 skill-project-bootstrap 创建项目")
         print(f"    2. 完成后刷新项目总控台：")
         print(f"       python scripts/update_project_status.py --project-dir \"{project_dir}\"")
-        print(f"    3. 运行 skill-plot-architecture 设计剧情架构")
+        print(f"    3. 运行 pop-novel-plot 设计剧情架构")
         print(f"    4. 运行 skill-chapter-outline 生成章纲")
         print(f"    5. 运行 skill-emergent-writer 开始写作")
         print(f"")
