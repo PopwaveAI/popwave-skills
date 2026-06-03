@@ -24,7 +24,7 @@ produces:
   - 00-原始设定/world-stability-check.md
   - 02-大纲/卷01/（地理/势力/角色/剧情/装备/爽点设计）
   - 02-大纲/L3-角色层/（角色卡）
-  - 00-总控/project.yaml project-status.html
+  - 00-总控/project.yaml chapter-state.yaml project-status.html
   - 00-总控/数值体系/（combat_capability/monster_rank_map/act_rank_schedule）
   - 03-正文/
   - 04-数据库/novel.db
