@@ -1,0 +1,22 @@
+{
+  "id": "pop-novel-writer",
+  "version": "9.3.0",
+  "displayName": "正文写作引擎",
+  "description": "六阶段写作管线：Director→骨架→ESM→渲染→QC→状态更新。网文正文写作核心引擎。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "写作",
+      "正文",
+      "writer",
+      "写章节"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  }
+}

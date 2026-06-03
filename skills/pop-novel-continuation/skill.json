@@ -1,0 +1,19 @@
+{
+  "id": "pop-novel-continuation",
+  "version": "1.0.0",
+  "displayName": "续写适配",
+  "description": "已有正文项目的续写适配，逆向提取L0/L1设定→交接验证→续写起点标定。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "续写",
+      "交接",
+      "continuation"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

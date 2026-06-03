@@ -1,0 +1,21 @@
+{
+  "id": "pop-novel-plot",
+  "version": "2.7.0",
+  "displayName": "剧情架构",
+  "description": "全书→卷→幕的爽点分布设计。事件数基准、scene_type多样性、字数基线。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "大纲",
+      "剧情",
+      "幕纲",
+      "plot",
+      "架构"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

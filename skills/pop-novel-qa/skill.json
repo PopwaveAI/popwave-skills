@@ -1,0 +1,19 @@
+{
+  "id": "pop-novel-qa",
+  "version": "0.4.1",
+  "displayName": "爽点QA质检",
+  "description": "纯感受型质检。不评分不提建议，只回答读的时候怎么了。三层介入。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "质检",
+      "QA",
+      "审稿",
+      "qa"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true
+  }
+}

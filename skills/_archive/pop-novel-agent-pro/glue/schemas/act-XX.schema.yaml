@@ -1,0 +1,65 @@
+# act-XX.yaml Schema — 剧情架构 v2.0 输出规范
+# 消费方：emergent-writer（正文写作引擎，幕纲数据直读）
+#
+# 校验命令：
+#   python glue/validate.py path/to/act-01.yaml --schema act-XX
+
+act:
+  description: "幕级大纲"
+  required:
+    - number           # 幕编号 (int)
+    - title            # 幕标题 (str)
+    - chapter_range    # 章节范围 (list of 2 ints)
+    - payoff_distribution  # 爽点分布 (dict)
+    - emotional_arc    # 情绪弧线 (dict)
+    - chapters         # 章级设计 (list)
+
+  fields:
+    number:
+      type: int
+      example: 1
+      description: "幕编号，从 1 开始"
+
+    title:
+      type: str
+      example: "深渊觉醒"
+      description: "幕的标题"
+
+    chapter_range:
+      type: array
+      items: [int, int]
+      example: [1, 20]
+      description: "[起始章号, 结束章号]"
+
+    payoff_distribution:
+      type: dict
+      description: "本幕的爽点分布方案（四级体系：微/中/大/终极）"
+      keys:
+        micro:      { type: dict, desc: "微爽点——每章1-2个" }
+        medium:     { type: dict, desc: "中爽点——每3-5章1个" }
+        climax:     { type: dict, desc: "大爽点——每10-15章1个" }
+        ultimate:   { type: dict, desc: "终极爽点——每卷末1个（20:1释放比）" }
+
+    emotional_arc:
+      type: dict
+      description: "情绪弧线（第一性输入）"
+      keys:
+        overview:     { type: str, desc: "一句话情绪总览" }
+        checkpoints:  { type: array, desc: "关键节点情绪快照" }
+
+    chapters:
+      type: array
+      description: "章级设计列表"
+      items:
+        required:
+          - number
+          - emotional_goal
+          - payoff
+        fields:
+          number:          { type: int, desc: "章号" }
+          emotional_goal:  { type: str, desc: "情绪目标（第一性）" }
+          fun_level:       { type: str, enum: ["微","中","大","零"], desc: "爽点等级（第二性硬件约束）" }
+          scene_time:      { type: str, enum: ["白天","黄昏","入夜","深夜","黎明"], desc: "场景时间，用于检查时间多样性" }
+          payoff:          { type: dict, desc: "核心爽点" }
+          end_hook:        { type: dict, desc: "章末钩子" }
+          scene_count:     { type: int, desc: "场景数" }

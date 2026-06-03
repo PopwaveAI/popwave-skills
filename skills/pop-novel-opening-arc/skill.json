@@ -1,0 +1,20 @@
+{
+  "id": "pop-novel-opening-arc",
+  "version": "1.1.0",
+  "displayName": "黄金三章",
+  "description": "开篇前三章写作，番茄/起点风格适配。钩子设计+节奏校准。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "开篇",
+      "前三章",
+      "黄金三章",
+      "opening"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

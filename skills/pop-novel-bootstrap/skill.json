@@ -1,0 +1,21 @@
+{
+  "id": "pop-novel-bootstrap",
+  "version": "2.9.0",
+  "displayName": "开书启动",
+  "description": "从创意到可执行项目骨架，包含L0灵魂对齐→跨域素材聚合→L1-L3分层设定→稳定性检验→数值体系。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "开书",
+      "启动",
+      "bootstrap",
+      "新书"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true
+  }
+}
