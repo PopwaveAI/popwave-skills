@@ -1,5 +1,5 @@
 ---
-name: project-bootstrap
+name: pop-novel-bootstrap
 display_name: "开书启动"
 category: bootstrap
 scenario: design
@@ -15,7 +15,7 @@ orchestration:
   dependencies: []
   inject_context: []
   subagent_required: true
-directory: skill-project-bootstrap
+directory: pop-novel-bootstrap
 
 produces:
   - 00-原始设定/L0-产品层/PRD.md
@@ -93,13 +93,13 @@ Phase 6 (超越性硬检查)
 | Phase | 文件 | 类型 |
 |:------|:-----|:-----|
 | Phase 0 | `phases/phase-0.md` | 灵魂对齐 + PRD + 压力测试 |
-| Phase 0.3 | `phases/phase-03.md` | 参考书筛选 + 拆解 + 差异化 |
-| Phase 0.4 | `phases/phase-04.md` | 金手指设计 + 四级评估 + 约束检查 |
-| Phase 0.5 ★ | `phases/phase-05.md` | 跨域素材聚合（强制） |
+| Phase 0.3 | `phases/phase-0-3.md` | 参考书筛选 + 拆解 + 差异化 |
+| Phase 0.4 | `phases/phase-0-4.md` | 金手指设计 + 四级评估 + 约束检查 |
+| Phase 0.5 ★ | `phases/phase-0-5.md` | 跨域素材聚合（强制） |
 | Phase 1 | `phases/phase-1.md` | L1六件套骨架 |
-| Phase 1.2 ★ | `phases/phase-12.md` | L1深度展开（逐篇扩写） |
-| Phase 1.3 ★ | `phases/phase-13.md` | L1交叉关联矩阵 |
-| Phase 1.5 | `phases/phase-15.md` | 世界稳定性检验 |
+| Phase 1.2 ★ | `phases/phase-1-2.md` | L1深度展开（逐篇扩写） |
+| Phase 1.3 ★ | `phases/phase-1-3.md` | L1交叉关联矩阵 |
+| Phase 1.5 | `phases/phase-1-5.md` | 世界稳定性检验 |
 | Phase 2 | `phases/phase-2.md` | L2卷级展开 + 爽点设计 |
 | Phase 3 | `phases/phase-3.md` | 项目骨架 + 角色卡 + 数据库 |
 | Phase 4 | `phases/phase-4.md` | reader_profile嵌入 |
