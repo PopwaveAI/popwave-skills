@@ -1,0 +1,55 @@
+# project.yaml
+
+project:
+  name: "仙秦席卷诸天"
+  author: "（待填写）"
+  platform: "fanqie"
+  start_date: "2026-06-03"
+  target_words: 2000000
+  target_chapters: 800
+
+paths:
+  outline: "02-大纲/"
+  settings: "00-原始设定/"
+  chapters: "03-正文/"
+  db: "04-数据库/"
+  writing_assets: "01-写作资产/"
+
+phase_progress:
+  phase_0: true
+  phase_03: true
+  phase_04: true
+  phase_05: true
+  phase_1: true
+  phase_12: true
+  phase_13: false
+  phase_15: false
+  phase_2: false
+  phase_3: false
+  phase_4: false
+  phase_5: false
+  phase_6: false
+
+reader_profile:
+  demographic:
+    age_range: "18-28"
+    gender_bias: "male"
+    reading_scenario: "commute"
+  reading_preference:
+    pace: "fast"
+    chapter_length: "2000-3000"
+    preferred_elements:
+      - "upgrade"
+      - "combat"
+      - "world-building"
+      - "strategic-conquest"
+  trigger_sensitivity:
+    face_slapping: 5
+    power_up: 5
+    wisdom_dominant: 3
+    mystery: 3
+  drop_threshold:
+    first_3_chapters:
+      - "no_power_up_in_3_chapters"
+      - "info_dump_too_heavy"
+      - "protagonist_too_passive"
