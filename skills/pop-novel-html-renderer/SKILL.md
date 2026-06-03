@@ -1,5 +1,5 @@
 ---
-name: html-renderer
+name: pop-novel-html-renderer
 display_name: "HTML化发布引擎"
 category: publish
 scenario: publish
