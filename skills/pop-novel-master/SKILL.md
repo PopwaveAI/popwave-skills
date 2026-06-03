@@ -67,4 +67,14 @@ version: 1.0.0
 _shared/pop/                  ← pop身份声明
 _shared/thinking-mode-template.md  ← 先思考后产出
 _shared/project_config.py          ← 工具函数
+
+---
+
+## 归档
+
+```
+_archive/pop-novel-agent-pro/    ← 旧单体存档
+_archive/inactive/               ← 不活跃skill
+_archive/spec-bridge/            ← Spec桥接层
+```
 ```
