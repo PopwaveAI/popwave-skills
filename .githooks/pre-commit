@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+echo "Running pre-commit skill validation..."
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo "npm is required to run skill validation before commit."
+  exit 1
+fi
+
+if npm run skills:validate; then
+  echo "Pre-commit skill validation passed."
+  exit 0
+fi
+
+cat <<'EOF'
+
+Pre-commit skill validation failed.
+
+The log above includes AI repair context such as:
+- Skill
+- File
+- Problem
+- Nearby JSON content when available
+- AI repair prompt
+
+Fix the reported skill file, then run:
+
+  npm run skills:validate
+
+After validation passes, retry the commit.
+EOF
+
+exit 1

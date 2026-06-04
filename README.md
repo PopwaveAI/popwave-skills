@@ -18,6 +18,10 @@ https://skills-backup.popwave.cn/registry.json
 
 ## Skill 目录结构
 
+Popwave Skill Hub 支持两种 Skill 格式。
+
+原生格式：
+
 ```text
 skills/
   example-writing/
@@ -32,12 +36,34 @@ skills/
 
 `skill.json` 是面向应用的清单文件。`SKILL.md` 是面向模型的指令入口。
 
+社区兼容格式：
+
+```text
+skills/
+  community-skill/
+    SKILL.md
+    references/
+    scripts/
+```
+
+社区兼容格式不要求 `skill.json`，但 `SKILL.md` 必须包含 YAML frontmatter：
+
+```markdown
+---
+name: community-skill
+description: 当用户需要完成某类任务时使用这个 Skill。
+version: 0.1.0
+---
+```
+
+其中 `version` 可选，缺省时构建脚本会使用 `0.1.0`。发布时，Hub 会根据 frontmatter 自动生成 registry 所需的 manifest 信息。
+
 ## 作者工作流
 
 面向非技术人员的详细操作说明见：[Skill 新增与修改操作手册](docs/skill-operation-guide.md)。
 
 1. 创建或编辑 `skills/<skill-id>`。
-2. 按照 SemVer 规范更新 `skill.json.version`。
+2. 按照 SemVer 规范更新 `skill.json.version`；社区兼容格式可更新 `SKILL.md` frontmatter 中的 `version`。
 3. 更新 `CHANGELOG.md`。
 4. 运行：
 

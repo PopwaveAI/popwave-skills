@@ -1,28 +1,9 @@
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
+import { readSkillManifest, validateSkillManifest } from "./skill-manifest.mjs";
 
 const root = process.cwd();
 const skillsRoot = path.join(root, "skills");
-const idPattern = /^[a-zA-Z0-9_-]+$/;
-const versionPattern = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/;
-
-async function exists(filePath) {
-  try {
-    await stat(filePath);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function readSkillJson(filePath, skillId) {
-  try {
-    return JSON.parse(await readFile(filePath, "utf8"));
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    fail(`${skillId}: invalid skill.json: ${detail}`);
-  }
-}
 
 function fail(message) {
   throw new Error(message);
@@ -30,32 +11,8 @@ function fail(message) {
 
 async function validateSkill(directoryName) {
   const skillRoot = path.join(skillsRoot, directoryName);
-  const manifestPath = path.join(skillRoot, "skill.json");
-  if (!(await exists(manifestPath))) {
-    fail(`${directoryName}: missing skill.json`);
-  }
-
-  const manifest = await readSkillJson(manifestPath, directoryName);
-  if (!manifest.id || !idPattern.test(manifest.id)) {
-    fail(`${directoryName}: skill.json id must match ${idPattern}`);
-  }
-  if (manifest.id !== directoryName) {
-    fail(`${directoryName}: directory name must match skill id ${manifest.id}`);
-  }
-  if (!manifest.version || !versionPattern.test(manifest.version)) {
-    fail(`${directoryName}: version must be SemVer, got ${manifest.version}`);
-  }
-  if (!manifest.description || manifest.description.length < 8) {
-    fail(`${directoryName}: description is required`);
-  }
-  const entry = manifest.entry || "SKILL.md";
-  if (entry.includes("..") || path.isAbsolute(entry)) {
-    fail(`${directoryName}: entry must be a safe relative path`);
-  }
-  if (!(await exists(path.join(skillRoot, entry)))) {
-    fail(`${directoryName}: entry file ${entry} does not exist`);
-  }
-  return manifest;
+  const resolved = await readSkillManifest(skillRoot, directoryName);
+  return await validateSkillManifest({ directoryName, skillRoot, ...resolved });
 }
 
 async function main() {

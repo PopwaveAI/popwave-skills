@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
+    "hooks:install": "node scripts/install-git-hooks.mjs",
+    "prepare": "npm run hooks:install",
     "skills:sync": "git submodule update --init --recursive",
     "skills:new": "node scripts/new-skill.mjs",
     "skills:validate": "node scripts/validate-skills.mjs",

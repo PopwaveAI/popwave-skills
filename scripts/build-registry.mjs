@@ -2,19 +2,11 @@ import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { readSkillManifest, validateSkillManifest } from "./skill-manifest.mjs";
 
 const root = process.cwd();
 const skillsRoot = path.join(root, "skills");
 const distRoot = path.join(root, "dist");
-
-async function readSkillJson(filePath, skillId) {
-  try {
-    return JSON.parse(await readFile(filePath, "utf8"));
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    throw new Error(`${skillId}: invalid skill.json: ${detail}`);
-  }
-}
 
 function isPrerelease(version) {
   return version.includes("-");
@@ -63,7 +55,8 @@ async function main() {
 
   for (const entry of entries.filter((item) => item.isDirectory())) {
     const skillRoot = path.join(skillsRoot, entry.name);
-    const manifest = await readSkillJson(path.join(skillRoot, "skill.json"), entry.name);
+    const resolved = await readSkillManifest(skillRoot, entry.name);
+    const manifest = await validateSkillManifest({ directoryName: entry.name, skillRoot, ...resolved });
     const packagePath = path.join(distRoot, "skills", manifest.id, manifest.version, "skill-package.zip");
     await zipDirectory(skillRoot, packagePath);
     const checksum = await sha256File(packagePath);

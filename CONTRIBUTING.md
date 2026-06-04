@@ -14,17 +14,45 @@ Then edit:
 - `skills/my-skill-id/SKILL.md`
 - `skills/my-skill-id/CHANGELOG.md`
 
+This is the Popwave-native format. The hub also accepts community-style skills that only include `SKILL.md` with YAML frontmatter:
+
+```markdown
+---
+name: my-skill-id
+description: Use when the user needs this skill for a specific task.
+version: 0.1.0
+---
+```
+
+For community-style skills, `version` is optional and defaults to `0.1.0`. The directory name must match `name`.
+
 For large skills maintained in their own repositories, add the external repository as a Git submodule under `skills/<skill-id>` instead of copying files into this repo. See `docs/submodule-skill-workflow.md`.
 
 ## Update A Skill
 
 1. Make the smallest behavior change that solves the target use case.
-2. Bump `skill.json.version`.
-3. Update `CHANGELOG.md`.
+2. Bump `skill.json.version`, or bump `SKILL.md` frontmatter `version` for community-style skills.
+3. Update `CHANGELOG.md` if the skill keeps one.
 4. If the skill is a submodule, update the skill repo first, then update the submodule pointer in this hub repo.
 5. Run `npm run skills:sync` when the change depends on submodules.
 6. Run `npm run build`.
 7. Open a PR with test instructions and screenshots/log snippets when useful.
+
+## Pre-commit Validation
+
+`npm install` installs the repository Git hooks automatically. If hooks are not active, run:
+
+```bash
+npm run hooks:install
+```
+
+Before each commit, `.githooks/pre-commit` runs:
+
+```bash
+npm run skills:validate
+```
+
+Validation failures include the skill id, file path, problem, and an AI repair prompt. JSON parse errors also include nearby file content and a caret location when Node reports line and column details.
 
 ## Submodule Skills
 
