@@ -1,97 +1,76 @@
 ---
 name: pop-skill-create
-description: Popwave Skill 编写规范和抽象原则指南。定义 Popwave Skill 的双文件结构、场景分类体系、抽象原则（通用跨场景/模板兜底/Agent验收/需求前置思考/版本迭代/产出隔离）。Invoke when user wants to create a new Popwave Skill, or when discussing Skill architecture/standards.
-version: 1.0.0
+description: Popwave Skill 编写规范、改造工具和评估框架。定义 Skill 的文件结构和抽象原则（设计模式）；提供 8 步改造流程（改造模式）；提供 8 维评分 rubrik 和实测评估（评估模式）。当用户说"创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/评估skill/skill打分/skill质量检查/skill review"时启用。
 ---
 
-# Popwave Skill 编写规范
+# Popwave Skill — 设计 · 改造 · 评估
 
-> 所有 Popwave 下的工具和能力都以 **Skill** 为单位组织。本规范定义了一个合格的 Popwave Skill 应该长什么样——文件结构、抽象原则、边界划分、验收标准。
+所有 Popwave 工具和能力都以 Skill 为单位组织。本 skill 覆盖一个 Skill 的全生命周期：设计时（长什么样）→ 改造时（怎么改）→ 评估时（好不好）。
 
 ---
 
-## 一、Skill 是什么
+## ❌ 质量红线（三种模式共享）
 
-Popwave 的 Skill，是一个**可独立交付的能力单元**：
+| # | 红线 | 说明 |
+|:-:|:-----|:-----|
+| ❌1 | **frontmatter 不超过 4 行** | 只保留 name + description。version 可选。元数据移入 skill.json |
+| ❌2 | **description 不是目录式说明** | "五模式设计：模式A→B→C" 是目录。必须写成 "当用户说...时启用" |
+| ❌3 | **质量红线在第一屏** | 第一屏必须出现 ❌/✅ 格式的禁止-行动红线。不埋到末尾或独立文件 |
+| ❌4 | **红线用命令式而非定义式** | "P0/P1/P2 分类" = 定义式，❌。须改为 "❌ 不准用二手资料代替原文" |
+| ❌5 | **有 WRONG 错误示例** | 必须有至少一个显式的 ❌ WRONG 区域，展示 agent 常犯的错误 |
+| ❌6 | **正文不是深层嵌套的步骤清单** | 深层 Phase 体系必须拍平为 3-6 步的扁平决策框架 |
+| ❌7 | **不用第二人称指挥式** | "You should…" / "你需要…" 全部改为祈使句 |
+| ❌8 | **红线是禁令不是建议** | "对话占比建议≥25%" → 改 "❌ 对话占比低于 20% 重写" |
 
-```
-Skill = 一份 SKILL.md（人读指令） + 一个 skill.json（机器元数据）
-     + 可选的 scripts/ 和 templates/ 目录（实现）
-```
+---
 
-一个 Skill 应该回答三个问题：
-- **这个能力在什么场景下该用？**（触发条件）
+# 模式 A：设计模式
+
+> 用户说"创建/新建/加个 skill"时走此模式。定义一个合格 Skill 的结构规范。
+
+---
+
+## Skill 是什么
+
+Skill = **一份 SKILL.md（人读指令） + 一个 skill.json（机器元数据） + 可选的 scripts/ 和 templates/ 目录**
+
+一个合格的 Skill 回答三个问题：
+- **什么场景下该用？**（触发条件）
 - **能产出什么？不能产出什么？**（边界）
 - **Agent 用之前要做什么准备？**（前置思考）
 
----
-
-## 二、文件规范
-
-### 2.1 双文件结构（强制）
-
-每个 Skill 必须包含且仅包含两个核心元文件：
+## 双文件结构（强制）
 
 ```
 my-skill/
 ├── SKILL.md          ← 人读：全部指令、上下文、方法论、模板
 ├── skill.json        ← 机读：平台用元数据（id/权限/斜杠命令）
 ├── scripts/          ← 可选：脚本实现
-├── templates/        ← 可选：模板文件
-└── other-assets/     ← 可选：reports / docs 等
+└── templates/        ← 可选：模板文件
 ```
 
 **不要**：
-- ❌ 不要在 `SKILL.md` 之外再放 `README.md`（功能重叠）
-- ❌ 不要单独放 `CHANGELOG.md`（更新日志放 `SKILL.md` 尾部）
-- ❌ 不要放 `docs/` 目录（所有说明写进 `SKILL.md`）
+- ❌ 不放 `README.md`
+- ❌ 不另放 `docs/` 目录
 
-### 2.2 skill.json 规格
+**更新日志管理**：
+- ✅ `CHANGELOG.md` 独立文件存储变更历史
+- ✅ SKILL.md 末尾一行指向 CHANGELOG.md
 
-| 字段 | 必填 | 说明 | 示例 |
-|------|------|------|------|
-| `id` | ✅ | 唯一标识，对应目录名 | `"knowledge-downloader"` |
-| `entry` | ✅ | 入口文件，固定 `"SKILL.md"` | `"SKILL.md"` |
-| `activation.slashCommands` | ✅ | 触发命令数组 | `["knowledge-downloader", "download"]` |
-| `permissions` | ✅ | 权限声明 | `{ "network": true }` |
+## skill.json 规格
 
-**skill.json 只放机器读的字段，不要放 description / version（这些在 SKILL.md frontmatter 里维护更及时）。**
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `id` | ✅ | 唯一标识，与目录名一致 |
+| `entry` | ✅ | 固定 `"SKILL.md"` |
+| `activation.slashCommands` | ✅ | 触发命令数组 |
+| `permissions` | ✅ | 权限声明 |
 
-完整示例：
-```json
-{
-  "id": "my-skill",
-  "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": ["my-skill", "ms"]
-  },
-  "permissions": {
-    "readProjectFiles": true,
-    "writeProjectFiles": true,
-    "network": true,
-    "shell": false
-  }
-}
+只放机器读的字段。description / version 在 SKILL.md 维护。
+
+## description 写法
+
 ```
-
-### 2.3 SKILL.md 规格
-
-#### frontmatter（强制）
-
-```yaml
----
-name: my-skill                   # 唯一标识，与目录名和 skill.json id 一致
-description: 做什么 + 何时触发。   # 关键字段：Agent 靠这个决定要不要调用你
-version: 1.0.0                   # 语义版本号
----
-```
-
-`description` 是**最重要的字段**。必须同时包含：
-1. **做什么** — 功能的简要描述
-2. **何时触发** — Agent 在什么场景下应该调用它
-
-写法示例：
-```yaml
 # ❌ 差：只说做什么
 description: "用户调研工具"
 
@@ -99,193 +78,230 @@ description: "用户调研工具"
 description: "网文作者社区用户调研。Invoke when user needs to research opinions across Chinese web novel communities."
 ```
 
-#### 内容组织（推荐顺序）
+## SKILL.md 内容组织（推荐顺序）
 
 ```
-# Skill 标题
-
+# 标题
 > 一句话摘要
 
----
-
-## 一、概述
-## 二、能力范围（矩阵/决策树）
-## 三、核心指令/方法论
-## 四、模板/产出物标准
-## 五、环境准备/前置依赖
-## 六、场景工作流
-## 七、常见问题/踩坑记录
-## 八、更新日志
+## ❌ 质量红线
+## 什么时候使用 / Triggers
+## 前置条件（可选）
+## 核心流程（3-6步，扁平）
+## ❌ 错误示例（WRONG 区块）
+## 验收清单
+## 异常与边界条件（10种+异常场景的兜底处理）
+## 版本（指向 CHANGELOG.md）
 ```
 
----
+### 底线：异常与边界条件表
 
-## 三、Skill 抽象原则
+每个 Skill 必须在正文末尾包含一张异常处理表，预定义实操中可能遇到的异常场景和 fallback 动作。格式参照：
 
-### 原则 1：追求通用和跨场景能力
-
-一个 Skill 应该覆盖一类场景的**通用能力**，而不是一个具体任务。
-
-```
-✅ 好：knowledge-downloader（通用知识获取，支持微信/B站等多种数据源）
-❌ 差：wechat-article-downloader（只做微信文章下载，场景狭隘）
-```
-
-**判断标准：** 当换个数据源（微信→B站/知乎/小红书）时，Skill 的 Phase B 能否直接复用？如果能，抽象就是成功的。
-
-### 原则 2：通过模板兜底特化场景效果
-
-Skill 提供通用能力，模板（`templates/`）提供场景化的效果兜底。
-
-```
-Skill（通用）                        templates/（场景特化）
-knowledge-downloader               report-template.md（微信拆解）
-                                   subtitle-clean-prompt.md（B站清洗）
-
-pop-write-anything                 大纲模板.md / 章纲模板.md / 人物卡模板.md
-```
-
-模板是 Skill 通用能力和场景特化之间的**桥梁**。当需要为一个新场景定制输出格式时，加模板，不改 Skill 核心逻辑。
-
-### 原则 3：Skill 要考虑 Agent 验收部分
-
-每个 Skill 必须定义**什么算「做完了」**的标准：
-
-- **产出物验收** — 输出文件长什么样才算合格？放在哪里？
-- **质量验收** — 拆解报告/文章/数据的质量下限是什么？
-- **失败处理** — 哪些情况是 Skill 已知的、可以继续的？哪些是必须停下来的？
-
-在 SKILL.md 中明确写出来：
 ```markdown
-## 验收标准
+## 异常与边界条件
 
-- [ ] 原文 .md 存在于原文/ 目录
-- [ ] 拆解报告存在于拆解文/ 目录
-- [ ] 报告各章节不为空
-- [ ] 如果下载失败 → 记录错误后跳过，继续下一篇
-- [ ] 如果无字幕 → 输出导读而非全文
+| 场景 | 触发条件 | 处理动作 |
+|:-----|:---------|:---------|
+| 场景 1 | 条件 X | 动作 Y，**不准编造数据** |
+| 场景 2 | 条件 Z | 动作 W |
 ```
 
-### 原则 4：Agent 运用之前，哪怕有 Skill，也要想清楚需求
+**原则**：异常先告知用户，再按规则处理。绝不静默跳过或编造数据。
 
-Skill 不是万能插件。Agent 在调用 Skill 之前，必须：
-1. **理解用户真正要什么** — 用户说「下载这篇文章」不一定是只需要原文，可能还要拆解报告
-2. **判断 Skill 是否匹配** — 当前场景是否在 Skill 的能力范围内？
-3. **确认前置条件** — 这个 Skill 依赖 Chrome/CDP/API Key 吗？都就位了吗？
-4. **选择正确参数** — 用 `--no-ocr` 还是 `--album`？输出到哪个目录？
+---
 
-**Skill 不能替代思考。** 在 POP-CALL 阶段就要做这个判断。
+# 模式 B：改造模式
 
-### 原则 5：考虑版本迭代定位
+> 用户说"改造/修复/重写/按规范改 skill"时走此模式。
 
-SKILL.md 的 `version` 字段遵循语义化版本：
+---
+
+## 改造红线
+
+| # | 改造红线 | 说明 |
+|:-:|:---------|:-----|
+| ❌B1 | **不扫描就动手改** | 必须先读完整文件，对照红线标记，输出扫描报告 |
+| ❌B2 | **改后不更新版本号和 CHANGELOG** | 版本号 +1，CHANGELOG.md 追加一条 |
+| ❌B3 | **改后不输出 BEFORE/AFTER 报告** | 用户需要知道改了什么 |
+| ❌B4 | **保留独立的质量红线文件** | QC-checklist 中的红线必须内联到正文 |
+| ❌B5 | **改造范围超出当前 skill** | 只改目标 skill 的 SKILL.md + skill.json |
+
+---
+
+## 改造流程（8步）
+
+### Step 1：扫描红线违规
+
+读目标 SKILL.md，对照 8 项 ❌ 红线逐项标记，输出扫描报告。用户确认后再改造。
+
+### Step 2：精简 frontmatter
+
+砍到 ≤4 行。元数据迁移到 skill.json。
+
+| 原位置 | 迁移目标 |
+|:-------|:---------|
+| version | 移到正文末尾 `## 版本` |
+| orchestration / dependencies | 移到 `skill.json` |
+| display_name / tags / category | 移到 `skill.json` |
+| produces | 移到正文末尾 `## 产出物` |
+
+### Step 3：重写 description
+
+改为触发条件式："当用户说'X/Y/Z'时启用。产出来物供给下游管线。"
+
+### Step 4：重写正文结构
+
+1. ❌ 质量红线提至第一屏
+2. 嵌套 Phase 体系拍平为 3-6 步扁平流程
+3. 每步嵌入 ❌ 错误做法 / ✅ 正确做法
+4. 定义式规则改为禁令式
+
+### Step 5：补充 WRONG 错误示例
+
+至少 1 个 agent 实际会犯的错误，WRONG ❌ + CORRECT ✅ 完整对比。
+
+### Step 6：补充异常与边界条件表
+
+至少覆盖以下场景维度（具体条目根据 skill 领域定制）：
+- 文件/依赖缺失 → 不回到编造数据
+- 外部工具不可用 → 降级方案
+- 用户中途改变需求 → 退回或暂停
+- 子 agent 启动失败 → 手动执行 + 红线自检
+
+### Step 7：输出对比报告
 
 ```
-主版本.次版本.修订号
-
-主版本：管线重构、输出格式变更、核心逻辑改变
-次版本：新增数据源、新增参数、新增模板
-修订号：修复、优化文档、调整参数默认值
+| 维度 | BEFORE | AFTER |
+|:-----|:-------|:------|
+| frontmatter 行数 | N 行 | N 行 |
+| 红线位置 | 第 XXX 行 | 第一屏 |
+| 红线格式 | 定义式 | 命令式 ❌ |
+| 错误示例 | N 个 | N 个 |
+| 边界条件 | 无/有 N 种 | 有 N 种 |
 ```
 
-**更新日志必须在 SKILL.md 尾部维护**，而不是单独的文件。每条日志写清楚：
-- 改了什么
-- 为什么改
-- 向后兼容性
+### Step 8：版本归档 + CHANGELOG
 
-### 原则 6：产出物声明 + Skill 隔离
+在 CHANGELOG.md 追加改造记录。SKILL.md 版本区指向该文件。
 
-每个 Skill 必须明确声明：
-- **产出物** — 脚本输出什么文件、放在哪里、格式是什么
-- **依赖** — 运行需要什么（Chrome/CDP/网络/外部API）
-- **隔离边界** — 这个 Skill 和别的 Skill 的关系
+---
 
-在 SKILL.md 中用 `produces` 和 `orchestration` 块声明（参考 `_knowledge-downloader`）：
+# 模式 C：评估模式
 
-```yaml
-orchestration:
-  preflight:
-    - check Chrome remote-debugging enabled
-    - check web-access skill available
-  dependencies:
-    - web-access
-  subagent_required: false
+> 用户说"评估skill/skill打分/skill质量检查/skill review/帮我看看这个skill好不好"时走此模式。
+>
+> 达尔文评估法（Darwin Evaluation）：仿照 Karpathy autoresearch 的自主评估循环，用 8 维评分 rubrik + 实测 prompt 对比，给目标 skill 打出结构+效果的双向评分。
 
-produces:
-  - Markdown格式的文章原文
-  - 文章配图
-  - 结构化拆解报告
+---
+
+## 评估红线
+
+| # | 红线 | 说明 |
+|:-:|:-----|:-----|
+| ❌C1 | **不读完整文件就评分** | 必须先读 SKILL.md 全文 + skill.json + CHANGELOG，再打分 |
+| ❌C2 | **评估维度不全** | 8 个维度必须全部打分，不留空。维度8（实测表现）可退化为干跑验证 |
+| ❌C3 | **不输出评分卡** | 必须输出格式化的总分表和短板分析 |
+| ❌C4 | **效果维度不跑测试** | 维度8 必须设计至少 2 个测试 prompt，尽可能跑 with-skill vs baseline 对比 |
+| ❌C5 | **改后不重新评估** | 如果评估后进行了改造，必须重新跑一轮完整的 8 维评分 |
+
+---
+
+## 评估流程（5步）
+
+### Step 1：读文件
+
+读目标 skill 的 SKILL.md 全文、skill.json、CHANGELOG.md。
+
+输出一句话定位：这个 skill 是做什么的、在哪条管线中、当前版本号。
+
+### Step 2：设计测试 prompt
+
+设计 2-3 个典型用户 prompt，覆盖：
+- **happy path** — 最常见的使用场景
+- **边界场景** — 异常输入/缺文件/缺前置条件
+
+交给用户确认后再打分。
+
+### Step 3：跑 8 维评分
+
+#### 结构维度（60 分）— 静态分析
+
+| # | 维度 | 权重 | 评分标准 |
+|:-:|:-----|:----:|:---------|
+| 1 | **Frontmatter 质量** | 8 | name 规范、description 包含做什么+何时用+触发词、≤1024字符 |
+| 2 | **工作流清晰度** | 15 | 步骤明确可执行、有序号、每步有输入输出 |
+| 3 | **边界条件覆盖** | 10 | **重点**：有异常处理表、有 fallback、不编造数据 |
+| 4 | **检查点设计** | 7 | 关键决策前有用户确认、有 ❌ 红线放第一屏 |
+| 5 | **指令具体性** | 15 | 不模糊、有判断标准、可直接执行 |
+| 6 | **资源整合度** | 5 | references/scripts/assets 引用正确、路径可达 |
+
+#### 效果维度（40 分）— 需要实测
+
+| # | 维度 | 权重 | 评分标准 |
+|:-:|:-----|:----:|:---------|
+| 7 | **整体架构** | 15 | 结构层次清晰、不冗余不遗漏、与生态一致 |
+| 8 | **实测表现** | 25 | 用测试 prompt 跑一遍，对比 with-skill vs baseline，输出质量是否符合声称能力 |
+
+#### 评分规则
+
+- 每个维度打 1-10 分，乘以权重后求和
+- **总分 = Σ(维度分 × 权重) / 10**，满分 100
+- 维度8 跑子 agent 对比测试，子 agent 不可用时退化为干跑验证，标注 `dry_run`
+
+### Step 4：输出评分卡
+
+```markdown
+| 维度 | 得分 | 短板判断 |
+|:-----|:----:|:---------|
+| 1. Frontmatter 质量 | X/10 | — |
+| 2. 工作流清晰度 | X/10 | — |
+| 3. 边界条件覆盖 | X/10 | **最短板** |
+| 4. 检查点设计 | X/10 | — |
+| 5. 指令具体性 | X/10 | — |
+| 6. 资源整合度 | X/10 | — |
+| 7. 整体架构 | X/10 | — |
+| 8. 实测表现 | X/10 | — |
+| **总分** | **XX/100** | — |
+```
+
+附带三点改进建议，按 P0/P1/P2 优先排序。
+
+### Step 5：输出评估报告
+
+```markdown
+## 评估报告 — {skill 名}
+
+### 测试 Prompt
+- 1. {happy path prompt}
+- 2. {边界场景 prompt}
+
+### 评分卡
+{上面的表格}
+
+### 改进建议
+P0: {必须改的，不改会出安全问题}
+P1: {推荐改的，改了效果提升明显}
+P2: {以后改的，优化空间}
 ```
 
 ---
 
-## 四、场景分类规范
+## 与 darwin-skill 的关系
 
-所有 Skill 按场景放在 `_工具配置/` 下，分为以下场景组：
+| 维度 | darwin-skill（原版） | pop-skill-create 模式 C（本模式） |
+|:-----|:--------------------|:---------------------------------|
+| **定位** | 独立的自动化优化引擎 | 集成在规范框架中的快速评估模式 |
+| **评分 rubrik** | 8 维，带权重 | 同 8 维，同权重 |
+| **实測定式** | 子 agent 独立跑 | 同 — 子 agent / 干跑验证 |
+| **优化循环** | git hill-climbing + 自动回滚 | 评估 → 用户决定是否走改造模式 |
+| **人在回路** | 每个 skill 优化后暂停 | 始终人在回路，评估和改造分两阶段 |
+| **适用场景** | 批量全自动优化 | 评估单个 skill → 决定是否改造 |
 
-| 场景 | 说明 | 示例 |
-|------|------|------|
-| `create场景/` | 写作/创作/素材采集 | novel-agent-pro, pop-write-anything, _knowledge-downloader |
-| `office场景/` | 办公效率 | pop-feishu-office |
-| `网站html场景/` | 网页/H5/SEO | pop-html-anything, pop-seo-anything |
-| `基础设施/` | 跨场景支撑 | web-access, _shared, **pop-skill-create** |
-| `_archive/` | 已过期/学习资料 | 不活跃，仅留存 |
-| `储备方案区/` | 产品设计方案 | 非 Skill，仅文档 |
-
-### 分类原则
-
-- **按用户使用场景分，不按抽象层级分** — 用户想「写东西」就找 create 场景，想「处理网页」就找网站html场景
-- **基础设施**放的是被其他 Skill 依赖的底层能力
-- 新 Skill 加入时必须归入一个场景组，不能放到一级目录
+**工作流程**：评估(模式C) → 发现短板 → 改造(模式B) → 重新评估(模式C) → 确认通过。
 
 ---
 
-## 五、编写检查清单
+## 版本
 
-新建 Skill 时，逐项确认：
-
-- [ ] **双文件结构** — 有 `SKILL.md` 和 `skill.json`
-- [ ] **frontmatter** — `name` / `description` / `version` 齐全
-- [ ] **description 含触发条件** — Agent 靠它判断该不该调你
-- [ ] **skill.json 精简** — 只有机读字段，没有 description/version
-- [ ] **无冗余文件** — 没有 README.md / CHANGELOG.md
-- [ ] **有验收标准** — 什么算做完了？
-- [ ] **有前置检查** — 运行前要确认什么？
-- [ ] **有产出物声明** — 输出什么文件？放哪里？
-- [ ] **通用跨场景** — 换个数据源/场景，核心逻辑能复用吗？
-- [ ] **模板兜底** — 特化效果通过 `templates/` 解决，而非改核心逻辑
-- [ ] **版本号** — 语义化版本，更新日志在 SKILL.md 尾部
-- [ ] **场景归位** — 放在正确的场景组目录下
-
----
-
-## 六、示例：cnovel-research（规范示范）
-
-作为规范的本 Skill 自身也是 Popwave Skill：
-
-```
-popwave-skills/cnovel-research/
-├── SKILL.md          ← ✅ 所有人读内容合并在此
-├── skill.json        ← ✅ 只有机读字段
-├── reports/          ← 调研报告产出物
-└── tools/            ← 爬虫脚本
-```
-
-遵循的所有规范：
-- ✅ 双文件结构，无 README/CHANGELOG
-- ✅ frontmatter 含 description + version
-- ✅ 通用跨场景（可调研任意平台话题，不限于网文作者）
-- ✅ 模板兜底（`reports/` 中的报告模板）
-- ✅ 验收标准（能力范围表明确标注哪些平台能/不能）
-
----
-
-## 七、更新日志
-
-### 1.0.0 — 2026-05-28
-
-- 初版：Popwave Skill 双文件规范
-- 六大抽象原则
-- 场景分类体系
-- 编写检查清单
-- cnovel-research 作为规范示范
+v3.0 | 2026-06-04 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

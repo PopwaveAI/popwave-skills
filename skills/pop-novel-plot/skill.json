@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-plot",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "displayName": "剧情架构",
-  "description": "幕纲设计+交互闸门·场景卡试读。产出幕纲后触发人类确认。",
+  "description": "剧情架构设计，以情绪驱动设计幕级爽点分布和情绪弧线。用户说"设计剧情/画幕纲/做大纲/剧情架构/爽点分布/幕纲"时启用。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

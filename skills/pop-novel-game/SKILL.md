@@ -1,13 +1,6 @@
 ---
 name: "pop-novel-game"
 description: "将写书过程中沉淀的世界观、人设、剧情设定等资料，转化为由AI驱动的互动文字游戏（AI文游）。Invoke when user wants to turn their novel's world-building materials into an interactive text-based game experience."
-api:
-  provider: "deepseek"
-  endpoint: "https://api.deepseek.com/v1/chat/completions"
-  model: "deepseek-v4-flash"
-  key: "sk-3c03febdfee3442193d4f5f0bd3b766a"
-# ⚠️ 演示用途：已填入真实 API key。请勿将本文件或生成的 HTML 提交到公开仓库。
-# 正式分发前应替换为占位符或环境变量机制。
 ---
 
 # pop-novel-game · 小说世界观AI文游化
@@ -55,8 +48,8 @@ Phase B ─ 文游设计（设计游戏框架）
   └─ 产出：AI文游指令文档
 
 Phase C ─ 产出生成
-  ├─ 生成 AI文游指令.md（核心产物——丢给任何主流AI即可开玩）
-  ├─ 生成 游戏世界.html（交互式HTML游玩界面，零外部依赖）
+  ├─ 生成 文游指令.md（核心产物——丢给任何主流AI即可开玩）
+  ├─ 生成 AI文游.html（交互式HTML游玩界面，零外部依赖，位于 互动/ 目录下）
   └─ 验证：HTML必须可双击打开、全部功能正常
 ```
 
@@ -66,10 +59,11 @@ Phase C ─ 产出生成
 
 ```
 <小说名>-AI文游/
-├── 文游指令.md              ← ★ 核心产物！一份自然语言指令，丢给Claude/GPT/DeepSeek即可开玩
-├── 游戏世界.html            ← ★ 交互式HTML游玩界面（零外部依赖，双击即开）
-├── 世界观设定集.md           ← 从原始资料整理的结构化世界摘要（参考用）
-└── 角色档案.md              ← 从原始资料整理的角色档案（参考用）
+├── 互动/
+│   └── AI文游.html            ← ★ 交互式HTML游玩界面（零外部依赖，双击即开）
+├── 文游指令.md                ← ★ 核心产物！一份自然语言指令，丢给Claude/GPT/DeepSeek即可开玩
+├── 世界观设定集.md             ← 从原始资料整理的结构化世界摘要（参考用）
+└── 角色档案.md                ← 从原始资料整理的角色档案（参考用）
 ```
 
 ---
@@ -77,23 +71,42 @@ Phase C ─ 产出生成
 ## HTML 设计要求
 
 | 要求 | 说明 |
-|:----|:----|
+|:----|:------|
 | **零外部依赖** | 不加载CDN、不跨域、无外部字体/图标库。仅 API 调用需要网络，`双击 .html` 即可打开 |
-| **自包含** | 所有数据（含 文游指令）以文本嵌入 HTML 的 JS 常量中 |
-| **AI 实时驱动** | HTML 内嵌 DeepSeek API key，每次玩家操作实时调 API 生成剧情，而非预设分支 |
+| **自包含** | 所有数据（含文游指令）以文本嵌入 HTML 的 JS 常量中 |
+| **AI 实时驱动** | 每次玩家操作实时调 API 生成剧情，而非预设分支 |
 | **世界观主题** | 视觉风格适配故事世界的调性（仙侠/科幻/都市/西幻……） |
 | **交互性** | 玩家可点击选择推进剧情，输入框支持自由输入 |
 | **世界百科** | 内置世界观、角色、势力的查阅面板 |
 | **进度持久化** | 使用 localStorage 保存游玩进度（含对话历史和状态） |
 | **验证规范** | 交付前必须验证：`</html>`闭合 / 文游指令完整嵌入 / API 路径正确 / 双击可用 |
 
+### API 配置
+
+HTML 生成时，API key **不得硬编码在 SKILL.md 或方法文档中**，通过以下方式动态注入：
+
+| 注入方式 | 说明 |
+|:---------|:-----|
+| **环境变量（推荐）** | 读取 `$env:DEEPSEEK_API_KEY`，生成时自动注入 HTML |
+| **交互式提示** | 生成过程中显式提示用户输入 API key（不做默认填充，无占位符） |
+
+HTML 内部的 API 调用配置（生成时动态注入，SKILL.md 中不存储）：
+
+| 配置项 | 值 |
+|:------|:---|
+| Endpoint | `https://api.deepseek.com/v1/chat/completions` |
+| Model | `deepseek-v4-flash` |
+| Stream | `true` |
+| Temperature | `0.85` |
+| Max Tokens | `2048` |
+
 ### HTML 功能模块参考
 
 ```
-游戏世界.html
+AI文游.html
 ├── [数据层]
-│   ├── API_KEY — DeepSeek API key（生成 HTML 时由用户填入，值来自 SKILL.md frontmatter）
-│   ├── GAME_INSTRUCTION — 完整文游指令（system prompt）
+│   ├── API_KEY — 由环境变量或用户输入注入，SKILL.md 中不存储
+│   ├── GAME_INSTRUCTION — 完整文游指令（system prompt），内部反引号须转义
 │   └── WORDS_DATA — 世界观参考 JSON（供侧边栏展示）
 │
 ├── [引擎层]
@@ -204,7 +217,7 @@ parseStreamResponse(fullContent) → { narrative, stats, choices, inventory, fla
 
 #### 陷阱 1：GAME_INSTRUCTION 中的反引号
 
-**问题**：文游指令.md 里包含 markdown 代码块 `\`\`\``，嵌入 HTML 时使用了 JS 模板字面量（backtick string），内部反引号没有转义 → 整个 JS 引擎全部语法错误，重置按钮、流式解析等所有功能都失效。
+**问题**：文游指令.md 里包含 markdown 代码块 ```，嵌入 HTML 时使用了 JS 模板字面量（backtick string），内部反引号没有转义 → 整个 JS 引擎全部语法错误，重置按钮、流式解析等所有功能都失效。
 
 **修复**：嵌入 GAME_INSTRUCTION 时，必须将所有内部反引号转义为 `\``。
 
@@ -261,7 +274,7 @@ function resetGame() {
 }
 ```
 
-> ⚠️ 旧版陷阱说 `resetGame()` 开头写 `isLoading = false; hideLoading();`，但这样只解锁不取消请求，后台请求仍可能触发回调。v2.0.0 统一使用 `cancelAI()` 一次解决。
+> ⚠️ 旧版陷阱说 `resetGame()` 开头写 `isLoading = false; hideLoading();`，但这样只解锁不取消请求，后台请求仍可能触发回调。统一使用 `cancelAI()` 一次解决。
 
 #### 陷阱 4：超时与重试
 
@@ -365,53 +378,74 @@ function startGame() {
 2. **Phase A 必须产出结构化 JSON** — 包含静态层（名词/设定）+ 角色层（人物/关系）+ 剧情层（事件/冲突）
 3. **指令文件必须可独立使用** — 即使没有 HTML，指令文件丢给 AI 模型也必须能玩
 4. **HTML 必须调 API 实时驱动** — 不准用预设场景查表模式。每次玩家操作必须调 DeepSeek API 动态生成剧情
-5. **不准不验证 HTML 就交付** — 必须检查：文游指令完整嵌入 / `stream: true` 配置正确 / SSE 解析逻辑正常 / JSON fallback 正常 / API 路径正确 / `</html>` 闭合 / 双击可开
+5. **HTML 交付前必须做完整性验证** — 文游指令完整嵌入 / stream: true / SSE 解析正常 / JSON fallback 正常 / API 路径正确 / `</html>` 闭合 / 双击可开
 6. **HTML 的视觉风格必须匹配世界观调性** — 仙侠风、赛博风、古风等
 7. **数值系统要克制** — 2~4 个核心数值足够，不要过度复杂
 8. **分支节点至少设计 3 个关键决策点** — 保证游戏有多样性
 9. **默认提供至少 2 种不同结局** — 让玩家有重玩动力
-10. **API key 安全** — 演示场景直接写入真实 key。注意不要将 SKILL.md 或生成的 HTML 提交到公开仓库
+10. **API key 安全** — 生成 HTML 时提示用户填入自己的 key，禁止硬编码在 SKILL.md 或方法文档中。交付物不可包含真实 key
 
 ---
 
-## 更新日志
+## ❌ 质量红线
 
-### v1.2.0 — 2026-05-30
-- **实时流式渲染**：AI 叙事文本边生成边显示到面板，不等待完整响应
-- 改为「先叙事纯文本 → `---DATA---` → JSON」的双段输出格式
-- 新增 `appendStreamText()` 流式追加函数、`parseStreamResponse()` 分隔符解析函数
-- 移除打字机效果（流式本身提供逐字效果）和 `typewriterTimer`
-- 更新 API 协议文档：响应格式完全重写
+以下为不可触碰的质量红线，违反任意一条即视为不合格交付：
 
-### v2.0.0 — 2026-05-31
-- **Spec 三文件落地**：按照 Spec 模式新增 `.trae/specs/pop-novel-game-v2/` 目录（spec.md / tasks.md / checklist.md），实现"先规格后执行"的开发范式
-- **统一纯流式协议**：移除 `response_format: json_object` 的所有引用，全场统一 `stream: true`，修复不兼容 bug
-- **AbortController 取消**：新增 `currentAbortController` + `cancelAI()`，玩家可随时取消进行中的 AI 响应
-- **超时兜底**：30 秒无响应自动断开，叙事面板显示超时提示 + 重试按钮
-- **指数退避重试**：网络错误自动重试（最多 3 次，间隔 1s/2s/4s），3 次均失败显示手动重试按钮
-- **流式叙事渐进渲染**：SSE 中每收到 `delta.content`，经格式检测后立即 `requestAnimationFrame` 节流追加到叙事面板
-- **Typing Indicator**：AI 响应期间显示「🤔 正在思考…」弹跳点动画，禁用所有交互控件
-- **完整 parseStreamResponse()**：三种格式（`---DATA---` / `{"narrative"}` / 纯文本）全部完整实现，无 `...` 占位符
-- **resetGame() loading 锁彻底修复**：开头强制调用 `cancelAI()` 后再重置状态
-- **localStorage 恢复加 try-catch 兜底**：损坏数据不导致白屏，自动回退到新游戏
-- **实战陷阱新增**：陷阱 4（超时与重试）、陷阱 5（localStorage 解析失败）
-- **纪律新增**：第 11 条（AbortController）、第 12 条（超时兜底）、第 13 条（指数退避重试）
-- **HTML 产出规范验证清单升级**：新增 16 个检查项覆盖取消/超时/重试/渐进渲染/Typing Indicator/完整解析/startGame 兜底
-- **🚑 后审修复（代码 Review 发现并修复）**：
-  - **P0-1** 修复 `---DATA---` 偏移量错误：`+ 9` → `+ 10`（`---DATA---` 长度为 10），两处代码已统一修正。此 bug 会导致 JSON 部分因开头多一个 `-` 而全部解析失败
-  - **P1-1** fetch 后增加 HTTP 状态码检查（4xx/5xx 直接抛异常进入重试，避免静默吞错）
-  - **P1-2** 超时回调增加 `isCompleted` 竞态标志 + `timeoutTimer = null` 清理，防止超时与成功路径竞态
-  - **P1-3** assistant 消息改为存储原始 AI 输出文本（`fullContent`）而非 `JSON.stringify(result)`，保持 AI 上下文格式一致性
-  - **P1-4** `startGame()` 存档恢复改用 `parseStreamResponse()` 而非 `JSON.parse()`，兼容原始文本格式
-  - **P2-1** 移除 `renderStats()` 中未使用的 `oldVal` 变量
-  - **P2-2** `resetGame()` 去除 `cancelAI()` 后的冗余 `isLoading=false; hideLoading()` 代码
-  - **P2-4** `showLoading()` 增加对 `.retry-btn` 的禁用，防止失败后残留按钮导致并发调用
-  - **🔧 实测防修复**（来自《幻想世界大穿越》真实发行为 Bug 的规范层加固）：
-  - **C1** `renderChoices()` 增加"重开"/"重新开始"关键字守卫，防止选项内容误发 AI
-  - **C2** 网络错误提示增加 CORS 解决方案（`python3 -m http.server 8080`），玩家不再卡在无声错误中
-- **API key 策略修正**：演示场景直接写入真实 key（SKILL.md frontmatter + 方法文档示例代码），加 ⚠️ 安全注释
-- 纪律第 10 条改为：演示场景写入真实 key，注意勿提交到公开仓库
-- 方法/HTML产出规范.md 的 key 示例从占位符改为演示用真实 key
-- 新增实战陷阱文档（反引号转义/流式格式兼容/loading 锁）
-- 新增重置游戏功能
-- 验证清单新增反引号转义检查项
+- [ ] **不准硬编码 API key** — SKILL.md、方法文档、HTML 模板中不得出现任何真实的 API key。必须通过环境变量 `$env:DEEPSEEK_API_KEY` 或交互式提示注入
+- [ ] **交付前必须做 HTML 完整性验证** — 检查项包括：`</html>` 闭合、文游指令完整嵌入、SSE 解析逻辑正常、JSON fallback 正常、API 路径拼写正确、双击可开
+- [ ] **Phase A 必须产出结构化 JSON** — 包含静态层（名词/设定）+ 角色层（人物/关系）+ 剧情层（事件/冲突），不得以"已理解"替代
+- [ ] **不准编造原始资料中没有的设定** — AI文游应严格基于作者提供的世界观素材，不得凭空添加角色、势力、规则等
+- [ ] **HTML 视觉风格必须匹配世界观调性** — 仙侠世界观用仙侠风 UI，科幻用赛博风，不得出现风格错配
+
+---
+
+## ❌ 错误示例
+
+### WRONG — 在 SKILL.md 中硬编码 API key
+
+```yaml
+---
+name: "pop-novel-game"
+description: "小说世界观AI文游化"
+api:
+  provider: "deepseek"
+  endpoint: "https://api.deepseek.com/v1/chat/completions"
+  model: "deepseek-v4-flash"
+  key: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # ❌ 真实 key 不应出现在任何源文件中
+---
+```
+
+**问题**：API key 硬编码在 frontmatter 中，一旦文件被提交到公开仓库，key 立即泄露，造成安全和费用风险。
+
+**正确做法**：删除 frontmatter 中的 `api` 块，生成 HTML 时通过环境变量 `$env:DEEPSEEK_API_KEY` 或交互式提示动态注入。
+
+---
+
+## 产出物验收
+
+最终交付前，逐项确认：
+
+- [ ] **文游指令.md** — 包含完整的角色设定、世界观规则、游戏机制、AI 行为约束、输出格式要求；丢给主流 AI 模型可直接开玩
+- [ ] **AI文游.html** — 位于 `互动/` 目录下，零外部依赖，双击可打开；内置完整文游指令；所有功能（叙事面板、选项按钮、自由输入、侧边栏、存档管理）正常工作
+- [ ] **世界观设定集.md** — 从原始资料整理的结构化世界摘要，涵盖地理、势力、规则体系、关键名词
+- [ ] **角色档案.md** — 从原始资料整理的角色档案，含角色关系网络和弧光描述
+- [ ] **HTML 完整性验证通过** — `</html>` 闭合 / API endpoint 拼写正确 / SSE 解析逻辑完整 / JSON fallback 兜底 / 存档恢复无白屏 / 取消与重试机制正常
+
+---
+
+## 异常与边界条件
+
+| # | 场景 | 处理方式 |
+|:---|:-----|:---------|
+| 1 | 世界观/人设文件缺失或为空 | 中止 Phase A，明确提示缺少哪些文件，要求补充后再继续 |
+| 2 | API 调用失败（网络错误 / 4xx / 5xx） | 指数退避重试最多 3 次（1s/2s/4s），3 次均失败显示手动重试按钮 |
+| 3 | HTML 验证不通过（`</html>` 缺失等） | 重新执行 HTML 生成步骤，修复后再次验证，直至通过 |
+| 4 | 用户未提供任何原始素材（空输入） | 要求至少提供小说简介、世界观概要或角色列表之一，否则无法启动 |
+| 5 | 文游指令.md 的关键章节（世界观/角色/游戏规则）内容为空 | 回退到 Phase A 补充提取对应数据，确保指令完整后再进入 Phase C |
+| 6 | 输出目录 `<小说名>-AI文游/` 已存在 | 询问用户是否覆盖还是创建带时间戳的备份目录（如 `<小说名>-AI文游_20260604/`） |
+| 7 | 用户要求移除所有 API 调用，使用纯预设内容 | 解释本 skill 的核心价值是 AI 实时驱动；如坚持，降级为静态分支游戏，但需明确标注"非 AI 驱动版" |
+| 8 | 嵌入 HTML 的文游指令包含未转义反引号 | 自动转义所有内部反引号为 `\``，防止 JS 模板字面量语法错误 |
+
+---
+
+## 版本 v2.0.1 | 2026-06-04 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
