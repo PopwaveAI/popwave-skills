@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-writer",
-  "version": "9.3.0",
-  "displayName": "正文写作引擎",
-  "description": "六阶段写作管线：Director→骨架→ESM→渲染→QC→状态更新。网文正文写作核心引擎。",
+  "version": "9.5.0",
+  "displayName": "正文写作引擎（含黄金三章模式·风格注入）",
+  "description": "六阶段写作管线 + 黄金三章模式 + 可插拔风格注入系统。project.yaml writing_style 切换文风。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

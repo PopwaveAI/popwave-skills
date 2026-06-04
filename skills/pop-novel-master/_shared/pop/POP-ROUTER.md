@@ -13,8 +13,8 @@
 |:---|:---|:---|:---|:---|
 | **规格生成 / 审批 / 任何写作任务前先过规格** | **spec → pre-production** | **spec-bridge ★** | **无** | **spec.md + tasks.md + checklist.md** |
 | 新书启动 / 开书 / 设计设定 | bootstrap → design | **skill-project-bootstrap** | 无 | L0 ↔ L1 ↔ L2 设定 |
-| 设计幕纲 / 剧情架构 | plot → design | **skill-plot-architecture** | project.yaml + PRD + L1 设定 | act-XX.yaml |
-| 写前三章 / 开篇 | opening | **skill-opening-arc** | L0/L1 设定 | ch001-ch003.md |
+| 设计幕纲 / 剧情架构 | plot → design | **pop-novel-plot** | project.yaml + PRD + L1 设定 | act-XX.yaml |
+| 写前三章 / 开篇 | opening | **pop-novel-writer（黄金三章模式）** | L0/L1 设定 | ch001-ch003.md |
 | 写第 N 章 / 正文写作 | writing → production | **skill-emergent-writer** | act-XX.yaml + global_summary + **spec.md ★** | chXXX.md |
 | 拆书 / 解构 / 分析参考书 | deconstruct → research | **skill-book-deconstructor** | 参考书原文 | scene_fragments.db |
 | 审稿 / QA / 质检 | qa → review | **skill-qa-payoff** | 正文 MD + **spec.md（可选）★** | QA 报告 |
@@ -92,8 +92,8 @@
 |:---|:---|:---|
 | 规格 / spec / 审批 / 生成规格 | spec | **spec-bridge ★** | 无 | spec.md + tasks.md + checklist.md |
 | 开书 / 启动 / 设计设定 / 开新书 | bootstrap | skill-project-bootstrap |
-| 幕纲 / 大纲 / 剧情 / 幕设计 | plot | skill-plot-architecture |
-| 前三章 / 开篇 / 黄金三章 | opening | skill-opening-arc |
+| 幕纲 / 大纲 / 剧情 / 幕设计 | plot | pop-novel-plot |
+| 前三章 / 开篇 / 黄金三章 | opening | pop-novel-writer（黄金三章模式） |
 | 写 ch / 写作 / 正文 / 第N章 | writing | skill-emergent-writer |
 | 拆书 / 解构 / 分析 / 对标 | deconstruct | skill-book-deconstructor |
 | 审稿 / QA / 审一下 / 质检 | qa | skill-qa-payoff |

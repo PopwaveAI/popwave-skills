@@ -38,8 +38,8 @@ ROUTING_TABLE = [
     (["规格", "spec", "审批", "生成规格", "先规格"], "spec", "spec-bridge", "Spec 桥接"),
     # 原有路由
     (["开书", "启动", "设计设定", "开新书"], "bootstrap", "skill-project-bootstrap", "开书启动"),
-    (["幕纲", "大纲", "剧情", "幕设计"], "plot", "skill-plot-architecture", "剧情架构"),
-    (["前三章", "开篇", "黄金三章"], "opening", "skill-opening-arc", "黄金三章"),
+    (["幕纲", "大纲", "剧情", "幕设计"], "plot", "pop-novel-plot", "剧情架构"),
+    (["前三章", "开篇", "黄金三章"], "opening", "pop-novel-writer", "黄金三章（正文写作引擎内置模式）"),
     (["写作", "正文", "第", "ch0"], "writing", "skill-emergent-writer", "正文写作"),
     (["拆书", "解构", "分析", "对标"], "deconstruct", "skill-book-deconstructor", "拆书解构"),
     (["审稿", "QA", "质检", "审一下"], "qa", "skill-qa-payoff", "爽点QA"),
@@ -352,7 +352,7 @@ class Harness:
                 pass
         
         # 1. reader_profile 检查：需要 reader_profile 字段的 skill
-        reader_skills = ["plot-architecture", "opening-arc", "market-test", "emergent-writer"]
+        reader_skills = ["pop-novel-plot", "pop-novel-writer", "market-test", "emergent-writer"]
         if any(s in skill_name for s in reader_skills):
             if config:
                 project = config.get("project", {})
@@ -402,7 +402,7 @@ class Harness:
                 results["v3.db"] = True
         
         # 3. constitution.yaml 检查：opening-arc / market-test 依赖书籍宪法
-        constitution_skills = ["opening-arc", "market-test"]
+        constitution_skills = ["pop-novel-writer", "market-test"]
         if any(s in skill_name for s in constitution_skills):
             # 尝试多个可能位置
             constitution_paths = [
@@ -480,9 +480,8 @@ class Harness:
                     "spec-bridge": "director",
                     "skill-emergent-writer": "pass2",
                     "skill-qa-payoff": "qc",
-                    "skill-plot-architecture": "director",
+                    "pop-novel-plot": "director",
                     "skill-project-bootstrap": "director",
-                    "skill-opening-arc": "pass2",
                     "skill-book-deconstructor": "director",
                     "skill-market-test": "qc",
                 }

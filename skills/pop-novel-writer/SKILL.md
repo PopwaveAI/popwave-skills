@@ -1,14 +1,14 @@
 ---
 name: pop-novel-writer
-display_name: "正文写作引擎"
+display_name: "正文写作引擎（含黄金三章模式·风格注入）"
 category: writing
 scenario: production
 mode: chapter
 recommended: 4
-tags: ["正文", "写作", "六阶段", "ESM"]
+tags: ["正文", "写作", "六阶段", "ESM", "黄金三章", "风格注入"]
 fidelity: production
-description: "正文写作引擎 v9.3（v3.3）。六阶段管线：Director（设计说明+决策日志）→ Pass 1（事实骨架）→ ESM before（14项完整输入包）→ Pass 2（渲染+自评）→ QC（三层介入）→ ESM after（状态变更）。v3.3核心升级：Hard闸门+否定句5变体全覆盖+锚定章3格式正则+原始设定10文件注入bundle+DB state_changelog写入。"
-version: v9.3.0
+description: "正文写作引擎 v9.5。六阶段管线 + 黄金三章模式 + 可插拔风格注入系统。Director（设计说明+决策日志）→ Pass 1（事实骨架）→ ESM before（15项输入包，含style-bundle）→ Pass 2（渲染+自评）→ QC（三层介入）→ ESM after（状态变更）。project.yaml writing_style 字段可切换文风。"
+version: v9.5.0
 novel_agent_version: v3.3
 orchestration:
   preflight: ["check_project_dir", "check_act_exists", "check_v3db", "check_reader_profile"]
@@ -17,11 +17,12 @@ orchestration:
     - "project.yaml#reader_profile"
     - "02-幕纲/act-XX.yaml"
     - "02-章纲/global-summary.md"
-    - "00-原始设定/L1-元设定层/"       # Phase 1: 新增——诡异行为/数值/成长体系注入
-    - "00-原始设定/L0-产品层/"         # Phase 1: 新增——角色行为锚定/金手指设计注入
-    - "01-写作资产/锚定章库/"           # Phase 1: 显式列出锚定章路径
+    - "00-原始设定/L1-元设定层/"
+    - "00-原始设定/L0-产品层/"
+    - "01-写作资产/锚定章库/"
     - "01-写作资产/"
     - "01-事实骨架/"
+    - "styles/（风格注入包，按 project.yaml writing_style 读取）"
   subagent_required: true
 directory: pop-novel-writer
 
@@ -38,7 +39,12 @@ produces:
 
 # Emergent Writer — v3.3 · 六阶段管线
 
-> 版本：**9.3.0** · 2026-05-25
+> 版本：**9.5.0** · 2026-06-03
+>
+> v9.5 核心变化：
+> - **风格注入系统**：styles/ 目录提供可插拔文风配置，project.yaml writing_style 字段切换
+> - **ESM before 升级 15 项**：第 15 项为 style-bundle，约束 Pass 2 渲染
+> - **默认风格显式化**：将管线隐含的写法规则提取为 styles/default.md
 >
 > v3.3 核心变化：
 > - **中控升级**：从"规划者"到"导演"——输出决策日志、锚定章引用
@@ -75,6 +81,75 @@ produces:
 → 无 reader_profile → 执行 bootstrap Phase 4 嵌入
 → ★ 无 spec.md → 先调 pop-novel-master 生成规格文档，审批通过后再进入正文写作
 → 提示用户缺失依赖，不进入正文写作
+
+---
+
+## 黄金三章模式（CH1–CH3）
+
+前三章不是"起头"，是**整本书的浓缩核**。读者用前三章决定追不追，编辑用前三章决定签不签。
+
+正常章节（CH4+）可以"慢慢释放"，但前三章不行。前三章必须在极短的篇幅内拉人→压住→释放，留下更大的悬念。
+本质上这不是另一种写作方法，而是**同一套管线开到 120% 强度**——作者如果有无限精力，当然希望黄金三百章。
+
+### 与正常章节的核心差异
+
+| 维度 | 正常章节（CH4+） | 黄金三章（CH1–CH3） |
+|:---|:---|:---|
+| 爽点等级 | 微爽点打底，中爽点每3-5章1个 | **中爽点起步，三章内至少1个大爽点** |
+| 字数目标 | 1800-2500（最低1800） | **2200-2500（最低2000）** |
+| 爽点版场景卡 | 可选 | **强制**——每章核心事件写1段释放段，≥6段 |
+| 风格种子注入 | CH1+全文注入参考书 | CH1注入参考书原文；CH2–CH3注入上章结尾原文 |
+| 自检 | 5项轻量 | 5项通用 + **3项专项（首屏/翻页节点/三章连读）** |
+
+### 黄金三章的情绪弧线
+
+前三章不是三篇独立文章，是一条连续的读者情绪管理曲线：
+
+```
+CH1 · 拉进来
+    目标：让读者产生"我要看下去"的冲动
+    钩子：情绪驱使型（悬念/信息炸弹），不用弱钩子
+
+CH2 · 压住
+    目标：为第三章蓄力——"这章憋着，第三章应该能释放"
+    钩子：在情绪最高点截断
+
+CH3 · 释放 + 新钩子
+    目标：第一次真正满足，同时抛出更大问题
+    完美收尾：阶段性成果 ✅ → 但刚开个头 ⚠️ → 更大威胁出现 ❓
+```
+
+### 爽点分布规则（替代正常分配的微/中/大分档）
+
+| 章号 | 爽点分布 |
+|:---|:---|
+| CH1 | 中爽点×2（打脸/获得/解谜各一）+ 大爽点级章末钩子 |
+| CH2 | 中爽点×2 + 大爽点×1（能力质变/信息反转）+ 大爽点级章末钩子 |
+| CH3 | 中爽点×1 + 大爽点×1 + **终极爽点级**章末钩子 |
+
+### 写作前思考（节点C·黄金）
+
+每章写作前（Phase 1·Director 之前），额外执行以下检查：
+
+1. **位置对齐**：这章在弧线中是拉人/压住/释放？情绪起点是否衔接上一章结尾？
+2. **读者画像检查**：从 project.yaml 读 reader_profile——这章写给谁看的？
+3. **核心判断**：这章如果只让读者记住一件事，是哪件？
+4. **首屏风险扫描**：前300字单独读一遍，能留住人吗？
+5. **信息密度控制**：是否 ≥2 个新概念？章末钩子类型和上一章不同？
+
+### 专项自检（写完 Phase 4 后，在通用 5 项之外追加）
+
+- □ 前300字是否真正抓住了人？（单独读一遍，感觉"可以划走"→重写）
+- □ 本章是否至少有 2 个"读者想划到下一页"的节点？
+- □ 三章连起来读，节奏是否稳定？（CH1拉人→CH2压住→CH3释放）
+
+### 完成后转入正常管线
+
+前三章写完后，从 CH4 起走 `pop-novel-writer` 正常六阶段管线：
+- 风格种子不再注入
+- 场景卡改为可选
+- 字数基线回到 1800-2500
+- 自检回到 5 项通用
 
 ---
 
@@ -116,18 +191,23 @@ Phase 2 · Pass 1 · 骨架 Agent：
   → 预估字数 < 1800 → 退回加场景或合并章节
   → ⭐ 骨架层 QC（pop-novel-qa Phase 1）通过才能渲染
 
-Phase 3 · ESM before（零LLM，v3.3 升级 / v4.0 spec 注入）：
+Phase 3 · ESM before（零LLM，v3.3 升级 / v4.0 spec 注入 / v9.5 style 注入）：
   ├── 第0项 · 读者画像（全管线共享）
   ├── 第1-5项 · 固定SQL
   ├── 第6-8项 · 骨架推断 + 文件读取
   ├── 第9项 · 锚定章片段（按Director引用的片段加载）
   ├── 第10项 · 经验日志自动匹配（按 scene_type 匹配）
   ├── 第11-13项 · K1-K4 知识注入 + 场景模板 + 上轮 QC 反馈
-  └── ★ 第14项 · spec.md（v4.0 新增——规格约束注入 Pass2）
-  → 输出 15 项输入包（14+1，含 spec.md）
+  ├── ★ 第14项 · spec.md（v4.0 新增——规格约束注入 Pass2）
+  └── ★ 第15项 · style-bundle（v9.5 新增——文风约束注入 Pass2）
+      从 project.yaml 读取 writing_style 字段
+      默认 "default" → 加载 styles/default.md
+      可选 "tomato" → 加载 styles/tomato.md
+      如果指定风格文件不存在 → 降级到 styles/default.md
+  → 输出 16 项输入包（15+1，含 spec.md + style-bundle）
 
 Phase 4 · Pass 2 · 渲染 Agent：
-  接收 14 项（含锚定章片段+读者画像+经验日志匹配）
+  接收 15 项（含锚定章片段+读者画像+经验日志匹配+style-bundle）
   → 渲染正文
   → ⭐ 写后自评（新增——自问三段）：
       "我写的战斗场景和{锚定章}的画面密度差距在哪里？"
@@ -194,7 +274,7 @@ reader_profile:
 
 ESM before 加载时：扫描 status="active" 的条目 → 匹配当前 chapter 的场景类型 → 将 fix_action 追加到 Director prompt 中。
 
-## ESM before 加载的 14 项输入包
+## ESM before 加载的 15 项输入包
 
 | # | 来源 | 内容 |
 |:-:|:----|:------|
@@ -207,6 +287,73 @@ ESM before 加载时：扫描 status="active" 的条目 → 匹配当前 chapter
 | 12 | K1-K4 | 知识注入 |
 | 13 | 经验日志 | **自动匹配的经验教训**（v3.3 新增）|
 | 14 | QC反馈 | 上一轮 QC 报告（如有）|
+| 15 | **styles/** | **style-bundle（v9.5 新增——文风约束注入 Pass2）** |
+
+## 风格注入系统（v9.5 新增）
+
+### 概念
+
+风格注入让「相同设定 + 相同大纲 + 相同事实骨架」产出不同阅读体感的正文。
+
+方案不是在 SKILL.md 里写死文风规则，而是通过一个**可插拔的配置文件**——`styles/*.md`——在 ESM before 阶段注入 Pass 2 渲染层。换风格 = 换配置文件，不动管线结构。
+
+### 用法
+
+在 `project.yaml` 中新增字段：
+
+```yaml
+project:
+  name: "我的小说"
+  writing_style: "tomato"    # ← 新增：选择文风，默认为 "default"
+```
+
+可用风格：
+
+| ID | 文件 | 定位 |
+|:---|:----|:----|
+| `default` | `styles/default.md` | 通用网文风格，当前管线的隐含规则显式化 |
+| `tomato` | `styles/tomato.md` | 番茄快节奏：短句+对话驱动+极简描写，日更平台优化 |
+
+### 风格文件的构成
+
+每个 `styles/*.md` 基于 [style-dna-template.md](./styles/style-dna-template.md) 定义，包含 4 层结构：
+
+| 层 | 覆盖范围 | 对应模板 section |
+|:--|:--------|:----------------|
+| 第1层·微观质感 | 句长/描写/对话/POV/段长/修辞/词汇等 7+ 维度 | 1.1 - 1.7 |
+| 第2层·叙事策略 | 时间流速/信息释放/开篇/收束/情绪节奏/余白等 7 维度 | 2.1 - 2.7 |
+| 第3层·技法偏好 | 对话比/心理动作比/过渡/金句/数字习惯等 7 维度 | 3.1 - 3.7 |
+| 第4层·红线清单 | 本风格特有的 QC 检查项和触发规则 | 4.1 - 4.4 |
+
+### 消费路径
+
+```
+ESM before 阶段：
+  ① 读 project.yaml → 取 writing_style 字段
+  ② 构建 path: styles/{writing_style}.md
+  ③ 文件不存在 → 降级到 styles/default.md
+  ④ 读取文件全文 → 作为第 15 项注入 bundle
+  ⑤ Pass 2 渲染时：
+     - 核心维度 → 约束渲染的语气/节奏/密度
+     - 写法铁则 → 覆盖 K4 的通用铁则
+     - 场景类型映射 → 覆盖模板池的写法建议
+     - 字数基线 → 覆盖质量标准中的字数
+     - 红线清单 → 传递给 QC 的检查项
+
+不调 K4、不改模板池、不改 SKILL.md prompt。
+只通过一份 .md 文件约束渲染行为。
+```
+
+### 当前文件清单
+
+```
+pop-novel-writer/styles/
+├── style-dna-template.md   # 文风DNA全量模板（4层·30+维度）
+├── default.md              # 默认风格（当前管线的隐含规则显式化）
+└── tomato.md               # 番茄快节奏（短句+对话驱动+极简描写）
+```
+
+---
 
 ## 输出
 
@@ -216,7 +363,7 @@ ESM before 加载时：扫描 status="active" 的条目 → 匹配当前 chapter
 | Phase 1-Gate | 大纲层 QC 报告 | 决定是否进入 Pass 1 |
 | Phase 2 | 事实骨架 | 01-事实骨架/chXXX-事实骨架.md |
 | Phase 2-Gate | 骨架层 QC 报告 | 决定是否进入 Phase 3 |
-| Phase 3 | 14 项输入包 | 01-写作资产/chXXX-bundle.md |
+| Phase 3 | 15 项输入包（含style-bundle） | 01-写作资产/chXXX-bundle.md |
 | Phase 4 | 正文章节 + 自评 | 03-正文/chXXX.md |
 | Phase 5 | 正文层 QC 报告 | QC 报告 |
 | Phase 6 | 状态变更 | v3.db + global-summary.md |
@@ -232,6 +379,16 @@ ESM before 加载时：扫描 status="active" 的条目 → 匹配当前 chapter
 - QC 红线触发 → 退回 Pass 2 重写
 
 ## 版本历史
+
+### v9.5 — 2026-06-03（v3.3）
+- 风格注入系统：styles/ 目录提供可插拔文风配置
+- ESM before 升级 15 项输入包（+style-bundle）
+- 默认风格显式化：styles/default.md 提取当前管线的隐含规则
+- 新增 tomato 文风：短句+对话驱动+极简描写优化
+
+### v9.4 — 2026-06-03（v3.3）
+- 黄金三章模式合并入正文引擎（原 pop-novel-opening-arc）
+- SKILL.md 新增情绪弧线/爽点分布/节点C·黄金/专项自检 section
 
 ### v9.3 — 2026-05-25（v3.3）
 - 六阶段管线重构

@@ -34,9 +34,9 @@ from validator import EntityValidator
 
 # ── 路径桥接注入 —— 动态 resolve 取代硬编码目录名 ─────
 try:
-    _GLUE_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "glue"))
+    _GLUE_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "glue"))
     if _GLUE_DIR not in sys.path:
-        sys.path.insert(0, os.path.dirname(_GLUE_DIR))  # novel-agent-pro/
+        sys.path.insert(0, os.path.dirname(_GLUE_DIR))  # pop-novel-writer/
     from glue.project_config import resolve_path as _resolve_glue_path
     _HAS_GLUE = True
 except ImportError:
@@ -365,8 +365,7 @@ def _build_pass2_input(project_root: str, db_path: str, chapter: int, scene_keyw
 
     # ⑥ 场景模板约束（按类型）
     scene_types = _detect_scene_types(skeleton_path)
-    template_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(project_root))),
-                                "skills", "_shared", "template-pools")
+    template_dir = os.path.join(os.path.dirname(_SCRIPT_DIR), "template-pools")
     template_map = {
         "战斗": "战斗对抗.md", "对抗": "战斗对抗.md",
         "谈判": "对话博弈.md", "博弈": "对话博弈.md", "对话": "对话博弈.md",
@@ -395,7 +394,7 @@ def _build_pass2_input(project_root: str, db_path: str, chapter: int, scene_keyw
         lines.append("（无对应场景模板，使用通用写作约束）\n")
 
     # ⑦ 知识注入 K1-K4
-    kb_dir = os.path.join(os.path.dirname(os.path.dirname(_SCRIPT_DIR)),
+    kb_dir = os.path.join(os.path.dirname(_SCRIPT_DIR),
                           "knowledge-base")
     lines.append("## ⑦ 知识注入 K1-K4\n")
     for kb_file in ["K1-core-theory.md", "K2-platform-profile.md",

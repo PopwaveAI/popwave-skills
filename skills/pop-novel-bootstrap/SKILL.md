@@ -37,11 +37,12 @@ produces:
 
 ## 什么时候使用
 
-| 场景 | 说明 |
-|------|------|
-| **新书开坑** | 从零到一搭建完整的小说项目骨架 |
-| **创意可行性验证** | 不确定创意能不能撑起长篇，需系统检验 |
-| **设定规范化** | 已有零散设定，需结构化、分层化、标准化 |
+| 场景 | 模式 | 说明 |
+|------|:----:|------|
+| **新书开坑** | `forward` | 从零到一搭建完整的小说项目骨架 |
+| **创意可行性验证** | `forward` | 不确定创意能不能撑起长篇，需系统检验 |
+| **已有正文需续写** | `reverse` | 已有 N 章正文但无标准设计层，逆向提取设定再续写 |
+| **设定规范化** | `forward` | 已有零散设定，需结构化、分层化、标准化 |
 
 **不适用**：短篇（<10万字）→ 用 light-bootstrap；仅需稳定性检查 → 用 world-stability-check skill。
 
@@ -86,29 +87,70 @@ Phase 5 (数值体系模板升级)
 Phase 6 (超越性硬检查)
 ```
 
-## Phase 指令索引
+## 模式选择
 
-当前处于第几步，就只加载对应文件：
+本 skill 支持两种运行模式：
 
-| Phase | 文件 | 类型 |
-|:------|:-----|:-----|
-| Phase 0 | `phases/phase-0.md` | 灵魂对齐 + PRD + 压力测试 |
-| Phase 0.3 | `phases/phase-0.3.md` | 参考书筛选 + 拆解 + 差异化 |
-| Phase 0.4 | `phases/phase-0.4.md` | 金手指设计 + 四级评估 + 约束检查 |
-| Phase 0.5 ★ | `phases/phase-0.5.md` | 跨域素材聚合（强制） |
-| Phase 1 | `phases/phase-1.md` | L1六件套骨架 |
-| Phase 1.2 ★ | `phases/phase-1.2.md` | L1深度展开（逐篇扩写） |
-| Phase 1.3 ★ | `phases/phase-1.3.md` | L1交叉关联矩阵 |
-| Phase 1.5 | `phases/phase-1.5.md` | 世界稳定性检验 |
-| Phase 2 | `phases/phase-2.md` | L2卷级展开 + 爽点设计 |
-| Phase 3 | `phases/phase-3.md` | 项目骨架 + 角色卡 + 数据库 |
-| Phase 4 | `phases/phase-4.md` | reader_profile嵌入 |
-| Phase 5 | `phases/phase-5.md` | 数值体系模板 |
-| Phase 6 | `phases/phase-6.md` | 超越性硬检查 |
+| 模式 | 入口相位 | 适用场景 |
+|:-----|:---------|:---------|
+| **`forward`** | Phase 0（正向设计） | 新书开坑、从零设定 |
+| **`reverse`** | Phase r1（逆向工程） | 已有正文需续写、从正文提取设定 |
 
-## 质量标准与版本
+**`forward`** 走标准相位 0→0.3→0.4→0.5→1→1.2→1.3→1.5→2→3→4→5→6
 
-参见 `references/质量标准.md` | `references/版本历史.md` | `references/产出目录结构.md`
+**`reverse`** 走逆向相位 r1→r2→r3→r4→r5→r6
+
+---
+
+## Forward 相位索引（新书开坑）
+
+| Phase | 执行 | 参考 | 说明 |
+|:------|:-----|:-----|:------|
+| Phase 0 | `phases/phase-0.pe.md` | `phases/phase-0.ref.md` | 灵魂对齐 + PRD + 压力测试 |
+| Phase 0.3 | `phases/phase-0.3.pe.md` | `phases/phase-0.3.ref.md` | 参考书筛选 + 拆解 + 差异化 |
+| Phase 0.4 | `phases/phase-0.4.pe.md` | `phases/phase-0.4.ref.md` | 金手指设计 + 评估框架 |
+| Phase 0.5 ★ | `phases/phase-0.5.pe.md` | `phases/phase-0.5.ref.md` | 跨域素材聚合（强制） |
+| Phase 1 | `phases/phase-1.pe.md` | `phases/phase-1.ref.md` | L1六件套骨架 |
+| Phase 1.2 ★ | `phases/phase-1.2.pe.md` | `phases/phase-1.2.ref.md` | L1深度展开 |
+| Phase 1.3 ★ | `phases/phase-1.3.pe.md` | — | L1交叉关联矩阵 |
+| Phase 1.5 | `phases/phase-1.5.pe.md` | — | 世界稳定性检验 |
+| Phase 2 | `phases/phase-2.pe.md` | — | L2卷级展开 + 爽点设计 |
+| Phase 3 | `phases/phase-3.pe.md` | `phases/phase-3.ref.md` | 项目骨架 + 模板产出 |
+| Phase 4 | `phases/phase-4.pe.md` | — | reader_profile嵌入 |
+| Phase 5 | `phases/phase-5.pe.md` | `phases/phase-5.ref.md` + `references/网文力量体系大全.md` | 数值体系 |
+| Phase 6 | `phases/phase-6.pe.md` | — | 超越性硬检查 |
+
+## Reverse 相位索引（续写适配）
+
+| Phase | 执行 | 参考 | 说明 |
+|:------|:-----|:-----|:------|
+| Phase r1 | `phases/phase-r1.pe.md` | `phases/phase-r1.ref.md` | 逆向工程：逐章事件日志 |
+| Phase r2 | `phases/phase-r2.pe.md` | `phases/phase-0.ref.md` | L0产品层提取（含 reader_profile） |
+| Phase r3 | `phases/phase-r3.pe.md` | `phases/phase-1.ref.md` | L1元设定层提取 |
+| Phase r4 | `phases/phase-r4.pe.md` | `phases/phase-3.ref.md` | 宪法提取 |
+| Phase r5 | `phases/phase-r5.pe.md` | — | 卷大纲确认 |
+| Phase r6 | `phases/phase-r6.pe.md` | — | 交接验证 |
+
+> reverse 模式的产出格式与 forward 完全一致。走完 reverse 后，项目状态等同于新书走完 forward。`pop-novel-master` 感知不到区别。
+
+---
+
+## 参考文件索引
+
+以下参考文件（`.ref.md`）在执行对应 Phase 前自动加载：
+
+| 文件 | 包含内容 |
+|:-----|:---------|
+| `phases/phase-0.ref.md` | PRD六要素、灵魂三问示例、压力测试判断标准 |
+| `phases/phase-0.3.ref.md` | 四维度分析模板、差异化决策三元组 |
+| `phases/phase-0.4.ref.md` | 四级评估质量标准、文化根系检查、番茄验证标准 |
+| `phases/phase-0.5.ref.md` | 六大搜索领域、种子蒸馏模板、量化自查表 |
+| `phases/phase-1.ref.md` | L1六件套覆盖内容定义、核心矛盾总纲 |
+| `phases/phase-1.2.ref.md` | 各文件深度标准表（字数/子维度门槛） |
+| `phases/phase-3.ref.md` | project.yaml / chapter-state.yaml / constitution.yaml 完整schema |
+| `phases/phase-5.ref.md` | 四段框架总览表、断级差标准、跨级战约束 |
+| `phases/phase-r1.ref.md` | 逐章事件日志模板、批次摘要格式 |
+| `references/网文力量体系大全.md` | 20+经典体系深度拆解、赛道匹配指南、十大设计戒律 |
 
 <pop-category>bootstrap</pop-category>
 <pop-position>1</pop-position>

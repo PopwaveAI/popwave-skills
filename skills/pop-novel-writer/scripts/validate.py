@@ -49,31 +49,7 @@ _register("act-XX", {
     ],
 })
 
-# chXXX.yaml（已废弃——v7.8 上下文组装器直接从幕纲读取数据）
-_register("chXXX", {
-    "chapter": [
-        "number", "payoff_plan", "reader_emotion_path",
-        "emotion_anchors", "end_hook", "scenes"
-    ],
-    "_deprecated": True,
-    "_deprecated_at": "2026-05-19",
-    "_replaced_by": "幕纲数据直读（act-XX.yaml 的 chapter[N]）",
-})
-
-# writer 元数据 12 字段（已废弃——v7.8 已改为6块素材直出）
-_register("writer-metadata", {
-    "chapter_metadata": [
-        "chapter_number", "chapter_position", "pace_type",
-        "suspense_operation", "foreshadowing",
-        "twist_level", "info_density",
-        "summary", "key_characters",
-        "emotional_anchor", "next_chapter_hint",
-        "scene_type_tags"
-    ],
-    "_deprecated": True,
-    "_deprecated_at": "2026-05-19",
-    "_replaced_by": "v7.8 6块素材（全局摘要/本章爽点兑现/角色状态/风格种子/本章设计/下一章钩子）",
-})
+# (已清理: chXXX 和 writer-metadata schema, 2026-05-19 废弃，删除于 2026-06-03)
 
 # project.yaml（扩展：含 reader_profile + paths 检查）
 _register("project", {
