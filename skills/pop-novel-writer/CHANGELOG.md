@@ -1,5 +1,14 @@
 # CHANGELOG — pop-novel-writer
 
+## v9.5.0 (2026-06-03)
+- **风格注入系统**：新建 `styles/` 目录，提供可插拔文风配置
+- **ESM before 升级 15 项**：新增第 15 项 style-bundle，从 `styles/{writing_style}.md` 加载文风约束注入 Pass 2
+- **默认风格显式化**：`styles/default.md` 从 K1-K4 + QC 红线 + 模板池提取当前管线的隐含风格
+- **新增 tomato 文风**：`styles/tomato.md` 短句+对话驱动+极简描写，番茄平台优化
+- **SKILL.md 新增「风格注入系统」section**：用法/消费路径/文件清单
+- **inject_context 新增 styles/**：按 project.yaml writing_style 字段读取
+- **版本号 9.4.0 → 9.5.0**
+
 ## v9.4.0 (2026-06-03)
 - **吸收 pop-novel-opening-arc**：将「黄金三章」合并为正文引擎的内置模式
 - **SKILL.md 新增「黄金三章模式」section**：情绪弧线（拉人→压住→释放）、爽点分布规则、节点C·黄金检查、专项自检
