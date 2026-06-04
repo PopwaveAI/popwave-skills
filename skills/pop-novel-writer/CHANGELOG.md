@@ -1,11 +1,18 @@
 # CHANGELOG — pop-novel-writer
 
+## v9.5.1 (2026-06-03)
+- **新增【系统级强制】写前必读清单**：HARD-GATE 后新增强制文件读取指令，每次写正文前执行
+- **必读 7 组文件**：上一章状态（含 global-summary + chapter-state.yaml）+ act-yaml + constitution + reader_profile + L1设定层 6 个 + 数值体系(2个) + 地理/时间轴(如存在)
+- **注意力校验原则**：agent 必须显式对比「读前记忆 vs 读后文件」，以文件为准修正认知
+- 解决根因：agent 过估记忆可靠性且无强制重读指令
+
 ## v9.5.0 (2026-06-03)
 - **风格注入系统**：新建 `styles/` 目录，提供可插拔文风配置
 - **ESM before 升级 15 项**：新增第 15 项 style-bundle，从 `styles/{writing_style}.md` 加载文风约束注入 Pass 2
+- **风格DNA模板**：`styles/style-dna-template.md` 定义 4 层·30+ 维度的文风标准
 - **默认风格显式化**：`styles/default.md` 从 K1-K4 + QC 红线 + 模板池提取当前管线的隐含风格
-- **新增 tomato 文风**：`styles/tomato.md` 短句+对话驱动+极简描写，番茄平台优化
-- **SKILL.md 新增「风格注入系统」section**：用法/消费路径/文件清单
+- **新增 4 种文风**：番茄(`tomato`)、吞噬星空(`tunshi`)、遮天(`zhetian`)、深渊主宰(`abyss`)
+- **SKILL.md 新增「风格注入系统」section**：用法/消费路径/5 种风格清单
 - **inject_context 新增 styles/**：按 project.yaml writing_style 字段读取
 - **版本号 9.4.0 → 9.5.0**
 
