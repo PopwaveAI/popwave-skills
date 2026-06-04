@@ -1,12 +1,11 @@
 {
   "id": "pop-YouTubewebbuilder",
+  "version": "1.0.0",
+  "displayName": "YouTube Web Builder",
+  "description": "A skill to build a personal website based on YouTube content. It can help you create a website that showcases your YouTube videos, playlists, and channel information. You can customize the layout, design, and features of your website to attract more viewers and subscribers.",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "pop-YouTubewebbuilder",
-      "youtuber-site",
-      "个人站"
-    ]
+    "slashCommands": ["pop-YouTubewebbuilder", "youtuber-site", "个人站"]
   },
   "permissions": {
     "readProjectFiles": true,

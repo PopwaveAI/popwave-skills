@@ -1,11 +1,11 @@
 {
   "id": "pop-novel-game",
+  "version": "1.0.0",
+  "displayName": "文游化",
+  "description": "基于小说内容自动生成游戏设计文档（角色/场景/剧情/玩法），辅助文游化项目的前期规划和创意发散。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "pop-novel-game",
-      "文游化"
-    ]
+    "slashCommands": ["pop-novel-game", "文游化"]
   },
   "permissions": {
     "readProjectFiles": true,

@@ -15,8 +15,13 @@ async function exists(filePath) {
   }
 }
 
-async function readJson(filePath) {
-  return JSON.parse(await readFile(filePath, "utf8"));
+async function readSkillJson(filePath, skillId) {
+  try {
+    return JSON.parse(await readFile(filePath, "utf8"));
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    fail(`${skillId}: invalid skill.json: ${detail}`);
+  }
 }
 
 function fail(message) {
@@ -30,7 +35,7 @@ async function validateSkill(directoryName) {
     fail(`${directoryName}: missing skill.json`);
   }
 
-  const manifest = await readJson(manifestPath);
+  const manifest = await readSkillJson(manifestPath, directoryName);
   if (!manifest.id || !idPattern.test(manifest.id)) {
     fail(`${directoryName}: skill.json id must match ${idPattern}`);
   }

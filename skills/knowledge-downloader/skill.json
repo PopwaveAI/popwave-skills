@@ -1,11 +1,11 @@
 {
   "id": "knowledge-downloader",
+  "version": "1.0.0",
+  "displayName": "Knowledge Downloader",
+  "description": "A skill to download knowledge from the web and save it as project files",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "knowledge-downloader",
-      "download"
-    ]
+    "slashCommands": ["knowledge-downloader", "download"]
   },
   "permissions": {
     "network": true,

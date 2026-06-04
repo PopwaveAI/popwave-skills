@@ -19,7 +19,7 @@
     "maxPromptChars": 40000
   },
   "dependencies": {
-    "python": []
+    "python": [],
     "env": [],
     "api": {
       "seedream": {

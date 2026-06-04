@@ -4,11 +4,7 @@
   "entry": "SKILL.md",
   "version": "2.4.0",
   "activation": {
-    "slashCommands": [
-      "pop-html-anything",
-      "html",
-      "render"
-    ]
+    "slashCommands": ["pop-html-anything", "html", "render"]
   },
   "permissions": {
     "readProjectFiles": true,
@@ -23,5 +19,5 @@
       "_design/responsive.md"
     ]
   },
-  "description": "HTML 渲染引擎 + 网站设计师。v2.3 硬性配图触发——有角色必须配肖像、有场景必须配插图、有 Hero 必须配背景，不可跳过。内嵌 Seedream 生图脚本。",
+  "description": "HTML 渲染引擎 + 网站设计师。v2.3 硬性配图触发——有角色必须配肖像、有场景必须配插图、有 Hero 必须配背景，不可跳过。内嵌 Seedream 生图脚本。"
 }

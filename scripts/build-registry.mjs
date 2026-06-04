@@ -7,8 +7,13 @@ const root = process.cwd();
 const skillsRoot = path.join(root, "skills");
 const distRoot = path.join(root, "dist");
 
-async function readJson(filePath) {
-  return JSON.parse(await readFile(filePath, "utf8"));
+async function readSkillJson(filePath, skillId) {
+  try {
+    return JSON.parse(await readFile(filePath, "utf8"));
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`${skillId}: invalid skill.json: ${detail}`);
+  }
 }
 
 function isPrerelease(version) {
@@ -58,7 +63,7 @@ async function main() {
 
   for (const entry of entries.filter((item) => item.isDirectory())) {
     const skillRoot = path.join(skillsRoot, entry.name);
-    const manifest = await readJson(path.join(skillRoot, "skill.json"));
+    const manifest = await readSkillJson(path.join(skillRoot, "skill.json"), entry.name);
     const packagePath = path.join(distRoot, "skills", manifest.id, manifest.version, "skill-package.zip");
     await zipDirectory(skillRoot, packagePath);
     const checksum = await sha256File(packagePath);
