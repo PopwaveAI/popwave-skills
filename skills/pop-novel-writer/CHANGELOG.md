@@ -1,40 +1,52 @@
 # CHANGELOG — pop-novel-writer
 
-## v9.5.1 (2026-06-03)
-- **新增【系统级强制】写前必读清单**：HARD-GATE 后新增强制文件读取指令，每次写正文前执行
-- **必读 7 组文件**：上一章状态（含 global-summary + chapter-state.yaml）+ act-yaml + constitution + reader_profile + L1设定层 6 个 + 数值体系(2个) + 地理/时间轴(如存在)
-- **注意力校验原则**：agent 必须显式对比「读前记忆 vs 读后文件」，以文件为准修正认知
-- 解决根因：agent 过估记忆可靠性且无强制重读指令
+## v9.6.0 — 2026-06-04
 
-## v9.5.0 (2026-06-03)
-- **风格注入系统**：新建 `styles/` 目录，提供可插拔文风配置
-- **ESM before 升级 15 项**：新增第 15 项 style-bundle，从 `styles/{writing_style}.md` 加载文风约束注入 Pass 2
-- **风格DNA模板**：`styles/style-dna-template.md` 定义 4 层·30+ 维度的文风标准
-- **默认风格显式化**：`styles/default.md` 从 K1-K4 + QC 红线 + 模板池提取当前管线的隐含风格
-- **新增 4 种文风**：番茄(`tomato`)、吞噬星空(`tunshi`)、遮天(`zhetian`)、深渊主宰(`abyss`)
-- **SKILL.md 新增「风格注入系统」section**：用法/消费路径/5 种风格清单
-- **inject_context 新增 styles/**：按 project.yaml writing_style 字段读取
-- **版本号 9.4.0 → 9.5.0**
+### 文风锚定包 — 锚定章 + 风格合并为单次注入
+- **删除 style-dna-template.md**：第1层（微观质感）不再单独定义，由锚定章片段直接提供实例
+- **创建文风锚定包模板**：`styles/文风锚定包模板.md` 合并锚定章片段 + 叙事策略 + 技法偏好 + 红线清单
+- **所有 style 文件按新格式重写**：default/tomato/tunshi/zhetian/abyss 去掉第 1 层，改为"锚定章参考模式 + 抽象规则"结构
+- **ESM before 从 17 项压缩为 14 项**：原第 10 项（锚定章）+ 第 16 项（style）合并为第 10 项（文风锚定包）
+- **读取优先级**：`01-写作资产/文风锚定包.md`（项目级）→ `styles/{writing_style}.md`（内部）→ `styles/default.md`（兜底）
+- **styles/ 目录定位改变**：从"用户可选的5种风格"变为"bootstrap 提取时的内部参考样本"
+- **版本号 9.5.1 → 9.6.0**
 
-## v9.4.0 (2026-06-03)
-- **吸收 pop-novel-opening-arc**：将「黄金三章」合并为正文引擎的内置模式
-- **SKILL.md 新增「黄金三章模式」section**：情绪弧线（拉人→压住→释放）、爽点分布规则、节点C·黄金检查、专项自检
-- **删除独立 skill**：`pop-novel-opening-arc`（skill.json / SKILL.md / CHANGELOG.md）已移除
-- **同步更新 dispatcher.py 路由表**：「前三章/开篇/黄金三章」→ `pop-novel-writer`
-- **同步更新 POP-ROUTER / POP-CALL / thinking-mode-template / master SKILL.md**
+## v9.5.1 — 2026-06-04
 
-## v9.3.1 (2026-06-03)
-- **P0-1: 补齐 glue/ 模块**：创建 `glue/project_config.py`，解决 `post_write.py`/`pre_flight.py`/`validate.py`/`main.py`/`check_db.py` 的 `from glue.project_config import ...` 断链
-- **P0-2: 修复 main.py 三条错误路径**：glue import（3-level→1-level）、knowledge-base 路径（`skills/`→`pop-novel-writer/`）、template-pools 路径（从项目根上三层→自身目录）
-- **P0-3: 清除旧路径硬编码**：`project_init_check.py`（9处）、`update_project_status.py`（15处 skill 名+路径）、`update_global_summary.py`（docstring）中的 `novel-agent-pro/skills/skill-emergent-writer` 引用全部替换
-- **P1-1: 清理废弃 schema**：从 `validate.py` 移除已 deprecated 的 `chXXX` 和 `writer-metadata` schema 注册（2026-05-19 废弃）；删除对应的 `.schema.yaml` 文件
-- **P1-2: 移除无关脚本**：删除 `post_render.py`（HTML 渲染验证，与正文写作无关）
-- **name/directory 字段对齐**：`name: emergent-writer`→`pop-novel-writer`，`directory: skill-emergent-writer`→`pop-novel-writer`
-- **内部旧 skill 名修复**：`skill-plot-architecture`→`pop-novel-plot`、`qa-payoff`→`pop-novel-qa`、`spec-bridge`→`pop-novel-master`
-- **重复版本条目删除**：尾部重复的 `9.0.0` 条目已清理
-- **书数据污染清理**：`project_init_check.py` 中 `诡异游戏` 路径替换为通用路径
-- **存在意义框架**：SKILL.md 补全（来自上一轮 review）
+### 按 pop-skill-create 改造模式改造
 
-## v9.3.0 (2026-06-03)
-- 从 novel-agent-pro/skills/skill-emergent-writer 独立提升
-- 修复路径引用指向新 skill 名
+- **精简 frontmatter**：38 行 → 3 行，元数据迁移至 skill.json
+- **description 改为触发条件式**
+- **新增 10 条 ❌ 质量红线（带 [ ] 勾选框）**，提至第一屏
+- **流程拍平为 3 步**：Director → 骨架+ESM → 渲染+QC → 状态更新（原 6 Phase 嵌套）
+- **新增 3 个 WRONG 错误示例**：靠"我记得"写正文、无决策日志、黄金三章当普通章
+- **删除重复内容**：锚定章系统（deconstructor 已有）、经验日志详情、重复 ESM 表
+- **整合 HARD-GATE + 写前必读清单**：原两处分散规则合并为一次性清单
+- **输出路径更新**：01-事实骨架/ → 骨架/，03-正文/ → 正文/，02-章纲/ → 配置/
+- **新增 CHANGELOG.md**
+
+## v9.5.0 — 2026-06-03
+
+- 风格注入系统：styles/ 目录提供可插拔文风配置
+- ESM before 升级 15 项输入包（+style-bundle）
+- 新增 tomato 文风
+
+## v9.4.0 — 2026-06-03
+
+- 黄金三章模式合并入正文引擎（原 pop-novel-opening-arc）
+
+## v9.3.0 — 2026-05-25
+
+- 六阶段管线重构
+- Director 升级 + ESM before 14 项 + Pass 2 写后自评 + QC 三层介入
+
+## v9.0.0 — 2026-05-24
+
+- ESM v2.0 SQLite 全书数据中台
+- Pass 1/Pass 2 分离
+
+## v8.0.0 — 2026-05-21
+
+- 导演 Agent 回归
+- K1-K4 知识注入体系
+- 经验日志机制

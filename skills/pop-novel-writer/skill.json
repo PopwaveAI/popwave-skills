@@ -1,22 +1,44 @@
 {
   "id": "pop-novel-writer",
-  "version": "9.5.0",
-  "displayName": "正文写作引擎（含黄金三章模式·风格注入）",
-  "description": "六阶段写作管线 + 黄金三章模式 + 可插拔风格注入系统。project.yaml writing_style 切换文风。",
+  "version": "9.6.0",
+  "displayName": "正文写作引擎（文风锚定包）",
+  "category": "writing",
+  "scenario": "production",
+  "mode": "chapter",
+  "recommended": 4,
+  "tags": ["正文", "写作", "六阶段", "ESM", "黄金三章", "文风锚定包"],
+  "fidelity": "production",
+  "description": "正文写作六阶段管线，含黄金三章模式。锚定章+风格合并为文风锚定包单次注入。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "写作",
-      "正文",
-      "writer",
-      "写章节"
-    ],
+    "slashCommands": ["正文", "写作", "writer", "写正文"],
     "default": false
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true,
-    "network": true,
-    "shell": true
-  }
+    "network": false
+  },
+  "orchestration": {
+    "preflight": ["check_project_dir", "check_act_exists", "check_reader_profile"],
+    "dependencies": ["project.yaml", "设计/幕/act-XX.yaml"],
+    "inject_context": [
+      "project.yaml#reader_profile",
+      "设计/幕/act-XX.yaml",
+      "配置/global-summary.md",
+      "设定/L1-元设定层/",
+      "设定/L0-产品层/",
+      "素材库/锚定章库/",
+      "骨架/",
+      "styles/"
+    ],
+    "subagent_required": true
+  },
+  "produces": [
+    "设计说明 + 决策日志（Director）",
+    "骨架/chXXX-事实骨架.md",
+    "正文/卷XX/chXXX.md + 写后自评",
+    "配置/global-summary.md（更新）",
+    "配置/chapter-state.yaml（更新）"
+  ]
 }
