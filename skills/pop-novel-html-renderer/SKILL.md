@@ -7,7 +7,7 @@ mode: html
 recommended: 8
 tags: ["HTML", "发布", "可视化", "渲染"]
 fidelity: production
-description: "HTML渲染引擎 v1.3。27套html-anything SKILL设计约束融合。将.md/.yaml/结构化数据→高质量单文件HTML。节点F前置决策（受众/效果/特化）。支持Swiss/Guizang/Kami/Glitch等27种设计系统。pop-novel-writer/scripts/post_render.py后置验证。"
+description: "HTML渲染引擎 v1.3。27套html-anything SKILL设计约束融合。将.md/.yaml/结构化数据→高质量单文件HTML。节点F前置决策（受众/效果/特化）。支持Swiss/Guizang/Kami/Glitch等27种设计系统。"
 version: v1.3
 novel_agent_version: v3.3
 
@@ -19,7 +19,6 @@ orchestration:
 
 produces:
   - 单文件HTML（适配各种设计系统）
-  - pop-novel-writer/scripts/post_render.py 后置验证报告
 ---
 
 # html-renderer — HTML化发布引擎
