@@ -1,20 +1,43 @@
 # CHANGELOG — pop-novel-bootstrap
 
-## v2.9.3 — 2026-06-04
+## v3.0.0 — 2026-06-05
 
-### darwin-skill 评估驱动优化：边界条件表
+### 完整重构：Bootstrap 优化（5 Phase 执行计划）
 
-- **新增「异常与边界条件」表**：10 种异常场景预定义 fallback，借鉴 darwin-skill 的异常处理范式
-  - 正文文件找不到（reverse）→ 暂停管线，不编造数据
-  - WebSearch 不可用 → 降级本地知识库
-  - 对标书未提供 → 通用节奏模板代替
-  - L1 与 L0 冲突 → 输出冲突说明返回用户决策
-  - 世界断裂 → 暂停，用户决定修复方向
-  - 中途改平台 → 退回重建画像
-  - reverse 正文 < 10 章 → 全部细读
-  - phase 文件缺失 → 手动推导
-  - 子 agent 启动失败 → master 手动执行+红线自检
-- **改造依据**：darwin-skill 评估改进建议 P0
+**Phase 1 — Phase 0 重写 + Reader Profile 直出**
+- 删除"灵魂三问"（为什么要我写/读者为什么非看不可/核心情绪），改为**故事引擎设计**
+- Phase 0 改为 agent 接住用户想象 → 追问 2-3 轮 → 产出结构化 `story-engine.yaml`
+- 替代旧 PRD.md（无人消费的死文档）
+- reader_profile 直接在 Phase 0 嵌入 project.yaml，Phase 4 降级为校对确认
+- 三条红线更新（❌1/❌3/❌8），前 9 条压缩为前 8 条
+
+**Phase 2 — L1 分类重设计 + Phase 1 全量重写**
+- 旧六件套（底层逻辑/表层规则/种族/金手指/势力/物品）→ 新六件套
+  - 01-世界蓝图 / 02-力量体系 / 03-历史与驱动力 / 04-物种与天赋 / 05-势力格局 / 06-资源与物品
+- 验证：三本差异小说（遮天/吞噬星空/深渊主宰）均通过新分类
+- 每篇加 schema + before/after 示例（来自真实小说）
+- 金手指改为 `[主角]` 标签化，不设独立维度
+- Phase 1.5 从自问模式改为 7 项 checklist 模式
+- Phase 1.3 从污染式 `【关联：XX】` 标注改为独立 `_交叉引用记录.md`
+- 删除 phase-1.2.ref.md（标准已合并到 phase-1.ref.md）
+
+**Phase 3 — 边界清理**
+- 删除 Phase 2（L2 卷级展开），交给 plot skill
+- 删除 Phase 6（硬检查），交给 plot skill（数值膨胀保留到 Phase 5）
+- 相位流：0→0.3→0.4→0.5→1→1.2→1.3→1.5→3→4→5
+
+**Phase 4 — 剩余 Phase 模板化 + 量化重写**
+- Phase 0.3: 差异化三列表加模板 + 示例（遮天 vs 凡人）
+- Phase 0.4: 金手指加 before/after 示例 + 标签化说明
+- Phase 0.5: 量化从数字游戏改为质量导向三层检查（L1定位/L2结构/L3融入）
+- Phase 3: constitution.yaml 深度模板（cant_do/must_do 带 example+reason）
+- Phase 5: 3 个 yaml 文件加完整字段模板
+
+**Phase 5 — Reverse 对齐 + 清理**
+- 事件日志 L1 候选字段对齐新六件套分类
+- 删除无关文件 references/PRD-文件读取现状与根因分析.md
+
+**版本号 2.9.3 → 3.0.0**
 
 ## v2.9.2 — 2026-06-04
 

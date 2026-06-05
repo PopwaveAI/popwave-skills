@@ -1,7 +1,7 @@
 # Phase 0.5：跨域素材聚合 ★ 强制
 
 ## 前置条件
-PRD 已定稿，金手指设计完成。
+story-engine.yaml 已锁定，金手指设计完成。
 
 ## 加载参考
 先加载 `phases/phase-0.5.ref.md`。
