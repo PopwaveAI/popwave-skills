@@ -1,5 +1,16 @@
 # CHANGELOG — pop-novel-writer
 
+## v11.2.0 — 2026-06-05
+
+### 移除黄金三章模式
+
+**变更**：
+- 删除 `steps/step-golden-triple.md`
+- SKILL.md 移除黄金三章模式章节、❌7红线、WRONG3错误示例
+- 所有章节统一走 5 步管线，不区分 CH1–CH3 与后续章节
+- skill.json 更新 tags 和 description
+- expert-writer 同步更新 writer 描述和引导模板
+
 ## v11.0.0 — 2026-06-05
 
 ### 管线重构为 5 步驱动（3 次 LLM 调用）

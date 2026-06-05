@@ -1,14 +1,14 @@
 {
   "id": "pop-novel-writer",
-  "version": "11.0.0",
+  "version": "11.2.0",
   "displayName": "正文写作引擎（文风锚定包）",
   "category": "writing",
   "scenario": "production",
   "mode": "chapter",
   "recommended": 4,
-  "tags": ["正文", "写作", "六阶段", "ESM", "黄金三章", "文风锚定包"],
+  "tags": ["正文", "写作", "5步管线", "文风锚定包"],
   "fidelity": "production",
-  "description": "正文写作六阶段管线，含黄金三章模式。锚定章+风格合并为文风锚定包单次注入。",
+  "description": "正文写作5步管线（Director→上下文→骨架→渲染→状态更新）。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["正文", "写作", "writer", "写正文"],
