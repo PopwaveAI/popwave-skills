@@ -147,7 +147,7 @@ Agent：只拆了 3 本网文参考书
 
 | 阶段 | 执行指令 | 参考文档 |
 |:-----|:---------|:---------|
-| Phase 0 — 故事引擎 | `phases/phase-0.pe.md` | `phases/phase-0.ref.md` |
+| Phase 0 — 故事引擎 | `phases/phase-0.pe.md` | 内嵌（无独立 ref） |
 | Phase 0.3 — 参考书甄别 | `phases/phase-0.3.pe.md` | `phases/phase-0.3.ref.md` |
 | Phase 0.4 — 金手指设计 | `phases/phase-0.4.pe.md` | `phases/phase-0.4.ref.md` |
 | Phase 0.5 — 跨域素材 | `phases/phase-0.5.pe.md` | `phases/phase-0.5.ref.md` |
