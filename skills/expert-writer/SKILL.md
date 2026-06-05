@@ -30,30 +30,28 @@ version: 2.0.0
 
 ## 1. 管辖的 Skill 清单
 
-### 推荐 Skill（主场工具，11 个）
+### 推荐 Skill（主场工具，10 个）
 
-| Skill | 职责 | 触发场景 |
-|-------|------|---------|
-| `pop-novel-bootstrap` | 开书启动 — 故事引擎→L1设定→宪法→数值体系 | 「帮我开一本书」「新建小说项目」 |
-| `pop-novel-deconstructor` | 拆书分析 — 分析参考书的写法规则 | 「帮我分析这本小说」「拆解参考书」 |
-| `pop-novel-plot` | 剧情架构 — 幕纲设计、爽点分布、情绪节奏 | 「帮我规划剧情」「设计爽点分布」 |
-| `pop-novel-opening-arc` | 黄金三章 — 写前三章的强开局 | 「帮我写黄金三章」「写开头」 |
-| `pop-novel-writer` | 正文写作 — 5步管线逐章生成正文 | 「继续写下一章」「写第 X 章」 |
-| `pop-novel-qa` | 爽点质检 — 三层次审稿，纯感受反馈 | 「帮我校对」「帮我审稿」「这段写得怎么样」 |
-| `pop-novel-continuation` | 续写适配 — 逆向工程后继续写 | 「继续写这本旧书」「续写」 |
-| `pop-reader-making` | 拆书为读 — 长篇拆解为笔记和结构化数据 | 「帮我拆这本书做笔记」 |
-| `pop-novel-html-renderer` | 发布 — 写作项目渲染为可视化网页 | 「把我写好的发布成网页」 |
-| `pop-novel-game` | 互动文游 — 小说世界观转 AI 文字游戏 | 「把这个世界观做成互动游戏」 |
-| `pop-dna` | 文风DNA蒸馏 — 从原文提取文风DNA档案 | 「分析这本书的文风」「让 Agent 学会这个作者的风格」|
+| Skill | 路径 | 职责 | 触发场景 |
+|-------|------|------|---------|
+| `pop-novel-bootstrap` | `../pop-novel-bootstrap/` | 开书启动 — 故事引擎→L1设定→宪法→数值体系，也处理续写（reverse模式） | 「帮我开一本书」「新建小说项目」 |
+| `pop-novel-deconstructor` | `../pop-novel-deconstructor/` | 拆书分析 — 分析参考书的写法规则 | 「帮我分析这本小说」「拆解参考书」 |
+| `pop-novel-plot` | `../pop-novel-plot/` | 剧情架构 — 幕纲设计、爽点分布、情绪节奏 | 「帮我规划剧情」「设计爽点分布」 |
+| `pop-novel-writer` | `../pop-novel-writer/` | 正文写作 — 5步管线逐章生成正文，含黄金三章模式（CH1–CH3自动启用） | 「继续写下一章」「写第 X 章」「写前三章」 |
+| `pop-novel-qa` | `../pop-novel-qa/` | 爽点质检 — 三层次审稿，纯感受反馈 | 「帮我校对」「帮我审稿」「这段写得怎么样」 |
+| `pop-reader-making` | `../pop-reader-making/` | 拆书为读 — 长篇拆解为笔记和结构化数据 | 「帮我拆这本书做笔记」 |
+| `pop-novel-html-renderer` | `../pop-novel-html-renderer/` | 发布 — 写作项目渲染为可视化网页 | 「把我写好的发布成网页」 |
+| `pop-novel-game` | `../pop-novel-game/` | 互动文游 — 小说世界观转 AI 文字游戏 | 「把这个世界观做成互动游戏」 |
+| `pop-dna` | `../pop-dna/` | 文风DNA蒸馏 — 从原文提取文风DNA档案 | 「分析这本书的文风」「让 Agent 学会这个作者的风格」|
 
 ### 延伸 Skill（需要时可用，4 个）
 
-| Skill | 职责 | 触发场景 |
-|-------|------|---------|
-| `cnovel-research` | 调研网文社区热点，获取灵感 | 「调研」「最近什么火」 |
-| `book-opinion-tracker` | 追踪全网舆情 | 「帮我看看这本书的评价」 |
-| `download-webnovel-txt` | 获取参考书全文 | 「帮我下载这本小说」 |
-| `knowledge-downloader` | 获取微信/B站内容作素材 | 「帮我获取这篇文章」 |
+| Skill | 路径 | 职责 | 触发场景 |
+|-------|------|------|---------|
+| `cnovel-research` | `../cnovel-research/` | 调研网文社区热点，获取灵感 | 「调研」「最近什么火」 |
+| `book-opinion-tracker` | `../book-opinion-tracker/` | 追踪全网舆情 | 「帮我看看这本书的评价」 |
+| `download-webnovel-txt` | `../download-webnovel-txt/` | 获取参考书全文 | 「帮我下载这本小说」 |
+| `knowledge-downloader` | `../knowledge-downloader/` | 获取微信/B站内容作素材 | 「帮我获取这篇文章」 |
 
 > **Skill 不锁定。** Agent 可以调用列表外的 Skill。
 
@@ -104,13 +102,13 @@ version: 2.0.0
 
 | 意图 | 路由 Skill | 前置条件 |
 |------|-----------|---------|
-| 新建创作 | 按典型路径：bootstrap → plot → opening-arc → writer | 故事想象 |
+| 新建创作 | 按典型路径：bootstrap → plot → writer | 故事想象 |
 | 继续前进 | 读取项目状态，定位当前阶段 → 调用下一个 Skill | act-XX.yaml / 章状态 |
-| 修改调整 | 走修改路由（见第4节） | — |
+| 修改调整 | 走修改路由（见第3节） | — |
 | 质检审稿 | pop-novel-qa | 正文存在 |
 | 调研获取 | cnovel-research / book-opinion-tracker | — |
 | 文风分析 | pop-dna | 原文样本 ≥3篇 |
-| 续写已有项目 | pop-novel-bootstrap (reverse) | 已有正文 |
+| 续写已有项目 | pop-novel-bootstrap (reverse mode) | 已有正文 |
 | 风格写作 | pop-novel-writer（携带 `style: {dna}` 参数） | act-XX.yaml + DNA档案 |
 
 **子 agent 不可用时**：master 自行执行子 skill，必须声明"子 agent 不可用，master 手动执行"。
@@ -174,7 +172,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
 ├─ 改设定/角色/世界观 → bootstrap（只更新设定文件，不推倒重来）
 ├─ 改剧情/章节结构 → plot（只调受影响的幕纲）
 ├─ 改某章/某段正文 → writer（定点重写指定段落）
-├─ 改开头 → opening-arc
+├─ 改开头 → writer（黄金三章模式处理前三章）
 ├─ 改文风 → 路由 writer 时携带新的 style 参数
 └─ 没说具体怎么改 → 先调 qa → 用户指明方向 → 再调对应 Skill
 ```
@@ -187,7 +185,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
 | 改人物性格/行为/关系 | writer | 角色设定（bootstrap） |
 | 改剧情走向/增删章节 | plot / writer | 幕纲（plot）+ 受影响正文（writer） |
 | 改世界观规则 | bootstrap | 已写正文中涉及该规则的所有段落（writer） |
-| 改开头 | opening-arc | — 前三章相对独立，无需联动 |
+| 改开头前三章 | writer | — 前三章相对独立，无需联动 |
 
 ### 3.3 执行修改
 
@@ -203,10 +201,10 @@ L4 ─ 活人感检查（可选，高优章节启用）
 ## 4. 典型路径
 
 ```
-新书启动：     bootstrap → plot → opening-arc → writer → qa
-调研后开书：    cnovel-research → bootstrap → plot → opening-arc → ...
+新书启动：     bootstrap → plot → writer → qa
+调研后开书：    cnovel-research → bootstrap → plot → writer → ...
 已有项目续写：  plot → writer → qa
-续写旧项目：    continuation → writer → qa
+续写旧项目：    bootstrap (reverse) → writer → qa
 文风分析 → 写作：pop-dna → writer（携带 style 参数）
 ```
 
