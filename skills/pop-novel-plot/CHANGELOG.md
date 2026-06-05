@@ -1,5 +1,19 @@
 # CHANGELOG — pop-novel-plot
 
+## v3.0.0 — 2026-06-05
+
+### 情节线规划系统（罗琳式汇总表 + 契诃夫枪链）
+
+- **节点B 新增第 6 项**：情节线规划——主支线数量、期望频率、契诃夫枪设伏/回收计划
+- **act-XX.yaml 模板重大更新**：
+  - 顶部新增 `plotlines:` 幕级定义（id/desc/expected_frequency/chekhov_guns）
+  - 每章新增 3 个字段：`plotlines_active`（支线推进）、`chekhov_set`（设伏）、`chekhov_fire`（回收）
+- **节奏自检新增 3 项**：支线空白检查 / 契诃夫枪延期检查 / 汇总表一致性检查（7+3→7+3+3）
+- **Step 5 新增产出**：`情节线纲汇总表.md`（从 yaml 自动渲染的罗琳式表格）
+- **质量红线 +1**：plotlines ≥ 2 条，每章 plotlines_active 不为空
+- **WRONG 5**：设计幕纲时不规划情节线
+- **版本号 2.9.0 → 3.0.0**
+
 ## v2.9.0 — 2026-06-04
 
 ### 完整改革（SKILL.md 全量重写）
