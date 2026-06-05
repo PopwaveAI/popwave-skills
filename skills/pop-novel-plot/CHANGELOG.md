@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-plot
 
+## v4.0.0 — 2026-06-05
+
+### 三层框架整合：新增 info_release 规划系统
+
+- **Step 3 拆分为 Step 3-a + Step 3-b**：新增 L1 设定目录扫描与 info_release 规划
+- **Step 3-a 新增**：遍历 L1 设定目录（底层逻辑/表层规则/种族势力/金手指/物品）→ P0/P1/P2 分级 → 分配到各章
+- **每章切片新增 info_release 字段**：item_id / title / source_doc / release_method / density / priority / chapter_context
+- **Step 5 节奏自检新增「★ 信息释放检查」**：连续无新信息章节 ≤ 2 章、P0 全部分配、第1章新概念 ≤ 2 个、source_doc 标注检查
+- **Step 6 产出物更新**：act-XX.yaml 说明新增 info_release 是骨架Agent消费入口
+- **异常表 Step 引用更新**：不一致引用修复
+- **版本号 3.1.0 → 4.0.0**
+
 ## v3.1.0 — 2026-06-05
 
 ### 流程新增 Step 2 情节线草案·用户确认闸门

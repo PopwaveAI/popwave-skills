@@ -1,5 +1,39 @@
 # CHANGELOG — pop-novel-writer
 
+## v10.0.0 — 2026-06-05
+
+### 三层框架全面升级（纯事实骨架/叙事策略指令/文风DNA）
+
+**核心架构变革**：
+- **三层框架定义**：Layer 1（纯事实骨架：事件链+设定包+密度标记）/ Layer 2（叙事策略指令：ESM before 从DNA动态生成）/ Layer 3（文风DNA：5条叙事哲学原则+应用规则）
+- **骨架Agent升级为 Layer 1 产出**：消费 act-XX.yaml info_release → 按 source_doc 从 L1 提取具体内容 → 按 release_method 嵌入骨架
+- **ESM before 新增 Layer 2 生成逻辑**：从5条DNA原则动态生成5条叙事策略指令（信息释放/叙事者姿态/情感表达/对话策略/张力控制）
+- **ESM 注入包从13项扩展为15项**：新增第13项（info_release实体内容）+ 第14项（叙事策略指令）
+- **写前必读清单追加**：info_release确认 + 叙事策略指令确认
+- **渲染新增"三层框架消费指南"**：消费优先级规则 + 三层冲突解决规则
+
+**文风锚定包系统 v3.0**：
+- **文风锚定包模板.md 从参数式升级为DNA式**：删除原7项复选框+5项技法偏好 → 5条叙事哲学DNA（信念陈述+证据链+跨章验证+应用规则）
+- **锚定章片段新增"叙事哲学印证"字段**：绑定实例与DNA原则
+- **所有 style 文件升级至 v3.0 格式**：abyss / default / tomato / zhetian / tunshi / shengwang / yazhou / zerg / guichui / nvpin 共10个文件
+
+**Prompt 模板升级**：
+- **Director-prompt.md v4.0**：新增"信息释放策略"区块 + 前置检查新增 info_release + 文风DNA读取
+- **Pass1-chapter-planner.md v4.0**：新增 Step 2-a info_release 消费逻辑 + 骨架格式改为事件链+设定包+密度标记
+- **Pass2-renderer.md v4.0**：15项输入 + 三层框架消费指南 + 写后自评第④问 + AC-6信息释放合规检查
+
+**兼容性**：
+- info_release 字段可选 → 旧版 act-XX.yaml 无此字段时骨架 Agent 按原逻辑工作
+- 文风锚定包兼容 v2.0（参数式）→ ESM before 检测后走旧逻辑生成近似指令
+- Pass2 输入项扩展不破坏旧项编号映射
+
+**测试验证**：
+- 三轮验证（CH1×3DNA + CH2×3DNA + CH3×3DNA + CH2v2×3DNA = 12篇并行产出）
+- v2 差异从"同故事不同语气"升级为"同事实不同叙事者结构决策"
+- 复盘PRD沉淀：三层框架定义+数据证据+落地建议
+
+- **版本号 9.7.1 → 10.0.0**
+
 ## v9.7.1 — 2026-06-04
 
 ### 新增异常与边界条件表

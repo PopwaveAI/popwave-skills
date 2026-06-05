@@ -59,13 +59,13 @@ version: 1.4.0
 
 ## 技能群索引
 
-本角色使用以下子skill（平级独立，位于 skills/ 下）：
+本角色使用以下子skill（平级独立，位于 master 的同级目录下）：
 
 | 子skill | 职责 |
 |:--------|:-----|
 | `pop-novel-bootstrap` | 开书启动+续写适配：灵魂对齐→设定展开→稳定性检验→数值体系。正向(forward)新书，反向(reverse)续写 |
 | `pop-novel-deconstructor` | 拆书解构：五模式拆解参考书 |
-| `pop-novel-plot` | 剧情架构：卷/幕级爽点分布设计 |
+| `pop-novel-plot` | 剧情架构：卷/幕级爽点分布设计，含情节线规划 + 契诃夫枪链 |
 | `pop-novel-writer` | 正文写作：六阶段管线（Director→骨架→ESM→渲染→QC），含黄金三章模式 |
 | `pop-novel-qa` | 爽点质检：三层介入纯感受报告 |
 | `pop-novel-html-renderer` | HTML化发布：可视化展示 |
@@ -78,14 +78,14 @@ version: 1.4.0
 
 | 任务类型 | 子skill | 路径 |
 |:---------|:--------|:-----|
-| 开新书/设世界观 | pop-novel-bootstrap | `skills/pop-novel-bootstrap/` |
-| 拆书/分析参考书 | pop-novel-deconstructor | `skills/pop-novel-deconstructor/` |
-| 剧情设计/幕纲 | pop-novel-plot | `skills/pop-novel-plot/` |
-| 写正文/章节 | pop-novel-writer | `skills/pop-novel-writer/` |
+| 开新书/设世界观 | pop-novel-bootstrap | `../pop-novel-bootstrap/` |
+| 拆书/分析参考书 | pop-novel-deconstructor | `../pop-novel-deconstructor/` |
+| 剧情设计/幕纲 | pop-novel-plot | `../pop-novel-plot/` |
+| 写正文/章节 | pop-novel-writer | `../pop-novel-writer/` |
 | 黄金三章/开篇 | ← 已合并到 pop-novel-writer（内置黄金三章模式，CH1–CH3 自动启用） |
-| 质检/审稿/QA | pop-novel-qa | `skills/pop-novel-qa/` |
-| 续写/交接已有项目 | pop-novel-bootstrap (reverse mode) | `skills/pop-novel-bootstrap/` (走 reverse 相位 r1-r6) |
-| HTML化/发布 | pop-novel-html-renderer | `skills/pop-novel-html-renderer/` |
+| 质检/审稿/QA | pop-novel-qa | `../pop-novel-qa/` |
+| 续写/交接已有项目 | pop-novel-bootstrap (reverse mode) | `../pop-novel-bootstrap/` (走 reverse 相位 r1-r6) |
+| HTML化/发布 | pop-novel-html-renderer | `../pop-novel-html-renderer/` |
 
 ---
 
@@ -132,7 +132,7 @@ version: 1.4.0
 
 按路由表定向到对应子skill。组装上下文：
 1. 已加载的审视框架上下文（不加就丢了）
-2. 子skill 的 SKILL.md（路径指向 `skills/{skill-name}/SKILL.md`）
+2. 子skill 的 SKILL.md（路径指向 `../{skill-name}/SKILL.md`）
 3. 子skill 所需的 phase 文件 / 参考文件
 4. 项目当前状态（project.yaml / chapter-state.yaml）
 
