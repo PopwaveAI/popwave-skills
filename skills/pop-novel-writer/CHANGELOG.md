@@ -1,5 +1,41 @@
 # CHANGELOG — pop-novel-writer
 
+## v11.0.0 — 2026-06-05
+
+### 管线重构为 5 步驱动（3 次 LLM 调用）
+
+**核心变更**：
+- **管线从 3 步扩展为 5 步**：Director(LLM) → 上下文搜集(零LLM) → 骨架Agent(LLM) → 渲染(LLM) → 状态更新(零LLM)
+- **Director 精简**：不读文风DNA、不选锚定章、不出决策日志，只出设计说明+信息释放策略
+- **新增 Step 2 上下文搜集**：按 Director 指示从文件系统搜集 L1 设定 + entity-state + global-summary
+- **骨架 Agent 独立为 Step 3**：按事实骨架模板产出事件链+设定包+密度标记，含骨架层 QC
+- **渲染 Step 4 输入精简为 7 项**：骨架+世界快照+设计说明+文风DNA+红线+全局摘要+上一章结尾
+- **新增 Step 5 状态更新**：渲染器输出状态更新块 → 零LLM追加到 global-summary.md + entity-state.yaml
+- **文风锚定包系统简化**：去掉 Layer 2（叙事策略指令）和锚定章注入，渲染器直接消费 DNA
+
+**删除**：
+- ❌ ESM before 的 DNA→叙事策略指令生成层
+- ❌ 锚定章片段注入渲染器
+- ❌ Pass1-chapter-planner.md（骨架 Agent 独立模板）
+- ❌ SQLite/DB 引用（未运维，改为文件）
+- ❌ Director 读文风DNA
+
+**新增模板**：
+- `templates/事实骨架模板.md` — 骨架标准化产出格式
+- `templates/entity-state-schema.md` — 世界快照模板
+- `templates/everything-bundle-schema.md` — 渲染器输入包参考
+
+**Prompt 模板升级**：
+- Director-prompt.md v5.0：精简版，不含DNA和锚定章
+- Pass2-renderer.md v5.0：7项输入 + 三层框架消费 + 状态更新块输出
+
+**兼容性**：
+- entity-state.yaml 不存在 → Step 2 跳过
+- 旧版 act-XX.yaml 无 info_release → Director 不输出信息释放策略
+- 旧管线不依赖删除的 Pass1 文件
+
+- **版本号 10.0.0 → 11.0.0**
+
 ## v10.0.0 — 2026-06-05
 
 ### 三层框架全面升级（纯事实骨架/叙事策略指令/文风DNA）
