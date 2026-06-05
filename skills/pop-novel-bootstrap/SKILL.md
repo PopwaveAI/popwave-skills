@@ -147,23 +147,23 @@ Agent：只拆了 3 本网文参考书
 
 | 阶段 | 执行指令 | 参考文档 |
 |:-----|:---------|:---------|
-| Phase 0 — 故事引擎 | `phases/phase-0.pe.md` | 内嵌（无独立 ref） |
-| Phase 0.3 — 参考书甄别 | `phases/phase-0.3.pe.md` | `phases/phase-0.3.ref.md` |
-| Phase 0.4 — 金手指设计 | `phases/phase-0.4.pe.md` | `phases/phase-0.4.ref.md` |
-| Phase 0.5 — 跨域素材 | `phases/phase-0.5.pe.md` | `phases/phase-0.5.ref.md` |
-| Phase 1 — L1 骨架 | `phases/phase-1.pe.md` | `phases/phase-1.ref.md` |
-| Phase 1.2 — L1 深度展开 | `phases/phase-1.2.pe.md` | `phases/phase-1.2.ref.md` |
+| Phase 0 — 故事引擎 | `phases/phase-0.pe.md` | 内嵌 |
+| Phase 0.3 — 参考书甄别 | `phases/phase-0.3.pe.md` | 内嵌 |
+| Phase 0.4 — 金手指设计 | `phases/phase-0.4.pe.md` | 内嵌 |
+| Phase 0.5 — 跨域素材 | `phases/phase-0.5.pe.md` | 内嵌 |
+| Phase 1 — L1 骨架 | `phases/phase-1.pe.md` | 内嵌（含完整 schema+示例） |
+| Phase 1.2 — L1 深度展开 | `phases/phase-1.2.pe.md` | — |
 | Phase 1.3 — L1 交叉关联 | `phases/phase-1.3.pe.md` | — |
 | Phase 1.5 — 稳定性检验 | `phases/phase-1.5.pe.md` | — |
-| Phase 3 — 项目骨架 | `phases/phase-3.pe.md` | `phases/phase-3.ref.md` |
+| Phase 3 — 项目骨架 | `phases/phase-3.pe.md` | 内嵌（含完整 schema） |
 | Phase 4 — reader_profile 校对 | `phases/phase-4.pe.md` | — |
-| Phase 5 — 数值体系 | `phases/phase-5.pe.md` | `phases/phase-5.ref.md` |
+| Phase 5 — 数值体系 | `phases/phase-5.pe.md` | 内嵌（含模板+四段框架） |
 
 ### Reverse 参考
 
 | 阶段 | 执行指令 | 参考文档 |
 |:-----|:---------|:---------|
-| Phase r1 — 事件日志 | `phases/phase-r1.pe.md` | `phases/phase-r1.ref.md` |
+| Phase r1 — 事件日志 | `phases/phase-r1.pe.md` | 内嵌（含模板+格式） |
 | Phase r2 — L0 提取 | `phases/phase-r2.pe.md` | — |
 | Phase r3 — L1 提取 | `phases/phase-r3.pe.md` | — |
 | Phase r4 — 宪法提取 | `phases/phase-r4.pe.md` | — |
