@@ -1,6 +1,6 @@
 {
   "id": "pop-novel-deconstructor",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "displayName": "拆书解构",
   "description": "将参考书拆解为可复用的写法规则、体系设计、大纲密度基线。五模式拆解。",
   "entry": "SKILL.md",
