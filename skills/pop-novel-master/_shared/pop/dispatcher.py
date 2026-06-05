@@ -34,18 +34,15 @@ from enum import Enum
 
 ROUTING_TABLE = [
     # (keywords, category, skill_name, display_name)
-    # ★ Spec 桥接 — 排在首位，优先级最高
-    (["规格", "spec", "审批", "生成规格", "先规格"], "spec", "spec-bridge", "Spec 桥接"),
-    # 原有路由
-    (["开书", "启动", "设计设定", "开新书"], "bootstrap", "skill-project-bootstrap", "开书启动"),
+    (["开书", "启动", "设计设定", "开新书"], "bootstrap", "pop-novel-bootstrap", "开书启动"),
     (["幕纲", "大纲", "剧情", "幕设计"], "plot", "pop-novel-plot", "剧情架构"),
     (["前三章", "开篇", "黄金三章"], "opening", "pop-novel-writer", "黄金三章（正文写作引擎内置模式）"),
-    (["写作", "正文", "第", "ch0"], "writing", "skill-emergent-writer", "正文写作"),
-    (["拆书", "解构", "分析", "对标"], "deconstruct", "skill-book-deconstructor", "拆书解构"),
-    (["审稿", "QA", "质检", "审一下"], "qa", "skill-qa-payoff", "爽点QA"),
-    (["市场", "验证", "审市场"], "market", "skill-market-test", "市场验证"),
-    (["续写", "交接", "已有正文"], "continuation", "_continuation", "续写适配"),
-    (["HTML化", "发布", "渲染", "做成HTML"], "publish", "html-renderer", "HTML化发布引擎"),
+    (["写作", "正文", "第", "ch0"], "writing", "pop-novel-writer", "正文写作"),
+    (["拆书", "解构", "分析", "对标"], "deconstruct", "pop-novel-deconstructor", "拆书解构"),
+    (["审稿", "QA", "质检", "审一下"], "qa", "pop-novel-qa", "爽点QA"),
+    (["市场", "验证", "审市场"], "market", "pop-novel-market-test", "市场验证"),
+    (["续写", "交接", "已有正文"], "continuation", "pop-novel-bootstrap", "续写适配（reverse模式）"),
+    (["HTML化", "发布", "渲染", "做成HTML"], "publish", "pop-novel-html-renderer", "HTML化发布引擎"),
     (["调研", "搜索", "研究"], "research", "cnovel-research", "网文调研"),
     (["舆情", "查一下", "书评", "口碑"], "research", "book-opinion-tracker", "网文舆情追踪"),
 ]
@@ -195,7 +192,7 @@ class Harness:
             return best_match
         
         # 兜底
-        return ("skill-emergent-writer", "正文写作", "writing")
+        return ("pop-novel-writer", "正文写作", "writing")
     
     # ============================================
     # ② Frontmatter 解析
@@ -477,13 +474,12 @@ class Harness:
             if rules:
                 # 映射 skill_name → 管线阶段
                 stage_map = {
-                    "spec-bridge": "director",
-                    "skill-emergent-writer": "pass2",
-                    "skill-qa-payoff": "qc",
+                    "pop-novel-bootstrap": "director",
+                    "pop-novel-writer": "pass2",
+                    "pop-novel-qa": "qc",
                     "pop-novel-plot": "director",
-                    "skill-project-bootstrap": "director",
-                    "skill-book-deconstructor": "director",
-                    "skill-market-test": "qc",
+                    "pop-novel-deconstructor": "director",
+                    "pop-novel-market-test": "qc",
                 }
                 stage = stage_map.get(job.skill_name, "")
                 if stage:

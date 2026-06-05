@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-master
 
+## v1.5.0 (2026-06-05)
+- **全线同步 bootstrap v3.0 和 plot v3.1 的变更**：
+  - SKILL.md bootstrap 描述从"灵魂对齐→数值体系"改为"故事引擎→L1新六件套→宪法→数值体系"
+  - 决策点闸门表从"Phase 0 灵魂三问"改为"story-engine 确认"
+  - Reflect L2 一致性检查从"L0 PRD/灵魂层"改为"story-engine.yaml 字段"
+- **references/ 同步**：
+  - think-开书设定.md：PRD/压力测试/灵魂层全部替换为 story-engine 概念
+- **路由文件全线修复**：
+  - POP-ROUTER.md：旧 skill 名全部替换（skill-project-bootstrap / skill-emergent-writer / skill-book-deconstructor 等→ pop-novel-*）；删除 spec-bridge 引用；删除 glue 编排脚本引用
+  - POP-CALL.md：同上，路由表更新 + 场景示例更新（续写示例改为 reverse 模式）
+- **版本提升**：v1.4.0 → v1.5.0
+
 ## v1.2.0 (2026-06-03)
 - **续写路由更新**：pop-novel-continuation 已合并进 pop-novel-bootstrap 的 reverse 模式
 - **技能群索引精简**：移除已删除的 continuation / opening-arc 条目

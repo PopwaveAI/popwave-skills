@@ -1,10 +1,7 @@
 # POP-CALL.md — pop 编排声明模板
 
-> pop 已升级为 **Harness 编排层**。收到需求后：
-> 1. 调 `glue/orchestrate.py` 自动匹配路由
-> 2. dispatcher.py 解析 frontmatter + 前置检查 + 装配上下文
-> 3. 输出 JobOrder 任务单
-> 4. pop agent 按 JobOrder 执行 skill SOP
+> pop 收到需求后，按 SKILL.md 的 Think→Execute→Reflect 流程路由。
+> 每次新任务先声明，后做事。
 
 ---
 
@@ -14,8 +11,8 @@
 🖋️ **pop 收到老板指示**
 
 任务理解：[一句话复述用户需求]
-场景判断：[bootstrap / plot / writing / deconstruct / qa / market]
-路由技能：[skill-name vX.X | 推荐排序 N]
+场景判断：[bootstrap / plot / writing / deconstruct / qa / htmlify]
+路由技能：[skill-name vX.X]
 前置条件：[依赖项 → ✅/❌]
 执行路径：[step1 → step2 → ...]
 ```
@@ -28,7 +25,7 @@
 🖋️ **pop 收到老板指示」
 
 任务理解：xxx
-执行路线：skill-emergent-writer v8.0
+执行路线：pop-novel-writer
 ```
 
 ---
@@ -37,74 +34,68 @@
 
 | 用户输入关键词 | 路由 skill |
 |:---|:---|
-| 开书 / 新书 / 设计设定 | skill-project-bootstrap |
-| 幕纲 / 大纲 / 剧情 | pop-novel-plot |
-| 前三章 / 开篇 | pop-novel-writer（黄金三章模式） |
-| 写第N章 / 正文 | skill-emergent-writer |
-| 拆书 / 解构 / 分析 | skill-book-deconstructor |
-| 审稿 / QA / 质检 | skill-qa-payoff |
-| 市场验证 | skill-market-test |
-| 续写 / 交接 | _continuation |
-| 调研 / 搜索 | cnovel-research-main |
+| 开书 / 新书 / 设定 | `pop-novel-bootstrap` (forward) |
+| 幕纲 / 大纲 / 剧情 | `pop-novel-plot` |
+| 写正文 / 下一章 | `pop-novel-writer` |
+| 前三章 / 开篇 | `pop-novel-writer`（黄金三章模式） |
+| 拆书 / 解构 / 分析 | `pop-novel-deconstructor` |
+| 审稿 / QA / 质检 | `pop-novel-qa` |
+| HTML化 / 发布 | `pop-novel-html-renderer` |
+| 续写 / 交接 | `pop-novel-bootstrap` (reverse) |
 
 ---
 
 ## 场景示例
 
-### 示例 1：写作任务
+### 示例 1：开书任务
+```
+🖋️ **pop 收到老板指示**
+
+任务理解：写一本灰骑士穿越博德之门3的小说
+场景判断：bootstrap → design
+路由技能：pop-novel-bootstrap v3.0（forward）
+前置条件：用户有故事想象 → ✅
+执行路径：追问2-3轮 → story-engine.yaml → 参考书甄别 → L1设定 → 项目骨架
+```
+
+### 示例 2：写作任务
 ```
 🖋️ **pop 收到老板指示**
 
 任务理解：写第 5 章正文
 场景判断：writing → production
-路由技能：skill-emergent-writer v8.0（推荐排序 1）
-前置条件：act-XX.yaml → ✅ / global_summary → ✅ / character_state → ✅
-执行路径：pre_flight → 导演思考 → 正文生成 → post_write → 更新摘要
+路由技能：pop-novel-writer v11
+前置条件：act-XX.yaml → ✅ / 章状态 → ✅
+执行路径：Director 思考 → 骨架 → ESM → 渲染 → QC
 ```
 
-### 示例 2：大纲任务
+### 示例 3：大纲任务
 ```
 🖋️ **pop 收到老板指示**
 
-任务理解：设计第二幕（act-02）的幕纲
+任务理解：设计第二幕的幕纲
 场景判断：plot → design
-路由技能：pop-novel-plot v2.7（推荐排序 2）
-前置条件：project.yaml → ✅ / PRD → ✅ / L1 → ✅
-执行路径：check_db → 情绪曲线 → 爽点版场景卡 → validate
+路由技能：pop-novel-plot v3.1
+前置条件：project.yaml → ✅ / story-engine.yaml → ✅ / L1 → ✅
+执行路径：节点B → 情节线草案 → 场景卡 → 节奏自检 → 输出
 ```
 
-### 示例 3：拆书任务
-```
-🖋️ **pop 收到老板指示**
-
-任务理解：拆解《诡舍》第 11-50 章
-场景判断：deconstruct → research
-路由技能：skill-book-deconstructor v4.7（推荐排序 3）
-前置条件：参考书原文 → ✅
-执行路径：节点E判断 → 选模式 → 拆解 → 片段入库
-```
-
-### 示例 4：审稿任务
+### 示例 4：续写任务
 ```
 🖋️ **pop 收到老板指示**
 
-任务理解：审稿第 5 章
-场景判断：qa → review
-路由技能：skill-qa-payoff v0.3（推荐排序 6）
-前置条件：正文 ch005.md → ✅
-执行路径：意图还原 → 7维评分 → QA报告
+任务理解：继续写之前搁置的书
+场景判断：continuation → reverse
+路由技能：pop-novel-bootstrap v3.0（reverse）
+前置条件：已有正文 → ✅
+执行路径：事件日志 → 逆向 story-engine → 逆向 L1 → 宪法提取 → 卷大纲确认
 ```
 
 ---
 
 ## 编排纪律
 
-1. **pop 声明是强制前置信令** — 每次新任务必须声明
-2. **声明后查 POP-ROUTER.md** — 按路由表走，不自由发挥
-3. **HARD-GATE 最高优先** — 前置条件不满足就不执行
-4. **glue 脚本不可跳过** — pre_flight / check_db / validate / post_write
-5. **子Agent 隔离** — 正文/审稿必须走独立子Agent
-
----
-
-> 此文件为 pop 声明基准。变更时同步更新 POP-ROUTER.md 和各 SKILL.md。
+1. **先声明，后做事** — 每次新任务必须声明
+2. **有 skill 不走自由发挥** — 按路由表走
+3. **决策点不跳过** — 子 skill 的 HARD-GATE 和用户确认点不可跳过
+4. **子 agent 隔离** — writer / qa 走独立子 agent
