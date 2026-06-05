@@ -141,26 +141,20 @@ CH1：主角在家起床→吃饭→出门遇熟人
 deconstructor Step 3-b → 01-写作资产/文风锚定包.md
   ↓ 读取优先级：
   ① 01-写作资产/文风锚定包.md（项目级）
-  ② styles/{writing_style}.md（内部预置）
-  ③ styles/default.md（通用兜底）
+  ② styles/{writing_style}.md（内部预置DNA档案）
   ↓
-Step 4 渲染器仅读取 DNA 节（5条原则）→ 不含锚定章片段
+Step 4 渲染器读取文风DNA档案全文
 ```
 
 ### 内部预置风格
 
-| ID | 定位 | 适用 | 不适用 |
-|:---|:-----|:-----|:-------|
-| **abyss** | 西幻·黑暗写实 | DND/实体出版 | 快节奏对话驱动网文 |
-| **tomato** | 极致快节奏爽文 | 番茄/零门槛 | 氛围沉浸类 |
-| **zhetian** | 文学化叙事·意象 | 仙侠/出版/重情感 | 数据化升级流 |
-| **tunshi** | 硬核升级流·参数 | 升级流/无限流 | 情感驱动类 |
-| **shengwang** | 狂暴升级·设定密集型 | 玄幻/高信息密度 | 慢热铺垫类 |
-| **yazhou** | 同人二次元·吐槽 | 穿越/日漫同人 | 西幻/写实 |
-| **zerg** | 异兽种田·系统面板 | 游戏系统/基地建设 | 对话驱动类 |
-| **guichui** | 悬疑盗墓·知识科普 | 悬疑/探秘/民俗 | 现代爽文 |
-| **nvpin** | 女频古言·细腻慢热 | 古言/宅斗/慢燃 | 快节奏升级流 |
-| **default** | 通用兜底 | 所有题材 | — |
+| ID | 定位 | 来源 |
+|:---|:-----|:------|
+| **abyss** | 《深渊主宰》— 诸生浮屠 | pop-dna 8维分析 |
+| **zhetian** | 《遮天》— 辰东 | pop-dna 8维分析 |
+| **longfu** | 《龙符》— 梦入神机 | pop-dna 8维分析 |
+| **tunshixingkong** | 《吞噬星空》— 我吃西红柿 | pop-dna 8维分析 |
+| **default** | 通用兜底（如无匹配则用） | — |
 
 ---
 
@@ -191,10 +185,11 @@ prompt-templates/     ← Agent prompt 文本
 ├── experience-log-schema.md
 └── QC-checklist.md
 
-styles/               ← 文风DNA参考
-├── 文风锚定包模板.md
-├── abyss.md ... zhetian.md
-└── default.md
+styles/               ← 文风DNA档案（pop-dna 8维格式）
+├── abyss.md
+├── zhetian.md
+├── longfu.md
+└── tunshixingkong.md
 ```
 
 ---
