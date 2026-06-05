@@ -244,10 +244,8 @@ _shared/project_config.py          ← 工具函数
 
 ---
 
-## 归档
+## 废弃（勿引用）
 
 ```
-_archive/pop-novel-agent-pro/    ← 旧单体存档
-_archive/inactive/               ← 不活跃skill
-_archive/spec-bridge/            ← Spec桥接层
+_废弃/    ← 旧单体存档、已废弃skill、被重构skill。agent 不应加载此目录下的任何 SKILL.md
 ```
