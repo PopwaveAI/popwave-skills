@@ -247,5 +247,5 @@ _shared/project_config.py          ← 工具函数
 ## 废弃（勿引用）
 
 ```
-_废弃/    ← 旧单体存档、已废弃skill、被重构skill。agent 不应加载此目录下的任何 SKILL.md
+_deprecated/    ← 旧单体存档、已废弃skill、被重构skill。agent 不应加载此目录下的任何 SKILL.md
 ```
