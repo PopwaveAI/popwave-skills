@@ -1,4 +1,0 @@
-interface:
-  display_name: "Download Webnovel TXT"
-  short_description: "Find authorized novels and save TXT"
-  default_prompt: "Use $download-webnovel-txt to find an authorized web novel source and save allowed chapters as a TXT."

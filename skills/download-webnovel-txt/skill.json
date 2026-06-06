@@ -1,11 +1,11 @@
 {
   "id": "download-webnovel-txt",
-  "version": "0.1.0",
-  "displayName": "download-webnovel-txt",
-  "description": "输入书名即可自动搜索、下载网文并保存为干净 TXT。支持公开页面、用户提供的URL、登录态、本地HTML导出、目录页。无需用户指定来源。",
+  "version": "2.0.0",
+  "displayName": "下载网文TXT",
+  "description": "输入书名即可搜索直链并下载 TXT。只走一条路：搜直链→下直链。不爬目录页、不逐章抓取。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["download-webnovel-txt"],
+    "slashCommands": ["下载网文TXT", "download-webnovel-txt"],
     "default": false
   },
   "permissions": {
@@ -16,6 +16,6 @@
   },
   "loadPolicy": {
     "includeReferences": "on-demand",
-    "maxPromptChars": 40000
+    "maxPromptChars": 20000
   }
 }
