@@ -1,15 +1,17 @@
 {
   "id": "pop-novel-deconstructor",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "displayName": "拆书解构",
-  "description": "将参考书拆解为可复用的写法规则、体系设计、大纲密度基线。五模式拆解。",
+  "description": "全量拆解长篇网文，产出设定/剧情/技法三维档案+文风DNA。自诊断+分层采样+三维框架全覆盖，支持百万字级。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
       "拆书",
       "解构",
       "分析",
-      "deconstruct"
+      "deconstruct",
+      "拆解",
+      "对标"
     ],
     "default": false
   },
