@@ -1,6 +1,6 @@
 {
   "id": "pop-novel-deconstructor",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "displayName": "拆书解构",
   "description": "全量拆解长篇网文，产出设定/剧情/技法三维档案+文风DNA。自诊断+分层采样+三维框架全覆盖，支持百万字级。",
   "entry": "SKILL.md",
