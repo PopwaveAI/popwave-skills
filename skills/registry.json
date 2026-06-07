@@ -23,7 +23,7 @@
     {
       "id": "expert-writer",
       "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由（三层联动影响评估）和完成后引导（基于项目文件状态的跨轮引导）。",
-      "latest": "1.0.0",
+      "latest": "2.2.0",
       "path": "skills/expert-writer"
     },
     {
@@ -63,15 +63,15 @@
       "path": "skills/pop-html-anything"
     },
     {
-      "id": "pop-novel-bootstrap",
-      "description": "从故事引擎到可执行项目骨架的开书管线。包含story-engine设计→跨域素材→L1新六件套→稳定性→宪法→数值体系。",
-      "latest": "3.0.0",
-      "path": "skills/pop-novel-bootstrap"
+      "id": "pop-novel-bookstrap",
+      "description": "从故事引擎到可执行项目骨架的开书管线。含story-engine→跨域素材→拆书融合→L1六件套→起点快照→终点快照→宪法→数值体系。支持forward/reverse两种模式。",
+      "latest": "4.0.0",
+      "path": "skills/pop-novel-bookstrap"
     },
     {
       "id": "pop-novel-deconstructor",
-      "description": "将参考书拆解为可复用的写法规则、体系设计、大纲密度基线。五模式拆解。",
-      "latest": "5.0.0",
+      "description": "拆网文参考书（默认第一卷/前100章），产出设定/剧情/技法三维档案+文风DNA+卷1起点/终点快照。仅在用户明确要求时才全书拆解。",
+      "latest": "7.0.0",
       "path": "skills/pop-novel-deconstructor"
     },
     {
@@ -89,7 +89,7 @@
     {
       "id": "pop-novel-plot",
       "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划（罗琳式支线追踪+契诃夫枪链）。用户说【设计剧情/画幕纲/做大纲/剧情架构/爽点分布/幕纲/情节线/支线】时启用。",
-      "latest": "3.1.0",
+      "latest": "4.0.0",
       "path": "skills/pop-novel-plot"
     },
     {
@@ -100,8 +100,8 @@
     },
     {
       "id": "pop-novel-writer",
-      "description": "正文写作5步管线（Director→上下文→骨架→渲染→状态更新）。",
-      "latest": "11.2.0",
+      "description": "正文写作3步管线（Design→Render→State Update）。Design与Skeleton合并为单一设计包，含里程碑对齐检查。",
+      "latest": "12.0.0",
       "path": "skills/pop-novel-writer"
     },
     {

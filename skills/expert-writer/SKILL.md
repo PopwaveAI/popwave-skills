@@ -213,7 +213,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
 | 修改类型 | 当前层 | 需联动层 |
 |---------|-------|---------|
 | 改修辞/描写/对话措辞 | writer | — 无需联动 |
-| 改人物性格/行为/关系 | writer | 角色设定（bootstrap） |
+| 改人物性格/行为/关系 | writer | 角色设定（bookstrap） |
 | 改剧情走向/增删章节 | plot / writer | 幕纲（plot）+ 受影响正文（writer） |
 | 改世界观规则 | bookstrap | 已写正文中涉及该规则的所有段落（writer） |
 | 改起点/终点状态 | bookstrap | 起点快照/终点快照(bookstrap) + 里程碑(plot) + 受影响幕纲(plot) + 受影响正文(writer) |

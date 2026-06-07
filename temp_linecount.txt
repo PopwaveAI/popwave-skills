@@ -1,7 +1,0 @@
-﻿python : Traceback (most recent call last):
-At line:1 char:193
-+ ... /terminal/common/scripts\safe_rm_aliases.ps1" } catch {}; python -c "
-+                                                               ~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
