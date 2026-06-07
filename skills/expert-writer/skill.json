@@ -1,6 +1,6 @@
 {
   "id": "expert-writer",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "displayName": "写作专家",
   "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由（三层联动影响评估）和完成后引导（基于项目文件状态的跨轮引导）。",
   "entry": "SKILL.md",

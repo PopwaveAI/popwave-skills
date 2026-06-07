@@ -52,7 +52,7 @@ version: 2.1.0
 
 | id | 职责 | 触发场景 |
 |:---|:-----|:---------|
-| `pop-novel-bootstrap` | 开书启动 — 故事引擎→L1设定→宪法→数值体系，也处理续写（reverse模式） | 「帮我开一本书」「新建小说项目」「续写旧书」 |
+| `pop-novel-bookstrap` | 开书启动 — 故事引擎→L1设定→宪法→数值体系→拆书融合→起点→终点 | 「帮我开一本书」「新建小说项目」「续写旧书」 |
 | `pop-novel-deconstructor` | 拆书分析 — 分析参考书的写法规则、体系设计、节奏密度 | 「帮我分析这本小说」「拆解参考书」「参考XXX的设计」 |
 | `pop-novel-plot` | 剧情架构 — 幕纲设计、爽点分布、情绪节奏、情节线规划 | 「帮我规划剧情」「设计爽点分布」「画幕纲」 |
 | `pop-novel-writer` | 正文写作 — 5步管线逐章生成正文，支持黄金三章模式 | 「继续写下一章」「写第 X 章」「写正文」 |
@@ -92,12 +92,12 @@ version: 2.1.0
 
 | 意图 | 典型说法 | 审视框架 | 执行路径 |
 |:-----|:---------|:---------|:---------|
-| **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bootstrap → plot → writer → qa |
+| **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → writer → qa |
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
-| **继续前进** | 「继续」「下一章」「往下写」 | `think-正文写作.md` | 读取项目状态 → plot(检查幕纲) → writer |
+| **继续前进** | 「继续」「下一章」「往下写」 | `think-正文写作.md` | 读取项目状态 → plot(检查幕纲+里程碑) → writer |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
-| **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bootstrap (reverse) → writer |
+| **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → writer |
 | **调研获取** | 「调研」「查一下」「最近什么火」 | — | cnovel-research / book-opinion-tracker → 完成后问是否进入创作 |
 | **文风分析** | 「分析文风」「学会这个风格」 | — | pop-dna → writer（携带 style 参数） |
 
@@ -134,9 +134,9 @@ version: 2.1.0
 
 | 子skill | 需要用户确认的决策点 | 闸门规则 |
 |:--------|:--------------------|:---------|
-| bootstrap | story-engine 确认 | 产出展示给用户 → 说"对"才进设定阶段 |
+| bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 |
 | deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 |
-| plot | 场景卡试读产出 | 用户点头才能进节奏自检 |
+| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 |
 | writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 |
 
 ### 3.3 Reflect（四层递进审视）
@@ -153,7 +153,7 @@ L1 ─ 产出基础检查
 L2 ─ 一致性检查
     □ 产出与上游设定/宪法/幕纲一致？
       - writer 正文是否违反 constitution.yaml？
-      - bootstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
+      - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
     □ 如果有偏离 → 记录偏离项和严重程度，返回用户判断
     ↓ 通过
 
@@ -181,13 +181,13 @@ L4 ─ 活人感检查（可选，高优章节启用）
 ## 4. 典型路径速查
 
 ```
-新书启动：            bootstrap → plot → writer → qa
+新书启动：            bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → writer → qa
 拆解参考书：           download-webnovel-txt → pop-novel-deconstructor → _参考书分析/
-调研后开书：           cnovel-research → bootstrap → plot → writer → ...
+调研后开书：           cnovel-research → bookstrap → plot → writer → ...
 已有项目续写：          plot → writer → qa
-续写旧项目：            bootstrap (reverse) → writer → qa
+续写旧项目：            bookstrap (reverse) → writer → qa
 文风分析 → 写作：       pop-dna → writer（携带 style 参数）
-修改设定+重写受影响正文： bootstrap → plot → writer
+修改设定+重写受影响正文： bookstrap → plot → writer
 ```
 
 ---
@@ -200,7 +200,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
 
 ```
 用户说改什么？
-├─ 改设定/角色/世界观 → bootstrap（只更新设定文件，不推倒重来）
+├─ 改设定/角色/世界观 → bookstrap（只更新设定文件，不推倒重来）
 ├─ 改剧情/章节结构 → plot（只调受影响的幕纲）
 ├─ 改某章/某段正文 → writer（定点重写指定段落）
 ├─ 改开头 → writer（前三章同样走5步管线）
@@ -215,14 +215,15 @@ L4 ─ 活人感检查（可选，高优章节启用）
 | 改修辞/描写/对话措辞 | writer | — 无需联动 |
 | 改人物性格/行为/关系 | writer | 角色设定（bootstrap） |
 | 改剧情走向/增删章节 | plot / writer | 幕纲（plot）+ 受影响正文（writer） |
-| 改世界观规则 | bootstrap | 已写正文中涉及该规则的所有段落（writer） |
+| 改世界观规则 | bookstrap | 已写正文中涉及该规则的所有段落（writer） |
+| 改起点/终点状态 | bookstrap | 起点快照/终点快照(bookstrap) + 里程碑(plot) + 受影响幕纲(plot) + 受影响正文(writer) |
 | 改开头前三章 | writer | — 前三章相对独立，无需联动 |
 
 ### 5.3 执行修改
 
 ```
 仅影响当前层 → 调该层 Skill 直接修改
-影响其他层 → 从上层到下层逐层更新（bootstrap → plot → writer）
+影响其他层 → 从上层到下层逐层更新（bookstrap → plot → writer）
 ```
 
 **关键约束：改一个设定不等于重写全书。** 只动直接受影响的文件/章节。
@@ -237,8 +238,8 @@ L4 ─ 活人感检查（可选，高优章节启用）
 
 | 项目状态（靠读文件系统判断） | 引导语 |
 |--------------------------|-------|
-| 只有 bootstrap 产物 | 「设定已完成。需要调整吗？需要我帮你规划剧情吗？」 |
-| bootstrap + plot，无正文 | 「剧情已规划。需要调整吗？需要我帮你写开头几章吗？」 |
+| 只有 bookstrap 产物 | 「设定已完成。需要调整吗？需要我帮你规划剧情吗？」 |
+| bookstrap + plot，无正文 | 「剧情已规划。需要调整吗？需要我帮你写开头几章吗？」 |
 | 有正文，写到第 N 章 | 「第 N 章已完成。需要修改吗？需要继续写第 N+1 章吗？还是先质检本章？」 |
 | qa 刚完成 | 「质检完成。需要我根据反馈修改吗？」 |
 | 参考书分析刚完成 | 「参考书分析已完成。可以基于分析结果开始开书设定，要开始吗？」 |
