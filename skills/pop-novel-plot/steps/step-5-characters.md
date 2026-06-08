@@ -1,4 +1,4 @@
-# Step 3-c：本卷人物设计（NEW v4.1）
+# Step 5：本卷人物设计（NEW v4.1）
 
 > 所属管线: pop-novel-plot v4.1+
 > 产出: `设计/幕/act-XX-人物.md`

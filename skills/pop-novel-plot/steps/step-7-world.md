@@ -1,4 +1,4 @@
-# Step 3-e：本卷世界设计 — 势力/装备/卷末状态（NEW v4.1）
+# Step 7：本卷世界设计 — 势力/装备/卷末状态（NEW v4.1）
 
 > 所属管线: pop-novel-plot v4.1+
 > 产出: `设计/幕/act-XX-势力.md` + `设计/幕/act-XX-装备.md`（act-XX.yaml 中已内嵌核心字段）

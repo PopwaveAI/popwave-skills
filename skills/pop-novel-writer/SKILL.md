@@ -1,11 +1,26 @@
 ---
 name: pop-novel-writer
-description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM)→State Update(零LLM)。Director与Skeleton合并为单一设计包，减少重复文件输出。
+description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM/三阶段：风格锚定→正文渲染→风格验证)→State Update(零LLM)。事实链管结构正确，渲染层管质感正确。
 ---
 
-# 正文写作引擎（v12.0）
+# 正文写作引擎（v13.0）
 
-3步管线（2次 LLM + 1次零 LLM）：Design 设计包（设计说明+信息释放策略+事件链+设定包）→ Render 渲染（设计包+文风源）→ State Update 状态更新。
+3步管线（2次 LLM + 1次零 LLM）：
+
+```
+Step 1 — Design（LLM）
+  产出四块设计包：设计说明 + 事件链 + 渲染指引 + 上下文快照
+  明确 金手指×期待感→爽点释放 链
+
+Step 2 — Render（LLM / 三阶段）
+  Phase 1：风格锚定 — 读文风DNA → 提取5-8条可度量风格契约
+  Phase 2：正文渲染 — 事件链强制覆盖 × 风格契约同步执行
+  Phase 3：风格验证 — P0禁句扫描 + 契约对照 + 情绪弧线检查
+
+Step 3 — State Update（零 LLM）
+```
+
+核心原则：**事实链（Design）管"该发生的事都发生了吗"，渲染层（Render）管"读者读到的句子是什么质感"。两者的产出质量同等重要。**
 
 产出物供给 pop-novel-qa 管线。
 
@@ -17,12 +32,13 @@ description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM)→State
 |:-:|:-----|:----:|
 | ❌1 | **act-XX.yaml 已存在并通过节奏自检** — 无幕纲不进正文 | [ ] |
 | ❌2 | **写前必读已执行** — 读 global-summary + 当前幕纲 + L1 设定 | [ ] |
-| ❌3 | **Design必须输出事件链+设定包** — 不可省略事件链直接进渲染 | [ ] |
-| ❌4 | **Render必须覆盖事件链全部节点** — 每个事件必须在正文中出现 | [ ] |
-| ❌5 | **写后自评必须执行** — 信息释放覆盖、字数差、文风原则遵守 | [ ] |
-| ❌6 | **QC 红线触发 → 退回重写** — "想跳过"≥2 或 "会弃书" 不通过 | [ ] |
-| ❌7 | **State after 必须更新** — global-summary 维护 | [ ] |
-| ❌8 | **里程碑已纳入上下文** — 如 design/里程碑设计.md 存在，Design 必须读取并输出里程碑对齐块 | [ ] |
+| ❌3 | **Design必须输出事件链+爽点链+渲染指引** — 三块缺一不可 | [ ] |
+| ❌4 | **Render 必须覆盖事件链全部节点** — 每个事件必须在正文中出现 | [ ] |
+| ❌5 | **风格锚定必须执行（Phase 1）** — 无风格契约不进 Phase 2 | [ ] |
+| ❌6 | **风格验证 P0 项 0 违规（Phase 3）** — P0 > 0 立即修补 | [ ] |
+| ❌7 | **QC 红线触发 → 退回重写** — "想跳过"≥2 或 "会弃书" 不通过 | [ ] |
+| ❌8 | **State after 必须更新** — global-summary + style_report 维护 | [ ] |
+| ❌9 | **里程碑已纳入上下文** — 如 design/里程碑设计.md 存在，Design 必须读取并输出里程碑对齐块 | [ ] |
 
 ---
 
@@ -44,14 +60,16 @@ description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM)→State
 ```
 Step 1 — Design（LLM）
   读 act-XX.yaml + reader_profile + L1设定 + global-summary + 上一章结尾
-  一次性产出：设计包（设计说明 + 信息释放策略 + 事件链 + 设定包 + 上下文快照）
+  产出四块：设计说明 + 事件链 + 渲染指引 + 上下文快照
+  明确 金手指×期待感→爽点释放 链
   输出文件：03-写作资产/chXXX-design.md（Render完成后可删除）
   详细指令 → steps/step-1-design.md
 
-Step 2 — Render（LLM）
-  输入：设计包 + 文风源（10章语料包或文风DNA）+ 宪法红线 + global-summary
-  输出：正文（02-正文/chXXX.md）+ 状态更新块
-  写后自评四问 + 写作后自查
+Step 2 — Render（LLM / 三阶段）
+  Phase 1：风格锚定 — 读文风DNA → 提取5-8条可度量风格契约
+  Phase 2：正文渲染 — 事件链强制覆盖 × 风格契约同步执行
+  Phase 3：风格验证 — P0禁句扫描 + 契约对照 + 情绪弧线检查
+  输出：正文（02-正文/chXXX.md）+ 状态更新块（含 style_report）
   详细指令 → steps/step-2-render.md
 
 Step 3 — State Update（零 LLM）
@@ -107,4 +125,4 @@ styles/               ← 文风DNA档案
 
 ## 版本
 
-v12.0 | 2026-06-07 | Step 1 Director + Step 3 Skeleton 合并为 Step 1 Design
+v13.0 | 2026-06-08 | Step 2 Render 升级为三阶段（风格锚定→正文渲染→风格验证）+ 风格契约机制
