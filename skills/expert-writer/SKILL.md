@@ -79,6 +79,69 @@ version: 2.1.0
 
 每次收到用户消息，走三阶段。**每阶段开头先校验 §0 纪律协议**。
 
+### 3.0 Step 0：全局感知（会话启动时执行一次，每次用户消息前复查）
+
+> 目的：建立 workspace 全局心智模型。从"被动按需读取"切换为"主动感知"。
+> 数据源：`d:\popwave-skills\workspace-index.yaml`（由本 skill 独占读写）
+
+**3.0.1 索引加载与校验**
+
+```
+① 检查 workspace-index.yaml 是否存在
+   → 不存在：首个任务是初始化索引（扫描 workspace_root 目录，生成初始快照）
+   → 存在：读取完整索引，进入②
+
+② 索引自检（快速比对文件系统）
+   → workspace_root 下是否有新的 project.yaml 未被注册？→ 新增项目
+   → 已注册项目的 last_modified 是否落后于文件系统？→ 更新状态
+   → file_registry 中是否有路径指向不存在的文件？→ 标记缺失
+
+③ 运行时状态感知
+   → runtime.subagent_available 是否为 false？
+     → 是：自动切换到"主agent手动模式"，启用 forced_gates_active
+     → 运行时决策（如"要不要启动子agent"）直接跳过，不消耗推理
+   → runtime.subagent_consecutive_failures ≥ 3？
+     → 不再尝试启动子agent，本节会话全程走主agent模式
+
+④ 跨项目经验匹配
+   → 遍历 cross_project_lessons
+   → 按 applicable_to 标签匹配当前任务意图
+   → 匹配到的教训 → 在 Think 阶段主动提示用户
+   → 例：用户说"续写海贼法典" → 自动提示 L002（精读倒数20章）
+```
+
+**3.0.2 项目锚定**
+
+```
+① 从用户消息中提取项目名
+   → 匹配 projects[].name 或 projects[].dir_name
+   → 匹配成功 → 锚定该项目
+   → 匹配失败 → 列出所有 active 项目让用户选
+
+② 只有一个 active 项目且用户未提及其他项目？
+   → 默认锚定该 active 项目，不骚扰用户
+
+③ 锚定完成后输出状态摘要（一次性，放在身份声明之后）：
+   📊 [项目名] | 第 N 章 | 幕 {M} | 平台 {P}
+   ⚠️ 子agent不可用，走主agent手动模式
+   ℹ️ {匹配到的跨项目教训摘要，最多1行}
+```
+
+**3.0.3 闸门前置检查（基于索引数据，替代人工"我觉得"）**
+
+```
+① pre_read_status.verified == false 且任务为"写作/续写"？
+   → 输出闸门提示：「⚠️ 精读闸门未通过。上次验证在ch{X}，当前已到ch{Y}。需先精读ch{X+1}至ch{Y}。」→ 用户确认后才路由 writer
+
+② file_registry[项目].deprecated 有 ≥10 个废弃文件？
+   → 完成后引导时提示：「你有{N}个废弃文件，需要清理吗？」
+
+③ 任务涉及 style 且 style_executed == false（上章）？
+   → Think 阶段标记：「⚠️ 上一章风格文件未验证执行。本章需额外检查。」
+```
+
+---
+
 ### 3.1 Think（需求审视）
 
 **第一步：范围判断**
@@ -144,10 +207,21 @@ version: 2.1.0
 子 skill 执行完成后，加载 `references/reflection.md`。
 
 ```
-L1 ─ 产出基础检查
+L1 ─ 产出基础检查 + 索引回写
     □ 产出物文件是否在正确位置？
     □ 文件名格式合规？
     □ 越界写入 → 移至正确位置
+    □ **索引回写（写 workspace-index.yaml）**：
+      - 新产出文件 → 注册到 file_registry[项目].active（含 type/version）
+      - 版本变更 → 旧版本移至 deprecated，填写 replaced_by
+      - 依赖关系 → 填写 depends_on 字段
+    □ **运行时状态更新**：
+      - runtime.last_session → 更新为 {项目, 任务, 完成状态, 时间戳}
+      - 本轮触发的新经验教训 → 追加到 cross_project_lessons
+    □ **项目状态更新**（如有变化）：
+      - projects[].current_chapter / current_act 按实际情况更新
+      - 如果有副本章节（v1/v2/v3）→ 标记各版本的 status
+      - pre_read_status.verified → 本轮若执行了精读流程，设为 true
     ↓ 通过
 
 L2 ─ 一致性检查
@@ -232,22 +306,26 @@ L4 ─ 活人感检查（可选，高优章节启用）
 
 ## 6. 完成后引导
 
-每轮回复结尾，**读取项目状态（不是靠记忆），判断进度并引导**。
+每轮回复结尾，**读取 workspace-index.yaml 的项目状态（不是靠记忆），判断进度并引导**。
 
 ### 引导模板
 
-| 项目状态（靠读文件系统判断） | 引导语 |
+> 状态数据来源：`workspace-index.yaml` → `projects[锚定项目].phase` / `current_chapter` / `pre_read_status` / `style_profile`
+
+| 项目状态（读索引判断） | 引导语 |
 |--------------------------|-------|
-| 只有 bookstrap 产物 | 「设定已完成。需要调整吗？需要我帮你规划剧情吗？」 |
-| bookstrap + plot，无正文 | 「剧情已规划。需要调整吗？需要我帮你写开头几章吗？」 |
-| 有正文，写到第 N 章 | 「第 N 章已完成。需要修改吗？需要继续写第 N+1 章吗？还是先质检本章？」 |
-| qa 刚完成 | 「质检完成。需要我根据反馈修改吗？」 |
-| 参考书分析刚完成 | 「参考书分析已完成。可以基于分析结果开始开书设定，要开始吗？」 |
+| phase == "bootstrapped"，无正文 | 「设定已完成。需要调整吗？需要我帮你规划剧情吗？」 |
+| phase == "plotted"，无正文 | 「剧情已规划。需要调整吗？需要我帮你写开头几章吗？」 |
+| phase == "writing"，current_chapter == N | 「第 N 章已完成。需要修改吗？需要继续写第 N+1 章吗？还是先质检本章？」 |
+| qa 刚完成（本轮任务为 qa） | 「质检完成。需要我根据反馈修改吗？」 |
+| 参考书分析刚完成（本轮任务为 deconstructor） | 「参考书分析已完成。可以基于分析结果开始开书设定，要开始吗？」 |
+| pre_read_status.verified == false | 追加：「⚠️ 精读闸门未通过，建议下次写作前先补精读。」 |
+| file_registry[项目].deprecated 非空 | 追加：「📦 有 {N} 个废弃文件，需要清理吗？」 |
 
 ### 引导纪律
 
 1. 每轮先问「需要修改或调整吗？」，再建议下一步
-2. 修改完成后自动重新评估状态再做引导（不是从上一轮记忆推导）
+2. 修改完成后自动重新读取索引状态再做引导（不是从上一轮记忆推导）
 3. 引导是建议不是催促。用户说不需要 → 停在这里
 4. 刚完成 qa 后只问是否修改，不跳下一步
 

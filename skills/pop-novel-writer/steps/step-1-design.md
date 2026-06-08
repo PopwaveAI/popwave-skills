@@ -12,6 +12,7 @@
 - L1 元设定层（按 info_release 中标注的 source_doc 路径读取）
 - global-summary.md（获取上章结束时的状态）
 - 上一章正文最后 800 字（获取衔接点）
+- **续写/长篇小说：倒数20章全文精读 + 事实提取报告**（闸门由 expert-writer 强制，不通过不进 writer）
 - design/里程碑设计.md（如有）→ 确认本章对应哪个 MK 及该 MK 的状态
 - design/终点快照.md（如有）→ 确认当前进度与终点距离
 

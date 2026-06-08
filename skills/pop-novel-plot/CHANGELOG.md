@@ -1,5 +1,27 @@
 # CHANGELOG — pop-novel-plot
 
+## v4.1.0 — 2026-06-08
+
+### 架构重构：SKILL.md 拆分为 steps/ + templates/
+
+- **SKILL.md 精简为路由层**（437行→147行）：只保留质量红线、执行顺序、步骤索引、错误示例
+- **拆分 12 个 steps/ 子文件**：每个 Step 独立维护详细执行指令
+- **新增 10 个 templates/ 模板文件**：提升产出物格式统一性和质量
+- **Step 3-c 新增「本卷人物设计」**：产出 `act-XX-人物.md`（P0强制）
+  - 主角卷初/卷末状态对照、盟友/对手角色卡、出场节奏图、角色红线
+  - 下游消费：pop-novel-writer → chXXX-登场人物卡.md
+- **Step 3-d 新增「本卷地图设计」**：产出 `act-XX-地图.md`（P0强制）
+  - 空间总览、关键地点清单、移动线路、空间情绪对应
+  - 下游消费：pop-novel-writer → 正文场景设计
+- **Step 3-e 新增「本卷世界设计」**：产出 `act-XX-势力.md` + `act-XX-装备.md`（P1建议）
+- **act-XX.yaml 新增三个字段**：
+  - `core_conflict` — 幕级核心冲突定义
+  - `act_end_state` — 卷末状态预期（主角+世界）
+  - `equipment_flow` — 装备/资源变化表
+- **act-template.yaml 模板**：完整字段模板，含所有 v4.1 新增字段
+- **质量红线新增 2 项**：act-XX-人物.md 和 act-XX-地图.md 必须产出
+- **错误示例新增 3 项**：无人物清单/无地图/跳过大纲直写正文
+
 ## v4.0.0 — 2026-06-05
 
 ### 三层框架整合：新增 info_release 规划系统

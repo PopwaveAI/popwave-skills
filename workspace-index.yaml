@@ -1,0 +1,295 @@
+# workspace-index.yaml — 全局项目空间索引
+# 
+# 读写权限：仅 expert-writer（写作装甲/总控skill）
+# 加载时机：expert-writer Step 0（会话启动时）
+# 回写时机：expert-writer Reflect L1（每次执行完成后）
+#
+# 不归任何子 skill 管。这是总控层的私有数据。
+# ============================================================
+
+workspace_root: "C:\\Users\\AWMPRO\\AppData\\Roaming\\paopao\\paopao-workspace\\projects\\未命名项目-3"
+skill_root: "d:\\popwave-skills"
+last_scan: "2026-06-08T18:30"
+version: "1.0"
+schema_version: "1.0"
+
+# ============================================================
+# 一、项目列表
+# ============================================================
+projects:
+
+  - name: "北帝镇诡录"
+    dir_name: "北帝镇诡录"
+    phase: "writing"                 # bootstrapped | plotted | writing | paused
+    current_chapter: 21
+    current_act: 1
+    total_acts_planned: null        # 未设定总幕数
+    style_profile: null             # 无明确指派的风格文件
+    platform: "fanqie"
+    reader_profile_ok: true
+    constitution_ok: true
+    anchor_library_ok: true         # 锚定章库已建（对话/悬疑/战斗各1）
+    last_modified: "2026-06-07"
+    status: "active"
+    notes: "首卷完成21章。v2黄金三章已废弃。第二幕规划中。"
+
+  - name: "仙秦帝国·诸天征服"
+    dir_name: "新书-诸天万界"
+    phase: "writing"
+    current_chapter: 5
+    current_act: 1
+    total_acts_planned: null
+    style_profile: null
+    platform: "fanqie"
+    reader_profile_ok: true
+    constitution_ok: true
+    anchor_library_ok: true
+    last_modified: "2026-06-07"
+    status: "active"
+    notes: "v1已废弃，v2为当前版本。依赖幻想世界大穿越作为参考书。有战锤40K/D&D跨域素材。"
+
+  - name: "海贼法典"
+    dir_name: "海贼法典"
+    phase: "writing"
+    current_chapter: 390
+    current_act: 1
+    total_acts_planned: null
+    style_profile: "styles/遮天.md"  # ch389 v3起应用
+    platform: "qidian"
+    reader_profile_ok: true
+    constitution_ok: true
+    anchor_library_ok: true
+    last_modified: "2026-06-08"
+    status: "active"
+    notes: "续写项目。reverse mode bootstrap 已完成。目录结构不统一（中文名/数字前缀混用），后续应统一。ch389已通过精读修复。"
+
+# ============================================================
+# 二、参考素材库（跨项目可用）
+# ============================================================
+reference_materials:
+
+  deconstructions:
+    - book: "深渊主宰"
+      path: "d:\\popwave-skills\\素材库\\拆解报告\\"
+      files:
+        - "深渊主宰-T1-力量体系规则手册.md"
+        - "深渊主宰-T2-世界观展开.md"
+        - "深渊主宰-T3-金手指天赋.md"
+        - "深渊主宰-T4-剧情全貌.md"
+        - "深渊主宰-T5-人物阵营.md"
+        - "深渊主宰-T6-叙事设计技法.md"
+        - "深渊主宰-T7-数据流写法.md"
+        - "深渊主宰-T8-战斗高潮描写.md"
+        - "深渊主宰-T9-特殊魅力塑造.md"
+        - "深渊主宰-T10-文风DNA指纹.md"
+        - "深渊主宰-三维拆书档案.md"
+    - book: "铸星者"
+      path: "d:\\popwave-skills\\素材库\\"
+      files:
+        - "铸星者-T1-力量体系规则手册.md"
+        - "铸星者-T2-世界观展开.md"
+        - "铸星者-T3-角色系统设计.md"
+        - "铸星者-T4-剧情全貌.md"
+        - "铸星者-T5-叙事技法综合.md"
+        - "铸星者-T6-数据流写法.md"
+        - "铸星者-T7-文风DNA指纹.md"
+        - "铸星者-卷1起点快照.md"
+        - "铸星者-卷1终点快照.md"
+
+  reference_novels:
+    - book: "幻想世界大穿越"
+      path: "参考小说/幻想世界大穿越.txt"
+      format: "txt"
+      used_by: ["仙秦帝国·诸天征服"]
+
+# ============================================================
+# 三、风格档案（全局可用）
+# ============================================================
+style_profiles:
+  writer_styles:  # 正文渲染用
+    - name: "深渊"
+      path: "d:\\popwave-skills\\skills\\pop-novel-writer\\styles\\abyss.md"
+    - name: "龙符"
+      path: "d:\\popwave-skills\\skills\\pop-novel-writer\\styles\\longfu.md"
+    - name: "遮天"
+      path: "d:\\popwave-skills\\skills\\pop-novel-writer\\styles\\zhetian.md"
+    - name: "吞噬星空"
+      path: "d:\\popwave-skills\\skills\\pop-novel-writer\\styles\\tunshixingkong.md"
+  dna_profiles:  # 文风DNA分析用
+    - name: "深渊主宰-DNA"
+      path: "d:\\popwave-skills\\skills\\pop-dna\\style\\深渊主宰-文风DNA档案.md"
+    - name: "遮天-DNA"
+      path: "d:\\popwave-skills\\skills\\pop-dna\\style\\遮天-文风DNA档案.md"
+    - name: "吞噬星空-DNA"
+      path: "d:\\popwave-skills\\skills\\pop-dna\\style\\吞噬星空-文风DNA档案.md"
+    - name: "龙符-DNA"
+      path: "d:\\popwave-skills\\skills\\pop-dna\\style\\龙符-文风DNA档案.md"
+
+# ============================================================
+# 四、运行时状态（会话间持久化）
+# ============================================================
+runtime:
+  subagent_available: false
+  subagent_consecutive_failures: 6
+  last_subagent_check: "2026-06-08"
+  subagent_error_patterns:
+    - "gateway closed (1006 abnormal closure)"
+    - "MODULE_NOT_FOUND: openclawAgentStream.js"
+  execution_mode: "main_agent_manual"    # 当前实际执行模式
+  forced_gates_active: true              # 主agent模式下是否启用补偿闸门
+
+  # 每次会话的快速恢复提示
+  last_session:
+    project: "海贼法典"
+    task: "续写ch390 + ch389精读修复"
+    completed: true
+    timestamp: "2026-06-08"
+
+# ============================================================
+# 五、跨项目经验库（全局知识沉淀）
+# ============================================================
+cross_project_lessons:
+
+  - id: "L001"
+    source: "北帝镇诡录"
+    lesson: "黄金三章首章必须完成首爽释放（金手指首次展示+首个冲突解决），否则单章留存率暴跌。"
+    evidence: "v2重写ch01-05的QC发现：黄金三章无金手指展示 → reader_profile判定'首章无金手指即弃'风险。"
+    severity: "P0"
+    applicable_to: ["all", "new_book", "bootstrap", "黄金三章"]
+    discovered_at: "2026-06-06"
+
+  - id: "L002"
+    source: "海贼法典"
+    lesson: "续写前必须精读倒数20章全文并输出事实提取报告。记忆不可信——'觉得已经读过了' ≠ 精读。"
+    evidence: "CH389多弗朗明哥关系线错误：CH372已私下合作 → 写成'多弗试探陌生人'。精读倒数20章后才发现5个关键信息偏差（合作事实/汉库克观察/卡斯兰娜线人/蒸汽船/战国的态度）。"
+    severity: "P0"
+    applicable_to: ["all", "continue", "reverse_bootstrap", "写作"]
+    discovered_at: "2026-06-08"
+
+  - id: "L003"
+    source: "海贼法典"
+    lesson: "风格文件必须在Render阶段全程开放引用（持续存在于上下文中），不能只'读入'一次然后凭记忆执行。靠记忆执行风格 = 不执行。"
+    evidence: "CH389 v1/v2未正确执行遮天风格（否定句结构踩红线、对话/叙述比失衡），直到v3用户显式要求'用遮天风格'才生效。"
+    severity: "P1"
+    applicable_to: ["all", "writing", "render"]
+    discovered_at: "2026-06-08"
+
+  - id: "L004"
+    source: "全局"
+    lesson: "子agent隔离机制在生产环境100%不可用（至少6次尝试全部失败）。所有创作管线必须在主agent内执行，同时补上人工隔离闸门（文件输入协议+步骤间无上下文泄漏）。"
+    evidence: "会话2e5e943d中3次路由全部gateway失败；会话0bcaa832中同样失败→最终OpenClaw崩溃（MODULE_NOT_FOUND）。"
+    severity: "P0"
+    applicable_to: ["all"]
+    discovered_at: "2026-06-08"
+
+  - id: "L005"
+    source: "北帝镇诡录"
+    lesson: "废弃版本的文件应及时清理或标记为deprecated，避免项目目录膨胀和版本混淆。"
+    evidence: "ch01-05 v2版（Directors+骨架+正文+QC → 20个文件）被用户要求删除→全部废弃。海贼法典ch389共存v1/v2/v3三版。"
+    severity: "P2"
+    applicable_to: ["all", "writing"]
+    discovered_at: "2026-06-06"
+
+  - id: "L006"
+    source: "海贼法典"
+    lesson: "QC自检如果和writer共享同一上下文，事实一致性检查会失效——QC会'理解'writer的意图，而不会发现意图与原文事实的偏差。"
+    evidence: "CH389的QC自检查了字数/句式/节奏/爽点分布，全部✅。但多弗关系线的事实错误完全未检测到。"
+    severity: "P0"
+    applicable_to: ["all", "qa"]
+    discovered_at: "2026-06-08"
+
+# ============================================================
+# 六、文件注册表（按项目，跟踪产出物状态）
+# ============================================================
+file_registry:
+
+  北帝镇诡录:
+    confirmed:  # 已确认、不可随意修改的核心文件
+      - path: "00-总控/project.yaml"
+        type: "config"
+        version: 1
+      - path: "02-大纲/constitution.yaml"
+        type: "config"
+        version: 1
+      - path: "设计/幕/act-01.yaml"
+        type: "plot"
+        version: 1
+        depends_on: ["00-总控/project.yaml", "00-原始设定/L1-元设定层/"]
+      - path: "00-原始设定/L0-产品层/PRD.md"
+        type: "prd"
+        version: 1
+    active:  # 当前活跃的写入目标
+      - path: "01-写作资产/经验日志/experience-log.md"
+        type: "experience_log"
+        notes: "持续追加"
+      - path: "01-写作资产/global-summary.md"
+        type: "state"
+        notes: "章节级状态跟踪"
+    deprecated:  # 已废弃，建议清理
+      - path: "_archive/"
+        type: "archive"
+        notes: "旧版骨架/正文/大纲/章纲归档。占用空间但包含历史数据，建议用户决定是否清理。"
+    pre_read_status:
+      last_verified_ch: 21
+      verified: false
+      note: "下次续写前需精读ch002-ch021"
+
+  仙秦帝国·诸天征服:
+    confirmed:
+      - path: "00-总控/project.yaml"
+        type: "config"
+        version: 1
+      - path: "constitution.yaml"
+        type: "config"
+        version: 1
+      - path: "02-大纲/卷01/act-01.yaml"
+        type: "plot"
+        version: 1
+      - path: "00-原始设定/_参考书分析/对标拆解-幻想世界大穿越.md"
+        type: "reference"
+        source: "参考小说/幻想世界大穿越.txt"
+    active:
+      - path: "03-正文/v2/"
+        type: "current_version"
+        notes: "v2为当前活跃版本（ch001-003）"
+    deprecated:
+      - path: "03-正文/v1/"
+        type: "deprecated"
+        replaced_by: "03-正文/v2/"
+      - path: "03-正文/卷01/"
+        type: "deprecated"
+        replaced_by: "03-正文/v2/"
+    pre_read_status:
+      last_verified_ch: 3
+      verified: false
+
+  海贼法典:
+    confirmed:
+      - path: "总控/project.yaml"
+        type: "config"
+        version: 1
+      - path: "总控/constitution.yaml"
+        type: "config"
+        version: 1
+      - path: "设计/幕/act-01.yaml"
+        type: "plot"
+        version: 1
+      - path: "海贼法典.txt"
+        type: "source_text"
+        notes: "原作全文，续写的权威事实源"
+    active:
+      - path: "正文/ch389.md"
+        type: "draft"
+        version: 3
+        pre_read_verified: true      # ✅ 精读倒数20章已完成
+        style_executed: true          # ✅ 遮天风格已注入
+      - path: "正文/ch390.md"
+        type: "draft"
+        version: 1
+        pre_read_verified: null       # 未验证
+        style_executed: null
+    pre_read_status:
+      last_verified_ch: 390
+      verified: true
+      note: "ch389修复过程中已完成精读。下次写ch391前需精读ch372-ch390。"
+    structure_note: "目录命名不统一（总控/写作资产/大纲/设计 vs 00-总控/01-写作资产/02-大纲）。后续建议对齐PRD规范。"

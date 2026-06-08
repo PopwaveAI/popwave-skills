@@ -1,0 +1,327 @@
+# act-XX.yaml 填写指南
+
+> 产出物: `设计/幕/act-XX.yaml`
+> 管线: pop-novel-plot v4.1+ · Step 9
+> 输入: `act-XX-人物.md` + `act-XX-地图.md` + `act-XX-势力.md` + `info-release-XX.md` + `情节线草案-XX.md` + `里程碑设计.md`
+
+---
+
+## 0. 这个文件是什么
+
+act-XX.yaml = 一卷大纲的**章级编排层**。它把上游 canvas（人物/地图/势力/信息释放）映射成每章的具体设计。
+
+**它不是**：人物设定（→ act-XX-人物.md）、地图设定（→ act-XX-地图.md）、势力设定（→ act-XX-势力.md）。
+
+**它是**：在 canvas 已经画好的舞台上，编排每一章的"这场戏怎么演"。
+
+---
+
+## 1. 前置条件（填之前确认）
+
+- [ ] act-XX-人物.md 已产出 —读完，记下角色名和出场章
+- [ ] act-XX-地图.md 已产出 —读完，记下地点名和位置关系
+- [ ] act-XX-势力.md 已产出 —读完，记下各势力的活跃章段
+- [ ] info-release-XX.md 已产出 —上面有 P0/P1 信息点的章级分配
+- [ ] 情节线草案-XX.md 已产出 —上面有线定义和交叉图式
+- [ ] 里程碑设计.md 已产出 —上面有 MK-01~MK-N 的定义
+
+---
+
+## 2. YAML 整体结构
+
+产出是一个 YAML 文件，顶层结构如下：
+
+```yaml
+_meta:          # 元数据 + canvas 引用
+act:            # 幕级定义
+  core_conflict:
+  goal:
+  tone_note:
+  act_end_state:
+  payoff_distribution:
+  emotional_arc:
+  plotlines:    # 情节线定义（从情节线草案提取关键字段）
+  chapters:     # 章级切片（填 20-30 个章节对象）
+```
+
+---
+
+## 3. _meta — 元数据与 canvas 引用
+
+```yaml
+_meta:
+  version: "v4.1"
+  target_platform: "番茄小说|起点中文网|..."
+  reader_persona: "目标读者画像（一句话）"
+  canvas_refs:           # ★ 声明本 yaml 依赖的 canvas 文件
+    - "设计/幕/act-XX-人物.md"
+    - "设计/幕/act-XX-地图.md"
+    - "设计/幕/act-XX-势力.md"
+    - "设计/幕/info-release-XX.md"
+    - "设计/幕/情节线草案-XX.md"
+    - "设计/里程碑设计.md"
+```
+
+> `canvas_refs` 是给 writer 的一条声明："我是在这些文件的基础上设计的"——writer 据此知道去哪里取人物/地图/势力的具体内容。
+
+---
+
+## 4. act 幕级定义
+
+### 4.1 core_conflict — 核心冲突
+
+用一句话说清本幕的核心对抗。格式：**A vs B**。
+
+| 字段 | 类型 | 说明 | 示例 |
+|:-----|:-----|:-----|:-----|
+| `description` | string | 核心对抗，一针见血 | "张北辰 vs 神霄派雷主投影" |
+| `stakes` | string | 失败 = 失去什么 | "南疆城全灭，左千户被杀，苏九音被神霄派回收" |
+| `escalation_path` | string | 冲突如何从第1章升温到最后一章 | "孤独对抗 → 结盟锦衣卫 → 发现朝廷阴谋 → 正面雷主" |
+
+### 4.2 goal — 幕级目标
+
+| 字段 | 说明 | 示例 |
+|:-----|:-----|:-----|
+| `goal` | 读者体验目标，格式："读者从「X」到「Y」" | "读者从「师父走了世界好可怕」到「主角有戏，追」" |
+
+### 4.3 tone_note — 情绪基调
+
+1-3 句散文。覆盖：情绪配比、节奏特点、读者感受预期。
+
+> 不要写 "热血50% + 好奇30%…" 这种机械比例，写散文。
+
+### 4.4 act_end_state — 卷末状态
+
+> **与 act-XX-人物.md 的关系**：act-XX-人物.md 是详细的卷初→卷末角色对照，这里的 act_end_state 只提取关键的结构化字段供 writer 快速解析。
+
+| 路径 | 字段 | 说明 |
+|:-----|:-----|:-----|
+| `protagonist.level` | string | 等级/境界变化 |
+| `protagonist.equipment_gained` | string[] | 获得的关键装备 |
+| `protagonist.equipment_lost` | string[] | 消耗/遗失的装备 |
+| `protagonist.mental_state` | string | 心智状态变化 |
+| `protagonist.key_relationship_changes` | string[] | 关系变化（如 "左千户从怀疑→信任"） |
+| `world.crisis_level` | string | 世界危机从什么升级到什么 |
+| `world.faction_changes` | string[] | 势力格局变化 |
+| `world.revealed_info` | string[] | 新揭示的世界观关键信息 |
+
+### 4.5 equipment_flow — 装备/资源变化表
+
+> 只列"在哪个章节节点有装备变化"，详细描述见 act-XX-装备.md。
+
+每个条目：
+
+| 字段 | 类型 | 说明 | 可取值 |
+|:-----|:-----|:-----|:-------|
+| `item` | string | 物品名 | |
+| `chapter` | int | 发生在哪章 | |
+| `action` | string | 动作 | `获得` / `消耗` / `升级` / `遗失` |
+| `significance` | string | 一句话：对后续剧情的影响 | |
+
+示例：
+```yaml
+equipment_flow:
+  - item: "北极驱邪院令牌"
+    chapter: 1
+    action: "获得"
+    significance: "师父坐化前传给主角——全书核心装备"
+  - item: "令牌"
+    chapter: 20
+    action: "升级"
+    significance: "第4道裂痕→主角不再依赖令牌本身"
+```
+
+### 4.6 payoff_distribution — 爽点分布
+
+| 级别 | 铺垫-释放比 | frequency | positions | design |
+|:----|:----------|:----------|:----------|:-------|
+| 微爽点 | 2:1 | 每章1-2个 | — | 每章通过什么给获得感 |
+| 中爽点 | 4:1 | 每4-5章1个 | [3,7,11,...] | 每个中爽点事件名 |
+| 大爽点 | 8-10:1 | 每幕2个 | [10,20] | 大爽点事件名 |
+| 终极爽点 | 20:1 | 幕末1个 | [20] | 终极爽点事件名 |
+
+> positions 数组里的数字 = 章节号。必须与 chapters 数组的 ch 字段一致。
+
+### 4.7 emotional_arc — 情绪弧线检视点
+
+> 只标 **关键转折点**（通常 4-6 个），不是每章都标。每章的情绪设计在 chapters[] 里。
+
+每个检视点：
+
+| 字段 | 说明 |
+|:-----|:-----|
+| `chapter` | 转折发生在哪章 |
+| `emotion` | 情绪描述（如 "震撼+好奇"） |
+| `intensity` | 1-10 |
+| `hook` | 该点的钩子 |
+
+overview 是一句话概览："起点情绪 → 中间情绪 → 终点情绪"。
+
+---
+
+## 5. plotlines — 情节线定义
+
+> 直接从 `情节线草案-XX.md` 提取关键字段。M1/M2/M3 必选，S 线可选 1-3 条。
+
+每条线：
+
+| 字段 | 说明 |
+|:-----|:-----|
+| `id` | M1 / M2 / M3 / S1 / S2 / S3 |
+| `name` | 线名 |
+| `desc` | 一句话：这条线是什么 |
+| `expected_frequency` | 每N章（描述性文本） |
+| `chekhov_guns` | 这条线上的契诃夫枪列表 |
+
+契诃夫枪子字段：
+- `name` — 枪名
+- `setup_ch` — 设伏章
+- `payoff_ch` — 回收章
+- `desc` — 这把枪是什么、为什么重要
+
+---
+
+## 6. chapters — 章级切片
+
+> 这是 act-XX.yaml 最核心的部分。每章一个对象，按章节顺序排列。
+
+### 6.1 每章必须包含的字段
+
+#### 基础
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `ch` | int | 章节号 |
+| `title` | string | 章标题 |
+| `word_count` | int | 预期字数 |
+
+#### 情绪设计
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `emotional_goal` | string | 本章想让读者感受到什么（第一性） |
+| `payoff.type` | string | `微` / `中` / `大` / `终极` |
+| `payoff.trigger` | string | 爽点触发方式 |
+| `payoff.reader_feeling` | string | 读者获得什么 |
+| `reader_emotion_path` | string[] | 三元素：`[起点, 中间, 终点]` |
+
+#### 钩子
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `end_hook.type` | string | `悬念` / `信息` / `情绪` |
+| `end_hook.drive` | string | 驱动力 |
+| `end_hook.content` | string | 钩子内容 |
+
+#### 情节线推进
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `plotlines_active` | string[] | 本章推进了哪些线（填 plotlines.id） |
+| `chekhov_set` | string[] | 本章设伏的枪（格式：`{线id}.{枪名}`） |
+| `chekhov_fire` | string[] | 本章回收的枪（格式同上） |
+
+#### 里程碑
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `milestone_active` | string | 本章推进的 MK 编号，可为空 |
+| `milestone_progress` | string | `start` / `mid` / `complete`，可为空 |
+
+#### 信息释放
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `info_release[].item_id` | string | 设定项 ID |
+| `info_release[].title` | string | 设定项标题 |
+| `info_release[].source_doc` | string | L1 设定文件路径（writer 凭此读取原文） |
+| `info_release[].release_method` | string | `实战展示` / `角色对话` / `叙事者说明` / `探索发现` |
+| `info_release[].density` | string | `集中爆发` / `均匀撒放` / `埋伏笔` |
+| `info_release[].priority` | string | `P0` / `P1` |
+| `info_release[].chapter_context` | string | 在本章的哪个场景释放 |
+
+#### ★ Canvas 消费字段（NEW v4.1）
+
+> 这些字段声明本章消费了哪些 canvas 产物。writer 凭此去对应文件取详细内容。
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `characters_active` | string[] | 本章登场的角色名（必须存在于 act-XX-人物.md） |
+| `locations` | string[] | 本章发生的地点（必须存在于 act-XX-地图.md） |
+
+---
+
+### 6.2 章节填写示例
+
+```yaml
+chapters:
+  - ch: 1
+    title: "师父坐化了"
+    word_count: 2500
+
+    emotional_goal: "让读者感到孤独和压迫——全书最安静也最沉重的一章"
+    payoff:
+      type: "微"
+      trigger: "师父坐化前递给主角令牌"
+      reader_feeling: "主角被迫接过责任——读者感到 '不走不行了'"
+    reader_emotion_path: ["悲伤", "无力", "被推着往前走"]
+
+    end_hook:
+      type: "悬念"
+      drive: "令牌传来刺痛——它认出你了，不是你在用它，是它在用你"
+      content: "主角低头看手心，一道裂痕正在蔓延"
+
+    plotlines_active: ["M1", "M2"]
+    chekhov_set: ["M1.师父最后一句话"]
+    chekhov_fire: []
+
+    milestone_active: "MK-01"
+    milestone_progress: "start"
+
+    info_release:
+      - item_id: "世界观.百诡昼行"
+        title: "百诡昼行现象"
+        source_doc: "00-原始设定/L1-元设定层/02-世界观表层规则.md"
+        release_method: "环境展示"
+        density: "埋伏笔"
+        priority: "P0"
+        chapter_context: "主角走出道观，看到第一处诡异降临的场景——井口冒黑烟"
+
+    characters_active: ["张北辰", "师父"]       # ← NEW: 从 act-XX-人物.md
+    locations: ["荒村道观"]                     # ← NEW: 从 act-XX-地图.md
+```
+
+---
+
+## 7. 章节号连续性检查
+
+chapters 数组的 ch 字段必须连续（1, 2, 3... 不跳号），且起止章与 chapter_range 一致。
+
+---
+
+## 8. 常见错误
+
+| 错误 | 原因 | 正确做法 |
+|:-----|:-----|:---------|
+| plotlines_active 里出现不存在的线 id | 没有与 plotlines 定义对齐 | 先完成 plotlines 定义，再填每章 |
+| characters_active 里的角色不在 act-XX-人物.md | 角色没在 canvas 中定义 | 先确保 act-XX-人物.md 包含该角色 |
+| locations 里的地点不在 act-XX-地图.md | 地点没在 canvas 中定义 | 先确保 act-XX-地图.md 包含该地点 |
+| info_release[].source_doc 路径错误 | 没有与 L1 目录对齐 | 严格按照 `00-原始设定/L1-元设定层/XX.md` 格式 |
+| 同一个 info 项在 3 章内重复释放 | 信息释放过密 | 每个设定知识 ≥ 3 章间隔 |
+| chapters 的 milestones 与里程碑设计.md 不同步 | 两边独立维护 | 填完 chapters 后对照里程碑设计.md |
+| end_hook 和下一章 emotional_goal 不衔接 | 钩子指向的情绪跟下一章开篇情绪断裂 | 检查相邻两章：chN 的 end_hook.drive → chN+1 的 reader_emotion_path[0] |
+
+---
+
+## 9. 产出自检
+
+- [ ] `_meta.canvas_refs` 列出所有上游 canvas 文件
+- [ ] 所有 chapters 的 `ch` 连续不跳号
+- [ ] 所有 `plotlines_active` 的值在 `plotlines` 定义中存在
+- [ ] 所有 `characters_active` 的角色在 act-XX-人物.md 中存在
+- [ ] 所有 `locations` 的地点在 act-XX-地图.md 中存在
+- [ ] 所有 P0 info_release 都已分配到具体章节
+- [ ] 连续 2 章无 info_release 的，第 3 章有追加
+- [ ] 第 1 章 info_release 数量 ≤ 2
+- [ ] 契诃夫枪的 payoff_ch 不早于 setup_ch，且不超出本卷范围
+- [ ] end_hook 逐章检查：chN 的钩子 → chN+1 的情绪路径起点能衔接

@@ -34,6 +34,7 @@ description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM)→State
 □ project.yaml#reader_profile → 写给谁看
 □ design/里程碑设计.md → 确认本章对应哪个 MK（如有）
 □ design/终点快照.md → 确认当前进度与终点距离（如有）
+□ 续写/长篇小说：精读倒数20章全文 → 输出事实提取报告（闸门由 expert-writer 强制）
 ```
 
 ---
