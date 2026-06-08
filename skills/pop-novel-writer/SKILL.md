@@ -1,16 +1,16 @@
 ---
 name: pop-novel-writer
-description: 正文写作引擎，3步驱动。Design(LLM)→Render(LLM/三阶段：风格锚定→正文渲染→风格验证)→State Update(零LLM)。事实链管结构正确，渲染层管质感正确。
+description: 正文写作引擎，3步驱动。Design(LLM/八块设计包)→Render(LLM/三阶段：风格锚定→正文渲染→风格验证)→State Update(零LLM)。v14.0 新增本章空间+登场人物+设定嵌入表+字数预算。
 ---
 
-# 正文写作引擎（v13.0）
+# 正文写作引擎（v14.0）
 
 3步管线（2次 LLM + 1次零 LLM）：
 
 ```
-Step 1 — Design（LLM）
-  产出四块设计包：设计说明 + 事件链 + 渲染指引 + 上下文快照
-  明确 金手指×期待感→爽点释放 链
+Step 1 — Design（LLM · 产出八块 chXXX-design.md）
+  块A 设计说明 / 块B 本章空间 / 块C 登场人物 / 块D 事件链(含子节拍+反应节点)
+  块E 设定嵌入表 / 块F 渲染指引 / 块G 字数预算 / 块H 上下文快照
 
 Step 2 — Render（LLM / 三阶段）
   Phase 1：风格锚定 — 读文风DNA → 提取5-8条可度量风格契约
@@ -20,7 +20,7 @@ Step 2 — Render（LLM / 三阶段）
 Step 3 — State Update（零 LLM）
 ```
 
-核心原则：**事实链（Design）管"该发生的事都发生了吗"，渲染层（Render）管"读者读到的句子是什么质感"。两者的产出质量同等重要。**
+核心原则：**结构正确（Design）≠ 质感正确（Render）。Design 负责空间约束、人设底线、事件节拍和设定嵌入点——Render 负责把这些变成读者读到的句子。****
 
 产出物供给 pop-novel-qa 管线。
 
@@ -58,11 +58,10 @@ Step 3 — State Update（零 LLM）
 ## 管线（3步驱动）
 
 ```
-Step 1 — Design（LLM）
-  读 act-XX.yaml + reader_profile + L1设定 + global-summary + 上一章结尾
-  产出四块：设计说明 + 事件链 + 渲染指引 + 上下文快照
-  明确 金手指×期待感→爽点释放 链
-  输出文件：03-写作资产/chXXX-design.md（Render完成后可删除）
+Step 1 — Design（LLM · 产出八块 chXXX-design.md）
+  读 act-XX.yaml + canvas 人物/地图 + constitution + story-engine + L1设定 + global-summary + 上一章
+  产出八块：设计说明 + 本章空间 + 登场人物 + 事件链 + 设定嵌入表 + 渲染指引 + 字数预算 + 上下文快照
+  输出文件：03-写作资产/chXXX-design.md
   详细指令 → steps/step-1-design.md
 
 Step 2 — Render（LLM / 三阶段）
@@ -125,4 +124,4 @@ styles/               ← 文风DNA档案
 
 ## 版本
 
-v13.0 | 2026-06-08 | Step 2 Render 升级为三阶段（风格锚定→正文渲染→风格验证）+ 风格契约机制
+v14.0 | 2026-06-08 | Design 升级为八块（+本章空间+登场人物+设定嵌入表+字数预算）。输入增加 canvas 人物/地图/constitution/story-engine

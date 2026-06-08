@@ -179,6 +179,37 @@ version: 2.1.0
 
 不通过 → 先路由到 pop-novel-plot 修正幕纲，**不直接进 writer**。
 
+### 3.1.5 信息增强（路由执行前）
+
+> 目的：基于 `workspace-index.yaml` 的全局数据，在子 skill 执行前注入已有上下文。
+> 铁律：**只追加信息，不删除/过滤/归纳/总结**。子 skill 自己决定用什么。
+> 详细映射表：`_shared/pop/ROUTE-AUGMENT.md`
+
+```
+① 从 workspace-index.yaml 读取锚定项目的所有可用数据
+
+② 按路由目标查找 ROUTE-AUGMENT.md 中的增强映射表
+   例：路由到 writer →
+      - 检查 cross_project_lessons (applicable_to: writing)
+      - 提供 constitution 路径
+      - 提供 style 文件路径
+      - 提供 pre_read_status
+      - 读 act-XX.yaml 当前章的场景规格 → 预取对应 L1 文件
+
+③ 输出增强摘要（不写文件，在路由消息中口述）：
+   📋 [路由目标] 已注入增强上下文：
+   - constitution: {path}
+   - style: {path}
+   - 教训: [{id}] {lesson}
+   - (更多增强项...)
+
+④ 降级风险检查：
+   □ 子 skill 仍需要读自己的 SKILL.md？（是）
+   □ 增强信息全部来自 workspace-index.yaml？（是）
+   □ 没有任何"所以你应该…"的推理？（是）
+   → 否则回退，清除增强
+```
+
 ### 3.2 Execute（路由执行 + 纪律校验）
 
 **路由时强制校验**：

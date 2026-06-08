@@ -78,6 +78,10 @@ act-XX.yaml = 一卷大纲的**章级编排层**。每章以 emotional_goal + pa
 - ❌ 第 1 章 info_release 数量 > 2 → 退回
 - ❌ 连续 2 章无 info_release，第 3 章未追加 → 退回
 - ❌ end_hook 与下一章 emotional_goal 不衔接 → 标记警告
+- ❌ ★ **payoff 涉及战斗但未填 `combat` 字段** → 退回（v4.2）
+- ❌ ★ **payoff 涉及重要对话/谈判但未填 `dialogue` 字段** → 退回（v4.2）
+- ❌ ★ **payoff 涉及发现/探索但未填 `discovery` 字段** → 退回（v4.2）
+- ❌ ★ **payoff 涉及外部威胁卷入但未填 `crisis` 字段** → 退回（v4.2）
 
 ---
 
