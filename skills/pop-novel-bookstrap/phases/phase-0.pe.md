@@ -47,7 +47,7 @@ Agent 的任务是：
 **空模板**：
 ```yaml
 engine:
-  version: 1
+  version: 2     # ← 固定为2。不可改为1或3。版本1为过时格式。
 
   # 一句话：一个XX的人，想做XX，但XX挡着
   core_premise: ""
@@ -83,8 +83,8 @@ engine:
 
 ```yaml
 engine:
-  version: 1
-  core_premise: "一个灰骑士审判官穿越到博德之门3的世界，发现混沌的污染已经渗入费伦，他必须在被本地势力视为疯子之前，组织起对抗混沌四神的防线"
+  version: 2     # ← 固定为2
+  core_premise: "一个灰骑士审判官穿越到博德之门3的世界"
 
   world_anchor:
     time: "动荡之年/博德之门3时期"
@@ -133,6 +133,11 @@ engine:
 - [ ] engine.core_premise 一句话说清故事核心
 - [ ] engine.reader_profile 已嵌入 project.yaml
 - [ ] 用户已确认 story-engine.yaml
+- [ ] `engine.version` 字段为 `2`（不是 1 也不是 3）
+- [ ] `core_premise` 不含否定句式（"不是A而是B"）
+- [ ] `reader_promise` 含具体数值锚定（"每{N}章"+"面板+{战斗/升级}")
+- [ ] `divergent` 的 `unchanged` 列表覆盖世界观/势力/力量体系/配角群/基调
+- [ ] 如为同人文：`divergent` 的 `unchanged` 中书名和主角名与原文一致
 
 ## 下一步
 全部通过 → 启动 Phase 0.3

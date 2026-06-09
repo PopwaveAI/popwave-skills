@@ -305,6 +305,23 @@ pipeline_deps:
       - "story-engine.yaml（用户已确认）"
     recommended:
       - "T1~T7 拆解报告（如有锚点书）"
+    phase_gates:              # NEW v1.1 — 阶段完整性闸门
+      - phase: "Phase 0"
+        check: "story-engine.yaml 存在，version 字段为 2"
+      - phase: "Phase 1"
+        check: "L1-01~06 全部存在"
+      - phase: "Phase 1.2"
+        check: "phase-1.2-深度展开补充.md 存在 或 L1各文件含'深度展开'标记"
+      - phase: "Phase 1.3"
+        check: "_交叉引用记录.md 存在 或 L1各文件含'交叉关联'标记"
+      - phase: "Phase 3"
+        check: "project.yaml + constitution.yaml 存在"
+      - phase: "Phase 5"
+        check: "combat_capability.yaml + monster_rank_map.yaml + act_rank_schedule.yaml + collision_curve.yaml 全部存在"
+      - phase: "Phase 6"
+        check: "起点快照.md 存在"
+      - phase: "Phase 7"
+        check: "终点快照.md 存在"
   pop-novel-deconstructor:
     required:
       - "参考书 TXT 文件"

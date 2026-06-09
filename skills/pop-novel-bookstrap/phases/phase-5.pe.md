@@ -45,6 +45,48 @@ schedule:
     note: ""
 ```
 
+### collision_curve.yaml（NEW v2.1）
+
+```yaml
+# 碰撞曲线——基于 deconstructor T6(数据流) + T5(叙事技法) 提取的节奏模板
+# 如果无锚点书，则用平台基准节奏
+
+overview:
+  platform: "起点"          # 番茄节奏颗粒度更密（每3章小高潮/起点每5章）
+  total_chapters_first_volume: 50
+
+battle_type_distribution:
+  assassination: 20%       # 暗杀/潜袭（前期低资源主导）
+  duel: 20%                # 单挑（同级碰撞）
+  skirmish: 30%            # 群战（带队）
+  war: 15%                 # 战争（后期）
+  god_war: 5%              # 神战（终局）
+  by_act:                  # 每卷峰值类型
+    act_1: "assassination" # 第一卷以暗杀/偷袭为主（低等级盗贼逻辑）
+    act_2: "duel"          # 进入正面战斗
+    act_3: "skirmish"
+
+tension_curve:             # 前100章逐章张力值（1-10参考）
+  chapter_tension: []      # ← 如无锚点书T6数据，使用平台默认密度（5→3→6→4→8循环）
+  note: "如有 deconstructor T6 产出，用其提取的张力值覆盖此空白列表"
+
+combat_density:
+  per_volume:              # 每卷战斗章占比（不得低于30%）
+    act_1: 50%             # 第一卷高密度留存（番茄≥50%）
+    act_2: 35%
+    act_3: 30%
+
+emotional_arc:
+  act_1: 压抑→爆发（卷末打脸高潮）
+  act_2: 探索→压迫→逆袭
+  act_3: 压抑→绝境→突破→新生
+  anchor_per_volume: 1     # 每卷至少1个情感锚点（兄妹/友情/守护）
+
+fatigue_management:
+  rule: "连续2章高强度战斗后必须插入≥1章缓冲章（日常/升级/设定释放）"
+  penalty: "连续战斗→体能下降→战力×0.7→需道具/休息恢复"
+```
+
 产出到 `00-总控/数值体系/`
 
 ## 四段框架参考
