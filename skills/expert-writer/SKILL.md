@@ -145,7 +145,30 @@ version: 2.1.0
 
 ### 3.1 Think（需求审视）
 
-**第一步：范围判断**
+**第一步：项目状态扫描（NEW — 每次路由前强制执行）**
+
+```
+扫描项目文件夹（workspace-index.yaml + 项目目录）
+→ 列出已存在的文件清单
+→ 比对 pipeline_deps 判断当前进度：
+
+存在哪些文件？                     → 当前进度
+起点快照.md + 终点快照.md           → bookstrap 已完成，等待 plot
+act-01.yaml + act-XX-人物.md       → plot 已完成，等待 writer
+ch001.md + ch002.md 等正文         → writer 进行中
+仅 story-engine.yaml + L1-01~06    → bookstrap 进行中
+
+→ 产出扫描摘要：
+   📋 项目状态：{X} Skill 已完成。上次产出是 {Y}。下一步最可能是 {Z}。
+   如果用户意图和扫描结果矛盾 → 先告知用户当前项目进度，再确认意图。
+
+例：
+   用户说"帮我规划剧情" → 扫描发现 act-XX.yaml 存在
+   → 先告知"act-XX.yaml 已存在，是重新规划还是继续执行？"
+   → 不静默覆盖
+```
+
+**第二步：范围判断**
 ```
 用户消息
 ├─ 属于小说创作/修改/质检/讨论 → 进入第二步
@@ -158,7 +181,7 @@ version: 2.1.0
 |:-----|:---------|:---------|:---------|
 | **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → writer → qa |
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
-| **继续前进** | 「继续」「下一章」「往下写」 | `think-正文写作.md` | 读取项目状态 → plot(检查幕纲+里程碑) → writer |
+| **继续前进** | 「继续」「下一章」「往下写」「接受目前的方案」「可以」 | `think-正文写作.md` | 执行项目状态扫描 → 根据扫描结果路由：bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到writer；正文存在→检查上一章末尾，router到writer |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
 | **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → writer |
@@ -254,12 +277,12 @@ version: 2.1.0
 
 **决策点闸门** — 子 skill 中需要用户确认才能继续的拦截点：
 
-| 子skill | 需要用户确认的决策点 | 闸门规则 | 通过后路由到 |
-|:--------|:--------------------|:---------|:-------------|
-| bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 | → **pop-novel-plot**（剧情规划） |
-| deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 | 无（产出供 bookstrap 消费，不触发新 skill） |
-| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-writer**（正文写作）或 → **lark-doc**（归档发布） |
-| writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 | → **pop-novel-qa**（质检） |
+| 子skill | 需要用户确认的决策点 | 闸门规则 | 通过后路由到 | 路由指引 |
+|:--------|:--------------------|:---------|:-------------|:---------|
+| bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 | → **pop-novel-plot**（剧情规划） | 携带：story-engine.yaml + L1-01~06 + constitution.yaml + 起点/终点快照。直接说"bookstrap已完成，接下来进入pop-novel-plot做卷级剧情规划" |
+| deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 | 无（产出供 bookstrap 消费，不触发新 skill） | — |
+| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-writer**（正文写作）或 → **lark-doc**（归档发布） | 携带：act-XX.yaml + canvas(人物/地图/势力) + info_release。确认 plot 章级切片完成后再说"进入 writer" |
+| writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 | → **pop-novel-qa**（质检） | 检查 global-summary.md 中的 style_executed 标记。通知用户"正文写作完成，下一步进入质检" |
 
 ### 3.3 Reflect（四层递进审视）
 
