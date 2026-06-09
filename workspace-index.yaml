@@ -354,3 +354,21 @@ pipeline_deps:
       - "待质检正文 chXXX.md"
     recommended:
       - "style_profile"
+
+# ============================================================
+# §9 管线进度（progress）
+# expert-writer Think 第一步读取此处，替代全量文件扫描。
+# 每个子 skill 完成后由各自的 Step 3 回写 1 行。
+# ============================================================
+progress:
+  last_completed_skill: ""
+  last_completed_phase: ""
+  next_skill: ""
+  next_skill_ready: false
+  checkpoints:
+    story-engine_confirmed: false
+    起点快照_confirmed: false
+    终点快照_confirmed: false
+    act-XX-yaml_exists: false
+    canvas_exists: false
+    正文_exists: false

@@ -145,27 +145,28 @@ version: 2.1.0
 
 ### 3.1 Think（需求审视）
 
-**第一步：项目状态扫描（NEW — 每次路由前强制执行）**
+**第一步：读进度（NEW — 读 workspace-index.yaml#progress，替代全量文件扫描）**
 
 ```
-扫描项目文件夹（workspace-index.yaml + 项目目录）
-→ 列出已存在的文件清单
-→ 比对 pipeline_deps 判断当前进度：
+① Read workspace-index.yaml#progress（1 次 Read，不扫文件）
+② 读出的关键字段：
+   last_completed_skill → 最后一个完成的 skill
+   next_skill → 下一步应该路由到的 skill（由闸门表填入）
+   next_skill_ready → 用户是否已说"对"放行
 
-存在哪些文件？                     → 当前进度
-起点快照.md + 终点快照.md           → bookstrap 已完成，等待 plot
-act-01.yaml + act-XX-人物.md       → plot 已完成，等待 writer
-ch001.md + ch002.md 等正文         → writer 进行中
-仅 story-engine.yaml + L1-01~06    → bookstrap 进行中
+③ 判断当前状态：
+   next_skill_ready = false → 等待闸门确认，不做路由。提示用户"上一步产出等待你对闸门的确信"
+   next_skill_ready = true + next_skill = X → 按闸门表路由指引执行 X
 
-→ 产出扫描摘要：
-   📋 项目状态：{X} Skill 已完成。上次产出是 {Y}。下一步最可能是 {Z}。
-   如果用户意图和扫描结果矛盾 → 先告知用户当前项目进度，再确认意图。
+④ 对比用户意图：
+   用户说"继续"/"可以"/"对" → 检查 next_skill_ready
+     ready=false → 将 ready 设为 true，然后路由到 next_skill
+     ready=true → 直接路由
+   用户意图和 next_skill 矛盾 → 先告知当前进度，再确认
 
-例：
-   用户说"帮我规划剧情" → 扫描发现 act-XX.yaml 存在
-   → 先告知"act-XX.yaml 已存在，是重新规划还是继续执行？"
-   → 不静默覆盖
+⑤ 更新记录（1 行回写）：
+   - 闸门通过后：next_skill_ready: false → true
+   - 子 skill 完成后：更新 last_completed_skill / next_skill
 ```
 
 **第二步：范围判断**
@@ -304,6 +305,18 @@ L1 ─ 产出基础检查 + 索引回写
       - projects[].current_chapter / current_act 按实际情况更新
       - 如果有副本章节（v1/v2/v3）→ 标记各版本的 status
       - pre_read_status.verified → 本轮若执行了精读流程，设为 true
+    □ **管线进度更新（NEW）**：
+      - 子 skill 完成最后一 phase 后 → 回写 workspace-index.yaml#progress：
+        last_completed_skill: {当前 skill 名}
+        last_completed_phase: {完成的 phase 名}
+        next_skill: {闸门表中路由到列的值}
+        checkpoints.{完成的产出}: true
+        示例：bookstrap Phase 7 完成后 →
+          last_completed_skill: "pop-novel-bookstrap"
+          last_completed_phase: "Phase 7"
+          next_skill: "pop-novel-plot"
+          checkpoints.起点快照_confirmed: true
+          checkpoints.终点快照_confirmed: true
     ↓ 通过
 
 L2 ─ 一致性检查
