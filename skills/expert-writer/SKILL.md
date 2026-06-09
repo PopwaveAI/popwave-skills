@@ -1,7 +1,7 @@
 ---
 name: expert-writer
 description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect 三层工作流。自动识别创作意图并路由子 Skill，集成修改路由（三层联动影响评估）、决策点闸门（人必须在场的拦截点）、完成后引导（基于项目文件状态的跨轮引导）。
-version: 2.1.0
+version: 2.2.0
 ---
 
 # 网文写作专家（元 Skill / 专家模式）
@@ -56,7 +56,7 @@ version: 2.1.0
 | `pop-novel-bookstrap` | 开书启动 — 故事引擎→L1设定→宪法→数值体系→拆书融合→起点→终点 | 「帮我开一本书」「新建小说项目」「续写旧书」 |
 | `pop-novel-deconstructor` | 拆书分析 — 分析参考书的写法规则、体系设计、节奏密度 | 「帮我分析这本小说」「拆解参考书」「参考XXX的设计」 |
 | `pop-novel-plot` | 剧情架构 — 幕纲设计、爽点分布、情绪节奏、情节线规划 | 「帮我规划剧情」「设计爽点分布」「画幕纲」 |
-| `pop-novel-writer` | 正文写作 — 5步管线逐章生成正文，支持黄金三章模式 | 「继续写下一章」「写第 X 章」「写正文」 |
+| `pop-novel-writer` | 正文写作 — 3步管线逐章生成正文，支持黄金三章模式 | 「继续写下一章」「写第 X 章」「写正文」 |
 | `pop-novel-qa` | 爽点质检 — 三层次审稿，纯感受反馈 | 「帮我校对」「帮我审稿」「这段写得怎么样」 |
 | `pop-reader-making` | 拆书为读 — 长篇拆解为笔记和结构化数据 | 「帮我拆这本书做笔记」 |
 | `pop-novel-html-renderer` | 发布 — 写作项目渲染为可视化网页 | 「把我写好的发布成网页」 |
@@ -126,18 +126,28 @@ version: 2.1.0
    📊 [项目名] | 第 N 章 | 幕 {M} | 平台 {P}
    ⚠️ 子agent不可用，走主agent手动模式
    ℹ️ {匹配到的跨项目教训摘要，最多1行}
+
+   进度来源（按优先级）：
+   ① entity-snapshot.yaml#_meta.total_chapters → 如果有，取此值（最准）
+   ② {paths.chapters}/ 下 ch*.md 文件计数 → fallback
+   ③ workspace-index.yaml#projects[].current_chapter → fallback of last resort
 ```
 
 **3.0.3 闸门前置检查（基于索引数据，替代人工"我觉得"）**
 
 ```
-① pre_read_status.verified == false 且任务为"写作/续写"？
+① entity-snapshot 一致性自检（新增 v2.2）：
+   → entity-snapshot.yaml 存在？
+     → 是：total_chapters 是否等于 {paths.chapters}/ch*.md 的实际文件数？
+       → 不等 → P0：「⚠️ entity-snapshot 与实际章文件数不一致。快照声称{N}章，实际有{M}章。」→ 通知用户，继续但不依赖快照数据。
+
+② pre_read_status.verified == false 且任务为"写作/续写"？
    → 输出闸门提示：「⚠️ 精读闸门未通过。上次验证在ch{X}，当前已到ch{Y}。需先精读ch{X+1}至ch{Y}。」→ 用户确认后才路由 writer
 
-② file_registry[项目].deprecated 有 ≥10 个废弃文件？
+③ file_registry[项目].deprecated 有 ≥10 个废弃文件？
    → 完成后引导时提示：「你有{N}个废弃文件，需要清理吗？」
 
-③ 任务涉及 style 且 style_executed == false（上章）？
+④ 任务涉及 style 且 style_executed == false（上章）？
    → Think 阶段标记：「⚠️ 上一章风格文件未验证执行。本章需额外检查。」
 ```
 
@@ -145,17 +155,22 @@ version: 2.1.0
 
 ### 3.1 Think（需求审视）
 
-**第一步：读进度（NEW — 读 workspace-index.yaml#progress，替代全量文件扫描）**
+**第一步：读进度（NEW — 读 entity-snapshot + workspace-index#progress，替代全量文件扫描）**
 
 ```
-① Read workspace-index.yaml#progress（1 次 Read，不扫文件）
-② 读出的关键字段：
-   last_completed_skill → 最后一个完成的 skill
-   next_skill → 下一步应该路由到的 skill（由闸门表填入）
-   next_skill_ready → 用户是否已说"对"放行
+① 先读 entity-snapshot.yaml#_meta.total_chapters（最快路径，1 次 Read）
+   → 如果 entity-snapshot 不存在 → 退到 {paths.chapters}/ 下统计 ch*.md 数量
+   → 如果 paths.chapters 也不存在 → 退到 workspace-index.yaml
+
+② 读 workspace-index.yaml#progress（闸门路由用）
+   → last_completed_skill → 最后一个完成的 skill
+   → next_skill → 下一步应该路由到的 skill（由闸门表填入）
+   → next_skill_ready → 用户是否已说"对"放行
 
 ③ 判断当前状态：
-   next_skill_ready = false → 等待闸门确认，不做路由。提示用户"上一步产出等待你对闸门的确信"
+   total_chapters = 0 → 无正文，按进度表判断路由（bootstrapped→plot, plotted→writer）
+   total_chapters > 0 → 写作中，检查上一章 delta + 宪法一致性
+   next_skill_ready = false → 等待闸门确认，不做路由
    next_skill_ready = true + next_skill = X → 按闸门表路由指引执行 X
 
 ④ 对比用户意图：
@@ -219,11 +234,13 @@ version: 2.1.0
       - 提供 constitution 路径
       - 提供 style 文件路径
       - 提供 pre_read_status
+      - 提供 entity-snapshot.yaml 路径（状态追踪 canon）
       - 读 act-XX.yaml 当前章的场景规格 → 预取对应 L1 文件
 
 ③ 输出增强摘要（不写文件，在路由消息中口述）：
    📋 [路由目标] 已注入增强上下文：
    - constitution: {path}
+   - entity-snapshot: {path}
    - style: {path}
    - 教训: [{id}] {lesson}
    - (更多增强项...)
@@ -251,6 +268,7 @@ version: 2.1.0
 
 ③ 逐项检查 recommended 文件（如存在则标注可用，缺失不阻止）：
    combat_capability.yaml ...... ⚠️ 未找到（战斗章建议生成）
+   entity-snapshot.yaml ........ ✅ 可用（快照存在且章数一致）
    T5-叙事技法.md .............. ✅ 可用（已注入增强信息）
 
 ④ 输出校验报告：
@@ -283,14 +301,14 @@ version: 2.1.0
 | bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 | → **pop-novel-plot**（剧情规划） | 携带：story-engine.yaml + L1-01~06 + constitution.yaml + 起点/终点快照。直接说"bookstrap已完成，接下来进入pop-novel-plot做卷级剧情规划" |
 | deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 | 无（产出供 bookstrap 消费，不触发新 skill） | — |
 | plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-writer**（正文写作）或 → **lark-doc**（归档发布） | 携带：act-XX.yaml + canvas(人物/地图/势力) + info_release。确认 plot 章级切片完成后再说"进入 writer" |
-| writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 | → **pop-novel-qa**（质检） | 检查 global-summary.md 中的 style_executed 标记。通知用户"正文写作完成，下一步进入质检" |
+| writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 | → **pop-novel-qa**（质检） | 检查 entity-snapshot.yaml 中的最新状态。通知用户"正文写作完成，下一步进入质检" |
 
 ### 3.3 Reflect（四层递进审视）
 
 子 skill 执行完成后，加载 `references/reflection.md`。
 
 ```
-L1 ─ 产出基础检查 + 索引回写
+L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
     □ 产出物文件是否在正确位置？
     □ 文件名格式合规？
     □ 越界写入 → 移至正确位置
@@ -305,7 +323,12 @@ L1 ─ 产出基础检查 + 索引回写
       - projects[].current_chapter / current_act 按实际情况更新
       - 如果有副本章节（v1/v2/v3）→ 标记各版本的 status
       - pre_read_status.verified → 本轮若执行了精读流程，设为 true
-    □ **管线进度更新（NEW）**：
+    □ **状态协议校验（NEW v2.2 — Writer 完成后强制）**：
+      - entity-snapshot.yaml 是否存在？→ 不存在则 WARN
+      - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
+      - entity-snapshot.protagonist.status 与最新章 delta 一致？→ 不一致则 P1
+      - （详细规则见 references/reflection.md §状态协议专项检查）
+    □ **管线进度更新**：
       - 子 skill 完成最后一 phase 后 → 回写 workspace-index.yaml#progress：
         last_completed_skill: {当前 skill 名}
         last_completed_phase: {完成的 phase 名}
@@ -323,6 +346,9 @@ L2 ─ 一致性检查
     □ 产出与上游设定/宪法/幕纲一致？
       - writer 正文是否违反 constitution.yaml？
       - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
+    □ entity-snapshot 与 constitution 一致？（NEW v2.2）
+      - entity-snapshot 中角色状态是否违反 constitution 的约束？
+      - 例：constitution 说"主角在 Act 1 结束时不超过 3阶"，entity-snapshot 显示 4阶 → P1
     □ 如果有偏离 → 记录偏离项和严重程度，返回用户判断
     ↓ 通过
 
@@ -372,7 +398,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
 ├─ 改设定/角色/世界观 → bookstrap（只更新设定文件，不推倒重来）
 ├─ 改剧情/章节结构 → plot（只调受影响的幕纲）
 ├─ 改某章/某段正文 → writer（定点重写指定段落）
-├─ 改开头 → writer（前三章同样走5步管线）
+├─ 改开头 → writer（前三章同样走3步管线）
 ├─ 改文风 → 路由 writer 时携带新的 style 参数
 └─ 没说具体怎么改 → 先调 qa → 用户指明方向 → 再调对应 Skill
 ```
@@ -401,26 +427,27 @@ L4 ─ 活人感检查（可选，高优章节启用）
 
 ## 6. 完成后引导
 
-每轮回复结尾，**读取 workspace-index.yaml 的项目状态（不是靠记忆），判断进度并引导**。
+每轮回复结尾，**读取项目文件状态（entity-snapshot + workspace-index），判断进度并引导**。
 
 ### 引导模板
 
-> 状态数据来源：`workspace-index.yaml` → `projects[锚定项目].phase` / `current_chapter` / `pre_read_status` / `style_profile`
+> 状态数据来源优先级：① entity-snapshot.yaml ② {paths.chapters}/ch*.md 文件计数 ③ workspace-index.yaml
 
-| 项目状态（读索引判断） | 引导语 |
+| 项目状态（读实际文件判断） | 引导语 |
 |--------------------------|-------|
 | phase == "bootstrapped"，无正文 | 「设定已完成。需要调整吗？需要我帮你规划剧情吗？」 |
 | phase == "plotted"，无正文 | 「剧情已规划。需要调整吗？需要我帮你写开头几章吗？」 |
-| phase == "writing"，current_chapter == N | 「第 N 章已完成。需要修改吗？需要继续写第 N+1 章吗？还是先质检本章？」 |
+| phase == "writing"，entity-snapshot.total_chapters == N | 「第 N 章已完成。需要修改吗？需要继续写第 N+1 章吗？还是先质检本章？」 |
 | qa 刚完成（本轮任务为 qa） | 「质检完成。需要我根据反馈修改吗？」 |
 | 参考书分析刚完成（本轮任务为 deconstructor） | 「参考书分析已完成。可以基于分析结果开始开书设定，要开始吗？」 |
+| entity-snapshot 缺失或不一致 | 追加：「⚠️ entity-snapshot 与实际章数不一致，建议触发 Writer Step 3.3 重新聚合。」 |
 | pre_read_status.verified == false | 追加：「⚠️ 精读闸门未通过，建议下次写作前先补精读。」 |
 | file_registry[项目].deprecated 非空 | 追加：「📦 有 {N} 个废弃文件，需要清理吗？」 |
 
 ### 引导纪律
 
 1. 每轮先问「需要修改或调整吗？」，再建议下一步
-2. 修改完成后自动重新读取索引状态再做引导（不是从上一轮记忆推导）
+2. 修改完成后自动重新读取文件状态再做引导（不是从上一轮记忆推导）
 3. 引导是建议不是催促。用户说不需要 → 停在这里
 4. 刚完成 qa 后只问是否修改，不跳下一步
 

@@ -16,8 +16,8 @@
 | 5 | constitution.yaml | 项目根 | 宪法红线+主角人设约束 |
 | 6 | story-engine.yaml | 项目根 | 核心前提——确保本章不偏离故事第一性 |
 | 7 | L1 元设定层 | 按 info_release[].source_doc 路径 | 设定原文 |
-| 8 | global-summary.md | 写作资产 | 上章结束时的实体状态 |
-| 9 | 上一章正文最后 800 字 | 正文目录 | 语感衔接 |
+| 8 | entity-snapshot.yaml | `00-总控/entity-snapshot.yaml` | **当前全量角色状态（唯一 canon）** — 主角等级/位置/物品/心理 + 全部角色存活状态 + 时间线 + 伏笔 |
+| 9 | 上一章正文末尾 # === 状态更新 === 块 | `{paths.chapters}/ch{上一章}.md` | 上章未闭合节点 + 语感衔接 + 上章 entity_updates 的 before 值 |
 | 10 | 上一章 chXXX-design.md | 写作资产 | 检查未闭合节点 |
 | 11 | 续写场景：倒数20章精读报告 | expert-writer 强制 | 前文事实锚定 |
 | 12 | combat_capability.yaml（战斗章） | bookstrap 数值体系 | 段位战力范围——确定 beat 中敌我数值差距的硬天花板 |
@@ -25,6 +25,7 @@
 | 14 | L1-04 物种与天赋.md（非人类角色出场时） | bookstrap L1 设定 | 种族 traits/faction_affiliation——非人类 NPC 的创作基线 |
 
 > 输入项 2-6 由 expert-writer §3.1.5 预取聚合后注入。章纲层读完直接消费，不自己找文件。
+> **输入项 8（entity-snapshot.yaml）是状态追踪的唯一 canon。** 块C 的 before 状态从 entity-snapshot 取；块H 的"角色当前状态"也从 entity-snapshot 取。不再依赖 global-summary.md 做角色状态源（后者已降级为叙事摘要）。
 
 ---
 
@@ -33,7 +34,7 @@
 ### 1. 读入上下文
 
 依次读取全部输入文件。
-核心清单：act-XX.yaml 当前章 → canvas 人物/地图 → constitution → story-engine → global-summary → 上章 800 字 → 上章 design。
+核心清单：act-XX.yaml 当前章 → canvas 人物/地图 → constitution → story-engine → entity-snapshot → 上章delta → 上章 design。
 
 ---
 
@@ -121,13 +122,14 @@ locations:
 
 > 消费 act-XX-人物.md + constitution.yaml。每人 §前后·弧线·约束·反应 四维度。
 > 事件链设计时必须对照此块——谁在哪个事件做什么、有什么底线不能破。
+> **before 状态从 entity-snapshot.yaml 读取（唯一 canon），不靠 memory。**
 
 ```yaml
 characters:
   - name: "{角色名}"
     source: "{act-XX-人物.md 中的条目路径}"
     
-    before:                          # 本章开始前的状态
+    before:                          # 本章开始前的状态 — 从 entity-snapshot.yaml 对应角色条目读取
       level: "{等级/能力基准}"
       mental: "{情绪·想法·心态}"
       physical: "{健康/受伤/疲劳}"
@@ -298,10 +300,10 @@ characters:
 #### 块H：上下文快照
 
 ```
-时间/地点承接: {从上一章结尾提取}
-角色当前状态: {从 global-summary 提取关键状态}
-上一章未闭合节点: {从上一章 design 提取，本章是否跟进}
-已回收伏笔: {…}
+时间/地点承接: {从上一章 delta 的 world_updates 提取}
+角色当前状态: {从 entity-snapshot.yaml 提取关键状态 — protagonist + characters_active}
+上一章未闭合节点: {从上一章 delta 的 event_log 提取，本章是否跟进}
+已回收伏笔: {从 entity-snapshot.yaml#event_log 匹配回收事件}
 新设伏笔: {…}
 ```
 

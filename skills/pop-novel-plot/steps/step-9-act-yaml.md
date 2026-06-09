@@ -23,6 +23,9 @@ act-XX.yaml = 一卷大纲的**章级编排层**。每章以 emotional_goal + pa
 - [ ] `设计/幕/info-release-XX.md` — 知道 P0/P1 信息点的章级分配
 - [ ] `设计/幕/情节线草案-XX.md` — 知道线定义和交叉节奏
 - [ ] `设计/里程碑设计.md` — 知道 MK-01~MK-N 的章节段
+- [ ] `{项目}/00-总控/数值体系/combat_capability.yaml` — 段位战力范围。每章 combat 字段必须在对应段位范围内。
+- [ ] `{项目}/00-总控/数值体系/act_rank_schedule.yaml` — 确认 act_end_state.protagonist.level 与卷目标一致。
+- [ ] `{项目}/00-总控/数值体系/collision_curve.yaml` — 确认 payoff_distribution 的情绪峰值与碰撞曲线对齐。
 
 ---
 

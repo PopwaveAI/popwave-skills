@@ -74,7 +74,8 @@ must_do:
     reason: "L1 力量体系设定——战斗是策略不是对砍"
 ```
 
-### 4. 章状态
+### 4. 章状态（初始快照）
+
 产出 `00-总控/chapter-state.yaml`：
 
 ```yaml
@@ -95,6 +96,11 @@ timeline:
   world_time: "第1天"
 flags: []
 ```
+
+> **重要：chapter-state.yaml 是 bookstrap 阶段的初始值快照，仅供首次写作前参考。**
+> 写作开始后，状态追踪的唯一 canonical 来源是 **`entity-snapshot.yaml`**（由 Writer Step 3 从所有章末 delta 聚合生成）。
+> entity-snapshot.yaml 由 Writer 自动维护；如文件损坏/丢失，重新运行 Writer Step 3.3 聚合即可恢复（源数据在每章正文末尾）。
+> 路径注册中心是 project.yaml 的 `paths` 字段 —— 所有 skill 从那里读取目录路径，不硬编码。
 
 ### 5. 角色卡
 主角满配（背景/动机/成长/关系网/金手指联动）
