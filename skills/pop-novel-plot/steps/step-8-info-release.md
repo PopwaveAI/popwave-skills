@@ -1,7 +1,7 @@
 # Step 8：L1 设定目录扫描与 info_release 规划
 
-> 所属管线: pop-novel-plot v4.1+
-> 模板: `templates/info-release.md`
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/info-release-XX.md`（★ 立即写入）
 
 ---
 

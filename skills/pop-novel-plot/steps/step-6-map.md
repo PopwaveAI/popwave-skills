@@ -1,7 +1,7 @@
 # Step 6：本卷地图设计（NEW v4.1）
 
-> 所属管线: pop-novel-plot v4.1+
-> 产出: `设计/幕/act-XX-地图.md`
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/act-XX-地图.md`（★ 立即写入）
 > 模板: `templates/map-design.md`
 > 下游消费: pop-novel-writer → 正文场景设计
 

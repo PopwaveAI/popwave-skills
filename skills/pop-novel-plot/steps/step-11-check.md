@@ -1,6 +1,7 @@
 # Step 11：节奏自检 + 平台校准
 
-> 所属管线: pop-novel-plot v4.1+
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/节奏自检报告.md`（★ 立即写入）
 > 模板: `templates/rhythm-check.md`
 
 ---

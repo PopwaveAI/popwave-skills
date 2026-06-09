@@ -1,7 +1,7 @@
 # Step 1：前置条件检查 + 节点B导演判断
 
-> 所属管线: pop-novel-plot v4.1+
-> 产出: `设计/幕/节点B-XX.md`
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/节点B-XX.md`（★ 立即写入——不等后续步骤）
 > 模板: `templates/checkpoint-b.md`
 
 ---

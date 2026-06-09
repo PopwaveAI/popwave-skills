@@ -1,7 +1,7 @@
-# Step 5：本卷人物设计（NEW v4.1）
+# Step 5：本卷人物设计（v4.3）
 
-> 所属管线: pop-novel-plot v4.1+
-> 产出: `设计/幕/act-XX-人物.md`
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/act-XX-人物.md`（★ 立即写入）
 > 模板: `templates/character-list.md`
 > 下游消费: pop-novel-writer → chXXX-登场人物卡.md
 

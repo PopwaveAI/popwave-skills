@@ -1,7 +1,8 @@
 # Step 3：关键里程碑设计
 
-> 所属管线: pop-novel-plot v4.1+
+> 所属管线: pop-novel-plot v4.3
 > 设计-确认闸门：从终点反推必经节点
+> 产出: `设计/里程碑设计.md`（★ 立即写入）
 > 模板: `templates/milestone-design.md`
 
 ---

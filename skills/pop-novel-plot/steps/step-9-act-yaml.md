@@ -1,7 +1,7 @@
 # Step 9：幕纲设计 · 填 act-XX.yaml
 
-> 所属管线: pop-novel-plot v4.1+
-> 模板: `templates/act-guide.md`
+> 所属管线: pop-novel-plot v4.3
+> 产出: `设计/幕/act-XX.yaml`（★ 立即写入——消费前8步所有Canvas）
 
 ---
 

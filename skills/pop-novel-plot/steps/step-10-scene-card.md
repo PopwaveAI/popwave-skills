@@ -1,6 +1,7 @@
 # Step 10：交互闸门——场景卡试读
 
-> 所属管线: pop-novel-plot v4.1+
+> 所属管线: pop-novel-plot v4.3
+> 产出: 场景卡（★ 立即写入 `_temp/` 目录）
 
 ---
 
