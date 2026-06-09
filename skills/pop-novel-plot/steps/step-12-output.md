@@ -1,44 +1,32 @@
-# Step 12：输出清单
+# Step 12：产出自检（不是"产出时刻"——每个文件的产出在对应 Step）
 
-> 所属管线: pop-novel-plot v4.1+
-
----
-
-## 正式产出
-
-### 产出目录
-
-### P0 强制产出（缺失则不进章纲）
-
-| # | 产物 | 路径 | 模板 |
-|:-:|:-----|:-----|:-----|
-| 1 | **act-XX.yaml** | `设计/幕/act-XX.yaml` | `templates/act-guide.md` |
-| 2 | **act-XX-人物.md** | `设计/幕/act-XX-人物.md` | `templates/character-list.md` |
-| 3 | **act-XX-地图.md** | `设计/幕/act-XX-地图.md` | `templates/map-design.md` |
-
-### P1 建议产出（有则更好）
-
-| # | 产物 | 路径 | 模板 |
-|:-:|:-----|:-----|:-----|
-| 4 | **节点B-XX.md** | `设计/幕/节点B-XX.md` | `templates/checkpoint-b.md` |
-| 5 | **情节线草案-XX.md** | `设计/幕/情节线草案-XX.md` | `templates/plotline-draft.md` |
-| 6 | **info-release-XX.md** | `设计/幕/info-release-XX.md` | `templates/info-release.md` |
-| 7 | **act-XX-势力.md** | `设计/幕/act-XX-势力.md` | `templates/faction-dynamics.md` |
-| 8 | **act-XX-装备.md** | `设计/幕/act-XX-装备.md` | `templates/equipment-flow.md` |
-| 9 | **节奏自检报告.md** | `设计/幕/节奏自检报告.md` | `templates/rhythm-check.md` |
-| 10 | **里程碑设计.md** | `设计/里程碑设计.md` | `templates/milestone-design.md` |
-
-### P2 可选产出
-
-| # | 产物 | 路径 |
-|:-:|:-----|:-----|
-| 11 | **情节线纲汇总表.md** | `设计/幕/情节线纲汇总表.md` |
+> 所属管线: pop-novel-plot v4.3
+> **核心原则：一步一产出。** Step 3 产出里程碑设计，Step 4 产出情节线草案……每个文件在对应 Step 结束时已写入磁盘。Step 12 不产出任何新文件——只做完整性校验。
 
 ---
 
-## P0 产物完整性检查
+## 分步产出对照（Agent 执行时对照此表，每完成一步就写一个文件）
 
-每个 P0 产物必须在 Step 12 结束时通过以下检查：
+| Step | 产出文件 | 完成标记 |
+|:----:|:---------|:--:|
+| 3 | `设计/里程碑设计.md` | [ ] |
+| 4 | `设计/幕/情节线草案-XX.md` | [ ] |
+| 5 | `设计/幕/act-XX-人物.md` | [ ] |
+| 6 | `设计/幕/act-XX-地图.md` | [ ] |
+| 7 | `设计/幕/act-XX-势力.md` + `设计/幕/act-XX-装备.md` | [ ] |
+| 8 | `设计/幕/info-release-XX.md` | [ ] |
+| 9 | `设计/幕/act-XX.yaml` | [ ] |
+| 10 | 场景卡试读（交互品，`_temp/` 目录） | [ ] |
+| 11 | `设计/幕/节奏自检报告.md` | [ ] |
+| 12 | 本步 — 校验以上全部 | [ ] |
+
+> **禁止等 12 步走完再批量产出。** Agent 执行 Step N 时，立即写入 Step N 对应的文件。Step 12 只是检查这些文件是否就位、是否通过各模板的产出自检。
+
+---
+
+## P0 产物完整性检查（Step 12 执行）
+
+> 以下所有文件应在 Step 3~11 中已生成。Step 12 只做逐项确认。
 
 - [ ] act-XX.yaml 所有字段已填充（不可有空值或占位符）
 - [ ] act-XX.yaml 包含 _meta.canvas_refs 声明
@@ -52,6 +40,9 @@
 - [ ] act-XX-人物.md 出场节奏图无过度空白
 - [ ] act-XX-地图.md 每个关键地点有视觉印象描述
 - [ ] act-XX-地图.md 移动线路覆盖主角所有位移
+- [ ] 爽点频率红线（§9）：战斗 ≤2 章间隔 & 成长 ≤2 章间隔
+- [ ] 高潮章深度约束：enemy_level + 子节拍展开 + equipment_reward 全部填充
+- [ ] 上游角色卡消费：主角等级/属性与 L3-角色层角色卡一致
 
 ---
 
