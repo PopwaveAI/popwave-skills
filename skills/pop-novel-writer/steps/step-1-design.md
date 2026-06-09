@@ -20,6 +20,9 @@
 | 9 | 上一章正文最后 800 字 | 正文目录 | 语感衔接 |
 | 10 | 上一章 chXXX-design.md | 写作资产 | 检查未闭合节点 |
 | 11 | 续写场景：倒数20章精读报告 | expert-writer 强制 | 前文事实锚定 |
+| 12 | combat_capability.yaml（战斗章） | bookstrap 数值体系 | 段位战力范围——确定 beat 中敌我数值差距的硬天花板 |
+| 13 | monster_rank_map.yaml（涉及怪物时） | bookstrap 数值体系 | 怪物段位对照——非人类敌人时读取其段位和难度注释 |
+| 14 | L1-04 物种与天赋.md（非人类角色出场时） | bookstrap L1 设定 | 种族 traits/faction_affiliation——非人类 NPC 的创作基线 |
 
 > 输入项 2-6 由 expert-writer §3.1.5 预取聚合后注入。章纲层读完直接消费，不自己找文件。
 

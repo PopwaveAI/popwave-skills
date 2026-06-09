@@ -1,0 +1,103 @@
+# 网文创作管线 · 统一术语表
+# ============================================
+# 所有 Skill 的产出模板和消费代码引用此表中的权威名称。
+# 新增概念必须先在此注册，再在各 Skill 中使用。
+
+version: "1.0"
+date: "2026-06-10"
+
+terms:
+  # --- 情节线 ---
+  - name: "M1"
+    definition: "世界级压力源（全书级主线·提供舞台和危机）"
+    aliases: ["主线1", "世界危机线", "World Crisis"]
+    used_in: ["bookstrap.story-engine", "deconstructor.T4", "plot.act-guide"]
+
+  - name: "M2"
+    definition: "主角成长线（等级/能力/装备/身份变化）"
+    aliases: ["主线2", "主角成长线", "Protagonist Growth"]
+    used_in: ["bookstrap.story-engine", "deconstructor.T4", "plot.act-guide"]
+
+  - name: "M3"
+    definition: "主角蜕变线（心智/哲学/身份认同的深层变化）"
+    aliases: ["精神成长线"]
+    used_in: ["plot.act-guide"]
+
+  - name: "S线"
+    definition: "支线（衍生自M1或M2，有独立弧线）"
+    aliases: ["支线", "Side Plot"]
+    used_in: ["deconstructor.T4", "plot.act-guide"]
+
+  # --- 场景规格 ---
+  - name: "combat"
+    definition: "战斗场景（含 scale/purpose/result/reward 四维度）"
+    aliases: ["战斗"]
+    used_in: ["plot.act-guide.chapters", "writer.step-1-design"]
+
+  - name: "dialogue"
+    definition: "对话/谈判场景（含 relation/stakes/result/reward 四维度）"
+    aliases: ["对话", "谈判", "交涉"]
+    used_in: ["plot.act-guide.chapters"]
+
+  - name: "discovery"
+    definition: "发现/探索场景（含 what/how/world_expands/new_options 四维度）"
+    aliases: ["发现", "探索", "揭秘"]
+    used_in: ["plot.act-guide.chapters", "deconstructor.T2"]
+
+  - name: "crisis"
+    definition: "危机卷入场景（含 threat/scale/cannot_escape/cost 四维度）"
+    aliases: ["危机", "威胁卷入"]
+    used_in: ["plot.act-guide.chapters"]
+
+  # --- 设定维度 ---
+  - name: "力量体系"
+    definition: "等级/境界/职业/成长路径/跨级约束"
+    aliases: ["Power System", "等级体系", "境界"]
+    used_in: ["bookstrap.L1-02", "deconstructor.T1"]
+
+  - name: "势力格局"
+    definition: "组织/帮派/国家/权力分布/对抗关系（统一名称：不要在 Skill 间用'政治格局''活跃势力'等变体）"
+    aliases: ["政治格局", "活跃势力", "Faction"]
+    used_in: ["bookstrap.L1-05", "deconstructor.T2", "plot.faction-dynamics"]
+
+  - name: "物种与天赋"
+    definition: "智慧种族/异兽/特殊体质/血脉/天赋"
+    aliases: ["种族", "物种", "Race", "Species"]
+    used_in: ["bookstrap.L1-04", "deconstructor.T2", "plot.character-list"]
+
+  - name: "资源与物品"
+    definition: "修炼资源/关键道具/货币体系"
+    aliases: ["装备", "物品", "道具", "Resources"]
+    used_in: ["bookstrap.L1-06", "deconstructor.T1", "plot.equipment-flow"]
+
+  - name: "世界蓝图"
+    definition: "世界基本面貌：地理/位面/法则/基调"
+    aliases: ["世界观", "World Blueprint"]
+    used_in: ["bookstrap.L1-01", "deconstructor.T2"]
+
+  - name: "历史与驱动力"
+    definition: "纪元划分/前提大事件/核心矛盾"
+    aliases: ["历史", "驱动力", "History"]
+    used_in: ["bookstrap.L1-03", "deconstructor.T4"]
+
+  # --- 角色 ---
+  - name: "主角"
+    definition: "故事的核心人物。在所有 L1 维度中用 [主角] 标签标注专属内容"
+    aliases: ["主人公", "Protagonist"]
+    used_in: ["bookstrap所有Phase", "plot.character-list", "writer.step-1-design块C"]
+
+  - name: "反应者"
+    definition: "章节末尾对主角变化做出反应的配角（每章至少1个）"
+    aliases: ["目击者", "Reactor"]
+    used_in: ["writer.step-1-design块C/块D"]
+
+  # --- 结构 ---
+  - name: "Act"
+    definition: "幕。由 M1+M2 的密度和交汇点决定的卷内结构单元"
+    aliases: ["幕", "卷内幕"]
+    used_in: ["deconstructor.T4", "plot.act-guide"]
+
+  - name: "爽点"
+    definition: "金手指×期待感→释放。分四级：微/中/大/终极"
+    aliases: ["Payoff", "高潮"]
+    used_in: ["plot.act-guide"]

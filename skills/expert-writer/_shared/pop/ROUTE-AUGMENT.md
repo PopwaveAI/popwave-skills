@@ -37,7 +37,10 @@
 | **reader_profile** | `projects[].reader_profile_ok` → 推断 `{项目}/00-总控/project.yaml` | 「读者画像在 project.yaml 的 reader_profile 字段」 |
 | **跨项目 plot 教训** | `cross_project_lessons[]` where `applicable_to` contains `plot` | 引用原文 |
 | **style_profile** | `projects[].style_profile` | 「项目风格：`{profile}`」 |
-| **拆解报告（如有参考书）** | `reference_materials.deconstructions[]` | 「该参考书的 T4(剧情全貌) / T6(叙事技法) 已存在：`{path}`」 |
+| **拆解报告（如有参考书）** | `reference_materials.deconstructions[]` | 「该参考书的 T4(剧情全貌·双主线+Act边界) / T5(叙事技法·高潮分布密度) 已存在：`{path}`」 |
+| **T4 剧情全貌（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T4 | 「该书的双主线分布/张力曲线/起点终点快照：`{path}`。作为本卷爽点分布和 Act 边界的节奏参考。」 |
+| **T5 叙事技法（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T5 | 「该书的高潮分布密度/节奏指纹：`{path}`。作为 act-guide payoff_distribution 的参考上限。」 |
+| **L1-01~06 路径（vNext 新增）** | `projects[].l1_path` 或推断 `{项目}/00-原始设定/L1-元设定层/` | 「L1 设定目录：`{path}`。Plot Step1~7 的 canvas 设计需对照此目录。」 |
 
 ### pop-novel-writer（正文写作）
 
@@ -50,7 +53,10 @@
 | **constitution 路径** | `projects[].constitution_ok` | 「宪法路径：`{path}`。本章相关条款：{提取结果}」 |
 | **style 文件路径** | `projects[].style_profile` 或 `style_profiles.writer_styles[]` | 「风格文件：`{path}`」 |
 | **跨项目 writer 教训** | `cross_project_lessons[]` where `applicable_to` contains `writing` | 引用原文（如 L002 精读闸门、L003 风格执行） |
-| **pre_read_status** | `file_registry[项目].pre_read_status` | 「精读闸门状态：verified={bool}。{note}」 |
+| **pre_read_status** | `file_registry[项目].pre_read_status` | 「精读闸门状态：verified={bool}。{note}」
+| **combat_capability（vNext 新增）** | `{项目}/数值体系/combat_capability.yaml` | 「段位战力参考：`{path}`。战斗章 chXXX-design 块D 的 beat 设计需对照对应段位的战力范围。」 |
+| **monster_rank_map（vNext 新增）** | `{项目}/数值体系/monster_rank_map.yaml` | 「怪物等级对照：`{path}`。本章涉及怪物时，需从该表读取怪物的段位和难度注释。」 |
+| **L1-04 物种与天赋（vNext 新增）** | `{项目}/00-原始设定/L1-元设定层/04-物种与天赋.md` | 「种族数据：`{path}`。本章有非人类角色出场时，预取对应种族的 traits/faction_affiliation。」 |
 
 ### pop-novel-qa（质检）
 

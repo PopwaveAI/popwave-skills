@@ -293,3 +293,47 @@ file_registry:
       verified: true
       note: "ch389修复过程中已完成精读。下次写ch391前需精读ch372-ch390。"
     structure_note: "目录命名不统一（总控/写作资产/大纲/设计 vs 00-总控/01-写作资产/02-大纲）。后续建议对齐PRD规范。"
+
+# ============================================================
+# §8 管线依赖声明（pipeline_deps）
+# expert-writer §3.1.6 管道前置校验的消费源
+# required: 缺失→停止路由 / recommended: 缺失→警告但不阻止
+# ============================================================
+pipeline_deps:
+  pop-novel-bookstrap:
+    required:
+      - "story-engine.yaml（用户已确认）"
+    recommended:
+      - "T1~T7 拆解报告（如有锚点书）"
+  pop-novel-deconstructor:
+    required:
+      - "参考书 TXT 文件"
+    recommended: []
+  pop-novel-plot:
+    required:
+      - "story-engine.yaml"
+      - "起点快照.md"
+      - "终点快照.md"
+      - "constitution.yaml"
+      - "L1-01~06（全部六件套）"
+    recommended:
+      - "T4-剧情全貌（如有参考书）"
+      - "T5-叙事技法（如有参考书）"
+  pop-novel-writer:
+    required:
+      - "act-XX.yaml"
+      - "act-XX-人物.md"
+      - "act-XX-地图.md"
+      - "constitution.yaml"
+      - "global-summary.md"
+      - "上一章正文"
+    recommended:
+      - "combat_capability.yaml（战斗章）"
+      - "monster_rank_map.yaml（涉及怪物时）"
+      - "L1-04-物种与天赋.md（非人类角色出场时）"
+  pop-novel-qa:
+    required:
+      - "constitution.yaml"
+      - "待质检正文 chXXX.md"
+    recommended:
+      - "style_profile"
