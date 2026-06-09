@@ -1,5 +1,25 @@
 # CHANGELOG — pop-novel-plot
 
+## v4.3.0 — 2026-06-09
+
+### 有向图规范（act-guide.md）
+
+从 6-9 测试暴露的三个问题（卷末阶位不一致/装备数值在段位范围外/跨文件值冲突）入手，根因诊断：项目文件是平面目录而非有向无环图。任意两个文件定义了同一概念的值时，Agent 各自独立填写，无一致性约束。
+
+**修复**：
+- **§1.5 新增：产出文件有向图规范** — 七个 Canvas 文件头部必须含 `@consumed_by` 和 `@source` 声明。不声明 `@source` 就填的数值 = 游离数据，冲突风险不可控。
+- **§4.4 act_end_state 新增 @source 列** — `protagonist.level` 必须从 `act_rank_schedule.yaml` 取值。每个 act_end_state 子字段都有明确的 @source 标注。
+- **§9 产出自检新增"值一致性"段** — 5 条跨文件校验规则（段位对齐/装备数值范围/BOSS掉落段位/情节线等级/势力卷末动态）。
+- **§6 combat 规格强化** — `capability_ref` 和 `monster_ref` 增加"填写前必须先读 combat_capability/monster_rank_map 确认数值范围"约束。
+
+### 原理
+
+项目文件构成有向无环图：
+```
+L1 → canvas(人物/地图/势力/装备/info-release) → 情节线草案 → act-XX.yaml → writer
+```
+每个节点的值必须声明来源（@source），冲突在 act-XX.yaml 的产出自检中被捕获。
+
 ## v4.1.0 — 2026-06-08
 
 ### 架构重构：SKILL.md 拆分为 steps/ + templates/
