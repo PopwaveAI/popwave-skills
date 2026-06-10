@@ -31,7 +31,9 @@ act-XX.yaml = 一卷大纲的**章级编排层**。每章以 emotional_goal + pa
 
 ## 执行
 
-按 `templates/act-guide.md` 完整填写指南逐项填写，产出 YAML 文件。
+1. 打开 `templates/act-skeleton.yaml` — 它是完整的 YAML 骨架，直接填充即可
+2. 遇到复杂字段时查阅 `templates/act-guide.md` 的字段计算公式
+3. 产出自检：见 `templates/act-guide.md §三`
 
 ### 幕级定义必须包含
 

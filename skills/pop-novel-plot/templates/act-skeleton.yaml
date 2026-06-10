@@ -1,0 +1,210 @@
+# act-XX.yaml — 幕纲 YAML 骨架
+
+> 产出路径: `设计/幕/act-XX.yaml`
+> 管线: pop-novel-plot v4.1+
+> 消费: pop-novel-chapter-design（事实骨架设计）
+>
+> 用法: 以下是完整的 YAML 骨架。把空缺的值填上即可。
+> 复杂字段（combat/dialogue/discovery/crisis）的计算方式见 `templates/act-guide.md`。
+
+---
+
+```yaml
+_meta:
+  version: "v4.3"
+  target_platform: ""             # 番茄小说|起点中文网|山海|...
+  reader_persona: ""              # 一句话读者画像
+  canvas_refs:
+    - "设计/幕/act-XX-人物.md"
+    - "设计/幕/act-XX-地图.md"
+    - "设计/幕/act-XX-势力.md"
+    - "设计/幕/info-release-XX.md"
+    - "设计/幕/情节线草案-XX.md"
+    - "设计/里程碑设计.md"
+
+act:
+  # ─── 幕级定义 ────────────────────────────────────────
+  core_conflict:
+    description: ""               # A vs B，一句话核心对抗
+    stakes: ""                    # 失败 = 失去什么
+    escalation_path: ""           # 冲突从第1章到最后一章的升级路线
+
+  goal:
+    goal: ""                      # "读者从「X」到「Y」"
+
+  tone_note: ""                   # 1-3句散文，覆盖情绪配比和节奏特点
+
+  # ─── 卷末状态（@source 字段必须在 act_rank_schedule 中有来源声明） ──────────────────
+  act_end_state:
+    protagonist:
+      level: ""                   # @source act_rank_schedule → schedule[本卷].end_rank
+      equipment_gained: []        # @source act-XX-装备.md → 装备变化清单·获得
+      equipment_lost: []          # @source act-XX-装备.md → 装备变化清单·消耗遗失
+      mental_state: ""            # @source act-XX-人物.md → 主角·卷末心理
+      key_relationship_changes: [] # @source act-XX-人物.md → 关系字段
+    world:
+      crisis_level: ""            # @source 情节线草案 → M1 本卷推进幅度
+      faction_changes: []         # @source act-XX-势力.md → 各势力卷末动态
+      revealed_info: []           # @source info-release-XX.md → P0 本卷已释放
+
+  # ─── 爽点分布 ────────────────────────────────────────
+  payoff_distribution:
+    微爽点:
+      ratio: "2:1"
+      frequency: "每章1-2个"
+      positions: []               # 不填，微爽点不记位置
+    中爽点:
+      ratio: "4:1"
+      frequency: "每4-5章1个"
+      positions: []               # 中爽点的章号数组，如 [5, 10]
+    大爽点:
+      ratio: "8-10:1"
+      frequency: "每幕2个"
+      positions: []               # 大爽点的章号数组，如 [15, 25]
+    终极爽点:
+      ratio: "20:1"
+      frequency: "幕末1个"
+      positions: [N]              # 终极爽点的章号
+
+  # ─── 情绪弧线 ────────────────────────────────────────
+  emotional_arc:
+    overview: ""                  # "起点情绪 → 中间情绪 → 终点情绪"
+    checkpoints:
+      - chapter: 1
+        emotion: ""
+        intensity: 0              # 1-10
+        hook: ""
+      - chapter: 5                # 第二个转折点...
+        emotion: ""
+        intensity: 0
+        hook: ""
+
+  # ─── 情节线定义（从情节线草案提取）────────────────────────
+  plotlines:                     # M1/M2/M3 必选，S1/S2/S3 可选
+    - id: "M1"
+      name: ""
+      desc: ""
+      expected_frequency: ""      # 每N章（描述性文本）
+      chekhov_guns:
+        - name: ""
+          setup_ch: N
+          payoff_ch: N
+          desc: ""
+    - id: "M2"
+      ...
+    - id: "M3"
+      ...
+
+  # ─── 装备变化表（可选）───────────────────────────────
+  equipment_flow:
+    - item: ""
+      chapter: N
+      action: ""                  # 获得|消耗|升级|遗失
+      significance: ""
+
+# ─── 章级切片（20-30章） ──────────────────────────────
+chapters:
+
+  # ════════════════════════════════════════════════════
+  # 章节 1 — 参考示例
+  # ════════════════════════════════════════════════════
+  - ch: 1
+    title: ""
+    word_count: 2500
+
+    # ─── 情绪设计 ──────────────────────────────────
+    emotional_goal: ""            # 本章想让读者感受到什么
+    payoff:
+      type: ""                    # 微|中|大|终极
+      trigger: ""                 # 爽点触发方式
+      reader_feeling: ""          # 读者获得什么
+    reader_emotion_path:          # [起点, 中间, 终点]
+      - ""
+      - ""
+      - ""
+
+    # ─── 钩子 ──────────────────────────────────────
+    end_hook:
+      type: ""                    # 悬念|信息|情绪
+      drive: ""                   # 驱动力
+      content: ""                 # 钩子内容
+
+    # ─── 情节线推进 ──────────────────────────────────
+    plotlines_active: []          # 推进了哪些线（填 plotlines.id）
+    chekhov_set: []               # 格式：{线id}.{枪名}
+    chekhov_fire: []              # 格式：{线id}.{枪名}
+
+    # ─── 里程碑 ────────────────────────────────────
+    milestone_active: ""          # MK 编号，可为空
+    milestone_progress: ""        # start|mid|complete
+
+    # ─── 信息释放 ──────────────────────────────────
+    info_release: []
+      # - item_id: ""
+      #   title: ""
+      #   source_doc: ""           # L1 设定文件路径
+      #   release_method: ""       # 实战展示|角色对话|叙事者说明|探索发现
+      #   density: ""              # 集中爆发|均匀撒放|埋伏笔
+      #   priority: ""             # P0|P1
+      #   chapter_context: ""      # 在本章哪个场景释放
+
+    # ─── Canvas 消费 ──────────────────────────────────
+    characters_active: []         # 登场角色名（必须在 act-XX-人物.md 中存在）
+    locations: []                 # 发生地点名（必须在 act-XX-地图.md 中存在）
+
+    # ─── 场景规格（按场景类型选填） ────────────────────
+    # ★ 战斗章：
+    # combat:
+    #   scale: ""                  # boss战|碾压战|苦战|遭遇战|逃亡战|围剿战
+    #   purpose: ""
+    #   result: ""                 # 完胜|惨胜|败退|被救|敌人撤退|中断
+    #   reward: ""
+    #   capability_ref: ""
+    #   monster_ref: ""
+
+    # ★ 对话/谈判章：
+    # dialogue:
+    #   relation: ""
+    #   stakes: ""
+    #   result: ""
+    #   reward: ""
+
+    # ★ 探索/发现章：
+    # discovery:
+    #   what: ""
+    #   how: ""
+    #   world_expands: ""
+    #   new_options: ""
+
+    # ★ 危机卷入章：
+    # crisis:
+    #   threat: ""
+    #   scale: ""
+    #   cannot_escape_because: ""
+    #   cost_of_involvement: ""
+
+  # ════════════════════════════════════════════════════
+  # 章节 2 — 填空起点
+  # ════════════════════════════════════════════════════
+  - ch: 2
+    title: ""
+    word_count: 2500
+    emotional_goal: ""
+    payoff:
+      type: ""
+      trigger: ""
+      reader_feeling: ""
+    reader_emotion_path: ["", "", ""]
+    end_hook:
+      type: ""
+      drive: ""
+      content: ""
+    plotlines_active: []
+    chekhov_set: []
+    chekhov_fire: []
+    milestone_active: ""
+    milestone_progress: ""
+    info_release: []
+    characters_active: []
+    locations: []
+```
