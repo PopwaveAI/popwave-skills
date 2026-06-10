@@ -218,6 +218,7 @@ pipeline:
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
 | **继续前进** | 「继续」「继续任务」「继续写」「下一章」「往下写」「接受目前的方案」「可以」 | —（无固定审视框架，直接读 progress 判定路由） | 读 workspace-index.yaml#progress → 根据 last_completed_skill / next_skill / checkpoints 路由到对应子 skill → 如无进度数据，回退到项目状态扫描（bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render） |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
+| **问题追溯** | 「为啥没了」「哪里出问题了」「这段不对」「逻辑矛盾」「角色没了」 | — | 无需固定审视框架。根据用户指出的具体问题，自行回溯上游数据做根因定位（实体状态追踪、角色出场日志、事件链检查、设定一致性比照等），定位到根因 Skill 后按 §5 修改路由执行修复。最后告知用户找到了什么原因、修了什么。 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
 | **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → chapter-design → prose-render |
 | **调研获取** | 「调研」「查一下」「最近什么火」 | — | cnovel-research / book-opinion-tracker → 完成后问是否进入创作 |
@@ -358,6 +359,11 @@ L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
       - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
       - entity-snapshot.protagonist.status 与最新章 delta 一致？→ 不一致则 P1
       - （详细规则见 references/reflection.md §状态协议专项检查）
+    □ **Read 完整性追溯检查（NEW）**：
+      - 回顾本轮 conversation 中是否 Read 过 skill 目录中的文档型文件（SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md 等）
+      - 若有：检查那些 Read 返回的最后一行行号——是否存在行号 ≈250（接近限制上限）且**没有继续 offset 续读**的情况？
+      - 如果是 → P1 警告："疑似文件被截断未续读。文件最后行号为 {N}，可能只读取了部分内容。建议重新 Read 并续读完整。"
+      - 如果本轮没有 Read 任何 skill 文件，但任务涉及到写正文/修改设定等需要子 skill 指令的操作 → P2 警告："本轮未 Read 任何子 skill 文件，可能依赖旧上下文执行。"
     □ **管线进度更新**：
       - 子 skill 完成最后一 phase 后 → 回写 workspace-index.yaml#progress：
         last_completed_skill: {当前 skill 名}
