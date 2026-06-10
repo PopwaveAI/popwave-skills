@@ -120,8 +120,15 @@ pop-dna/
 ├── skill.json
 ├── templates/
 │   └── style-dna-profile.md
-├── examples/
-    └── 深渊-文风DNA档案.md   ← v1 旧版
+├── style/                    ← 文风DNA档案库（每书1文件）
+│   ├── 深渊主宰-文风DNA档案-v3.md
+│   ├── 吞噬星空-文风DNA档案.md
+│   ├── 遮天-文风DNA档案.md
+│   └── 龙符-文风DNA档案.md
+└── examples/
+    ├── 深渊-文风DNA档案.md      ← v1 旧版（参考）
+    ├── 深渊-文风复刻提示词.md
+    └── 深渊-试写验证.md
 ```
 
 ---
