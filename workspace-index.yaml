@@ -9,9 +9,9 @@
 
 workspace_root: "C:\\Users\\AWMPRO\\AppData\\Roaming\\paopao\\paopao-workspace\\projects\\未命名项目-3"
 skill_root: "d:\\popwave-skills"
-last_scan: "2026-06-08T18:30"
-version: "1.0"
-schema_version: "1.0"
+last_scan: "2026-06-10"
+version: "2.0"
+schema_version: "2.0"
 
 # ============================================================
 # 一、项目列表
@@ -76,7 +76,7 @@ projects:
     anchor_library_ok: false
     last_modified: "2026-06-10"
     status: "active"
-    notes: "新书启动项目。bookstrap+plot已完成。幕1（15章）已设计完毕，进入chapter-design阶段。参考书=深渊主宰。"
+    notes: "新书启动项目。bookstrap+plot已完成。幕1（15章）已设计完毕，进入chapter-design阶段。参考书=深渊主宰。L3角色卡已补全（索伦主角卡+重要配角）。"
 
 # ============================================================
 # 二、参考素材库（跨项目可用）
@@ -311,6 +311,12 @@ file_registry:
       - path: "00-总控/entity-snapshot.yaml"
         type: "state"
         version: 1
+      - path: "02-大纲/L3-角色层/索伦-主角卡.md"
+        type: "character_design"
+        version: 1
+      - path: "02-大纲/L3-角色层/重要配角.md"
+        type: "character_design"
+        version: 1
     active:
       - path: "03-写作资产/"
         type: "design_output"
@@ -432,3 +438,164 @@ progress:
     act-XX-yaml_exists: true
     canvas_exists: true
     正文_exists: false
+
+# ============================================================
+# 十、管线蓝图（pipeline_blueprint）
+# 专家模式全链路文件依赖图的压缩版。
+# agent 在 Think 阶段读取此处了解管线全貌，无需逐文件扫描。
+# 完整版 → prd/写作专家全链路文件依赖图-PRD.md
+# ============================================================
+pipeline_blueprint:
+  doc_ref: "prd/写作专家全链路文件依赖图-PRD.md"
+
+  stages:
+    - skill: "pop-novel-deconstructor"
+      order: 0
+      type: "optional"             # 只有有参考书时才走
+      trigger: "拆解参考书"
+      input: ["参考书 TXT"]
+      output: ["拆书成果-{书名}/T1~T6", "卷1起点/终点快照"]
+      gates: ["锚定章确认"]
+
+    - skill: "pop-novel-bookstrap"
+      order: 1
+      type: "required"
+      trigger: "开书 / 续写"
+      input: ["story-engine.yaml (用户口述)", "deconstructor 拆书成果 (如有)"]
+      output: ["L1-01~06", "constitution.yaml", "project.yaml",
+               "combat_capability/monster_rank_map/act_rank_schedule/collision_curve",
+               "起点快照.md", "终点快照.md", "角色卡"]
+      gates: ["story-engine确认", "起点快照确认", "终点快照确认"]
+      key_phases: ["Phase 0(引擎)", "Phase 1(L1骨架)", "Phase 1.2(深度)", "Phase 5(数值)", "Phase 6/7(快照)"]
+
+    - skill: "pop-novel-plot"
+      order: 2
+      type: "required"
+      trigger: "设计剧情 / 规划大纲"
+      input: ["story-engine.yaml", "起点/终点快照", "constitution.yaml", "L1-01~06", "数值体系x4"]
+      output: ["设计/卷/volume-XX.md", "设计/幕/act-XX.yaml", "info-release-XX.md"]
+      gates: ["卷确认", "场景卡确认"]
+
+    - skill: "pop-novel-chapter-design"
+      order: 3
+      type: "required"
+      trigger: "设计章纲"
+      input: ["act-XX.yaml", "volume-XX.md", "info-release", "entity-snapshot", "constitution"]
+      output: ["03-写作资产/chXXX-设计包.md (骨架+人物卡)", "entity-snapshot更新"]
+      gates: []
+
+    - skill: "pop-novel-prose-render"
+      order: 4
+      type: "required"
+      trigger: "写正文"
+      input: ["设计包.md", "文风DNA", "constitution"]
+      output: ["正文/chXXX.md"]
+      gates: []
+
+    - skill: "pop-novel-qa"
+      order: 5
+      type: "required"
+      trigger: "质检 / 审稿"
+      input: ["constitution.yaml", "chXXX.md"]
+      output: ["QC报告 (不存盘)"]
+      gates: []
+
+  # 快速交叉引用：文件被哪些 stage 消费
+  cross_ref:
+    constitution.yaml: [plot, chapter-design, prose-render, qa]
+    story-engine.yaml: [bookstrap, plot]
+    act-XX.yaml: [chapter-design, qa]
+    entity-snapshot.yaml: [chapter-design, expert-writer Reflect]
+    文风DNA: [prose-render]
+
+# ============================================================
+# 十一、需求日志（requirements）
+# 跟踪用户提出的所有核心需求。按项目分组。
+# status: pending → confirmed → implemented / modified / dropped
+# ============================================================
+requirements:
+
+  6-10项目测试:
+    - id: "REQ-001"
+      content: "基于深渊主宰写同人，主角不变"
+      status: "implemented"
+      source: "2026-06-10T08:32"
+      resolved_at: "2026-06-10T09:57"
+      note: "story-engine.yaml 版本 2 已确认"
+    - id: "REQ-002"
+      content: "新增外神入侵作为主线（克苏鲁不可名状）"
+      status: "implemented"
+      source: "2026-06-10T13:30"
+      resolved_at: "2026-06-10T14:20"
+      note: "外神入侵-表现体系.md + L1 六件套被外神线重新改写"
+    - id: "REQ-003"
+      content: "数值体系补齐（combat/monster/act/collision）"
+      status: "implemented"
+      source: "2026-06-10T14:09"
+      resolved_at: "2026-06-10T14:20"
+    - id: "REQ-004"
+      content: "角色的角色卡太浅薄 —— 没有成长曲线和能力分级"
+      status: "pending"
+      source: "2026-06-10T23:20"
+    - id: "REQ-005"
+      content: "大纲没有 Canvas 矩阵导致无法检查剧情节奏"
+      status: "implemented"
+      resolved_at: "2026-06-10T23:50"
+      note: "pop-novel-plot v6.0.0 新增 act-XX.yaml#canvas 矩阵"
+
+  未命名项目:
+    - id: "REQ-B-001"
+      content: "基于深渊主宰写同人——主角不变，新增外神线大幅提前为主线"
+      status: "implemented"
+      source: "2026-06-10T13:30"
+      resolved_at: "2026-06-10T14:40"
+    - id: "REQ-B-002"
+      content: "平台考虑番茄 —— 需要节奏加速"
+      status: "implemented"
+      source: "2026-06-10T13:45"
+
+# ============================================================
+# 十二、变更日志（change_log）
+# 语义级 git log。由 expert-writer Reflect L1 在每次 skill 完成后自动追加。
+# 只记录状态变更、产出、需求变更、回滚等有意义的事件。
+# ============================================================
+change_log:
+
+  6-10项目测试:
+    - id: "LOG-001"
+      at: "2026-06-10T08:53"
+      skill: "pop-novel-bookstrap"
+      type: "root_cause"
+      summary: "发现 Read 截断 bug: SKILL.md 只读到 22%，丢失 3 个 Phase 的指令"
+    - id: "LOG-002"
+      at: "2026-06-10T09:29"
+      skill: "expert-writer"
+      type: "user_action"
+      summary: "回滚 L1 六件套 → 重构，追加外神线改为深度融合（v2.5.0 §0.1 元纪律生效前）"
+    - id: "LOG-003"
+      at: "2026-06-10T10:56"
+      skill: "expert-writer"
+      type: "user_action"
+      summary: "清空全部正文 → 后续重写 ch001~ch006"
+    - id: "LOG-004"
+      at: "2026-06-10T11:18"
+      skill: "pop-novel-prose-render"
+      type: "produce"
+      summary: "产出 ch001 正文（雨夜的裂缝），14 个骨架事件 × 文风DNA，风格验证通过"
+
+  skill_changes:
+    - id: "LOG-S-001"
+      at: "2026-06-10T22:00"
+      skill: "expert-writer"
+      version: "v2.5.0→v2.6.0"
+      summary: "新增动态融合检查 + 大环节转换自检"
+    - id: "LOG-S-002"
+      at: "2026-06-10T23:00"
+      skill: "pop-novel-character-schema"
+      version: "v1.0.0"
+      summary: "新建 skill: 角色卡 Lv1~Lv4 分级标准 + 弧线指南"
+    - id: "LOG-S-003"
+      at: "2026-06-10T23:50"
+      skill: "pop-novel-plot"
+      version: "v5.0.0→v6.0.0"
+      summary: "卷/幕分层重构 + Canvas 矩阵(章节×剧情线交叉表) + 势力动机"

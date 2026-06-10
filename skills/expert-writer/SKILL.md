@@ -116,6 +116,19 @@ pipeline:
    → 按 applicable_to 标签匹配当前任务意图
    → 匹配到的教训 → 在 Think 阶段主动提示用户
    → 例：用户说"续写海贼法典" → 自动提示 L002（精读倒数20章）
+
+⑤ ★ 需求与文件状态感知（NEW v2.7 — workspace-index v2.0）
+   → 读 requirements[{项目}]：
+     - 有 status=pending 的需求 → Think 阶段提醒："上次提出了但还没处理的需求：{清单}"
+     - 有 status=implemented 的需求 → 确认已满足，不出提示
+   → 读 file_registry[{项目}]：
+     - 有 status=stale 的文件 → P1 提醒："以下文件因需求变更标记为过期，建议重写：{清单}"
+     - 有 deprecated 文件 ≥10 个 → 完成后引导时提示清理
+   → 读 pipeline_blueprint：
+     - 将 pipeline_blueprint.stages 作为当前会话的全局管线心智模型
+     - Think 做路由决策时对照 blueprint 确认当前环节的上游/下游
+     - 不在 blueprint 中的路由目标 → 口头告知用户"不在标准管线中"
+   → 读 change_log.pending 条目（如有）→ 确认上轮是否有未收尾事件
 ```
 
 **3.0.2 项目锚定**
@@ -476,6 +489,16 @@ L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
           next_skill: "pop-novel-plot"
           checkpoints.起点快照_confirmed: true
           checkpoints.终点快照_confirmed: true
+    □ **★ 变更日志回写（NEW v2.7 — workspace-index v2.0）**：
+      - 每次子 skill 执行完成后，向 workspace-index.yaml#change_log[{项目}] 追加一条记录
+      - 格式：id: "LOG-{递增编号}" | at: {ISO时间} | skill: {子skill名} | type: {produce|fix|user_action|root_cause} | summary: {1行描述}
+      - 示例："产出 ch001 正文（雨夜的裂缝），风格验证通过" → type: produce
+      - 示例："用户要求清空全部正文并重做" → type: user_action
+      - **不追加重复条目** — 如果上一轮已记录同一事件，不重复
+    □ **★ 需求状态更新（NEW v2.7）**：
+       - 如果本轮产出直接解决了某个 pending 需求 → 回写 requirements[{项目}][{id}].status = "implemented"
+       - 如果用户在本轮追加了新需求 → 追加一条 requirements[{项目}] 条目（status="pending" 或 "confirmed"）
+       - 已有的 implemented 需求 → 不出提示，除非用户说"这个需求变了我改主意了"
     ↓ 通过
 
 L2 ─ 一致性检查
