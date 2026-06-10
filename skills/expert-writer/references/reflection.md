@@ -1,7 +1,7 @@
-# reflection.md — 通用反思检查
+# reflection.md — 四层递进审视
 
-> 适用时机：任何子 skill 执行完成后，审视产出。
-> 不分场景，所有路由返回后执行一次。
+> 适用时机：任何子 skill 执行完成后，审视产出。不分场景，所有路由返回后执行一次。
+> 加载方式：`Get-Content -Encoding UTF8 -Raw`，不用 Read 工具。
 
 ---
 
@@ -24,8 +24,6 @@
 
 ## 风险标记规则
 
-发现盲点后，按优先级标记：
-
 | 优先级 | 含义 | 行动 |
 |:------|:-----|:------|
 | P0 | 不改会出大问题 | 立刻退回，通知用户 |
@@ -34,34 +32,110 @@
 
 ---
 
-## 状态协议专项检查（v2 — Writer 执行后强制）
+## L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
 
-> 如果当前任务涉及 Writer（正文写作），在通用检查后追加此节。
+```
+□ 产出物文件是否在正确位置？
+□ 文件名格式合规？
+□ 越界写入 → 移至正确位置
+□ **索引回写（写 workspace-index.yaml）**：
+  - 新产出文件 → 注册到 file_registry[项目].active（含 type/version）
+  - 版本变更 → 旧版本移至 deprecated，填写 replaced_by
+  - 依赖关系 → 填写 depends_on 字段
+□ **运行时状态更新**：
+  - runtime.last_session → 更新为 {项目, 任务, 完成状态, 时间戳}
+  - 本轮触发的新经验教训 → 追加到 cross_project_lessons
+□ **项目状态更新**（如有变化）：
+  - projects[].current_chapter / current_act 按实际情况更新
+  - 如果有副本章节（v1/v2/v3）→ 标记各版本的 status
+  - pre_read_status.verified → 本轮若执行了精读流程，设为 true
+□ **★ 项目首次配置完备化（NEW v2.7 — 项目启动时执行一次）**：
+  - 触发时机：bookstrap Phase 3 产出 project.yaml 后（项目具备独立身份）
+  - 检查 requirements[{项目}] 是否已存在：
+    - 不存在 → 创建空列表，仅含一条初始条目
+    - 已存在 → 跳过（只初始化一次）
+  - 检查 change_log[{项目}] 是否已存在：
+    - 不存在 → 创建初始记录
+    - 已存在 → 跳过
+  - 检查 file_registry[{项目}] 是否已存在：
+    - 不存在 → 注册 project.yaml + constitution.yaml 到 confirmed
+□ **状态协议校验**：
+  - entity-snapshot.yaml 是否存在？→ 不存在则 WARN
+  - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
+  - entity-snapshot.protagonist.status 与最新章 delta 一致？→ 不一致则 P1
+  - （详细规则见 §状态协议专项检查）
+□ **文件加载完整性检查**：
+  - 回顾本轮 conversation 中是否用 `Get-Content -Encoding UTF8 -Raw` 加载过子 skill 的文档型文件
+  - 如果没有但本轮任务涉及写正文/修改设定等需要子 skill 指令的操作 → P2 警告
+□ **管线进度更新**：
+  - 子 skill 完成最后一 phase 后 → 回写 workspace-index.yaml#progress
+□ **★ 变更日志回写（v2.7）**：
+  - 每次子 skill 执行完成后追加 workspace-index.yaml#change_log 记录
+  - 格式：id/at/skill/type/summary
+  - 不追加重复条目
+□ **★ 需求状态更新（v2.7）**：
+  - pending 需求被本轮解决 → status="implemented"
+  - 用户追加新需求 → 追加 requirements 条目
+```
+
+## L2 ─ 一致性检查
+
+```
+□ 产出与上游设定/宪法/幕纲一致？
+  - prose-render 正文是否违反 constitution.yaml？
+  - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
+□ entity-snapshot 与 constitution 一致？
+  - entity-snapshot 中角色状态是否违反 constitution 的约束？
+  - 例：constitution 说"主角在 Act 1 结束时不超过 3阶"，entity-snapshot 显示 4阶 → P1
+□ 如果有偏离 → 记录偏离项和严重程度，返回用户判断
+```
+
+## L3 ─ 质量检查（QA 报告判断）
+
+```
+□ 如果子 skill 是 prose-render → 过 pop-novel-qa 质检
+□ 读取 QA 报告结论：
+  - "想跳过"≥2 或 "会弃书" → 标记 P0，退回 prose-render 重写
+  - 无红线 → 通过
+```
+
+## L4 ─ 活人感检查（可选，高优章节启用）
+
+```
+读一段产出正文，判断：
+□ 读起来像人在讲故事，还是 AI 在汇报剧情？
+□ 有没有"他感到/他仿佛/他意识到"等 AI 观感词？
+□ 有没有"首先其次""总结来说"等套话句式？
+□ 对话听起来像真人在说话，还是像角色在念设定？
+
+不通过 → 标注问题段落，退回 prose-render 局部重写。
+```
+
+---
+
+## 状态协议专项检查（v2 — Writer 执行后强制）
 
 ### Delta→全量快照一致性校验
 
 ```
 □ entity-snapshot.yaml 是否存在？
-   → 不存在：WARN — "Writer 产出未生成 entity-snapshot.yaml。需执行聚合。"
+   → 不存在：WARN
 
 □ 章文件数量 vs entity-snapshot._meta.total_chapters 是否一致？
-   → 不一致：P0 — "章文件有 {N} 个，entity-snapshot 声称 {M} 章。快照过时或未正确聚合。"
+   → 不一致：P0
 
-□ entity-snapshot.protagonist.status 是否与最新章 delta 中的 protagonist 条目一致？
-   → 不一致：P1 — "entity-snapshot 记录的主角状态与最新章末 delta 不匹配。可能未执行 Step 3.3 聚合。"
+□ entity-snapshot.protagonist.status 是否与最新章 delta 一致？
+   → 不一致：P1
 
 □ entity-snapshot 中各角色的 key_items 合并是否去重完整？
-   → 有重复：P2 — 记录，不影响当前继续，但下次聚合时注意去重。
-
-□ entity-snapshot.timeline 与最新章的 world_updates 是否一致？
-   → 不一致：P1 — 时间线滞后于实际写作进度。"
+   → 有重复：P2
 ```
 
-### Constitution 一致性校验（新增）
+### Constitution 一致性校验
 
 ```
 □ entity-snapshot.protagonist.rank 是否在 constitution 允许的段位范围内？
-   → 超出：P1 — 触发修正建议，不强制退回。
+   → 超出：P1
 
 □ entity-snapshot 中任意角色 status=死亡 是否符合 constitution 或 plot 的规划？
    → 意外死亡：P0 — 退回 writer 确认。

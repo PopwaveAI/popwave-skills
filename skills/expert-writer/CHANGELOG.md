@@ -1,5 +1,14 @@
 # CHANGELOG — expert-writer
 
+## v3.0.0 (2026-06-10)
+
+- **SKILL.md 瘦身：21K → 9K**（-57%），每次 Paopao 注入节省 12K 上下文窗口
+- **5 个 references/ 文件提取**：reflection(L1-L4 审视) / dynamic-fusion(动态融合) / completion-guide(完成后引导) / pipeline-check(管道校验) / typical-paths(典型路径)
+- **加载协议统一**：所有 reference 文件用 `Get-Content -Encoding UTF8 -Raw` 加载，同行标注"不用 Read 工具"
+- **SKILL.md 保留骨架**：纪律/身份声明/Skill清单/路由表/工作流三步/修改路由 — 所有核心指令一律保留
+- **references/reflection.md 合并**：原有 68 行 + SKILL.md L1-L4 审视清单 → 完整四层审视
+- **新增 references/**：completion-guide.md, dynamic-fusion.md, pipeline-check.md, typical-paths.md
+
 ## v2.6.0 (2026-06-10)
 
 - **动态融合检查（Think 第二步·A）**：追加核心设定后禁止打补丁。逐文件重新审视 L1 六件套每个字段，决定被新设定深度改写/不变/新建子段
