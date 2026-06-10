@@ -26,7 +26,8 @@ pipeline:
 | 0.5 | **用户需求无法匹配路由表** | Think 阶段发起追问补全信息，不强行路由到不匹配的 skill |
 | 0.6 | **审视框架文件缺失** | 跳过该框架，使用通用审视逻辑继续。告知用户缺失情况 |
 | 0.7 | **路由后未 Invoke 子 skill** | **路由到子 skill 后必须先调用 Skill 工具加载其完整 SKILL.md。不 Invoke 不执行。跳过 Invoke 直接动手 → 退回重新 Invoke** |
-| 0.8 | **子 skill 的 steps/*.md 加载不完整** | Read 子 skill SKILL.md 后必须再 Read 该 skill 的全部 steps/*.md。若 Read 工具输出被截断（未到文件末尾）→ 用 offset 参数续读，直到全部内容加载完毕。禁止以截断的指令执行。 |
+| 0.8 | **Skill 目录中的文档文件被截断** | Skill 目录中的所有文档型文件（SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md、README.md 等），只要 Read 了就必须读完整。由于 Read 工具有行数限制（约250行），文件只返回了前半段。**检测与续读方法（通用）：每次 Read 后检查最后一行行号——如果行号为 ~250（接近限制上限），则很可能被截断。必须用 offset 参数发起第二轮 Read 确认：`Read(path, offset=200)`。如果返回内容从行号 200+ 开始且有内容 → 确认被截断，继续 offset=400/600 分段读取直到返回为空 → 确认已读完。** 禁止以截断的内容执行后续操作。 |
+| 0.9 | **路由执行前未验证子 skill 文件完整性** | 在 §3.2 第①步执行后、第③步执行前，增加文件完整性验证：确认 context 中该子 skill 的**所有已 Read 的文档型文件**（SKILL.md、steps/*.md、templates/*.md 等）已完整读入、未被截断。不完整 → 退回重新 Read 续读，补全后再继续。|
 
 ---
 
@@ -194,7 +195,8 @@ pipeline:
 ```
 当本轮 intent 与上一轮不同（诊断→写作 / 修订→写作 / 补全→写作 / 开书→写正文）：
   □ 重新进入完整 Think 流程——不得因"已有相似产出"跳过
-  □ 重新 Read 目标子 skill 的 SKILL.md + 全部 steps/*.md
+  □ 重新 Read 目标子 skill 的 SKILL.md + 全部文档型文件（steps/*.md、phases/*.md、templates/*.md 等）
+  □ 每次 Read 后检查行号前缀的最后一行：若行号小于文件实际行数 → 用 offset 续读补全
   □ 重新验证前置条件（管线前置校验 §3.1.6）
   □ 理由：任务类型切换意味着管线上下文完全不同。上一轮的捷径
     （如 "design文件已存在，直接写" / "已读过act-01.yaml，不用再读writer SKILL.md"）
@@ -214,7 +216,7 @@ pipeline:
 |:-----|:---------|:---------|:---------|
 | **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → chapter-design → prose-render → qa |
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
-| **继续前进** | 「继续」「下一章」「往下写」「接受目前的方案」「可以」 | `think-正文写作.md` | 执行项目状态扫描 → 根据扫描结果路由：bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render |
+| **继续前进** | 「继续」「继续任务」「继续写」「下一章」「往下写」「接受目前的方案」「可以」 | —（无固定审视框架，直接读 progress 判定路由） | 读 workspace-index.yaml#progress → 根据 last_completed_skill / next_skill / checkpoints 路由到对应子 skill → 如无进度数据，回退到项目状态扫描（bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render） |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
 | **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → chapter-design → prose-render |
@@ -285,12 +287,17 @@ pipeline:
    constitution.yaml ........... ✅ 存在
    ... 逐项检查完毕
 
-③ 逐项检查 recommended 文件（如存在则标注可用，缺失不阻止）：
+③ 子 skill 文件完整性检查（NEW）：
+    → 确认已 Read 当前路由目标子 skill 的完整 SKILL.md + 全部文档型文件（未被截断）
+    → 不完整 → ⚠️ 标记 "子skill指令文件不完整，无法安全路由"
+       退回 §0.8 协议补全后再校验
+
+④ 逐项检查 recommended 文件（如存在则标注可用，缺失不阻止）：
    combat_capability.yaml ...... ⚠️ 未找到（战斗章建议生成）
    entity-snapshot.yaml ........ ✅ 可用（快照存在且章数一致）
    T5-叙事技法.md .............. ✅ 可用（已注入增强信息）
 
-④ 输出校验报告：
+⑤ 输出校验报告：
    ✅ 全部 required 通过 → 进入 §3.2 Execute
    ❌ 有 required 缺失 → 告知用户缺什么文件、来自哪个上游 Skill
    ⚠️ recommended 缺失 → 告知但不阻止，标注"缺少此数据可能影响质量"
@@ -303,14 +310,17 @@ pipeline:
 ```
 ① 确认目标 skill 的 SKILL.md 可读
    → 不可读 → 走 §0.1 协议（报错终止，不静默跳过）
-② 确认前置条件满足
+② 子 skill 文件完整性验证（NEW — 见 §0.9）
+    → 检查 context 中该子 skill 的 SKILL.md + 其他已 Read 的文档型文件是否完整（未被截断）
+    → 不完整 → 退回重新 Read 续读，补全后再继续
+③ 确认前置条件满足
    → 不满足 → 走 §0.4 协议（告知用户，不强行路由）
-③ 必须调用 Skill 工具加载子 skill 的完整流程
+④ 必须调用 Skill 工具加载子 skill 的完整流程
    → 在读取子 skill 的 SKILL.md 之前，先调用 Skill(name="{子skill id}") 加载其完整指令
    → 未调用直接动手 → 走 §0.7 协议（退回重新 Invoke）
-④ 子 agent 可用时走子 agent
+⑤ 子 agent 可用时走子 agent
    → 不可用 → 走 §0.2 协议（声明后手动执行）
-⑤ 异常先告知用户，再继续或终止（§0.3）
+⑥ 异常先告知用户，再继续或终止（§0.3）
 ```
 
 **决策点闸门** — 子 skill 中需要用户确认才能继续的拦截点：
