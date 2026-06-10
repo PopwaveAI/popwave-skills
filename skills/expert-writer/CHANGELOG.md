@@ -1,5 +1,26 @@
 # CHANGELOG — expert-writer
 
+## v2.5.0 (2026-06-10)
+
+- **路由前强制加载协议**：路由到任何子 skill 前无条件加载 4 项（子 skill SKILL.md + 全部文档文件 + 项目 YAML + 文风DNA）
+- **去掉条件判断**：v2.3 "任务类型切换检查" 要求 agent 判断 intent 是否变化 → agent 判断失误极高（"都是写正文"→跳过）。v2.5 改为无条件加载，不依赖 agent 自觉
+- **写为路由前置条件**：不加载 = 路由失败，agent 会被卡住，必须补加载才能继续
+- **明确禁令**：禁止以"之前读过"、"我记住了"、"不需要"为理由跳过加载
+- **"继续前进"路线更新**：执行路径第一条改为"先强制加载，再读进度判定路由"
+- **Reflect 文件加载检查同步更新**
+
+## v2.4.0 (2026-06-10)
+
+- **读文件方式重构**：禁止使用 Read 工具读取子 skill 文档文件和 YAML 文件
+- **全量改用 exec + Get-Content -Encoding UTF8 -Raw** — 彻底解决 Read 截断 bug
+- **覆盖范围扩展**：SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md、README.md、*.yaml、*.yml
+- **§0.8 重写**：从"Read+检查行号+offset续读"改为"优先 exec 完整加载"+"仅 >25K 文件回退 Read+offset"
+- **§0.9 重写**：路由前文件完整性验证适配新方法
+- **Think §3.1.6 ③ 更新**：管道前置校验升级为全量 Get-Content 验证
+- **Reflect 检查更新**：行号追溯检查替换为 Get-Content 加载完整性检查
+- **证据**：6-10项目测试 42 次 run 全部命中 Read 截断，最大仅返回 2,416 字符
+- **exec stdout 上限**：~30,000 字符，所有 SKILL.md（最大 17K）和 YAML 文件均可完整读取
+
 ## v1.0.0 (2026-06-04)
 
 - **首次发布**：V1 写作专家元 Skill

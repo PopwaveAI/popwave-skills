@@ -1,7 +1,7 @@
 ---
 name: expert-writer
 description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect 三层工作流。自动识别创作意图并路由子 Skill，集成修改路由（三层联动影响评估）、决策点闸门（人必须在场的拦截点）、完成后引导（基于项目文件状态的跨轮引导）。
-version: 2.3.0
+version: 2.5.0
 pipeline:
   upstream: []
   downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker]
@@ -19,15 +19,15 @@ pipeline:
 
 | # | 场景 | 强制行为 |
 |:-:|:-----|:---------|
-| 0.1 | **子 skill SKILL.md 找不到** | **必须**输出 `❌ [SKILL_ID] SKILL.md 不存在于预期路径。路径: {实际路径}` 并**终止当前操作**，告知用户路径不可用。**禁止静默跳过** |
-| 0.2 | **子 agent 不可用** | **必须**输出 `⚠️ 子 agent 不可用，master 手动执行` **声明在前**，才可手动执行。**禁止不声明直接干** |
-| 0.3 | **异常/失败** | **必须**通知用户，说明原因 + 可操作的下一步建议。**绝不允许静默跳过或强行路由** |
-| 0.4 | **前置条件缺失**（文件/依赖不存在） | 告知用户缺失项，建议补全后再路由。不直接跳过 |
-| 0.5 | **用户需求无法匹配路由表** | Think 阶段发起追问补全信息，不强行路由到不匹配的 skill |
-| 0.6 | **审视框架文件缺失** | 跳过该框架，使用通用审视逻辑继续。告知用户缺失情况 |
-| 0.7 | **路由后未 Invoke 子 skill** | **路由到子 skill 后必须先调用 Skill 工具加载其完整 SKILL.md。不 Invoke 不执行。跳过 Invoke 直接动手 → 退回重新 Invoke** |
-| 0.8 | **Skill 目录中的文档文件被截断** | Skill 目录中的所有文档型文件（SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md、README.md 等），只要 Read 了就必须读完整。由于 Read 工具有行数限制（约250行），文件只返回了前半段。**检测与续读方法（通用）：每次 Read 后检查最后一行行号——如果行号为 ~250（接近限制上限），则很可能被截断。必须用 offset 参数发起第二轮 Read 确认：`Read(path, offset=200)`。如果返回内容从行号 200+ 开始且有内容 → 确认被截断，继续 offset=400/600 分段读取直到返回为空 → 确认已读完。** 禁止以截断的内容执行后续操作。 |
-| 0.9 | **路由执行前未验证子 skill 文件完整性** | 在 §3.2 第①步执行后、第③步执行前，增加文件完整性验证：确认 context 中该子 skill 的**所有已 Read 的文档型文件**（SKILL.md、steps/*.md、templates/*.md 等）已完整读入、未被截断。不完整 → 退回重新 Read 续读，补全后再继续。|
+| 0.1 | **子 skill 文档文件读取（元纪律 — 优先级高于一切）** | **禁止使用 Read 工具读取子 skill 的文档型文件和 YAML 文件。** 改为统一用 exec 工具执行 `Get-Content -Encoding UTF8 -Raw` 读取。覆盖范围：SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md、README.md、*.yaml、*.yml。**原因**：Read 工具有固定的输出截断 bug（6-10项目42次run全部命中，最大仅返回2,416字符），而 exec 工具的 stdout 捕获上限为 ~30,000 字符，足以读取任何 SKILL.md（最大 17K）和项目 YAML 文件。**仅当文件字符数 > 25,000（通过 Get-Content 后 Measure-Object -Character 确认）时**，才回退到 Read 工具 + offset 分段读取。|
+| 0.2 | **子 skill SKILL.md 找不到** | **必须**输出 `❌ [SKILL_ID] SKILL.md 不存在于预期路径。路径: {实际路径}` 并**终止当前操作**，告知用户路径不可用。**禁止静默跳过** |
+| 0.3 | **子 agent 不可用** | **必须**输出 `⚠️ 子 agent 不可用，master 手动执行` **声明在前**，才可手动执行。**禁止不声明直接干** |
+| 0.4 | **异常/失败** | **必须**通知用户，说明原因 + 可操作的下一步建议。**绝不允许静默跳过或强行路由** |
+| 0.5 | **前置条件缺失**（文件/依赖不存在） | 告知用户缺失项，建议补全后再路由。不直接跳过 |
+| 0.6 | **用户需求无法匹配路由表** | Think 阶段发起追问补全信息，不强行路由到不匹配的 skill |
+| 0.7 | **审视框架文件缺失** | 跳过该框架，使用通用审视逻辑继续。告知用户缺失情况 |
+| 0.8 | **路由后未 Invoke 子 skill** | **路由到子 skill 后必须先调用 Skill 工具加载其完整 SKILL.md。不 Invoke 不执行。跳过 Invoke 直接动手 → 退回重新 Invoke** |
+| 0.9 | **路由执行前未验证子 skill 文件完整性** | 路由到子 skill 后，必须用 `Get-Content -Encoding UTF8 -Raw` 加载其完整 SKILL.md 后再执行子 skill 的具体步骤。验证方法：`Get-Content` 返回的文件内容长度 ≥ 源文件总字符数（通过 `(Get-Item '{path}').Length` 确认）→ 视为完整。禁止以截断的内容执行后续操作。|
 
 ---
 
@@ -190,18 +190,27 @@ pipeline:
    - 子 skill 完成后：更新 last_completed_skill / next_skill
 ```
 
-**第二步：任务类型切换检查（★ NEW v2.3 — 解决长会话惰性跳过管线）**
+**第二步：子 skill 路由前强制加载（★ v2.5 — 无条件执行，替代v2.3的条件式检查）**
+
+> **路由到任何子 skill 之前，必须先完成以下 4 项加载。不加载不执行。这不是"建议"，是路由的前置条件——加载不完整则路由失败，agent 会被卡住，必须补加载后方可继续。**
 
 ```
-当本轮 intent 与上一轮不同（诊断→写作 / 修订→写作 / 补全→写作 / 开书→写正文）：
-  □ 重新进入完整 Think 流程——不得因"已有相似产出"跳过
-  □ 重新 Read 目标子 skill 的 SKILL.md + 全部文档型文件（steps/*.md、phases/*.md、templates/*.md 等）
-  □ 每次 Read 后检查行号前缀的最后一行：若行号小于文件实际行数 → 用 offset 续读补全
-  □ 重新验证前置条件（管线前置校验 §3.1.6）
-  □ 理由：任务类型切换意味着管线上下文完全不同。上一轮的捷径
-    （如 "design文件已存在，直接写" / "已读过act-01.yaml，不用再读writer SKILL.md"）
-    在本轮不适用。
+□ 用 `Get-Content -Encoding UTF8 -Raw` 加载目标子 skill 的完整 SKILL.md
+   → 确认文件字符数 ≥ (Get-Item '{path}').Length
+   → 不完整 → 重试 Get-Content，直到完整
+□ 用 `Get-Content -Encoding UTF8 -Raw` 加载目标子 skill 的全部文档文件：
+   steps/*.md、phases/*.md、templates/*.md、references/*.md
+   → 逐个验证完整性
+□ 用 `Get-Content -Encoding UTF8 -Raw` 加载项目中当前路由需要的 YAML 文件：
+   project.yaml、constitution.yaml、entity-snapshot.yaml、act-XX.yaml
+□ 用 `Get-Content -Encoding UTF8 -Raw` 加载项目中的文风DNA文件：
+   00-原始设定/文风DNA/*.md
+
+上述 4 项缺一不可。不加载不执行，跳步 = 系统级违规（§0.引用的元纪律）。
+禁止以"之前读过"、"我记住了"、"不需要"为理由跳过以上任何一项加载。
 ```
+
+**原因**：之前的 v2.3 "任务类型切换检查"要求 agent 判断"本轮 intent 是否与上一轮不同"——agent 的判断失误率极高（"都是写正文"→ 判定为没变 → 跳过加载）。v2.5 去掉所有条件判断，改为无条件强制加载。无论"继续下一章"还是"切换任务"，路由前必加载。
 
 **第三步：范围判断**
 ```
@@ -216,7 +225,7 @@ pipeline:
 |:-----|:---------|:---------|:---------|
 | **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → chapter-design → prose-render → qa |
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
-| **继续前进** | 「继续」「继续任务」「继续写」「下一章」「往下写」「接受目前的方案」「可以」 | —（无固定审视框架，直接读 progress 判定路由） | 读 workspace-index.yaml#progress → 根据 last_completed_skill / next_skill / checkpoints 路由到对应子 skill → 如无进度数据，回退到项目状态扫描（bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render） |
+| **继续前进** | 「继续」「继续任务」「继续写」「下一章」「往下写」「接受目前的方案」「可以」 | —（无固定审视框架，直接读 progress 判定路由） | ① 先执行"子 skill 路由前强制加载"协议（§3.1 第二步）——加载目标子 skill 的完整 SKILL.md + 文档文件 + 项目 YAML + 文风DNA。② 然后读 workspace-index.yaml#progress → 根据 last_completed_skill / next_skill / checkpoints 路由到对应子 skill。③ 如无进度数据，回退到项目状态扫描（bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render） |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
 | **问题追溯** | 「为啥没了」「哪里出问题了」「这段不对」「逻辑矛盾」「角色没了」 | — | 无需固定审视框架。根据用户指出的具体问题，自行回溯上游数据做根因定位（实体状态追踪、角色出场日志、事件链检查、设定一致性比照等），定位到根因 Skill 后按 §5 修改路由执行修复。最后告知用户找到了什么原因、修了什么。 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
@@ -294,9 +303,10 @@ pipeline:
    constitution.yaml ........... ✅ 存在
    ... 逐项检查完毕
 
-③ 子 skill 文件完整性检查（NEW）：
-    → 确认已 Read 当前路由目标子 skill 的完整 SKILL.md + 全部文档型文件（未被截断）
-    → 不完整 → ⚠️ 标记 "子skill指令文件不完整，无法安全路由"
+③ 子 skill 文件完整性检查（NEW — 全量加载）：
+    → 用 `Get-Content -Encoding UTF8 -Raw` 加载当前路由目标子 skill 的完整 SKILL.md + 全部文档型文件
+    → 验证方法：文件字符数 ≥ `(Get-Item '{path}').Length` → 完整
+    → 不完整（返回为空或明显偏短）→ ⚠️ 标记 "子skill指令文件不完整，无法安全路由"
        退回 §0.8 协议补全后再校验
 
 ④ 逐项检查 recommended 文件（如存在则标注可用，缺失不阻止）：
@@ -318,8 +328,8 @@ pipeline:
 ① 确认目标 skill 的 SKILL.md 可读
    → 不可读 → 走 §0.1 协议（报错终止，不静默跳过）
 ② 子 skill 文件完整性验证（NEW — 见 §0.9）
-    → 检查 context 中该子 skill 的 SKILL.md + 其他已 Read 的文档型文件是否完整（未被截断）
-    → 不完整 → 退回重新 Read 续读，补全后再继续
+    → 检查 context 中该子 skill 的 SKILL.md + 其他文档型文件是否已通过 `Get-Content -Encoding UTF8 -Raw` 完整加载
+    → 不完整 → 退回 §0.8 协议重新加载，补全后再继续
 ③ 确认前置条件满足
    → 不满足 → 走 §0.4 协议（告知用户，不强行路由）
 ④ 必须调用 Skill 工具加载子 skill 的完整流程
@@ -365,11 +375,9 @@ L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
       - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
       - entity-snapshot.protagonist.status 与最新章 delta 一致？→ 不一致则 P1
       - （详细规则见 references/reflection.md §状态协议专项检查）
-    □ **Read 完整性追溯检查（NEW）**：
-      - 回顾本轮 conversation 中是否 Read 过 skill 目录中的文档型文件（SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md 等）
-      - 若有：检查那些 Read 返回的最后一行行号——是否存在行号 ≈250（接近限制上限）且**没有继续 offset 续读**的情况？
-      - 如果是 → P1 警告："疑似文件被截断未续读。文件最后行号为 {N}，可能只读取了部分内容。建议重新 Read 并续读完整。"
-      - 如果本轮没有 Read 任何 skill 文件，但任务涉及到写正文/修改设定等需要子 skill 指令的操作 → P2 警告："本轮未 Read 任何子 skill 文件，可能依赖旧上下文执行。"
+    □ **文件加载完整性检查（NEW）**：
+      - 回顾本轮 conversation 中是否用 `Get-Content -Encoding UTF8 -Raw` 加载过子 skill 的文档型文件（SKILL.md、steps/*.md、phases/*.md、templates/*.md、references/*.md）或 YAML 文件
+      - 如果没有但本轮任务涉及写正文/修改设定等需要子 skill 指令的操作 → P2 警告："本轮未加载任何子 skill 文件，可能依赖旧上下文执行。"
     □ **管线进度更新**：
       - 子 skill 完成最后一 phase 后 → 回写 workspace-index.yaml#progress：
         last_completed_skill: {当前 skill 名}
