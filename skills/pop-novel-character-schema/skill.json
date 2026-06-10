@@ -1,0 +1,21 @@
+{
+  "id": "pop-novel-character-schema",
+  "version": "1.0.0",
+  "displayName": "角色分级模板",
+  "description": "角色卡分级标准定义（Lv1~Lv4）。提供统一角色模板供 bookstrap/plot/chapter-design 及其他写作管线消费。可独立触发：用户设计角色储备时由 expert-writer 路由调用。跨赛道复用设计，不绑定特定题材术语。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "角色分级模板",
+      "角色模板",
+      "character-schema",
+      "角色设计"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false
+  }
+}

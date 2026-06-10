@@ -4,7 +4,7 @@ description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect
 version: 2.6.0
 pipeline:
   upstream: []
-  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker]
+  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker, pop-novel-character-schema]
 ---
 
 # 网文写作专家（元 Skill / 专家模式）
@@ -54,7 +54,7 @@ pipeline:
 > Agent 通过 Skill Registry（`skills/registry.json`）中的 id 动态查找路径，不依赖硬编码相对路径。
 > 路径格式：`../../{id}/{version}/SKILL.md`（自动适配 remote-skills 的版本子目录结构）。
 
-### 推荐 Skill（主场工具，11 个）
+### 推荐 Skill（主场工具，12 个）
 
 | id | 职责 | 触发场景 |
 |:---|:-----|:---------|
@@ -68,8 +68,9 @@ pipeline:
 | `pop-novel-html-renderer` | 发布 — 写作项目渲染为可视化网页 | 「把我写好的发布成网页」 |
 | `pop-novel-game` | 互动文游 — 小说世界观转 AI 文字游戏 | 「把这个世界观做成互动游戏」 |
 | `pop-dna` | 文风DNA蒸馏 — 从原文提取文风DNA档案 | 「分析这本书的文风」「让 Agent 学会这个作者的风格」|
+| `pop-novel-character-schema` | 角色卡分级标准 — Lv1~Lv4 模板 + 弧线指南 | 「帮我设计几个角色储备」「创建角色」「设计配角」|
 
-### 延伸 Skill（管线中使用，4 个）
+### 延伸 Skill（管线中使用，5 个）
 
 | id | 职责 | 触发场景 |
 |:---|:-----|:---------|
@@ -289,6 +290,7 @@ pipeline:
 | **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → chapter-design → prose-render |
 | **调研获取** | 「调研」「查一下」「最近什么火」 | — | cnovel-research / book-opinion-tracker → 完成后问是否进入创作 |
 | **文风分析** | 「分析文风」「学会这个风格」 | — | pop-dna → prose-render（携带 style 参数） |
+| **角色设计** | 「设计角色」「创建角色储备」「配角色卡」「创建配角」 | —（加载 schema 分级模板） | pop-novel-character-schema → 按 Lv1~Lv4 分级引导创建 → 产出到 `设计/角色层/` |
 
 > **复合路径说明**：`download-webnovel-txt → pop-novel-deconstructor` 是管线绑定，不可拆分。deconstructor 做深度分析需要正文，必须先下载。下载失败则告知用户书名不可获取，不直接分析。
 
