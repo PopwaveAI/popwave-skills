@@ -1,18 +1,18 @@
 # act-XX.yaml — 幕纲 YAML 骨架
 
 > 产出路径: `设计/幕/act-XX.yaml`
-> 管线: pop-novel-plot v5.0 · Step 5
+> 管线: pop-novel-plot v6.0 · Step 5
 > 消费: pop-novel-chapter-design（章级切片驱动）
 >
-> 用法: 直接填充即可。卷级信息（人物/地图/剧情线）见 `设计/卷/volume-XX.md`。
+> 用法: 直接填充即可。卷级信息（人物/地图/剧情线/势力动机）见 `设计/卷/volume-XX.md`。
 > 复杂字段计算方式见 `templates/act-guide.md`。
 
 ---
 
 ```yaml
 _meta:
-  version: "v5.0"
-  volume_ref: "设计/卷/volume-XX.md"   # ← 卷级 Canvas 文件，此幕的上游
+  version: "v6.0"
+  volume_ref: "设计/卷/volume-XX.md"   # ← 卷级背景文件
   act_number: N                         # 本幕在第几幕（1-based）
   chapter_range: [chXXX, chXXX]        # 本幕的章节范围
 
@@ -54,6 +54,52 @@ act:
         intensity: 0
         hook: ""
 
+# ─── Canvas 矩阵（★ v6.0 新增） ──────────────────────
+# 章节行 × 剧情线列 交叉表。用于一次性看清本幕节奏密度。
+# 填写原则：每章条目写明本条线在本章推进了什么，空 = 该章这条线不推进。
+
+canvas:
+  plotlines: [M1, M2, M3, S1, S2]   # 本幕涉及哪几条线（对应 volume-XX.md §四 的线 id）
+
+  entries:            # 每条 = 一章范围内各线的事件摘要
+    - ch: 1
+      title: ""
+      M1: ""           # 世界危机线——本章推进了什么
+      M2: ""           # 主角成长线——本章推进了什么
+      M3: ""           # 外部剧情线——本章推进了什么
+      S1: ""           # 羁绊/情感线——本章推进了什么
+      S2: ""           # 世界真相线——本章推进了什么
+      note: ""         # 节奏笔记（如"双线并行"、"唯一线"）
+    - ch: 2
+      title: ""
+      M1: ""
+      M2: ""
+      M3: ""
+      S1: ""
+      S2: ""
+      note: ""
+    # ... 每章一条，直到本幕结束
+
+  # ─── 节奏检查摘要（★ 自检用） ─────────────────────
+  rhythm_check:
+    per_line_gaps:               # 每条线的最大连续空白章数
+      - line: "M1"
+        max_gap: 3
+        actual_gap:              # 由 agent 填入
+        note: ""
+      - line: "M2"
+        max_gap: 2
+        actual_gap: ""
+        note: ""
+      - line: "M3"
+        max_gap: 2
+        actual_gap: ""
+        note: ""
+    overall_density:             # 每章活跃线数
+      min: 1                     # 最低不能少于1条线推进
+      max: 3                     # 最高不能超过3条（信息过载）
+      actual_range: ""           # 由 agent 填入
+
 # ─── 章节切片 ──────────────────────────────────────
 chapters:
 
@@ -79,9 +125,6 @@ chapters:
     plotlines_active: []          # 推进了哪些线（line id 对应 volume-XX.md §四）
     chekhov_set: []
     chekhov_fire: []
-
-    milestone_active: ""          # MK 编号
-    milestone_progress: ""        # start|mid|complete
 
     info_release:
       - item_id: ""
@@ -120,12 +163,7 @@ chapters:
     plotlines_active: []
     chekhov_set: []
     chekhov_fire: []
-    milestone_active: ""
-    milestone_progress: ""
     info_release: []
     characters_active: []
     locations: []
 ```
-
-> 注意：act-end-state / equipment-flow / plotlines 定义已移至 volume-XX.md。
-> 此文件只包含**幕级定义 + 章级切片**。

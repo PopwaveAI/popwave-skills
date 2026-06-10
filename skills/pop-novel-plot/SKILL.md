@@ -1,17 +1,18 @@
 ---
 name: pop-novel-plot
-description: 剧情架构设计。卷级定义（定位/快照/时间地理人物剧情线）+ 幕级章纲编排（情绪弧线/payoff/每章切片）。v5.0 重构：卷/幕分离，下游只读 2 个文件。
+description: 剧情架构设计。卷级战略（目标/背景/剧情线/快照）+ 幕级战术（Canvas矩阵/情绪弧线/payoff/每章切片）。v6.0 重构：卷幕分层更清晰，新增 Canvas 矩阵做节奏检查。
 pipeline:
   upstream: [pop-novel-bookstrap, pop-novel-deconstructor]
   downstream: [pop-novel-chapter-design]
 ---
 
-# 剧情架构 v5.0
+# 剧情架构 v6.0
 
-> 重构核心：下游（pop-novel-chapter-design）只需要读 2 个文件：
-> `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml`
+> **卷 = 战略** — 目标、背景（时间/地理/角色/势力动机）、剧情线列表、开局→结束快照。
+> **幕 = 战术** — Canvas 矩阵（章节×剧情线交叉表）、情绪弧线、爽点分布、每章切片。
 >
-> 其他所有中间产物不再产出，或仅供 plot skill 内部使用。
+> 下游（pop-novel-chapter-design）只需要读 2 个文件：
+> `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml`
 
 ---
 
@@ -21,18 +22,25 @@ pipeline:
 
 | 级别 | 范围 | 定位 | 产出物 | 下游消费 |
 |:-----|:----:|:-----|:-------|:---------|
-| **卷** | 80-150章 | 一个大剧情的完整呈现 | `volume-XX.md`（1个文件） | ✅ chapter-design 读此获取人物/地图/剧情线 |
-| **幕** | 20-35章 | 卷内的情绪阶段 | `act-XX.yaml`（每幕1个YAML） | ✅ chapter-design 读此获取当前幕的章级切片 |
+| **卷** | 80-150章 | 一个大剧情的完整呈现（战略） | `volume-XX.md`（1个文件） | ✅ chapter-design 读此获取地图/角色/剧情线/势力动机 |
+| **幕** | 20-35章 | 卷内的战术执行阶段 | `act-XX.yaml`（每幕1个YAML） | ✅ chapter-design 读此获取 Canvas 矩阵 + 章级切片 |
 
 **一卷 = N 幕**（N = 3-6）。卷定义"有什么"，幕定义"怎么演"。
 
-### 0.2 产出物精简
+### 0.2 分层产出
 
 ```
-旧：11个文件/幕（用户说"到底看哪个"）
-新：
-    设计/卷/volume-XX.md        ← 单文件：卷定位/快照/时间地理人物剧情线/版本里程碑/势力/装备
-    设计/幕/act-XX.yaml          ← 章级切片：每章的情绪/payoff/钩子/场景规格
+卷（战略）→ 设计/卷/volume-XX.md
+    目标：核心命题 + 读者感受
+    背景：时间/地理/角色池/势力动机
+    剧情线：M1-Mn · S1-Sn 的本卷定义
+    状态：开局快照 → 结束快照
+
+幕（战术）→ 设计/幕/act-XX.yaml
+    Canvas 矩阵：章节×剧情线交叉表（★ v6.0 新增）
+    幕级定义：核心冲突/爽点分布/情绪弧线
+    章级切片：每章情绪/payoff/钩子/场景规格
+    节奏检查：每条线最大连续空白章数自检
 ```
 
 ---
@@ -40,7 +48,9 @@ pipeline:
 ## ❌ 质量红线
 
 - [ ] **PRD + L1 设定已存在** — bootstrap 没过不进 plot
-- [ ] **卷设计已产出** — volume-XX.md 完整
+- [ ] **卷设计已产出** — volume-XX.md 包含目标/背景/剧情线/快照
+- [ ] **Canvas 矩阵已填充** — act-XX.yaml#canvas.entries 无持续空白行
+- [ ] **每条剧情线无连续超限留白** — act-XX.yaml#canvas.rhythm_check 自检通过
 - [ ] **每章有 emotional_goal + payoff + end_hook** — act-XX.yaml 章级切片齐备
 - [ ] **爽点等级与铺垫-释放比匹配** — 微 2:1 / 中 4:1 / 大 8-10:1 / 终极 20:1
 - [ ] **幕内无连续 3 章同一情绪叠加组合**
@@ -52,19 +62,19 @@ pipeline:
 ## 执行流程
 
 ```
-第一阶段：卷设计（1次/卷，Step 1-3）
-  Step 1    卷级定义             → 确定卷定位/章节范围/幕划分/快照
-  Step 2    卷 Canvas 设计       → 时间地理人物剧情线 + 版本里程碑 + 势力装备路线图
+第一阶段：卷设计（1次/卷）
+  Step 1    卷级定义             → 目标/幕划分/快照
+  Step 2    卷 Canvas 设计       → 背景（时间/地理/角色/势力动机）+ 剧情线列表
   [用户确认闸门]     → 确认卷定义后再进幕纲
   ↓ 产出: 设计/卷/volume-XX.md
 
-第二阶段：幕纲编排（N次/卷，每幕 Step 4-6）
-  Step 4    信息释放规划         → 当前幕的 P0/P1 信息点章级分配
-  Step 5    幕纲设计（核心）     → 幕级情绪弧线 + 每章 emotional_goal/payoff/钩子/场景规格
-  Step 6    自检                → 节奏 + 值一致性 + 平台校准
+第二阶段：幕纲编排（N次/卷，每幕）
+  Step 3    信息释放规划         → 当前幕的 P0/P1 信息点章级分配
+  Step 4    幕纲设计（核心）     → Canvas 矩阵填充 + 幕级定义 + 每章切片
+  Step 5    自检                → 剧情线留白检查 + 节奏 + 值一致性 + 平台校准
   ↓ 产出: 设计/幕/act-XX.yaml + info-release-XX.md
 
-  → 跳到 Step 4 设计下一幕
+  → 跳到 Step 3 设计下一幕
   → 所有幕完成后 → 通知下游 chapter-design
 ```
 
@@ -74,8 +84,8 @@ pipeline:
 
 | 步骤 | 产出文件 | 模板/参考 | 说明 |
 |:-----|:---------|:----------|:------|
-| Step 1 — 卷设计 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 卷定位/快照/Canvas/用户确认闸门 |
-| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml` + `info-release-XX.md` | `steps/step-2-act.md` + `templates/act-skeleton.yaml` + `templates/info-release.md` | 每幕 info-release → act-XX.yaml → 自检（循环N次） |
+| Step 1 — 卷定义 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 卷目标/背景/剧情线/快照 + 势力动机 + 用户确认闸门 |
+| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml` + `info-release-XX.md` | `steps/step-2-act.md` + `templates/act-skeleton.yaml` + `templates/info-release.md` | 每幕 info-release → Canvas 矩阵 → 章级切片 → 自检（循环N次） |
 
 ---
 
@@ -84,15 +94,15 @@ pipeline:
 ```
 设计/
 ├── 卷/
-│   └── volume-XX.md          ← 下游消费：卷级 Canvas（人物/地图/剧情线/版本/里程碑）
+│   └── volume-XX.md          ← 下游消费：卷级战略（目标/背景/剧情线/快照）
 └── 幕/
-    ├── act-XX.yaml            ← 下游消费：章级切片（每章情绪/payoff/钩子/场景规格）
-    └── info-release-XX.md     ← 下游消费：当前幕的设定信息释放规划
+    ├── act-XX.yaml            ← 下游消费：Canvas 矩阵 + 章级切片 + 节奏检查
+    └── info-release-XX.md     ← 当前幕的设定信息释放规划
 ```
 
 ---
 
-## 附录：旧版 Canvas 文件的处置
+## 附录：旧版文件处置
 
 | 旧文件 | 去向 |
 |:-------|:-----|
@@ -100,12 +110,15 @@ pipeline:
 | 情节线草案-XX.md | ✅ 合并入 volume-XX.md §四 |
 | act-XX-人物.md | ✅ 合并入 volume-XX.md §三 |
 | act-XX-地图.md | ✅ 合并入 volume-XX.md §三 |
-| act-XX-势力.md | ✅ 合并入 volume-XX.md §六 |
-| act-XX-装备.md | ✅ 合并入 volume-XX.md §七 |
-| 里程碑设计.md | ✅ 合并入 volume-XX.md §五 |
-| 节奏自检报告.md | ❌ 删除（不产出，只花 5 分钟自检） |
+| act-XX-势力.md | ✅ 简化为势力动机 → volume-XX.md §三 |
+| act-XX-装备.md | ❌ 删除（v6.0 不再单独维护，归入 act-XX.yaml 场景规格选填字段）|
+| 里程碑设计.md | ❌ 删除（v6.0 不再产出——推进节奏由 Canvas 矩阵直接管理）|
+| 节奏自检报告.md | ❌ 删除（不产出，只花 5 分钟自检）|
 | 情节线纲汇总表.md | ❌ 删除 |
-| 场景卡试读 | 🔄 可选（仅在用户要求时产出） |
+| 场景卡试读 | 🔄 可选（仅在用户要求时产出）|
+| volume-XX.md §五 里程碑 | ❌ 删除（v5.0→v6.0 去重，幕级 Canvas 矩阵替代）|
+| volume-XX.md §六 势力动态 | ✅ 简化为势力动机 → volume-XX.md §三 |
+| volume-XX.md §七 装备路线图 | ❌ 删除（v6.0 不再维护）|
 
 ---
 
@@ -117,11 +130,11 @@ pop-novel-plot/
 ├── skill.json
 ├── CHANGELOG.md
 ├── steps/                ← 执行步骤（2个步骤）
-│   ├── step-1-volume.md  ← 卷设计
-│   └── step-2-act.md     ← 幕纲编排（含 info-release + act-XX.yaml + 自检）
+│   ├── step-1-volume.md  ← 卷定义
+│   └── step-2-act.md     ← 幕纲编排（含 info-release + Canvas 矩阵 + act-XX.yaml + 自检）
 └── templates/            ← 产出物模板
-    ├── volume-design.md  ← 卷设计模板（新建）
-    ├── act-skeleton.yaml ← 幕纲 YAML 骨架
+    ├── volume-design.md  ← 卷设计模板
+    ├── act-skeleton.yaml ← 幕纲 YAML 骨架（含 Canvas 矩阵）
     ├── act-guide.md      ← 字段计算公式参考
     ├── info-release.md   ← 信息释放规划
     ├── rhythm-check.md   ← 自检清单
@@ -133,4 +146,4 @@ pop-novel-plot/
 
 ---
 
-## 版本 v5.0.0 | 2026-06-10
+## 版本 v6.0.0 | 2026-06-10 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
