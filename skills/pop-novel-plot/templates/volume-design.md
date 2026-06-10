@@ -75,6 +75,7 @@
 | 卷初等级 | @source: L3-角色卡 + combat_capability |
 | 卷末等级 | |
 | 本卷成长目标 | |
+| 核心欲望 | external_goal: 外在目标（要做什么）<br>internal_need: 内在需求（为什么做）<br>@source: L3-角色卡 → core_desire |
 
 #### 核心配角（影响主线的角色）
 

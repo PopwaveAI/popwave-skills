@@ -232,7 +232,7 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | **Phase 1.2** | L1-01~06 | L1 各文件深度展开补充 | Phase 1.3 |
 | **Phase 1.3** | L1-01~06 (深度展开) | `_交叉引用记录.md` | Phase 1.5 |
 | **Phase 1.5** | L1-01~06 + 交叉引用 | 稳定性检验 checklist | — |
-| **Phase 3** | L1-01~06 | `project.yaml` + `constitution.yaml` + `L3-角色层/角色卡` | plot、chapter-design、qa |
+| **Phase 3** | L1-01~06 | `project.yaml` + `constitution.yaml` + `L3-角色层/角色卡`（含 core_desire: external_goal + internal_need） | plot、chapter-design、qa |
 | **Phase 4** | project.yaml | reader_profile 校对确认 | plot、chapter-design、qa |
 | **Phase 5** | L1-01~06 + constitution | `combat_capability.yaml` + `monster_rank_map.yaml` + `act_rank_schedule.yaml` + `collision_curve.yaml` | plot、chapter-design |
 | **Phase 6** | story-engine + 起点状态 | `设计/起点快照.md` [用户确认闸门] | plot (Step 2 锚点) |
@@ -265,7 +265,7 @@ Step 3 · pop-dna (文风DNA蒸馏)
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |------|---------|---------|-----------|
-| **Step 1 读入上下文** | act-XX.yaml + act-XX-人物.md + act-XX-地图.md + act-XX-势力.md + act-XX-装备.md + info-release-XX.md + entity-snapshot.yaml + 里程碑设计.md + constitution.yaml | —（建立基线：角色池/地点池/信息清单/幕纲字段/场景规格） | Step 2 |
+| **Step 1 读入上下文** | act-XX.yaml + volume-XX.md + info-release-XX.md + entity-snapshot.yaml + 里程碑设计.md + constitution.yaml + L3-角色卡(core_desire) | —（建立基线：角色池/地点池/信息清单/幕纲字段/场景规格/角色欲望） | Step 2 |
 | **Step 2 事件链设计** | Step 1 基线 + references/ 四个参考文档 | —（逐个回合设计事件，同步确定角色/地点/情绪/信息释放/字数） | Step 3 |
 | **Step 3 产出+状态** | Step 2 事件链 | `03-写作资产/chXXX-事实骨架.md` | pop-novel-prose-render |
 | | | `03-写作资产/chXXX-登场人物卡.md` | pop-novel-prose-render |
@@ -274,20 +274,23 @@ Step 3 · pop-dna (文风DNA蒸馏)
 > **核心约束：不碰文风。** 不知道文风DNA的存在。不写叙事者声音、不写句子节奏、不写修辞风格。
 >
 > **硬性质量下限：** 事件数 ≥ 章字数 ÷ 200 — "靶心不够，Render 没材料"。
+>
+> **新增字段：** 事件链每个事件增加 `conflict_layers`（冲突层次：external/internal/interpersonal）和 `hook_type`（章末事件钩子类型）
 
 ### 3.4 pop-novel-prose-render（正文渲染/上色 ★NEW）
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |------|---------|---------|-----------|
-| **Step 1 读入输入** | chXXX-事实骨架.md + chXXX-登场人物卡.md + styles/{style}.md + 锚定章片段 | — | Step 2 |
-| **Phase 1 风格锚定** | styles/{style}.md + 事实骨架的场景类型 | — → 产出：风格契约（叙事哲学/句式/描写/对话的执行规则） | Phase 2 |
-| **Phase 2 正文渲染** | 事实骨架 + 登场人物卡 + 风格契约 | `03-正文/chXXX.md`（正文） | Phase 3、qa |
-| **Phase 3 风格验证** | chXXX.md + 风格契约 | 风格验证报告（P0禁句扫描 + 调音叉对照） | — |
-| **Step 5 最终输出** | chXXX.md（修正后） | `03-正文/chXXX.md`（含章末状态更新块） | qa |
+| **Step 1 读入输入** | chXXX-事实骨架.md + chXXX-登场人物卡.md + styles/{style}.md + 锚定章片段 + 宪法 | — | Step 2 |
+| **Step 2 正文渲染** | 事实骨架 + 登场人物卡 + context 中的 styles 规则 | `03-正文/chXXX.md`（正文，含视角选择） | Step 3、qa |
+| **Step 3 风格验证** | chXXX.md + styles/ 原文 + 宪法 | 风格验证报告（P0禁句扫描 + 视角一致性 + 先否定再肯定频率检查 + 宪法检查） | — |
+| **Step 4 最终输出** | chXXX.md（修正后） | `03-正文/chXXX.md`（含章末状态更新块） | qa |
 
 > **核心约束：不碰剧情。** 不读 Canvas/plot、不验证设定、不判断角色出场是否合理。Design 说了这章发生什么 → 只管写好。
 >
-> Render 消费 pop-dna 产出的 styles/{书名}.md 做 Phase 1 风格锚定。
+> Render 消费 pop-dna 产出的 styles/{书名}.md 做风格对齐。
+>
+> **新增验证：** Step 3 风格验证新增「视角一致性检查」与「先否定再肯定句式频率检查（P1→P0升级）」
 
 ### 3.5 pop-novel-qa（爽点质检）
 
@@ -351,7 +354,7 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | **entity-snapshot.yaml** | chapter-design (持续更新) | chapter-design (下一章), expert-writer | 角色状态/时间线/伏笔的全量快照 |
 | **起点快照.md** | bookstrap Phase 6 | plot Step 2 | 卷开始时主角/世界状态 |
 | **终点快照.md** | bookstrap Phase 7 / deconstructor | plot Step 2, chapter-design | 卷结束时目标状态 |
-| **chXXX-事实骨架.md** | chapter-design Step 3 | prose-render | 回合级事件链（含角色/地点/情绪/信息释放） |
+| **chXXX-事实骨架.md** (含 conflict_layers) | chapter-design Step 3 | prose-render | 回合级事件链（含角色/地点/情绪/冲突层次/信息释放） |
 | **chXXX-登场人物卡.md** | chapter-design Step 3 | prose-render | 本回合登场角色状态卡 |
 | **styles/{书名}.md** | pop-dna | prose-render Phase 1 | 文风DNA档案 |
 
