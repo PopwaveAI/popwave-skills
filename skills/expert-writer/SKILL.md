@@ -121,6 +121,7 @@ pipeline:
    → 读 requirements[{项目}]：
      - 有 status=pending 的需求 → Think 阶段提醒："上次提出了但还没处理的需求：{清单}"
      - 有 status=implemented 的需求 → 确认已满足，不出提示
+     - 该项目的 requirements section 不存在 → 标记为"项目尚未初始化"（P2，不阻止路由但通知用户）
    → 读 file_registry[{项目}]：
      - 有 status=stale 的文件 → P1 提醒："以下文件因需求变更标记为过期，建议重写：{清单}"
      - 有 deprecated 文件 ≥10 个 → 完成后引导时提示清理
@@ -469,6 +470,18 @@ L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
       - projects[].current_chapter / current_act 按实际情况更新
       - 如果有副本章节（v1/v2/v3）→ 标记各版本的 status
       - pre_read_status.verified → 本轮若执行了精读流程，设为 true
+    □ **★ 项目首次配置完备化（NEW v2.7 — 项目启动时执行一次）**：
+      - 触发时机：bookstrap Phase 3 产出 project.yaml 后（项目具备独立身份）
+      - 检查 requirements[{项目}] 是否已存在：
+        - 不存在 → 创建空列表，仅含一条初始条目：
+          `content: "项目初始化完成" | status: "implemented" | note: "bookstrap Phase 3 — project.yaml + constitution.yaml 就绪"`
+        - 已存在 → 跳过（只初始化一次）
+      - 检查 change_log[{项目}] 是否已存在：
+        - 不存在 → 创建为初始记录：
+          `type: "init" | summary: "项目首次初始化 — {项目名} — bookstrap Phase 3"`
+        - 已存在 → 跳过
+      - 检查 file_registry[{项目}] 是否已存在：
+        - 不存在 → 注册 project.yaml + constitution.yaml 到 confirmed
     □ **状态协议校验（NEW v2.2 — Writer 完成后强制）**：
       - entity-snapshot.yaml 是否存在？→ 不存在则 WARN
       - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
