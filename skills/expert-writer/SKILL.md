@@ -50,14 +50,15 @@ version: 2.3.0
 > Agent 通过 Skill Registry（`skills/registry.json`）中的 id 动态查找路径，不依赖硬编码相对路径。
 > 路径格式：`../../{id}/{version}/SKILL.md`（自动适配 remote-skills 的版本子目录结构）。
 
-### 推荐 Skill（主场工具，10 个）
+### 推荐 Skill（主场工具，11 个）
 
 | id | 职责 | 触发场景 |
 |:---|:-----|:---------|
 | `pop-novel-bookstrap` | 开书启动 — 故事引擎→L1设定→宪法→数值体系→拆书融合→起点→终点 | 「帮我开一本书」「新建小说项目」「续写旧书」 |
 | `pop-novel-deconstructor` | 拆书分析 — 分析参考书的写法规则、体系设计、节奏密度 | 「帮我分析这本小说」「拆解参考书」「参考XXX的设计」 |
 | `pop-novel-plot` | 剧情架构 — 幕纲设计、爽点分布、情绪节奏、情节线规划 | 「帮我规划剧情」「设计爽点分布」「画幕纲」 |
-| `pop-novel-writer` | 正文写作 — 3步管线逐章生成正文，支持黄金三章模式 | 「继续写下一章」「写第 X 章」「写正文」 |
+| `pop-novel-chapter-design` | 章纲设计 / 导演卡 — Canvas→事实骨架+登场人物卡 | 「设计这章」「导演卡」 |
+| `pop-novel-prose-render` | 正文渲染 / 上色表达 — 骨架×文风DNA→正文 | 「写正文」「渲染这章」 |
 | `pop-novel-qa` | 爽点质检 — 三层次审稿，纯感受反馈 | 「帮我校对」「帮我审稿」「这段写得怎么样」 |
 | `pop-reader-making` | 拆书为读 — 长篇拆解为笔记和结构化数据 | 「帮我拆这本书做笔记」 |
 | `pop-novel-html-renderer` | 发布 — 写作项目渲染为可视化网页 | 「把我写好的发布成网页」 |
@@ -143,7 +144,7 @@ version: 2.3.0
        → 不等 → P0：「⚠️ entity-snapshot 与实际章文件数不一致。快照声称{N}章，实际有{M}章。」→ 通知用户，继续但不依赖快照数据。
 
 ② pre_read_status.verified == false 且任务为"写作/续写"？
-   → 输出闸门提示：「⚠️ 精读闸门未通过。上次验证在ch{X}，当前已到ch{Y}。需先精读ch{X+1}至ch{Y}。」→ 用户确认后才路由 writer
+   → 输出闸门提示：「⚠️ 精读闸门未通过。上次验证在ch{X}，当前已到ch{Y}。需先精读ch{X+1}至ch{Y}。」→ 用户确认后才路由 chapter-design
 
 ③ file_registry[项目].deprecated 有 ≥10 个废弃文件？
    → 完成后引导时提示：「你有{N}个废弃文件，需要清理吗？」
@@ -169,7 +170,7 @@ version: 2.3.0
    → next_skill_ready → 用户是否已说"对"放行
 
 ③ 判断当前状态：
-   total_chapters = 0 → 无正文，按进度表判断路由（bootstrapped→plot, plotted→writer）
+   total_chapters = 0 → 无正文，按进度表判断路由（bootstrapped→plot, plotted→chapter-design）
    total_chapters > 0 → 写作中，检查上一章 delta + 宪法一致性
    next_skill_ready = false → 等待闸门确认，不做路由
    next_skill_ready = true + next_skill = X → 按闸门表路由指引执行 X
@@ -208,14 +209,14 @@ version: 2.3.0
 
 | 意图 | 典型说法 | 审视框架 | 执行路径 |
 |:-----|:---------|:---------|:---------|
-| **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → writer → qa |
+| **新建创作** | 「帮我开」「写一本」「开始创作」 | `think-开书设定.md` | bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → chapter-design → prose-render → qa |
 | **拆解参考书** | 「分析这本」「拆解/研究XXX」「参考这本书的设计」 | `think-开书设定.md` | **download-webnovel-txt → pop-novel-deconstructor** → 输出到 `_参考书分析/` |
-| **继续前进** | 「继续」「下一章」「往下写」「接受目前的方案」「可以」 | `think-正文写作.md` | 执行项目状态扫描 → 根据扫描结果路由：bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到writer；正文存在→检查上一章末尾，router到writer |
+| **继续前进** | 「继续」「下一章」「往下写」「接受目前的方案」「可以」 | `think-正文写作.md` | 执行项目状态扫描 → 根据扫描结果路由：bookstrap未完成→继续bookstrap；起点/终点已确认→router到plot；act-XX.yaml存在→router到chapter-design；事实骨架已存在→router到prose-render |
 | **修改调整** | 「改」「调整」「换」「优化」「重写」 | 走修改路由（见第5节） | 定位修改层 → 评估影响 → 逐层更新 |
 | **质检审稿** | 「看看」「审」「评价」「怎么样」 | `think-审稿.md` | pop-novel-qa |
-| **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → writer |
+| **续写已有项目** | 「续写」「继续旧书」「接着之前写」 | `think-续写.md` | bookstrap (reverse) → chapter-design → prose-render |
 | **调研获取** | 「调研」「查一下」「最近什么火」 | — | cnovel-research / book-opinion-tracker → 完成后问是否进入创作 |
-| **文风分析** | 「分析文风」「学会这个风格」 | — | pop-dna → writer（携带 style 参数） |
+| **文风分析** | 「分析文风」「学会这个风格」 | — | pop-dna → prose-render（携带 style 参数） |
 
 > **复合路径说明**：`download-webnovel-txt → pop-novel-deconstructor` 是管线绑定，不可拆分。deconstructor 做深度分析需要正文，必须先下载。下载失败则告知用户书名不可获取，不直接分析。
 
@@ -230,7 +231,7 @@ version: 2.3.0
    （不一致 → 问用户）
 ```
 
-不通过 → 先路由到 pop-novel-plot 修正幕纲，**不直接进 writer**。
+不通过 → 先路由到 pop-novel-plot 修正幕纲，**不直接进 chapter-design**。
 
 ### 3.1.5 信息增强（路由执行前）
 
@@ -242,13 +243,15 @@ version: 2.3.0
 ① 从 workspace-index.yaml 读取锚定项目的所有可用数据
 
 ② 按路由目标查找 ROUTE-AUGMENT.md 中的增强映射表
-   例：路由到 writer →
+   例：路由到 chapter-design →
       - 检查 cross_project_lessons (applicable_to: writing)
       - 提供 constitution 路径
-      - 提供 style 文件路径
-      - 提供 pre_read_status
       - 提供 entity-snapshot.yaml 路径（状态追踪 canon）
       - 读 act-XX.yaml 当前章的场景规格 → 预取对应 L1 文件
+
+   例：路由到 prose-render →
+      - 提供 style 文件路径
+      - 提供 锚定章库 路径
 
 ③ 输出增强摘要（不写文件，在路由消息中口述）：
    📋 [路由目标] 已注入增强上下文：
@@ -313,8 +316,9 @@ version: 2.3.0
 |:--------|:--------------------|:---------|:-------------|:---------|
 | bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 | → **pop-novel-plot**（剧情规划） | 携带：story-engine.yaml + L1-01~06 + constitution.yaml + 起点/终点快照。直接说"bookstrap已完成，接下来进入pop-novel-plot做卷级剧情规划" |
 | deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 | 无（产出供 bookstrap 消费，不触发新 skill） | — |
-| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-writer**（正文写作）或 → **lark-doc**（归档发布） | 携带：act-XX.yaml + canvas(人物/地图/势力) + info_release。确认 plot 章级切片完成后再说"进入 writer" |
-| writer | Director 设计说明产出 | 设计说明展示给用户 → 点头才能进骨架 | → **pop-novel-qa**（质检） | 检查 entity-snapshot.yaml 中的最新状态。通知用户"正文写作完成，下一步进入质检" |
+| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-chapter-design**（章纲设计）或 → **lark-doc**（归档发布） | 携带：act-XX.yaml + canvas(人物/地图/势力) + info_release。确认 plot 章级切片完成后再说"进入 chapter-design" |
+| chapter-design | 事实骨架 / 登场人物卡 | 骨架必须对齐 Canvas | → **pop-novel-prose-render**（正文渲染） | 携带：事实骨架.md + 登场人物卡.md。确认骨架产出后说"进入 prose-render" |
+| prose-render | 风格契约 / 正文渲染 | 风格验证通过才能输出 | → **pop-novel-qa**（质检） | 检查 chXXX.md。通知用户"正文完成，下一步进入质检" |
 
 ### 3.3 Reflect（四层递进审视）
 
@@ -357,7 +361,7 @@ L1 ─ 产出基础检查 + 索引回写 + 状态协议校验
 
 L2 ─ 一致性检查
     □ 产出与上游设定/宪法/幕纲一致？
-      - writer 正文是否违反 constitution.yaml？
+      - prose-render 正文是否违反 constitution.yaml？
       - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
     □ entity-snapshot 与 constitution 一致？（NEW v2.2）
       - entity-snapshot 中角色状态是否违反 constitution 的约束？
@@ -366,9 +370,9 @@ L2 ─ 一致性检查
     ↓ 通过
 
 L3 ─ 质量检查（QA 报告判断）
-    □ 如果子 skill 是 writer → 过 pop-novel-qa 质检
+    □ 如果子 skill 是 prose-render → 过 pop-novel-qa 质检
     □ 读取 QA 报告结论：
-      - "想跳过"≥2 或 "会弃书" → 标记 P0，退回 writer 重写
+      - "想跳过"≥2 或 "会弃书" → 标记 P0，退回 prose-render 重写
       - 无红线 → 通过
     ↓ 通过
 
@@ -379,7 +383,7 @@ L4 ─ 活人感检查（可选，高优章节启用）
     □ 有没有"首先其次""总结来说"等套话句式？
     □ 对话听起来像真人在说话，还是像角色在念设定？
     
-    不通过 → 标注问题段落，退回 writer 局部重写。
+    不通过 → 标注问题段落，退回 prose-render 局部重写。
 ```
 
 发现盲点后按优先级标记：**P0**（立刻退回） / **P1**（建议修） / **P2**（以后再说）。
@@ -389,13 +393,13 @@ L4 ─ 活人感检查（可选，高优章节启用）
 ## 4. 典型路径速查
 
 ```
-新书启动：            bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → writer → qa
+新书启动：            bookstrap (含拆书融合+起点+终点) → plot (含里程碑) → chapter-design → prose-render → qa
 拆解参考书：           download-webnovel-txt → pop-novel-deconstructor → _参考书分析/
-调研后开书：           cnovel-research → bookstrap → plot → writer → ...
-已有项目续写：          plot → writer → qa
-续写旧项目：            bookstrap (reverse) → writer → qa
-文风分析 → 写作：       pop-dna → writer（携带 style 参数）
-修改设定+重写受影响正文： bookstrap → plot → writer
+调研后开书：           cnovel-research → bookstrap → plot → chapter-design → prose-render → ...
+已有项目续写：          plot → chapter-design → prose-render → qa
+续写旧项目：            bookstrap (reverse) → chapter-design → prose-render → qa
+文风分析 → 写作：       pop-dna → prose-render（携带 style 参数）
+修改设定+重写受影响正文： bookstrap → plot → chapter-design → prose-render
 ```
 
 ---
@@ -410,9 +414,9 @@ L4 ─ 活人感检查（可选，高优章节启用）
 用户说改什么？
 ├─ 改设定/角色/世界观 → bookstrap（只更新设定文件，不推倒重来）
 ├─ 改剧情/章节结构 → plot（只调受影响的幕纲）
-├─ 改某章/某段正文 → writer（定点重写指定段落）
-├─ 改开头 → writer（前三章同样走3步管线）
-├─ 改文风 → 路由 writer 时携带新的 style 参数
+├─ 改某章/某段正文 → prose-render（定点重写指定段落）或 chapter-design（需要改设计）
+├─ 改开头 → chapter-design → prose-render（前三章走完整流程）
+├─ 改文风 → 路由 prose-render 时携带新的 style 参数
 └─ 没说具体怎么改 → 先调 qa → 用户指明方向 → 再调对应 Skill
 ```
 
@@ -420,18 +424,18 @@ L4 ─ 活人感检查（可选，高优章节启用）
 
 | 修改类型 | 当前层 | 需联动层 |
 |---------|-------|---------|
-| 改修辞/描写/对话措辞 | writer | — 无需联动 |
-| 改人物性格/行为/关系 | writer | 角色设定（bookstrap） |
-| 改剧情走向/增删章节 | plot / writer | 幕纲（plot）+ 受影响正文（writer） |
-| 改世界观规则 | bookstrap | 已写正文中涉及该规则的所有段落（writer） |
-| 改起点/终点状态 | bookstrap | 起点快照/终点快照(bookstrap) + 里程碑(plot) + 受影响幕纲(plot) + 受影响正文(writer) |
-| 改开头前三章 | writer | — 前三章相对独立，无需联动 |
+| 改修辞/描写/对话措辞 | prose-render | — 无需联动 |
+| 改人物性格/行为/关系 | chapter-design | 角色设定（bookstrap） |
+| 改剧情走向/增删章节 | plot / chapter-design | 幕纲（plot）+ 受影响正文（prose-render） |
+| 改世界观规则 | bookstrap | 已写正文中涉及该规则的所有段落（chapter-design → prose-render） |
+| 改起点/终点状态 | bookstrap | 起点快照/终点快照(bookstrap) + 里程碑(plot) + 受影响幕纲(plot) + 受影响正文(chapter-design → prose-render) |
+| 改开头前三章 | chapter-design → prose-render | — 前三章相对独立，无需联动 |
 
 ### 5.3 执行修改
 
 ```
 仅影响当前层 → 调该层 Skill 直接修改
-影响其他层 → 从上层到下层逐层更新（bookstrap → plot → writer）
+影响其他层 → 从上层到下层逐层更新（bookstrap → plot → chapter-design → prose-render）
 ```
 
 **关键约束：改一个设定不等于重写全书。** 只动直接受影响的文件/章节。
