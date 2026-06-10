@@ -73,7 +73,7 @@ brief（用户需求）
 
 pop-dna 集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
 
-### 1.4 pop-novel-writer 三层文风DNA框架
+### 1.4 三层文风DNA框架（pop-novel-chapter-design → pop-novel-prose-render）
 
 **核心洞察**：风格不是扁平的"好不好读"，而是三个独立层次：
 
@@ -83,7 +83,7 @@ Layer 2：叙事策略指令（信息怎么讲出来）
 Layer 3：文风DNA / 叙事哲学（作者为什么这样写）
 ```
 
-**pop-dna 的定位**：主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 pop-novel-writer 的 Director 阶段处理。
+**pop-dna 的定位**：主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 pop-novel-chapter-design 处理，产出设计包供 pop-novel-prose-render 消费。
 
 ---
 

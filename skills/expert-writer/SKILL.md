@@ -256,7 +256,13 @@ pipeline:
       - 读 act-XX.yaml 当前章的场景规格 → 预取对应 L1 文件
 
    例：路由到 prose-render →
-      - 提供 style 文件路径
+      - 🔍 **检查 `{project}/00-原始设定/文风DNA/` 下是否有 .md 文件**
+      - 有 → 提供 style 文件路径（`00-原始设定/文风DNA/{项目对应风格文件}.md`）
+      - 无 → **不直接路由到 prose-render**，改为：
+        1. 告知用户："本项目还没有文风DNA。需要从参考书中提取文风DNA后再写正文。"
+        2. 提供选项：A. 走 download-webnovel-txt → deconstructor 从参考书提取文风DNA  B. 跳过直接写"
+        3. 用户选 A → 路由到 download-webnovel-txt → pop-novel-deconstructor（仅产出文风DNA）
+        4. 用户选 B → 无风格锚定直接写正文
       - 提供 锚定章库 路径
 
 ③ 输出增强摘要（不写文件，在路由消息中口述）：

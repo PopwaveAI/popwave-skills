@@ -1,6 +1,6 @@
 ---
 name: pop-novel-deconstructor
-description: 拆解长篇网文，默认拆第一卷或前100章（全读）。产出设定/角色/剧情/技法+卷1起点/终点快照+styles/文风DNA。文风DNA部分使用 pop-dna v3.0 发现型方法论。仅在用户明确要求全书拆解时才全量。触发词："拆书""拆解""分析这本书""提取写法""对标""拆参考书"。
+description: 拆解长篇网文，默认拆第一卷或前100章（全读）。产出设定/角色/剧情/技法+卷1起点/终点快照+文风DNA至00-原始设定/文风DNA/。文风DNA部分使用 pop-dna v3.0 发现型方法论。仅在用户明确要求全书拆解时才全量。触发词："拆书""拆解""分析这本书""提取写法""对标""拆参考书"。
 pipeline:
   upstream: [download-webnovel-txt]
   downstream: [pop-novel-bookstrap, pop-novel-plot]
@@ -45,14 +45,14 @@ Phase 3: 验证采样（Layer 2）
   ├── 发现不一致则修订，发现新模式则补充
   └── 产出物：{书名}-Phase3-验证报告.md
         ↓
-Phase 4: 整合输出（含文风DNA → styles/）
+Phase 4: 整合输出（含文风DNA → 00-原始设定/文风DNA/）
   ├── 汇总 T1~T6 所有独立产出
   ├── 调用 pop-dna v3.0 方法论提取文风DNA
   │   ├── 已读全书 → 直接利用现有采样章做维度和周期标注
-  │   └── 产出 styles/{书名}.md（供 prose-render 消费）
+  │   └── 产出 00-原始设定/文风DNA/{书名}.md（供 prose-render 消费）
   ├── 提取核心发现（3~5个最值得学的点）
   ├── 整合为赛道适配配置
-  └── 产出物：{书名}-三维拆书档案.md（索引）+ 各独立文件 + styles/{书名}.md
+  └── 产出物：{书名}-三维拆书档案.md（索引）+ 各独立文件 + 00-原始设定/文风DNA/{书名}.md
 ```
 
 ---
@@ -344,7 +344,7 @@ skills/pop-novel-deconstructor/templates/T7-文风DNA模板.md
 ├── 📄 {书名}-卷1起点快照.md                   （供 bookstrap·Phase 0.6 消费）
 ├── 📄 {书名}-卷1终点快照.md                   （供 bookstrap·Phase 0.6 消费）
 ├── 📄 {书名}-Phase3-验证报告.md
-├── 📄 styles/{书名}.md                        （文风DNA，pop-dna v3.0 方法论，供 prose-render 消费）
+├── 📄 00-原始设定/文风DNA/{书名}.md              （文风DNA，pop-dna v3.0 方法论，供 prose-render 消费）
 └── 📄 {书名}-三维拆书档案.md                  （索引+核心发现+赛道配置）
 ```
 
