@@ -1,5 +1,41 @@
 # CHANGELOG — pop-novel-plot
 
+## v5.0.0 — 2026-06-10
+
+### 卷/幕分离重构 — 产出物从11个精简到3个
+
+**核心问题解决**：卷和幕的信息冗余混在一起，下游不知道读哪个文件。
+
+**方案**：
+- 新增 `设计/卷/volume-XX.md` — 单文件包含全卷 Canvas（人物/地图/剧情线/版本/里程碑/势力/装备）
+- `act-XX.yaml` 精简为只含幕级定义和章级切片（去掉 act_end_state / equipment_flow / plotlines — 这些移至 volume-XX.md）
+- info-release-XX.md 保留（幕级，下游消费）
+
+**流程精简**：12步→6步
+- 第一阶段卷设计（Step 1-3）：卷级定义 → 产出 volume-XX.md → 用户确认闸门
+- 第二阶段幕纲编排（Step 4-6）：每幕 info-release → act-XX.yaml → 自检
+
+**废弃的产出文件**（不再产生，数据已合并入 volume-XX.md）：
+- 节点B-XX.md（删除）
+- 情节线草案-XX.md（合并入卷设计§四）
+- act-XX-人物.md（合并入卷设计§三）
+- act-XX-地图.md（合并入卷设计§三）
+- act-XX-势力.md（合并入卷设计§六）
+- act-XX-装备.md（合并入卷设计§七）
+- 里程碑设计.md（合并入卷设计§五）
+- 节奏自检报告.md（删除）
+- 情节线纲汇总表.md（删除）
+- 场景卡试读（可选）
+
+**模板清理**：
+- 新增: volume-design.md（卷设计模板）
+- 保留: act-skeleton.yaml / act-guide.md / info-release.md / rhythm-check.md
+- 废弃（已合并，不再维护）: checkpoint-b.md / character-list.md / map-design.md / faction-dynamics.md / equipment-flow.md / milestone-design.md / plotline-draft.md
+
+**下游影响**：chapter-design 只需要读 2 个文件：
+- `设计/卷/volume-XX.md` — 人物/地图/剧情线
+- `设计/幕/act-XX.yaml` — 当前幕的章级切片
+
 ## v4.3.0 — 2026-06-09
 
 ### 有向图规范（act-guide.md）

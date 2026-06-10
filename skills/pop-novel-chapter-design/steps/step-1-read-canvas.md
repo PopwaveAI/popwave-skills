@@ -16,11 +16,9 @@
 
 ## 前置条件
 
-- [ ] act-XX.yaml 存在
-- [ ] act-XX-人物.md 存在
-- [ ] act-XX-地图.md 存在
+- [ ] `设计/卷/volume-XX.md` 存在（卷级 Canvas：人物池/地点池/剧情线/版本里程碑）
+- [ ] `设计/幕/act-XX.yaml` 存在（当前幕的章级切片）
 - [ ] info-release-XX.md 存在
-- [ ] 里程碑设计.md 存在
 - [ ] entity-snapshot.yaml 存在
 - [ ] constitution.yaml 存在
 
@@ -94,30 +92,43 @@
 | `crisis.cannot_escape_because` | 为什么不能逃 |
 | `crisis.cost_of_involvement` | 卷入代价 |
 
-### 2. 读 Canvas 文件
+### 2. 读卷 Canvas（`设计/卷/volume-XX.md`）
 
-**人物** — `act-XX-人物.md`：
-- 从 `characters_active` 中取角色名列表
-- 对每个角色，读 `act-XX-人物.md` 中的对应条目：卷初状态、卷末状态、叙事功能、与主角关系基线
+卷 Canvas 是下游消费的唯一入口。所有角色/地点/剧情线/势力/装备信息都在此文件。
 
-**地图** — `act-XX-地图.md`：
-- 从 `locations` 中取地点名列表
-- 对每个地点，读 `act-XX-地图.md` 中的对应条目：视觉印象、叙事功能、位置关系、空间情绪
+**人物池** — `volume-XX.md §三`：
+- 从 act-XX.yaml 的 `characters_active` 中取角色名列表
+- 对每个角色，读 volume-XX.md §三 的对应条目：卷初状态、叙事功能、与主角关系基线
+- 当前状态从 entity-snapshot.yaml 取（不是从卷设计取）
 
-**势力** — `act-XX-势力.md`（如有）：
-- 如果本章 plotlines_active 包含 M1（世界危机），读势力在当前章段的活动
+**地点池** — `volume-XX.md §三`：
+- 从 act-XX.yaml 的 `locations` 中取地点名列表
+- 对每个地点，读 volume-XX.md §三 的对应条目：视觉印象、叙事功能、位置关系、空间情绪
 
-### 3. 读后感盘和里程碑
+**势力** — `volume-XX.md §六`（如有）：
+- 如果本章 plotlines_active 包含 M1，读势力当前章段的活动
+
+**剧情线** — `volume-XX.md §四`：
+- 读取 M1/M2/M3/S1/S2 的定义和契诃夫枪，用于 Step 2 标注 chekhov_set/fire
+
+**版本里程碑** — `volume-XX.md §五`（如有）：
+- 如果本章 `milestone_active` 不为空，读对应的 MK 定义
+
+**装备路线图** — `volume-XX.md §七`（如有）：
+- 如果本章涉及装备变化，读装备路线图的段位约束
+
+### 3. 读幕纲（act-XX.yaml）
+
+幕纲提供本章的章级切片数据，包括 emotional_goal / payoff / end_hook / combat 规格等。详见上方 §1。
+
+### 4. 读后感盘和版本
 
 **info-release-XX.md**：
-- 定位分配的章节段中的 P0/P1 信息点
+- 定位当前幕分配的 P0/P1 信息点
 - 确认每个信息点的 source_doc 路径和 release_method
 - 这是 Step 2 中「信息释放」字段的来源
 
-**里程碑设计.md**：
-- 如果本章 `milestone_active` 不为空，读对应的 MK 定义
-
-### 4. 读项目状态
+### 5. 读项目状态
 
 | 文件 | 取什么 | 用途 |
 |:-----|:-------|:-----|
