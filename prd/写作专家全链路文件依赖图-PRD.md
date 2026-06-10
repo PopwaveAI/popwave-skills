@@ -267,15 +267,14 @@ Step 3 · pop-dna (文风DNA蒸馏)
 |------|---------|---------|-----------|
 | **Step 1 读入上下文** | act-XX.yaml + volume-XX.md + info-release-XX.md + entity-snapshot.yaml + 里程碑设计.md + constitution.yaml + L3-角色卡(core_desire) | —（建立基线：角色池/地点池/信息清单/幕纲字段/场景规格/角色欲望） | Step 2 |
 | **Step 2 事件链设计** | Step 1 基线 + references/ 四个参考文档 | —（逐个回合设计事件，同步确定角色/地点/情绪/信息释放/字数） | Step 3 |
-| **Step 3 产出+状态** | Step 2 事件链 | `03-写作资产/chXXX-事实骨架.md` | pop-novel-prose-render |
-| | | `03-写作资产/chXXX-登场人物卡.md` | pop-novel-prose-render |
+| **Step 3 产出+状态** | Step 2 事件链 | `03-写作资产/chXXX-设计包.md`（含事实骨架+登场人物卡） | pop-novel-prose-render |
 | | | `00-总控/entity-snapshot.yaml`（更新） | 下一章 design |
 
 > **核心约束：不碰文风。** 不知道文风DNA的存在。不写叙事者声音、不写句子节奏、不写修辞风格。
 >
 > **硬性质量下限：** 事件数 ≥ 章字数 ÷ 200 — "靶心不够，Render 没材料"。
 >
-> **新增字段：** 事件链每个事件增加 `conflict_layers`（冲突层次：external/internal/interpersonal）和 `hook_type`（章末事件钩子类型）
+> **新增变更：** 事实骨架 + 登场人物卡合并为 `chXXX-设计包.md` 单文件。事件链每个事件增加 `conflict_layers`（冲突层次：external/internal/interpersonal）。
 
 ### 3.4 pop-novel-prose-render（正文渲染/上色 ★NEW）
 
@@ -354,8 +353,7 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | **entity-snapshot.yaml** | chapter-design (持续更新) | chapter-design (下一章), expert-writer | 角色状态/时间线/伏笔的全量快照 |
 | **起点快照.md** | bookstrap Phase 6 | plot Step 2 | 卷开始时主角/世界状态 |
 | **终点快照.md** | bookstrap Phase 7 / deconstructor | plot Step 2, chapter-design | 卷结束时目标状态 |
-| **chXXX-事实骨架.md** (含 conflict_layers) | chapter-design Step 3 | prose-render | 回合级事件链（含角色/地点/情绪/冲突层次/信息释放） |
-| **chXXX-登场人物卡.md** | chapter-design Step 3 | prose-render | 本回合登场角色状态卡 |
+| **chXXX-设计包.md**（含 fact-skeleton + character-card） | chapter-design Step 3 | prose-render | 回合级事件链 + 角色状态（含冲突层次/信息释放） |
 | **styles/{书名}.md** | pop-dna | prose-render Phase 1 | 文风DNA档案 |
 
 ### 4.2 可选/增强共享文件

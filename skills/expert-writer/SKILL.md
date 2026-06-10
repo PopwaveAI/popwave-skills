@@ -4,7 +4,7 @@ description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect
 version: 2.3.0
 pipeline:
   upstream: []
-  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-writer, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker]
+  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker]
 ---
 
 # 网文写作专家（元 Skill / 专家模式）

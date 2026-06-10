@@ -13,7 +13,7 @@ pipeline:
 
 **默认拆书范围 = 第一卷或前100章（全读）。** 前100章全量逐章精读，确保覆盖完整的设定引入期、角色建立期和节奏成型期。仅在用户明确要求"全书拆解"时才全量走原动态密度表。
 
-产出物供给 pop-novel-writer（正文写作）和 pop-novel-bookstrap（开书设定）管线。
+产出物供给 pop-novel-chapter-design → pop-novel-prose-render（正文写作管线）和 pop-novel-bookstrap（开书设定）管线。
 
 ---
 

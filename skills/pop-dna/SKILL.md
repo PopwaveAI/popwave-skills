@@ -101,7 +101,7 @@ pipeline:
 
 ## 五、与 writer 的集成
 
-pop-dna 产出的 `styles/{书名}.md` 供 `pop-novel-writer` §Step 2 Phase 1 消费：
+pop-dna 产出的 `styles/{书名}.md` 供 `pop-novel-prose-render` §Step 1 消费：
 
 ```
 writer Phase 1（风格锚定）：

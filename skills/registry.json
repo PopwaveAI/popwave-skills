@@ -99,12 +99,6 @@
       "path": "skills/pop-novel-qa"
     },
     {
-      "id": "pop-novel-writer",
-      "description": "正文写作3步管线（Design→Render→State Update）。Design与Skeleton合并为单一设计包，含里程碑对齐检查。",
-      "latest": "12.0.0",
-      "path": "skills/pop-novel-writer"
-    },
-    {
       "id": "pop-reader-making",
       "description": "拆解长篇小说。Phase A 产出三格式：叙事笔记(MD) + 结构化数据(YAML含章节标注/共现/统计) + image_prompt(角色肖像/名场面)。",
       "latest": "0.14.0",

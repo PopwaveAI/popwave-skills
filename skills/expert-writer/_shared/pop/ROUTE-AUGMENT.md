@@ -46,7 +46,7 @@
 | **collision_curve（vNext 新增）** | `{项目}/00-总控/数值体系/collision_curve.yaml` | 「碰撞曲线：`{path}`。战斗章分布和张力峰值需与此对齐。」 |
 | **T6 数据流写法（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T6 | 「该书的数据流写法/装备数值风格：`{path}`。Step 7 装备设计时参考——禁止 D&D 骰子符号。」 |
 
-### pop-novel-writer（正文写作）
+### pop-novel-chapter-design → pop-novel-prose-render（章纲设计 → 正文渲染）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
