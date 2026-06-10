@@ -63,6 +63,21 @@ projects:
     status: "active"
     notes: "续写项目。reverse mode bootstrap 已完成。目录结构不统一（中文名/数字前缀混用），后续应统一。ch389已通过精读修复。"
 
+  - name: "深渊主宰·外神低语"
+    dir_name: "6-10项目测试"
+    phase: "plotted"
+    current_chapter: 0
+    current_act: 1
+    total_acts_planned: 4
+    style_profile: null
+    platform: "qidian"
+    reader_profile_ok: true
+    constitution_ok: true
+    anchor_library_ok: false
+    last_modified: "2026-06-10"
+    status: "active"
+    notes: "新书启动项目。bookstrap+plot已完成。幕1（15章）已设计完毕，进入chapter-design阶段。参考书=深渊主宰。"
+
 # ============================================================
 # 二、参考素材库（跨项目可用）
 # ============================================================
@@ -263,6 +278,51 @@ file_registry:
       last_verified_ch: 3
       verified: false
 
+  6-10项目测试:
+    confirmed:
+      - path: "00-原始设定/project.yaml"
+        type: "config"
+        version: 1
+      - path: "00-原始设定/constitution.yaml"
+        type: "config"
+        version: 1
+      - path: "00-原始设定/L0-产品层/story-engine.yaml"
+        type: "config"
+        version: 2
+      - path: "00-原始设定/L1-元设定层/"
+        type: "settings"
+        version: 1
+        notes: "L1-01~06 全部存在"
+      - path: "设计/卷/volume-01.md"
+        type: "plot"
+        version: 1
+      - path: "设计/幕/act-01.yaml"
+        type: "plot"
+        version: "5.0"
+      - path: "设计/幕/info-release-01.md"
+        type: "plot"
+        version: 1
+      - path: "设计/起点快照.md"
+        type: "snapshot"
+        version: 1
+      - path: "设计/终点快照.md"
+        type: "snapshot"
+        version: 1
+      - path: "00-总控/entity-snapshot.yaml"
+        type: "state"
+        version: 1
+    active:
+      - path: "03-写作资产/"
+        type: "design_output"
+        notes: "chapter-design 产出目录"
+      - path: "正文/"
+        type: "draft"
+        notes: "正文写作目录"
+    deprecated: []
+    pre_read_status:
+      last_verified_ch: 0
+      verified: false
+
   海贼法典:
     confirmed:
       - path: "总控/project.yaml"
@@ -361,14 +421,14 @@ pipeline_deps:
 # 每个子 skill 完成后由各自的 Step 3 回写 1 行。
 # ============================================================
 progress:
-  last_completed_skill: ""
-  last_completed_phase: ""
-  next_skill: ""
-  next_skill_ready: false
+  last_completed_skill: "pop-novel-plot"
+  last_completed_phase: "plot_complete"
+  next_skill: "pop-novel-chapter-design"
+  next_skill_ready: true
   checkpoints:
-    story-engine_confirmed: false
-    起点快照_confirmed: false
-    终点快照_confirmed: false
-    act-XX-yaml_exists: false
-    canvas_exists: false
+    story-engine_confirmed: true
+    起点快照_confirmed: true
+    终点快照_confirmed: true
+    act-XX-yaml_exists: true
+    canvas_exists: true
     正文_exists: false
