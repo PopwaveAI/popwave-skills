@@ -45,8 +45,8 @@
 
 ## 产出自检
 
-- [ ] 事实骨架中每个事件的「参与角色」在 act-XX-人物.md 中存在
-- [ ] 事实骨架中每个事件的「地点」在 act-XX-地图.md 中存在
+- [ ] 事实骨架中每个事件的「参与角色」在 volume-XX.md §三 中存在
+- [ ] 事实骨架中每个事件的「地点」在 volume-XX.md §三 中存在
 - [ ] 登场人物卡中每个角色的 before 状态与 entity-snapshot 一致
 - [ ] entity-snapshot 已正确更新
 - [ ] constitution 红线全部通过

@@ -16,10 +16,10 @@ pipeline:
 
 ## ❌ 质量红线（开工前→完工后自检）
 
-- [ ] **Canvas 就绪** — act-XX.yaml + 人物 + 地图 + 势力 + info-release + 里程碑 全部存在
+- [ ] **Canvas 就绪** — `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml` + info-release-XX.md 全部存在
 - [ ] **entity-snapshot 已读取** — 角色当前状态的唯一 canon
-- [ ] **所有出场角色可追溯** — 每个角色在 act-XX-人物.md 中存在
-- [ ] **所有发生地点可追溯** — 每个地点在 act-XX-地图.md 中存在
+- [ ] **所有出场角色可追溯** — 每个角色在 volume-XX.md §三（角色池）中存在
+- [ ] **所有发生地点可追溯** — 每个地点在 volume-XX.md §三（地点池）中存在
 - [ ] **info_release 全部落地** — 本章 P0 信息释放项全部在事件链中有对应节点
 - [ ] **事件链覆盖本章剧情** — 无遗漏无冗余
 - [ ] **情绪节拍与 act-XX.yaml 的 emotional_goal 对齐**
