@@ -72,14 +72,10 @@ pipeline:
 
 ## 步骤详情
 
-| 步骤 | 产出文件 | 模板 | 说明 |
-|:-----|:---------|:-----|:------|
-| Step 1 — 卷级定义 | —（口述确认） | — | 卷号/章节范围/幕划分/快照/核心命题 |
-| Step 2 — 卷 Canvas 设计 | `设计/卷/volume-XX.md` | `templates/volume-design.md` | 时间地理人物剧情线 + 版本里程碑 + 势力装备 |
-| Step 3 — 用户确认 | —（闸门） | — | 展示 volume-XX.md → 用户点头才进章纲 |
-| Step 4 — 信息释放规划 | `设计/幕/info-release-XX.md` | `templates/info-release.md` | P0/P1 信息点章级分配 |
-| Step 5 — 幕纲设计 | `设计/幕/act-XX.yaml` | `templates/act-skeleton.yaml` | 每章 emotional_goal/payoff/钩子/场景规格 |
-| Step 6 — 自检 | — | `templates/rhythm-check.md` | 节奏 + 值一致性 + 平台校准（不检出文件） |
+| 步骤 | 产出文件 | 模板/参考 | 说明 |
+|:-----|:---------|:----------|:------|
+| Step 1 — 卷设计 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 卷定位/快照/Canvas/用户确认闸门 |
+| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml` + `info-release-XX.md` | `steps/step-2-act.md` + `templates/act-skeleton.yaml` + `templates/info-release.md` | 每幕 info-release → act-XX.yaml → 自检（循环N次） |
 
 ---
 
@@ -120,6 +116,9 @@ pop-novel-plot/
 ├── SKILL.md              ← 路由层（本文件）
 ├── skill.json
 ├── CHANGELOG.md
+├── steps/                ← 执行步骤（2个步骤）
+│   ├── step-1-volume.md  ← 卷设计
+│   └── step-2-act.md     ← 幕纲编排（含 info-release + act-XX.yaml + 自检）
 └── templates/            ← 产出物模板
     ├── volume-design.md  ← 卷设计模板（新建）
     ├── act-skeleton.yaml ← 幕纲 YAML 骨架

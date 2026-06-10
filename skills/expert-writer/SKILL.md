@@ -319,7 +319,7 @@ pipeline:
 |:--------|:--------------------|:---------|:-------------|:---------|
 | bookstrap | story-engine 确认 / 起点快照确认 / 终点快照确认 | 产出展示给用户 → 说"对"才进下一阶段 | → **pop-novel-plot**（剧情规划） | 携带：story-engine.yaml + L1-01~06 + constitution.yaml + 起点/终点快照。直接说"bookstrap已完成，接下来进入pop-novel-plot做卷级剧情规划" |
 | deconstructor | 锚定章下载完成 | 下载后的原文片段展示给用户 → 确认"这些文本对吗？"再注入设定 | 无（产出供 bookstrap 消费，不触发新 skill） | — |
-| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-chapter-design**（章纲设计）或 → **lark-doc**（归档发布） | 携带：act-XX.yaml + canvas(人物/地图/势力) + info_release。确认 plot 章级切片完成后再说"进入 chapter-design" |
+| plot | 里程碑设计 / 场景卡试读产出 | 用户点头才能进节奏自检 | → **pop-novel-chapter-design**（章纲设计）或 → **lark-doc**（归档发布） | 携带：`设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml` + `info-release-XX.md`。确认 plot 章级切片完成后再说"进入 chapter-design" |
 | chapter-design | 事实骨架 / 登场人物卡 | 骨架必须对齐 Canvas | → **pop-novel-prose-render**（正文渲染） | 携带：事实骨架.md + 登场人物卡.md。确认骨架产出后说"进入 prose-render" |
 | prose-render | 风格契约 / 正文渲染 | 风格验证通过才能输出 | → **pop-novel-qa**（质检） | 检查 chXXX.md。通知用户"正文完成，下一步进入质检" |
 
