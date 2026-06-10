@@ -1,5 +1,8 @@
 ---
 name: pop-novel-qa
+pipeline:
+  upstream: [pop-novel-prose-render, pop-novel-writer]
+  downstream: []
 description: "审稿/质检/QA/审一下/爽点质检 触发：纯感受型三层介入 QC。不评分、不给建议、不评价节奏、不评价画面、不比较——只回答'我读的时候怎么了'。Step 1 大纲层QC / Step 2 骨架层QC / Step 3 正文层QC。"
 ---
 

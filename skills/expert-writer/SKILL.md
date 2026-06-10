@@ -2,6 +2,9 @@
 name: expert-writer
 description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect 三层工作流。自动识别创作意图并路由子 Skill，集成修改路由（三层联动影响评估）、决策点闸门（人必须在场的拦截点）、完成后引导（基于项目文件状态的跨轮引导）。
 version: 2.3.0
+pipeline:
+  upstream: []
+  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-writer, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker]
 ---
 
 # 网文写作专家（元 Skill / 专家模式）

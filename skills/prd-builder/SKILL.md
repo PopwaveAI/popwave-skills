@@ -1,6 +1,9 @@
 ﻿---
 name: "prd-builder"
 description: "Takes any product idea and generates: (1) a structured PRD, (2) syncs it to Feishu, (3) processes Feishu feedback to refine it, (4) produces a standalone interactive HTML demo. Invoke when user wants to turn a product concept into a complete PRD with demo, or asks to build a PRD, create a product prototype, or make an interactive demo from an idea."
+pipeline:
+  upstream: []
+  downstream: []
 ---
 
 # PRD Builder -- 从想法到 PRD 到交互 Demo

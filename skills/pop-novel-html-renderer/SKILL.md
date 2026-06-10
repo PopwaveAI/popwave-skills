@@ -1,6 +1,9 @@
 ---
 name: pop-novel-html-renderer
 description: "当用户要求「发布/HTML化/渲染成网页」内容时触发。将小说正文/设定/场景卡等结构化数据 → 高质量单文件 HTML 发布页。"
+pipeline:
+  upstream: [pop-novel-writer, pop-novel-prose-render]
+  downstream: []
 ---
 
 # html-renderer — HTML 化发布引擎

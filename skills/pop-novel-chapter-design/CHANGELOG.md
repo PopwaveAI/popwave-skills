@@ -1,5 +1,21 @@
 # CHANGELOG — pop-novel-chapter-design
 
+## v1.4.0 — 2026-06-10
+
+### 步骤结构重构：7步→3步 + 4个references
+
+- **步骤数从7步压缩为3步**：
+  - 旧：Step 1 读入 → Step 2 事件链 → Step 3 角色 → Step 4 空间 → Step 5 信息 → Step 6 情绪 → Step 7 产出
+  - 新：Step 1 读入 → Step 2 事件链（★核心，同步完成角色/空间/信息/情绪） → Step 3 产出
+- **Step 1 重写**：对齐 plot skill v4.1+ 的 14 个必读字段
+  - 新增 `reader_emotion_path` / `chekhov_set` / `chekhov_fire` — 之前缺失
+  - 新增场景规格字段：combat/dialogue/discovery/crisis — 按场景类型条件读取
+  - payoff 确认仍然是最新的章级字段（payoff.type/trigger/reader_feeling）
+- **steps/3/4/5/6 → references/**：降级为 Step 2 消费的参考文档
+  - character-scheduling.md / location-orchestration.md / info-release.md / emotional-beats.md
+  - 每个 reference 文件开头声明"此文件不独立执行，Agent 在 Step 2 逐事件设计时参考"
+- **SKILL.md 完全重写**：目录结构、错误示例（5条）、引用关系图同步更新
+
 ## v1.3.0 — 2026-06-10
 
 ### 事件定义清晰化 + 硬性下限回归

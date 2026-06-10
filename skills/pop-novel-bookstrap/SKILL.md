@@ -1,6 +1,9 @@
 ---
 name: pop-novel-bookstrap
 description: 从故事引擎到可执行项目骨架的开书管线。当用户说"开书"/"新书"/"启动项目"/"设世界观"/"续写"时启用。支持 forward（新书）和 reverse（续写）两种模式。新增 Phase 0.6(拆书融合)+Phase 6(起点)+Phase 7(终点)。
+pipeline:
+  upstream: [pop-novel-deconstructor, download-webnovel-txt]
+  downstream: [pop-novel-plot]
 ---
 
 # 开书启动

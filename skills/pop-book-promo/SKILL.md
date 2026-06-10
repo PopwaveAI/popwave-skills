@@ -4,8 +4,12 @@ display_name: 多模态营销物料生成
 description: 从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。版本 3.0.0
 version: 3.0.0
 scenario: multimodal-marketing
+pipeline:
+  upstream: [pop-reader-making]
+  downstream: []
 dependencies:
   required:
+---
     - "python3"
     - "templates/ (5 个 HTML 模板，模式 B 用)"
     - "（generate.py 仅用 Python 标准库，无需 pip install）"

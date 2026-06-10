@@ -2,6 +2,9 @@
 name: "pop-reader-making"
 version: "0.14.1"
 description: "拆解长篇小说为结构化参考文件。Phase A 产出双格式：叙事笔记(MD) + 结构化数据(YAML含章节标注/实体共现/卷统计/角色image_prompt/名场面image_prompt)，供 pop-html-anything 直接消费渲染。与 book-deconstructor（拆书为写）协作。"
+pipeline:
+  upstream: []
+  downstream: [pop-html-anything]
 ---
 
 # pop-reader-making · 网文拆书技能

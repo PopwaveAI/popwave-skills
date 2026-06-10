@@ -1,7 +1,10 @@
 ﻿---
 name: feishu-docs
-description: Create, read, update, and delete Feishu (Lark) cloud documents, comments, bitable records, folders, and permissions via Open API. Invoke when user wants to create/edit docs, reply to comments, manage folders, set permissions, import Markdown, search files, or any Feishu office automation task. Triggers include "Feishu document", "椋炰功", "add a review", "reply to comment", "create a folder", "set permissions", "search my docs".
+description: Create, read, update, and delete Feishu (Lark) cloud documents, comments, bitable records, folders, and permissions via Open API. Invoke when user wants to create/edit docs, reply to comments, manage folders, set permissions, import Markdown, search files, or any Feishu office automation task. Triggers include "Feishu document", "飞书", "add a review", "reply to comment", "create a folder", "set permissions", "search my docs".
 allowed-tools: RunCommand(python:*), Write(*), Read(*)
+pipeline:
+  upstream: []
+  downstream: []
 ---
 
 # Feishu Docs API Integration

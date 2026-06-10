@@ -2,6 +2,9 @@
 name: pop-html-anything
 description: "HTML 渲染引擎 + 网站设计师。v2.4 上游预写 image_prompt——角色肖像和名场面 prompt 由上游拆书 skill 产出，本skill只负责执行生图+嵌入。硬性配图触发：有角色必须配肖像、有场景必须配插图。内嵌Seedream生图+三层叠图Hero+长文阅读器+内容互联。"
 version: 2.4.0
+pipeline:
+  upstream: [pop-reader-making]
+  downstream: []
 ---
 
 # pop-html-anything · 统一 HTML 渲染引擎

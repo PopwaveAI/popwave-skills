@@ -2,6 +2,9 @@
 name: pop-YouTubewebbuilder
 description: 创作者个人网站生成器。透过内容读懂创作者 → 人物优先设计 → agent 自主创作个人品牌页。输出 .md + .html 文件。
 version: 4.1.0
+pipeline:
+  upstream: []
+  downstream: []
 ---
 
 > **⚠️ Windows PowerShell 警告：所有 `&&` 必须替换为 `;`**

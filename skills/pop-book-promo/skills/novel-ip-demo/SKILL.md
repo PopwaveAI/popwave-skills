@@ -4,8 +4,12 @@ display_name: 小说 IP 演示 Skill
 description: 输入书名，快速生成演示用女主角 IP 卡 HTML。不现场调用慢速图像模型。版本 1.1.0
 version: 1.1.0
 scenario: multimodal-demo
+pipeline:
+  upstream: [pop-reader-making]
+  downstream: []
 dependencies:
   required:
+---
     - "scripts/demo_from_title.py"
     - "scripts/build_heroine_card.py"
     - "qianyu/heroine_card.json"

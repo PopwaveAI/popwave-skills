@@ -1,6 +1,9 @@
 ---
 name: pop-novel-prose-render
 description: 正文渲染/上色表达。消费 Design 的骨架产物（事实骨架+登场人物卡），注入文风DNA、锚定章和写作技法，渲染为可读的正文。不判断剧情逻辑、不验证设定一致性。用户说"写正文/渲染这章"时启用。由 expert-writer 通过子 agent 调度。
+pipeline:
+  upstream: [pop-novel-chapter-design, pop-dna]
+  downstream: [pop-novel-qa]
 ---
 
 # 正文渲染 / 上色表达 v1.0

@@ -2,6 +2,9 @@
 name: pop-dna
 description: 文风DNA蒸馏引擎 v3.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 styles/ 风格文件供 writer Phase 1 消费。
 version: 3.0.0
+pipeline:
+  upstream: [pop-novel-deconstructor]
+  downstream: [pop-novel-prose-render]
 ---
 
 # pop-dna · 文风DNA蒸馏引擎 v3.0

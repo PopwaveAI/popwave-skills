@@ -1,6 +1,9 @@
 ---
 name: pop-novel-deconstructor
 description: 拆解长篇网文，默认拆第一卷或前100章（全读）。产出设定/角色/剧情/技法/文风DNA+卷1起点/终点快照。仅在用户明确要求全书拆解时才全量。触发词："拆书""拆解""分析这本书""提取写法""对标""拆参考书"。
+pipeline:
+  upstream: [download-webnovel-txt]
+  downstream: [pop-novel-bookstrap, pop-dna, pop-novel-plot]
 ---
 
 # 拆书解构 v7.0.0

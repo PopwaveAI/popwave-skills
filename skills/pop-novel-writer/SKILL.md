@@ -1,6 +1,9 @@
 ---
 name: pop-novel-writer
-description: 正文写作引擎，3步驱动。Design(LLM/八块设计包)→Render(LLM/三阶段：风格锚定→正文渲染→风格验证)→State Update(零LLM)。v15.0 状态协议重构：章末delta单源 + entity-snapshot.yaml全量快照聚合。
+description: 正文写作引擎，3步驱动。Design(LLM/八块设计包)→Render(LLM/三阶段：风格锚定→正文渲染→风格验证)→State Update(零LLM)。v15.0 状态协议重构：章末delta单源 + entity-snapshot.yaml全量快照聚合。（即将被 pop-novel-chapter-design + pop-novel-prose-render 替代）
+pipeline:
+  upstream: [pop-novel-plot, pop-dna]
+  downstream: [pop-novel-qa]
 ---
 
 # 正文写作引擎（v15.0）

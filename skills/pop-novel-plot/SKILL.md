@@ -1,6 +1,9 @@
 ---
 name: pop-novel-plot
 description: 剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划（罗琳式支线追踪+契诃夫枪链）。v4.3 新增产出文件有向图规范（@source/@consumed_by）+ 跨文件值一致性校验。
+pipeline:
+  upstream: [pop-novel-bookstrap, pop-novel-deconstructor]
+  downstream: [pop-novel-chapter-design]
 ---
 
 # 剧情架构 v4.3

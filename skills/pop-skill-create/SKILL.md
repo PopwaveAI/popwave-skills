@@ -1,6 +1,9 @@
 ---
 name: pop-skill-create
 description: Popwave Skill 编写规范、改造工具和评估框架。定义 Skill 的文件结构和抽象原则（设计模式）；提供 8 步改造流程（改造模式）；提供 8 维评分 rubrik 和实测评估（评估模式）。当用户说"创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/评估skill/skill打分/skill质量检查/skill review"时启用。
+pipeline:
+  upstream: []
+  downstream: []
 ---
 
 # Popwave Skill — 设计 · 改造 · 评估

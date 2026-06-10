@@ -1,6 +1,9 @@
 ---
 name: "pop-novel-game"
 description: "将写书过程中沉淀的世界观、人设、剧情设定等资料，转化为由AI驱动的互动文字游戏（AI文游）。Invoke when user wants to turn their novel's world-building materials into an interactive text-based game experience."
+pipeline:
+  upstream: [pop-novel-bookstrap]
+  downstream: []
 ---
 
 # pop-novel-game · 小说世界观AI文游化
