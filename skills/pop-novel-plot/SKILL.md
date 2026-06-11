@@ -6,10 +6,11 @@ pipeline:
   downstream: [pop-novel-chapter-design]
 ---
 
-# 剧情架构 v6.0
+# 剧情架构 v6.1
 
 > **卷 = 战略** — 目标、背景（时间/地理/角色/势力动机）、剧情线列表、开局→结束快照。
 > **幕 = 战术** — Canvas 矩阵（章节×剧情线交叉表）、情绪弧线、爽点分布、每章切片。
+> **全书架构（Phase 0）** — N 卷蓝图：卷拆分/地理全图/角色出场节奏/主线全览。
 >
 > 下游（pop-novel-chapter-design）只需要读 2 个文件：
 > `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml`
@@ -63,11 +64,12 @@ pipeline:
 
 ```
 Phase 0：全书架构（1次）
-  Step 0    全书架构定义         → 全书架构.md（幕按卷分组：设计/幕/vol-XX/act-YY.yaml）
+  Step 0    全书架构定义         → 全书架构.md（卷拆分/地理全图/角色出场节奏/主线全览）
+  [用户确认闸门]      → 确认全书架构后再进单卷设计
   ↓ 产出: 设计/全书架构.md
 
 第一阶段：卷设计（1次/卷）
-  Step 1    卷级定义             → 目标/幕划分/快照
+  Step 1    卷级定义             → 从全书架构拆取第N卷 → 目标/幕划分/快照
   Step 2    卷 Canvas 设计       → 背景（时间/地理/角色/势力动机）+ 剧情线列表
   [用户确认闸门]     → 确认卷定义后再进幕纲
   ↓ 产出: 设计/卷/volume-XX.md
@@ -88,8 +90,9 @@ Phase 0：全书架构（1次）
 
 | 步骤 | 产出文件 | 模板/参考 | 说明 |
 |:-----|:---------|:----------|:------|
-| Step 1 — 卷定义 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 卷目标/背景/剧情线/快照 + 势力动机 + 用户确认闸门 |
-| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml`（info-release已内嵌于act#info_release_plan） | `steps/step-2-act.md` + `templates/act-skeleton.yaml` | Canvas 矩阵 → 章级切片 → info_release_plan → 自检（循环N次） |
+| Step 0 — 全书架构 | `设计/全书架构.md` | `steps/step-0-architecture.md` | 卷拆分/地理全图/角色出场节奏/主线全览（开书后执行一次，卷间可修订） |
+| Step 1 — 卷定义 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 从全书架构拆取本卷战略：目标/背景/剧情线/快照 + 用户确认闸门 |
+| Step 2 — 幕纲编排 | `设计/幕/vol-XX/act-YY.yaml`（info-release已内嵌于act#info_release_plan） | `steps/step-2-act.md` + `templates/act-skeleton.yaml` | Canvas 矩阵 → 章级切片 → info_release_plan → 自检（循环N次） |
 
 ---
 
@@ -101,7 +104,7 @@ Phase 0：全书架构（1次）
 ├── 卷/
 │   └── volume-XX.md          ← 下游消费：卷级战略（目标/背景/剧情线/快照）
 └── 幕/
-    └── act-XX.yaml            ← 下游消费：Canvas 矩阵 + 章级切片 + info_release_plan + 节奏检查
+    └── vol-XX/act-YY.yaml    ← 下游消费：Canvas 矩阵 + 章级切片 + info_release_plan + 节奏检查
 ```
 
 ---
@@ -130,12 +133,13 @@ pop-novel-plot/
 ├── SKILL.md              ← 路由层（本文件）
 ├── skill.json
 ├── CHANGELOG.md
-├── steps/                ← 执行步骤（2个步骤）
+├── steps/                ← 执行步骤（3个步骤）
+│   ├── step-0-architecture.md ← 全书架构设计
 │   ├── step-1-volume.md  ← 卷定义
 │   └── step-2-act.md     ← 幕纲编排（Canvas 矩阵 + act-XX.yaml + info_release_plan + 自检）
 └── templates/            ← 产出物模板
-    ├── volume-design.md  ← 卷设计模板
-    ├── act-skeleton.yaml ← 幕纲 YAML 骨架（含 Canvas 矩阵）
+    ├── volume-design.md  ← 卷设计模板（含 全书隶属 段）
+    ├── act-skeleton.yaml ← 幕纲 YAML 骨架（含 Canvas 矩阵 + info_release_plan）
     ├── act-guide.md      ← 字段计算公式参考
     ├── info-release.md   ← 已废弃（合并入 act-skeleton.yaml#info_release_plan 段）
     ├── rhythm-check.md   ← 自检清单
@@ -147,4 +151,4 @@ pop-novel-plot/
 
 ---
 
-## 版本 v6.0.0 | 2026-06-10 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
+## 版本 v6.1.0 | 2026-06-11 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

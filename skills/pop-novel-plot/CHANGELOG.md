@@ -2,8 +2,12 @@
 
 ## v6.1.0 — 2026-06-11
 
-### 文件消减 + info-release 内嵌 + 全书架构
+### 文件消减 + info-release 内嵌 + 全书架构（Phase 0 step文件+卷模板+用户确认闸门）
 
+- **新增 Step 0 step 文件**：`steps/step-0-architecture.md` — 全书架构设计完整执行步骤（卷拆分/地理全图/角色出场节奏/主线全览/用户确认闸门）
+- **step-1-volume.md**：标为 v6.1，新增 `全书架构.md` 前置条件 + 上游引用
+- **volume-design.md 模板**：新增「〇、全书隶属」段，从全书架构提取本卷定位
+- **SKILL.md**：版本号 v6.0→v6.1、step 详情表增 Step 0、目录树增 step-0-architecture.md、执行流程增全书架构用户确认闸门
 - **act-XX-人物/地图/势力/装备 四个文件彻底移除**：角色追溯→volume-XX.md#角色池，地点→volume-XX.md#地点池，势力→volume-XX.md#势力动机，装备→volume-XX.md#装备路线图
 - **info-release-XX.md 合并进 act-XX.yaml#info_release_plan 段**：P0/P1清单 + 密度检查内嵌，不再独立文件
 - **新增 Phase 0 全书架构**：产出 `设计/全书架构.md`（消费 story-engine + 快照 + L1 → 全卷蓝图）
