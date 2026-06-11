@@ -58,7 +58,7 @@
     - 不存在 → 创建初始记录
     - 已存在 → 跳过
   - 检查 file_registry[{项目}] 是否已存在：
-    - 不存在 → 注册 project.yaml + constitution.yaml 到 confirmed
+    - 不存在 → 注册 project.yaml + 角色卡 到 confirmed
 □ **状态协议校验**：
   - entity-snapshot.yaml 是否存在？→ 不存在则 WARN
   - entity-snapshot._meta.total_chapters == ch*.md 文件数？→ 不等则 P0 警告
@@ -82,11 +82,11 @@
 
 ```
 □ 产出与上游设定/宪法/幕纲一致？
-  - prose-render 正文是否违反 constitution.yaml？
+  - prose-render 正文是否违反 Canvas 约束？
   - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
-□ entity-snapshot 与 constitution 一致？
-  - entity-snapshot 中角色状态是否违反 constitution 的约束？
-  - 例：constitution 说"主角在 Act 1 结束时不超过 3阶"，entity-snapshot 显示 4阶 → P1
+□ entity-snapshot ↔ 角色卡一致性？
+  - entity-snapshot 中角色状态是否与角色卡快照一致？
+  - 例：角色卡说"主角在 Act 1 结束时不超过 3阶"，entity-snapshot 显示 4阶 → P1
 □ 如果有偏离 → 记录偏离项和严重程度，返回用户判断
 ```
 
@@ -131,12 +131,12 @@
    → 有重复：P2
 ```
 
-### Constitution 一致性校验
+### 角色卡 一致性校验
 
 ```
-□ entity-snapshot.protagonist.rank 是否在 constitution 允许的段位范围内？
-   → 超出：P1
+□ 索伦状态是否与角色卡快照一致？
+   → 不一致：P1
 
-□ entity-snapshot 中任意角色 status=死亡 是否符合 constitution 或 plot 的规划？
+□ entity-snapshot 中任意角色 status=死亡 是否符合角色卡或 plot 的规划？
    → 意外死亡：P0 — 退回 writer 确认。
 ```

@@ -107,7 +107,7 @@ entity-snapshot.total_chapters → progress.{last_completed_skill, next_skill, r
 ```
 □ exec: Get-Content -Encoding UTF8 -Raw 目标子 skill SKILL.md → 验证完整
 □ exec: Get-Content -Encoding UTF8 -Raw steps/*.md, phases/*.md, templates/*.md
-□ exec: Get-Content -Encoding UTF8 -Raw 项目 YAML (project/constitution/entity-snapshot/act-XX)
+□ exec: Get-Content -Encoding UTF8 -Raw 项目 YAML (project/entity-snapshot/act-XX)
 □ exec: Get-Content -Encoding UTF8 -Raw 文风DNA/*
 ```
 

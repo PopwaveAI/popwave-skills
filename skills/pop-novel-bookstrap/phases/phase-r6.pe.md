@@ -14,7 +14,7 @@ Phase r1-r5 全部完成。
 □ PRD.md 存在且用户已确认
 □ reader_profile 已嵌入 project.yaml
 □ L1-元设定层/01-06.md 全部存在且用户已确认
-□ constitution.yaml 存在且用户已确认
+□ 角色卡验证通过且用户已确认
 □ 剧情脉络.md 存在且续写起点已标记
 □ 伏笔追踪.md 存在
 □ project.yaml 已配置正确 paths + reader_profile

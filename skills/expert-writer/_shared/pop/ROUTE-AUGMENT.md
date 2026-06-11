@@ -33,7 +33,7 @@
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
-| **constitution 路径** | `projects[].constitution_ok` → 推断 `{项目}/02-大纲/constitution.yaml` | 「宪法路径：`{path}`」 |
+| **状态路径** | `projects[].state_ok` → 推断 `{项目}/状态/` | 「状态路径：`{path}`」 |
 | **reader_profile** | `projects[].reader_profile_ok` → 推断 `{项目}/00-总控/project.yaml` | 「读者画像在 project.yaml 的 reader_profile 字段」 |
 | **跨项目 plot 教训** | `cross_project_lessons[]` where `applicable_to` contains `plot` | 引用原文 |
 | **style_profile** | `projects[].style_profile` | 「项目风格：`{profile}`」 |
@@ -54,7 +54,6 @@
 | **info_release 预取** | 读 act-XX.yaml 的 `info_release[].source_doc` | 「需释放设定及原文路径：{item_id} → `{source_doc}`」 |
 | **canvas 路径** | 读 act-XX.yaml 的 `canvas_refs`（如有） | 「画布文件：{列表}」 |
 | **上章未闭合节点** | 读上一章 design 文件 | 「上一章未闭合：{节点列表}（如有则需本章跟进）」 |
-| **constitution 路径** | `projects[].constitution_ok` | 「宪法路径：`{path}`。本章相关条款：{提取结果}」 |
 | **style 文件路径** | `projects[].style_profile` 或 `style_profiles.writer_styles[]` | 「风格文件：`{path}`」 |
 | **跨项目 writer 教训** | `cross_project_lessons[]` where `applicable_to` contains `writing` | 引用原文（如 L002 精读闸门、L003 风格执行） |
 | **pre_read_status** | `file_registry[项目].pre_read_status` | 「精读闸门状态：verified={bool}。{note}」
@@ -66,7 +65,7 @@
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
-| **constitution 路径** | `projects[].constitution_ok` | 「宪法路径：`{path}`」 |
+| **状态路径** | `projects[].state_ok` | 「状态路径：`{path}`」 |
 | **style 文件路径** | `projects[].style_profile` | 「风格检验参考：`{path}`」 |
 | **跨项目 qa 教训** | `cross_project_lessons[]` where `applicable_to` contains `qa` | 引用原文（如 L006 — QC 必须独立验证原文事实） |
 | **需质检的正文路径** | `file_registry[项目].active` — 取 type=draft 的最新文件 | 「需质检：`{path}`」 |

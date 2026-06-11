@@ -15,7 +15,7 @@
 ## 前置条件
 
 - [ ] project 已通过 bookstrap 开书启动（L0 + PRD + L1）
-- [ ] constitution.yaml 已加载
+- [ ] 状态/角色/角色卡已加载
 - [ ] 起点快照 + 终点快照已用户确认
 
 ---

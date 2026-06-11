@@ -11,7 +11,7 @@
 
 ## 产出
 
-### 1. 写入 `03-写作资产/chXXX-设计包.md`
+### 1. 写入 `写作资产/设计包/chXXX-设计包.md`
 
 按 `templates/fact-skeleton.md` 格式写入：
 - 基础信息（幕/章号/标题/核心目的/场景类型/爽点等级/字数）
@@ -40,5 +40,5 @@
 - [ ] 设计包文件中每个事件的「地点」在 volume-XX.md §三 中存在
 - [ ] 登场人物 before 状态与 entity-snapshot 一致
 - [ ] entity-snapshot 已正确更新
-- [ ] constitution 红线全部通过
+- [ ] Canvas 字段（combat.scale/payoff/chekhov_set）约束全部通过
 - [ ] 设计包文件有版本元数据

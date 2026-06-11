@@ -3,16 +3,14 @@
 > 产出物: `设计/幕/act-XX.yaml`
 > 直接填充模版: `templates/act-skeleton.yaml`
 > 管线: pop-novel-plot v4.1+ · Step 9
-> 输入: `act-XX-人物.md` + `act-XX-地图.md` + `act-XX-势力.md` + `info-release-XX.md` + `情节线草案-XX.md` + `里程碑设计.md`
+> 输入: `volume-XX.md` + `状态/角色/` + `情节线草案-XX.md` + `里程碑设计.md`
 
 ---
 
 ## 一、前置条件
 
-- [ ] act-XX-人物.md 已产出
-- [ ] act-XX-地图.md 已产出
-- [ ] act-XX-势力.md 已产出
-- [ ] info-release-XX.md 已产出
+- [ ] volume-XX.md 角色池已产出
+- [ ] 状态/角色/角色卡存在
 - [ ] 情节线草案-XX.md 已产出
 - [ ] 里程碑设计.md 已产出
 - [ ] combat_capability.yaml 可读
@@ -29,7 +27,7 @@
 |:-----|:----------|
 | `core_conflict.description` | 格式 `A vs B`。从情节线草案 M1/M2 核心冲突提取 |
 | `core_conflict.stakes` | "失败 = 失去什么"。从终点快照反推——如果主角不败，最差结果 |
-| `core_conflict.escalation_path` | 冲突从第1章到最后一章如何升级。`act-XX-地图.md`的地理扩张暗示冲突升级 |
+| `core_conflict.escalation_path` | 冲突从第1章到最后一章如何升级。`volume-XX.md`的地理扩张暗示冲突升级 |
 | `goal.goal` | 格式 `"读者从「X」到「Y」"`。X = ch1读者的初始感受，Y = 卷末期待感受 |
 | `tone_note` | 1-3句散文。不用比例，写感受。参考 reader_profile 的消费场景 |
 
@@ -40,13 +38,13 @@
 | 字段 | 计算公式 |
 |:-----|:---------|
 | `act_end_state.protagonist.level` | = `act_rank_schedule.yaml → schedule[本卷].end_rank`。**不填别的值** |
-| `equipment_gained` | = act-XX-装备.md → 获得 |
-| `equipment_lost` | = act-XX-装备.md → 消耗/遗失 |
-| `mental_state` | = act-XX-人物.md → 主角·卷末心理 |
-| `key_relationship_changes` | = act-XX-人物.md → 关系字段 |
+| `equipment_gained` | = volume-XX.md#装备变化 → 获得 |
+| `equipment_lost` | = volume-XX.md#装备变化 → 消耗/遗失 |
+| `mental_state` | = volume-XX.md#角色池 → 主角·卷末心理 |
+| `key_relationship_changes` | = volume-XX.md#角色池 → 关系字段 |
 | `world.crisis_level` | 从"什么"升级到"什么"。来自情节线草案 M1 推进幅度 |
-| `world.faction_changes` | = act-XX-势力.md → 各势力卷末动态 |
-| `world.revealed_info` | = info-release-XX.md → 本卷 P0 已释放列表 |
+| `world.faction_changes` | = volume-XX.md → 势力动机·各势力卷末动态 |
+| `world.revealed_info` | = act-XX.yaml#info_release_plan → 本卷 P0 已释放列表 |
 
 ### 2.3 爽点分布
 
@@ -81,8 +79,8 @@
 | `end_hook.type` | 悬念/信息/情绪 |
 | `end_hook.drive` | 读完后"为什么想看下一章"。必须写到具体驱动力 |
 | `end_hook.content` | 钩子的正文内容 |
-| `characters_active` | 必须可追溯到 act-XX-人物.md |
-| `locations` | 必须可追溯到 act-XX-地图.md |
+| `characters_active` | 必须可追溯到 volume-XX.md#角色池 |
+| `locations` | 必须可追溯到 volume-XX.md#地点池 |
 
 ### 2.7 场景规格字段（条件读取）
 
@@ -95,7 +93,7 @@
 | `combat.result` | 取 `完胜` / `惨胜` / `败退` / `被救` / `敌人撤退` / `中断` |
 | `combat.reward` | 收获——等级/装备/情报/名声/关系变化/自我认知 |
 | `combat.capability_ref` | 段位来源路径。先读 combat_capability.yaml 确认 min/max 范围 |
-| `combat.monster_ref` | monster_rank_map 中的怪物名。BOSS 标注"掉落装备"的 → act-XX-装备中该装备阶位 ≥ boss段位-1 |
+| `combat.monster_ref` | monster_rank_map 中的怪物名。BOSS 标注"掉落装备"的 → volume-XX.md#装备路线图中该装备阶位 ≥ boss段位-1 |
 
 **对话/谈判章**：
 
@@ -129,9 +127,9 @@
 ## 三、填完后的快速检查
 
 - [ ] ch 连续不跳号
-- [ ] 所有 `characters_active` 在 act-XX-人物.md 中存在
-- [ ] 所有 `locations` 在 act-XX-地图.md 中存在
-- [ ] 所有 P0 info_release 分配到具体章节
+- [ ] 所有 `characters_active` 在 volume-XX.md#角色池 中存在
+- [ ] 所有 `locations` 在 volume-XX.md#地点池 中存在
+- [ ] 所有 P0 info_release 分配到具体章节（参考 act#info_release_plan）
 - [ ] 连续 2 章无 info_release 的，第 3 章有追加
 - [ ] 第 1 章 info_release ≤ 2
 - [ ] end_hook 逐章检查：chN 的钩子 → chN+1 的情绪路径[0] 能衔接

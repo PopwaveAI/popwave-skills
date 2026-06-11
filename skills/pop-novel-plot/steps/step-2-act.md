@@ -1,7 +1,7 @@
 # Step 2：幕纲编排
 
-> 产出: `设计/幕/act-XX.yaml` + `设计/幕/info-release-XX.md`
-> 模板: `templates/act-skeleton.yaml` + `templates/info-release.md`
+> 产出: `设计/幕/act-XX.yaml`
+> 模板: `templates/act-skeleton.yaml`
 > 参考: `templates/act-guide.md`（字段计算公式）
 > 管线: pop-novel-plot v6.0 — 每幕执行一次，重复直到所有幕完成
 
@@ -23,9 +23,9 @@
 
 ## 执行
 
-### 1. 信息释放规划
+### 1. 信息释放规划（★ 已内嵌至 act-skeleton.yaml#info_release_plan）
 
-产出 `设计/幕/info-release-XX.md`，按 `templates/info-release.md` 模板：
+在填充 `act-XX.yaml` 时，填写 `info_release_plan` 段（无需独立文件）：
 
 - 从 L1-01~06 中扫描本章段需要的设定信息
 - 标记 P0（不释放就看不懂剧情）和 P1（拓展读者体验）

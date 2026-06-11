@@ -62,6 +62,10 @@ pipeline:
 ## 执行流程
 
 ```
+Phase 0：全书架构（1次）
+  Step 0    全书架构定义         → 全书架构.md（幕按卷分组：设计/幕/vol-XX/act-YY.yaml）
+  ↓ 产出: 设计/全书架构.md
+
 第一阶段：卷设计（1次/卷）
   Step 1    卷级定义             → 目标/幕划分/快照
   Step 2    卷 Canvas 设计       → 背景（时间/地理/角色/势力动机）+ 剧情线列表
@@ -72,7 +76,7 @@ pipeline:
   Step 3    信息释放规划         → 当前幕的 P0/P1 信息点章级分配
   Step 4    幕纲设计（核心）     → Canvas 矩阵填充 + 幕级定义 + 每章切片
   Step 5    自检                → 剧情线留白检查 + 节奏 + 值一致性 + 平台校准
-  ↓ 产出: 设计/幕/act-XX.yaml + info-release-XX.md
+  ↓ 产出: 设计/幕/act-XX.yaml（info-release已内嵌于act#info_release_plan）
 
   → 跳到 Step 3 设计下一幕
   → 所有幕完成后 → 通知下游 chapter-design
@@ -85,7 +89,7 @@ pipeline:
 | 步骤 | 产出文件 | 模板/参考 | 说明 |
 |:-----|:---------|:----------|:------|
 | Step 1 — 卷定义 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 卷目标/背景/剧情线/快照 + 势力动机 + 用户确认闸门 |
-| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml` + `info-release-XX.md` | `steps/step-2-act.md` + `templates/act-skeleton.yaml` + `templates/info-release.md` | 每幕 info-release → Canvas 矩阵 → 章级切片 → 自检（循环N次） |
+| Step 2 — 幕纲编排 | `设计/幕/act-XX.yaml`（info-release已内嵌于act#info_release_plan） | `steps/step-2-act.md` + `templates/act-skeleton.yaml` | Canvas 矩阵 → 章级切片 → info_release_plan → 自检（循环N次） |
 
 ---
 
@@ -93,11 +97,11 @@ pipeline:
 
 ```
 设计/
+├── 全书架构.md              ← Phase 0 产出：幕按卷分组结构
 ├── 卷/
 │   └── volume-XX.md          ← 下游消费：卷级战略（目标/背景/剧情线/快照）
 └── 幕/
-    ├── act-XX.yaml            ← 下游消费：Canvas 矩阵 + 章级切片 + 节奏检查
-    └── info-release-XX.md     ← 当前幕的设定信息释放规划
+    └── act-XX.yaml            ← 下游消费：Canvas 矩阵 + 章级切片 + info_release_plan + 节奏检查
 ```
 
 ---
@@ -106,13 +110,10 @@ pipeline:
 
 | 旧文件 | 去向 |
 |:-------|:-----|
-| 节点B-XX.md | ❌ 删除（内部思考，不需要产出） |
-| 情节线草案-XX.md | ✅ 合并入 volume-XX.md §四 |
-| act-XX-人物.md | ✅ 合并入 volume-XX.md §三 |
-| act-XX-地图.md | ✅ 合并入 volume-XX.md §三 |
-| act-XX-势力.md | ✅ 简化为势力动机 → volume-XX.md §三 |
-| act-XX-装备.md | ❌ 删除（v6.0 不再单独维护，归入 act-XX.yaml 场景规格选填字段）|
-| 里程碑设计.md | ❌ 删除（v6.0 不再产出——推进节奏由 Canvas 矩阵直接管理）|
+| 节点B-XX.md | 删除（内部思考，不需要产出） |
+| 情节线草案-XX.md | 合并入 volume-XX.md §四 |
+| act-XX-装备.md | 删除（v6.0 不再单独维护，归入 act-XX.yaml 场景规格选填字段）|
+| 里程碑设计.md | 删除（v6.0 不再产出——推进节奏由 Canvas 矩阵直接管理）|
 | 节奏自检报告.md | ❌ 删除（不产出，只花 5 分钟自检）|
 | 情节线纲汇总表.md | ❌ 删除 |
 | 场景卡试读 | 🔄 可选（仅在用户要求时产出）|
@@ -131,12 +132,12 @@ pop-novel-plot/
 ├── CHANGELOG.md
 ├── steps/                ← 执行步骤（2个步骤）
 │   ├── step-1-volume.md  ← 卷定义
-│   └── step-2-act.md     ← 幕纲编排（含 info-release + Canvas 矩阵 + act-XX.yaml + 自检）
+│   └── step-2-act.md     ← 幕纲编排（Canvas 矩阵 + act-XX.yaml + info_release_plan + 自检）
 └── templates/            ← 产出物模板
     ├── volume-design.md  ← 卷设计模板
     ├── act-skeleton.yaml ← 幕纲 YAML 骨架（含 Canvas 矩阵）
     ├── act-guide.md      ← 字段计算公式参考
-    ├── info-release.md   ← 信息释放规划
+    ├── info-release.md   ← 已废弃（合并入 act-skeleton.yaml#info_release_plan 段）
     ├── rhythm-check.md   ← 自检清单
     └── deprecated/       ← 被合并的历史模板（保留不动，但不再更新）
 ```

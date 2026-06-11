@@ -22,7 +22,7 @@ project:
 paths:
   outline: "02-大纲/"
   settings: "00-原始设定/"
-  chapters: "03-正文/"
+  chapters: "正文/"
 phase_progress:
   phase_0: true
   # 每完成一个置为 true
@@ -35,46 +35,7 @@ reader_profile:
       - "no_power_up_in_3_chapters"
 ```
 
-### 3. 宪法文件
-产出 `constitution.yaml`：
-
-```yaml
-tone: "热血 / 黑暗 / 轻松 / 悬疑 / 治愈"
-
-cant_do:
-  - rule: "规则描述"
-    example: "正文第X章的例子"
-    reason: "为什么这条规则存在（人格定位 / 世界规则 / 读者预期）"
-
-must_do:
-  - rule: "规则描述"
-    example: "规则对应的正文示例"
-    reason: "为什么这是强制约束（平台节奏 / 核心情绪 / 读者承诺）"
-```
-
-**示例**（以遮天为参考）：
-
-```yaml
-tone: "宏大·苍凉"
-
-cant_do:
-  - rule: "主角不杀普通人"
-    example: "ch5 叶凡放过挑衅的同门"
-    reason: "荒古圣体传人的定位——不屑于对弱者动手"
-  - rule: "越级战斗不能没有代价"
-    example: "ch12 越级杀妖兽后卧床三天"
-    reason: "力量体系中的跨级约束必须遵守"
-
-must_do:
-  - rule: "每20章至少一次境界突破或实力跃迁"
-    example: "ch1-20 轮海突破"
-    reason: "平台节奏要求，读者期待成长可见"
-  - rule: "战斗必须有决策（不只是数值对抗）"
-    example: "ch18 用地形伏击代替正面硬拼"
-    reason: "L1 力量体系设定——战斗是策略不是对砍"
-```
-
-### 4. 章状态（初始快照）
+### 3. 章状态（初始快照）
 
 产出 `00-总控/chapter-state.yaml`：
 
@@ -102,9 +63,9 @@ flags: []
 > entity-snapshot.yaml 由 Writer 自动维护；如文件损坏/丢失，重新运行 Writer Step 3.3 聚合即可恢复（源数据在每章正文末尾）。
 > 路径注册中心是 project.yaml 的 `paths` 字段 —— 所有 skill 从那里读取目录路径，不硬编码。
 
-### 5. 角色卡
+### 4. 角色卡
 主角满配（背景/动机/成长/关系网/金手指联动）
-重要配角中配 → `02-大纲/L3-角色层/`
+重要配角中配 → `状态/角色/`
 龙套不建文件
 
 **★ 主角成长轨迹（NEW v2.1 — 供 plot A级逐章状态表消费）**
@@ -144,8 +105,8 @@ core_desire:
 - 两者冲突时 → 人物弧光出现（"他想成为天榜第一，但他的内心需要父亲认可——他做的一切都是向外求"）
 - 不面向龙套角色（只填谁吃谁的关系）
 
-### 6. 数据库
+### 5. 数据库
 `04-数据库/novel.db`
 
-### 7. 追踪面板
+### 6. 追踪面板
 `00-总控/project-status.html`

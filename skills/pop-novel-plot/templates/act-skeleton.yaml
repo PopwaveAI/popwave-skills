@@ -23,6 +23,14 @@ act:
     stakes: ""                    # 本幕输 = 失去什么
     escalation_path: ""           # 本幕内第1章到最后一章如何升级
 
+  # ─── 信息释放计划（★ v6.0 新增，替代独立 info-release-XX.md） ────
+  info_release_plan:
+    p0_must_release: []           # P0：不理解就看不懂剧情的信息点列表
+    p1_recommended: []            # P1：拓展体验的信息点列表
+    density_check:
+      ch1_new_concepts_max: 2     # 第1章新概念上限
+      no_two_consecutive_zero: true  # 禁止连续两章零信息释放
+
   goal: ""                        # "读者从「X」到「Y」"
 
   tone_note: ""                   # 1-3句散文，本幕的情绪配比

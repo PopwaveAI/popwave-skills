@@ -2,7 +2,7 @@
 
 > 管线: pop-novel-chapter-design v1.4
 > 模板: `templates/fact-skeleton.md`
-> 参考: `references/character-scheduling.md` `references/location-orchestration.md` `references/info-release.md` `references/emotional-beats.md`
+> 参考: `references/character-scheduling.md` `references/location-orchestration.md` `references/emotional-beats.md`
 
 ---
 
@@ -74,7 +74,7 @@
 
 ```
 事件N:
-  地点    ← 先查 act-XX.yaml 的 locations → 查 act-XX-地图.md 取描述 → 写在事件里
+  地点    ← 先查 act-XX.yaml 的 locations → 查 volume-XX.md#地点池 取描述 → 写在事件里
   参与角色 ← 先查 act-XX.yaml 的 characters_active → 查 entity-snapshot 取 before 状态 → 写在事件里
   事件内容  ← 「角色做了什么 → 什么结果」。一个句子。不写具体动作/感官/渲染细节
   情绪目标  ← 每轮取一个词（参考 references/emotional-beats.md 词汇表）
