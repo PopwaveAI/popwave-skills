@@ -15,12 +15,12 @@ Phase r1 + Phase r3 完成。
 - 每幕的地理锚点：关键场景发生在什么地点
 
 ### 2. 产出
-- `02-大纲/volume-XX.md`：每卷的地理总览+时空规则
-- `02-大纲/act-XX.yaml`：每卷内的幕结构还原
+- `设计/卷/volume-XX.md`：每卷的地理总览+时空规则
+- `设计/幕/vol-XX/act-YY.yaml`：每卷内的幕结构还原
 
 ### 3. 用户确认
 不可跳过。卷纲和幕结构是后续写作的骨架。
 
 ## 产出
-- `02-大纲/volume-XX.md`
-- `02-大纲/act-XX.yaml`
+- `设计/卷/volume-XX.md`
+- `设计/幕/vol-XX/act-YY.yaml`

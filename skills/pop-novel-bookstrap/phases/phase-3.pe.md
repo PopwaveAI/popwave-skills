@@ -20,7 +20,7 @@ project:
   start_date: "YYYY-MM-DD"
   target_words: 2000000
 paths:
-  outline: "02-大纲/"
+  outline: "设计/"
   settings: "00-原始设定/"
   chapters: "正文/"
 phase_progress:

@@ -139,7 +139,7 @@
 
 | 文件 | 取什么 |
 |:-----|:-------|
-| `act-XX.yaml` 各字段（combat.scale / payoff / chekhov_set） | 已隐含所有约束——无需另读 constitution.yaml |
+| `act-XX.yaml` 各字段（combat.scale / payoff / chekhov_set） | 已隐含所有约束 |
 
 ---
 
