@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-qa
 
+## v0.6.0 (2026-06-11)
+
+- **新增 Step 0 — 全量对齐审计（项目体检）**：
+  - 四维度扫描：A. 文件树完整性 / B. 文档质量审查 / C. 管线阶段对齐 / D. 文件分类正确性
+  - 以 `expert-writer/references/pipeline-arch.md` 为基准，逐目录比对项目实际状态
+  - 逐文件读入检查：每个产出文件是否达到对应 skill 的质量标准
+  - 向上游新增 expert-writer 依赖（消费 pipeline-arch.md）
+- **新建 `prompt-templates/audit-renderer.md`**：审计报告标准输出模板（四节结构 + Gap Summary）
+- **四层介入**：Step 0（横向扫描：全文件×全目录）+ Step 1/2/3（纵向切入：单章×单幕）
+- **SKILL.md**：版本 v0.5.0→v0.6.0、前置条件表新增 pipeline-arch.md、路由场景新增「项目审计」
+- **skill.json**：version 升级、upstream 新增 expert-writer
+
 ## v0.5.0 (2026-06-04)
 - **完整重构 SKILL.md**：
   - 精简 frontmatter 为仅 name+description（3 行），description 采用触发条件格式

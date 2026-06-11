@@ -1,24 +1,25 @@
 {
   "id": "pop-novel-qa",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "displayName": "爽点QA",
-  "description": "审稿/质检/QA/审一下/爽点质检 触发：纯感受型三层介入 QC。不评分、不给建议、不评价节奏、不评价画面、不比较——只回答'我读的时候怎么了'。Step 1 大纲层QC / Step 2 骨架层QC / Step 3 正文层QC。",
+  "description": "审稿/质检/QA/审一下/爽点质检/项目审计 触发：Step 0 全量项目对齐审计 / Step 1 大纲层QC / Step 2 骨架层QC / Step 3 正文层QC。",
   "entry": "SKILL.md",
   "category": "qa",
   "scenario": "review",
   "mode": "report",
-  "recommended": 6,
-  "tags": ["QC", "质检", "审稿", "感受报告"],
+  "recommended": 7,
+  "tags": ["QC", "质检", "审稿", "感受报告", "项目审计"],
   "fidelity": "production",
   "novelAgentVersion": "v3.3",
   "directory": "pop-novel-qa",
   "orchestration": {
     "preflight": ["check_project_dir"],
-    "dependencies": ["project.yaml"],
+    "dependencies": ["project.yaml", "expert-writer/references/pipeline-arch.md"],
     "injectContext": ["project.yaml#reader_profile"],
     "subagentRequired": true
   },
   "produces": [
+    "项目全量对齐审计报告（Step 0）",
     "大纲层QC报告（Step 1）",
     "骨架层QC报告（Step 2）",
     "正文层QC报告（Step 3 — 纯感受报告）"
@@ -29,7 +30,8 @@
       "质检",
       "QA",
       "审一下",
-      "爽点质检"
+      "爽点质检",
+      "项目审计"
     ],
     "default": false
   },
