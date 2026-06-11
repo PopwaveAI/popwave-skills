@@ -12,3 +12,6 @@ git_changes_temp.txt
 git_verify.txt
 *.pyc
 __pycache__/
+
+# expert-writer runtime state — belongs in user workspace, not skill repo
+workspace-index.yaml
