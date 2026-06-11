@@ -1,6 +1,6 @@
 {
   "id": "pop-novel-deconstructor",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "displayName": "拆书解构",
   "description": "全量拆解长篇网文（前100章全读），产出设定/角色/剧情/技法/文风DNA七维档案。T3角色系统设计 + T5叙事技法综合为升级亮点。",
   "entry": "SKILL.md",
