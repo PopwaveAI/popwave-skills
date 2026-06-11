@@ -43,7 +43,7 @@ pipeline:
     章级切片：每章情绪/payoff/钩子/场景规格
     节奏检查：每条线最大连续空白章数自检
 
-> 爽点四档定义 + 设计方法 + 责任归属 → `templates/payoff-guide.md`
+> 爽点四级定义 + 40 个案例 → `templates/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）
 ```
 
 ---
@@ -56,7 +56,7 @@ pipeline:
 - [ ] **Canvas 矩阵已填充** — act-XX.yaml#canvas.entries 无持续空白行
 - [ ] **每条剧情线无连续超限留白** — act-XX.yaml#canvas.rhythm_check 自检通过
 - [ ] **每章有 emotional_goal + payoff + end_hook** — act-XX.yaml 章级切片齐备
-- [ ] **爽点等级与铺垫-释放比匹配** — 微 2:1 / 中 4:1 / 大 8-10:1 / 终极 20:1
+- [ ] **爽点密度达标** — 小≥3/章 + 中≥1/章（归 chapter-design）/ 大间隔≤5章 + 特大≥1/卷（归 plot）
 - [ ] **幕内无连续 3 章同一情绪叠加组合**
 - [ ] **主角等级 = act_rank_schedule.end_rank** — 跨文件值一致性
 - [ ] **连续 2 章无信息释放 → 第 3 章必追加**

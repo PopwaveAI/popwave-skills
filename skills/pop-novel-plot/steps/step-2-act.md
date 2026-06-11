@@ -46,16 +46,16 @@
    - 推进了 → 写一句话摘要："发生了什么"
    - 没推进 → 留空
 ③ 填写节奏笔记（如"双线并行"、"M2推进高潮"）
-④ ★ 标注每条线在本章的 payoff_level（详见 `templates/payoff-guide.md` §二）：
-   - 留空 = 铺垫/建设/埋伏笔
-   - 微 = 小信息碎片/小推进
-   - 中 = 可感知释放（信息揭示/关系转折）
-   - 大 = 爆发——这条线在这一章完成释放
-⑤ 汇总 payoff_map：逐章统计 >0 的 payoff 总数 + 线号列表
-   - 总 payoff=0 的章 → 标注 "design自行制造中爽点"
-⑥ 从 payoff_map 反推大爽点位置（某线=大的章）→ payoff_distribution.大.positions
-⑦ 从 payoff_map 反推终极爽点位置（多线汇聚章）→ payoff_distribution.终极.positions
-⑧ 用 rhythm_check 自检：大爽点间隔 ≤ 5 章？终极爽点 ≥ 2 个？
+④ ★ 标注每条线在本章的 payoff_level（详见 `templates/payoff-guide.md`）：
+    - 空 = 铺垫/建设/埋伏笔
+    - 小 = 干脆利落的斩杀/升级/打脸/梗植入。chapter-design 据此设计小爽点事件
+    - 中 = 有铺垫的可感知释放。chapter-design 据此设计中爽点事件
+    - 大 = ★ 爆发——这条线的蓄力全部释放。故事从这章起进入新阶段
+    - 特大 = ★★ 全书承诺兑现。多线大汇聚 + 全卷情绪极值
+⑤ 汇总 payoff_map：逐章统计 ≥ 中 的 payoff → total + 线号列表 + note
+⑥ 从 payoff_map 反推大爽点位置（某线=大）→ payoff_distribution.大.positions
+⑦ 从 payoff_map 反推特大爽点位置（≥2 线=大 汇聚）→ payoff_distribution.特大.positions
+⑧ 用 rhythm_check 自检：大爽点间隔 ≤ 5 章？特大爽点 ≥ 1 个/卷？
 ```
 
 **然后设计幕级定义：**
@@ -67,7 +67,7 @@
 | `escalation_path` | 本幕内第 1 章到最后一章如何升级 |
 | `goal` | "读者从「X」到「Y」" |
 | `tone_note` | 1-3句散文，本幕情绪配比 |
-| `payoff_distribution` | 填充密度约束：微≥5/章 / 中≥1/章 / 大间隔≤5章 / 终极≥2/幕。positions 从 Canvas 矩阵反推。完整定义 → `templates/payoff-guide.md` |
+| `payoff_distribution` | 密度约束：小≥3/章 / 中≥1/章 / 大间隔≤5章 / 特大≥1/卷。positions 从 Canvas 反推。完整定义 → `templates/payoff-guide.md` |
 | `emotional_arc.checkpoints` | 从 Canvas 矩阵反推 4-6 个情绪转折点 |
 
 **然后填充 20-35 个章级切片：**

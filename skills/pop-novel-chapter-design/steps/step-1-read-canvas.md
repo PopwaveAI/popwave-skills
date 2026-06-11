@@ -37,7 +37,7 @@
 | `word_count` | 预期字数 | 事件密度基线的公式输入：`事件数 ≥ word_count ÷ 200` |
 | `emotional_goal` | 本章想让读者感受到什么 | Step 2 的事件情绪目标的上边界 |
 | `reader_emotion_path` | 三元素 `[起点, 中间, 终点]` | Step 2 的情绪节拍起点和终点 |
-| `payoff.type` | 微 / 中 / 大 / 终极 | 确保事件链中有对应等级的爽点事件 |
+| `payoff.type` | 小 / 中 / 大 / 特大 | 确保事件链中有对应等级（小/中归 design 设计；大/特大由 plot Canvas 指定位置） |
 | `payoff.trigger` | 爽点触发方式 | Step 2 设计该事件时参考 |
 | `end_hook.type` + `drive` + `content` | 章末钩子 | Step 2 的章末事件 = 钩子事件的凭据 |
 
@@ -53,9 +53,10 @@ payoff_map[chN]:
 ```
 
 **消费方式**：
-- `total_payoff ≥ 1` → Canvas 已供给中爽点。按 `lines` 中标注的线号，在 volume-XX.md §四 找到该线定义，为它设计一个"读者认知发生变化"的事件
-- `total_payoff = 0` → Canvas 无供给。必须自行制造 ≥ 1 个中爽点（方法见 `references/payoff-guide.md` §五）
-- 某线 payoff=大 → 本章是大爽点章，按全幕最高密度设计事件链
+- `total_payoff ≥ 1` → Canvas 已供给。按 `lines` 中标注的线号和级别，在 volume-XX.md §四 找到对应线定义
+- `total_payoff = 0` → Canvas 无供给。自行制造 ≥ 3 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
+- 某线=大 → 大爽点章，按全幕最高密度设计事件链
+- ≥2 线=大 → 特大爽点章，全幕最大规模事件链
 
 > 中爽点完整定义 + 案例 + 设计方法 → `references/payoff-guide.md`
 | `plotlines_active` | 本章推进哪些线 | Step 2 每个事件可标注正在推进哪条线 |
