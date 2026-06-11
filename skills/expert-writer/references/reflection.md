@@ -82,7 +82,7 @@
 
 ```
 □ 产出与上游设定/幕纲一致？
-  - prose-render 正文是否违反 Canvas 约束？
+  - chapter-design 设计包事件链是否符合 act-XX.yaml 幕纲字段约束？
   - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
 □ entity-snapshot ↔ 角色卡一致性？
   - entity-snapshot 中角色状态是否与角色卡快照一致？

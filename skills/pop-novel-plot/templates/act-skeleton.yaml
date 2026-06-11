@@ -1,7 +1,7 @@
 # act-XX.yaml — 幕纲 YAML 骨架
 
-> 产出路径: `设计/幕/act-XX.yaml`
-> 管线: pop-novel-plot v6.0 · Step 5
+> 产出路径: `设计/幕/vol-XX/act-YY.yaml`
+> 管线: pop-novel-plot v6.1 · Step 2
 > 消费: pop-novel-chapter-design（章级切片驱动）
 >
 > 用法: 直接填充即可。卷级信息（人物/地图/剧情线/势力动机）见 `设计/卷/volume-XX.md`。

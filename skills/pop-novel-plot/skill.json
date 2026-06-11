@@ -6,7 +6,7 @@
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
-      "大纲",
+      "剧情架构",
       "剧情",
       "幕纲",
       "plot",

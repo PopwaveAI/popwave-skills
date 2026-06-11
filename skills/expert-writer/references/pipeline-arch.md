@@ -22,7 +22,7 @@
 | 设计/全书架构.md | S+D | plot Phase 0 | volume-XX × N |
 | 设计/卷/volume-XX.md | S | plot Step 4.5 | chapter-design Step 1 |
 | 设计/幕/vol-XX/act-YY.yaml | **D** | plot Step 9 | chapter-design + qa |
-| entity-snapshot.yaml | **D** | chapter-design(逐章) | chapter-design(下章) + expert-writer |
+| 00-总控/entity-snapshot.yaml | **D** | chapter-design(逐章) | chapter-design(下章) + expert-writer |
 | 写作资产/设计包/chXXX-设计包.md | **D** | chapter-design | prose-render |
 | 正文/chXXX.md | **D** | prose-render | qa + html-renderer |
 | 写作资产/文风DNA/{书名}.md | S | deconstructor/pop-dna | prose-render |
@@ -87,6 +87,6 @@
 
 ### 双消费提醒
 
-- **Agent 友好文件**：act-XX.yaml（YAML结构化）、entity-snapshot.yaml（YAML）、story-engine.yaml（YAML）、状态/角色/（YAML frontmatter）
+- **Agent 友好文件**：act-XX.yaml（YAML结构化）、00-总控/entity-snapshot.yaml（YAML）、story-engine.yaml（YAML）、状态/角色/（YAML frontmatter）
 - **人友好文件**：起点/终点快照（表格+叙述）、状态/角色/主角卡（九节结构化）、正文/chXXX.md（最终消费品）
 - **Markdown 文件关键信息靠前放**：YAML frontmatter 用于 agent 精确定位；正文表格+标题用于人扫读

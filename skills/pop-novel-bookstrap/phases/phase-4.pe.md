@@ -1,7 +1,7 @@
 # Phase 4：reader_profile 确认校对（降级版）
 
 ## 前置条件
-Phase 0 已完成（story-engine.yaml 已产出并嵌入 project.yaml）。
+Phase 3 已完成（project.yaml 已产出且含 reader_profile）。
 
 ## 说明
 reader_profile 已在 Phase 0 直出并嵌入 project.yaml。本步仅做确认校对，不重复提取。

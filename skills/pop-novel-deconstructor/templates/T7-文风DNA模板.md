@@ -1,6 +1,6 @@
 # T7 文风DNA - 拆解模板
 
-> **@consumed_by**: pop-novel-writer.step-2-render(Phase 1 风格锚定 — 直接作为写作资产/文风DNA/*.md 使用)
+> **@consumed_by**: pop-novel-prose-render.step-1-read-input(Phase 1 风格锚定 — 直接作为写作资产/文风DNA/*.md 使用)
 > **@produced_as**: `写作资产/文风DNA/{书名简称}.md` — 产出后直接复制到 writer 的 写作资产/文风DNA/ 目录
 
 ## 核心原则

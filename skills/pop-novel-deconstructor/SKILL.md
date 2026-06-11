@@ -1,6 +1,6 @@
 ---
 name: pop-novel-deconstructor
-description: 拆解长篇网文，默认拆第一卷或前100章（全读）。产出设定/角色/剧情/技法+卷1起点/终点快照+文风DNA至00-原始设定/文风DNA/。文风DNA部分使用 pop-dna v3.0 发现型方法论。仅在用户明确要求全书拆解时才全量。触发词："拆书""拆解""分析这本书""提取写法""对标""拆参考书"。
+description: 拆解长篇网文，默认拆第一卷或前100章（全读）。产出设定/角色/剧情/技法+卷1起点/终点快照+文风DNA至写作资产/文风DNA/。文风DNA部分使用 pop-dna v3.0 发现型方法论。仅在用户明确要求全书拆解时才全量。触发词："拆书""拆解""分析这本书""提取写法""对标""拆参考书"。
 pipeline:
   upstream: [download-webnovel-txt]
   downstream: [pop-novel-bookstrap, pop-novel-plot]
@@ -45,14 +45,14 @@ Phase 3: 验证采样（Layer 2）
   ├── 发现不一致则修订，发现新模式则补充
   └── 产出物：{书名}-Phase3-验证报告.md
         ↓
-Phase 4: 整合输出（含文风DNA → 00-原始设定/文风DNA/）
+Phase 4: 整合输出（含文风DNA → 写作资产/文风DNA/）
   ├── 汇总 T1~T6 所有独立产出
   ├── 调用 pop-dna v3.0 方法论提取文风DNA
   │   ├── 已读全书 → 直接利用现有采样章做维度和周期标注
-  │   └── 产出 00-原始设定/文风DNA/{书名}.md（供 prose-render 消费）
+  │   └── 产出 写作资产/文风DNA/{书名}.md（供 prose-render 消费）
   ├── 提取核心发现（3~5个最值得学的点）
   ├── 整合为赛道适配配置
-  └── 产出物：{书名}-三维拆书档案.md（索引）+ 各独立文件 + 00-原始设定/文风DNA/{书名}.md
+  └── 产出物：{书名}-三维拆书档案.md（索引）+ 各独立文件 + 写作资产/文风DNA/{书名}.md
 ```
 
 ---
@@ -80,8 +80,36 @@ Phase 4: 整合输出（含文风DNA → 00-原始设定/文风DNA/）
 ## 目的
 在不对全书精读的前提下，快速建立整体认知。**这一阶段的核心是"在哪里"和"大概是什么"，不是"细节"。**
 
-## 输入文件验收（新增）
-检查输入的 .txt 文件是否完整可用。如果发现中间部分大段损坏，需要下载更完整的资源。
+## 格式识别与输入验收
+
+### Step 0 — 格式识别
+检查输入文件的扩展名，确定提取策略：
+
+| 格式 | 策略 | 依赖 |
+|------|------|------|
+| `.txt` / `.md` / `.markdown` | 直接 UTF-8/GBK 读取（走原有逻辑） | 无 |
+| `.pdf` | 用 `scripts/extract.py` 提取（技术类 → Docling，文字类 → pdftotext→PyPDF2→pdfminer 降级链） | pip install PyPDF2 / pdfminer.six |
+| `.epub` | 用 `scripts/extract.py` 提取（ebooklib → stdlib zipfile 降级） | pip install ebooklib beautifulsoup4 |
+| `.docx` | 用 `scripts/extract.py` 提取（python-docx → stdlib ZIP/XML 降级） | pip install python-docx |
+| `.html` / `.htm` | 用 `scripts/extract.py` 提取（bs4 → stdlib html.parser 降级） | pip install beautifulsoup4 |
+| `.rtf` | 用 `scripts/extract.py` 提取（striprtf → regex 降级） | pip install striprtf |
+| `.mobi` / `.azw` / `.azw3` | 用 `scripts/extract.py` 调用 Calibre 提取 | 安装 Calibre |
+
+**预检环境：** `python scripts/extract.py --check` 一键打印所有格式的提取器安装状态和缺失的安装命令。
+
+### Step 1 — 多格式提取（非 TXT/MD）
+
+```
+INPUT_PATH 为 PDF/EPUB/DOCX/HTML/RTF/MOBI/AZW
+└── 运行 python scripts/extract.py <INPUT_PATH>
+    └── 读取 <tempdir>/book_skill_work/full_text.txt 作为 TEXT
+    └── 读取 <tempdir>/book_skill_work/metadata.json 获取章节/字数信息
+```
+
+如果用户提供多个源文件（如 PDF + 笔记 TXT），extract.py 会自动合并为一个连贯文本。
+
+### Step 2 — TXT/MD 验收（原有逻辑）
+如果输入是 `.txt` / `.md`，检查文件是否完整可用。如果发现中间部分大段损坏，需要下载更完整的资源。
 
 **验收流程：**
 ```
@@ -143,6 +171,48 @@ print(lines[-5:])
 | >500万字 | 每30章采1章 | 前30章全读 | 后10章全读 | 10章 |
 
 </details> |
+
+## REPL 式大书访问（新增，配合全读策略使用）
+
+> **场景：** 超长网文（>150章）用 Read 工具逐章全读太贵，且 250 行/次的限制导致来回切换开销极大。
+> **解法：** 把 `full_text.txt` 当作可查询语料库，用脚本按章节偏移切片后分批精读。
+
+```python
+# 方案 A：Python 脚本按章节切分
+import re
+with open('full_text.txt', 'r', encoding='utf-8') as f:
+    content = f.read()
+# 找到所有"第X章"标题的偏移
+chapters = list(re.finditer(r'^第([一二三四五六七八九十百千\d]+)章', content, re.MULTILINE))
+print(f'共检测到 {len(chapters)} 章')
+for i, m in enumerate(chapters[:5]):
+    print(f'  第{i+1}章 @ 偏移 {m.start()}')
+# 按偏移切片单章
+start = chapters[0].start()
+end = chapters[1].start() if len(chapters) > 1 else len(content)
+one_chapter = content[start:end]
+```
+
+```python
+# 方案 B（等效）：Python 一章一章切片读（Windows 兼容）
+import re
+with open('full_text.txt', 'r', encoding='utf-8') as f:
+    content = f.read()
+chapters = list(re.finditer(r'^第.*章', content, re.MULTILINE))
+print(f'共 {len(chapters)} 章')
+# 示例：提取第5章（0-indexed: 4）
+n = 4
+start = chapters[n].start()
+end = chapters[n+1].start() if n+1 < len(chapters) else len(content)
+chapter_text = content[start:end]
+print(f'第{n+1}章 ({len(chapter_text)} 字符):')
+print(chapter_text[:2000])  # 预览前2000字符
+```
+
+**使用规则：**
+- 默认全读策略（前100章逐章精读）不变，但使用脚本切片替代 Read 逐章调用
+- 大于 500K 字符的文件**必须**走 REPL 式访问，不允许直接 Read(full_text.txt)
+- 全读完成后清理临时切片文件
 
 ## 采样类型
 | 类型 | 方式 | 目的 |
@@ -344,7 +414,7 @@ skills/pop-novel-deconstructor/templates/T7-文风DNA模板.md
 ├── 📄 {书名}-卷1起点快照.md                   （供 bookstrap·Phase 0.6 消费）
 ├── 📄 {书名}-卷1终点快照.md                   （供 bookstrap·Phase 0.6 消费）
 ├── 📄 {书名}-Phase3-验证报告.md
-├── 📄 00-原始设定/文风DNA/{书名}.md              （文风DNA，pop-dna v3.0 方法论，供 prose-render 消费）
+├── 📄 写作资产/文风DNA/{书名}.md              （文风DNA，pop-dna v3.0 方法论，供 prose-render 消费）
 └── 📄 {书名}-三维拆书档案.md                  （索引+核心发现+赛道配置）
 ```
 
@@ -368,7 +438,7 @@ skills/pop-novel-deconstructor/templates/T7-文风DNA模板.md
 
 | 场景 | 处理 |
 |:-----|:-----|
-| **正文不存在/格式不支持** | 提示用户提供 .txt 或 .md，不接受 pdf/docx |
+| **正文不存在/格式不支持** | 先用 `scripts/extract.py` 尝试提取（支持 PDF/EPUB/DOCX/HTML/RTF/TXT/MD），仍失败则提示用户提供 .txt |
 | **字数太少（<5万字）** | 确认是否继续，继续则缩减范围 |
 | **同人但无原著知识** | 先搜索原著百科/时间线（❌4红线） |
 | **发现这本书质量差** | 输出"不推荐拆解"报告 |

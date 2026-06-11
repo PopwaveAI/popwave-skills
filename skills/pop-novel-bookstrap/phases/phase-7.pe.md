@@ -12,14 +12,14 @@ Phase 6 起点快照已锁定（用户确认）。
 ## 执行步骤
 
 ### 1. 读取上下文
-- Phase 6 产出: `design/起点快照.md`
+- Phase 6 产出: `设计/起点快照.md`
 - story-engine.yaml
 - L1 元设定层
 - 数值体系 act_rank_schedule.yaml (每卷结束时主角段位，来自 Phase 5)
 
 ### 2. 反推终点状态
 
-输出 `design/终点快照.md`，按以下结构：
+输出 `设计/终点快照.md`，按以下结构：
 
 ```
 主角终点状态：

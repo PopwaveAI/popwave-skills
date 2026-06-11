@@ -57,8 +57,8 @@
 | **style 文件路径** | `projects[].style_profile` 或 `style_profiles.writer_styles[]` | 「风格文件：`{path}`」 |
 | **跨项目 writer 教训** | `cross_project_lessons[]` where `applicable_to` contains `writing` | 引用原文（如 L002 精读闸门、L003 风格执行） |
 | **pre_read_status** | `file_registry[项目].pre_read_status` | 「精读闸门状态：verified={bool}。{note}」
-| **combat_capability（vNext 新增）** | `{项目}/数值体系/combat_capability.yaml` | 「段位战力参考：`{path}`。战斗章 chXXX-design 块D 的 beat 设计需对照对应段位的战力范围。」 |
-| **monster_rank_map（vNext 新增）** | `{项目}/数值体系/monster_rank_map.yaml` | 「怪物等级对照：`{path}`。本章涉及怪物时，需从该表读取怪物的段位和难度注释。」 |
+| **combat_capability（vNext 新增）** | `{项目}/00-总控/数值体系/combat_capability.yaml` | 「段位战力参考：`{path}`。战斗章 chXXX-design 块D 的 beat 设计需对照对应段位的战力范围。」 |
+| **monster_rank_map（vNext 新增）** | `{项目}/00-总控/数值体系/monster_rank_map.yaml` | 「怪物等级对照：`{path}`。本章涉及怪物时，需从该表读取怪物的段位和难度注释。」 |
 | **L1-04 物种与天赋（vNext 新增）** | `{项目}/00-原始设定/L1-元设定层/04-物种与天赋.md` | 「种族数据：`{path}`。本章有非人类角色出场时，预取对应种族的 traits/faction_affiliation。」 |
 
 ### pop-novel-qa（质检）

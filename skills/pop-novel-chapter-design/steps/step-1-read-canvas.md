@@ -1,7 +1,7 @@
 # Step 1：读入 Canvas + 状态
 
-> 管线: pop-novel-chapter-design v1.4
-> 模板: `templates/fact-skeleton.md` + `templates/character-card.md`
+> 管线: pop-novel-chapter-design v1.5
+> 模板: `templates/fact-skeleton.md`
 > 参考资料: `references/character-scheduling.md` / `references/location-orchestration.md` / `references/emotional-beats.md`
 
 ---
@@ -19,7 +19,7 @@
 - [ ] `设计/卷/volume-XX.md` 存在（卷级 Canvas：人物池/地点池/剧情线/版本里程碑）
 - [ ] `设计/幕/act-XX.yaml` 存在（当前幕的章级切片）
 - [ ] `状态/角色/{主角}-角色卡.md` 存在（取 core_desire）
-- [ ] entity-snapshot.yaml 存在
+- [ ] 00-总控/entity-snapshot.yaml 存在
 
 ---
 
@@ -131,11 +131,11 @@
 
 | 文件 | 取什么 | 用途 |
 |:-----|:-------|:-----|
-| `entity-snapshot.yaml` | 所有角色的当前状态 | 角色 before 状态——这是唯一 canon，不许凭记忆 |
+| `00-总控/entity-snapshot.yaml` | 所有角色的当前状态 | 角色 before 状态——这是唯一 canon，不许凭记忆 |
 | `正文/ch{上一章}.md` 末尾的状态更新块 | 上一章的 entity_updates + event_log | 衔接点：上章未闭合的节点、语感起点 |
-| 上一章的 design 文件 | ch{上一章}-事实骨架.md | 检查上章末尾是否有关闭的钩子或未解决的事件 |
+| 上一章的 design 文件 | 写作资产/设计包/ch{上一章}-设计包.md | 检查上章末尾是否有关闭的钩子或未解决的事件 |
 
-### 5. 读 Canvas 约束
+### 6. 读 Canvas 约束
 
 | 文件 | 取什么 |
 |:-----|:-------|

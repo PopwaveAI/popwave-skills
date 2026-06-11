@@ -44,7 +44,7 @@
 
 ```
 → 用 Get-Content -Encoding UTF8 -Raw 读取上一环节的全部产出文件
-   （bookstrap 产出的 L1 六件套 / plot 产出的 act-XX.yaml+角色卡 / chapter-design 产出的事实骨架）
+   （bookstrap 产出的 L1 六件套 / plot 产出的 act-XX.yaml+角色卡 / chapter-design 产出的 chXXX-设计包.md）
 
 → 自检回答三个核心问题：
    □ 这些文件的深度和融合度，是否足以支撑下一个环节的工作？

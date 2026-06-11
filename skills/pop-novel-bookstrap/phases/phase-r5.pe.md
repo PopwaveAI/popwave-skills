@@ -1,7 +1,7 @@
 # Phase r5：逆向提取 — 卷大纲确认
 
 ## 前置条件
-Phase r1 完成。
+Phase r1 + Phase r4 完成。
 
 ## 执行步骤
 

@@ -24,7 +24,7 @@
 
 ### 4. 事件完成后补充登场人物卡
 
-所有事件设计完成后，汇总到 `templates/character-card.md`，按 after 状态 + 关系动态 + 出场分布填写。
+所有事件设计完成后，汇总到 `templates/fact-skeleton.md` 的「登场人物」节，按 after 状态 + 关系动态 + 出场分布填写。
 
 ---
 

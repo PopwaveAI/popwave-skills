@@ -1,6 +1,6 @@
 ---
 name: pop-dna
-description: 文风DNA蒸馏引擎 v3.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 `00-原始设定/文风DNA/` 风格文件供 prose-render 消费。
+description: 文风DNA蒸馏引擎 v3.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 `写作资产/文风DNA/` 风格文件供 prose-render 消费。
 version: 3.1.0
 pipeline:
   upstream: []
@@ -9,7 +9,7 @@ pipeline:
 
 # pop-dna · 文风DNA蒸馏引擎 v3.0
 
-> **给 writer 的不是指令——是发现。** prose-render Step 1 打开 `00-原始设定/文风DNA/{书名}.md` 后 30 秒读完，直接应用。
+> **给 writer 的不是指令——是发现。** prose-render Step 1 打开 `写作资产/文风DNA/{书名}.md` 后 30 秒读完，直接应用。
 
 ---
 
@@ -64,7 +64,7 @@ pipeline:
   → 搜索数字标注在产出中
 
 步骤3 · 写出风格文件
-  → 按模板 `templates/style-dna-profile.md` 产出 `00-原始设定/文风DNA/{书名}.md`
+  → 按模板 `templates/style-dna-profile.md` 产出 `写作资产/文风DNA/{书名}.md`
   → 从维度池中选择 ≥7 个维度（通用类 ≥4 + 战斗类 ≥1）
   → 维度名由实际发现决定——不硬套不存在的维度
   → 每个维度：1-2 句描述 + 时间变化 + 2-3 处原文 + 全书搜索数字（如有）
@@ -94,18 +94,18 @@ pipeline:
 用户：帮我分析 [书名] 的文风
 → 扫描全书章节边界 → 均匀采样 ≥20 章 → 逐章精读
 → 全书搜索验证关键判断
-→ 产出 00-原始设定/文风DNA/{书名}.md
+→ 产出 写作资产/文风DNA/{书名}.md
 ```
 
 ---
 
 ## 五、与 writer 的集成
 
-pop-dna 产出的 `00-原始设定/文风DNA/{书名}.md` 供 `pop-novel-prose-render` §Step 1 消费：
+pop-dna 产出的 `写作资产/文风DNA/{书名}.md` 供 `pop-novel-prose-render` §Step 1 消费：
 
 ```
 prose-render Step 1（读入输入）：
-  ① 打开 00-原始设定/文风DNA/ 文件 → 30 秒读完
+  ① 打开 写作资产/文风DNA/ 文件 → 30 秒读完
   ② 对照 design 的场景类型找到对应维度
   ③ 用自己的语感对照原文证据，写出调音叉
 ```

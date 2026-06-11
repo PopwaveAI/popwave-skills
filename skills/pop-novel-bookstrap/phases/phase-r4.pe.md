@@ -1,7 +1,7 @@
 # Phase r4：逆向提取 — 卷纲/幕地图还原
 
 ## 前置条件
-Phase r1 + Phase r3 完成。
+Phase r1 + Phase r2 + Phase r3 完成。
 
 ## 加载参考
 先加载 `phases/phase-r1.pe.md` 的事件日志，了解已有正文的章节结构。

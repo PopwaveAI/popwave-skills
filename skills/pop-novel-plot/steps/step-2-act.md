@@ -1,9 +1,9 @@
 # Step 2：幕纲编排
 
-> 产出: `设计/幕/act-XX.yaml`
+> 产出: `设计/幕/vol-XX/act-YY.yaml`
 > 模板: `templates/act-skeleton.yaml`
 > 参考: `templates/act-guide.md`（字段计算公式）
-> 管线: pop-novel-plot v6.0 — 每幕执行一次，重复直到所有幕完成
+> 管线: pop-novel-plot v6.1 — 每幕执行一次，重复直到所有幕完成
 
 ---
 
@@ -33,7 +33,7 @@
 
 ### 2. 幕纲设计（核心）
 
-产出 `设计/幕/act-XX.yaml`，按 `templates/act-skeleton.yaml` 骨架填充。
+产出 `设计/幕/vol-XX/act-YY.yaml`，按 `templates/act-skeleton.yaml` 骨架填充。
 
 **先填充 Canvas 矩阵（★ v6.0 新增）：**
 
@@ -106,5 +106,5 @@
 
 ## 完成后
 
-→ 跳到 Step 2 设计下一幕（输出 `act-XX.yaml` 幕号+1）
-→ 所有幕完成后 → 通知下游 chapter-design，附上 `volume-XX.md` + 第 1 幕的 `act-XX.yaml`
+→ 跳到 Step 2 设计下一幕（输出 `vol-XX/act-YY.yaml` 幕号+1）
+→ 所有幕完成后 → 通知下游 chapter-design，附上 `volume-XX.md` + 第 1 幕的 `vol-XX/act-YY.yaml`
