@@ -43,7 +43,7 @@ pipeline:
     章级切片：每章情绪/payoff/钩子/场景规格
     节奏检查：每条线最大连续空白章数自检
 
-> 爽点四级定义 + 真实案例（持续沉淀中）→ `references/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）
+> 爽点四级定义 + 设计方法论 + 案例 → `references/payoff-design-guide.md`（中/大/特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小/中承接）
 ```
 
 ---
@@ -131,7 +131,7 @@ pop-novel-plot/
     ├── act-guide.md      ← 字段计算公式参考
     └── rhythm-check.md   ← 自检清单
 └── references/           ← 参考手册
-    └── payoff-guide.md   ← 爽点四级定义 + 11 个中爽点案例
+    └── payoff-design-guide.md   ← 四级爽点设计方法论 + 11个设计案例
 ```
 
 ---

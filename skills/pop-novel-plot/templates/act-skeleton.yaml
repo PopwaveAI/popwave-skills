@@ -36,7 +36,7 @@ act:
   tone_note: ""                   # 1-3句散文，本幕的情绪配比
 
   # ─── 爽点分布（本幕内） ──────────────────────────────
-  # 完整定义 → references/payoff-guide.md
+  # 完整定义 → references/payoff-design-guide.md
   #   plot 负责: 大爽点位置 + 特大爽点位置（填入 positions 数组）
   #   plot 声明: 小爽点+中爽点密度（具体事件归 chapter-design）
   payoff_distribution:

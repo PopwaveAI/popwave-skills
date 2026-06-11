@@ -4,12 +4,12 @@
 
 ### 爽点体系标准化（★ v6.1 核心交付）
 
-- **新建 `references/payoff-guide.md`**：全链路唯一爽点权威定义。四档定义（微/中/大/终极）+ 每种 4-5 个类型案例 + 设计方法 + 责任归属总表
+- **新建 `references/payoff-design-guide.md`**：全链路唯一爽点权威定义。四档定义（微/中/大/终极）+ 每种 4-5 个类型案例 + 设计方法 + 责任归属总表
 - **责任归属明确化**：微 → prose-render / 中 → chapter-design 逐事件标记 / 大+终极 → plot 位置规划
-- **act-guide.md**：1.3 节改为 plot 责任视角，交叉引用 payoff-guide.md
+- **act-guide.md**：1.3 节改为 plot 责任视角，交叉引用 payoff-design-guide.md
 - **act-skeleton.yaml**：payoff_distribution 头部注释标注 plot 负责/不负责范围
-- **rhythm-check.md**：头注交叉引用 payoff-guide.md 为爽点定义基准
-- **SKILL.md**：产出树交叉引用 payoff-guide.md
+- **rhythm-check.md**：头注交叉引用 payoff-design-guide.md 为爽点定义基准
+- **SKILL.md**：产出树交叉引用 payoff-design-guide.md
 
 ### 文件消减 + info-release 内嵌 + 全书架构（Phase 0 step文件+卷模板+用户确认闸门）
 
