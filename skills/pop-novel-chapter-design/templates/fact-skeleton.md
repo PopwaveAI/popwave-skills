@@ -36,7 +36,7 @@
 - 本章标题: "XXX"
 - 本章核心目的: (一句话——这章为什么存在？读者读完要带走什么？)
 - 场景类型: (combat / dialogue / discovery / crisis / transition / mix)
-- 爽点等级: (小 / 中 / 大 / 特大)  ← 来自 act-XX.yaml。小/中归 design 自行标记；大/特大由 plot 指定位置。完整定义见 `pop-novel-plot/templates/payoff-guide.md` + `references/payoff-guide.md`
+- 爽点等级: (小 / 中 / 大 / 特大)  ← 来自 act-XX.yaml。小/中归 design 自行标记；大/特大由 plot 指定位置。完整定义见 `pop-novel-plot/references/payoff-guide.md` + `references/payoff-guide.md`
 - 预期字数: 2500
 
 ## ★ 跨章弧线（没有则省略本节）

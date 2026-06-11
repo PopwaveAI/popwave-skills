@@ -37,7 +37,7 @@
 
 ### 1.3 爽点分布
 
-> 四级定义 + 40 个案例 → `templates/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）。
+> 四级定义 + 40 个案例 → `references/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）。
 > 此表仅列出 plot 层面需要关注的密度约束和大/特大位置规划。
 
 | 级别 | 密度约束 | plot 负责什么 |

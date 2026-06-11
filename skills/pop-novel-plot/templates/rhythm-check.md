@@ -2,7 +2,7 @@
 
 > 产出路径: `设计/幕/vol-XX/act-YY.yaml#rhythm_check`
 > 产出管线: pop-novel-plot v6.1
-> 爽点定义: `templates/payoff-guide.md` — 所有爽点级别的权威定义，检查时以此为基准
+> 爽点定义: `references/payoff-guide.md` — 所有爽点级别的权威定义，检查时以此为基准
 
 ---
 

@@ -46,7 +46,7 @@
    - 推进了 → 写一句话摘要："发生了什么"
    - 没推进 → 留空
 ③ 填写节奏笔记（如"双线并行"、"M2推进高潮"）
-④ ★ 标注每条线在本章的 payoff_level（详见 `templates/payoff-guide.md`）：
+④ ★ 标注每条线在本章的 payoff_level（详见 `references/payoff-guide.md`）：
     - 空 = 铺垫/建设/埋伏笔
     - 小 = 干脆利落的斩杀/升级/打脸/梗植入。chapter-design 据此设计小爽点事件
     - 中 = 有铺垫的可感知释放。**plot 确保每章 ≥1 条线=中，chapter-design 据此设计中爽点事件**
@@ -71,7 +71,7 @@
 | `escalation_path` | 本幕内第 1 章到最后一章如何升级 |
 | `goal` | "读者从「X」到「Y」" |
 | `tone_note` | 1-3句散文，本幕情绪配比 |
-| `payoff_distribution` | 密度约束：小≥3/章 / 中≥1/章 / 大间隔≤5章 / 特大≥1/卷。positions 从 Canvas 反推。完整定义 → `templates/payoff-guide.md` |
+| `payoff_distribution` | 密度约束：小≥5/章 / 中≥1/章 / 大间隔≤5章 / 特大≥1/卷。positions 从 Canvas 反推。完整定义 → `references/payoff-guide.md` |
 | `emotional_arc.checkpoints` | 从 Canvas 矩阵反推 4-6 个情绪转折点 |
 
 **然后填充 20-35 个章级切片：**

@@ -2,7 +2,7 @@
 
 > 管线: pop-novel-chapter-design v1.5
 > 定位：chapter-design 专属。小爽点和中爽点的定义、10 个真实案例、事件链设计方法、Canvas 消费 + 无供给时制造策略。
-> 大爽点 + 特大爽点 + **中爽点(位置)** → `pop-novel-plot/templates/payoff-guide.md`
+> 大爽点 + 特大爽点 + **中爽点(位置)** → `pop-novel-plot/references/payoff-guide.md`
 
 ---
 

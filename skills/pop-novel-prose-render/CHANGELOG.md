@@ -16,7 +16,7 @@
   - 全章累计 ≥ 5 个微爽点？
   - 章末倒数 500 字密度最高？
   - 不通过 → 回最平淡段落插入微爽点（不改剧情，只加文本技艺）
-- **微爽点定义基准** → `pop-novel-plot/templates/payoff-guide.md` §二
+- **微爽点定义基准** → `pop-novel-plot/references/payoff-guide.md` §二
 - **文风DNA 路径统一**：`00-原始设定/文风DNA/` → `写作资产/文风DNA/`
 - **step-1-read-input.md 精简**：去 constitution 前置条件 + 禁止读表去 act-文件 + "读宪法"段落替换为"约束已由设计包覆盖"
 - **SKILL.md**：文风DNA 全路径 + 正文路径 + 禁止读表同步更新
