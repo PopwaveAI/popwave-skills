@@ -1,37 +1,34 @@
 # CHANGELOG — pop-novel-qa
 
+## v1.0.0 (2026-06-11)
+
+### 定位重构：三层阅读QC → 单一工程审计
+
+工作流全面重构后，原三层介入（大纲层/骨架层/正文层 纯感受QC）的设计已不匹配当前管线。现回归单一目的：
+
+- **只做工程级对齐审计** — 以 `pipeline-arch.md` 为基准，四维扫描：A.文件树完整性 / B.工程级文件质量 / C.管线阶段对齐 / D.文件分类正确性
+- **删除全部三层 QC** — Step 1（大纲层）/ Step 2（骨架层）/ Step 3（正文层）全部移除。正文审阅归给写作 skill 自检
+- **删除 reader_profile 依赖** — 不再以读者身份阅读，不再输出"纯感受报告"
+- **删除 Spec 合规备注层** — 不再跨验 spec.md
+- **skill.json**：displayName→项目审计、scenario→audit、slashCommands 更新、recommended 降级、subagentRequired→false
+- **QC-renderer.md** 移入 deprecated/
+- **audit-renderer.md** 精简为唯一输出模板
+
 ## v0.6.0 (2026-06-11)
 
-- **新增 Step 0 — 全量对齐审计（项目体检）**：
-  - 四维度扫描：A. 文件树完整性 / B. 文档质量审查 / C. 管线阶段对齐 / D. 文件分类正确性
-  - 以 `expert-writer/references/pipeline-arch.md` 为基准，逐目录比对项目实际状态
-  - 逐文件读入检查：每个产出文件是否达到对应 skill 的质量标准
-  - 向上游新增 expert-writer 依赖（消费 pipeline-arch.md）
-- **新建 `prompt-templates/audit-renderer.md`**：审计报告标准输出模板（四节结构 + Gap Summary）
-- **四层介入**：Step 0（横向扫描：全文件×全目录）+ Step 1/2/3（纵向切入：单章×单幕）
-- **SKILL.md**：版本 v0.5.0→v0.6.0、前置条件表新增 pipeline-arch.md、路由场景新增「项目审计」
-- **skill.json**：version 升级、upstream 新增 expert-writer
+- 新增 Step 0 全量对齐审计（四维度扫描）
+- 新建 audit-renderer.md
+- 四层介入架构
 
 ## v0.5.0 (2026-06-04)
-- **完整重构 SKILL.md**：
-  - 精简 frontmatter 为仅 name+description（3 行），description 采用触发条件格式
-  - 新增「❌ 质量红线（开工前→完工后自检）」—— 7 项逐项自检 checkbox，违反标记 REJECT
-  - 新增「什么时候用」+「前置条件」表格
-  - 三层介入重新编号为 Step 1/2/3（扁平化结构）
-  - Spec 合规备注层保留为可选追加
-  - 新增「❌ 错误示例」—— 2 个 WRONG 区块（越界给建议、打分排名）
-  - 新增「异常与边界条件」表 —— 7 种场景及处理方式
-  - 新增「输出说明」—— QC 报告不做存档
-  - 版本标记更新为 v0.5.0
-- **skill.json 更新**：
-  - 从 frontmatter 迁移元数据：category、scenario、mode、recommended、tags、fidelity、novelAgentVersion、orchestration、produces、directory
-  - version 升级至 0.5.0
-  - description 对齐新格式
-  - activation.slashCommands 新增「审一下」「爽点质检」
-- **CHANGELOG.md 更新**：新增 v0.5.0 完整记录
+
+- 完整重构 SKILL.md：质量红线/什么时候用/前置条件/三层介入/错误示例/异常处理
+- skill.json 元数据迁移
 
 ## v0.4.2 (2026-06-03)
-- **name/directory 字段对齐**：`name: qa-payoff` → `pop-novel-qa`，`directory: skill-qa-payoff` → `pop-novel-qa`
+
+- name/directory 字段对齐
 
 ## v0.4.1 (2026-06-03)
+
 - 从 novel-agent-pro/skills/skill-qa-payoff 独立提升
