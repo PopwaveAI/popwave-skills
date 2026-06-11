@@ -1,7 +1,7 @@
 # 写作专家全链路 — 文件依赖与产出全景 PRD
 
-> 版本：v1.1 | 2026-06-10
-> 更新说明：拆分 `pop-novel-writer` 为 `pop-novel-chapter-design`（设计环节）+ `pop-novel-prose-render`（正文渲染环节），全线更新依赖关系
+> 版本：v1.4 | 2026-06-11
+> 更新说明：v1.4 — 目录重构：03-前缀消除（03-正文→正文、03-写作资产→写作资产/设计包）；L3-角色层→状态/（角色+势力+卷摘要+世界状态）；数值体系→00-总控/；文风DNA+锚定章→写作资产/；幕/按卷分组(vol-XX/)卷内编号；info-release合并进act#info_release_plan段；起点/终点快照→00-原始设定/。
 > 说明：本文档展示 popwave 写作全链路的完整管线结构，每个节点标注上游依赖文件、下游产出文件、以及跨 skill 共享的关键文件。
 
 ---
@@ -31,7 +31,7 @@
    │                  pop-novel-deconstructor             │
    │                  拆书分析 (Phase 0→4)                │
    │  输入: {书名}.txt                                   │
-   │  产出: T1~T7 + 采样日志 + 诊断报告 + 验证报告        │
+   │  产出: T1~T6 + 采样日志 + 诊断报告 + 验证报告 + 文风DNA  │
    │         + 卷1起点/终点快照 + 三维拆书档案             │
    └──────────┬──────────┬──────────────────────────────┘
               │          │
@@ -39,46 +39,47 @@
               │    ┌──────────────────┐
               │    │    pop-dna       │
               │    │  文风DNA蒸馏     │
-              │    │  产出: styles/   │
-              │    │  {书名}.md       │
+              │    │  产出: 写作资产/  │
+              │    │  文风DNA/{书名}.md│
               │    └────────┬─────────┘
               │             │
               ▼             ▼
    ┌─────────────────────────────────────────────────────┐
-   │               pop-novel-bookstrap                    │
-   │              开书设定 (forward/reverse)              │
-   │  FWD: Phase 0→7 · REV: Phase r1→r6                 │
-   └──────────┬──────────────────────────────────────────┘
-              │
-              │ 产出: story-engine.yaml + L1-01~06
-              │       + constitution.yaml + project.yaml
-              │       + 数值体系 x4 + 起点/终点快照
-              ▼
-   ┌─────────────────────────────────────────────────────┐
-   │               pop-novel-plot                         │
-   │              剧情架构 (Step 1→12)                    │
-   │  输入: story-engine.yaml + 起点/终点快照              │
-   │        + constitution.yaml + L1-01~06                │
-   └──────────┬──────────────────────────────────────────┘
-              │
-              │ 产出: act-XX.yaml + 人物/地图/势力/装备
-              │       + info-release + 里程碑 + 节奏自检
+  │               pop-novel-bookstrap                    │
+  │              开书设定 (forward/reverse)              │
+  │  FWD: Phase 0→7 · REV: Phase r1→r6                 │
+  └──────────┬──────────────────────────────────────────┘
+             │
+             │ 产出: story-engine.yaml + L1-01~06
+             │       + L3角色卡 + project.yaml
+             │       + 数值体系 x4 + 起点/终点快照
+             ▼
+  ┌─────────────────────────────────────────────────────┐
+  │               pop-novel-plot                         │
+  │              剧情架构 (Step 1→12)                    │
+  │  输入: story-engine.yaml + 起点/终点快照              │
+  │        + L3角色卡 + L1-01~06                         │
+  └──────────┬──────────────────────────────────────────┘
+             │
+             │ ★Phase 0: 全卷蓝图 → 设计/全书架构.md
+             │ Step 4.5: 逐卷 → 设计/卷/volume-XX.md
+             │ Step 9: 逐幕 → 设计/幕/act-XX.yaml
               ▼
    ┌─────────────────────────────────────────────────────┐
    │           pop-novel-chapter-design  ★NEW             │
    │          章纲/导演卡 (Step 1→3)                      │
-   │  输入: act-XX.yaml + 人物/地图/势力/装备              │
-   │        + info-release + entity-snapshot + 里程碑      │
+   │  输入: act-XX.yaml(含info_release_plan) + volume-XX.md │
+   │        + entity-snapshot + 状态/角色/{主角}-角色卡     │
    │  ⚠️ 不碰文风 — 只产出事件骨架                         │
    └──────────┬──────────────────────────────────────────┘
               │
-              │ 产出: chXXX-事实骨架.md + chXXX-登场人物卡.md
+              │ 产出: chXXX-设计包.md
               │       + entity-snapshot.yaml (更新)
               ▼
    ┌─────────────────────────────────────────────────────┐
    │           pop-novel-prose-render  ★NEW               │
-   │          正文渲染/上色 (Step 1→5)                     │
-   │  输入: 事实骨架 + 登场人物卡 + styles/{style}.md      │
+   │          正文渲染/上色 (Step 1→4)                     │
+   │  输入: 设计包 + 写作资产/文风DNA/{style}.md            │
    │  ⚠️ 不碰剧情 — 只管写好                             │
    └──────────┬──────────────────────────────────────────┘
               │
@@ -87,7 +88,7 @@
    ┌─────────────────────────────────────────────────────┐
    │               pop-novel-qa                           │
    │              爽点质检 (Step 1→3)                     │
-   │  输入: constitution.yaml + 正文 + reader_profile      │
+   │  输入: 正文 + chXXX-设计包.md + act-XX.yaml + reader_profile      │
    │  产出: QC 报告 (纯感受型，不存盘)                     │
    └─────────────────────────────────────────────────────┘
               │
@@ -135,7 +136,7 @@ Step 1 · pop-novel-bookstrap (forward)
   ├─ Phase 1.2:   L1 深度展开
   ├─ Phase 1.3:   L1 交叉关联
   ├─ Phase 1.5:   世界稳定性检验
-  ├─ Phase 3:     project.yaml + constitution.yaml + L3角色卡
+  ├─ Phase 3:     project.yaml + L3角色卡
   ├─ Phase 4:     reader_profile 校对
   ├─ Phase 5:     数值体系 x4
   ├─ Phase 6:     起点快照.md
@@ -143,14 +144,12 @@ Step 1 · pop-novel-bookstrap (forward)
   ↓
 Step 2 · pop-novel-plot (剧情架构)
   ├─ Step 1:  前置 + 节点B → 节点B-XX.md
+  ├─ Step 1.5: ★全书架构 → 设计/全书架构.md（消费 story-engine + 快照 + L1 → 输出4卷蓝图）
   ├─ Step 2:  锚点确认 (口述)
   ├─ Step 3:  里程碑 → 里程碑设计.md [用户确认闸门]
   ├─ Step 4:  情节线 → 情节线草案-XX.md [用户确认闸门]
-  ├─ Step 5:  人物 → act-XX-人物.md
-  ├─ Step 6:  地图 → act-XX-地图.md
-  ├─ Step 7:  世界 → act-XX-势力.md + act-XX-装备.md
-  ├─ Step 8:  info_release → info-release-XX.md
-  ├─ Step 9:  幕纲 → act-XX.yaml  [核心产出]
+  ├─ Step 4.5: ★卷设计 → 设计/卷/volume-XX.md（角色池/地点池/剧情线/势力动机/快照）
+  ├─ Step 9:  ★幕纲 → 设计/幕/vol-XX/act-YY.yaml（Canvas矩阵 + info_release_plan 段内嵌 + per-chapter info_release 字段）[核心产出]
   ├─ Step 10: 场景卡 → _temp/  [用户确认闸门]
   ├─ Step 11: 节奏自检 → 节奏自检报告.md
   └─ Step 12: 产出自检
@@ -162,10 +161,10 @@ Step 3 · pop-novel-chapter-design (章纲设计/导演卡)  ★NEW
   └─ Step 3:  产出 → 事实骨架.md + 登场人物卡.md + entity-snapshot 更新
   ↓
 Step 4 · pop-novel-prose-render (正文渲染/上色)  ★NEW
-  ├─ Phase 1:  风格锚定 ⬅ 读 styles/{style}.md → 风格契约
-  ├─ Phase 2:  正文渲染 — 事件链 × 风格契约 → chXXX.md
-  ├─ Phase 3:  风格验证 — P0禁句扫描 + 调音叉对照
-  └─ → 章末状态更新块
+  ├─ Step 1:  读入设计包 + 文风DNA + 锚定章 → 建立风格感知
+  ├─ Step 2:  正文渲染 — 事件链 × 文风DNA → chXXX.md
+  ├─ Step 3:  风格验证 — P0禁句扫描 + 视角一致性 + 解说员句式检查
+  └─ Step 4:  最终输出 → 正文/chXXX.md（含章末状态更新块）
   ↓
 Step 5 · pop-novel-qa (爽点质检)
   ├─ Step 1: 大纲层 QC (写前)
@@ -188,7 +187,7 @@ Step 1 · pop-novel-bookstrap (reverse)
   ├─ Phase r1: 事件日志 (逐章读正文)
   ├─ Phase r2: L0 提取
   ├─ Phase r3: L1 提取
-  ├─ Phase r4: 宪法提取 (constitution.yaml)
+  ├─ Phase r4: 大纲提取 (volume-XX + act-XX 还原)
   ├─ Phase r5: 卷大纲确认
   └─ Phase r6: 交接验证报告
   ↓
@@ -212,7 +211,7 @@ Step 2 · pop-novel-deconstructor
   └─ Phase 4:  三维拆书档案.md + 卷1起点/终点快照
   ↓ (可选)
 Step 3 · pop-dna (文风DNA蒸馏)
-  → 均匀采样 ≥20 章 → 全书搜索验证 → styles/{书名}.md
+  → 均匀采样 ≥20 章 → 全书搜索验证 → 写作资产/文风DNA/{书名}.md
 ```
 
 ---
@@ -232,31 +231,28 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | **Phase 1.2** | L1-01~06 | L1 各文件深度展开补充 | Phase 1.3 |
 | **Phase 1.3** | L1-01~06 (深度展开) | `_交叉引用记录.md` | Phase 1.5 |
 | **Phase 1.5** | L1-01~06 + 交叉引用 | 稳定性检验 checklist | — |
-| **Phase 3** | L1-01~06 | `project.yaml` + `constitution.yaml` + `L3-角色层/角色卡`（含 core_desire: external_goal + internal_need） | plot、chapter-design、qa |
+| **Phase 3** | L1-01~06 | `project.yaml` + `状态/角色/角色卡`（含 core_desire + 快照段预留位） | plot、chapter-design |
 | **Phase 4** | project.yaml | reader_profile 校对确认 | plot、chapter-design、qa |
-| **Phase 5** | L1-01~06 + constitution | `combat_capability.yaml` + `monster_rank_map.yaml` + `act_rank_schedule.yaml` + `collision_curve.yaml` | plot、chapter-design |
+| **Phase 5** | L1-01~06 | `combat_capability.yaml` + `monster_rank_map.yaml` + `act_rank_schedule.yaml` + `collision_curve.yaml` | plot、chapter-design |
 | **Phase 6** | story-engine + 起点状态 | `设计/起点快照.md` [用户确认闸门] | plot (Step 2 锚点) |
 | **Phase 7** | story-engine + 终点构想 | `设计/终点快照.md` [用户确认闸门] | plot (Step 2 锚点)、chapter-design |
 | **Phase r1** | 已有正文文件（N章） | `事件日志.md` + 批次摘要 | Phase r2 |
 | **Phase r2** | 事件日志 | `L0-产品层/` 提取文件 | Phase r3 |
 | **Phase r3** | L0 提取 | `L1-元设定层/` 提取文件 | Phase r4 |
-| **Phase r4** | L1 提取 | `constitution.yaml` | Phase r5 |
-| **Phase r5** | constitution.yaml | 卷大纲确认 | Phase r6 |
+| **Phase r4** | L1 提取 | `volume-XX + act-XX` 还原 | Phase r5 |
+| **Phase r5** | 卷大纲确认 | 交接验证报告 | Phase r6 |
 | **Phase r6** | 全部 reverse 产出 | `交接验证报告.md` | plot |
 
 ### 3.2 pop-novel-plot（剧情架构）
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |------|---------|---------|-----------|
-| **Step 1** | story-engine.yaml + 起点/终点快照 + constitution.yaml + L1-01~06 | `设计/幕/节点B-XX.md` | — |
+| **Step 1** | story-engine.yaml + 起点/终点快照 + L1-01~06 | `设计/幕/节点B-XX.md` | — |
 | **Step 2** | 起点/终点快照 | 锚点确认（口述） | Step 3 |
 | **Step 3** | 锚点确认 | `设计/里程碑设计.md` [用户确认闸门] | Step 4 |
-| **Step 4** | 里程碑设计 | `设计/幕/情节线草案-XX.md` [用户确认闸门] | Step 5-9 |
-| **Step 5** | L3-角色卡 + combat_capability | `设计/幕/act-XX-人物.md` | chapter-design |
-| **Step 6** | L1-世界蓝图 | `设计/幕/act-XX-地图.md` | chapter-design |
-| **Step 7** | L1-势力格局 + 资源物品 | `设计/幕/act-XX-势力.md` + `act-XX-装备.md` | chapter-design、info-release |
-| **Step 8** | act-XX-人物/地图/势力/装备 + constitution | `设计/幕/info-release-XX.md` | chapter-design |
-| **Step 9** | Steps 1-8 全部产出 | `设计/幕/act-XX.yaml` | chapter-design 核心输入 |
+| **Step 4** | 里程碑设计 | `设计/幕/情节线草案-XX.md` [用户确认闸门] | Step 4.5/9 |
+| **Step 4.5** | story-engine + L1 + 状态/角色/角色卡 + 起点/终点快照 | `设计/卷/volume-XX.md`（角色池/地点池/剧情线/势力动机/快照） | chapter-design |
+| **Step 9** | Steps 1-4.5 全部产出 + volume-XX.md | `设计/幕/vol-XX/act-YY.yaml`（Canvas矩阵 + info_release_plan 段内嵌） | chapter-design 核心输入 |
 | **Step 10** | act-XX.yaml | `_temp/场景卡` [用户确认闸门] | — |
 | **Step 11** | act-XX.yaml + act_rank_schedule | `设计/幕/节奏自检报告.md` | — |
 | **Step 12** | 全部 Steps 1-11 产出 | —（校验不产出新文件） | — |
@@ -265,9 +261,9 @@ Step 3 · pop-dna (文风DNA蒸馏)
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |------|---------|---------|-----------|
-| **Step 1 读入上下文** | act-XX.yaml + volume-XX.md + info-release-XX.md + entity-snapshot.yaml + 里程碑设计.md + constitution.yaml + L3-角色卡(core_desire) | —（建立基线：角色池/地点池/信息清单/幕纲字段/场景规格/角色欲望） | Step 2 |
+| **Step 1 读入上下文** | act-XX.yaml（含 info_release_plan + chapters[].info_release + Canvas）+ volume-XX.md（角色池/地点池/剧情线）+ entity-snapshot.yaml（当前状态）+ 状态/角色/{主角}-角色卡.md（core_desire） | —（建立基线：角色池/地点池/信息清单/幕纲字段/场景规格/角色欲望） | Step 2 |
 | **Step 2 事件链设计** | Step 1 基线 + references/ 四个参考文档 | —（逐个回合设计事件，同步确定角色/地点/情绪/信息释放/字数） | Step 3 |
-| **Step 3 产出+状态** | Step 2 事件链 | `03-写作资产/chXXX-设计包.md`（含事实骨架+登场人物卡） | pop-novel-prose-render |
+| **Step 3 产出+状态** | Step 2 事件链 | `写作资产/设计包/chXXX-设计包.md`（含事实骨架+登场人物卡） | pop-novel-prose-render |
 | | | `00-总控/entity-snapshot.yaml`（更新） | 下一章 design |
 
 > **核心约束：不碰文风。** 不知道文风DNA的存在。不写叙事者声音、不写句子节奏、不写修辞风格。
@@ -280,14 +276,14 @@ Step 3 · pop-dna (文风DNA蒸馏)
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |------|---------|---------|-----------|
-| **Step 1 读入输入** | chXXX-事实骨架.md + chXXX-登场人物卡.md + styles/{style}.md + 锚定章片段 + 宪法 | — | Step 2 |
-| **Step 2 正文渲染** | 事实骨架 + 登场人物卡 + context 中的 styles 规则 | `03-正文/chXXX.md`（正文，含视角选择） | Step 3、qa |
-| **Step 3 风格验证** | chXXX.md + styles/ 原文 + 宪法 | 风格验证报告（P0禁句扫描 + 视角一致性 + 先否定再肯定频率检查 + 宪法检查） | — |
-| **Step 4 最终输出** | chXXX.md（修正后） | `03-正文/chXXX.md`（含章末状态更新块） | qa |
+| **Step 1 读入输入** | chXXX-设计包.md + 写作资产/文风DNA/{style}.md + 锚定章片段 | — | Step 2 |
+| **Step 2 正文渲染** | 设计包 + context 中的文风DNA规则 | `正文/chXXX.md`（正文，含视角选择） | Step 3、qa |
+| **Step 3 风格验证** | chXXX.md + 文风DNA原文 | 风格验证报告（P0禁句扫描 + 视角一致性 + 先否定再肯定频率检查） | — |
+| **Step 4 最终输出** | chXXX.md（修正后） | `正文/chXXX.md`（含章末状态更新块） | qa |
 
 > **核心约束：不碰剧情。** 不读 Canvas/plot、不验证设定、不判断角色出场是否合理。Design 说了这章发生什么 → 只管写好。
 >
-> Render 消费 pop-dna 产出的 styles/{书名}.md 做风格对齐。
+> Render 消费 `写作资产/文风DNA/{书名}.md` 做风格对齐。
 >
 > **新增验证：** Step 3 风格验证新增「视角一致性检查」与「先否定再肯定句式频率检查（P1→P0升级）」
 
@@ -296,8 +292,8 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | Step | 上游依赖 | 产出 | 下游消费者 |
 |------|---------|------|-----------|
 | **Step 1**（大纲层） | act-XX.yaml + project.yaml#reader_profile | 大纲层 QC 报告（纯感受） | chapter-design(修改反馈) |
-| **Step 2**（骨架层） | chXXX-事实骨架.md + reader_profile | 骨架层 QC 报告 | chapter-design(修改反馈) |
-| **Step 3**（正文层） | chXXX.md + reader_profile + QC-renderer.md | 正文层 QC 报告（纯感受） | prose-render(修改反馈)、expert-writer Reflect 判定 |
+| **Step 2**（骨架层） | chXXX-设计包.md + reader_profile | 骨架层 QC 报告 | chapter-design(修改反馈) |
+| **Step 3**（正文层） | 正文/chXXX.md + reader_profile + QC-renderer.md | 正文层 QC 报告（纯感受） | prose-render(修改反馈)、expert-writer Reflect 判定 |
 
 > QC 产出**不做文件存档**，由用户自行决定是否保留。
 
@@ -318,8 +314,8 @@ Step 3 · pop-dna (文风DNA蒸馏)
 | **取样** | 全文 TXT / 章节文件 | 采样清单 | Step 1 |
 | **精读** | ≥20 章原文（≥10,000行） | 逐章精读笔记（临时） | Step 2 |
 | **全书搜索验证** | 精读笔记 + 全文搜索 | 验证记录（临时） | Step 3 |
-| **产出风格文件** | 所有精读 + 验证数据 | `styles/{书名}.md` | prose-render Phase 1 |
-| **试写验证** | styles/{书名}.md | 300-500字试写 | — |
+| **产出风格文件** | 所有精读 + 验证数据 | `写作资产/文风DNA/{书名}.md` | prose-render Step 1 |
+| **试写验证** | 写作资产/文风DNA/{书名}.md | 300-500字试写 | — |
 
 ### 3.8 download-webnovel-txt（TXT下载）
 
@@ -339,33 +335,40 @@ Step 3 · pop-dna (文风DNA蒸馏)
 
 ## 四、跨 Skill 共享文件清单
 
+> 每条标注文件类型：**S**-静态（一次产出，只读不写）/ **D**-动态（持续维护，有更新者）/ **M**-元数据（工程索引）
+
 ### 4.1 核心共享文件（被 ≥2 个 Skill 消费）
 
-| 文件 | 产出者 | 消费者 | 用途 |
-|------|-------|-------|------|
-| **story-engine.yaml** | bookstrap Phase 0 | plot, chapter-design | 故事引擎——core_premise、主题、冲突方向 |
-| **constitution.yaml** | bookstrap Phase 3 | plot, chapter-design, prose-render, qa | 写作宪法——世界规则、力量约束、角色行为守则 |
-| **project.yaml** | bookstrap Phase 3 | plot(chapter-design增强), qa, chapter-design, html-renderer | 项目配置文件——reader_profile、paths、平台 |
-| **L1-01~06 六件套** | bookstrap Phase 1 | plot (Steps 1-7), chapter-design | 元设定层——世界蓝图/力量体系/历史/物种/势力/资源 |
-| **act-XX.yaml** | plot Step 9 | chapter-design (核心输入), qa(大纲层) | 幕级章纲——情绪弧线、爽点分布、信息释放 |
-| **act-XX-人物.md** | plot Step 5 | chapter-design | 本卷登场人物设计 |
-| **act-XX-地图.md** | plot Step 6 | chapter-design | 本卷地图/空间设计 |
-| **entity-snapshot.yaml** | chapter-design (持续更新) | chapter-design (下一章), expert-writer | 角色状态/时间线/伏笔的全量快照 |
-| **起点快照.md** | bookstrap Phase 6 | plot Step 2 | 卷开始时主角/世界状态 |
-| **终点快照.md** | bookstrap Phase 7 / deconstructor | plot Step 2, chapter-design | 卷结束时目标状态 |
-| **chXXX-设计包.md**（含 fact-skeleton + character-card） | chapter-design Step 3 | prose-render | 回合级事件链 + 角色状态（含冲突层次/信息释放） |
-| **styles/{书名}.md** | pop-dna | prose-render Phase 1 | 文风DNA档案 |
+| 文件 | 类型 | 产出者 | 消费者 | 用途 |
+|------|:----:|-------|-------|------|
+| **story-engine.yaml** | S | bookstrap Phase 0 | plot | 故事引擎——plot 内化拆成每卷核心命题。chapter-design 不直接读 |
+| **L1-01~06 六件套** | S | bookstrap Phase 1 | plot | 元设定层，plot 做幕设计时引用。chapter-design 不直接读 |
+| **project.yaml** | M | bookstrap Phase 3 | expert-writer 路由 | 项目配置文件——reader_profile、paths、平台。子skill不读 |
+| **状态/角色/{角色名}-角色卡.md** | **D** | bookstrap Phase 3 → plot 卷间回写 | plot（core_desire→volume角色池）+ chapter-design 参考 | 含 per-volume 快照段。初版bookstrap → 卷末plot回写（基于entity-snapshot） |
+| **状态/势力/{势力名}.md** | **D** | plot 卷间回写 | plot（volume势力动机→状态）+ expert-writer 参考 | 渗透阶段/规模/关键事件 |
+| **状态/卷摘要/volume-XX-摘要.md** | **D** | plot 卷末写入 | expert-writer + 人 | 一章一句话，约5KB/卷 |
+| **状态/世界状态.md** | **D** | plot 卷间更新 | plot + chapter-design 参考 | 领土/裂缝/城市所有权跨卷追踪 |
+| **起点快照.md** | S | bookstrap Phase 6 | plot Step 2 | 卷开始时主角/世界状态。chapter-design 不读源头 |
+| **终点快照.md** | S | bookstrap Phase 7 / deconstructor | plot Step 2 | 卷结束时目标状态。chapter-design 不读源头 |
+| **卷设计/volume-XX.md** | S | plot Step 4.5 | chapter-design Step 1 | **核心卷级输入**——角色池/地点池/剧情线/势力动机 |
+| **幕设计/act-XX.yaml** | **D** | plot Step 9 | chapter-design (核心输入), qa(大纲层) | 幕级章纲——情绪弧线、爽点分布、Canvas矩阵。**§info_release_plan 段内嵌信息释放规划**，chapter-design 从每章 chapters[].info_release 取字段 |
+| **entity-snapshot.yaml** | **D** | chapter-design (逐章更新) | chapter-design (下章读before状态), expert-writer Reflect L2 | 角色 current 状态、event_log 累积。逐章唯一的数字权威来源 |
+| **chXXX-设计包.md** | **D**（每章新建） | chapter-design Step 3 | prose-render Step 1 | 回合级事件链 + 角色状态（含冲突层次/信息释放） |
+| **正文/chXXX.md** | **D**（每章新建） | prose-render Step 4 | qa + html-renderer + expert-writer | 完成正文 + 章末状态更新块 |
+| **写作资产/文风DNA/{书名}.md** | S | deconstructor / pop-dna | prose-render Step 1 | 文风DNA档案 |
 
 ### 4.2 可选/增强共享文件
 
-| 文件 | 产出者 | 消费者 | 用途 |
-|------|-------|-------|------|
-| **combat_capability.yaml** | bookstrap Phase 5 | plot Step 7/9, chapter-design (战斗章) | 段位战力范围 |
-| **monster_rank_map.yaml** | bookstrap Phase 5 | chapter-design (怪物出场时) | 怪物等级对照 |
-| **act_rank_schedule.yaml** | bookstrap Phase 5 | plot Step 9 | 卷级段位排期 |
-| **collision_curve.yaml** | bookstrap Phase 5 | plot Step 9 | 碰撞曲线/战斗章分布 |
-| **T1~T7 拆解报告** | deconstructor Phase 2 | bookstrap Phase 0.6 (融合), plot(增强) | 参考书拆解成果 |
-| **卷1起点/终点快照** | deconstructor Phase 4 | bookstrap Phase 0.6 (融合) | 参考书卷1结构参考 |
+| 文件 | 类型 | 产出者 | 消费者 | 用途 |
+|------|:----:|-------|-------|------|
+| **combat_capability.yaml** | **S** | bookstrap Phase 5 | plot Step 7/9, chapter-design (战斗章) | 段位战力范围 |
+| **monster_rank_map.yaml** | **S** | bookstrap Phase 5 | chapter-design (怪物出场时) | 怪物等级对照 |
+| **act_rank_schedule.yaml** | **S** | bookstrap Phase 5 | plot Step 9 | 卷级段位排期 |
+| **collision_curve.yaml** | **S** | bookstrap Phase 5 | plot Step 9 | 碰撞曲线/战斗章分布 |
+| **deconstruct-融合摘要.md** | **S** | bookstrap Phase 0.6 | plot (增强) | 参考书拆解融合摘要 |
+| **T1~T7 拆解报告** | **S** | deconstructor Phase 2 | bookstrap Phase 0.6, plot(增强) | 参考书拆解成果 |
+| **{书名}-卷1起点/终点快照** | **S** | deconstructor Phase 4 | bookstrap Phase 0.6 | 参考书卷1结构参考 |
+| **锚定章库/** | **D** | （用户预设） | prose-render Step 1 | 场景类型锚定章 |
 
 ### 4.3 调度层私有文件
 
@@ -409,7 +412,7 @@ Step 3 · pop-dna (文风DNA蒸馏)
 §3.3 Reflect
     │  references/reflection.md (四层审视)
     │  L1: 产出检查 + workspace-index.yaml 索引回写
-    │  L2: entity-snapshot ↔ constitution 一致性
+    │  L2: entity-snapshot ↔ L3 角色卡一致性
     │  L3: QA 报告判断 (P0/P1/P2)
     │  L4: 活人感检查 (可选)
     ▼
@@ -463,58 +466,129 @@ Expert-writer Reflect L1 → 自动更新:
 
 ---
 
-## 附录 A：项目目录结构参考
+## 附录 A：项目文件全貌模拟（第7卷）
+
+> 假设：800章 / 7卷 / 每卷3-6幕 / 按改良后PRD的S/D/M分类标注
+> 标注方式：`[产出者]` `{类型}` `(规模)`
 
 ```
-{项目根}/
-├── 00-总控/
-│   ├── project.yaml               # [bookstrap] 项目配置
-│   └── entity-snapshot.yaml        # [chapter-design/更新] 全量快照
-├── 00-原始设定/
+深渊主宰·外神低语/
+│
+├── 00-总控/                           ← 工程层，expert-writer 路由 + chapter-design 读写
+│   ├── project.yaml                  [bookstrap] {M}  项目配置（paths/平台/reader_profile）
+│   ├── entity-snapshot.yaml          [chapter-design] {D}  逐章微状态快照（800章log累计，约200KB）
+│   └── 数值体系/                     [bookstrap] {S}  plot + 战斗章 chapter-design 消费
+│       ├── combat_capability.yaml
+│       ├── monster_rank_map.yaml
+│       ├── act_rank_schedule.yaml
+│       └── collision_curve.yaml
+│
+├── 00-原始设定/                       ← bookstrap 静态产出，仅 plot 消费
 │   ├── L0-产品层/
-│   │   ├── story-engine.yaml       # [bookstrap] 故事引擎
-│   │   ├── deconstruct-融合摘要.md  # [bookstrap] 拆书融合
-│   │   └── PRD.md                  # [用户/可选] 产品PRD
-│   └── L1-元设定层/
-│       ├── 01-世界蓝图.md
-│       ├── 02-力量体系.md
-│       ├── 03-历史与驱动力.md
-│       ├── 04-物种与天赋.md
-│       ├── 05-势力格局.md
-│       └── 06-资源物品.md
-├── 数值体系/
-│   ├── combat_capability.yaml      # [bookstrap] 段位战力
-│   ├── monster_rank_map.yaml       # [bookstrap] 怪物等级
-│   ├── act_rank_schedule.yaml      # [bookstrap] 段位排期
-│   └── collision_curve.yaml        # [bookstrap] 碰撞曲线
-├── 设计/
-│   ├── 起点快照.md                 # [bookstrap] 起点
-│   ├── 终点快照.md                 # [bookstrap] 终点
-│   ├── 里程碑设计.md               # [plot] 里程碑
-│   └── 幕/
-│       ├── act-01.yaml             # [plot] 幕纲
-│       ├── act-01-人物.md          # [plot] 人物设计
-│       ├── act-01-地图.md          # [plot] 地图设计
-│       ├── act-01-势力.md          # [plot] 势力
-│       ├── act-01-装备.md          # [plot] 装备流
-│       ├── info-release-01.md      # [plot] 信息释放
-│       ├── 节点B-01.md             # [plot] 节点B
-│       └── 情节线草案-01.md        # [plot] 情节线
-├── 03-正文/
-│   ├── ch001.md                    # [prose-render] 正文 (含章末delta)
-│   └── ...
-├── 03-写作资产/
-│   ├── ch001-事实骨架.md           # [chapter-design] 事件骨架
-│   ├── ch001-登场人物卡.md         # [chapter-design] 人物卡
-│   ├── ch002-事实骨架.md
-│   ├── ch002-登场人物卡.md
+│   │   ├── story-engine.yaml         [bookstrap] {S}  核心假说
+│   │   ├── deconstruct-融合摘要.md    [bookstrap] {S}  参考书融合
+│   │   └── PRD.md                    [用户] {S}  可选
+│   ├── L1-元设定层/
+│   │   ├── 01-世界蓝图.md ~ 06-资源物品.md  [bookstrap] {S}  6个文件
+│   ├── 起点快照.md                   [bookstrap] {S}  第1章开篇状态
+│   └── 终点快照.md                   [bookstrap] {S}  目标终局（全书级，各卷终点在volume-XX内）
+│
+├── 状态/                             ← 全书跨卷动态追踪 {D}  [bookstrap初版 → plot卷间回写]
+│   ├── 角色/                          ← 含 per-volume 快照段
+│   │   ├── 索伦-主角卡.md            ← 满配（身份/欲望/能力/关系/快照）约40KB
+│   │   ├── 薇薇安-配角卡.md
+│   │   ├── 歌莉娅-配角卡.md
+│   │   ├── 阿拉丁-配角卡.md
+│   │   └── 龙套池.md                ← 出场≤5章的角色（纯备忘）
+│   │
+│   ├── 势力/                         ← 从 volume 势力动机 + entity-snapshot 反哺
+│   │   └── 外神教团.md               ← 渗透阶段/规模/已知情报/关键事件
+│   │
+│   ├── 卷摘要/                       ← plot 在卷末写入（一章一句话 → 约5KB/卷）
+│   │   ├── volume-01-摘要.md
+│   │   ├── volume-02-摘要.md
+│   │   └── ...(~7个)
+│   │
+│   └── 世界状态.md                   ← 跨卷领土/裂缝/关键城市状态（约3KB）
+│
+├── 设计/                             ← plot 产出层
+│   ├── 全书架构.md                   [plot Phase 0] {S+D}  全卷蓝图（卷间可修订）
+│   │
+│   ├── 卷/                           [plot Step 4.5] {S}  每卷1个
+│   │   ├── volume-01.md             ← ch001-080：琥珀城逃亡篇
+│   │   ├── volume-02.md             ← ch081-200：白马城立足篇
+│   │   ├── volume-03.md             ← ch201-350：荒野远征篇
+│   │   ├── volume-04.md             ← ch351-500：海外群岛篇
+│   │   ├── volume-05.md             ← ch501-630：裂缝探索篇
+│   │   ├── volume-06.md             ← ch631-720：诸神黄昏篇
+│   │   └── volume-07.md             ← ch721-800：终局决战篇
+│   │
+│   └── 幕/                           [plot Step 9] {D}  按卷分组，卷内编号
+│       ├── vol-01/
+│       │   ├── act-01.yaml
+│       │   ├── act-02.yaml
+│       │   └── act-03.yaml
+│       ├── vol-02/
+│       │   ├── act-01.yaml
+│       │   ├── act-02.yaml           ← info_release_plan 段已内嵌于每个act
+│       │   ├── act-03.yaml
+│       │   └── act-04.yaml
+│       ├── ...
+│       └── vol-07/
+│           ├── act-01.yaml
+│           ├── act-02.yaml
+│           └── act-03.yaml
+│
+├── 写作资产/                          ← chapter-design + prose-render 共用
+│   ├── 设计包/                        [chapter-design] {D}  每章1个（约800个文件，~16MB）
+│   │   ├── ch001-设计包.md
+│   │   ├── ch002-设计包.md
+│   │   ├── ...
+│   │   └── ch800-设计包.md
+│   ├── 文风DNA/                       [deconstructor/pop-dna] {S}
+│   │   └── 深渊主宰-文风DNA档案-v3.md
+│   └── 锚定章库/                      [用户/写作中积累] {D}
+│       ├── 战斗锚定-001.md
+│       └── 对话锚定-001.md
+│
+├── 正文/                              ← prose-render 产出 {D}  每章1个（约800个文件，~60MB）
+│   ├── ch001.md
+│   ├── ch002.md
 │   ├── ...
-│   ├── global-summary.md           # [可选] 叙事摘要
-│   └── experience-log.md           # [可选] 经验日志
-├── L3-角色层/
-│   └── 角色卡/                     # [bookstrap] 角色卡
-└── _archive/                       # [可选] 废弃版本归档
+│   └── ch800.md
+│
+└── _参考书分析/                       ← deconstructor 产出 {S}  开书后锁定
+    ├── 深渊主宰-T1-力量体系规则手册.md
+    ├── 深渊主宰-T2-世界观展开.md
+    ├── ... (T3~T6)
+    ├── 深渊主宰-三维拆书档案.md
+    ├── 深渊主宰-卷1起点快照.md
+    ├── 深渊主宰-卷1终点快照.md
+    └── 跨域素材蒸馏.md                [bookstrap Phase 0.5]
 ```
+
+### 文件统计
+
+| 层级 | 文件数 | 说明 |
+|:-----|:------|:-----|
+| 总控 | ~6 | project(1) + entity-snapshot(1) + 数值体系(4) |
+| 原始设定 | ~11 | L0(3) + L1(6) + 起点快照(1) + 终点快照(1) |
+| 状态 | ~10 | 角色(4-5) + 势力(1) + 卷摘要(7) + 世界状态(1) |
+| 设计 | ~38 | 全书架构(1) + 卷(7) + 幕(31 act，info_release 内嵌) |
+| 写作资产 | ~800 | 设计包(800) + 文风DNA(1) + 锚定章(5-10) |
+| 正文 | ~800 | 每章1个 |
+| 参考书分析 | ~10 | 开书后锁定 |
+| **全书总计** | **~1665个文件** | **~80MB（纯文本）** |
+
+### 简化后消除的文件
+
+| 旧版文件 | 消除原因 | 节省 |
+|:---------|:--------|:-----|
+| constitution.yaml | Canvas字段已覆盖 | 1个文件 |
+| act-XX-人物/地图/势力/装备 ×124 | L3角色卡+volume+act字段已替代 | 124个文件 |
+| info-release-XX.md ×31 | 合并到 act-XX.yaml#info_release_plan 段 | 31个文件 |
+| chXXX-事实骨架.md + 登场人物卡.md | 合并为设计包单文件 | 约800个文件 |
+| **合计节省** | | **~956个文件** |
 
 ---
 
@@ -530,6 +604,157 @@ Expert-writer Reflect L1 → 自动更新:
 | **章节状态更新块** | writer Step 2 产出 | prose-render Step 5 产出（正文末尾） |
 | **核心约束** | 无严格隔离 | **Design 不碰文风** / **Render 不碰剧情** |
 | **向上依赖** | 依赖 plot 全部 Canvas | Design 依赖 plot Canvas；Render 只依赖 Design |
+
+---
+
+## 附录 C：全局文件审计 v1（2026-06-11）
+
+> 问题驱动：L3角色卡丢失 → 发现缺乏全局文件视图
+> 核心问题：哪些文件是静态的？哪些是动态的？谁在维护？谁在消费？Agent 和人各怎么用？
+
+### C.1 分类框架
+
+| 维度 | 含义 |
+|:-----|:-----|
+| **S-静态** | 产出后不改，只做参考。产出者写一次，消费者只读不写。 |
+| **D-动态** | 随写作进展持续更新。有明确的维护者和更新时机。 |
+| **M-元数据** | 描述结构/索引/路径。不属于内容层，属于工程层。 |
+
+| 消费方 | 含义 |
+|:-----|:-----|
+| **🤖 Agent** | Skill 执行时读取。需要结构化、路径明确、字段无歧义。 |
+| **👤 人** | 用户通读/审阅。需要可读、可快速扫描、关键信息突出。 |
+| **🤖+👤** | 两者都读。格式需兼顾——结构化但不牺牲可读性。 |
+
+### C.2 各产出区逐文件审计
+
+#### C.2a bookstrap 静态产出
+
+| 文件 | 类型 | 消费者 | 消费模式 | 现状 |
+|:-----|:----:|:------|:---------|:-----|
+| story-engine.yaml | S | plot | 内化→拆成每卷核心命题。chapter-design不读 | ✅ |
+| L1-01~06 | S | plot | plot做幕设计时引用设定素材。chapter-design不读 | ✅ |
+| deconstruct-融合摘要.md | S | plot(增强) | 参考书提取的可复用规则 | ✅ |
+| 起点/终点快照.md | S | plot | 拆成每卷 start/end 状态。chapter-design不读源头 | ✅ |
+| 数值体系 x4 | S | plot+chapter-design(战斗章) | plot用act_rank_schedule排期；chapter-design战斗章查段位 | ❌ 实际没产出 |
+| project.yaml | M | expert-writer | 路由用。子skill不读 | ✅ |
+
+#### C.2b L3 角色卡（动态区）
+
+| 文件 | 类型 | 产出→维护 | 消费者 | 现状 |
+|:-----|:----:|:----------|:------|:-----|
+| 状态/角色/{主角}-主角卡.md | **D** | bookstrap初版 → **plot卷末回写** | plot(core_desire→volume)+chapter-design参考 | ❌ 维护链缺失 |
+| 状态/角色/重要配角.md | **D** | 同上 | 同上 | ❌ 同上 |
+
+**核心问题：** 角色卡不是静态的——索伦从"守护妹妹"到"接受世界不可预测"，薇薇安从"被保护者"到"独立强者"，欲望在中途会转向。当前没有定义谁在什么时候更新。建议维护链：bookstrap初版 → plot写下一卷 volume 前回写（基于 entity-snapshot 累积状态）。
+
+#### C.2d plot 产出
+
+| 文件 | 类型 | 消费者 | 现状 |
+|:-----|:----:|:------|:-----|
+| 设计/幕/act-XX.yaml | D | chapter-design 核心输入 | ✅ 存在 |
+| 设计/幕/info-release-XX.md | D | chapter-design | ✅ 存在 |
+| **设计/卷/volume-XX.md** | **S** | **chapter-design 核心卷级输入** | **❌ 最严重缺失** |
+| **设计/全书架构.md** | **S+D** | **volume-XX.md 的输入** | **❌ 不存在** |
+
+#### C.2e chapter-design / prose-render 产出
+
+| 文件 | 类型 | 现状 |
+|:-----|:----:|:-----|
+| 写作资产/设计包/chXXX-设计包.md | **D**（每章新建） | ⚠️ 仅ch01-02合并，ch03-10仍是旧双文件 |
+| 00-总控/entity-snapshot.yaml | **D**（逐章追加） | ✅ 但 total_chapters 未更新 |
+| 正文/chXXX.md | **D**（每章新建） | ✅ ch01-10 存在但字数不达标 |
+
+### C.3 总控层审计
+
+#### workspace-index.yaml
+
+| 职责 | 现状 | 问题 |
+|:-----|:----|:-----|
+| 项目列表+phase追踪 | ✅ | — |
+| 文件注册表(confirmed/active/deprecated) | ⚠️ | L3角色卡、文风DNA、ch01-10设计包/正文未注册 |
+| 跨项目经验 | ⚠️ | 有字段但无数据 |
+| pre_read_status(精读闸门) | ❌ | verified=false 从未被推进 |
+| progress 追踪 | ⚠️ | 只在Reflect时回写，日常不维护 |
+| 全书架构注册位 | ❌ | 尚无字段 |
+
+#### entity-snapshot.yaml
+
+| 职责 | 现状 |
+|:-----|:-----|
+| 角色当前状态追踪 | ✅ 索伦/薇薇安/希斯 都有 |
+| event_log 累积 | ✅ ch01-10 完整 |
+| 版本号管理 | ⚠️ total_chapters=0 实际到ch10 |
+| 与L3角色卡的桥接 | ❌ entity-snapshot 有数据，L3有解释，但两个文件不知道对方存在 |
+
+### C.4 双消费视角
+
+#### 🤖 Agent 友好文件
+
+| 文件 | 原因 |
+|:-----|:-----|
+| act-XX.yaml | 结构化YAML，路径可预测 |
+| entity-snapshot.yaml | 同上 |
+| story-engine.yaml | YAML结构清晰 |
+| 状态/角色/角色卡 | 结构化+YAML frontmatter |
+
+#### ⚠️ Agent 不友好 → 建议
+
+| 文件 | 问题 | 建议 |
+|:-----|:-----|:-----|
+| L1-01~06 | 纯Markdown叙述，不易精确定位 | 顶部加YAML frontmatter 或信息索引表 |
+| 起点/终点快照.md | 同上 | 顶部加YAML摘要段 |
+| 状态/角色/角色卡 | 表格+叙述混合，搜索core_desire需全文 | core_desire固定在第一节YAML块中 |
+| chXXX-设计包.md | 事件链格式不统一（部分合并部分未合） | 统一为设计包单格式 |
+
+#### 👤 人友好文件
+
+| 文件 | 原因 |
+|:-----|:-----|
+| 起点/终点快照.md | 表格+叙述，扫一眼看完全书 |
+| 状态/角色/主角卡.md | 九节结构化，信息密度高可读 |
+| 正文/chXXX.md | 最终消费品 |
+
+#### ⚠️ 人不友好 → 建议
+
+| 文件 | 问题 | 建议 |
+|:-----|:-----|:-----|
+| act-XX.yaml | YAML几可读性差 | 每章切片顶部加纯文本摘要段 |
+| entity-snapshot.yaml | 纯数据无意义 | 每角色加 summary行 |
+| workspace-index.yaml | 字段过载 | 顶部加人类可读状态摘要块 |
+
+### C.5 核心发现摘要
+
+#### 紧迫修正（影响当前写作质量）
+
+| # | 问题 | 方案 |
+|:--|:-----|:-----|
+| 1 | **volume-01.md 不存在**——chapter-design 无卷级角色池/地点池 | 产出 volume-01.md 反推 |
+| 2 | **数值体系 4文件全缺**——升级节奏无结构性约束 | 产出 combat_capability + act_rank_schedule |
+| 3 | **全书架构.md 不存在**——4卷蓝图缺位 | 新增 plot Phase 0 |
+| 4 | **ch03-10 设计包未合并**——格式不统一 | 统一为设计包单文件 |
+
+#### 结构补齐（影响后续卷展开）
+
+| # | 议题 | 方向 |
+|:--|:-----|:-----|
+| 5 | 角色卡维护链 | bookstrap初版（含快照段预留位）→ plot写下一卷 volume 前，基于 entity-snapshot 累积状态回写（更新 core_desire / 能力里程碑 / 关系变化，追加卷快照段）→ chapter-design 从状态/角色/取 core_desire，从 entity-snapshot 取微状态 |
+| 6 | workspace-index 文件注册全覆盖 | 每完成一个产出，注册到 confirmed |
+
+#### 已解决（v1.3）
+
+| # | 议题 | 方案 |
+|:--|:-----|:-----|
+| — | constitution.yaml | 整文件移除——canvas字段已覆盖（act 的 chekhov_set/combat.scale/payoff/plotlines_active 已够用） |
+| — | act-XX-人物/地图/势力/装备 ×4 | 移除——L3角色卡+volume角色池+act字段已替代 |
+| — | ch03-10 设计包未合并 | 统一为设计包单文件 |
+
+#### 双消费改进（不紧急但积重难返）
+
+| # | 议题 | 方向 |
+|:--|:-----|:-----|
+| 9 | Agent友好度：Markdown文件加YAML摘要 | 所有Markdown产出文件顶部加YAML frontmatter |
+| 10 | 人友好度：YAML文件加纯文本摘要 | act-XX.yaml和entity-snapshot加人类扫读摘要段 |
 
 ---
 
