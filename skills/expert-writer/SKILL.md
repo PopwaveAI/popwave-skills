@@ -109,6 +109,7 @@ entity-snapshot.total_chapters → progress.{last_completed_skill, next_skill, r
 □ exec: Get-Content -Encoding UTF8 -Raw steps/*.md, phases/*.md, templates/*.md
 □ exec: Get-Content -Encoding UTF8 -Raw 项目 YAML (project/entity-snapshot/act-XX)
 □ exec: Get-Content -Encoding UTF8 -Raw 文风DNA/*
+□ exec: Get-Content -Encoding UTF8 -Raw '{skill_root}/references/pipeline-arch.md'  # 管线架构锚定（S/D/M矩阵+目录树+校验基线）
 ```
 
 **第二步·A：动态融合检查**
@@ -229,5 +230,5 @@ exec: Get-Content -Encoding UTF8 -Raw '{skill_root}/references/completion-guide.
 
 ---
 
-> 详细指令 → `references/reflection.md`, `references/dynamic-fusion.md`, `references/completion-guide.md`, `references/pipeline-check.md`, `references/typical-paths.md`
+> 详细指令 → `references/reflection.md`, `references/dynamic-fusion.md`, `references/completion-guide.md`, `references/pipeline-check.md`, `references/pipeline-arch.md`, `references/typical-paths.md`
 > 全部用 `Get-Content -Encoding UTF8 -Raw` 加载，不用 Read 工具。

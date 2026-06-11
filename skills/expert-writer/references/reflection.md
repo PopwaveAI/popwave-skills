@@ -81,14 +81,20 @@
 ## L2 ─ 一致性检查
 
 ```
-□ 产出与上游设定/宪法/幕纲一致？
+□ 产出与上游设定/幕纲一致？
   - prose-render 正文是否违反 Canvas 约束？
   - bookstrap L1 设定是否和 story-engine.yaml 的 core_premise 一致？
 □ entity-snapshot ↔ 角色卡一致性？
   - entity-snapshot 中角色状态是否与角色卡快照一致？
+  - 参考 pipeline-arch.md§三 的校验对应表检查各字段
   - 例：角色卡说"主角在 Act 1 结束时不超过 3阶"，entity-snapshot 显示 4阶 → P1
+□ 文件完整性 vs 管线阶段？
+  - 参考 pipeline-arch.md§三「pipeline 阶段 → 应有文件」速查表检查缺失
+  - 如果状态/目录为空 → WARN（角色卡未产出）
 □ 如果有偏离 → 记录偏离项和严重程度，返回用户判断
 ```
+
+> 详细文件分类/消费矩阵/路径规范见 `pipeline-arch.md`。
 
 ## L3 ─ 质量检查（QA 报告判断）
 

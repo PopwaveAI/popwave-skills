@@ -8,6 +8,8 @@
 ## 一、管道前置校验
 
 > 依赖清单来源：`workspace-index.yaml#pipeline_deps`
+>
+> 文件分类/消费矩阵速查 → `pipeline-arch.md§一`
 
 ```
 ① 从 workspace-index.yaml#pipeline_deps 读取路由目标的 required + recommended 文件列表
