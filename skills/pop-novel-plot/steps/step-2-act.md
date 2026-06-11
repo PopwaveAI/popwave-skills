@@ -79,7 +79,7 @@
 每章必须填：
 - `ch` / `title` / `word_count`
 - `emotional_goal` — 第一性
-- `payoff.type/trigger/reader_feeling` — 与幕级 payoff_distribution 对齐
+- `payoff.type/trigger/reader_feeling` — plot 填大/特大（Canvas 中标记的章），小/中留空由 chapter-design 自行标记
 - `reader_emotion_path` — [起点, 中间, 终点]。终点必须衔接到下一章起点
 - `end_hook` — 悬念/信息/情绪 + 具体驱动力 + 内容
 - `plotlines_active` — 推进了哪些线（line id 对应 volume-XX.md §四）

@@ -37,13 +37,13 @@ act:
 
   # ─── 爽点分布（本幕内） ──────────────────────────────
   # 完整定义 → references/payoff-design-guide.md
-  #   plot 负责: 大爽点位置 + 特大爽点位置（填入 positions 数组）
-  #   plot 声明: 小爽点+中爽点密度（具体事件归 chapter-design）
+  #   plot 负责: 中爽点(Canvas 描线)+大爽点位置+特大爽点位置
+  #   plot 声明: 小爽点密度(归 chapter-design 自设计)
   payoff_distribution:
     小爽点:
-      density: "每章 ≥ 5个"         # 干脆斩杀/升级/打脸/梗。chapter-design 设计
+      density: "每章 ≥ 5个"         # 干脆斩杀/升级/打脸/梗。chapter-design 自设计自承接
     中爽点:
-       density: "每章 ≥ 1个"         # 有铺垫的释放。plot 位置规划+design 执行
+      density: "每章 ≥ 1个"         # 有铺垫的释放。位置通过 Canvas payoff_level 跟踪，非 positions 数组
     大爽点:
       max_gap: 5                   # 间隔不超过5章。plot 位置规划
       positions: []               # 如 [8, 14]
@@ -132,8 +132,9 @@ canvas:
       pure_setup_max:            # 前2章最大连续纯铺垫章数 (required: <= 1)
 
   # ─── 爽点位置图（★ 从 Canvas entries 汇总，交给 chapter-design 消费） ──
+  # 设计方法论 → references/payoff-design-guide.md
   # plot 填完 Canvas 后逐章汇总 payoff_level → 产出此节
-  # 小/中 → chapter-design 按线号设计事件 | 大/特大 → chapter-design 全幕最高密度
+  # 小 → chapter-design 自设计 | 中 → design 按线号承接 | 大/特大 → design 按章号执行最高密度
   payoff_map:
     - ch: 1
       total_payoff: 0            # ≥ 中 的 payoff 总数（小不计入）
@@ -157,7 +158,7 @@ chapters:
 
     emotional_goal: ""
     payoff:
-      type: ""                    # 小|中|大|特大
+      type: ""                    # 小|中|大|特大。plot 填大/特大（明确规划的），小/中留空由 design 自行标记
       trigger: ""
       reader_feeling: ""
     reader_emotion_path: ["", "", ""]
