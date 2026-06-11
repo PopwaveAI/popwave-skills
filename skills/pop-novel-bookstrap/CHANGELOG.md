@@ -1,5 +1,15 @@
 # CHANGELOG — pop-novel-bootstrap
 
+## v4.1.0 — 2026-06-11
+
+### 宪法移除 + 路径对齐 PRD v1.4
+
+- **Phase 3 去除 constitution.yaml**：Canvas 字段已全覆盖约束，整段宪法产出模板删除
+- **L3-角色层 → 状态/角色**：角色卡产出路径变更，含 per-volume 快照段预留位
+- **03-正文 → 正文**：project.yaml 默认 chapters 路径更新
+- **Phase 1 消费引用更新**：act-XX-地图 → volume-XX.md，constitution 引注移除
+- **Phase r4 完全重写**：逆向提取宪法 → 逆向提取卷纲/幕地图还原（volume-XX + act-XX）
+
 ## v3.0.0 — 2026-06-05
 
 ### 完整重构：Bootstrap 优化（5 Phase 执行计划）

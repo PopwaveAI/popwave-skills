@@ -1,5 +1,13 @@
 # CHANGELOG — expert-writer
 
+## v3.1.0 (2026-06-11)
+
+- **constitution.yaml 移除**：全链路删除，act-XX.yaml Canvas 字段（chekhov_set/combat.scale/payoff/plotlines_active）已全覆盖约束
+- **路径重构**：03-正文→正文、03-写作资产→写作资产/设计包、L3-角色层→状态/角色、幕按卷分组(vol-XX/)
+- **Reflect L2 一致性对象变更**：entity-snapshot ↔ constitution → entity-snapshot ↔ 角色卡
+- **pipeline-check**：去 constitution/act-XX-人物检查，新增状态/角色/目录检查
+- **ROUTE-AUGMENT**：constitution_ok → state_ok，constitution 路径删除
+
 ## v3.0.0 (2026-06-10)
 
 - **SKILL.md 瘦身：21K → 9K**（-57%），每次 Paopao 注入节省 12K 上下文窗口

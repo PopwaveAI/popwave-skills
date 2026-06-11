@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-prose-render
 
+## v1.1.0 — 2026-06-11
+
+### 路径对齐 PRD v1.4 + constitution 移除
+
+- **constitution.yaml 移除**：不再独立读取，约束已由设计包事件链覆盖
+- **路径重构**：
+  - `03-正文/chXXX.md` → `正文/chXXX.md`
+  - `03-写作资产/chXXX-设计包.md` → `写作资产/设计包/chXXX-设计包.md`
+  - `00-原始设定/文风DNA/` → `写作资产/文风DNA/`
+- **step-1-read-input.md 精简**：去 constitution 前置条件 + 禁止读表去 act-文件 + "读宪法"段落替换为"约束已由设计包覆盖"
+- **SKILL.md**：文风DNA 全路径 + 正文路径 + 禁止读表同步更新
+
 ## v1.0.0 — 2026-06-09
 
 ### 初始版本：从 pop-novel-writer 拆出 Render 层

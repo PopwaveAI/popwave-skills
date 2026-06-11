@@ -1,5 +1,17 @@
 # CHANGELOG — pop-novel-plot
 
+## v6.1.0 — 2026-06-11
+
+### 文件消减 + info-release 内嵌 + 全书架构
+
+- **act-XX-人物/地图/势力/装备 四个文件彻底移除**：角色追溯→volume-XX.md#角色池，地点→volume-XX.md#地点池，势力→volume-XX.md#势力动机，装备→volume-XX.md#装备路线图
+- **info-release-XX.md 合并进 act-XX.yaml#info_release_plan 段**：P0/P1清单 + 密度检查内嵌，不再独立文件
+- **新增 Phase 0 全书架构**：产出 `设计/全书架构.md`（消费 story-engine + 快照 + L1 → 全卷蓝图）
+- **幕按卷分组**：`设计/幕/vol-XX/act-YY.yaml`，卷内编号，路径即语义
+- **constitution 引用移除**：Canvas 字段已全覆盖
+- **5 个模板标注废弃**：character-list / map-design / faction-dynamics / equipment-flow / info-release
+- **L3-角色层 → 状态/角色**：角色卡路径统一
+
 ## v6.0.0 — 2026-06-10
 
 ### 卷/幕分层重构 — v5→v6 核心差异

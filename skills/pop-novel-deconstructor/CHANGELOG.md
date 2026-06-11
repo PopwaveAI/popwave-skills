@@ -1,3 +1,8 @@
+## v8.1.0 | 2026-06-11
+
+- **T2 模板消费引注更新**：act-XX-地图→volume-XX、info-release→act#info_release_plan、constitution→volume-XX引注
+- **T7 文风DNA产出路径更新**：styles/ → 写作资产/文风DNA/
+
 ## v8.0.0 | 2026-06-08
 
 - **采样策略升级为全读**：默认前100章改为全量逐章精读（覆盖率从24%升至100%），确保设定/角色/节奏信息无遗漏

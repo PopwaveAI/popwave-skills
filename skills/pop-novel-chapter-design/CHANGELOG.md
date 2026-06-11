@@ -1,5 +1,16 @@
 # CHANGELOG — pop-novel-chapter-design
 
+## v1.5.0 — 2026-06-11
+
+### 输入精简 + 路径对齐 PRD v1.4
+
+- **constitution.yaml 移除**：Canvas 字段（combat.scale/payoff/chekhov_set）已隐含所有约束，不再单独读取
+- **info-release-XX.md 移除**：info-release 已内嵌于 act-XX.yaml#info_release_plan，step-1 从每章 chapters[].info_release 直接取
+- **新增输入：状态/角色/{主角}-角色卡.md**：step-1 前置条件新增，提取 core_desire
+- **追溯引用全部更新**：act-XX-人物.md / act-XX-地图.md → volume-XX.md#角色池 / volume-XX.md#地点池
+- **路径重构**：03-写作资产→写作资产/设计包、03-正文→正文
+- **references/character-scheduling.md + location-orchestration.md**：追溯引用同步更新
+
 ## v1.4.0 — 2026-06-10
 
 ### 步骤结构重构：7步→3步 + 4个references
