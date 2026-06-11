@@ -43,7 +43,7 @@ pipeline:
     章级切片：每章情绪/payoff/钩子/场景规格
     节奏检查：每条线最大连续空白章数自检
 
-> 爽点四级定义 + 40 个案例 → `templates/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）
+> 爽点四级定义 + 真实案例（持续沉淀中）→ `templates/payoff-guide.md`（大+特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小+中）
 ```
 
 ---
