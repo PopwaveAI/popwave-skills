@@ -108,6 +108,15 @@ canvas:
       max: 3                     # 最高不能超过3条（信息过载）
       actual_range: ""           # 由 agent 填入
 
+    # ─── 首卷黄金窗口（★ 仅 vol-01/act-01 执行） ─────
+    # 番茄标准：ch01 卖点亮相 + 章末钩子 / ch02 第一次战斗或重大矛盾
+    first_volume_gate:
+      applicable:                # 卷1幕1时才执行此检查
+      ch01_core_hook_present:    # 第1章是否有可感知的章末钩子？(required: true)
+      ch01_selling_point:        # 核心卖点在哪章亮相？(required: ch <= 1)
+      ch02_first_conflict:       # 第一次战斗/重大矛盾在哪章？(required: ch <= 2)
+      pure_setup_max:            # 前2章最大连续纯铺垫章数 (required: <= 1)
+
 # ─── 章节切片 ──────────────────────────────────────
 chapters:
 

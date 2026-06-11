@@ -102,6 +102,14 @@
 - 主角等级 = act_rank_schedule.end_rank？
 - 战斗章连续 ≤ 2 章？
 
+**首卷黄金窗口检查（★ vol-01/act-01 时强制执行）：**
+- 番茄平台标准。对照 `templates/rhythm-check.md` 平台校准表：
+  - ch01 核心卖点是否在第 1 章内亮相？未亮相 → P0 退回
+  - ch01 章末是否有可感知钩子？无钩子 → P0 退回
+  - ch02 是否发生第一次战斗/重大矛盾？未发生 → P0 退回
+  - ch01-ch02 连续纯铺垫 ≤ 1 章？超过 → P0 退回
+  - 回填 `act-skeleton.yaml#rhythm_check.first_volume_gate` 各字段
+
 ---
 
 ## 完成后
