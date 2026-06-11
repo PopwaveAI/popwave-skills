@@ -111,23 +111,6 @@ Phase 0：全书架构（1次）
 
 ---
 
-## 附录：旧版文件处置
-
-| 旧文件 | 去向 |
-|:-------|:-----|
-| 节点B-XX.md | 删除（内部思考，不需要产出） |
-| 情节线草案-XX.md | 合并入 volume-XX.md §四 |
-| act-XX-装备.md | 删除（v6.0 不再单独维护，归入 act-XX.yaml 场景规格选填字段）|
-| 里程碑设计.md | 删除（v6.0 不再产出——推进节奏由 Canvas 矩阵直接管理）|
-| 节奏自检报告.md | ❌ 删除（不产出，只花 5 分钟自检）|
-| 情节线纲汇总表.md | ❌ 删除 |
-| 场景卡试读 | 🔄 可选（仅在用户要求时产出）|
-| volume-XX.md §五 里程碑 | ❌ 删除（v5.0→v6.0 去重，幕级 Canvas 矩阵替代）|
-| volume-XX.md §六 势力动态 | ✅ 简化为势力动机 → volume-XX.md §三 |
-| volume-XX.md §七 装备路线图 | ❌ 删除（v6.0 不再维护）|
-
----
-
 ## 目录结构
 
 ```
@@ -143,13 +126,8 @@ pop-novel-plot/
     ├── volume-design.md  ← 卷设计模板（含 全书隶属 段）
     ├── act-skeleton.yaml ← 幕纲 YAML 骨架（含 Canvas 矩阵 + info_release_plan）
     ├── act-guide.md      ← 字段计算公式参考
-    ├── info-release.md   ← 已废弃（合并入 act-skeleton.yaml#info_release_plan 段）
-    ├── rhythm-check.md   ← 自检清单
-    └── deprecated/       ← 被合并的历史模板（保留不动，但不再更新）
+    └── rhythm-check.md   ← 自检清单
 ```
-
-> 以下旧模板已合并入 volume-design.md 或 act-skeleton.yaml，不再单独维护：
-> `checkpoint-b.md` / `character-list.md` / `map-design.md` / `faction-dynamics.md` / `equipment-flow.md` / `milestone-design.md` / `plotline-draft.md`
 
 ---
 
