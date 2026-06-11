@@ -46,13 +46,16 @@
 
 ---
 
-### B. 文档质量逐件审查
+### B. 文档质量审查
 
-对每个存在的产出文件，读入内容并回答以下问题：
+> ⚠️ **边界约束**：仅审查工程层面的文件（S 型静态文件 + project-level 文件）。
+> 单章产物（chXXX-设计包.md / 正文/chXXX.md）属于 Step 2/3 的纵向切入范围，不在此处逐文件审查。
+>
+> B.1 工程级文件逐一读入检查：
 
 | 文件 | 应来自哪个 Skill | 读入后判断 |
 |:-----|:----------------|:----------|
-| story-engine.yaml | bookstrap Phase 0 | 含 core_premise/reader_profile 等关键字段？ |
+| story-engine.yaml | bookstrap Phase 0 | 含 core_premise 等关键字段？ |
 | L1-01~06 | bookstrap Phase 1 | 六件套内容互不重复？有交叉引用标记？ |
 | project.yaml | bookstrap Phase 3 | 含 paths/reader_profile/phase_progress？路径字段对齐 v1.4？ |
 | 状态/角色/角色卡 | bookstrap Phase 3 → plot 回写 | 含 core_desire(external_goal+internal_need)？有快照段预留位？ |
@@ -61,12 +64,10 @@
 | 设计/全书架构.md | plot Phase 0 | 含卷拆分/地理全图/角色出场/主线全览/钩子？ |
 | 设计/卷/volume-XX.md | plot Step 1 | 含四节（定义/快照/背景/剧情线）？§〇全书隶属段存在？ |
 | 设计/幕/vol-XX/act-YY.yaml | plot Step 2 | 含 info_release_plan 段？Canvas 矩阵有 rhythm_check？有章级切片？ |
-| 写作资产/设计包/chXXX-设计包.md | chapter-design Step 3 | 含事件链（每事件有冲突层次）？事件数 ≥ 字数÷200？ |
-| entity-snapshot.yaml | chapter-design Step 3 | _meta.total_chapters 与正文数一致？ |
-| 正文/chXXX.md | prose-render Step 4 | 含章末状态更新块？字数在目标范围内？ |
-| 写作资产/文风DNA/ | deconstructor/pop-dna | 含原文证据 + 规则？有试写验证？ |
+| entity-snapshot.yaml | chapter-design | _meta.total_chapters 与目录文件数一致？ |
+| 写作资产/文风DNA/ | deconstructor/pop-dna | 含原文证据 + 规则？ |
 
-每个文件输出一行的审查结论：
+> B.2 单章产物不逐文件审查，仅在文件树完整性（A）中计数验证：章节数 = 设计包数 = entity-snapshot 章数？
 
 ```
 {文件路径}  ✅ 合格 / ⚠️ {具体问题} / ❌ {缺失原因}
