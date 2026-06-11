@@ -49,9 +49,13 @@
 ④ ★ 标注每条线在本章的 payoff_level（详见 `templates/payoff-guide.md`）：
     - 空 = 铺垫/建设/埋伏笔
     - 小 = 干脆利落的斩杀/升级/打脸/梗植入。chapter-design 据此设计小爽点事件
-    - 中 = 有铺垫的可感知释放。chapter-design 据此设计中爽点事件
+    - 中 = 有铺垫的可感知释放。**plot 确保每章 ≥1 条线=中，chapter-design 据此设计中爽点事件**
     - 大 = ★ 爆发——这条线的蓄力全部释放。故事从这章起进入新阶段
     - 特大 = ★★ 全书承诺兑现。多线大汇聚 + 全卷情绪极值
+④☆ 跟踪铺垫→释放节奏（★ 中爽点跨章设计关键）：
+    - 每条线（M1/M2/M3/S1/S2）连续 ≥3 章只有空/小 → 下一章必须让该线释放
+    - 释放后允许再铺垫 2-3 章（波浪节奏：蓄力→释放→蓄力→释放）
+    - 如果某章所有线都是空/小 → 把最近一条快释放的线提前到这里
 ⑤ 汇总 payoff_map：逐章统计 ≥ 中 的 payoff → total + 线号列表 + note
 ⑥ 从 payoff_map 反推大爽点位置（某线=大）→ payoff_distribution.大.positions
 ⑦ 从 payoff_map 反推特大爽点位置（≥2 线=大 汇聚）→ payoff_distribution.特大.positions

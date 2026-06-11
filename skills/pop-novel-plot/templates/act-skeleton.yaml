@@ -41,9 +41,9 @@ act:
   #   plot 声明: 小爽点+中爽点密度（具体事件归 chapter-design）
   payoff_distribution:
     小爽点:
-      density: "每章 ≥ 3个"         # 干脆斩杀/升级/打脸/梗。chapter-design 设计
+      density: "每章 ≥ 5个"         # 干脆斩杀/升级/打脸/梗。chapter-design 设计
     中爽点:
-      density: "每章 ≥ 1个"         # 有铺垫的释放。chapter-design 设计
+       density: "每章 ≥ 1个"         # 有铺垫的释放。plot 位置规划+design 执行
     大爽点:
       max_gap: 5                   # 间隔不超过5章。plot 位置规划
       positions: []               # 如 [8, 14]

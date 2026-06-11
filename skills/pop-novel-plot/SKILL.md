@@ -56,7 +56,7 @@ pipeline:
 - [ ] **Canvas 矩阵已填充** — act-XX.yaml#canvas.entries 无持续空白行
 - [ ] **每条剧情线无连续超限留白** — act-XX.yaml#canvas.rhythm_check 自检通过
 - [ ] **每章有 emotional_goal + payoff + end_hook** — act-XX.yaml 章级切片齐备
-- [ ] **爽点密度达标** — 小≥3/章 + 中≥1/章（归 chapter-design）/ 大间隔≤5章 + 特大≥1/卷（归 plot）
+- [ ] **爽点密度达标** — 小≥5/章 + 中≥1/章（plot 位置规划+design 执行）/ 大间隔≤5章 + 特大≥1/卷（归 plot）
 - [ ] **幕内无连续 3 章同一情绪叠加组合**
 - [ ] **主角等级 = act_rank_schedule.end_rank** — 跨文件值一致性
 - [ ] **连续 2 章无信息释放 → 第 3 章必追加**

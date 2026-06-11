@@ -41,6 +41,6 @@
 - [ ] 登场人物 before 状态与 entity-snapshot 一致
 - [ ] entity-snapshot 已正确更新
 - [ ] Canvas 字段（combat.scale/payoff/chekhov_set）约束全部通过
-- [ ] ◆小爽点事件 ≥ 3 个（干脆斩杀/升级/打脸/梗植入。详见 `references/payoff-guide.md` §二）
+- [ ] ◆小爽点事件 ≥ 5 个（干脆斩杀/升级/打脸/梗植入。详见 `references/payoff-guide.md` §二）
 - [ ] ★中爽点事件 ≥ 1 个（读者读完认知有变化？详见 `references/payoff-guide.md` §三）
 - [ ] 设计包文件有版本元数据

@@ -54,7 +54,7 @@ payoff_map[chN]:
 
 **消费方式**：
 - `total_payoff ≥ 1` → Canvas 已供给。按 `lines` 中标注的线号和级别，在 volume-XX.md §四 找到对应线定义
-- `total_payoff = 0` → Canvas 无供给。自行制造 ≥ 3 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
+- `total_payoff = 0` → Canvas 无供给。自行制造 ≥ 5 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
 - 某线=大 → 大爽点章，按全幕最高密度设计事件链
 - ≥2 线=大 → 特大爽点章，全幕最大规模事件链
 
