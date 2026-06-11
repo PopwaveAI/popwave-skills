@@ -11,6 +11,13 @@
 - **路径重构**：03-写作资产→写作资产/设计包、03-正文→正文
 - **references/character-scheduling.md + location-orchestration.md**：追溯引用同步更新
 
+### 中爽点事件级标记（★ 爽点体系对齐）
+
+- **step-2-event-chain.md**：逐事件设计新增「中爽点标记」字段 — 读者读完认知有没有变化？有变化 → ★中爽点事件。整章累计 ≥ 1
+- **step-3-output.md**：自检新增「中爽点事件 ≥ 1」检查项
+- **fact-skeleton.md**：爽点等级注释补充责任说明：大/终极由 plot 指定，中爽点逐事件标记。交叉引用 payoff-guide.md
+- **中爽点定义基准** → `pop-novel-plot/templates/payoff-guide.md` §三
+
 ## v1.4.0 — 2026-06-10
 
 ### 步骤结构重构：7步→3步 + 4个references

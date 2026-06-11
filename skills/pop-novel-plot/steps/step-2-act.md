@@ -60,7 +60,7 @@
 | `escalation_path` | 本幕内第 1 章到最后一章如何升级 |
 | `goal` | "读者从「X」到「Y」" |
 | `tone_note` | 1-3句散文，本幕情绪配比 |
-| `payoff_distribution` | 填充密度约束：微≥5/章 / 中≥1/章 / 大间隔≤5章 / 终极≥2/幕。positions 从 Canvas 矩阵反推 |
+| `payoff_distribution` | 填充密度约束：微≥5/章 / 中≥1/章 / 大间隔≤5章 / 终极≥2/幕。positions 从 Canvas 矩阵反推。完整定义 → `templates/payoff-guide.md` |
 | `emotional_arc.checkpoints` | 从 Canvas 矩阵反推 4-6 个情绪转折点 |
 
 **然后填充 20-35 个章级切片：**

@@ -79,6 +79,7 @@
   事件内容  ← 「角色做了什么 → 什么结果」。一个句子。不写具体动作/感官/渲染细节
   情绪目标  ← 每轮取一个词（参考 references/emotional-beats.md 词汇表）
   冲突层次  ← external / internal / interpersonal — 可选 1-3 层。思考：这个事件在哪个层面产生张力？外在对抗？内心挣扎？还是人际摩擦？过渡事件可为空
+  中爽点标记 ← 读者读完这个事件后，对故事的认知有没有变化？有变化 → 标记为★中爽点事件。无变化（纯过渡/纯环境/纯铺垫）→ 不标记。整章累计 ≥ 1 个。详细定义见 `pop-novel-plot/templates/payoff-guide.md` §三
   信息释放  ← 如本事件触发 info_release，标注 item_id（检查: ≤2条/事件, 不重复, 与 release_method 一致）
   估计字数  ← 100-250 字
 ```

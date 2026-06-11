@@ -36,6 +36,10 @@ act:
   tone_note: ""                   # 1-3句散文，本幕的情绪配比
 
   # ─── 爽点分布（本幕内） ──────────────────────────────
+  # 完整定义 → templates/payoff-guide.md
+  # plot 负责: 大爽点位置 + 终极爽点位置（填入 positions 数组）
+  # plot 声明: 中爽点密度（每章≥1，具体事件归 chapter-design）
+  # plot 不负责: 微爽点（归 prose-render）
   payoff_distribution:
     微爽点:
       density: "每章 ≥ 5个"         # 短目标/小反转/信息碎片/微表情/环境细节

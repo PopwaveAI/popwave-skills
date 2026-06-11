@@ -41,4 +41,5 @@
 - [ ] 登场人物 before 状态与 entity-snapshot 一致
 - [ ] entity-snapshot 已正确更新
 - [ ] Canvas 字段（combat.scale/payoff/chekhov_set）约束全部通过
+- [ ] 中爽点事件 ≥ 1 个（逐事件检查：读者读完该事件后认知有没有变化？详见 `pop-novel-plot/templates/payoff-guide.md` §三）
 - [ ] 设计包文件有版本元数据
