@@ -67,28 +67,40 @@ act:
         hook: ""
 
 # ─── Canvas 矩阵（★ v6.0 新增） ──────────────────────
-# 章节行 × 剧情线列 交叉表。用于一次性看清本幕节奏密度。
-# 填写原则：每章条目写明本条线在本章推进了什么，空 = 该章这条线不推进。
+# 章节行 × 剧情线列 交叉表。用于一次性看清本幕节奏密度 + 爽点分布。
+# 填写原则：每章条目写明本条线在本章推进了什么 + payoff_level（线释放等级）。
+#   空 = 该章这条线不推进。
+#   payoff_level: null/空 = 铺垫 | 微 = 小推进 | 中 = 可感知释放 | 大 = 爆发
 
 canvas:
   plotlines: [M1, M2, M3, S1, S2]   # 本幕涉及哪几条线（对应 volume-XX.md §四 的线 id）
 
-  entries:            # 每条 = 一章范围内各线的事件摘要
+  entries:            # 每条 = 一章范围内各线的事件摘要 + payoff 等级
     - ch: 1
       title: ""
       M1: ""           # 世界危机线——本章推进了什么
+      M1_payoff: ""    # null/微/中/大 — 这条线在本章是铺垫还是释放？
       M2: ""           # 主角成长线——本章推进了什么
+      M2_payoff: ""    # null/微/中/大
       M3: ""           # 外部剧情线——本章推进了什么
+      M3_payoff: ""    # null/微/中/大
       S1: ""           # 羁绊/情感线——本章推进了什么
+      S1_payoff: ""    # null/微/中/大
       S2: ""           # 世界真相线——本章推进了什么
+      S2_payoff: ""    # null/微/中/大
       note: ""         # 节奏笔记（如"双线并行"、"唯一线"）
     - ch: 2
       title: ""
       M1: ""
+      M1_payoff: ""
       M2: ""
+      M2_payoff: ""
       M3: ""
+      M3_payoff: ""
       S1: ""
+      S1_payoff: ""
       S2: ""
+      S2_payoff: ""
       note: ""
     # ... 每章一条，直到本幕结束
 
@@ -120,6 +132,19 @@ canvas:
       ch01_selling_point:        # 核心卖点在哪章亮相？(required: ch <= 1)
       ch02_first_conflict:       # 第一次战斗/重大矛盾在哪章？(required: ch <= 2)
       pure_setup_max:            # 前2章最大连续纯铺垫章数 (required: <= 1)
+
+  # ─── 爽点位置图（★ 从 Canvas entries 汇总，交给 chapter-design 消费） ──
+  # plot 填完 Canvas 后，逐章汇总 payoff_level → 产出此节
+  payoff_map:
+    - ch: 1
+      total_payoff: 0            # 本章 Canvas 供给的 payoff 总数（微不计入）
+      lines: []                  # 有释放的线号（如 ["M2:中", "M3:大"]）
+      note: ""                   # plot 备注（如 "Canvas无供给，design自行制造中爽点"）
+    - ch: 2
+      total_payoff: 0
+      lines: []
+      note: ""
+    # ... 每章一条
 
 # ─── 章节切片 ──────────────────────────────────────
 chapters:

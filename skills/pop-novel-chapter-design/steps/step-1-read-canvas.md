@@ -40,6 +40,24 @@
 | `payoff.type` | 微 / 中 / 大 / 终极 | 确保事件链中有对应等级的爽点事件 |
 | `payoff.trigger` | 爽点触发方式 | Step 2 设计该事件时参考 |
 | `end_hook.type` + `drive` + `content` | 章末钩子 | Step 2 的章末事件 = 钩子事件的凭据 |
+
+#### ★ 必读的 Canvas payoff_map（爽点供给表）
+
+在 act-XX.yaml 的 `canvas.payoff_map` 中找到当前章的记录：
+
+```
+payoff_map[chN]:
+  total_payoff  → Canvas 供给了几个 payoff（中/大级）？
+  lines         → 是哪些线在哪章释放？如 ["M1:中", "M3:大"]
+  note          → plot 的备注（如 "design自行制造中爽点"）
+```
+
+**消费方式**：
+- `total_payoff ≥ 1` → Canvas 已供给中爽点。按 `lines` 中标注的线号，在 volume-XX.md §四 找到该线定义，为它设计一个"读者认知发生变化"的事件
+- `total_payoff = 0` → Canvas 无供给。必须自行制造 ≥ 1 个中爽点（方法见 `references/payoff-guide.md` §五）
+- 某线 payoff=大 → 本章是大爽点章，按全幕最高密度设计事件链
+
+> 中爽点完整定义 + 案例 + 设计方法 → `references/payoff-guide.md`
 | `plotlines_active` | 本章推进哪些线 | Step 2 每个事件可标注正在推进哪条线 |
 | `chekhov_set` | 本章设伏的枪 | Step 2 标注 chekhov_set 字段 |
 | `chekhov_fire` | 本章回收的枪 | Step 2 标注 chekhov_fire 字段 |

@@ -46,9 +46,16 @@
    - 推进了 → 写一句话摘要："发生了什么"
    - 没推进 → 留空
 ③ 填写节奏笔记（如"双线并行"、"M2推进高潮"）
-④ 填写 rhythm_check 字段：
-   - 扫描每条线的最大连续留白章数 → 与 max_gap 对比
-   - 扫描每章活跃线数 → 确保在 1-3 条之间
+④ ★ 标注每条线在本章的 payoff_level（详见 `templates/payoff-guide.md` §二）：
+   - 留空 = 铺垫/建设/埋伏笔
+   - 微 = 小信息碎片/小推进
+   - 中 = 可感知释放（信息揭示/关系转折）
+   - 大 = 爆发——这条线在这一章完成释放
+⑤ 汇总 payoff_map：逐章统计 >0 的 payoff 总数 + 线号列表
+   - 总 payoff=0 的章 → 标注 "design自行制造中爽点"
+⑥ 从 payoff_map 反推大爽点位置（某线=大的章）→ payoff_distribution.大.positions
+⑦ 从 payoff_map 反推终极爽点位置（多线汇聚章）→ payoff_distribution.终极.positions
+⑧ 用 rhythm_check 自检：大爽点间隔 ≤ 5 章？终极爽点 ≥ 2 个？
 ```
 
 **然后设计幕级定义：**
