@@ -60,7 +60,7 @@
 | `escalation_path` | 本幕内第 1 章到最后一章如何升级 |
 | `goal` | "读者从「X」到「Y」" |
 | `tone_note` | 1-3句散文，本幕情绪配比 |
-| `payoff_distribution.positions` | 从 Canvas 矩阵反推爽点位置 |
+| `payoff_distribution` | 填充密度约束：微≥5/章 / 中≥1/章 / 大间隔≤5章 / 终极≥2/幕。positions 从 Canvas 矩阵反推 |
 | `emotional_arc.checkpoints` | 从 Canvas 矩阵反推 4-6 个情绪转折点 |
 
 **然后填充 20-35 个章级切片：**
@@ -95,7 +95,7 @@
 - 连续 3+ 章只有一条线在推进 → 单调，需要加副线
 
 **常规检查：**
-- 连续无爽点章节 ≤ 3 章？
+- 无中爽点空白章（每章 ≥ 1 个中爽点）？
 - 连续无新信息章节 ≤ 2 章？
 - 高强度章间距 ≥ 3 章？
 - end_hook 衔接检查：chN 的钩子 → chN+1 的情绪路径[0]？
