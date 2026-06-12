@@ -36,8 +36,9 @@
 
 ## 产出自检
 
-- [ ] 设计包文件中每个事件的「参与角色」在 volume-XX.md §三 中存在
+- [ ] 设计包文件中每个事件的「参与角色」在 `chapters[N].登场角色` 中存在
 - [ ] 设计包文件中每个事件的「地点」在 volume-XX.md §三 中存在
+- [ ] 每个人物的 core_desire 从 `状态/角色/{角色名}-角色卡.md` 取（不是凭记忆）
 - [ ] 登场人物 before 状态与 entity-snapshot 一致
 - [ ] entity-snapshot 已正确更新
 - [ ] Canvas 字段（chapters[].canvas 约束）全部通过
