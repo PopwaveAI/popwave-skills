@@ -1,7 +1,7 @@
 # act-XX.yaml — 幕纲 YAML 骨架
 
 > 产出路径: `设计/幕/vol-XX/act-YY.yaml`
-> 管线: pop-novel-plot v6.2 · Step 2
+> 管线: pop-novel-plot v6.3 · Step 2
 > 消费: pop-novel-chapter-design
 >
 > 用法: 直接填充即可。剧情线定义在卷级 `设计/卷/volume-XX.md §四`（已用户确认），act 不做重定义。
@@ -12,7 +12,7 @@
 
 ```yaml
 _meta:
-  version: "v6.2"
+  version: "v6.3"
   volume_ref: "设计/卷/volume-XX.md"   # ← 卷级背景文件
   act_number: N                         # 本幕在第几幕（1-based）
   chapter_range: [chXXX, chXXX]        # 本幕的章节范围
@@ -55,11 +55,11 @@ chapters:
       M1_payoff: ""         # 空|小|中|大|特大
       M2: ""                # 主角成长线——本章推进了什么
       M2_payoff: ""
-      M3: ""                # 主角行动线——本章推进了什么
+      M3: ""                # 主角行动线（应对 M1 的行动轨迹）——本章推进了什么
       M3_payoff: ""
-      S1: ""
+      S1: ""                # 任意支线（从 volume-XX.md §四 S1 定义，非预设类型）
       S1_payoff: ""
-      S2: ""
+      S2: ""                # 任意支线（从 volume-XX.md §四 S2 定义，非预设类型）
       S2_payoff: ""
       note: ""              # 节奏笔记（如"双线并行""蓄力章""D线有披露"）
 
@@ -121,7 +121,7 @@ rhythm_check:
       max_gap: 2
       actual_gap: ""
 
-  line_density:                # 每章活跃线数
+  line_density:                # 每章活跃线数（D_load=0 时不参与计数）
     min: 1                     # 最低不能少于 1 条线推进
     max: 3                     # 最高不能超过 3 条（信息过载）
     actual_range: ""           # 由 agent 填入
@@ -136,7 +136,7 @@ rhythm_check:
     max_consecutive_zero_load: 2     # 允许连续最多几章 D_load=0
     consecutive_zero: ""             # agent 填入实际值
     d_load_overage: []               # D_load≥2 的章列表
-    per_info_deadlines:              # 从 volume-XX.md §四 D-设定披露承诺 提取
+    per_info_deadlines:              # 从 volume-XX.md §五 D-设定披露承诺 提取
       - info: ""
         deadline: ""
 
