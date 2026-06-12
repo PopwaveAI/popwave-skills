@@ -97,7 +97,7 @@ Phase 0：全书架构（1次）
 |:-----|:---------|:----------|:------|
 | Step 0 — 全书架构 | `设计/全书架构.md` | `steps/step-0-architecture.md` | 卷拆分/地理全图/角色出场节奏/主线全览（开书后执行一次，卷间可修订） |
 | Step 1 — 卷定义 | `设计/卷/volume-XX.md` | `steps/step-1-volume.md` + `templates/volume-design.md` | 从全书架构拆取本卷战略：目标/背景/剧情线/快照 + 用户确认闸门 |
-| Step 2 — 幕纲编排 | `设计/幕/vol-XX/act-YY.yaml`（info-release已内嵌于act#info_release_plan） | `steps/step-2-act.md` + `templates/act-skeleton.yaml` | Canvas 矩阵 → 章级切片 → info_release_plan → 自检（循环N次） |
+| Step 2 — 幕纲编排 | `设计/幕/vol-XX/act-YY.yaml` | `steps/step-2-act.md` + `templates/act-skeleton.yaml` | Canvas 矩阵 → 章级设计意图 → 节奏自检（循环 N 次） |
 
 ---
 
@@ -136,4 +136,4 @@ pop-novel-plot/
 
 ---
 
-## 版本 v6.1.0 | 2026-06-11 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
+## 版本 v6.2.0 | 2026-06-12 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

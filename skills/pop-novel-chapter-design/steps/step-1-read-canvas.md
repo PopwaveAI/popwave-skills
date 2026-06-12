@@ -36,37 +36,39 @@
 | `title` | 本章标题 | 填入事实骨架的标题 |
 | `word_count` | 预期字数 | 事件密度基线的公式输入：`事件数 ≥ word_count ÷ 200` |
 | `emotional_goal` | 本章想让读者感受到什么 | Step 2 的事件情绪目标的上边界 |
-| `reader_emotion_path` | 三元素 `[起点, 中间, 终点]` | Step 2 的情绪节拍起点和终点 |
-| `payoff.type` | 小 / 中 / 大 / 特大 | 确保事件链中有对应等级（小/中归 design 设计；大/特大由 plot Canvas 指定位置） |
-| `payoff.trigger` | 爽点触发方式 | Step 2 设计该事件时参考 |
-| `end_hook.type` + `drive` + `content` | 章末钩子 | Step 2 的章末事件 = 钩子事件的凭据 |
+| `payoff_note` | 大/特大时：蓄力上下文 | 如"M1线ch5-7蓄力，本章幕级爆发" — design 设计事件知道压力有多大 |
+| 其他弃读字段 | `payoff.type/trigger/reader_feeling/reader_emotion_path/plotlines_active/info_release/characters_active/locations` | **v6.2 已从 act-skeleton 移除** |
 
-#### ★ 必读的 Canvas payoff_map（爽点供给表）
+#### ★ 必读的 Canvas entries 当前章行（爽点供给）
 
-在 act-XX.yaml 的 `canvas.payoff_map` 中找到当前章的记录：
+在 act-XX.yaml 的 `canvas.entries` 中找到当前章的行：
 
 ```
-payoff_map[chN]:
-  total_payoff  → Canvas 供给了几个 payoff（中/大级）？
-  lines         → 是哪些线在哪章释放？如 ["M1:中", "M3:大"]
-  note          → plot 的备注（如 "design自行制造中爽点"）
+canvas.entries[chN]:
+  payoff_summary → Canvas 供给了 ≥中 的线数
+  {线号}         → 该线的本章摘要
+  {线号}_payoff   → 该线的 payoff_level（空|小|中|大|特大）
 ```
 
 **消费方式**：
-- `total_payoff ≥ 1` → Canvas 已供给。按 `lines` 中标注的线号和级别，在 volume-XX.md §四 找到对应线定义
-- `total_payoff = 0` → Canvas 无供给。自行制造 ≥ 5 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
-- 某线=大 → 大爽点章，按全幕最高密度设计事件链
-- ≥2 线=大 → 特大爽点章，全幕最大规模事件链
+- `payoff_summary ≥ 1` → Canvas 已供给中或以上。扫描各线 _payoff=中|大|特大 的线 → 在 volume-XX.md §四 找到该线定义 → 为它设计事件
+- `payoff_summary = 0` → Canvas 无供给。自行制造 ≥ 5 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
+- 存在 payoff=大 的线 → 大爽点章，按全幕最高密度设计事件链
+- ≥2 线 payoff=大 → 特大爽点章，全幕最大规模事件链
 
 > 中爽点完整定义 + 案例 + 设计方法 → `references/payoff-guide.md`
-| `plotlines_active` | 本章推进哪些线 | Step 2 每个事件可标注正在推进哪条线 |
+
+| `end_hook.type` + `drive` | 章末钩子方向 | Step 2 的章末事件 = 钩子事件的凭据 |
 | `chekhov_set` | 本章设伏的枪 | Step 2 标注 chekhov_set 字段 |
 | `chekhov_fire` | 本章回收的枪 | Step 2 标注 chekhov_fire 字段 |
-| `characters_active` | 本章可出场的角色名 | **角色池**——所有事件的角色必须在其中 |
-| `locations` | 本章可用的地点名 | **地点池**——所有事件的地点必须在其中 |
-| `milestone_active` | 本章进度对应的 MK | Step 2 标注该章的里程碑状态 |
-| `milestone_progress` | start / mid / complete | Step 2 标注 |
-| `info_release` | 本章应释放的设定信息 | **信息释放清单**——每个 info_release 项有一个目标事件 |
+
+#### ★ 角色池 & 地点池（从 volume-XX.md 拿）
+v6.2 起 chapters[].characters_active / locations 已从 act-skeleton 移除。
+直接从 `设计/卷/volume-XX.md §三` 拿到本卷角色/地点。
+
+#### ★ 本节活跃线（从 Canvas entries 行直接读）
+v6.2 起 chapters[].plotlines_active 已从 act-skeleton 移除。
+直接从 Canvas entries 当前章行：哪些线有内容（非空）→ 就是本章活跃线。
 
 #### ★ 场景规格字段（v4.2 新增——按场景类型条件读取）
 

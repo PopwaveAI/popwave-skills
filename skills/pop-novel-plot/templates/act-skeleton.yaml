@@ -1,94 +1,58 @@
 # act-XX.yaml — 幕纲 YAML 骨架
 
 > 产出路径: `设计/幕/vol-XX/act-YY.yaml`
-> 管线: pop-novel-plot v6.1 · Step 2
-> 消费: pop-novel-chapter-design（章级切片驱动）
+> 管线: pop-novel-plot v6.2 · Step 2
+> 消费: pop-novel-chapter-design
 >
-> 用法: 直接填充即可。卷级信息（人物/地图/剧情线/势力动机）见 `设计/卷/volume-XX.md`。
-> 复杂字段计算方式见 `templates/act-guide.md`。
+> 用法: 直接填充即可。剧情线定义在卷级 `设计/卷/volume-XX.md §四`（已用户确认），act 不做重定义。
+> 设计方法论参考: `references/payoff-design-guide.md`（爽点） / `templates/act-guide.md`（字段计算）
 
 ---
 
 ```yaml
 _meta:
-  version: "v6.0"
+  version: "v6.2"
   volume_ref: "设计/卷/volume-XX.md"   # ← 卷级背景文件
   act_number: N                         # 本幕在第几幕（1-based）
   chapter_range: [chXXX, chXXX]        # 本幕的章节范围
 
 act:
-  # ─── 幕级定义 ────────────────────────────────────────
-  core_conflict:
-    description: ""               # A vs B，本幕核心对抗
-    stakes: ""                    # 本幕输 = 失去什么
-    escalation_path: ""           # 本幕内第1章到最后一章如何升级
+  # ─── 幕级目的 ────────────────────────────────────────
+  purpose:
+    for_book: ""       # 本幕在全书中的叙事作用（串联卷初→卷中？角色从X→Y？打开新空间？）
+    for_reader: ""     # 本幕给读者的满足：核心情绪 / 悬念节奏 / 爽点密度预期
 
-  # ─── 信息释放计划（★ v6.0 新增，替代独立 info-release-XX.md） ────
-  info_release_plan:
-    p0_must_release: []           # P0：不理解就看不懂剧情的信息点列表
-    p1_recommended: []            # P1：拓展体验的信息点列表
-    density_check:
-      ch1_new_concepts_max: 2     # 第1章新概念上限
-      no_two_consecutive_zero: true  # 禁止连续两章零信息释放
+  # ─── 本幕冲突 ────────────────────────────────────────
+  conflict:
+    stakes: ""         # 本幕输 = 失去什么
+    escalation: ""     # ch1 → chN 冲突如何升级
 
-  goal: ""                        # "读者从「X」到「Y」"
-
-  tone_note: ""                   # 1-3句散文，本幕的情绪配比
-
-  # ─── 爽点分布（本幕内） ──────────────────────────────
-  # 完整定义 → references/payoff-design-guide.md
-  #   plot 负责: 中爽点(Canvas 描线)+大爽点位置+特大爽点位置
-  #   plot 声明: 小爽点密度(归 chapter-design 自设计)
-  payoff_distribution:
-    小爽点:
-      density: "每章 ≥ 5个"         # 干脆斩杀/升级/打脸/梗。chapter-design 自设计自承接
-    中爽点:
-      density: "每章 ≥ 1个"         # 有铺垫的释放。位置通过 Canvas payoff_level 跟踪，非 positions 数组
-    大爽点:
-      max_gap: 5                   # 间隔不超过5章。plot 位置规划
-      positions: []               # 如 [8, 14]
-    特大爽点:
-      min_count: 1                 # 每卷 ≥ 1 个。plot 位置规划
-      positions: []               # 如 [16, 28]
-
-  # ─── 本幕情绪弧线 ────────────────────────────────────
-  emotional_arc:
-    overview: ""                  # "起点情绪 → 中间情绪 → 终点情绪"
-    checkpoints:
-      - chapter: 1
-        emotion: ""
-        intensity: 0              # 1-10
-        hook: ""
-      - chapter: 5                # 第二个转折点
-        emotion: ""
-        intensity: 0
-        hook: ""
-
-# ─── Canvas 矩阵（★ v6.0 新增） ──────────────────────
-# 章节行 × 剧情线列 交叉表。用于一次性看清本幕节奏密度 + 爽点分布。
-# 填写原则：每章条目写明本条线在本章推进了什么 + payoff_level（线释放等级）。
-#   空 = 该章这条线不推进。
-#   payoff_level: 空=铺垫 | 小=干脆斩杀/升级/打脸 | 中=可感知释放 | 大=爆发·格局重画 | 特大=全卷承诺兑现
+# ─── Canvas 矩阵（★ 本文档核心，章节行 × 剧情线列） ──────
+# 一次性看清本幕：节奏密度 + 爽点分布 + 各线联动。
+# 剧情线来自 volume-XX.md §四（卷级已确认，act 不重定义）。
+# payoff_level: 空=铺垫 | 小=干脆斩杀/升级/打脸 | 中=可感知释放 | 大=爆发·格局重画 | 特大=全卷承诺兑现
 
 canvas:
-  plotlines: [M1, M2, M3, S1, S2]   # 本幕涉及哪几条线（对应 volume-XX.md §四 的线 id）
+  plotlines: [M1, M2, M3, S1, S2]   # 对应 volume-XX.md §四 的线 id
 
-  entries:            # 每条 = 一章范围内各线的事件摘要 + payoff 等级
+  entries:            # 每条 = 一章范围内各线的事件摘要 + payoff + 负荷标记
     - ch: 1
       title: ""
-      M1: ""           # 世界危机线——本章推进了什么
-      M1_payoff: ""    # 空=铺垫 | 小=斩杀/升级/打脸 | 中=释放 | 大=爆发 | 特大=全卷承诺
-      M2: ""           # 主角成长线——本章推进了什么
-      M2_payoff: ""    # 空=铺垫 | 小=斩杀/升级/打脸 | 中=释放 | 大=爆发 | 特大=全卷承诺
-      M3: ""           # 外部剧情线——本章推进了什么
-      M3_payoff: ""    # 空=铺垫 | 小=斩杀/升级/打脸 | 中=释放 | 大=爆发 | 特大=全卷承诺
-      S1: ""           # 羁绊/情感线——本章推进了什么
-      S1_payoff: ""    # 空=铺垫 | 小=斩杀/升级/打脸 | 中=释放 | 大=爆发 | 特大=全卷承诺
-      S2: ""           # 世界真相线——本章推进了什么
-      S2_payoff: ""    # 空=铺垫 | 小=斩杀/升级/打脸 | 中=释放 | 大=爆发 | 特大=全卷承诺
-      note: ""         # 节奏笔记（如"双线并行"、"唯一线"）
+      payoff_summary: 0    # ≥中 的线数。0 → chapter-design 自行制造中爽点
+      M1: ""               # 世界危机线——本章推进了什么
+      M1_payoff: ""        # 空|小|中|大|特大
+      M2: ""               # 主角成长线——本章推进了什么
+      M2_payoff: ""        
+      M3: ""               # 外部剧情线——本章推进了什么
+      M3_payoff: ""
+      S1: ""               # 羁绊/情感线——本章推进了什么
+      S1_payoff: ""
+      S2: ""               # 世界真相线——本章推进了什么
+      S2_payoff: ""
+      note: ""             # 节奏笔记（如"双线并行""蓄力章"）
     - ch: 2
       title: ""
+      payoff_summary: 0
       M1: ""
       M1_payoff: ""
       M2: ""
@@ -102,114 +66,57 @@ canvas:
       note: ""
     # ... 每章一条，直到本幕结束
 
-  # ─── 节奏检查摘要（★ 自检用） ─────────────────────
+  # ─── 节奏自检（★ Canvas 填完后扫描） ──────────────────
   rhythm_check:
-    per_line_gaps:               # 每条线的最大连续空白章数
+    per_line_gaps:               # 每条线的最大连续留白章数
       - line: "M1"
         max_gap: 3
-        actual_gap:              # 由 agent 填入
-        note: ""
+        actual_gap: ""           # 由 agent 填入
       - line: "M2"
         max_gap: 2
         actual_gap: ""
-        note: ""
       - line: "M3"
         max_gap: 2
         actual_gap: ""
-        note: ""
-    overall_density:             # 每章活跃线数
-      min: 1                     # 最低不能少于1条线推进
-      max: 3                     # 最高不能超过3条（信息过载）
+    line_density:                # 每章活跃线数
+      min: 1                     # 最低不能少于 1 条线推进
+      max: 3                     # 最高不能超过 3 条（信息过载）
       actual_range: ""           # 由 agent 填入
+    payoff_constraints:          # ★ 爽点密度 / 节奏约束
+      mid_every_chapter: true          # 每章 ≥1 线 payoff≥中
+      no_line_dormant_over_3: true     # 无线连续 ≥3 章只铺垫无释放
+      big_max_gap: 5                   # 大爽点间隔上限
+      ultimate_min_per_volume: 1       # 每卷 ≥1 特大
 
     # ─── 首卷黄金窗口（★ 仅 vol-01/act-01 执行） ─────
-    # 番茄标准：ch01 卖点亮相 + 章末钩子 / ch02 第一次战斗或重大矛盾
     first_volume_gate:
-      applicable:                # 卷1幕1时才执行此检查
-      ch01_core_hook_present:    # 第1章是否有可感知的章末钩子？(required: true)
-      ch01_selling_point:        # 核心卖点在哪章亮相？(required: ch <= 1)
-      ch02_first_conflict:       # 第一次战斗/重大矛盾在哪章？(required: ch <= 2)
-      pure_setup_max:            # 前2章最大连续纯铺垫章数 (required: <= 1)
+      applicable:                # 卷1幕1才执行此检查
+      ch01_core_hook_present:    # 第1章章末钩子？(required: true)
+      ch01_selling_point:        # 核心卖点亮相？(required: ch ≤ 1)
+      ch02_first_conflict:       # 战鬥/重大矛盾？(required: ch ≤ 2)
+      pure_setup_max:            # 最大连续纯铺垫章 (required: ≤ 1)
 
-  # ─── 爽点位置图（★ 从 Canvas entries 汇总，交给 chapter-design 消费） ──
-  # 设计方法论 → references/payoff-design-guide.md
-  # plot 填完 Canvas 后逐章汇总 payoff_level → 产出此节
-  # 小 → chapter-design 自设计 | 中 → design 按线号承接 | 大/特大 → design 按章号执行最高密度
-  payoff_map:
-    - ch: 1
-      total_payoff: 0            # ≥ 中 的 payoff 总数（小不计入）
-      lines: []                  # 有释放的线号，如 ["M2:中", "M3:大"]
-      note: ""                   # plot 备注（如 "Canvas无供给，design自行制造中爽点"）
-    - ch: 2
-      total_payoff: 0
-      lines: []
-      note: ""
-    # ... 每章一条
-
-# ─── 章节切片 ──────────────────────────────────────
+# ─── 章级设计意图（★ 传给 chapter-design，不强加事件细节） ──
 chapters:
-
-  # ════════════════════════════════════════════════════
-  # 章节 1
-  # ════════════════════════════════════════════════════
   - ch: 1
     title: ""
     word_count: 2500
-
-    emotional_goal: ""
-    payoff:
-      type: ""                    # 小|中|大|特大。plot 填大/特大（明确规划的），小/中留空由 design 自行标记
-      trigger: ""
-      reader_feeling: ""
-    reader_emotion_path: ["", "", ""]
-
-    end_hook:
-      type: ""                    # 悬念|信息|情绪
-      drive: ""
-      content: ""
-
-    plotlines_active: []          # 推进了哪些线（line id 对应 volume-XX.md §四）
-    chekhov_set: []
-    chekhov_fire: []
-
-    info_release:
-      - item_id: ""
-        title: ""
-        source_doc: ""
-        release_method: ""        # 实战展示|角色对话|叙事者说明|探索发现
-        density: ""
-        priority: ""              # P0|P1
-        chapter_context: ""
-
-    characters_active: []         # 登场角色名（必须在 volume-XX.md §三 中存在）
-    locations: []                 # 发生地点名（必须在 volume-XX.md §三 中存在）
-
-    # ★ 非必填场景规格（按场景类型选填）：
-    # combat:         # battle|dialogue|discovery|crisis 见 act-guide.md
-    # dialogue:       # ...
-    # discovery:      # ...
-    # crisis:         # ...
-
-  # ════════════════════════════════════════════════════
-  # 章节 2
-  # ════════════════════════════════════════════════════
+    emotional_goal: ""       # plot 给的情感方向。design 据此设计事件弧线
+    payoff_note: ""          # 大/特大时必填：蓄力上下文。如"M1线ch5-7蓄力，本章幕级爆发"
+    end_hook:                # plot 给钩子方向，design 设计具体事件
+      type: ""               # 悬念|信息|情绪
+      drive: ""              # 驱动因素（如"XX的生死未卜"）
+    chekhov_set: []          # 本章埋的契诃夫枪
+    chekhov_fire: []         # 本章回收的契诃夫枪
   - ch: 2
     title: ""
     word_count: 2500
     emotional_goal: ""
-    payoff:
-      type: ""
-      trigger: ""
-      reader_feeling: ""
-    reader_emotion_path: ["", "", ""]
+    payoff_note: ""
     end_hook:
       type: ""
       drive: ""
-      content: ""
-    plotlines_active: []
     chekhov_set: []
     chekhov_fire: []
-    info_release: []
-    characters_active: []
-    locations: []
+  # ... 每章一条
 ```
