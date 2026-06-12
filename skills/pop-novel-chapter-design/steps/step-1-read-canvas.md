@@ -38,13 +38,13 @@
 | `title` | 本章标题 | 填入事实骨架 |
 | `word_count` | 预期字数 | `事件数 ≥ word_count ÷ 200` |
 | `canvas.payoff_summary` | ≥中 的线数 | 0=本章无供给侧，需自行制造中爽点 |
-| `canvas.D` | 本章应向读者披露的设定/世界观/等级信息 | Step 2 事件链中至少有一个事件承载它 |
-| `canvas.D_load` | 0=无新设定 | 1=适量 | ≥2=过载 | 过载时在事件链中展开而不是塞进一个事件里 |
-| `canvas.{M1..S2}` | 每条线的本章摘要 | 哪些线在动、做了什么 |
-| `canvas.{M1..S2}_payoff` | 每条线的 payoff_level | 中/大/特大→ plot 指定了释放窗口 |
+| `canvas.设定线` | 本章应向读者交付的设定信息（`信息项名: 内容`） | Step 2 事件链中至少有一个事件承载它 |
+| `canvas.设线负载` | 0=无新设定 | 1=适量 | ≥2=过载 | 过载时在事件链中展开而不是塞进一个事件里 |
+| `canvas.{主线1..支线2}` | 每条线的本章摘要 | 哪些线在动、做了什么 |
+| `canvas.{主线1..支线2}_payoff` | 每条线的 payoff_level | 中/大/特大→ plot 指定了释放窗口 |
 | `canvas.note` | 节奏笔记 | "双线并行""蓄力章" |
 | `emotional_goal` | 情感方向 | Step 2 事件情绪目标的上边界 |
-| `payoff_note` | 中/大/特大的蓄力上下文 | "M1线ch3-6蓄力，本章释放" → 设计事件时知道压力多大 |
+| `payoff_note` | 中/大/特大的蓄力上下文 | "主线1ch3-6蓄力，本章释放" → 设计事件时知道压力多大 |
 | `end_hook.type` + `drive` | 钩子方向 | Step 2 章末事件凭据 |
 | `chekhov_set` / `chekhov_fire` | 本章埋/收的枪 | Step 2 标注 |
 
@@ -112,10 +112,10 @@ v6.2 起 chapters[].plotlines_active 已从 act-skeleton 移除。
 - 对每个地点，读 volume-XX.md §三 的对应条目：视觉印象、叙事功能、位置关系、空间情绪
 
 **势力** — `volume-XX.md §六`（如有）：
-- 如果本章 plotlines_active 包含 M1，读势力当前章段的活动
+- 如果本章 plotlines_active 包含 主线1，读势力当前章段的活动
 
 **剧情线** — `volume-XX.md §四`：
-- 读取 M1/M2/M3/S1/S2 的定义和契诃夫枪，用于 Step 2 标注 chekhov_set/fire
+- 读取 主线1/主线2/主线3/支线1/支线2 的定义和契诃夫枪，用于 Step 2 标注 chekhov_set/fire
 
 **版本里程碑** — `volume-XX.md §五`（如有）：
 - 如果本章 `milestone_active` 不为空，读对应的 MK 定义

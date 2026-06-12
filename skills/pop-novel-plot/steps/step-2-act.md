@@ -28,7 +28,7 @@
 |:-----|:-----|
 | `purpose.for_book` | 本幕在全书中的叙事作用。从 volume-XX.md 的核心命题推 |
 | `purpose.for_reader` | 本幕给读者的满足。核心情绪 / 悬念打开节奏 / 爽点密度方向 |
-| `conflict.stakes` | 本幕输 = 失去什么。从 volume-XX.md §四 M1/M3 提取 |
+| `conflict.stakes` | 本幕输 = 失去什么。从 volume-XX.md §四 主线1/主线3 提取 |
 | `conflict.escalation` | 本幕 ch1 → chN 冲突如何升级 |
 
 ### 2. 逐章填充（chapters[]）
@@ -38,16 +38,16 @@
 ```
 逐章流程（每章重复）：
 ① 确认本章 title、word_count
-② 填写 canvas.D + D_load：
-   - D = 本章披露了哪些设定概念（世界观/等级/力量体系/背景信息）
-   - D_load = 0（无新设定）| 1（适量披露）| ≥2（过载警告——≥2个新概念）
+② 填写 canvas.设定线 + 设线负载：
+   - 设定线 = `{信息项名}: {本章交付了什么设定}`。如 "裂隙成因: 矿工交代了等级分级"
+   - 设线负载 = 0（无新设定）| 1（适量）| ≥2（过载警告——≥2个新概念）
    - 参考 volume-XX.md §五 设定披露承诺的 deadline 表
-③ 逐一确认每条线（M1/M2/M3/S1/S2）是否推进：
+③ 逐一确认每条线（主线1/主线2/主线3/支线1/支线2）是否推进：
    - 推进了 → 写一句话摘要 + payoff_level
    - 没推进 → 留空
    - payoff_level 空=铺垫 | 小=干脆斩杀/升级/打脸 | 中=可感知释放 | 大=爆发·格局重画 | 特大=全卷承诺兑现
 ④ 填写 canvas.payoff_summary：统计 ≥中 的线数。=0 → design 自行制造中爽点
-⑤ 填写 canvas.note：节奏笔记（如"双线并行""蓄力章""D线有披露"）
+⑤ 填写 canvas.note：节奏笔记（如"双线并行""蓄力章""设线有交付"）
 ⑥ 如果本章 canvas 中有 payoff≥中，填写 payoff_note：告诉 design 蓄力上下文
 ⑦ 填写 emotional_goal：本章情感方向
 ⑧ 填写 end_hook：钩子方向（悬念/信息/情绪 + 驱动因素）
@@ -69,10 +69,10 @@
 - `payoff_constraints.big_max_gap`：大爽点间隔 ≤ 5 章？
 - `payoff_constraints.ultimate_min_per_volume`：每卷 ≥1 特大？
 
-**D 线设定穿透检查：**
-- 连续 D_load=0 的章数 ≤ `disclosure.max_consecutive_zero_load`（默认 2）？超过 → 读者连续几章没搞懂新东西，需要插入设定
-- 扫描 `disclosure.per_info_deadlines`：每个信息项的 deadline 章之前，Canvas D 列有没有提过这个信息？没到 → 回退插入
-- 记录所有 D_load≥2 的章到 `d_load_overage[]`：不强制修但有记录——如果连续出现在同人章 → 需要重分配
+**设定线检查：**
+- 连续 设线负载=0 的章数 ≤ `设线穿透.max_consecutive_zero_负载`（默认 2）？超过 → 读者连续几章没搞懂新东西，需要插入设定
+- 扫描 `设线穿透.per_info_deadlines`：每个信息项的 deadline 章之前，Canvas 设定线有没有提过这个信息？没到 → 回退插入
+- 记录所有 设线负载≥2 的章到 `设线穿透.负载过载章[]`：不强制修但有记录——如果连续出现在同人章 → 需要重分配
 
 **首卷黄金窗口（★ vol-01/act-01 时强制执行）：**
 - 番茄平台标准。对照 `templates/rhythm-check.md` 平台校准表：

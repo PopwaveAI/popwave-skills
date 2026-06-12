@@ -32,8 +32,8 @@ act:
 # 章节 Blocks（★ 每章一个自包含 block：Canvas 数据 + 设计意图）
 #
 # payoff_level: 空=铺垫 | 小=干脆斩杀/升级/打脸 | 中=可感知释放 | 大=爆发·格局重画 | 特大=全卷承诺兑现
-# D 线=设定穿透（非叙事弧——控制每章向读者披露多少世界观/等级/设定信息）
-# D_load: 0=本章无新设定 | 1=适量披露 | 2=过载警告（≥2 个新概念）
+# 设定线=设定穿透（非叙事弧——每章向读者交付什么世界观/等级/设定。前缀=信息项名，从 volume-XX.md §五 取）
+# 设线负载: 0=本章无新设定 | 1=适量 | ≥2=过载警告（≥2 个新概念）
 # 剧情线来自 volume-XX.md §四
 # ═══════════════════════════════════════════════════════════════
 
@@ -49,19 +49,19 @@ chapters:
     # ─ Canvas 行（plot 逐线标注） ─
     canvas:
       payoff_summary: 0    # ≥中 的线数。0 → design 自行制造中爽点
-      D: ""                 # 设定穿透——本章向读者披露了什么世界观/设定/分级
-      D_load: 0             # 0=无新设定 | 1=适量 | ≥2=过载警告
-      M1: ""                # 世界危机线——本章推进了什么
-      M1_payoff: ""         # 空|小|中|大|特大
-      M2: ""                # 主角成长线——本章推进了什么
-      M2_payoff: ""
-      M3: ""                # 主角行动线（应对 M1 的行动轨迹）——本章推进了什么
-      M3_payoff: ""
-      S1: ""                # 任意支线（从 volume-XX.md §四 S1 定义，非预设类型）
-      S1_payoff: ""
-      S2: ""                # 任意支线（从 volume-XX.md §四 S2 定义，非预设类型）
-      S2_payoff: ""
-      note: ""              # 节奏笔记（如"双线并行""蓄力章""D线有披露"）
+      设定线: ""             # 信息项名: 本章交付了什么设定。如 "裂隙成因: 矿工交代了等级分级"
+      设线负载: 0            # 0=无新设定 | 1=适量 | ≥2=过载警告
+      主线1: ""              # 世界危机线——本章推进了什么
+      主线1_payoff: ""       # 空|小|中|大|特大
+      主线2: ""              # 主角成长线——本章推进了什么
+      主线2_payoff: ""
+      主线3: ""              # 主角行动线——本章推进了什么
+      主线3_payoff: ""
+      支线1: ""              # 任意支线（从 volume-XX.md §四 支线1 定义，非预设类型）
+      支线1_payoff: ""
+      支线2: ""              # 任意支线（从 volume-XX.md §四 支线2 定义，非预设类型）
+      支线2_payoff: ""
+      note: ""               # 节奏笔记（如"双线并行""蓄力章""设线有交付"）
 
     # ─ 设计意图（plot 传给 design 的方向） ─
     emotional_goal: ""       # 本章情感方向。design 据此设计事件弧线
@@ -80,18 +80,18 @@ chapters:
     word_count: 2500
     canvas:
       payoff_summary: 0
-      D: ""
-      D_load: 0
-      M1: ""
-      M1_payoff: ""
-      M2: ""
-      M2_payoff: ""
-      M3: ""
-      M3_payoff: ""
-      S1: ""
-      S1_payoff: ""
-      S2: ""
-      S2_payoff: ""
+      设定线: ""
+      设线负载: 0
+      主线1: ""
+      主线1_payoff: ""
+      主线2: ""
+      主线2_payoff: ""
+      主线3: ""
+      主线3_payoff: ""
+      支线1: ""
+      支线1_payoff: ""
+      支线2: ""
+      支线2_payoff: ""
       note: ""
     emotional_goal: ""
     payoff_note: ""
@@ -108,20 +108,20 @@ chapters:
 # ═══════════════════════════════════════════════════════════════
 
 rhythm_check:
-  plotlines: [M1, M2, M3, D, S1, S2]   # D 始终在 Canvas 中
+  plotlines: [主线1, 主线2, 主线3, 设定线, 支线1, 支线2]
 
   per_line_gaps:               # 每条线的最大连续留白章数
-    - line: "M1"
+    - line: "主线1"
       max_gap: 3
       actual_gap: ""           # 由 agent 填入
-    - line: "M2"
+    - line: "主线2"
       max_gap: 2
       actual_gap: ""
-    - line: "M3"
+    - line: "主线3"
       max_gap: 2
       actual_gap: ""
 
-  line_density:                # 每章活跃线数（D_load=0 时不参与计数）
+  line_density:                # 每章活跃线数（设线负载=0 时不参与计数）
     min: 1                     # 最低不能少于 1 条线推进
     max: 3                     # 最高不能超过 3 条（信息过载）
     actual_range: ""           # 由 agent 填入
@@ -132,11 +132,11 @@ rhythm_check:
     big_max_gap: 5                   # 大爽点间隔上限
     ultimate_min_per_volume: 1       # 每卷 ≥1 特大
 
-  disclosure:                  # ★ 设定穿透（D 线）自检
-    max_consecutive_zero_load: 2     # 允许连续最多几章 D_load=0
+  设线穿透:                  # ★ 设定线自检
+    max_consecutive_zero_负载: 2     # 允许连续最多几章 设线负载=0
     consecutive_zero: ""             # agent 填入实际值
-    d_load_overage: []               # D_load≥2 的章列表
-    per_info_deadlines:              # 从 volume-XX.md §五 D-设定披露承诺 提取
+    负载过载章: []                   # 设线负载≥2 的章列表
+    per_info_deadlines:              # 从 volume-XX.md §五 设定线-设定披露承诺 提取
       - info: ""
         deadline: ""
 

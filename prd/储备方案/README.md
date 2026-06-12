@@ -10,6 +10,7 @@
 | # | 文档 | 摘要 | 状态 |
 |:-:|:-----|:-----|:----:|
 | 1 | [拆书v3.0-分级拆解PRD.md](./拆书v3.0-分级拆解PRD.md) | 全链路图谱驱动的三级拆解体系。Lv1已落地（Phase S），Lv2/Lv3的格式对齐+消费端协议待plot/character-schema稳定后推进 | ⏳ Layer 1 done, Layer 2 待命 |
+| 2 | [bookstrap-Phase0-卖点验证PRD.md](./bookstrap-Phase0-卖点验证PRD.md) | bookstrap Phase 0 故事引擎卖点/需求挖掘深度不足。优化方向：卖点验证回路（2~4方向1/2可立即动工），与拆书Lv1消费协议 | ⏳ 方向1/2可立即推进，方向3/4待Layer 2 |
 
 ---
 
