@@ -1,3 +1,14 @@
+## v9.0.0 | 2026-06-12
+
+- **新增 Phase S 快速拆解（Lv1）**：前10-20章精读 + 目录跳读，~25分钟产出6个轻量文件
+  - `Lv1-拆解摘要.md`、`story-engine.yaml`、`Lv4-{主角}-参考卡.md`
+  - `卷1-起点快照.md`、`卷1-终点快照.md`、`快速文风指纹-top5.md`
+- **新增红线 ❌12**：Lv1 不编造——前10-20章未显示的信息一律留空
+- **新增红线 ❌13**：Lv1 不做 validation 回环
+- **新增 4 条 Lv1 异常场景**：多线叙事/主角未出场/文风不显著/止步后继续
+- **角色 schema对齐**：Lv4-主角参考卡 按 character-schema v2.0 维度填写
+- **Phase 0-4 完全保留**：不受影响，T1~T7 模板不变
+
 ## v8.1.0 | 2026-06-11
 
 - **T2 模板消费引注更新**：act-XX-地图→volume-XX、info-release→act#info_release_plan、constitution→volume-XX引注

@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-deconstructor",
-  "version": "8.1.0",
+  "version": "9.0.0",
   "displayName": "拆书解构",
-  "description": "全量拆解长篇网文（前100章全读），产出设定/角色/剧情/技法/文风DNA七维档案。T3角色系统设计 + T5叙事技法综合为升级亮点。",
+  "description": "全量拆解长篇网文（前100章全读），产出设定/角色/剧情/技法/文风DNA七维档案。T3角色系统设计 + T5叙事技法综合为升级亮点。Lv1快速拆解（~25min）产出story-engine/主角参考卡/快照/文风指纹，拆完即可辅助开书。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -11,7 +11,8 @@
       "分析",
       "deconstruct",
       "拆解",
-      "对标"
+      "对标",
+      "快速拆"
     ],
     "default": false
   },
