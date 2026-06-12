@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PopWave 知识库 · 文档目录分类</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #f8f7f4;
+    --bg2: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #6b7280;
+    --rule: #e5e7eb;
+    --accent: #7c3aed;
+    --accent2: #f59e0b;
+    --accent3: #10b981;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --radius: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 50%, #4a0e4e 100%);
+    color: #fff;
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 80%, rgba(124,58,237,0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(245,158,11,0.15) 0%, transparent 50%);
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    position: relative;
+    letter-spacing: 0.02em;
+  }
+  .hero .subtitle {
+    margin-top: 0.6rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    opacity: 0.75;
+    font-weight: 300;
+    position: relative;
+  }
+  .hero .meta {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    position: relative;
+  }
+
+  /* Container */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* Stats bar */
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 1.2rem 2rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    flex: 0 1 auto;
+    min-width: 120px;
+  }
+  .stat-card .num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* Category section */
+  .category {
+    margin-bottom: 2.5rem;
+  }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--rule);
+  }
+  .category-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .category h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    flex: 1;
+  }
+  .category .desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: -0.3rem;
+    margin-bottom: 1rem;
+    padding-left: calc(36px + 0.75rem);
+  }
+  .category-count {
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  /* Doc card */
+  .doc-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .doc-card {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: default;
+  }
+  .doc-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .doc-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .doc-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(124,58,237,0.08);
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .doc-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+  }
+  .doc-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+    padding-left: calc(2.25rem);
+  }
+  .doc-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    padding-left: calc(2.25rem);
+  }
+  .doc-tag {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    background: var(--bg);
+    color: var(--muted);
+  }
+  .tag-p0 { background: #fef2f2; color: #dc2626; }
+  .tag-p1 { background: #fffbeb; color: #d97706; }
+  .tag-p2 { background: #f0fdf4; color: #16a34a; }
+  .tag-decision { background: #f3e8ff; color: #7c3aed; }
+  .tag-pipeline { background: #eff6ff; color: #2563eb; }
+  .tag-split { background: #ecfdf5; color: #059669; }
+
+  /* Connector */
+  .connector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: calc(36px + 0.75rem);
+  }
+  .connector-item {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 0.4rem 0.75rem;
+    background: var(--bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--rule);
+  }
+  .connector-item strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Relationship diagram */
+  .relation-map {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--bg2);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+  }
+  .relation-map h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+  .rel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .rel-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    padding: 0.3rem 0;
+  }
+  .rel-label {
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+  .rel-arrow { color: var(--muted); }
+  .rel-docs {
+    color: var(--ink);
+    flex: 1;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .container { padding: 1.5rem 1rem 3rem; }
+    .stats { gap: 0.75rem; }
+    .stat-card { padding: 0.8rem 1.2rem; min-width: 90px; }
+    .stat-card .num { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>📚 PopWave 知识库 · 文档分类目录</h1>
+  <p class="subtitle">Agent &amp; Skill 迭代记录 — 全面通读后的结构化分类</p>
+  <p class="meta">来源：飞书知识库「Agent和skill迭代记录」· 共 13 篇文档 · 2026-06-12 整理</p>
+</header>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="num">13</div>
+      <div class="label">文档总数</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">4</div>
+      <div class="label">大类</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">06-08→11</div>
+      <div class="label">时间跨度</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">PRD</div>
+      <div class="label">主要类型</div>
+    </div>
+  </div>
+
+  <!-- Category 1: 系统级问题分析与复盘 -->
+  <section class="category">
+    <div class="category-header">
+      <div class="category-icon" style="background:#fef2f2;color:#dc2626;">🔍</div>
+      <h2>系统级问题分析与复盘</h2>
+      <span class="category-count">4 篇</span>
+    </div>
+    <p class="desc">从 6-9 测试项目的实际运行数据出发，发现并论证写作管线中的核心系统问题</p>
+    <div class="doc-grid">
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#1</span>
+          <span class="doc-title">复盘问题清单</span>
+        </div>
+        <div class="doc-desc">复盘总纲，汇总 6 个会话 + 产出物料的交叉分析。按 P0/P1/P2 排列 7 个核心问题及修复优先级。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-p0">P0 阻塞</span>
+          <span class="doc-tag tag-p1">P1 建议</span>
+          <span class="doc-tag">复盘总纲</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#2</span>
+          <span class="doc-title">子 agent 隔离机制失效分析</span>
+        </div>
+        <div class="doc-desc">专项分析：子 agent 100% 失败率（6/6 次全部 gateway closed），设计意图 vs 实际运行断层。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-p0">P0 阻塞</span>
+          <span class="doc-tag">OpenClaw</span>
+          <span class="doc-tag">隔离机制</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#3</span>
+          <span class="doc-title">Paopao 上下文管理问题 PRD</span>
+        </div>
+        <div class="doc-desc">基于 42+38 = 80 次 run 的全量审计，发现 7 个上下文管理问题（Read 截断、SKILL.md 膨胀、历史冻结等）及修复状态追踪。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-p0">P0</span>
+          <span class="doc-tag tag-p1">P1</span>
+          <span class="doc-tag">上下文管理</span>
+          <span class="doc-tag">80次run审计</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#4</span>
+          <span class="doc-title">OpenClaw 首次 Auth 401 问题报告</span>
+        </div>
+        <div class="doc-desc">每个对话的第一次 Agent 调用总是 401 失败的根因分析（aut window cooldown），附 3 种修复方案。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-p0">P0 阻塞</span>
+          <span class="doc-tag">Auth 401</span>
+          <span class="doc-tag">bug报告</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Category 2: 管线架构与优化方案 -->
+  <section class="category">
+    <div class="category-header">
+      <div class="category-icon" style="background:#eff6ff;color:#2563eb;">🏗️</div>
+      <h2>管线架构与优化方案</h2>
+      <span class="category-count">4 篇</span>
+    </div>
+    <p class="desc">涵盖全链路架构设计、管线优化思路、排查手册和加载机制审计</p>
+    <div class="doc-grid">
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#5</span>
+          <span class="doc-title">网文创作管线 · 全链路优化 PRD</span>
+        </div>
+        <div class="doc-desc">deconstructor / bookstrap / plot / writer 四个 Skill 的产出模板 + 消费链路优化。提出"消费方声明"原则——每个产出物必须明确标注"谁来填、填完谁读、怎么读"。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-pipeline">管线优化</span>
+          <span class="doc-tag">消费方声明</span>
+          <span class="doc-tag">产出模板</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#6</span>
+          <span class="doc-title">写作专家全链路 — 文件依赖与产出全景 PRD</span>
+        </div>
+        <div class="doc-desc">Popwave 全链路完整地图：每个 Skill 的上游依赖文件、下游产出文件、跨 Skill 共享文件清单。v1.4 含最新目录重构。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-pipeline">依赖全景</span>
+          <span class="doc-tag">v1.4</span>
+          <span class="doc-tag">9个Skill</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#7</span>
+          <span class="doc-title">Paopao 管线排查技巧手册</span>
+        </div>
+        <div class="doc-desc">面向开发者的实操手册：项目产出物文件结构、runs 目录解读、常见审计场景（Skill 注入验证、agent 思考过程追溯、Read 截断判断）。</div>
+        <div class="doc-tags">
+          <span class="doc-tag">排查技巧</span>
+          <span class="doc-tag">操作手册</span>
+          <span class="doc-tag">runs分析</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#8</span>
+          <span class="doc-title">PRD：Paopao Skill 加载机制审计与修复方案</span>
+        </div>
+        <div class="doc-desc">47 次 run 的 input.json + events.jsonl + thinking 链深度审计。发现 Read 截断（50%）、长会话惰性侵蚀、输出路径指令不在 system prompt 三层根因。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-p0">P0 阻塞</span>
+          <span class="doc-tag">加载机制</span>
+          <span class="doc-tag">v4.0</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Category 3: 组件拆分与重构方案 -->
+  <section class="category">
+    <div class="category-header">
+      <div class="category-icon" style="background:#ecfdf5;color:#059669;">✂️</div>
+      <h2>组件拆分与重构方案</h2>
+      <span class="category-count">2 篇</span>
+    </div>
+    <p class="desc">pop-novel-writer 拆分为两个独立 Skill 的完整推演，从 v1 框架到 v2 子 agent 架构论证</p>
+    <div class="doc-grid">
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#9</span>
+          <span class="doc-title">正文写作引擎拆分 · 产品需求文档 v1.0</span>
+        </div>
+        <div class="doc-desc">初版方案：把 writer 拆成 chapter-design + prose-render。基于 15 章测试数据，证明"不是分步不够，是 context 打架"。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-split">v1.0</span>
+          <span class="doc-tag">框架方案</span>
+          <span class="doc-tag">6-9证据</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#10</span>
+          <span class="doc-title">正文写作引擎拆分为两个独立 Skill · PRD v2.0</span>
+        </div>
+        <div class="doc-desc">v2 深化版：新增子 agent 架构合理性论证（Context 隔离本质是思维纯净度），定义"认知污染"三种形态，含两个 Skill 的完整 SKILL.md 草案。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-decision">核心决策</span>
+          <span class="doc-tag tag-split">v2.0</span>
+          <span class="doc-tag">子agent论证</span>
+          <span class="doc-tag">认知污染</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Category 4: 外部知识注入与技术决策 -->
+  <section class="category">
+    <div class="category-header">
+      <div class="category-icon" style="background:#f3e8ff;color:#7c3aed;">🎯</div>
+      <h2>外部知识注入与技术决策</h2>
+      <span class="category-count">3 篇</span>
+    </div>
+    <p class="desc">外部写作知识的筛选注入、Agent 技术选型框架对比与决策记录</p>
+    <div class="doc-grid">
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#11</span>
+          <span class="doc-title">外部知识注入分析 — Skill 框架优化 vs 管线上下文注入</span>
+        </div>
+        <div class="doc-desc">分析 3 篇微信公众号文章（脑洞/创作底层逻辑/叙事技法），14 条外部知识仅过滤保留 4 条。提出"先否定再肯定"句式 P1 检查规则。</div>
+        <div class="doc-tags">
+          <span class="doc-tag">知识过滤</span>
+          <span class="doc-tag">v2.0</span>
+          <span class="doc-tag">14条→4条</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#12</span>
+          <span class="doc-title">为什么选择 Hermes Agent 作为 Popwave 技术底层</span>
+        </div>
+        <div class="doc-desc">Popwave 的 200 万字 × 跨季度场景约束下，对比 Hermes Agent vs OpenClaw 的框架选型决策。三轮调研后选择 Hermes。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-decision">框架选型</span>
+          <span class="doc-tag">Hermes Agent</span>
+          <span class="doc-tag">决策记录</span>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-card-header">
+          <span class="doc-number">#13</span>
+          <span class="doc-title">Popwave 全链路 vs Hermes Agent / OpenClaw 精准匹配</span>
+        </div>
+        <div class="doc-desc">从调度层、状态层、管线阶段、跨 Session 能力四个维度逐层对比两个框架的匹配度，量化各维度可行性。</div>
+        <div class="doc-tags">
+          <span class="doc-tag tag-decision">技术对比</span>
+          <span class="doc-tag">全链路匹配</span>
+          <span class="doc-tag">定量分析</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Document relationship map -->
+  <div class="relation-map">
+    <h3>🔗 文档间关联关系</h3>
+    <div class="rel-grid">
+      <div class="rel-row">
+        <span class="rel-label">问题发现</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#1 复盘问题清单</strong> 汇总问题 → 派生 <strong>#2 子agent失效分析</strong>、<strong>#3 上下文管理PRD</strong>、<strong>#4 401 问题报告</strong></span>
+      </div>
+      <div class="rel-row">
+        <span class="rel-label">根因深挖</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#8 Skill加载审计</strong> 发现 Read 截断 + 惰性侵蚀 → <strong>#3 上下文管理</strong> 的第1个问题</span>
+      </div>
+      <div class="rel-row">
+        <span class="rel-label">优化方案</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#5 全链路优化PRD</strong> + <strong>#6 文件依赖全景</strong> 构建架构蓝图 → <strong>#7 排查手册</strong> 提供操作落地</span>
+      </div>
+      <div class="rel-row">
+        <span class="rel-label">重构决策</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#9 v1.0 拆分方案</strong> → <strong>#10 v2.0 子agent论证</strong>（从拆分到独立子agent 架构的深化）</span>
+      </div>
+      <div class="rel-row">
+        <span class="rel-label">外部输入</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#11 知识注入分析</strong> 过滤外部写作知识 → 注入到 Skill 管线</span>
+      </div>
+      <div class="rel-row">
+        <span class="rel-label">技术底座</span>
+        <span class="rel-arrow">→</span>
+        <span class="rel-docs"><strong>#12 选型决策</strong> + <strong>#13 精准匹配</strong> → 确定 Hermes Agent 为技术底层，影响所有 Skill 架构</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>基于飞书知识库「Agent和skill迭代记录」全量文档通读整理 · PopWave Team</p>
+</footer>
+
+</body>
+</html>

@@ -81,6 +81,7 @@
   冲突层次  ← external / internal / interpersonal — 可选 1-3 层。思考：这个事件在哪个层面产生张力？外在对抗？内心挣扎？还是人际摩擦？过渡事件可为空
   小爽点? ← 这是否是一次干脆的斩杀/升级/打脸/梗植入？是 → ◆小爽点。整章 ≥ 5。详见 `references/payoff-guide.md` §二
   中爽点标记 ← 读者读完这个事件后认知有没有变化？有 → ★中爽点事件（注明类型：信息揭示/关系转折/障碍突破/情绪落地）。整章 ≥ 1。详见 `references/payoff-guide.md` §三
+  plot_line  ← 该事件正推进哪条线？（从 chapters[].canvas 中非空的线号取）
   信息释放  ← 如本事件触发 info_release，标注 item_id（检查: ≤2条/事件, 不重复, 与 release_method 一致）
   估计字数  ← 100-250 字
 ```

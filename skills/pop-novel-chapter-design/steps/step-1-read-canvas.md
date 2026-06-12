@@ -27,40 +27,24 @@
 
 ### 1. 读幕纲（act-XX.yaml）
 
-定位当前章的章节号（ch = N），从 `chapters[]` 数组中提取 N 对应的章级切片。
+定位当前章的章节号（ch = N），从 `chapters[]` 数组中提取 N 对应的 chapter block。
 
-#### 必读的章级字段
+> **v6.2 起每章一个自包含 block。** Canvas 数据（各线推进+payoff_level）已内嵌在 `chapters[N].canvas` 中，不再有独立的 `canvas.entries` 段。一次性读完即可。
+
+#### 必读字段
 
 | 字段 | 取什么 | 将用于 |
 |:-----|:-------|:-------|
-| `title` | 本章标题 | 填入事实骨架的标题 |
-| `word_count` | 预期字数 | 事件密度基线的公式输入：`事件数 ≥ word_count ÷ 200` |
-| `emotional_goal` | 本章想让读者感受到什么 | Step 2 的事件情绪目标的上边界 |
-| `payoff_note` | 大/特大时：蓄力上下文 | 如"M1线ch5-7蓄力，本章幕级爆发" — design 设计事件知道压力有多大 |
-| 其他弃读字段 | `payoff.type/trigger/reader_feeling/reader_emotion_path/plotlines_active/info_release/characters_active/locations` | **v6.2 已从 act-skeleton 移除** |
-
-#### ★ 必读的 Canvas entries 当前章行（爽点供给）
-
-在 act-XX.yaml 的 `canvas.entries` 中找到当前章的行：
-
-```
-canvas.entries[chN]:
-  payoff_summary → Canvas 供给了 ≥中 的线数
-  {线号}         → 该线的本章摘要
-  {线号}_payoff   → 该线的 payoff_level（空|小|中|大|特大）
-```
-
-**消费方式**：
-- `payoff_summary ≥ 1` → Canvas 已供给中或以上。扫描各线 _payoff=中|大|特大 的线 → 在 volume-XX.md §四 找到该线定义 → 为它设计事件
-- `payoff_summary = 0` → Canvas 无供给。自行制造 ≥ 5 小爽点 + ≥ 1 中爽点（方法见 `references/payoff-guide.md`）
-- 存在 payoff=大 的线 → 大爽点章，按全幕最高密度设计事件链
-- ≥2 线 payoff=大 → 特大爽点章，全幕最大规模事件链
-
-> 中爽点完整定义 + 案例 + 设计方法 → `references/payoff-guide.md`
-
-| `end_hook.type` + `drive` | 章末钩子方向 | Step 2 的章末事件 = 钩子事件的凭据 |
-| `chekhov_set` | 本章设伏的枪 | Step 2 标注 chekhov_set 字段 |
-| `chekhov_fire` | 本章回收的枪 | Step 2 标注 chekhov_fire 字段 |
+| `title` | 本章标题 | 填入事实骨架 |
+| `word_count` | 预期字数 | `事件数 ≥ word_count ÷ 200` |
+| `canvas.payoff_summary` | ≥中 的线数 | 0=本章无供给侧，需自行制造中爽点 |
+| `canvas.{M1..S2}` | 每条线的本章摘要 | 哪些线在动、做了什么 |
+| `canvas.{M1..S2}_payoff` | 每条线的 payoff_level | 中/大/特大→ plot 指定了释放窗口 |
+| `canvas.note` | 节奏笔记 | "双线并行""蓄力章" |
+| `emotional_goal` | 情感方向 | Step 2 事件情绪目标的上边界 |
+| `payoff_note` | 中/大/特大的蓄力上下文 | "M1线ch3-6蓄力，本章释放" → 设计事件时知道压力多大 |
+| `end_hook.type` + `drive` | 钩子方向 | Step 2 章末事件凭据 |
+| `chekhov_set` / `chekhov_fire` | 本章埋/收的枪 | Step 2 标注 |
 
 #### ★ 角色池 & 地点池（从 volume-XX.md 拿）
 v6.2 起 chapters[].characters_active / locations 已从 act-skeleton 移除。

@@ -1,8 +1,8 @@
 # 节奏自检报告模板
 
 > 产出路径: `设计/幕/vol-XX/act-YY.yaml#rhythm_check`
-> 产出管线: pop-novel-plot v6.1
-> 爽点定义与设计方法论: `references/payoff-design-guide.md`，检查时以此为基准
+> 产出管线: pop-novel-plot v6.2
+> 自检方式: agent 填完所有 chapters[] blocks 后，全量扫描 `chapters[].canvas.{线号}_payoff` 执行自检
 
 ---
 
