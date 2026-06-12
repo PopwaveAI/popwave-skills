@@ -1,0 +1,20 @@
+{
+  "id": "pop-novel-world",
+  "version": "1.1.0",
+  "displayName": "小说世界构筑",
+  "description": "小说世界构筑 v1.1。Phase W0/W1采集数据→W2 L1设定→W3稳定性→W4角色→W5数值→W6起点→W7宪法。上游消费creative的故事引擎.md和character-schema模板，下游供给plot Step 0审计。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "世界构筑",
+      "world",
+      "设定"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true
+  }
+}

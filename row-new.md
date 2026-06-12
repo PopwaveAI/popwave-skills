@@ -1,1 +1,0 @@
-| 10 | 写作专家全链路文件依赖图-PRD v2.0 | [打开](https://n0mqbh938qa.feishu.cn/wiki/QdXSwE2ZAiAog6kz2bsc35rXnof) | 管线重构：bookstrap→creative+world，character-schema入链，宪法审计回路 |

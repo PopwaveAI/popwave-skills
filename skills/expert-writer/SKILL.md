@@ -4,7 +4,7 @@ description: 网文创作元 Skill（专家模式）。Think→Execute→Reflect
 version: 3.1.0
 pipeline:
   upstream: []
-  downstream: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker, pop-novel-character-schema]
+  downstream: [pop-novel-creative, pop-novel-continue, pop-novel-world, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker, pop-novel-character-schema]
 ---
 
 # 网文写作专家（元 Skill / 专家模式）
@@ -46,7 +46,9 @@ pipeline:
 
 | id | 职责 | 触发 |
 |:---|:-----|:-----|
-| `pop-novel-bookstrap` | 开书设定 | 「开书」「新建」 |
+| `pop-novel-creative` | 创意打磨 | 「开书」「新书」 |
+| `pop-novel-world` | 世界构筑 | 「设定」「世界」 |
+| `pop-novel-continue` | 续写搭档 | 「续写」「接着写」 |
 | `pop-novel-deconstructor` | 拆书分析 | 「拆解」「分析这本书」 |
 | `pop-novel-plot` | 剧情架构 | 「规划剧情」「画幕纲」 |
 | `pop-novel-chapter-design` | 章纲/导演卡 | 「设计这章」 |
@@ -128,7 +130,8 @@ exec: `Get-Content -Encoding UTF8 -Raw '{skill_root}/references/dynamic-fusion.m
 
 | 意图 | 典型说法 | 执行路径 |
 |:-----|:---------|:---------|
-| 新建创作 | 「开书」 | bookstrap → plot → chapter-design → prose-render → qa |
+| 新建创作 | 「开书」 | creative → world → plot → chapter-design → prose-render → qa |
+| 续写 | 「续写」 | continue → plot → chapter-design → prose-render → qa |
 | 拆解参考书 | 「拆解」 | download-webnovel-txt → deconstructor |
 | 继续前进 | 「继续」「下一章」 | ① 先强制加载 ② 读 progress 路由 ③ fallback 项目扫描 |
 | 修改调整 | 「改」「调整」 | 定位层 → 评估影响 → 逐层更新（见 §5） |
@@ -157,7 +160,7 @@ exec: Get-Content -Encoding UTF8 -Raw workspace-index.yaml
 ```
 exec: Get-Content -Encoding UTF8 -Raw '{skill_root}/references/pipeline-check.md'
 → 按指令执行：required 检查 / 子 skill 文件完整性 / recommended 检查 / 输出报告
-→ 大环节转换（bookstrap→plot→chapter-design→prose-render）时执行语义级自检：
+→ 大环节转换（creative→world→plot→chapter-design→prose-render）时执行语义级自检：
   用 Get-Content 读上一环节全部产出 → 回答深度/融合度/数据断点三问 → 不够就退回
 ```
 
@@ -173,7 +176,8 @@ exec: Get-Content -Encoding UTF8 -Raw '{skill_root}/references/pipeline-check.md
 
 | 子skill | 确认点 | 通过后 → |
 |:--------|:------|:--------|
-| bookstrap | story-engine / 起点 / 终点确认 | pop-novel-plot |
+| creative | story-engine / 样品确认 | pop-novel-world |
+| world | L1 / 角色 / 数值 / 起点快照确认 | pop-novel-plot |
 | plot | 卷确认 / 场景卡试读 | pop-novel-chapter-design |
 | chapter-design | 骨架对齐 Canvas | pop-novel-prose-render |
 | prose-render | 风格验证通过 | pop-novel-qa |
@@ -204,8 +208,9 @@ exec: `Get-Content -Encoding UTF8 -Raw '{skill_root}/references/typical-paths.md
 | 修辞/措辞 | — |
 | 人物性格/关系 | bookstrap(角色设定) |
 | 剧情走向 | plot + prose-render |
-| 世界观规则 | bookstrap → chapter-design → prose-render |
-| 起点/终点状态 | bookstrap → plot → chapter-design → prose-render |
+| 人物性格/关系 | creative(角色设定) |
+| 世界观规则 | world → chapter-design → prose-render |
+| 起点/终点状态 | world(起点) + plot(终点) → chapter-design → prose-render |
 
 **约束：改设定 ≠ 重写全书。只动直接受影响的。**
 
