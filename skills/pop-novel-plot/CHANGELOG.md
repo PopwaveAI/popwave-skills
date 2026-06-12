@@ -1,5 +1,32 @@
 # CHANGELOG — pop-novel-plot
 
+## v6.3.0 — 2026-06-12
+
+### D 线（设定穿透）落地
+
+- **Canvas 新增 D 线列**：`act-skeleton.yaml` 每章 block 的 canvas 段新增 `D` + `D_load` 字段。D 不设 payoff_level（非叙事弧），D_load=0 无新设定 / 1 适量 / ≥2 过载警告
+- **volume-design.md 新增 §五 设定穿透·D 线**：定义 + 填空原则 + 设定披露承诺表（信息项/最晚章节/披露方式/载体）
+- **rhythm_check 新增 disclosure 段**：`max_consecutive_zero_load`（默认 2） / `d_load_overage[]` / `per_info_deadlines` deadline 扫描
+- **step-2-act.md**：逐章流程第②步改填 D 线；自检新增 D 线三项检查
+- **step-1-read-canvas.md**：design agent 必读字段新增 `canvas.D` + `canvas.D_load`
+
+### act-skeleton.yaml 全盘重构（v6.2 → v6.3）
+
+- **Canvas entries 合入 chapters[]**：每章一个自包含 block（Canvas 数据+设计意图），design agent 一次读完。30 章从 ~720 行 → ~440 行（-40%）
+- **删 7 段冗余**：`info_release_plan` 独立段 / `goal` / `tone_note` / `payoff_distribution` 独立段 / `emotional_arc` 独立段 / `payoff_map` 独立表 / chapters[] 8 个冗余字段（payoff.type/trigger/reader_feeling/reader_emotion_path/plotlines_active/info_release/characters_active/locations）
+- **rhythm_check 提升为顶层段**：`canvas.entries` → 合入 chapters[]，rhythm_check 不再嵌套在 canvas 下
+- **step-2-act.md / step-1-read-canvas.md / rhythm-check.md 同步更新**
+- **版本号 v6.2 → v6.3**
+
+### 剧情线体系重构（volume-design.md §四）
+
+- **M3 重定义**："外部推进·主角被迫做什么" → "主角行动·主角应对 M1 的行动轨迹"。判定器：不做此行动 M1 会受影响吗？是→M3，否→支线/日常
+- **三 M 关系明确化**：M1=被动端（威胁来源）/ M3=主动端（应对行动）/ M2=内部端（成长变化）
+- **S 线开放化**：不再预设"羁绊/世界真相"两类——agent 自定名 + 强制说明"为什么需要这条线"。S 数量 = 0~3 条，链条 ≥3 章无线释放 → 追加一条 S
+- **字段统一**：所有线用同一个公用字段组（一句话/本卷推进/预期释放节奏/活跃幕段）+ 各线追加特异字段
+- **volumes-design.md §四 头注 + 判定器 + 示例** 全量更新
+- **step-1-volume.md** 剧情线说明同步更新
+
 ## v6.1.0 — 2026-06-11
 
 ### 爽点体系标准化（★ v6.1 核心交付）
