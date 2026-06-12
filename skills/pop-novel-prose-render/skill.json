@@ -1,7 +1,7 @@
 {
   "id": "pop-novel-prose-render",
   "name": "pop-novel-prose-render",
-  "version": "1.1.0",
+  "version": "3.0.0",
   "description": "正文渲染/上色表达。消费 Design 的骨架产物，注入文风DNA和锚定章，渲染可读正文。",
   "author": "江轩",
   "tags": ["novel", "writing", "prose", "rendering", "style-injection"]

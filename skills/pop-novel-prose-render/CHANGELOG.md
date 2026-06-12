@@ -1,5 +1,14 @@
 # CHANGELOG — pop-novel-prose-render
 
+## v3.0.0 — 2026-06-11
+
+### DNA 全量加载 + scene 字段 1:1 映射（对齐 pop-dna v4）
+
+- **全量加载确认**：step-1 明确要求 `Get-Content -Encoding UTF8 -Raw` 全量加载文风DNA（~20-25K），在安全范围内，不拆分
+- **scene 字段 1:1 映射**：设计包的 `scene` 字段（如 `combat_early_skirmish`）→ DNA 场景卡（如"战斗·早期遭遇战"）直接定位
+- **两层感知**：层A（30秒整体风格扫描）+ 层B（本章场景卡定位）
+- **多场景章处理**：首要场景卡建主轴（80%）+ 次要场景卡做边界切换
+
 ## v1.1.0 — 2026-06-11
 
 ### 路径对齐 PRD v1.4 + constitution 移除
