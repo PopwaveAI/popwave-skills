@@ -64,6 +64,7 @@ chapters:
       note: ""               # 节奏笔记（如"双线并行""蓄力章""设线有交付"）
 
     # ─ 设计意图（plot 传给 design 的方向） ─
+    登场角色: []              # 角色名列表。指向 `状态/角色/` 下的角色卡。只写名，不写细节
     emotional_goal: ""       # 本章情感方向。design 据此设计事件弧线
     payoff_note: ""          # 中/大/特大时填：蓄力上下文
     end_hook:                # plot 给钩子方向，design 设计具体事件
@@ -93,6 +94,7 @@ chapters:
       支线2: ""
       支线2_payoff: ""
       note: ""
+    登场角色: []
     emotional_goal: ""
     payoff_note: ""
     end_hook:

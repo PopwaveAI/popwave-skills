@@ -43,98 +43,66 @@
 | `canvas.{主线1..支线2}` | 每条线的本章摘要 | 哪些线在动、做了什么 |
 | `canvas.{主线1..支线2}_payoff` | 每条线的 payoff_level | 中/大/特大→ plot 指定了释放窗口 |
 | `canvas.note` | 节奏笔记 | "双线并行""蓄力章" |
+| `登场角色` | 角色名列表 | 本章可用角色池。从 `状态/角色/{角色名}-角色卡.md` 取 core_desire 等不变信息，从 `entity-snapshot.yaml` 取当前状态 |
 | `emotional_goal` | 情感方向 | Step 2 事件情绪目标的上边界 |
 | `payoff_note` | 中/大/特大的蓄力上下文 | "主线1ch3-6蓄力，本章释放" → 设计事件时知道压力多大 |
 | `end_hook.type` + `drive` | 钩子方向 | Step 2 章末事件凭据 |
 | `chekhov_set` / `chekhov_fire` | 本章埋/收的枪 | Step 2 标注 |
 
-#### ★ 角色池 & 地点池（从 volume-XX.md 拿）
-v6.2 起 chapters[].characters_active / locations 已从 act-skeleton 移除。
-直接从 `设计/卷/volume-XX.md §三` 拿到本卷角色/地点。
+#### ★ 角色池 & 地点池（从 act-XX.yaml + volume-XX.md 拿）
+
+**角色**：从 `chapters[N].登场角色` 拿角色名列表
+- 对每个角色，读 `状态/角色/{角色名}-角色卡.md` 取 core_desire、人格基线、能力上限（不变/慢变信息）
+- 当前微状态（等级/位置/情绪）从 `entity-snapshot.yaml` 取
+
+**地点**：v6.2 起 chapters[].locations 已从 act-skeleton 移除
+- 直接从 `设计/卷/volume-XX.md §三` 拿到本卷地点池
+- 在本章 Canvas 线摘要中找地点名暗示
 
 #### ★ 本节活跃线（从 Canvas entries 行直接读）
 v6.2 起 chapters[].plotlines_active 已从 act-skeleton 移除。
 直接从 Canvas entries 当前章行：哪些线有内容（非空）→ 就是本章活跃线。
 
-#### ★ 场景规格字段（v4.2 新增——按场景类型条件读取）
+#### ★ 场景类型推断（从 Canvas 线摘要）
 
-根据本章的场景类型，决定读哪些额外字段。设计事件链时需要参考这些字段来规划：
+v6.3 起 act-skeleton 不再预设 combat/dialogue/discovery 等场景规格字段。这些由 design 根据 Canvas 线摘要自行判断场景类型并设计事件链。
 
-**如果本章涉及战斗**（`title` 或 `emotional_goal` 暗示是战斗章）：
+场景类型推断参考（从 Canvas 线摘要的关键词识别）：
 
-| 字段 | 取什么 | 将用于 |
-|:-----|:-------|:-------|
-| `combat.scale` | boss战/碾压战/苦战/遭遇战/逃亡战/围剿战 | 决定战斗事件链的类——密集型还是分散型 |
-| `combat.purpose` | 剧情目的 | Step 2 中确保事件链围绕该目的展开 |
-| `combat.result` | 完胜/惨胜/败退/被救/敌人撤退/中断 | 章末钩子的前置条件 |
-| `combat.reward` | 收获——等级/装备/情报/名声/关系变化 | Step 2 中确保有事件指向该收获 |
-| `combat.capability_ref` | 段位来源的 combat_capability.yaml 路径 | 如果事件链中涉及具体段位数字，参考比值 |
-| `combat.monster_ref` | monster_rank_map 中的怪物名 | 如果敌人是特定怪物，参考其段位和掉落 |
+| 线摘要暗示 | 推断场景类型 |
+|:-----------|:-------------|
+| `"遭遇"` `"攻击"` `"战斗"` `"追杀"` | 战斗章 |
+| `"商量"` `"谈判"` `"质问"` `"坦白"` | 对话章 |
+| `"发现"` `"探索"` `"进入"` `"揭示"` | 发现章 |
+| `"危机"` `"压"` `"紧迫"` `"绝境"` | 危机章 |
 
-**如果本章涉及重要对话或谈判**：
-
-| 字段 | 取什么 |
-|:-----|:-------|
-| `dialogue.relation` | 权力关系 |
-| `dialogue.stakes` | 谈崩了会怎样 |
-| `dialogue.result` | 对话结果 |
-| `dialogue.reward` | 收获 |
-
-**如果本章涉及探索/发现**：
-
-| 字段 | 取什么 |
-|:-----|:-------|
-| `discovery.what` | 发现了什么 |
-| `discovery.how` | 发现方式 |
-| `discovery.world_expands` | 世界变大了什么 |
-| `discovery.new_options` | 主角的新选项 |
-
-**如果本章是危机卷入**：
-
-| 字段 | 取什么 |
-|:-----|:-------|
-| `crisis.threat` | 威胁是什么 |
-| `crisis.scale` | 规模 |
-| `crisis.cannot_escape_because` | 为什么不能逃 |
-| `crisis.cost_of_involvement` | 卷入代价 |
+> **核心原则**：plot 不给规格——只给上下文。design 从上下文推断场景类型，自己设计事件链。
 
 ### 2. 读卷 Canvas（`设计/卷/volume-XX.md`）
 
 卷 Canvas 是下游消费的唯一入口。所有角色/地点/剧情线/势力/装备信息都在此文件。
 
 **人物池** — `volume-XX.md §三`：
-- 从 act-XX.yaml 的 `characters_active` 中取角色名列表
-- 对每个角色，读 volume-XX.md §三 的对应条目：卷初状态、叙事功能、与主角关系基线
-- 当前状态从 entity-snapshot.yaml 取（不是从卷设计取）
+- 从 `chapters[N].登场角色` 拿角色名（已在 §1 读取）
+- 对每个角色，读 volume-XX.md §三 的对应条目：卷初状态、叙事功能、与主角关系基线（卷级不变信息）
+- 当前微状态从 entity-snapshot.yaml 取
 
 **地点池** — `volume-XX.md §三`：
-- 从 act-XX.yaml 的 `locations` 中取地点名列表
-- 对每个地点，读 volume-XX.md §三 的对应条目：视觉印象、叙事功能、位置关系、空间情绪
+- 从本卷的地点池直接取（卷级定义）
+- 结合 Canvas 线摘要的地名暗示确定本章具体地点
 
-**势力** — `volume-XX.md §六`（如有）：
-- 如果本章 plotlines_active 包含 主线1，读势力当前章段的活动
+**势力** — `volume-XX.md §三`（如有）：
+- 如果本章 Canvas 线摘要涉及 主线1 推进 → 读势力条目
+- 当前势力状态从 entity-snapshot.yaml 取
 
 **剧情线** — `volume-XX.md §四`：
 - 读取 主线1/主线2/主线3/支线1/支线2 的定义和契诃夫枪，用于 Step 2 标注 chekhov_set/fire
 
-**版本里程碑** — `volume-XX.md §五`（如有）：
-- 如果本章 `milestone_active` 不为空，读对应的 MK 定义
+### 3. 读后感盘和版本
 
-**装备路线图** — `volume-XX.md §七`（如有）：
-- 如果本章涉及装备变化，读装备路线图的段位约束
+> v6.3 起独立 info_release_plan 段已删除。设定交付通过 Canvas 设定线前缀统一管理。
 
-### 3. 读幕纲（act-XX.yaml）
-
-幕纲提供本章的章级切片数据，包括 emotional_goal / payoff / end_hook / combat 规格等。详见上方 §1。
-
-### 4. 读后感盘和版本
-
-**act-XX.yaml#info_release_plan**：
-- 定位当前幕分配的 P0/P1 信息点
-- 确认每个信息点的 source_doc 路径和 release_method
-- 这是 Step 2 中「信息释放」字段的来源
-
-### 5. 读项目状态
+### 4. 读项目状态
 
 | 文件 | 取什么 | 用途 |
 |:-----|:-------|:-----|
@@ -142,11 +110,11 @@ v6.2 起 chapters[].plotlines_active 已从 act-skeleton 移除。
 | `正文/ch{上一章}.md` 末尾的状态更新块 | 上一章的 entity_updates + event_log | 衔接点：上章未闭合的节点、语感起点 |
 | 上一章的 design 文件 | 写作资产/设计包/ch{上一章}-设计包.md | 检查上章末尾是否有关闭的钩子或未解决的事件 |
 
-### 6. 读 Canvas 约束
+### 5. 读 Canvas 约束
 
 | 文件 | 取什么 |
 |:-----|:-------|
-| `act-XX.yaml` 各字段（combat.scale / payoff / chekhov_set） | 已隐含所有约束 |
+| `act-XX.yaml` chapters[N] block | Canvas 约束已全部内嵌在 chapter block 中：payoff_level / 登场角色 / chekhov_set / 设定线 |
 
 ---
 
@@ -157,19 +125,19 @@ v6.2 起 chapters[].plotlines_active 已从 act-skeleton 移除。
 ```
 本章在幕中的位置
   - 幕号、章节号、标题
-  - 本章在情绪弧线上的位置（从 emotional_goal 推断：蓄力/拉人/释放/高潮）
+  - 本章在 Canvas 中的 payoff 位置（蓄力/释放/高潮）
 
 本章的槽和约束
-  - actor_goal: act-XX.yaml 指定的情绪目标
-  - 场景类型：combat / dialogue / discovery / crisis / transition / mix（+ 对应的场景规格字段）
-  - 爽点等级：payoff.type
-  - 钩子规格：end_hook.type + content（章末必须对齐）
+  - emotional_goal: act-XX.yaml 指定的情绪目标
+  - 场景类型：从 Canvas 线摘要推断（如"遭遇"=战斗、"发现"=探索、"商量"=对话）
+  - 设定线交付：设线负载+前缀信息项名（这章必须让读者搞懂什么）
+  - 钩子方向：end_hook.type + drive
   - 字数上限：word_count
 
 本章的可用资源
-  - 角色池：characters_active + 每个角色的 after 来自 entity-snapshot
-  - 地点池：locations + 每个地点的视觉印象和位置关系
-  - 信息释放清单：info_release[]（含 source_doc / release_method）
+  - 角色池：登场角色[] + 每个角色的角色卡（core_desire）+ entity-snapshot（当前状态）
+  - 地点池：从 volume-XX.md §三 拿 + Canvas 线摘要的地名暗示
+  - 契诃夫枪：chekhov_set（设伏）/ chekhov_fire（回收）
 
 衔接
   - 上章末尾状态（entity_updates + event_log）

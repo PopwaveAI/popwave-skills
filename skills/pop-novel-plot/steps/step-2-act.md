@@ -50,9 +50,10 @@
 ⑤ 填写 canvas.note：节奏笔记（如"双线并行""蓄力章""设线有交付"）
 ⑥ 如果本章 canvas 中有 payoff≥中，填写 payoff_note：告诉 design 蓄力上下文
 ⑦ 填写 emotional_goal：本章情感方向
-⑧ 填写 end_hook：钩子方向（悬念/信息/情绪 + 驱动因素）
-⑨ 填写 chekhov_set / chekhov_fire
-⑩ ¥ 跟踪铺垫→释放节奏：
+⑧ 填写 登场角色：本章出场角色名列表。只写名，指向 `状态/角色/` 下的角色卡。不写细节
+⑨ 填写 end_hook：钩子方向（悬念/信息/情绪 + 驱动因素）
+⑩ 填写 chekhov_set / chekhov_fire
+⑪ ¥ 跟踪铺垫→释放节奏：
     - 每条线连续 ≥3 章 payoff 都是空/小 → 把释放提前到这里
     - 释放后允许再铺垫 2-3 章（波浪节奏）
 ```
