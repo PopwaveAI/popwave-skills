@@ -136,4 +136,4 @@ pop-novel-plot/
 
 ---
 
-## 版本 v6.2.0 | 2026-06-12 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
+## 版本 v6.3.0 | 2026-06-12 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

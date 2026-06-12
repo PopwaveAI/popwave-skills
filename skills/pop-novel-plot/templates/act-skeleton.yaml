@@ -32,6 +32,8 @@ act:
 # 章节 Blocks（★ 每章一个自包含 block：Canvas 数据 + 设计意图）
 #
 # payoff_level: 空=铺垫 | 小=干脆斩杀/升级/打脸 | 中=可感知释放 | 大=爆发·格局重画 | 特大=全卷承诺兑现
+# D 线=设定穿透（非叙事弧——控制每章向读者披露多少世界观/等级/设定信息）
+# D_load: 0=本章无新设定 | 1=适量披露 | 2=过载警告（≥2 个新概念）
 # 剧情线来自 volume-XX.md §四
 # ═══════════════════════════════════════════════════════════════
 
@@ -47,17 +49,19 @@ chapters:
     # ─ Canvas 行（plot 逐线标注） ─
     canvas:
       payoff_summary: 0    # ≥中 的线数。0 → design 自行制造中爽点
-      M1: ""               # 世界危机线——本章推进了什么
-      M1_payoff: ""        # 空|小|中|大|特大
-      M2: ""               # 主角成长线——本章推进了什么
+      D: ""                 # 设定穿透——本章向读者披露了什么世界观/设定/分级
+      D_load: 0             # 0=无新设定 | 1=适量 | ≥2=过载警告
+      M1: ""                # 世界危机线——本章推进了什么
+      M1_payoff: ""         # 空|小|中|大|特大
+      M2: ""                # 主角成长线——本章推进了什么
       M2_payoff: ""
-      M3: ""               # 外部剧情线——本章推进了什么
+      M3: ""                # 主角行动线——本章推进了什么
       M3_payoff: ""
-      S1: ""               # 羁绊/情感线——本章推进了什么
+      S1: ""
       S1_payoff: ""
-      S2: ""               # 世界真相线——本章推进了什么
+      S2: ""
       S2_payoff: ""
-      note: ""             # 节奏笔记（如"双线并行""蓄力章"）
+      note: ""              # 节奏笔记（如"双线并行""蓄力章""D线有披露"）
 
     # ─ 设计意图（plot 传给 design 的方向） ─
     emotional_goal: ""       # 本章情感方向。design 据此设计事件弧线
@@ -76,6 +80,8 @@ chapters:
     word_count: 2500
     canvas:
       payoff_summary: 0
+      D: ""
+      D_load: 0
       M1: ""
       M1_payoff: ""
       M2: ""
@@ -102,7 +108,7 @@ chapters:
 # ═══════════════════════════════════════════════════════════════
 
 rhythm_check:
-  plotlines: [M1, M2, M3, S1, S2]   # agent 从 volume-XX.md §四 提取
+  plotlines: [M1, M2, M3, D, S1, S2]   # D 始终在 Canvas 中
 
   per_line_gaps:               # 每条线的最大连续留白章数
     - line: "M1"
@@ -125,6 +131,14 @@ rhythm_check:
     no_line_dormant_over_3: true     # 无线连续 ≥3 章只铺垫无释放
     big_max_gap: 5                   # 大爽点间隔上限
     ultimate_min_per_volume: 1       # 每卷 ≥1 特大
+
+  disclosure:                  # ★ 设定穿透（D 线）自检
+    max_consecutive_zero_load: 2     # 允许连续最多几章 D_load=0
+    consecutive_zero: ""             # agent 填入实际值
+    d_load_overage: []               # D_load≥2 的章列表
+    per_info_deadlines:              # 从 volume-XX.md §四 D-设定披露承诺 提取
+      - info: ""
+        deadline: ""
 
   # ─── 首卷黄金窗口（★ 仅 vol-01/act-01 执行） ─────
   first_volume_gate:

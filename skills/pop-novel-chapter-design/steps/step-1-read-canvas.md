@@ -38,6 +38,8 @@
 | `title` | 本章标题 | 填入事实骨架 |
 | `word_count` | 预期字数 | `事件数 ≥ word_count ÷ 200` |
 | `canvas.payoff_summary` | ≥中 的线数 | 0=本章无供给侧，需自行制造中爽点 |
+| `canvas.D` | 本章应向读者披露的设定/世界观/等级信息 | Step 2 事件链中至少有一个事件承载它 |
+| `canvas.D_load` | 0=无新设定 | 1=适量 | ≥2=过载 | 过载时在事件链中展开而不是塞进一个事件里 |
 | `canvas.{M1..S2}` | 每条线的本章摘要 | 哪些线在动、做了什么 |
 | `canvas.{M1..S2}_payoff` | 每条线的 payoff_level | 中/大/特大→ plot 指定了释放窗口 |
 | `canvas.note` | 节奏笔记 | "双线并行""蓄力章" |
