@@ -16,7 +16,6 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       SKILL_HUB_S3_PROVIDER: ${{ secrets.SKILL_HUB_S3_PROVIDER }}
       SKILL_HUB_S3_ENDPOINT: ${{ secrets.SKILL_HUB_S3_ENDPOINT }}
       SKILL_HUB_S3_REGION: ${{ secrets.SKILL_HUB_S3_REGION }}
