@@ -1,6 +1,6 @@
 {
   "id": "pop-skill-create",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "displayName": "技能创建向导",
   "description": "通过交互式问答引导用户创建新的 Pop Skill，自动生成技能文件结构和基础内容，降低技能开发门槛，提升创建效率。",
   "entry": "SKILL.md",

@@ -1,31 +1,65 @@
-﻿---
+---
 name: "prd-builder"
-description: "Takes any product idea and generates: (1) a structured PRD, (2) syncs it to Feishu, (3) processes Feishu feedback to refine it, (4) produces a standalone interactive HTML demo. Invoke when user wants to turn a product concept into a complete PRD with demo, or asks to build a PRD, create a product prototype, or make an interactive demo from an idea."
+description: "当用户说'写PRD/生成PRD/我要做一个产品/帮我做产品原型/做个交互Demo/把想法变成PRD'时启用。从产品概念出发，经需求澄清→结构化PRD→飞书同步→反馈迭代→单HTML交互Demo的全链路交付。"
 pipeline:
   upstream: []
   downstream: []
 ---
 
-# PRD Builder -- 从想法到 PRD 到交互 Demo
+# PRD Builder — 从想法到 PRD 到交互 Demo
 
-## 概述
-
-该 Skill 覆盖产品从概念到可演示原型的全流程：
-
-```
-用户想法 -> 需求澄清 -> PRD(.md) -> 飞书文档 -> 反馈迭代 -> 单HTML交互Demo
-```
-
-核心原则：
-- **通用性**：适用于任何产品类别，KOL 评估平台仅为参考案例
-- **真实数据优先**：Demo 中使用的数据应从网络搜索获取真实信息，辅以预置模板库
-- **零依赖交付**：最终 Demo 为单文件 HTML（Chart.js 内联），可直接在浏览器打开
+> 覆盖产品从概念到可演示原型的全流程：用户想法 → 需求澄清 → PRD(.md) → 飞书文档 → 反馈迭代 → 单HTML交互Demo。
 
 ---
 
-## PRD 结构（8 章，自由扩展）
+## 速查表：四个阶段怎么走
 
-按 WHY -> WHO -> HOW -> WHAT -> UI -> DATA -> QUALITY 逻辑链组织：
+| 用户说什么 | 触发哪个阶段 | 产出 | 前置条件 |
+|:-----------|:-------------|:-----|:---------|
+| "我想做个X产品" / "帮我写PRD" | **Phase 1 → Phase 2** | PRD.md + 飞书文档 | 无 |
+| "看看飞书上的反馈" / "处理飞书评论" | **Phase 3** | 评论汇总 / 修改后的PRD | 已有飞书文档 token |
+| "生成Demo" / "做个原型" | **Phase 4** | 单文件 HTML 交互 Demo | Phase 2 PRD 已确认 |
+| "改一下PRD第X章" / "根据反馈修改" | **Phase 3(模式A/B)** | 更新后的 PRD.md + 飞书同步 | 已有 PRD 文档 |
+
+---
+
+## ❌ 质量红线
+
+| # | 红线 | 说明 |
+|:-:|:-----|:-----|
+| ❌1 | **不动手写代码/PRD 前不问清需求** | 用户提 idea 必须走 Phase 1 需求澄清，至少问 3 个问题。不问就写 → 退回 |
+| ❌2 | **飞书同步单批 blocks >10** | 已验证批量 >10 块会报 1770006 → 必须逐个追加 |
+| ❌3 | **Demo 的数据含虚构/编造信息** | Demo 中使用的数据应从网络搜索获取真实信息。全部虚构 → 退回重做 |
+| ❌4 | **跳过用户确认直接生成 Demo** | 用户未确认 PRD 前不生成 Demo。强推 → 退回 |
+| ❌5 | **PRD 少于 8 章** | 8 章是最小必要章节结构，缺章 → 退回补充 |
+| ❌6 | **Demo 非单文件 HTML** | 最终交付必须是单文件 HTML（Chart.js 内联），多文件 → 退回合并 |
+
+---
+
+# Phase 1：需求澄清
+
+> 收到用户 product idea 后执行。先问清楚，再动手写。
+
+## 第一步：问 3-4 个关键问题
+
+| 必须问 | 为什么 |
+|--------|--------|
+| 产品类型/领域 | 决定 Demo 内容主题、示例数据、用户场景 |
+| 目标受众 | 内部团队 / 管理层 / 客户 — 影响 PRD 深度和 Demo 风格 |
+| Demo 深度 | 精简版(3-4页) / 标准版(5-7页) / 深度版(含数据看板+交互看板) |
+| 特殊功能要求 | 如果用户提到了特定功能模块，确认优先级 |
+
+❌ 门禁：未问完 4 个问题就进入 Phase 2 → 退回，必须先完成需求澄清。
+
+> 如果用户 idea 已清晰，可跳过提问直接进入 Phase 2。
+
+---
+
+# Phase 2：PRD 生成 + 飞书同步
+
+## 第一步：生成 PRD（8 章结构）
+
+读取 references/prd_structure.md 获取模板结构，按 WHY → WHO → HOW → WHAT → UI → DATA → QUALITY 逻辑链组织：
 
 | 章 | 标题 | 回答的问题 |
 |:--:|------|-----------|
@@ -40,31 +74,6 @@ pipeline:
 
 > 以上为最小必要章节。如果产品涉及权限体系、多角色协作、合规等，可自由追加。如果产品无显式工作流，第 3 章可改名为「核心用户路径」或跳过。
 
----
-
-## Phase 1: 需求澄清
-
-收到用户 product idea 后，问 3-4 个关键问题（AskUserQuestion）：
-
-| 必须问 | 为什么 |
-|--------|--------|
-| 产品类型/领域 | 决定 Demo 内容主题、示例数据、用户场景 |
-| 目标受众 | 内部团队 / 管理层 / 客户 -- 影响 PRD 深度和 Demo 风格 |
-| Demo 深度 | 精简版(3-4页) / 标准版(5-7页) / 深度版(含数据看板+交互看板) |
-| 特殊功能要求 | 如果用户提到了特定功能模块，确认优先级 |
-
-如果用户 idea 已清晰，可跳过提问直接进入 Phase 2。
-
----
-
-## Phase 2: PRD 生成 + 飞书同步
-
-### 2.1 生成 PRD
-
-读取 references/prd_structure.md 获取模板结构，基于用户 idea 定制完整 PRD (Markdown)。
-
-按 8 章结构生成：产品概述 -> 用户角色与场景 -> 核心业务流程 -> 产品架构 -> 功能详述 -> 页面交互设计 -> 数据模型 -> 非功能需求。
-
 **页面交互设计（第 6 章）**必须包含：
 - 页面路由图（ASCII）
 - 页面线稿（ASCII 网格布局）
@@ -72,7 +81,9 @@ pipeline:
 - 关键交互说明
 - 可有数据契约（衔接第 7 章，TypeScript 风格）
 
-### 2.2 同步到飞书
+❌ 门禁：第 6 章缺页面路由图或线稿 → 退回补充。
+
+## 第二步：同步到飞书
 
 1. Skill("feishu-docs") 加载技能
 2. 获取 token
@@ -82,15 +93,22 @@ pipeline:
 6. PATCH /permissions/{id}/public -> anyone_can_edit
 
 已验证的 Block API 规则：
-- ordered/bullet 列表不支持 text_element_style.link -> 去除链接
+- ordered/bullet 列表不支持 text_element_style.link → 去除链接
 - H4-H6 降级为粗体文本
 - 代码块逐行转 inline_code text block
 
+❌ 门禁：一次追加 >10 blocks → 退回，必须改为逐个追加。
+
 ---
 
-## Phase 3: 飞书反馈处理
+# Phase 3：飞书反馈处理
 
-触发词：处理飞书反馈 / 查看飞书评论 / 根据反馈修改
+> 触发词：处理飞书反馈 / 查看飞书评论 / 根据反馈修改
+
+## 第一步：判断模式
+
+- 用户说"自动处理" → 走模式 B（自动处理模式）
+- 其他 / 默认 → 走模式 A（汇总模式）
 
 ### 模式 A：汇总模式（默认）
 
@@ -98,21 +116,25 @@ pipeline:
 2. 逐条展示，分类为「修改建议」和「问题追问」
 3. 等待用户逐条指示如何处理
 
+❌ 门禁：未展示评论分类就直接修改 → 退回，先让用户看到评论内容。
+
 ### 模式 B：自动处理模式
 
 用户说"自动处理"触发：
-- 所有修改请求 -> 直接改 PRD + 更新飞书
-- 所有补充请求 -> 回复评论给出补充信息
+- 所有修改请求 → 直接改 PRD + 更新飞书
+- 所有补充请求 → 回复评论给出补充信息
 - **关键**：回复时不要设置 is_solved=true
 - 完成后输出修改摘要
 
+❌ 门禁：自动处理时将 is_solved=true → 退回，必须保持 is_solved=false。
+
 ---
 
-## Phase 4: 生成交互 Demo
+# Phase 4：生成交互 Demo
 
-用户确认 PRD 后说"生成 Demo"触发。
+> 用户确认 PRD 后说"生成 Demo"触发。
 
-### 4.1 数据准备
+## 第一步：数据准备
 
 | 层次 | 来源 |
 |------|------|
@@ -122,32 +144,95 @@ pipeline:
 
 Demo 使用真实名称。如果产品领域不涉及 KOL，替换为对应领域的真实案例对象。
 
-### 4.2 Demo 结构
+❌ 门禁：未搜索真实数据就编造示例数据 → 退回，必须搜索获取真实信息。
+
+## 第二步：构建 Demo 结构
 
 参照 references/demo_framework.md，根据第 6 章的页面设计生成：
 
 | 页面 | 来源 |
 |------|------|
-| 工作台 Dashboard | 第 6 章线稿 -> Dashboard 页 |
-| 列表页 | 第 6 章线稿 -> List 页 |
-| 详情页 (每对象独立) | 第 6 章线稿 -> Detail 页，4 Tab：评估/风险/案例/数据 |
-| 看板页 | 第 3 章流程 + 第 6 章线稿 -> Kanban 页 |
-| 评估/对比中心 | 第 6 章线稿 -> Compare 页 |
+| 工作台 Dashboard | 第 6 章线稿 → Dashboard 页 |
+| 列表页 | 第 6 章线稿 → List 页 |
+| 详情页 (每对象独立) | 第 6 章线稿 → Detail 页，4 Tab：评估/风险/案例/数据 |
+| 看板页 | 第 3 章流程 + 第 6 章线稿 → Kanban 页 |
+| 评估/对比中心 | 第 6 章线稿 → Compare 页 |
 
-### 4.3 技术约束
+## 第三步：技术交付
 
 - 单文件 HTML，数据 JS 内嵌
 - 左侧固定导航 + 右侧内容区
 - 详情 Tab 切换，showPage()/goDetail() 驱动（必须空值保护）
-- 最终用 Python 内联 Chart.js -> Standalone 版本
+- 最终用 Python 内联 Chart.js → Standalone 版本
+
+❌ 门禁：交付物不是单文件 HTML → 退回合并为单文件。缺空值保护 → 退回补充。
+
+---
+
+## ❌ 错误示例
+
+### WRONG 1：不问需求直接写 PRD
+
+```
+用户：我想做一个短视频数据分析工具
+Agent：好的，开始写 PRD...
+❌ 错误：不问产品类型、目标受众、Demo 深度就开始写，产出可能与用户预期严重偏离
+✅ 正确：先问 3-4 个关键问题（产品类型、受众、Demo 深度、特殊功能），锁定范围再动笔
+```
+
+### WRONG 2：Demo 使用虚构/编造数据
+
+```
+用户：生成 Demo
+Agent：Demo 里用户数据都是随机生成的假数据
+❌ 错误：使用假数据无法验证产品逻辑，用户拿到 Demo 没有参考价值
+✅ 正确：先从网络搜索真实行业数据/竞品数据/基准数据，用真实数据填充 Demo
+```
+
+### WRONG 3：飞书批量 blocks >10 导致失败
+
+```
+Agent 一次性追加了 15 个 blocks 到飞书文档
+结果：API 报错 1770006，文档创建失败
+❌ 错误：没有遵守已验证的 Block API 批量限制
+✅ 正确：逐个追加 blocks，每批不超过 10 个
+```
+
+### WRONG 4：PRD 缺少页面交互设计章节
+
+```
+Agent 写了 7 章 PRD，跳过了第 6 章（页面交互设计）
+用户：我看不到界面长什么样
+❌ 错误：缺页面路由图、线稿，开发/设计无法评估工作量
+✅ 正确：第 6 章必须包含页面路由图（ASCII）+ 线稿（ASCII 网格布局）+ 组件-状态矩阵
+```
+
+---
+
+## 异常与边界条件
+
+| 场景 | 触发条件 | 处理动作 |
+|:-----|:---------|:---------|
+| **飞书 token 失效/获取失败** | Phase 2 同步飞书时 feishu_token.py 崩溃或 token 过期 | 直接 POST /auth/v3/tenant_access_token/internal 重新获取，不中断流程 |
+| **references 目录缺失** | Phase 2/4 读取 prd_structure.md / demo_framework.md 时找不到文件 | 使用内置默认模板结构继续生成，产出标注"无 reference 文件，使用默认模板" |
+| **WebSearch 搜索不到真实数据** | Phase 4 搜索行业案例/竞品时返回空结果 | 使用 references 中的预置模板数据，产出标注"搜索无结果，使用模板数据" |
+| **用户中途改变产品方向** | Phase 3/4 用户说"改成另一个方向" | 退回 Phase 1 重新需求澄清 + 重写 PRD。不打补丁，不局部修改 |
+| **Demo 详情页空值报错** | Phase 4 生成 Demo 后点击详情页时 JS 报错 | 检查 showPage()/goDetail() 的空值保护，缺啥补啥。必须全部修复后再交付 |
+| **非 KOL 领域无对应模板** | Phase 4 产品领域不涉及 KOL，kol_templates.json 无法使用 | 替换为对应领域的真实案例对象，保持页面结构不变 |
+| **飞书文档权限不足** | Phase 2 PATCH 权限时返回 403 | 输出手动配置指引："请手动在飞书文档->分享->设为 anyone_can_edit"，不阻塞其他流程 |
+| **PRD 产品无显式工作流** | Phase 2 该产品无用户操作流程（如纯信息展示页） | 第 3 章改名为「核心用户路径」或直接跳过，不强行编造流程 |
+| **用户拒绝使用真实数据（要保密）** | Phase 4 用户说"不要用真实公司名/人名" | 使用脱敏占位符（"某公司"/"某用户"），产出标注"数据已脱敏" |
+| **Demo 深度切换** | Phase 4 用户看到 Demo 后说"太简单了，想看深度的" | 退回 Phase 1 重新确认 Demo 深度，重新生成。不在当前 Demo 上打补丁 |
+
+**原则**：异常先告知用户，再按规则处理。绝不静默跳过或编造数据。
 
 ---
 
 ## 注意事项
 
-1. MD 文件 -> workspace；脚本 -> 临时目录
-2. 飞书批量 blocks 单批 >10 可能失败 -> 逐个追加
-3. feishu_token.py 崩溃 -> 直接 POST /auth/v3/tenant_access_token/internal
+1. MD 文件 → workspace；脚本 → 临时目录
+2. 飞书批量 blocks 单批 >10 可能失败 → 逐个追加
+3. feishu_token.py 崩溃 → 直接 POST /auth/v3/tenant_access_token/internal
 4. Demo 实体名用真实姓名
-5. 非 KOL 领域 -> 替换为对应领域真实案例，保持页面结构不变
+5. 非 KOL 领域 → 替换为对应领域真实案例，保持页面结构不变
 6. PRD 章节按需自由追加或跳过（如无工作流则跳第 3 章）

@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-creative",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "displayName": "创意打磨",
-  "description": "创意打磨 + onboarding + 样品试读。全部产出.md——元素融合SOP：碎片→联想→碰撞→轻量sketches(~150字)→选择→深化为故事引擎。v1.3 数据采集层移入world。deconstructor产出后第一站，输出故事引擎.md后交给world。",
+  "description": "创意打磨 v1.4.0。Phase W0/W1 采集燃料（跨域素材+拆书融合）→ Phase 0 元素碰撞 → 0.3 参考书策略 → 0.4 主角设计 → 0.5 样品试读。全部产出 .md 叙事优先。输出故事引擎后交给 world。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

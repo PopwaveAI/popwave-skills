@@ -1,6 +1,6 @@
 {
   "id": "pop-novel-plot",
-  "version": "6.1.0",
+  "version": "6.3.0",
   "displayName": "剧情架构（情节线规划）",
   "description": "剧情架构设计。卷级战略（目标/背景/剧情线/快照）+ 幕级战术（Canvas矩阵/情绪弧线/payoff/每章切片）。v6.0 分层重构。",
   "entry": "SKILL.md",

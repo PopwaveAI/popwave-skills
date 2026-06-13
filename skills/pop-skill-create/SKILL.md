@@ -1,6 +1,6 @@
 ---
-name: pop-skill-create
-description: Popwave Skill 编写规范、改造工具和评估框架。定义 Skill 的文件结构和抽象原则（设计模式）；提供 8 步改造流程（改造模式）；提供 8 维评分 rubrik 和实测评估（评估模式）。当用户说"创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/评估skill/skill打分/skill质量检查/skill review"时启用。
+name: "pop-skill-create"
+description: "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/评估skill/skill打分/skill质量检查/skill review'时启用。覆盖 Popwave Skill 全生命周期：设计规范（长什么样）→ 8步改造流程（怎么改）→ 8维评估框架（好不好）。"
 pipeline:
   upstream: []
   downstream: []
@@ -8,41 +8,52 @@ pipeline:
 
 # Popwave Skill — 设计 · 改造 · 评估
 
-所有 Popwave 工具和能力都以 Skill 为单位组织。本 skill 覆盖一个 Skill 的全生命周期：设计时（长什么样）→ 改造时（怎么改）→ 评估时（好不好）。
+> 所有 Popwave 工具和能力都以 Skill 为单位组织。本 skill 覆盖一个 Skill 的全生命周期：设计时 → 改造时 → 评估时。
+
+---
+
+## 速查表：三种模式怎么选
+
+| 用户说什么 | 走什么模式 | 产出什么 | 耗时参考 |
+|:-----------|:-----------|:---------|:---------|
+| "创建skill" / "新建skill" / "加个skill" | **模式 A：设计模式** | SKILL.md + skill.json 规范指引 | 按需 |
+| "改造skill" / "修复skill" / "重写skill" / "按规范改" | **模式 B：改造模式** | 改造后的 SKILL.md + 对比报告 | 8 步 |
+| "评估skill" / "skill打分" / "质量检查" / "skill review" | **模式 C：评估模式** | 8 维评分卡 + 改进建议 | 5 步 |
+| 同时提了改+评 | 先走模式 C 评估 → 再走模式 B 改造 → 再走模式 C 复评 | 评估+改造+复评 | 循环 |
 
 ---
 
 ## ❌ 质量红线（三种模式共享）
 
+开工前先看。完工后逐条勾选，不过退回重改。
+
 | # | 红线 | 说明 |
 |:-:|:-----|:-----|
 | ❌1 | **frontmatter 不超过 4 行** | 只保留 name + description。version 可选。元数据移入 skill.json |
 | ❌2 | **description 不是目录式说明** | "五模式设计：模式A→B→C" 是目录。必须写成 "当用户说...时启用" |
-| ❌3 | **质量红线在第一屏** | 第一屏必须出现 ❌/✅ 格式的禁止-行动红线。不埋到末尾或独立文件 |
-| ❌4 | **红线用命令式而非定义式** | "P0/P1/P2 分类" = 定义式，❌。须改为 "❌ 不准用二手资料代替原文" |
-| ❌5 | **有 WRONG 错误示例** | 必须有至少一个显式的 ❌ WRONG 区域，展示 agent 常犯的错误 |
-| ❌6 | **正文不是深层嵌套的步骤清单** | 深层 Phase 体系必须拍平为 3-6 步的扁平决策框架 |
-| ❌7 | **不用第二人称指挥式** | "You should…" / "你需要…" 全部改为祈使句 |
-| ❌8 | **红线是禁令不是建议** | "对话占比建议≥25%" → 改 "❌ 对话占比低于 20% 重写" |
+| ❌3 | **质量红线不在第一屏** | ❌ 第一屏必须出现 ❌/✅ 格式的禁止-行动红线。不埋到末尾或独立文件 |
+| ❌4 | **红线用定义式而非命令式** | "P0/P1/P2 分类" = 定义式，❌。须改为 "❌ 不准用二手资料代替原文" |
+| ❌5 | **没有 WRONG 错误示例** | 必须有至少一个显式的 ❌ WRONG 区域，展示 agent 常犯的错误 |
+| ❌6 | **正文是深层嵌套的步骤清单** | ❌ 深层 Phase 体系必须拍平为 3-6 步的扁平决策框架 |
+| ❌7 | **用第二人称指挥式** | "You should…" / "你需要…" 全部改为祈使句 |
+| ❌8 | **红线是建议不是禁令** | "对话占比建议≥25%" → 改 "❌ 对话占比低于 20% 重写" |
 
 ---
 
 # 模式 A：设计模式
 
-> 用户说"创建/新建/加个 skill"时走此模式。定义一个合格 Skill 的结构规范。
+> 当用户说"创建skill/新建skill/加个skill"时走此模式。定义合格 Skill 的结构规范。
 
 ---
 
-## Skill 是什么
+## 第一步：确定 Skill 定位
 
-Skill = **一份 SKILL.md（人读指令） + 一个 skill.json（机器元数据） + 可选的 scripts/ 和 templates/ 目录**
-
-一个合格的 Skill 回答三个问题：
+回答三个问题：
 - **什么场景下该用？**（触发条件）
 - **能产出什么？不能产出什么？**（边界）
 - **Agent 用之前要做什么准备？**（前置思考）
 
-## 双文件结构（强制）
+Skill 文件结构（强制）：
 
 ```
 my-skill/
@@ -60,7 +71,7 @@ my-skill/
 - ✅ `CHANGELOG.md` 独立文件存储变更历史
 - ✅ SKILL.md 末尾一行指向 CHANGELOG.md
 
-## skill.json 规格
+## 第二步：编写 skill.json
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
@@ -71,7 +82,7 @@ my-skill/
 
 只放机器读的字段。description / version 在 SKILL.md 维护。
 
-## description 写法
+## 第三步：编写 description（触发式）
 
 ```
 # ❌ 差：只说做什么
@@ -81,19 +92,22 @@ description: "用户调研工具"
 description: "网文作者社区用户调研。Invoke when user needs to research opinions across Chinese web novel communities."
 ```
 
-## SKILL.md 内容组织（推荐顺序）
+## 第四步：组织 SKILL.md 内容
+
+按以下顺序排列（拍平为扁平时序，非嵌套层级）：
 
 ```
 # 标题
 > 一句话摘要
 
 ## ❌ 质量红线
+## 速查表（第二屏）
 ## 什么时候使用 / Triggers
 ## 前置条件（可选）
 ## 核心流程（3-6步，扁平）
-## ❌ 错误示例（WRONG 区块）
+## ❌ 错误示例（WRONG 区块，≥3条）
 ## 验收清单
-## 异常与边界条件（10种+异常场景的兜底处理）
+## 异常与边界条件表（≥6种异常场景的兜底处理）
 ## 版本（指向 CHANGELOG.md）
 ```
 
@@ -114,9 +128,40 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 
 ---
 
+## ❌ 错误示例（设计模式）
+
+### WRONG 1：description 写成目录不写触发词
+
+```
+用户要求"创建skill"
+Agent 在 description 写："五模式设计：模式A→B→C"
+❌ 错误：这是目录说明，不是触发条件，Agent 看到不知道该什么时候调用这个 skill
+✅ 正确：必须写成 "当用户说'创建skill/新建skill/加个skill'时启用"
+```
+
+### WRONG 2：SKILL.md 不配 skill.json
+
+```
+用户要求"创建skill"
+Agent 只写了一个 SKILL.md 文件
+❌ 错误：缺少 skill.json，平台无法注册机器元数据（权限/斜杠命令）
+✅ 正确：双文件结构强制 —— SKILL.md + skill.json 同时创建
+```
+
+### WRONG 3：跳过异常与边界条件表
+
+```
+用户要求"创建skill"
+Agent 写了完整的流程，但最后没有异常处理表
+❌ 错误：无异常表 = 实操遇到意外场景时 Agent 不知道怎么办，可能静默编造数据
+✅ 正确：末尾必须附 ≥6 种异常场景的兜底处理表
+```
+
+---
+
 # 模式 B：改造模式
 
-> 用户说"改造/修复/重写/按规范改 skill"时走此模式。
+> 当用户说"改造skill/修复skill/重写skill/按规范改skill"时走此模式。
 
 ---
 
@@ -132,13 +177,14 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 
 ---
 
-## 改造流程（8步）
+## 改造流程（8 步 SOP）
 
-### Step 1：扫描红线违规
+### 第一步：扫描红线违规
 
-读目标 SKILL.md，对照 8 项 ❌ 红线逐项标记，输出扫描报告。用户确认后再改造。
+读目标 SKILL.md，对照 8 项 ❌ 红线逐项标记，输出扫描报告。**用户确认后再改造**。
+❌ 门禁：用户未确认扫描报告 → 退回，不进入下一步。
 
-### Step 2：精简 frontmatter
+### 第二步：精简 frontmatter
 
 砍到 ≤4 行。元数据迁移到 skill.json。
 
@@ -149,22 +195,24 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 | display_name / tags / category | 移到 `skill.json` |
 | produces | 移到正文末尾 `## 产出物` |
 
-### Step 3：重写 description
+### 第三步：重写 description
 
 改为触发条件式："当用户说'X/Y/Z'时启用。产出来物供给下游管线。"
+❌ 门禁：description 不是触发式 → 退回重写。
 
-### Step 4：重写正文结构
+### 第四步：重写正文结构
 
 1. ❌ 质量红线提至第一屏
 2. 嵌套 Phase 体系拍平为 3-6 步扁平流程
 3. 每步嵌入 ❌ 错误做法 / ✅ 正确做法
 4. 定义式规则改为禁令式
 
-### Step 5：补充 WRONG 错误示例
+### 第五步：补充 WRONG 错误示例
 
 至少 1 个 agent 实际会犯的错误，WRONG ❌ + CORRECT ✅ 完整对比。
+❌ 门禁：无 WRONG 示例 → 退回补充 ≥3 条。
 
-### Step 6：补充异常与边界条件表
+### 第六步：补充异常与边界条件表
 
 至少覆盖以下场景维度（具体条目根据 skill 领域定制）：
 - 文件/依赖缺失 → 不回到编造数据
@@ -172,7 +220,9 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 - 用户中途改变需求 → 退回或暂停
 - 子 agent 启动失败 → 手动执行 + 红线自检
 
-### Step 7：输出对比报告
+❌ 门禁：异常场景 <6 种 → 退回补充。
+
+### 第七步：输出对比报告
 
 ```
 | 维度 | BEFORE | AFTER |
@@ -184,15 +234,47 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 | 边界条件 | 无/有 N 种 | 有 N 种 |
 ```
 
-### Step 8：版本归档 + CHANGELOG
+### 第八步：版本归档 + CHANGELOG
 
 在 CHANGELOG.md 追加改造记录。SKILL.md 版本区指向该文件。
+❌ 门禁：未更新版本号和 CHANGELOG → 退回。
+
+---
+
+## ❌ 错误示例（改造模式）
+
+### WRONG 1：不看完整文件就动手
+
+```
+用户要求"改造我那个skill"
+Agent 扫了一眼 SKILL.md 前几行就开始重写
+❌ 错误：未读完整文件就动手，遗漏了正文中的重要方法论和模板
+✅ 正确：先 Read 全文，输出扫描报告交用户确认后，再执行改造
+```
+
+### WRONG 2：改造后不输出对比报告
+
+```
+Agent 改完了 skill，说"改好了"
+用户问"改了啥？" —— Agent 答不上来
+❌ 错误：用户不知道前后差异，无法验收
+✅ 正确：输出 BEFORE/AFTER 对比表格，让用户一目了然
+```
+
+### WRONG 3：改造范围越界
+
+```
+用户要求"改造 skill A 的描述"
+Agent 顺手把 skill B、skill C 的正文也重写了
+❌ 错误：超出用户指定的改造范围
+✅ 正确：只改目标 skill 的 SKILL.md + skill.json，不动其他文件
+```
 
 ---
 
 # 模式 C：评估模式
 
-> 用户说"评估skill/skill打分/skill质量检查/skill review/帮我看看这个skill好不好"时走此模式。
+> 当用户说"评估skill/skill打分/skill质量检查/skill review/帮我看看这个skill好不好"时走此模式。
 >
 > 达尔文评估法（Darwin Evaluation）：仿照 Karpathy autoresearch 的自主评估循环，用 8 维评分 rubrik + 实测 prompt 对比，给目标 skill 打出结构+效果的双向评分。
 
@@ -210,15 +292,15 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 
 ---
 
-## 评估流程（5步）
+## 评估流程（5 步 SOP）
 
-### Step 1：读文件
+### 第一步：读文件
 
 读目标 skill 的 SKILL.md 全文、skill.json、CHANGELOG.md。
-
 输出一句话定位：这个 skill 是做什么的、在哪条管线中、当前版本号。
+❌ 门禁：未读全部三个文件 → 退回，必须三个都读完再评分。
 
-### Step 2：设计测试 prompt
+### 第二步：设计测试 prompt
 
 设计 2-3 个典型用户 prompt，覆盖：
 - **happy path** — 最常见的使用场景
@@ -226,7 +308,7 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 
 交给用户确认后再打分。
 
-### Step 3：跑 8 维评分
+### 第三步：跑 8 维评分
 
 #### 结构维度（60 分）— 静态分析
 
@@ -252,7 +334,7 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 - **总分 = Σ(维度分 × 权重) / 10**，满分 100
 - 维度8 跑子 agent 对比测试，子 agent 不可用时退化为干跑验证，标注 `dry_run`
 
-### Step 4：输出评分卡
+### 第四步：输出评分卡
 
 ```markdown
 | 维度 | 得分 | 短板判断 |
@@ -270,7 +352,7 @@ description: "网文作者社区用户调研。Invoke when user needs to researc
 
 附带三点改进建议，按 P0/P1/P2 优先排序。
 
-### Step 5：输出评估报告
+### 第五步：输出评估报告
 
 ```markdown
 ## 评估报告 — {skill 名}
@@ -287,6 +369,23 @@ P0: {必须改的，不改会出安全问题}
 P1: {推荐改的，改了效果提升明显}
 P2: {以后改的，优化空间}
 ```
+
+---
+
+## 异常与边界条件
+
+| 场景 | 触发条件 | 处理动作 |
+|:-----|:---------|:---------|
+| **目标 SKILL.md 文件不存在** | 模式 B/C 读取目标 skill 时文件未找到 | 提示用户确认路径。不捏造内容，不自动切换到其他文件 |
+| **skill.json 缺失** | 模式 A 创建或模式 C 评估时 skill.json 不存在 | 模式A → 必须补建；模式C → 降级评分（标注"无 skill.json"），维度6 扣分 |
+| **子 agent 无法启动** | 模式 C 维度8 实测时子 agent 创建失败 | 退化为干跑验证，输出标注 `dry_run`，不自动跳过维度8 |
+| **CHANGELOG.md 不存在** | 模式 C 第一步读文件时 CHANGELOG 缺失 | 标注"无 CHANGELOG"，维度7 扣分。不自动创建空文件 |
+| **用户中途改变模式**（如从评估变为改造） | 模式 C 执行中用户要求直接改代码 | 暂停当前评估，输出已完成部分，用户确认后再切模式 B |
+| **多 skill 同时要求改造** | 用户说"帮我改造这些 skill"并列出多个路径 | 逐 skill 分别输出扫描报告，用户逐个确认后再执行。不批量跳过 |
+| **目标 skill 已有未保存改动** | 改造开始前检测到目标文件已变更（非原始版本） | 提示用户文件已变更，建议备份。用户确认后再改造 |
+| **评估/改造超时** | 长时间运行后 Agent 输出中断 | 保存已产出的中间报告。下次运行时先读中间报告，从不彻底重来 |
+
+**原则**：异常先告知用户，再按规则处理。绝不静默跳过或静默编造数据。
 
 ---
 

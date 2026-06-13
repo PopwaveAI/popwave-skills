@@ -1,5 +1,19 @@
 # CHANGELOG — pop-novel-world
 
+## v1.2.0 — 2026-06-12
+
+### 数据采集层移回 creative
+- Phase W0（跨域素材聚合）和 Phase W1（拆书融合）移回 pop-novel-creative 并前置
+- world 简化为六阶段：Phase 1 L1设定 → 2 稳定性 → 3 角色卡 → 4 数值 → 5 起点快照 → 6 宪法
+- creative 移交数据产物（跨域素材蒸馏 + 拆书融合摘要），world 直接消费
+- 质量红线从 10 条减为 8 条（移除 W0/W1 相关红线）
+- 相位文件索引从 8 项减为 6 项
+
+### creative 联动
+- creative v1.4.0: W0/W1 回流并前置到 Phase 0 元素融合之前
+
+---
+
 ## v1.1.0 — 2026-06-12
 
 ### 新增 Phase W0/W1：数据采集层移入

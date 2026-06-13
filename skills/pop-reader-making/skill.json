@@ -2,7 +2,7 @@
   "id": "pop-reader-making",
   "display_name": "拆书引擎（结构化+双格式）",
   "entry": "SKILL.md",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "activation": {
     "slashCommands": [
       "pop-reader-making",
