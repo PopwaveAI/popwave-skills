@@ -1,177 +1,88 @@
-# 拆书元 Skill v12.0.0
+# pop-decon · 拆书管线调度 v12.0.0
 
-> **核心理念**：雪花法倒推。写作是 top-down（故事引擎→L1→卷→幕→设计包→正文），拆书是 bottom-up（正文→事实→卷幕→世界观→故事引擎）。
-> **故事引擎是归纳的终点，不是起点。**
-
----
-
-## 0. 管线全景
-
-```
-写作链路 (top-down, 雪花法)
-────────────────────────────
-creative ──→ world ──→ plot ──→ chapter-design ──→ prose-render
-故事引擎      L1设定     卷/幕      设计包                正文
- "想写什么"                                            "写了什么"
-
-拆书链路 (bottom-up, 倒雪花)
-────────────────────────────
-正文 ──→ 事实提取 ──→ 聚类卷幕 ──→ 归纳世界观 ──→ 归纳故事引擎
-        Phase 1       Phase 2      Phase 3           Phase 4
-  "写了什么" 提取什么      什么结构       什么世界观     "所以这书是什么"
-                                        └── 只有走完全程才有资格回答
-```
+> **定位：拆书管线的元 skill。执行管线调度（Phase 1→5），不直接产出文件。**
+> **核心约束：不走捷径。Lv1 只跑 Phase 1，Lv2 跑 Phase 1→2→3，Lv3 跑 Phase 1→2→3→4→5。**
 
 ---
 
-## 1. 三级分级
+## ❌ 质量红线
 
-| 级别 | 范围 | 覆盖 Phase | 耗时 | 产出文件 | 适用场景 |
-|:-----|:-----|:---------|:-----|:--------|:---------|
-| **Lv1** | ch1-20 | Phase 1 | ~25min | 角色卡 + 龙套池 + ETL 数据 | "快速看榜"——快速了解参考书的角色和基本设定 |
-| **Lv2** | ch1-100 | Phase 1 → 2 → 3 | ~1-3h | Lv1 + 卷幕 + L1六件套 + 宪法 + 数值 | "深度对标"——产生完整的可魔改项目模板 |
-| **Lv3** | 全书 | Phase 1 → 2 → 3 → 4 | ~3-8h | Lv2 + 故事引擎 + 全书卷幕 + 文风DNA | "完整模板工厂"——产出完整项目包 |
-
-> **Lv1 不做归纳**：前 20 章不产出故事引擎、不产出 L1 设定、不产出卷/幕。只提取事实。
-> **Lv2 不归纳故事引擎**：前 100 章不足以回答"这书是什么"。但可以归纳 L1 六件套和卷幕结构。
-> **只有 Lv3 产出故事引擎**：全书走完后，从全部数据中归纳。
-
----
-
-## 2. Phase 详情
-
-### Phase 1：事实提取 （逆 prose-render + chapter-design）
-
-| 步骤 | 操作 | 输入 | 产出 |
-|:-----|:-----|:-----|:-----|
-| 1 | **ETL 数据提取**（硬性前置） | TXT 原文 → extract.py | `_temp/baseline-data.json` + `chapter-index.json` + `world-data.json` |
-| 2 | **角色卡提取** | JSON + ch1-20 精读 | `状态/角色/{主角}-角色卡-Lv4.md` + 配角卡 + 龙套池 |
-| 3 | 事实骨架（Lv2/Lv3） | JSON + 逐章精读 | `写作资产/事实骨架/ch001-050-事实骨架.md` |
-
-> 详见：`steps/phase-1.extract.pe.md`
-
-### Phase 2：聚类 → 卷/幕/Canvas （逆 plot + chapter-design）
-
-| 步骤 | 操作 | 输入 | 产出 |
-|:-----|:-----|:-----|:-----|
-| 1 | 识别卷边界 | chapter-index 的情绪/时空跳跃 | `设计/全书架构.md` |
-| 2 | 识别幕边界 | 卷内 battle/worldbuilding 标签密度变化 | `设计/幕/vol-01/act-01.yaml` |
-| 3 | 反推剧情线 | 逐章事件摘要聚类 | 卷/幕 Canvas 矩阵 |
-| 4 | 契诃夫枪追踪 | 全文扫描设伏→回收对 | `设计/幕/vol-01/chekhov-tracker.yaml` |
-
-> 详见：`steps/phase-2.cluster.pe.md`
-
-### Phase 3：归纳世界观 （逆 world + creative 设定层）
-
-| 步骤 | 操作 | 输入 | 产出 |
-|:-----|:-----|:-----|:-----|
-| 1-6 | L1 六件套 | world-data.json 各分类条目 | `L1-01~06` 六件套 |
-| 7 | 世界宪法 | 叙事规律 + L1 六件套 | `世界宪法.md` |
-| 8 | 数值体系 | world-data#class + 角色卡路径 | `combat_capability.yaml` |
-| 9 | 起点/终点快照 | Phase 1 角色状态 + Phase 2 卷边界 | `起点快照.md` + `终点快照.md` |
-
-> 详见：`steps/phase-3.induce-world.pe.md`
-
-### Phase 4：归纳故事引擎 （逆 creative — 仅 Lv3）
-
-| 步骤 | 操作 | 输入 | 产出 |
-|:-----|:-----|:-----|:-----|
-| 1 | 提炼核心假说 | Canvas 主线 + 世界宪法 + 角色驱力 | 「一、这本书是什么」 |
-| 2 | 提炼卖点+读者 | ch1-3 事件 + 情绪曲线 | 「二、读者为什么追」 |
-| 3 | 归纳宪法 | 世界宪法 + 叙事规律 | 「三、绝对不能做的事」 |
-| 4 | 确认开篇 | ch1 原文首段 | 「四、第一页」 |
-| 5 | 确认结构预期 | 全书架构 + 卷快照 | 「五、结构预期」 |
-
-> 详见：`steps/phase-4.induce-engine.pe.md`
-
-### Phase 5：验证 + 打包
-
-| 步骤 | 操作 | 数据来源 | 产出 |
-|:-----|:-----|:---------|:-----|
-| 1 | 可回源性审计 | 随机 10 个硬数据 × 对应 JSON | 可追溯性报告 |
-| 2 | 跨 Phase 一致性 | Phase 1→2→3→4 产出对照 | 矛盾报告 |
-| 3 | 产出打包索引 | 全部文件 | `Phase5-产出索引.md` |
-
-> 详见：`steps/phase-5.validate.pe.md`
-
----
-
-## 3. ❌ 质量红线
-
-| # | 标准 |
+| # | 红线 |
 |:-:|:-----|
-| ❌1 | **ETL 管道级红线** — 写 Phase 1 产出前必须先执行 extract.py。`_temp/*.json` 是唯一数据来源。产出中的硬数据必须能在 JSON 中找到。找不到 = 留空标注，不得编造 |
-| ❌2 | **_temp/ 不可读=不写** — extract.py 执行后 `_temp/` 下三个 JSON 不全 → 退回重新跑脚本。不能用 Re-read 原文替代 JSON 数据 |
-| ❌3 | **不准凭空书写** — 每个事实必须有 chXX 原文证据。推断必须标注「推断」 |
-| ❌4 | **故事引擎是终点不是起点** — Phase 1/2/3 完成前不准写故事引擎。Lv1/Lv2 不产出故事引擎 |
-| ❌5 | **不跳过 Phase** — Lv2 必须走 Phase 1→2→3；Lv3 走 Phase 1→2→3→4→5。不得跳号 |
-| ❌6 | **归纳 ≠ 编造** — 从数据中提取模式是归纳。凭记忆补数据是编造。区分标准：JSON 中有条目 = 归纳；没有 = 编造 |
-| ❌7 | **产出格式对齐写作端** — Phase 3 产物格式 = world 输入格式。Phase 4 产物格式 = creative 输入格式 |
-| ❌8 | **跨 Phase 一致性检查已执行** — Phase 5 必须运行一致性验证 |
+| ❌1 | **故事引擎是终点不是起点** — Phase 1/2/3 完成前不准调用 pop-decon-engine |
+| ❌2 | **不跳过 Phase** — Lv2 先 Phase 1 再 2 再 3，不得跳号 |
+| ❌3 | **跳过提取脚本直接写产出** — Phase 1 执行前必须先运行 extract.py |
+| ❌4 | **Lv2 产出 Lv3 文件** — Lv2 不做故事引擎，不产出 L0-故事引擎/ |
+| ❌5 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
 
 ---
 
-## 4. WRONG 示例
+## 速查表
 
-### WRONG 1：从 Phase 1 直接跳到故事引擎
-> ❌ Lv1 跑完 ch1-20 → 直接写故事引擎.md
-> ✅ Lv1 只产角色卡+龙套池。故事引擎只在 Lv3 的 Phase 4 中归纳
-
-### WRONG 2：Phase 3 编造境界链
-> ❌ 力量体系写"凡人→超凡→破格→神话"但原文从未出现这些词
-> ✅ "一阶(1-5级) → 二阶(6-10级) → 传奇(16-20级+)" ch2/ch17 原文面板数据
-
-### WRONG 3：跳过提取脚本直接写
-> ❌ Phase 1 写完"16岁、弯刀大师专长"但未先运行 extract.py
-> ✅ 先跑 extract.py → 从 baseline-data.json 确认年龄"原文未显式说明"→ 从 world-data#class 确认职业路径
-
-### WRONG 4：Lv2 产出故事引擎
-> ❌ 前 100 章 → 写"这书讲的是一个……"
-> ✅ 前 100 章 → Phase 1→2→3。故事引擎留给 Lv3
+| 级别 | 范围 | 执行管线 | 触发子 skill | 预期耗时 |
+|:-----|:-----|:---------|:------------|:--------|
+| **Lv1** | ch1-20 | Phase 1 | pop-decon-extract | ~25min |
+| **Lv2** | ch1-100 | Phase 1 → 2 → 3 | extract → cluster → world | ~1-3h |
+| **Lv3** | 全书 | Phase 1 → 2 → 3 → 4 → 5 | extract → cluster → world → engine → validate | ~3-8h |
 
 ---
 
-## 5. 产出目录树
+## 管线地图
 
 ```
-项目根/
-├── _temp/                          ← ETL 中间数据
-│   ├── baseline-data.json
-│   ├── chapter-index.json
-│   └── world-data.json
-├── 00-原始设定/                    ← Phase 3 产出
-│   ├── L0-故事引擎/故事引擎.md     ← Phase 4 产出（仅 Lv3）
-│   ├── L1-元设定层/01~06.md        ← Phase 3 产出（Lv2/Lv3）
-│   ├── 世界宪法.md
-│   ├── 起点快照.md
-│   └── 终点快照.md
-├── 00-总控/数值体系/                ← Phase 3 产出
-│   └── combat_capability.yaml
-├── 状态/角色/                      ← Phase 1 产出
-│   ├── {主角}-角色卡-Lv4.md
-│   ├── {配角}-角色卡-Lv3.md
-│   └── 龙套池.md
-├── 设计/                           ← Phase 2 产出
-│   ├── 全书架构.md
-│   ├── 卷/volume-01.md (volume-02...)
-│   └── 幕/vol-01/act-01.yaml + chekhov-tracker.yaml
-├── 写作资产/事实骨架/              ← Phase 1 产出（Lv2/Lv3）
-│   └── ch001-050-事实骨架.md
-└── _参考书/{书名}/
-    ├── Phase1-事实提取摘要.md
-    ├── Phase5-产出索引.md
-    └── (Lv2/Lv3)
+用户: "拆这本书"
+    ↓
+pop-decon (orchestrator)
+    ├── 判断级别 (Lv1/Lv2/Lv3)
+    ├── 判断文件存在: TXT? _temp/?
+    │
+    ├── Lv1 → Phase 1: pop-decon-extract    → 角色卡
+    ├── Lv2 → Phase 1: pop-decon-extract    → 角色卡
+    │      → Phase 2: pop-decon-cluster     → 卷幕
+    │      → Phase 3: pop-decon-world       → L1+宪法+数值
+    └── Lv3 → Phase 1-3 (同上)
+           → Phase 4: pop-decon-engine      → 故事引擎
+           → Phase 5: pop-decon-validate    → 产出索引
 ```
+
+每 Phase 产出 → 消费关系见各子 skill 的 `references/pipeline-context.md`。
 
 ---
 
-## 6. 异常与边界条件
+## 核心流程
 
-| 边界场景 | 处理 |
-|:---------|:-----|
-| Phase 1 未完成直接进 Phase 2 | ❌ 退回完成 Phase 1 |
-| Phase 2 未产出全书架构 | ❌ 退回 Phase 2 |
-| Phase 3 未产出 L1 六件套 | ❌ 退回 Phase 3 |
-| Lv2 产出 Lv3 的文件 | ❌ Lv2 不做故事引擎、不做设计包反推 |
-| 章节数据不足以聚类卷幕 | Phase 2 标注"基于前 N 章推断，Lv3 将修正" |
-| 某类世界观数据条目极少 | Phase 3 产出中标注"（前 N 章此维度数据极少）" |
+### Step 1：判断级别
+**做什么：** 判断用户需要的拆解深度。默认 Lv1（ch1-20），用户说"深拆/深度对标"=Lv2，"完整模板/全本"=Lv3。
+**产出：** Lv{N}。**❌ 门禁：** 用户未确认级别 → 退回询问。
+
+### Step 2：执行 Phase 1（强制前置）
+**做什么：** 运行 extract.py → 调用 `pop-decon-extract`。所有级别必须跑。
+**❌ 门禁：** extract.py 执行失败或 _temp/ 三个 JSON 不全 → 终止，退回修复脚本。
+
+### Step 3：Phase 2-3（Lv2+）
+**做什么：** 依次调用 pop-decon-cluster → pop-decon-world。
+**❌ 门禁：** 前一 Phase 产出文件不存在 → 终止退回。
+
+### Step 4：Phase 4-5（仅 Lv3）
+**做什么：** 依次调用 pop-decon-engine → pop-decon-validate。
+**❌ 门禁：** Phase 1-3 产出不全 → 退回。
+
+### Step 5：完成后引导
+输出摘要，告知用户产出位置，询问是否需要转换为写作项目。
+
+---
+
+## 边界条件
+
+| 场景 | 处理 |
+|:-----|:-----|
+| Lv2 跑完后用户要求升级 Lv3 | 重新跑 ch1-全书 extract → Phase 2-5 |
+| extract.py 脚本不可用 | 终止，提示用户确认 Python 环境和依赖 |
+| 子 skill SKILL.md 不可读 | 终止，输出具体哪个子 skill 缺失 |
+| 用户中途改变要求 | 保存当前阶段产出，用户确认后再切 |
+
+---
+
+## 版本
+
+v12.0.1 | 2026-06-14 | 拆分为 orchestrator + 5 sub-skills → [CHANGELOG.md](CHANGELOG.md)

@@ -1,132 +1,204 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-06T15:00:00.000Z",
+  "updatedAt": "2026-06-14T15:00:00.000Z",
   "skills": [
     {
       "id": "tool-opinion-tracker",
       "description": "网文舆情追踪 v1.8。输入书名扫8平台舆情，输出标准化舆情报告。基于 tool-cnovel-research 的平台采集能力，覆盖龙空/晋江/贴吧/知乎/豆瓣/微博/B站等平台。",
-      "latest": "1.8.0",
+      "latest": "1.8.1",
       "path": "skills/tool-opinion-tracker"
     },
     {
       "id": "tool-cnovel-research",
-      "description": "网文作者社区用户调研专用技能。整合 AnySearch 搜索引擎 + 各平台 API + 绕过策略，覆盖龙空/晋江/阅文/贴吧/知乎/豆瓣/微博/B站/小红书/抖音/微信公众号/视频号等 12+ 平台。对高可采集平台全自动出报告；对低可采集平台提供标准人工兜底流程。",
-      "latest": "0.1.1",
+      "description": "网文作者社区用户调研专用技能。整合 AnySearch 搜索引擎 + 各平台 API + 绕过策略，覆盖龙空/晋江/阅文/贴吧/知乎/豆瓣/微博/B站/小红书/抖音/微信公众号/视频号等 12+ 平台。",
+      "latest": "1.1.1",
       "path": "skills/tool-cnovel-research"
     },
     {
       "id": "tool-download-webnovel",
       "description": "输入书名即可自动搜索、下载网文并保存为干净 TXT。支持公开页面、用户提供的URL、登录态、本地HTML导出、目录页。无需用户指定来源。",
-      "latest": "0.1.0",
+      "latest": "2.0.1",
       "path": "skills/tool-download-webnovel"
     },
     {
       "id": "expert-writer",
-      "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由（三层联动影响评估）和完成后引导（基于项目文件状态的跨轮引导）。",
-      "latest": "2.2.0",
+      "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由和完成后引导。",
+      "latest": "3.1.1",
       "path": "skills/expert-writer"
     },
     {
       "id": "tool-feishu-docs",
-      "description": "Create, read, update, delete Feishu cloud documents, comments, bitable records, folders, and manage permissions via Open API. Use for PRD writing, wiki management, surveys, and office automation.",
-      "latest": "2.0.0",
+      "description": "Create, read, update, delete Feishu cloud documents, comments, bitable records, folders, and manage permissions via Open API.",
+      "latest": "2.1.0",
       "path": "skills/tool-feishu-docs"
     },
     {
       "id": "tool-knowledge-downloader",
-      "description": "A skill to download knowledge from the web and save it as project files",
-      "latest": "1.0.0",
+      "description": "A skill to download knowledge from the web and save it as project files.",
+      "latest": "1.0.1",
       "path": "skills/tool-knowledge-downloader"
     },
     {
       "id": "tool-youtube-webbuilder",
-      "description": "A skill to build a personal website based on YouTube content. It can help you create a website that showcases your YouTube videos, playlists, and channel information. You can customize the layout, design, and features of your website to attract more viewers and subscribers.",
-      "latest": "1.0.0",
+      "description": "Build a personal website based on YouTube content with customizable layout, design, and features.",
+      "latest": "4.2.0",
       "path": "skills/tool-youtube-webbuilder"
     },
     {
       "id": "pop-shared-book-promo",
-      "description": "从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。",
-      "latest": "3.1.0",
+      "description": "从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。v3.0.0",
+      "latest": "3.1.1",
       "path": "skills/pop-shared-book-promo"
     },
     {
       "id": "pop-shared-dna",
-      "description": "从作者/书籍原文中提取写作风格DNA（叙事哲学+技法偏好+节奏模式），生成可复用的风格档案，配合 Thinking-Claude 式 Prompt 实现精准文风模仿。",
-      "latest": "2.0.0",
+      "description": "文风DNA蒸馏引擎 v4.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 styles/ 风格文件供 writer 消费。",
+      "latest": "4.0.1",
       "path": "skills/pop-shared-dna"
     },
     {
       "id": "pop-shared-html",
-      "description": "HTML 渲染引擎 + 网站设计师。v2.3 硬性配图触发——有角色必须配肖像、有场景必须配插图、有 Hero 必须配背景，不可跳过。内嵌 Seedream 生图脚本。",
-      "latest": "2.4.0",
+      "description": "HTML 渲染引擎 + 网站设计师。v2.4 硬性配图触发——有角色必须配肖像、有场景必须配插图、有 Hero 必须配背景。内嵌 Seedream 生图脚本。",
+      "latest": "2.5.0",
       "path": "skills/pop-shared-html"
     },
     {
-      "id": "pop-novel-bookstrap",
-      "description": "从故事引擎到可执行项目骨架的开书管线。含story-engine→跨域素材→拆书融合→L1六件套→起点快照→终点快照→宪法→数值体系。支持forward/reverse两种模式。",
-      "latest": "4.0.0",
-      "path": "skills/pop-novel-bookstrap"
-    },
-    {
       "id": "pop-decon",
-      "description": "拆网文参考书（默认第一卷/前100章），产出设定/剧情/技法三维档案+文风DNA+卷1起点/终点快照。仅在用户明确要求时才全书拆解。",
-      "latest": "7.0.0",
+      "description": "拆书管线调度（orchestrator）。雪花法倒推——Phase 1 事实提取→Phase 2 聚类卷幕→Phase 3 归纳世界观→Phase 4 归纳故事引擎（仅 Lv3）→Phase 5 验证。调度 5 个子 skill。",
+      "latest": "12.0.1",
       "path": "skills/pop-decon"
     },
     {
+      "id": "pop-decon-extract",
+      "description": "Phase 1 事实提取。ETL → 角色卡 → 事实骨架。Lv1(ch1-20)/Lv2(ch1-100)/Lv3(全书)。",
+      "latest": "1.0.0",
+      "path": "skills/pop-decon-extract"
+    },
+    {
+      "id": "pop-decon-cluster",
+      "description": "Phase 2 聚类卷幕。逆 plot+chapter-design。识别卷/幕/Canvas 矩阵+契诃夫枪追踪。Lv2/Lv3。",
+      "latest": "1.0.0",
+      "path": "skills/pop-decon-cluster"
+    },
+    {
+      "id": "pop-decon-world",
+      "description": "Phase 3 归纳世界观。逆 world。L1六件套+宪法+战力数值+起点/终点快照。Lv2/Lv3。",
+      "latest": "1.0.0",
+      "path": "skills/pop-decon-world"
+    },
+    {
+      "id": "pop-decon-engine",
+      "description": "Phase 4 归纳故事引擎。逆 creative。仅 Lv3（全书）。核心假说→卖点→宪法→开篇→结构预期。",
+      "latest": "1.0.0",
+      "path": "skills/pop-decon-engine"
+    },
+    {
+      "id": "pop-decon-validate",
+      "description": "Phase 5 验证打包。可回源性审计+跨Phase一致性+产出索引。Lv1/Lv2/Lv3。",
+      "latest": "1.0.0",
+      "path": "skills/pop-decon-validate"
+    },
+    {
       "id": "pop-writer-game",
-      "description": "将写书过程中沉淀的世界观、人设、剧情设定等资料，转化为由AI驱动的互动文字游戏（AI文游）。Invoke when user wants to turn their novel's world-building materials into an interactive text-based game experience.",
-      "latest": "2.0.1",
+      "description": "将写书过程中沉淀的世界观、人设、剧情设定等资料，转化为由AI驱动的互动文字游戏（AI文游）。",
+      "latest": "2.0.2",
       "path": "skills/pop-writer-game"
     },
     {
       "id": "pop-writer-html",
       "description": "当用户要求「发布/HTML化/渲染成网页」内容时触发。将小说正文/设定/场景卡等结构化数据 → 高质量单文件 HTML 发布页。",
-      "latest": "1.3.1",
+      "latest": "1.3.2",
       "path": "skills/pop-writer-html"
     },
     {
       "id": "pop-writer-plot",
-      "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划（罗琳式支线追踪+契诃夫枪链）。用户说【设计剧情/画幕纲/做大纲/剧情架构/爽点分布/幕纲/情节线/支线】时启用。",
-      "latest": "4.0.0",
+      "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划。用户说【设计剧情/画幕纲/做大纲/剧情架构/爽点分布/幕纲/情节线/支线】时启用。",
+      "latest": "6.3.1",
       "path": "skills/pop-writer-plot"
     },
     {
       "id": "pop-writer-qa",
-      "description": "审稿/质检/QA/审一下/爽点质检 触发：纯感受型三层介入 QC。不评分、不给建议、不评价节奏、不评价画面、不比较——只回答'我读的时候怎么了'。Step 1 大纲层QC / Step 2 骨架层QC / Step 3 正文层QC。",
-      "latest": "0.5.0",
+      "description": "审稿/质检/QA。纯感受型三层介入 QC。不评分、不给建议——只回答'我读的时候怎么了'。",
+      "latest": "1.0.1",
       "path": "skills/pop-writer-qa"
     },
     {
       "id": "pop-shared-reader",
-      "description": "拆解长篇小说。Phase A 产出三格式：叙事笔记(MD) + 结构化数据(YAML含章节标注/共现/统计) + image_prompt(角色肖像/名场面)。",
-      "latest": "0.14.0",
+      "description": "拆解长篇小说为结构化参考文件。Phase A 产出三格式：叙事笔记(MD) + 结构化数据(YAML) + image_prompt。",
+      "latest": "0.15.0",
       "path": "skills/pop-shared-reader"
     },
     {
       "id": "tool-seo-anything",
       "description": "Creates directly publishable English website-ready SEO blog posts from a keyword, article URL, or topic direction.",
-      "latest": "1.0.0",
+      "latest": "1.1.0",
       "path": "skills/tool-seo-anything"
     },
     {
       "id": "pop-shared-skill-create",
-      "description": "通过交互式问答引导用户创建新的 Pop Skill，自动生成技能文件结构和基础内容，降低技能开发门槛，提升创建效率。",
-      "latest": "0.1.0",
+      "description": "Popwave Skill 编写规范、改造工具和评估框架。定义 Skill 的文件结构和抽象原则；提供 8 步改造流程；提供 8 维评分 rubrik。",
+      "latest": "4.0.0",
       "path": "skills/pop-shared-skill-create"
     },
     {
       "id": "tool-prd-builder",
-      "description": "从产品想法到 PRD 到飞书文档到交互 Demo 的全流程自动化",
-      "latest": "1.0.0",
+      "description": "从产品想法到 PRD 到飞书文档到交互 Demo 的全流程自动化。",
+      "latest": "1.1.0",
       "path": "skills/tool-prd-builder"
     },
     {
       "id": "tool-web-access",
-      "description": "提供网络访问能力，允许技能通过 HTTP 请求获取实时信息或与在线服务交互，扩展技能的功能和应用场景。",
-      "latest": "0.1.0",
+      "description": "提供网络访问能力，允许技能通过 HTTP 请求获取实时信息或与在线服务交互。",
+      "latest": "2.4.4",
       "path": "skills/tool-web-access"
+    },
+    {
+      "id": "tool-book-to-skill",
+      "description": "将书籍和文档（PDF/EPUB/DOCX/HTML/Markdown/TXT/RTF/MOBI/AZW）转化为结构化 Agent Skill。",
+      "latest": "1.1.0",
+      "path": "skills/tool-book-to-skill"
+    },
+    {
+      "id": "tool-fanqie",
+      "description": "番茄小说平台创作辅助 Skill。提供番茄风格的章节模板、钩子设计、节奏控制和手感训练。",
+      "latest": "1.1.0",
+      "path": "skills/tool-fanqie"
+    },
+    {
+      "id": "pop-writer-world",
+      "description": "世界观生成。从故事引擎出发，产出 L1 六件套（世界蓝图→力量体系→历史驱动力→物种天赋→势力格局→资源物品）+ 世界宪法 + 战力数值。",
+      "latest": "1.2.1",
+      "path": "skills/pop-writer-world"
+    },
+    {
+      "id": "pop-writer-chapter",
+      "description": "章纲设计/导演卡。消费 plot 的 Canvas 矩阵，产出事实骨架+登场人物卡合并设计包。",
+      "latest": "1.5.0",
+      "path": "skills/pop-writer-chapter"
+    },
+    {
+      "id": "pop-writer-prose",
+      "description": "正文渲染引擎。消费 chapter-design 的设计包 + pop-shared-dna 的文风文件，产出 chXXX-正文.md。",
+      "latest": "3.0.1",
+      "path": "skills/pop-writer-prose"
+    },
+    {
+      "id": "pop-writer-creative",
+      "description": "故事引擎/创意打磨。消费 deconstructor 产出 + 跨域素材，产出故事引擎.md + 样品试读。",
+      "latest": "1.4.1",
+      "path": "skills/pop-writer-creative"
+    },
+    {
+      "id": "pop-writer-character",
+      "description": "角色系统设计。按 Lv1-Lv4 分级定义角色模板，提供维度递增体系和角色弧线设计方法论。",
+      "latest": "2.0.1",
+      "path": "skills/pop-writer-character"
+    },
+    {
+      "id": "pop-writer-continue",
+      "description": "续写（逆过程）。从已有正文反向推导出当前设计状态 → 修改需求 → 重新生成正文。",
+      "latest": "1.0.1",
+      "path": "skills/pop-writer-continue"
     }
   ]
 }

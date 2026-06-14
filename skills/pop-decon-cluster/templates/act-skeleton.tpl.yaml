@@ -1,4 +1,4 @@
-﻿# act-01.yaml — 幕纲骨架（{书名}版）
+# act-01.yaml — 幕纲骨架（{书名}版）
 # @source_book: {书名}
 # @对应写作端模板: pop-writer-plot/templates/act-skeleton.yaml
 # ⚠️ 原文证据规则：每章 canvas 中的剧情线推进必须标注原文事件 chXX。

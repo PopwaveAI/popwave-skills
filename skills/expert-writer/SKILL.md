@@ -2,7 +2,7 @@
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill，产出子Skill的完整执行结果。"
 version: 3.1.1
-pipeline: { up: [], down: [pop-novel-bookstrap, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
+pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
 ---
 
 # expert-writer
@@ -13,7 +13,7 @@ pipeline: { up: [], down: [pop-novel-bookstrap, pop-decon, pop-writer-plot, pop-
 
 | 用户说 | 路由到 | 前置条件 | 本阶段不做什么 |
 |--------|--------|---------|--------------|
-| "开新书/启动项目/设世界观" | pop-novel-bookstrap | 无 | 不设计具体剧情（那是 plot 的活） |
+| "开新书/启动项目/设世界观" | pop-writer-creative | 无 | 不设计具体剧情（那是 plot 的活） |
 | "拆这本书/分析这本书/拆解" | pop-decon | 若 TXT 未下载 → 先调 tool-download-webnovel | 不写正文（那是 prose-render 的活） |
 | "设计剧情/规划大纲/情绪弧线" | pop-writer-plot | 必须先完成 bookstrap | 不设计章级细节（那是 chapter-design 的活） |
 | "设计第X章/章纲/骨架" | pop-writer-chapter | 必须先完成 plot | 不纠结渲染用词（那是 prose-render 的活） |

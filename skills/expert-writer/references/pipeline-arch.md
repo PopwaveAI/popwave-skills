@@ -32,7 +32,7 @@
              │             │
              ▼             ▼
   ┌─────────────────────────────────────────────────────┐
-  │               pop-novel-bookstrap                    │
+  │               pop-writer-creative                    │
   │              开书设定 (forward/reverse)              │
   │  产出: story-engine + L1-01~06 + 角色卡 + project    │
   │         + 数值体系x4 + 起点/终点快照                  │

@@ -1,13 +1,18 @@
 {
   "id": "pop-writer-chapter",
-  "name": "pop-writer-chapter",
   "version": "1.5.0",
-  "description": "导演卡/章纲设计。接收大纲的完整 Canvas，产出结构化的事实骨架和登场人物卡。",
-  "author": "江轩",
-  "tags": [
-    "novel",
-    "writing",
-    "chapter-design",
-    "director-board"
-  ]
+  "displayName": "章纲设计/导演卡",
+  "description": "消费 pop-writer-plot 的 Canvas 矩阵，产出事实骨架+登场人物卡合并设计包。当用户说'设计第X章/章纲/骨架/导演卡'时启用。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["设计第X章", "章纲", "骨架", "导演卡", "pop-writer-chapter"]
+  },
+  "pipeline": {
+    "upstream": ["pop-writer-plot"],
+    "downstream": ["pop-writer-prose"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
 }

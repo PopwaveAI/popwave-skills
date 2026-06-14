@@ -1,4 +1,4 @@
-﻿# combat_capability.yaml — 战力数值模板（{书名}版）
+# combat_capability.yaml — 战力数值模板（{书名}版）
 # @source_book: {书名}
 # @对应写作端模板: pop-writer-world/phases/phase-5.pe.md
 # ⚠️ 原文证据规则：段位名/突破条件/弱点必须来自 _temp/world-data.json（class字段）。不得编造境界链。

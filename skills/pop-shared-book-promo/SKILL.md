@@ -4,7 +4,7 @@ display_name: 多模态营销物料生成
 description: 当用户说"生成营销物料/做宣传页/做角色海报/名场面海报/金句卡/四格漫画/立绘画廊/营销HTML/书宣物料/推书海报"时启用。从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。
 version: 3.1.1
 pipeline:
-  upstream: [pop-prose-render]
+  upstream: [pop-writer-prose]
   downstream: []
 ---
 
@@ -147,4 +147,17 @@ pop-shared-book-promo/
 
 ---
 
-> 版本：v3.1.1 | 模式 A：PRD → 设计哲学 → 生图 → 定制 HTML | 模式 B：旧模板管线（向后兼容）
+## 落盘检查点
+
+| 检查项 | 路径 | 状态要求 |
+|:-------|:-----|:---------|
+| PRD 文档 | `{书名}-营销物料/PRD-{物料类型}.md` | 已写入，用户已确认 |
+| 生成图片 | `{书名}-营销物料/images/*.png` | 已写入，data URL 嵌入 HTML |
+| 定制 HTML | `{书名}-营销物料/index.html` | 已写入，零外部依赖验证通过 |
+| 模式 B 模板 HTML | `{书名}-营销物料/index.html` | 已写入（向后兼容管线） |
+
+---
+
+## 版本
+
+v3.1.1 | 2026-06-14 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

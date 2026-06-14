@@ -14,7 +14,7 @@
 Step 0 · expert-writer 全局感知
   │
   ▼
-Step 1 · pop-novel-bookstrap (forward)
+Step 1 · pop-writer-creative (forward)
   ├─ Phase 0:     故事引擎 → story-engine.yaml
   ├─ Phase 0.5:   跨域素材聚合 (HARD-GATE)
   ├─ Phase 0.6:   ⬅ 消费 deconstructor 拆书成果 → deconstruct-融合摘要.md
@@ -62,7 +62,7 @@ Step 0 · expert-writer 全局感知
   → 检查 pre_read_status（精读闸门 — 倒数20章已精读？）
   → 检查 entity-snapshot 一致性
   ↓
-Step 1 · pop-novel-bookstrap (reverse)
+Step 1 · pop-writer-creative (reverse)
   ├─ Phase r1:  事件日志（逐章读正文）
   ├─ Phase r2:  L0 提取
   ├─ Phase r3:  L1 提取

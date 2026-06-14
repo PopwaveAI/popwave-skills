@@ -8,7 +8,7 @@ pipeline:
 
 # html-renderer — HTML 化发布引擎 v1.3.2
 
-> **定位声明**：本 renderer 是 **pop-novel-master 内部专用的 Python 渲染层**，服务于六阶段管线的后置 HTML 发布。
+> **定位声明**：本 renderer 是 **pop-writer 专用的渲染层**，服务于六阶段管线的后置 HTML 发布。
 >
 > 全局唯一 HTML 渲染引擎是 `pop-shared-html`（`skills/pop-shared-html/`）。两者的区别：
 > - **pop-shared-html** → 通用 HTML 渲染引擎，消费任何上游结构化数据

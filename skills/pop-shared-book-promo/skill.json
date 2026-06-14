@@ -22,7 +22,7 @@
   },
   "pipeline": {
     "upstream": [
-      "pop-prose-render"
+      "pop-writer-prose"
     ],
     "downstream": []
   },

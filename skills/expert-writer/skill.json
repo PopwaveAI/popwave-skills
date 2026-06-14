@@ -20,7 +20,7 @@
   "pipeline": {
     "upstream": [],
     "downstream": [
-      "pop-novel-bookstrap",
+      "pop-writer-creative",
       "pop-decon",
       "pop-writer-plot",
       "pop-writer-chapter",

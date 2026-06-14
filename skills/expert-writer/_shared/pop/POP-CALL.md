@@ -34,13 +34,13 @@
 
 | 用户输入关键词 | 路由 skill |
 |:---|:---|
-| 开书 / 新书 / 设定 | `pop-novel-bookstrap` (forward) |
+| 开书 / 新书 / 设定 | `pop-writer-creative` (forward) |
 | 幕纲 / 大纲 / 剧情 | `pop-writer-plot` |
 | 写正文 / 下一章 | `pop-writer-chapter` → `pop-writer-prose` |
 | 拆书 / 解构 / 分析 | `pop-decon` |
 | 审稿 / QA / 质检 | `pop-writer-qa` |
 | HTML化 / 发布 | `pop-writer-html` |
-| 续写 / 交接 | `pop-novel-bookstrap` (reverse) |
+| 续写 / 交接 | `pop-writer-creative` (reverse) |
 
 ---
 

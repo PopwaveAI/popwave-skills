@@ -48,7 +48,7 @@
 
 | 文件 | 应来自 | 检查项 |
 |:-----|:------|:------|
-| story-engine.yaml | bookstrap P0 | core_premise 等关键字段存在？ |
+| story-engine.yaml | pop-writer-creative | core_premise 等关键字段存在？ |
 | L1-01~06 | bookstrap P1 | 六件套互不重复？有交叉引用标记？ |
 | project.yaml | bookstrap P3 | paths / reader_profile / phase_progress 字段齐全？ |
 | 状态/角色/角色卡 | bookstrap P3 → plot 回写 | core_desire(external_goal+internal_need)？快照段预留？ |
@@ -57,7 +57,7 @@
 | 设计/全书架构.md | plot P0 | 卷拆分/地理全图/角色出场/主线全览/钩子？ |
 | 设计/卷/volume-XX.md | plot S1 | 四节齐全？§〇 全书隶属段存在？ |
 | 设计/幕/vol-XX/act-YY.yaml | plot S2 | info_release_plan 段？Canvas 矩阵有 rhythm_check？有章级切片？ |
-| entity-snapshot.yaml | chapter-design | _meta.total_chapters 与目录文件数一致？ |
+| entity-snapshot.yaml | pop-writer-chapter | _meta.total_chapters 与目录文件数一致？ |
 | 写作资产/文风DNA/ | deconstructor/pop-shared-dna | 含原文证据 + 规则？ |
 
 单章产物一致性：章节数 = 设计包数 = entity-snapshot.total_chapters？
