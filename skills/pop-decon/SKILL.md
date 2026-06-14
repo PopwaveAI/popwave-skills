@@ -1,7 +1,7 @@
-# pop-decon · 拆书管线调度 v13.0.0
+# pop-decon · 拆书管线调度 v13.1.0
 
-> **定位：拆书管线的元 skill。执行管线调度（Phase 1→4），不直接产出文件。**
-> **核心约束：按章节量级决定管线长度。前N章跑 Phase 1→2→3→4，全书跑相同管线（产出更完整）。**
+> **定位：拆书管线的元 skill。执行管线调度（Phase 1→3），不直接产出文件。**
+> **核心约束：按章节量级决定管线长度。全管线顺序推进，不得跳号。**
 
 ---
 
@@ -20,7 +20,7 @@
 
 | 量级 | 范围 | 执行管线 | 触发子 skill | 预期耗时 |
 |:-----|:-----|:---------|:------------|:--------|
-| **前N章** | 用户指定（默认前100章） | Phase 1 → 2 → 3 → 4 | clean → design-pack → volume → setting | ~1-3h |
+| **前N章** | 用户指定（默认前100章） | Phase 1 → 2 → 3 | design-pack → volume → setting | ~1-3h |
 | **全书** | 全部章节 | 同上，覆盖更完整 | 同上 | ~3-8h |
 
 ---
@@ -33,10 +33,9 @@
 pop-decon (orchestrator)
     ├── 判断量级: 前N章 or 全书
     │
-    ├── Phase 1: pop-decon-clean         → 章节清洗+逐章JSON
-    ├── Phase 2: pop-decon-design-pack   → 每章设计包
-    ├── Phase 3: pop-decon-volume        → 幕纲/卷纲
-    └── Phase 4: pop-decon-setting       → L1六件套+宪法+数值
+    ├── Phase 1: pop-decon-design-pack   → ETL → 拆分 → 5章一批设计包
+    ├── Phase 2: pop-decon-volume        → 幕纲/卷纲
+    └── Phase 3: pop-decon-setting       → L1六件套+宪法+数值
 ```
 
 每 Phase 产出 → 消费关系见各子 skill 的 `references/pipeline-context.md`。
@@ -49,23 +48,19 @@ pop-decon (orchestrator)
 **做什么：** 询问用户需要拆多少章。默认前100章，用户说"全本/全书/全部"=全书。
 **❌ 门禁：** 用户未确认量级 → 退回询问。
 
-### Step 2：Phase 1 — 清洗（强制前置）
-**做什么：** 调用 `pop-decon-clean`。运行 extract.py → 按章拆分 → 清洗 → 逐章 JSON。
-**❌ 门禁：** `_temp/chapters/` 为空或章数不匹配 → 退回。
+### Step 2：Phase 1 — 设计包（强制前置）
+**做什么：** 调用 `pop-decon-design-pack`。运行 extract.py → 按章拆分 → 5章一批 LLM 直接提取设计包。
+**❌ 门禁：** `写作资产/设计包/` 为空 → 退回。
 
-### Step 3：Phase 2 — 设计包
-**做什么：** 调用 `pop-decon-design-pack`。消费逐章 JSON → 产出每章设计包。
-**❌ 门禁：** `_temp/chapter-data/` 缺失 → 退回 Phase 1。
+### Step 3：Phase 2 — 幕纲卷纲
+**做什么：** 调用 `pop-decon-volume`。从设计包数据中识别卷边界、幕边界、剧情线。
+**❌ 门禁：** 设计包产出缺失 → 退回 Phase 1。
 
-### Step 4：Phase 3 — 幕纲卷纲
-**做什么：** 调用 `pop-decon-volume`。识别卷边界、幕边界、剧情线。
-**❌ 门禁：** 设计包产出缺失 → 退回 Phase 2。
-
-### Step 5：Phase 4 — 设定世界观
+### Step 4：Phase 3 — 设定世界观
 **做什么：** 调用 `pop-decon-setting`。归纳 L1 六件套 + 宪法 + 数值。
-**❌ 门禁：** 卷幕产出缺失 → 退回 Phase 3。
+**❌ 门禁：** 卷幕产出缺失 → 退回 Phase 2。
 
-### Step 6：完成后引导
+### Step 5：完成后引导
 输出摘要，告知用户产出位置，询问是否需要转换为写作项目。
 
 ---
@@ -74,7 +69,7 @@ pop-decon (orchestrator)
 
 | 场景 | 处理 |
 |:-----|:-----|
-| 前N章跑完后用户要求升级全书 | 重新跑全书 clean → Phase 2-4 |
+| 前N章跑完后用户要求升级全书 | 重新跑全书 design-pack → Phase 2-3 |
 | extract.py 脚本不可用 | 终止，提示用户确认 Python 环境和依赖 |
 | 子 skill SKILL.md 不可读 | 终止，输出具体哪个子 skill 缺失 |
 | 用户中途改变量级 | 保存当前阶段产出，用户确认后再切 |
@@ -83,4 +78,4 @@ pop-decon (orchestrator)
 
 ## 版本
 
-v13.0.0 | 2026-06-14 | 管线重构：清洗→设计包→幕纲卷纲→设定世界观 | [CHANGELOG.md](CHANGELOG.md)
+v13.1.0 | 2026-06-15 | 3-Phase 管线：设计包→幕纲卷纲→设定世界观

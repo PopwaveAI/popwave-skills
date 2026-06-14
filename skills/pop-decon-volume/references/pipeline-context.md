@@ -1,4 +1,4 @@
-# 管线上下文 — pop-decon-cluster
+# 管线上下文 — pop-decon-design-pack
 
 ## 拆书管线全景
 
@@ -21,8 +21,8 @@ creative ──→ world ──→ plot ──→ pop-writer-chapter ──→ p
 
 | 技能 | 职责 | 上下游 |
 |:-----|:-----|:-------|
-| `pop-decon-extract` | Phase 1：事实提取 → 产出 `_temp/` 三个 JSON | → pop-decon-cluster |
-| **`pop-decon-cluster`** | **Phase 2：聚类卷幕** | ← extract → pop-decon-world |
+| `pop-decon-extract` | Phase 1：事实提取 → 产出 `_temp/` 三个 JSON | → pop-decon-design-pack |
+| **`pop-decon-design-pack`** | **Phase 2：聚类卷幕** | ← extract → pop-decon-world |
 | `pop-decon-world` | Phase 3：归纳世界观 → 产出 L1 六件套 + 宪法 | ← cluster → pop-decon-engine |
 | `pop-decon-engine` | Phase 4：归纳故事引擎（仅 Lv3） | ← world |
 | `pop-decon` | 元 Skill：编排整个管线 | orchestrator |

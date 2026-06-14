@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "displayName": "章节设计包",
-  "description": "Phase 2 of deconstruction: per-chapter JSON → chapter design packs aligned with pop-writer-chapter format.",
+  "description": "Phase 1 of deconstruction: ETL → chapter splitting → 5-ch batch LLM extracting full chapter design packs (events + worldbuilding + items + characters + key info + emotional beats + hooks).",
   "entry": "SKILL.md",
   "permissions": {
     "readProjectFiles": true,
@@ -10,7 +10,7 @@
   },
   "pipeline": {
     "upstream": [
-      "pop-decon-clean"
+      "tool-download-webnovel"
     ],
     "downstream": [
       "pop-decon-volume"

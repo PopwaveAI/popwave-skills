@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-15T00:00:00.000Z",
+  "updatedAt": "2026-06-15T15:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
@@ -10,20 +10,14 @@
     },
     {
       "id": "pop-decon",
-      "description": "拆书管线调度（orchestrator）。Phase 1 章节清洗→Phase 2 设计包→Phase 3 幕纲卷纲→Phase 4 设定世界观。按章节量级调度。",
-      "latest": "13.0.0",
+      "description": "拆书管线调度（orchestrator）。Phase 1 设计包→Phase 2 幕纲卷纲→Phase 3 设定世界观。",
+      "latest": "13.1.0",
       "path": "skills/pop-decon"
     },
     {
-      "id": "pop-decon-clean",
-      "description": "Phase 1 of deconstruction: extract.py → chapter splitting → ad removal → per-chapter structured JSON.",
-      "latest": "1.0.0",
-      "path": "skills/pop-decon-clean"
-    },
-    {
       "id": "pop-decon-design-pack",
-      "description": "Phase 2 of deconstruction: per-chapter JSON → chapter design packs aligned with pop-writer-chapter format.",
-      "latest": "1.0.0",
+      "description": "Phase 1 of deconstruction: ETL + split + 5-ch batch LLM extracting full design packs (events+worldbuilding+items+characters+key info+beats+hooks).",
+      "latest": "1.2.0",
       "path": "skills/pop-decon-design-pack"
     },
     {

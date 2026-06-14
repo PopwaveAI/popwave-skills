@@ -1,11 +1,11 @@
-# pop-decon-world · 管线上下文
+# pop-decon-setting · 管线上下文
 
 ## 在拆书管线中的位置
 
 ```
 Phase 1          Phase 2           Phase 3           Phase 4          Phase 5
 事实提取  ──→  聚类卷幕  ──→  归纳世界观   ──→ 归纳故事引擎 ──→  验证打包
-pop-decon-extract                pop-decon-world     pop-decon-engine  pop-decon-validate
+pop-decon-extract                pop-decon-setting     pop-decon-engine  pop-decon-validate
                     ↑                    ↑                    ↑
                upstream           you are here           downstream
 ```
