@@ -1,0 +1,56 @@
+# Template: 故事引擎
+# @consumed_by: pop-novel-creative (Phase 0)
+# @source_book: 深渊主宰 | @source_chapters: [1, 187]
+
+core_premise:
+  one_liner: "游戏高玩索伦穿越到DND世界，带着妹妹在圣者浩劫中从贫民窟刺客成长为深渊主宰"
+  core_hypothesis: "DND规则数据化+前世游戏经验可以直接在异世界使用——面板是100%真实的"
+  collision_point:
+    elements: [穿越者灵魂融合, DND游戏面板真实化, 守序邪恶主角, 妹妹养成线, 圣者浩劫]
+    mutual_negation: "想保护妹妹→必须变强→杀戮→离普通人越来越远→最终成为主宰时已不是那个只想保护妹妹的少年"
+    intensity: "★★★"
+  world_anchor:
+    era: "动荡之年（圣者浩劫前夜）"
+    region: "琥珀城贫民区 → 剑湾 → 深渊"
+    power_scale: "凡人(5平民/1游荡者) → 传奇 → 神灵(深渊主宰)"
+
+protagonist_profile:
+  identity: "穿越者+游戏高玩，DND面板觉醒，守序邪恶阵营"
+  drive: "保护妹妹薇薇安(底层驱力) + 变强活下来"
+  flaw: "守序邪恶路径依赖：遇到问题先想"杀了就行""
+  uniqueness: "穿越者+DND面板+守序邪恶+妹妹养成=独一份"
+
+selling_points:
+  core_pleasure: "DND面板硬核升级(3-5章一次反馈) + 妹妹养成情感锚点 + 守序邪恶主角独特感"
+  differentiation: "面板流DND+守序邪恶主角+妹妹养成线——三者合一同赛道独一份"
+  reader_profile:
+    age_group: "18-30"
+    pleasure_preference: "数据化升级爽感/战斗反馈/妹妹互动温情"
+    drop_threshold: "连续5章无升级或战力突破"
+  opening_3_chapters_promise:
+    - "ch1: 8岁妹妹照顾昏迷哥哥——情感困境"
+    - "ch2: 面板觉醒+前世记忆融合——核心卖点亮相"
+    - "ch3: 老狗战死+墓园超凡初战——幻想元素进入"
+
+constitutional_bounds:
+  tone:
+    allowed: ["暗黑生存底色+妹妹线撑住温暖"]
+    forbidden: ["纯黑无温暖：妹妹线崩了书就死了"]
+  protagonist:
+    never: ["主动出卖薇薇安", "无端滥杀弱者", "违背守序准则"]
+    always: ["保护妹妹优先一切", "杀确定的威胁不犹豫", "体系化数据思考"]
+  world_rule:
+    never: ["DND面板在关键时刻失效不给解释"]
+  narrative:
+    never: ["连续5章无面板/反馈", "妹妹消失>10章"]
+    always: ["3-5章一次升级/突破", "每条线留白≤3章"]
+
+first_page:
+  opening_scene: "薇薇安在贫民窟厨房给昏迷索伦煮粥。门外的雨。老狗希斯守在门口。"
+  signature_scene: "索伦第一次杀人：匕首划过混混喉咙，血溅在月光里的墙上"
+
+structural_expectation:
+  volumes:
+    - volume: 1; chapters: "1-17"; core: "贫民窟→藏宝洞→万象无常牌→杀出重围"
+    - volume: 2; chapters: "18-100"; core: "冒险者工会→剑湾探索→圣人墓碑→更强敌人"
+    - volume: 3; chapters: "101-187"; core: "势力扩张→圣者浩劫→登神→深渊主宰"

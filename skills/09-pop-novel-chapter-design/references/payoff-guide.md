@@ -1,9 +1,9 @@
-# payoff-guide.md — 爽点承接指南
+﻿# payoff-guide.md — 爽点承接指南
 
-> 管线: pop-novel-chapter-design v1.5
+> 管线: 09-pop-novel-chapter-design v1.5
 > 定位：chapter-design 专属。如何承接 plot 设计的爽点布局。
 > **小爽点例外：自设计自承接（本章独有）。**
-> 设计方法论 → `pop-novel-plot/references/payoff-design-guide.md`
+> 设计方法论 → `08-pop-novel-plot/references/payoff-design-guide.md`
 
 ---
 

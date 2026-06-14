@@ -1,6 +1,6 @@
-# 空间编排参考（Step 2 消费）
+﻿# 空间编排参考（Step 2 消费）
 
-> 所属: pop-novel-chapter-design v1.4 · references/
+> 所属: 09-pop-novel-chapter-design v1.4 · references/
 > 说明: 此文件不独立执行。Agent 在 Step 2 逐事件设计时，参考本章的检查规则。
 
 ---

@@ -1,8 +1,8 @@
----
+﻿---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill（bookstrap/deconstructor/plot/chapter-design/prose-render/qa/dna等），产出子Skill的完整执行结果。"
 version: 3.1.0
-pipeline: { up: [], down: [pop-novel-bookstrap, pop-novel-deconstructor, pop-novel-plot, pop-novel-chapter-design, pop-novel-prose-render, pop-novel-qa, pop-dna, pop-novel-character-schema, pop-novel-html-renderer, pop-novel-game, pop-reader-making, pop-html-anything, download-webnovel-txt, cnovel-research, book-opinion-tracker] }
+pipeline: { up: [], down: [pop-novel-bookstrap, 02-pop-novel-deconstructor, 08-pop-novel-plot, 09-pop-novel-chapter-design, 10-pop-novel-prose-render, 11-pop-novel-qa, 03-pop-dna, 04-pop-novel-character-schema, 12-pop-novel-html-renderer, 13-pop-novel-game, pop-reader-making, pop-html-anything, 01-download-webnovel-txt, cnovel-research, book-opinion-tracker] }
 ---
 
 # expert-writer
@@ -19,13 +19,13 @@ pipeline: { up: [], down: [pop-novel-bookstrap, pop-novel-deconstructor, pop-nov
 | 用户说 | 路由到 | 前置条件 | 本阶段不做什么 |
 |--------|--------|---------|--------------|
 | "开新书/启动项目/设世界观" | pop-novel-bookstrap | 无 | ❌ 不设计具体剧情（那是 plot 的活） |
-| "拆这本书/分析这本书/拆解" | pop-novel-deconstructor | 若 TXT 未下载 → 先调 download-webnovel-txt | ❌ 不写正文（那是 prose-render 的活） |
-| "设计剧情/规划大纲/情绪弧线" | pop-novel-plot | 必须先完成 bookstrap | ❌ 不设计章级细节（那是 chapter-design 的活） |
-| "设计第X章/章纲/骨架" | pop-novel-chapter-design | 必须先完成 plot | ❌ 不纠结渲染用词（那是 prose-render 的活） |
-| "写第X章/渲染这章/上色/写正文" | pop-novel-prose-render | 必须先完成 chapter-design | ❌ 不判断剧情逻辑（那是 QA 的活） |
-| "审查/审稿/QA/检查质量/看看" | pop-novel-qa | 无（可随时触发） | ❌ 不直接改正文（问题标记后由上游修复） |
-| "分析文风" | pop-dna | 需有成文样本 | — |
-| "设计角色储备" | pop-novel-character-schema | 无 | — |
+| "拆这本书/分析这本书/拆解" | 02-pop-novel-deconstructor | 若 TXT 未下载 → 先调 01-download-webnovel-txt | ❌ 不写正文（那是 prose-render 的活） |
+| "设计剧情/规划大纲/情绪弧线" | 08-pop-novel-plot | 必须先完成 bookstrap | ❌ 不设计章级细节（那是 chapter-design 的活） |
+| "设计第X章/章纲/骨架" | 09-pop-novel-chapter-design | 必须先完成 plot | ❌ 不纠结渲染用词（那是 prose-render 的活） |
+| "写第X章/渲染这章/上色/写正文" | 10-pop-novel-prose-render | 必须先完成 chapter-design | ❌ 不判断剧情逻辑（那是 QA 的活） |
+| "审查/审稿/QA/检查质量/看看" | 11-pop-novel-qa | 无（可随时触发） | ❌ 不直接改正文（问题标记后由上游修复） |
+| "分析文风" | 03-pop-dna | 需有成文样本 | — |
+| "设计角色储备" | 04-pop-novel-character-schema | 无 | — |
 | "继续/下一步/继续任务" | 检查 progress.next_skill | 若 ready=true → 执行；若 ready=false → 设为 true 后执行 | — |
 | "调研/什么火/社区" | cnovel-research | 无 | — |
 
@@ -39,6 +39,7 @@ pipeline: { up: [], down: [pop-novel-bookstrap, pop-novel-deconstructor, pop-nov
 - ❌ **管道前置条件不满足硬跳** → 上游产出物缺失时告知用户缺什么，不直接跳过
 - ❌ **子 skill SKILL.md 找不到** → 终止，静默跳过 = 违规
 - ❌ **Read 工具读子 skill 文档** → 统一用 `Get-Content -Encoding UTF8 -Raw`。仅 >25K 文件回退 Read+offset
+- ❌ **长文产出全量贴入对话** → 文件写入后对话中只留摘要（≤ 200 字）。文件内容已落盘，重复粘贴 = 上下文膨胀。正确格式："已写入 {路径}。摘要：{核心内容一句话}。需展开任一段告诉我。"
 
 ---
 

@@ -1,8 +1,8 @@
----
-name: pop-novel-html-renderer
+﻿---
+name: 12-pop-novel-html-renderer
 description: 当用户说"发布 / HTML化 / 渲染成网页 / 小说上网页 / 把设定做成HTML / 场景卡发布 / 角色页发布 / 全文发布页"时触发。将小说正文/设定/场景卡等结构化数据 → 高质量单文件 HTML 发布页。
 pipeline:
-  upstream: [pop-novel-prose-render]
+  upstream: [10-pop-novel-prose-render]
   downstream: []
 ---
 
@@ -90,7 +90,8 @@ html = renderer.render(intent.resolved_skill, data, output_path)
 | ❌1 | **HTML 验证** — 生成的 HTML 必须通过 W3C 标准检查，无未闭合标签、无非法嵌套、无重复 ID | [ ] |
 | ❌2 | **设计系统决策已执行** — 必须明确选择一种设计系统（Swiss / Guizang / Kami / Glitch 等 27 种）并附选择理由；禁止无依据随机挑选 | [ ] |
 | ❌3 | **NodeF 前置决策已完成** — 渲染前必须经过 `NodeF.decide()` 获取决议，禁止跳过节点 F 直接硬编码设计参数 | [ ] |
-| ❌4 | **输出路径合规** — 渲染产物必须写入 `宣传/` 子目录，禁止写入项目根目录或其他非约定路径 | [ ] |
+| ❌4 | **输出路径合规** — 渲染产物必须写入 `宣传/` 子目录，禁止写入项目根目录或其他非约定路径 |
+| ❌5 | **产出只留摘要** — HTML 生成后对话中不粘贴源码。说"已写入 {路径}。预览核心里：{首页视觉效果描述}。需调整告诉我。" | [ ] |
 
 ---
 

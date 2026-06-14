@@ -1,8 +1,8 @@
-# payoff-design-guide.md — 四级爽点设计方法论
+﻿# payoff-design-guide.md — 四级爽点设计方法论
 
-> 管线: pop-novel-plot v6.2
+> 管线: 08-pop-novel-plot v6.2
 > 定位：plot 专属。如何设计四级爽点（小/中/大/特大）的完整方法论。
-> 消费方（如何承接） → `pop-novel-chapter-design/references/payoff-guide.md`
+> 消费方（如何承接） → `09-pop-novel-chapter-design/references/payoff-guide.md`
 
 ---
 

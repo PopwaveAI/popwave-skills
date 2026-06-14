@@ -1,5 +1,5 @@
 {
-  "id": "pop-novel-qa",
+  "id": "11-pop-novel-qa",
   "version": "1.0.0",
   "displayName": "项目审计",
   "description": "项目审计 / 全量对齐检查 触发：四维工程级扫描（文件树/文档质量/管线阶段/分类正确性），输出 Gap Report。",
@@ -11,7 +11,7 @@
   "tags": ["审计", "对齐检查", "文件体检", "Gap Report"],
   "fidelity": "production",
   "novelAgentVersion": "v3.3",
-  "directory": "pop-novel-qa",
+  "directory": "11-pop-novel-qa",
   "orchestration": {
     "preflight": ["check_project_dir"],
     "dependencies": ["project.yaml", "expert-writer/references/pipeline-arch.md"],

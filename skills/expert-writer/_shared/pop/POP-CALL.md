@@ -1,4 +1,4 @@
-# POP-CALL.md — pop 编排声明模板
+﻿# POP-CALL.md — pop 编排声明模板
 
 > pop 收到需求后，按 SKILL.md 的 Think→Execute→Reflect 流程路由。
 > 每次新任务先声明，后做事。
@@ -25,7 +25,7 @@
 🖋️ **pop 收到老板指示」
 
 任务理解：xxx
-执行路线：pop-novel-chapter-design → pop-novel-prose-render
+执行路线：09-pop-novel-chapter-design → 10-pop-novel-prose-render
 ```
 
 ---
@@ -35,11 +35,11 @@
 | 用户输入关键词 | 路由 skill |
 |:---|:---|
 | 开书 / 新书 / 设定 | `pop-novel-bookstrap` (forward) |
-| 幕纲 / 大纲 / 剧情 | `pop-novel-plot` |
-| 写正文 / 下一章 | `pop-novel-chapter-design` → `pop-novel-prose-render` |
-| 拆书 / 解构 / 分析 | `pop-novel-deconstructor` |
-| 审稿 / QA / 质检 | `pop-novel-qa` |
-| HTML化 / 发布 | `pop-novel-html-renderer` |
+| 幕纲 / 大纲 / 剧情 | `08-pop-novel-plot` |
+| 写正文 / 下一章 | `09-pop-novel-chapter-design` → `10-pop-novel-prose-render` |
+| 拆书 / 解构 / 分析 | `02-pop-novel-deconstructor` |
+| 审稿 / QA / 质检 | `11-pop-novel-qa` |
+| HTML化 / 发布 | `12-pop-novel-html-renderer` |
 | 续写 / 交接 | `pop-novel-bookstrap` (reverse) |
 
 ---

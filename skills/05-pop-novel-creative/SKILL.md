@@ -1,9 +1,9 @@
----
-name: pop-novel-creative
+﻿---
+name: 05-pop-novel-creative
 description: "当用户说'开新书/创意打磨/方向碰撞/我想写个故事/修仙/玄幻'时启用。消费 deconstructor 产出 + 跨域素材，产出故事引擎.md + 样品试读。"
 pipeline:
-  upstream: [pop-novel-deconstructor]
-  downstream: [pop-novel-world]
+  upstream: [02-pop-novel-deconstructor]
+  downstream: [06-pop-novel-world]
 ---
 
 # 创意打磨 v1.4.0
@@ -32,6 +32,12 @@ pipeline:
 | ❌6 | **样品签字格式完整** — sample_approval 块写入故事引擎.md | [ ] |
 | ❌7 | **故事引擎可被十分钟读完** — 读起来像故事提案不是配置表 | [ ] |
 | ❌8 | **不准跳过样品试读直传 world** — world 收到没有样品签字的 engine → 退回 creative | [ ] |
+
+## ❌ 产出纪律
+
+| # | 规则 |
+|:-:|:-----|
+| ❌9 | **写入文件后对话中只留摘要（≤ 200 字），不粘贴完整产出。** 正确格式："已写入 {路径}。摘要：{核心}。需展开告诉我。" |
 
 ## 收到任务后，按顺序执行
 
@@ -125,7 +131,7 @@ pipeline:
 | 主角设计 | `_设计笔记/主角设计.md` | 四维完整 |
 | 样品 | `_样品试读/样品-v{N}.md` | 用户签字 |
 
-**落盘后动作**：交接给 pop-novel-world。
+**落盘后动作**：交接给 06-pop-novel-world。
 
 ## 异常与边界条件
 

@@ -1,6 +1,6 @@
-# Step 3：风格验证
+﻿# Step 3：风格验证
 
-> 管线: pop-novel-prose-render v2.0
+> 管线: 10-pop-novel-prose-render v2.0
 
 ---
 

@@ -1,4 +1,4 @@
-# CHANGELOG — pop-novel-chapter-design
+﻿# CHANGELOG — 09-pop-novel-chapter-design
 
 ## v1.5.0 — 2026-06-11
 
@@ -16,7 +16,7 @@
 - **step-2-event-chain.md**：逐事件设计新增「中爽点标记」字段 — 读者读完认知有没有变化？有变化 → ★中爽点事件。整章累计 ≥ 1
 - **step-3-output.md**：自检新增「中爽点事件 ≥ 1」检查项
 - **fact-skeleton.md**：爽点等级注释补充责任说明：大/终极由 plot 指定，中爽点逐事件标记。交叉引用 payoff-guide.md
-- **中爽点定义基准** → `pop-novel-plot/references/payoff-design-guide.md`
+- **中爽点定义基准** → `08-pop-novel-plot/references/payoff-design-guide.md`
 
 ## v1.4.0 — 2026-06-10
 

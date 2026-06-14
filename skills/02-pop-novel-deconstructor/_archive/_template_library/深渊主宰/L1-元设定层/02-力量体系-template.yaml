@@ -1,0 +1,14 @@
+# Template: 力量体系
+# @consumed_by: pop-novel-world Phase 1
+
+level_count: 12
+level_gap_model: "线性(1-5级 50%提升) → 指数(5级后跳变)"
+chapters_per_level_early: 3
+chapters_per_level_late: 8
+bottleneck_chapter: 17
+bottleneck_mechanism: "职业进阶需条件触发(盗贼→刺客需藏宝洞试炼)"
+upgrade_rhythm:
+  chapters_between_upgrades: [3, 5, 8, 5, 12, 4, 6, 7, 15, 5, 10]
+  density_early: "3-5章/级 (ch1-34)"
+  density_late: "8-15章/级 (ch35+)"
+  pattern: "前期密集→瓶颈期→中期稳定"

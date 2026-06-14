@@ -1,15 +1,15 @@
----
-name: pop-novel-character-schema
+﻿---
+name: 04-pop-novel-character-schema
 description: 当用户说"设计角色 / 创建角色卡 / 写人设 / 设计配角 / 角色分级 / 角色模板 / 角色储备"时启用。定义角色卡 Lv1~Lv4 分级标准、维度递增体系和字段规范。跨赛道复用。
 pipeline:
-  upstream: [pop-novel-bookstrap, pop-novel-plot]
+  upstream: [pop-novel-bookstrap, 08-pop-novel-plot]
   downstream: []
 ---
 
 # 角色分级模板 v2.0.0
 
 > 定位：标准定义 Skill — 定义角色卡 Lv1~Lv4 分级标准、维度递增体系和字段规范。
-> 对标：pop-dna（轻量、不注册全管线、作为 reference 被其他 skill 消费）
+> 对标：03-pop-dna（轻量、不注册全管线、作为 reference 被其他 skill 消费）
 
 ---
 
@@ -80,6 +80,7 @@ pipeline:
 | ❌2 | **不跨级混用维度** | Lv2 不偷 Lv4 的「能力」维；Lv3 不漏 Lv2 的「标签」维 |
 | ❌3 | **不对齐就输出** | 每 Lv 维度 = 上一 Lv 全部维度 + 本 Lv 新增维度。少一项即为不合格 |
 | ❌4 | **设计目的和能力不可省略** | Lv1~Lv4 每级角色卡必须包含「设计目的」和「叙事能力」声明 |
+| ❌5 | **产出只留摘要** — 写入角色卡后对话中不粘贴完整卡片。说"已写入 {路径}。摘要：{角色名} Lv{N}，{核心特征}。需展开告诉我。" |
 
 ---
 
@@ -246,7 +247,7 @@ Lv1 路人的角色卡里写了"驱力：想要/恐惧/背叛条件"
 | 5 | 角色设计中途合并 | 两个角色合并为一人 | 取较高 Lv 的模板填写，合并两者驱动 |
 | 6 | 临时角色意外复出 | Lv1 角色在后续章节再次出现 | 从 Lv1 升级到 Lv2（补标签+驱动·功能），不重写摘要 |
 | 7 | 用户要求批量创建角色 | 一次需要创建 5+ 角色卡 | 逐角色按叙事权重判断级别，分别加载对应模板，不批量套用同一级别 |
-| 8 | 消费方 skill 不读取本 schema | 下游 skill 直接硬编码角色字段 | 本 skill 不阻塞管线，但产出标注"角色卡未使用 pop-novel-character-schema 标准" |
+| 8 | 消费方 skill 不读取本 schema | 下游 skill 直接硬编码角色字段 | 本 skill 不阻塞管线，但产出标注"角色卡未使用 04-pop-novel-character-schema 标准" |
 
 ---
 

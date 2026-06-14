@@ -1,0 +1,8 @@
+# Template: 碰撞曲线
+battle_type_distribution: {assassination:25, duel:20, skirmish:30, war:15, god_war:10}
+emotional_arc:
+  act_1: "压抑(1-5)→爆发(8-9)→再压(10-12)→高潮爆发(13-17)"
+  act_2: "探索→压迫→逆袭"
+fatigue_management:
+  rule: "连续2章高强度战斗后必须插>=1章缓冲(日常/升级)"
+  penalty: "连续战斗→战力x0.7→需道具/休息"

@@ -1,13 +1,13 @@
----
-name: download-webnovel-txt
+﻿---
+name: 01-download-webnovel-txt
 pipeline:
   upstream: []
-  downstream: [pop-novel-deconstructor]
+  downstream: [02-pop-novel-deconstructor]
 description: 当用户说"下载TXT/下txt/搜小说下载/找小说txt/书名+txt下载/直链下载"时启用。只走一条路：搜直链 → 下直链。不爬目录页、不逐章抓取。
 version: 2.0.0
 ---
 
-# download-webnovel-txt · 网文 TXT 直链下载
+# 01-download-webnovel-txt · 网文 TXT 直链下载
 
 > **定位：一条路走到底。** 不爬目录页、不逐章抓取、不绕弯路。搜到直链就下，搜不到就报。
 
@@ -20,7 +20,13 @@ version: 2.0.0
 | 搜索直链 | `任意搜索引擎 site:pan.baidu.com 书名 txt` | 10-30s |
 | 下载 TXT | `curl/wget 直链URL -o 书名.txt` | 10-60s |
 | 输出位置 | `d:\popwave-skills\{书名}.txt` | — |
-| 下游消费 | pop-novel-deconstructor 自动读取 | — |
+| 下游消费 | 02-pop-novel-deconstructor 自动读取 | — |
+
+## ❌ 质量红线
+
+| # | 规则 |
+|:-:|:-----|
+| ❌1 | **产出只留摘要** — 下载完成后对话中只说"已下载 {书名}.txt，大小 {N}MB，前 100 字预览：{片段}。"不粘贴全文。 |
 
 ---
 
@@ -120,4 +126,4 @@ head -100 "d:\popwave-skills\{书名}.txt"
 
 ---
 
-> 版本：v2.0.0 | 更新：2026-06-13 | 下游：pop-novel-deconstructor
+> 版本：v2.0.0 | 更新：2026-06-13 | 下游：02-pop-novel-deconstructor

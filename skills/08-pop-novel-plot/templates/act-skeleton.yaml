@@ -1,8 +1,8 @@
-# act-XX.yaml — 幕纲 YAML 骨架
+﻿# act-XX.yaml — 幕纲 YAML 骨架
 
 > 产出路径: `设计/幕/vol-XX/act-YY.yaml`
-> 管线: pop-novel-plot v6.3 · Step 2
-> 消费: pop-novel-chapter-design
+> 管线: 08-pop-novel-plot v6.3 · Step 2
+> 消费: 09-pop-novel-chapter-design
 >
 > 用法: 直接填充即可。剧情线定义在卷级 `设计/卷/volume-XX.md §四`（已用户确认），act 不做重定义。
 > 每章一个自包含 block——Canvas 数据 + 设计意图合在一起，design agent 一次性读完。

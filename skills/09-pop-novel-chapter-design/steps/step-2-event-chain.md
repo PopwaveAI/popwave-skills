@@ -1,6 +1,6 @@
-# Step 2：事件链设计
+﻿# Step 2：事件链设计
 
-> 管线: pop-novel-chapter-design v1.5
+> 管线: 09-pop-novel-chapter-design v1.5
 > 模板: `templates/fact-skeleton.md`
 > 参考: `references/character-scheduling.md` `references/location-orchestration.md` `references/emotional-beats.md`
 

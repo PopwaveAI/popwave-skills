@@ -1,6 +1,6 @@
-# 文风DNA蒸馏方法论文档
+﻿# 文风DNA蒸馏方法论文档
 
-> 本文档记录 pop-dna 的核心方法论、从开源项目借鉴的设计思路、以及实验验证建议。
+> 本文档记录 03-pop-dna 的核心方法论、从开源项目借鉴的设计思路、以及实验验证建议。
 
 ---
 
@@ -11,7 +11,7 @@
 **核心洞察**：通过精心设计的 System Prompt，让 Claude 模仿另一种 AI 的思维方式（o1 的链式推理）。
 
 **迁移到文风模仿**：
-| Thinking-Claude 的做法 | pop-dna 的迁移 |
+| Thinking-Claude 的做法 | 03-pop-dna 的迁移 |
 |------------------------|----------------|
 | 分析 o1 的思维方式特征 | 分析目标作者的写作风格特征 |
 | 提取关键思维特征词 | 提取 7 维风格特征 |
@@ -71,9 +71,9 @@ brief（用户需求）
   → 发布（输出成品）
 ```
 
-pop-dna 集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
+03-pop-dna 集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
 
-### 1.4 三层文风DNA框架（pop-novel-chapter-design → pop-novel-prose-render）
+### 1.4 三层文风DNA框架（09-pop-novel-chapter-design → 10-pop-novel-prose-render）
 
 **核心洞察**：风格由三个独立层次构成，而非单一的"好不好读"维度：
 
@@ -83,7 +83,7 @@ Layer 2：叙事策略指令（信息怎么讲出来）
 Layer 3：文风DNA / 叙事哲学（作者为什么这样写）
 ```
 
-**pop-dna 的定位**：主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 pop-novel-chapter-design 处理，产出设计包供 pop-novel-prose-render 消费。
+**03-pop-dna 的定位**：主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 09-pop-novel-chapter-design 处理，产出设计包供 10-pop-novel-prose-render 消费。
 
 ---
 

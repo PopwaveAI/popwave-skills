@@ -1,0 +1,15 @@
+# Template: 世界蓝图(信息释放)
+# @consumed_by: pop-novel-world Phase 1
+
+info_release_curve:
+  - chapters: [1,3];  dimension: "社会·家庭"; key_info: ["贫民窟生存规则", "兄妹相依关系"]
+  - chapters: [4,7];  dimension: "力量·设定"; key_info: ["DND面板", "职业体系", "晨曦神殿"]
+  - chapters: [8,12]; dimension: "武力·生存"; key_info: ["刺客手法", "帮派结构", "琥珀城格局"]
+  - chapters: [13,17]; dimension: "冒险·探索"; key_info: ["藏宝洞", "陷阱机制", "万象无常牌"]
+  - chapters: [18,25]; dimension: "身份·出路"; key_info: ["冒险者工会", "任务系统", "妹妹力量暗示"]
+
+world_expansion_ratio: "贫民窟(1章)→琥珀城(6章)→荒野(30章)→剑湾(60+章)→深渊(120+章)"
+mystery_layering:
+  - layer:1; introduced:3;  topic: "薇薇安的恐惧潜质"
+  - layer:2; introduced:15; topic: "万象无常牌来源(远古遗物)"
+  - layer:3; introduced:20; topic: "神之子命运的暗示"

@@ -1,0 +1,7 @@
+# Template: 等级排期
+schedule:
+  - act:1; end_rank: "3级"; milestone: "第一次杀人+第一次Boss战"
+  - act:2; end_rank: "5-6级"; milestone: "藏宝洞生存试炼"
+  - act:3; end_rank: "7-8级"; milestone: "圣人墓碑信息解锁"
+  - act:4; end_rank: "10级(传奇门槛)"; milestone: "圣者浩劫触发"
+  - act:5; end_rank: "12级(神灵)"; milestone: "登神之争"

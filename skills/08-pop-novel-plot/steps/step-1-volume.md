@@ -1,8 +1,8 @@
-# Step 1：卷设计
+﻿# Step 1：卷设计
 
 > 产出: `设计/卷/volume-XX.md`
 > 模板: `templates/volume-design.md`
-> 管线: pop-novel-plot v6.1 — 从全书架构中拆取单卷战略
+> 管线: 08-pop-novel-plot v6.1 — 从全书架构中拆取单卷战略
 > 上游: `设计/全书架构.md`（本书架决定了卷总数、各卷命题、角色出场、地理展开）
 
 ---

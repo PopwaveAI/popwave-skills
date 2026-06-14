@@ -1,7 +1,7 @@
-# Step 0：全书架构设计
+﻿# Step 0：全书架构设计
 
 > 产出: `设计/全书架构.md`
-> 管线: pop-novel-plot Phase 0 — 开书后执行一次，卷间可修订
+> 管线: 08-pop-novel-plot Phase 0 — 开书后执行一次，卷间可修订
 > 输入: story-engine.yaml + 起点快照.md + 终点快照.md + L1-01~06 + 状态/角色/核心角色卡（取 core_desire）
 
 ---

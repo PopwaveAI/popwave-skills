@@ -1,0 +1,19 @@
+# Template: 卷1起点快照
+# @consumed_by: pop-novel-world Phase 5
+
+protagonist:
+  level: "5平民/1游荡者"
+  equipment: "无"
+  cognition: "灵魂融合中"
+
+sister:
+  name: "薇薇安"; age:8; status: "营养不良有伤疤"
+  bloodline_hint: "恐惧力量潜伏(ch3墓园暗示)"
+
+world:
+  location: "琥珀城贫民区"
+  threats: ["大盗萨沙", "帮派争斗"]
+  mystery: "剥皮事件(ch10)"
+
+mystery_unfolding:
+  - topic: "妹妹的恐惧血统(神之子线索)"; hinted:ch3; title_hint: "ch20'神之子'"

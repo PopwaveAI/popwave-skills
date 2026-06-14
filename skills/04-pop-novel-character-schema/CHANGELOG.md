@@ -1,4 +1,4 @@
-# CHANGELOG — pop-novel-character-schema
+﻿# CHANGELOG — 04-pop-novel-character-schema
 
 ## v2.0.0 (2026-06-11)
 
@@ -27,4 +27,4 @@
 - **Lv4 一次性角色模板**：1 维（一句话摘要）
 - **references/character-arc.md**：弧线设计指南
 - **跨赛道复用**：模板使用通用写作术语，不绑定特定题材
-- **定位**：轻量标准定义 Skill，对标 pop-dna
+- **定位**：轻量标准定义 Skill，对标 03-pop-dna

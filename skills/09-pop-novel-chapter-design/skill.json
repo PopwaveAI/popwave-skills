@@ -1,6 +1,6 @@
 {
-  "id": "pop-novel-chapter-design",
-  "name": "pop-novel-chapter-design",
+  "id": "09-pop-novel-chapter-design",
+  "name": "09-pop-novel-chapter-design",
   "version": "1.5.0",
   "description": "导演卡/章纲设计。接收大纲的完整 Canvas，产出结构化的事实骨架和登场人物卡。",
   "author": "江轩",

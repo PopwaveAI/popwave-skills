@@ -1,9 +1,9 @@
-# CHANGELOG — pop-novel-world
+﻿# CHANGELOG — 06-pop-novel-world
 
 ## v1.2.0 — 2026-06-12
 
 ### 数据采集层移回 creative
-- Phase W0（跨域素材聚合）和 Phase W1（拆书融合）移回 pop-novel-creative 并前置
+- Phase W0（跨域素材聚合）和 Phase W1（拆书融合）移回 05-pop-novel-creative 并前置
 - world 简化为六阶段：Phase 1 L1设定 → 2 稳定性 → 3 角色卡 → 4 数值 → 5 起点快照 → 6 宪法
 - creative 移交数据产物（跨域素材蒸馏 + 拆书融合摘要），world 直接消费
 - 质量红线从 10 条减为 8 条（移除 W0/W1 相关红线）
@@ -17,7 +17,7 @@
 ## v1.1.0 — 2026-06-12
 
 ### 新增 Phase W0/W1：数据采集层移入
-- Phase W0（跨域素材聚合，HARD GATE）和 Phase W1（拆书融合，有对标书时强制）从 pop-novel-creative 移入
+- Phase W0（跨域素材聚合，HARD GATE）和 Phase W1（拆书融合，有对标书时强制）从 05-pop-novel-creative 移入
 - 原 Phase 1-5 重编号为 W2-W7
 - 创意层（creative）在样品签字后使命完成——数据采集归 world
 - 不强制拆书：只有对标书时才强制执行 Phase W1
@@ -33,8 +33,8 @@
 
 ### 初始发布
 - 从 pop-novel-bookstrap 拆出，聚焦"从宪法推导世界参数"
-- 消费 pop-novel-creative 的故事引擎.md
-- 消费 pop-novel-character-schema 的 Lv1~Lv4 模板产出角色卡
+- 消费 05-pop-novel-creative 的故事引擎.md
+- 消费 04-pop-novel-character-schema 的 Lv1~Lv4 模板产出角色卡
 - 消费 deconstructor T1/T2/T3/T4（如有参考书）
 
 ### 产出物

@@ -1,6 +1,6 @@
-# Step 1：读入 Canvas + 状态
+﻿# Step 1：读入 Canvas + 状态
 
-> 管线: pop-novel-chapter-design v1.5
+> 管线: 09-pop-novel-chapter-design v1.5
 > 模板: `templates/fact-skeleton.md`
 > 参考资料: `references/character-scheduling.md` / `references/location-orchestration.md` / `references/emotional-beats.md`
 

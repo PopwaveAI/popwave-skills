@@ -1,4 +1,4 @@
-# CHANGELOG — pop-novel-game
+﻿# CHANGELOG — 13-pop-novel-game
 
 > 版本规则：主版本.次版本.修订号
 > 每次调优产生一个新版本号

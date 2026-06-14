@@ -1,4 +1,4 @@
-# pop-novel-game v2 升级 — 任务分解
+﻿# 13-pop-novel-game v2 升级 — 任务分解
 
 ## Task 1: 创建 Spec 三文件
 - 创建 `spec.md`（需求规格）

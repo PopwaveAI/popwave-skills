@@ -1,6 +1,6 @@
-# Step 3：产出与状态更新
+﻿# Step 3：产出与状态更新
 
-> 管线: pop-novel-chapter-design v1.5
+> 管线: 09-pop-novel-chapter-design v1.5
 > 模板: `templates/fact-skeleton.md`（已合并，含事实骨架 + 登场人物卡）
 
 ## 目的

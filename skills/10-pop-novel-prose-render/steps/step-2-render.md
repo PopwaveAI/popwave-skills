@@ -1,6 +1,6 @@
-# Step 2：逐事件渲染
+﻿# Step 2：逐事件渲染
 
-> 管线: pop-novel-prose-render v2.0
+> 管线: 10-pop-novel-prose-render v2.0
 
 ---
 

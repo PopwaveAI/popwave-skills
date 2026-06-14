@@ -1,6 +1,6 @@
-# payoff-guide.md — 文本脉冲 · 写作质量检查
+﻿# payoff-guide.md — 文本脉冲 · 写作质量检查
 
-> 管线: pop-novel-prose-render v2.0
+> 管线: 10-pop-novel-prose-render v2.0
 > 定位：prose-render 专属。**文本脉冲不是爽点层级**——它是写作质量检查。
 > 爽点体系四档（小/中/大/特大）全部在 plot + chapter-design 中规划。
 

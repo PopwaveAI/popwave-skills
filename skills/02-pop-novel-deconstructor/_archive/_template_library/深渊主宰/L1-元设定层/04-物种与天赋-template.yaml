@@ -1,0 +1,20 @@
+# Template: 物种与天赋
+# @consumed_by: pop-novel-world Phase 1
+# @source_book: 深渊主宰
+
+major_races:
+  - name: "人类"; traits: "数量最多，无种族天赋但职业路径最灵活"; playable: "是"; faction: "琥珀城/剑湾地区"
+  - name: "精灵"; traits: "长寿、敏捷、与自然亲和"; playable: "是"; faction: "森林地区"
+  - name: "矮人"; traits: "锻造天赋、坚韧"; playable: "是"; faction: "山地/矿脉地区"
+  - name: "恶魔(深渊)"; traits: "混乱邪恶、力量源于深渊"; playable: "否(敌对)"; faction: "无底深渊"
+  - name: "巫妖/亡灵"; traits: "不死生物、与冥界/阴影位面相关"; playable: "否(敌对)"; faction: "阴影位面"
+
+monsters:
+  - name: "哥拉斯猎犬"; cr: "1-3"; description: "地狱三首犬杂交后代，壮年可搏杀豹子"; note: "希斯为哥拉斯猎犬，ch3战死"
+  - name: "亡者/骷髅"; cr: "2-4"; description: "墓园区被惊动的亡灵"
+  - name: "深渊恶魔(幼)"; cr: "8-12"; description: "藏宝洞中遭遇的boss级敌人"
+  - name: "恶魔领主"; cr: "15+"; description: "深渊更高层的主宰者"
+
+special_bloodlines:
+  - name: "恐惧力量(血裔)"; carrier: "[主角妹妹] 薇薇安"; hint: ["ch3墓园恐惧潜质初现", "ch5大盗萨沙觊觎", "ch20标题'神之子'"]; note: "主角的血统暗示从书名原名'妹妹是恐惧大魔王'可确认"
+  - name: "神之子"; carrier: "[主角] 索伦"; hint: ["ch2面板觉醒时的'灵魂融合'", "ch19血裔", "ch20神之子"]

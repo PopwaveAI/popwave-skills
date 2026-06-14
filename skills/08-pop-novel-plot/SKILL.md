@@ -1,9 +1,9 @@
----
-name: pop-novel-plot
+﻿---
+name: 08-pop-novel-plot
 description: 当用户说"设计剧情/规划大纲/情绪弧线/画幕纲"时启用。消费 bookstrap 的 story-engine，产出卷级战略+幕级战术（Canvas矩阵/情绪弧线/payoff链）。
 pipeline:
-  upstream: [pop-novel-bookstrap, pop-novel-deconstructor]
-  downstream: [pop-novel-chapter-design]
+  upstream: [pop-novel-bookstrap, 02-pop-novel-deconstructor]
+  downstream: [09-pop-novel-chapter-design]
 ---
 
 # 剧情架构 v6.3
@@ -12,7 +12,7 @@ pipeline:
 > **幕 = 战术** — Canvas 矩阵（章节×剧情线交叉表）、情绪弧线、爽点分布、每章切片。
 > **全书架构（Phase 0）** — N 卷蓝图：卷拆分/地理全图/角色出场节奏/主线全览。
 >
-> 下游（pop-novel-chapter-design）只需要读 2 个文件：
+> 下游（09-pop-novel-chapter-design）只需要读 2 个文件：
 > `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml`
 
 ---
@@ -53,7 +53,7 @@ pipeline:
     章级切片：每章情绪/payoff/钩子/场景规格
     节奏检查：每条线最大连续空白章数自检
 
-> 爽点四级定义 + 设计方法论 + 案例 → `references/payoff-design-guide.md`（中/大/特大）+ `pop-novel-chapter-design/references/payoff-guide.md`（小/中承接）
+> 爽点四级定义 + 设计方法论 + 案例 → `references/payoff-design-guide.md`（中/大/特大）+ `09-pop-novel-chapter-design/references/payoff-guide.md`（小/中承接）
 ```
 
 ---
@@ -71,6 +71,7 @@ pipeline:
 - [ ] **主角等级 = act_rank_schedule.end_rank** — 跨文件值一致性
 - [ ] **连续 2 章无信息释放 → 第 3 章必追加**
 - [ ] **首卷黄金窗口（vol-01/act-01）** — ch01 核心卖点亮相 + 钩子 / ch02 第一次战斗或重大矛盾 / 连续铺垫 ≤ 1章。番茄标准，任一违规 → P0 退回
+- [ ] ★ **产出只留摘要** — 写入 volume/act 文件后对话中不粘贴完整产出。说"已写入 {路径}。摘要：{核心}。需展开告诉我。"
 
 ---
 
@@ -183,14 +184,14 @@ Phase 0：全书架构（1次）
 | 剧情线状态 | volume-XX.md §剧情线 | 主线1/2/3 + 支线均已用户确认 |
 | 跨文件一致性 | volume-XX.end_rank vs act-XX.act_rank_schedule.end_rank | 值一致 |
 
-**落盘后动作**：若当前卷所有幕已完成 → 通知 downstream `pop-novel-chapter-design` 可开工。
+**落盘后动作**：若当前卷所有幕已完成 → 通知 downstream `09-pop-novel-chapter-design` 可开工。
 
 ---
 
 ## 目录结构
 
 ```
-pop-novel-plot/
+08-pop-novel-plot/
 ├── SKILL.md              ← 路由层（本文件）
 ├── skill.json
 ├── CHANGELOG.md

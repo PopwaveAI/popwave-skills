@@ -1,9 +1,9 @@
----
-name: pop-novel-world
+﻿---
+name: 06-pop-novel-world
 description: "当用户说'建世界观/设定/力量体系/世界构筑/L1设定'时启用。消费 creative 的故事引擎.md + 跨域素材，产出 L1 六件套 + 角色卡 + 数值体系 + 起点快照 + 世界宪法。"
 pipeline:
-  upstream: [pop-novel-creative, pop-novel-character-schema]
-  downstream: [pop-novel-plot]
+  upstream: [05-pop-novel-creative, 04-pop-novel-character-schema]
+  downstream: [08-pop-novel-plot]
 ---
 
 # 小说世界构筑 v1.2.0
@@ -33,6 +33,12 @@ pipeline:
 | ❌6 | **数值体系不与 L1 矛盾** |
 | ❌7 | **起点快照未经用户确认不进宪法** |
 | ❌8 | **世界宪法必须覆盖所有 L1 维度** |
+
+## ❌ 产出纪律（防上下文溢出）
+
+| # | 规则 |
+|:-:|:-----|
+| ❌9 | **写入文件后，对话中只留摘要（≤ 200 字），不粘贴完整产出。** 文件内容已通过工具调用完整写入磁盘，重复粘贴到对话只会让上下文膨胀。每轮回复末尾的说"已写入 {路径}，摘要：{一句话核心}，需展开任何一段告诉我。" |
 
 ## 收到任务后，按顺序执行
 

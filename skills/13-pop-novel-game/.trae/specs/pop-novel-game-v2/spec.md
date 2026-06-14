@@ -1,8 +1,8 @@
-# pop-novel-game v2 升级 — 产品需求文档
+﻿# 13-pop-novel-game v2 升级 — 产品需求文档
 
 ## Overview
 
-对 pop-novel-game 技能进行一次完整性升级。核心方向：修复当前方法文档中 `stream: true` 与 `response_format: json_object` 不兼容的 bug，引入完整的流式输出 + 动态渲染 UX 设计（AbortController 取消、超时兜底、指数退避重试、动态叙事面板渐进渲染），统一三份方法文档的代码规范，并新增 Spec 三文件作为项目规范底座。
+对 13-pop-novel-game 技能进行一次完整性升级。核心方向：修复当前方法文档中 `stream: true` 与 `response_format: json_object` 不兼容的 bug，引入完整的流式输出 + 动态渲染 UX 设计（AbortController 取消、超时兜底、指数退避重试、动态叙事面板渐进渲染），统一三份方法文档的代码规范，并新增 Spec 三文件作为项目规范底座。
 
 目标用户：pop 技能的使用者（小说作者/世界观创作者）及其所面对的终端玩家。
 
@@ -29,7 +29,7 @@
 
 ### 当前架构
 
-pop-novel-game 是 pop 技能体系中负责「小说世界观 → AI 文游」转化的技能。核心流程为三段式：
+13-pop-novel-game 是 pop 技能体系中负责「小说世界观 → AI 文游」转化的技能。核心流程为三段式：
 - Phase A：资料解析 → 结构化世界观 JSON
 - Phase B：文游设计 → AI 主持指令
 - Phase C：HTML 产出生成 → 交互式 HTML

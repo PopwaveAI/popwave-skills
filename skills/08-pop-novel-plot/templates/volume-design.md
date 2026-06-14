@@ -1,9 +1,9 @@
-# 卷设计 · 第X卷
+﻿# 卷设计 · 第X卷
 
 > 产出路径: `设计/卷/volume-XX.md`
-> 产出管线: pop-novel-plot v6.1 — Step 1
+> 产出管线: 08-pop-novel-plot v6.1 — Step 1
 > 上游: `设计/全书架构.md`（本书架决定了卷总数、各卷核心命题、角色出场节奏、地理展开时序）
-> 下游消费者: pop-novel-chapter-design（读此文件获取卷级地图/角色/剧情线/势力动机）
+> 下游消费者: 09-pop-novel-chapter-design（读此文件获取卷级地图/角色/剧情线/势力动机）
 
 ---
 

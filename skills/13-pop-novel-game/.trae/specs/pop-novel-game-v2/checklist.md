@@ -1,9 +1,9 @@
-# pop-novel-game v2 升级 — 验证清单
+﻿# 13-pop-novel-game v2 升级 — 验证清单
 
 ## 文档完整性验证
-- [ ] Check 1: `.trae/specs/pop-novel-game-v2/spec.md` 存在且内容完整
-- [ ] Check 2: `.trae/specs/pop-novel-game-v2/tasks.md` 存在且任务分解合理
-- [ ] Check 3: `.trae/specs/pop-novel-game-v2/checklist.md` 存在且检查项可判定
+- [ ] Check 1: `.trae/specs/13-pop-novel-game-v2/spec.md` 存在且内容完整
+- [ ] Check 2: `.trae/specs/13-pop-novel-game-v2/tasks.md` 存在且任务分解合理
+- [ ] Check 3: `.trae/specs/13-pop-novel-game-v2/checklist.md` 存在且检查项可判定
 - [ ] Check 4: 三文件中 spec/AC 与 checklist 检查项有一一映射关系
 
 ## stream/response_format 修复验证

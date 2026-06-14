@@ -1,4 +1,4 @@
-# CHANGELOG — pop-novel-html-renderer
+﻿# CHANGELOG — 12-pop-novel-html-renderer
 
 ## v1.3.1 (2026-06-04)
 - **SKILL.md 全面重写**：精简 frontmatter 为 name + description 双字段；description 统一为触发条件格式（「发布/HTML化/渲染成网页」）
@@ -8,7 +8,7 @@
 - **skill.json 元数据重构**：新增 name 字段，version `1.3.0` → `1.3.1`，produces 更新为「宣传/xxx.html」，description 与 SKILL.md 同步
 
 ## v1.3.0 (2026-06-03)
-- **name 字段对齐**：`name: html-renderer` → `pop-novel-html-renderer`
+- **name 字段对齐**：`name: html-renderer` → `12-pop-novel-html-renderer`
 - **死路径修复**：`glue/post_render.py` → `pop-novel-writer/scripts/post_render.py`、`novel-agent-pro` → `pop-novel-master`
 - **内部引用修复**：`_shared/html-renderer/__init__.py` → `__init__.py`（自有文件）
 

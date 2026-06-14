@@ -1,0 +1,14 @@
+# Template: 全书架构
+# @consumed_by: pop-novel-plot Phase 0
+
+total_volumes: 3
+avg_chapters_per_volume: 60
+plotlines:
+  main1: "世界危机线——圣者浩劫背景下主角的博弈"
+  main2: "主角成长线——从贫民窟小偷到深渊主宰"
+  main3: "主角行动线——为了薇薇安的每个主动决策"
+
+volume_outline:
+  - volume:1; chapters: "1-17"; core: "贫民窟→藏宝洞→万象无常牌"
+  - volume:2; chapters: "18-100"; core: "冒险工会→剑湾→圣人墓碑"
+  - volume:3; chapters: "101-187"; core: "势力→浩劫→登神→主宰"

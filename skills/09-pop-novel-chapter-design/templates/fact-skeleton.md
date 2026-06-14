@@ -1,8 +1,8 @@
-# chXXX-设计包模板（事实骨架 + 登场人物卡 合并）
+﻿# chXXX-设计包模板（事实骨架 + 登场人物卡 合并）
 
 > 产出路径: `写作资产/设计包/chXXX-设计包.md`
-> 生产方式: pop-novel-chapter-design v1.5
-> 下游消费者: pop-novel-prose-render
+> 生产方式: 09-pop-novel-chapter-design v1.5
+> 下游消费者: 10-pop-novel-prose-render
 
 ---
 
@@ -26,8 +26,8 @@
 ```markdown
 # chXXX-设计包
 
-> Design: pop-novel-chapter-design v1.5
-> 下游: pop-novel-prose-render
+> Design: 09-pop-novel-chapter-design v1.5
+> 下游: 10-pop-novel-prose-render
 > 版本: 1.5
 
 ## 基础信息
@@ -36,7 +36,7 @@
 - 本章标题: "XXX"
 - 本章核心目的: (一句话——这章为什么存在？读者读完要带走什么？)
 - 场景类型: (combat / dialogue / discovery / crisis / transition / mix)
-- 爽点等级: (小 / 中 / 大 / 特大)  ← 来自 act-XX.yaml Canvas entries 行。小/中归 design 自行标记；大/特大由 plot 指定位置。设计方法论见 `pop-novel-plot/references/payoff-design-guide.md`，承接指南见 `references/payoff-guide.md`
+- 爽点等级: (小 / 中 / 大 / 特大)  ← 来自 act-XX.yaml Canvas entries 行。小/中归 design 自行标记；大/特大由 plot 指定位置。设计方法论见 `08-pop-novel-plot/references/payoff-design-guide.md`，承接指南见 `references/payoff-guide.md`
 - 预期字数: 2500
 
 ## ★ 跨章弧线（没有则省略本节）

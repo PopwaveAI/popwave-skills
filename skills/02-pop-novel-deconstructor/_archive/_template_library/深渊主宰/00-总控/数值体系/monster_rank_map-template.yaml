@@ -1,0 +1,6 @@
+# Template: 怪物映射
+monster_mapping:
+  - monster: "帮派成员";      rank: "1-3级"; difficulty: "简单"
+  - monster: "亡者/骷髅";    rank: "2-4级"; difficulty: "中等"
+  - monster: "深渊恶魔(幼)";  rank: "8-12级"; difficulty: "Boss"
+  - monster: "传奇职业者";    rank: "10+"; difficulty: "极难"

@@ -1,8 +1,8 @@
-# Step 2：幕纲编排
+﻿# Step 2：幕纲编排
 
 > 产出: `设计/幕/vol-XX/act-YY.yaml`
 > 模板: `templates/act-skeleton.yaml`
-> 管线: pop-novel-plot v6.2 — 每幕执行一次，重复直到所有幕完成
+> 管线: 08-pop-novel-plot v6.2 — 每幕执行一次，重复直到所有幕完成
 
 ---
 

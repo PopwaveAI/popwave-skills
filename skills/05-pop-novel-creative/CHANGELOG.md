@@ -1,9 +1,9 @@
-# CHANGELOG — pop-novel-creative
+﻿# CHANGELOG — 05-pop-novel-creative
 
 ## v1.4.0 — 2026-06-12
 
 ### 数据采集层回流 + 前置
-- Phase W0（跨域素材聚合）和 Phase W1（拆书融合）从 pop-novel-world 移回 creative
+- Phase W0（跨域素材聚合）和 Phase W1（拆书融合）从 06-pop-novel-world 移回 creative
 - **关键变化：W0/W1 放在 Phase 0 元素融合之前** — 先采集燃料，再碰撞创意
 - 核心哲学：没有足够的跨域素材和拆书数据，碰撞不出好方向。后面一切都是空谈
 - W0 始终强制（HARD GATE），W1 有对标书时强制
@@ -19,7 +19,7 @@
 ## v1.3.0 — 2026-06-12
 
 ### 剥离数据采集层 → world
-- Phase 0.6（跨域素材）和 Phase 0.7（拆书融合）移至 pop-novel-world 的 Phase W0/W1
+- Phase 0.6（跨域素材）和 Phase 0.7（拆书融合）移至 06-pop-novel-world 的 Phase W0/W1
 - creative 在样品签字后使命完成——不负责采集 world 用的数据
 - 交接包精简为：故事引擎.md + 样品签字 + 主角设计笔记 + 参考书策略
 - world 的新增红线：跨域素材始终强制，拆书融合有对标书时强制
@@ -69,9 +69,9 @@
 
 ### 初始分叉
 - 从 pop-novel-bookstrap v4.1.0 分叉
-- 剥离 L1 设定层（Phase 1-1.5）→ 移入 pop-novel-world
-- 剥离数值体系（Phase 3-5）→ 移入 pop-novel-world
-- 剥离起点/终点快照（Phase 6-7）→ 移入 pop-novel-world
+- 剥离 L1 设定层（Phase 1-1.5）→ 移入 06-pop-novel-world
+- 剥离数值体系（Phase 3-5）→ 移入 06-pop-novel-world
+- 剥离起点/终点快照（Phase 6-7）→ 移入 06-pop-novel-world
 - 新增 Phase 0.5 样品试读（核心闸门）
 - story-engine 升级至 v3（constitutional_bounds + selling_point_validation）
 - 管线位置变更：deconstructor → creative → world

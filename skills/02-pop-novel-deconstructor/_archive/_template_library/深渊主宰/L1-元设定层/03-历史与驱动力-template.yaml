@@ -1,0 +1,23 @@
+# Template: 历史与驱动力
+# @consumed_by: pop-novel-world Phase 1
+# @source_book: 深渊主宰
+
+era_division:
+  - era: "耐瑟帝国时代（远古）"; feature: "魔法文明巅峰，耐瑟卷轴流传"
+  - era: "诸神纪元"; feature: "神祇统治世界，神权高于一切"
+  - era: "动荡之年/圣者浩劫（当前）"; feature: "神力风暴席卷多元宇宙，诸神被迫以圣者形态降临凡间"
+
+premise_events:
+  - "圣者浩劫引发的神力能量风暴，所有神灵暂时失去神力"
+  - "诸神被迫以圣者身份降临凡间（=可以被杀死）"
+  - "大量神灵陨落，神位出现真空，引发多方势力争夺"
+  - "琥珀城剥皮事件(ch10)暗示有未知力量早已在行动"
+
+core_conflict:
+  label: "秩序 vs 混沌"
+  description: "圣者浩劫导致权力真空，各方势力争夺神位。混沌四神趁机渗透物质位面。"
+  protagonist_position: "索伦在混乱中以守序邪恶的方式崛起——不站队，只变强"
+
+m1_line_origin:
+  what: "圣者浩劫是M1线（世界压力源）的底层驱动力"
+  when_activated: "ch3墓园事件首次暗示 → ch10剥皮事件强化 → ch13-17藏宝洞直接接触→ ch20'神之子'明确"

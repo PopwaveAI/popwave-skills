@@ -1,0 +1,26 @@
+# Template: 契诃夫枪追踪
+# @consumed_by: pop-novel-plot Step 2
+# @source_book: 深渊主宰
+
+chekhov_guns:
+  - plotline: "薇薇安的血统"
+    guns:
+      - setup_chapter: 3; content: "墓园事件——恐惧潜质初现触发亡灵异动"; payoff_chapter: 0; span: 0; quality: "未回收"
+
+  - plotline: "万象无常牌来源"
+    guns:
+      - setup_chapter: 13; content: "藏宝洞中获得万象无常牌——描述其来自'远古遗物'"; payoff_chapter: 0; span: 0; quality: "未回收"
+
+  - plotline: "圣者浩劫(M1线)"
+    guns:
+      - setup_chapter: 2; content: "索伦苏醒时回忆中'诸神陨落'的模糊记忆"; payoff_chapter: 187; span: 185; quality: "全域回收"
+      - setup_chapter: 10; content: "码头区传闻——剥皮事件，暗示有未知力量在行动"; payoff_chapter: 0; span: 0; quality: "未回收"
+
+long_range_guns_label: "跨度>30章的枪标记为超长线"
+unresolved_count: 2
+
+tracking_rules:
+  - "每条情节线独立列枪链"
+  - "设伏→回收标注章号+跨度"
+  - ">30章标记long_range"
+  - "未回收标注quality为'未回收'"

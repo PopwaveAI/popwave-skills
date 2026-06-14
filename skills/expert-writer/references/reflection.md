@@ -1,4 +1,4 @@
-# reflection.md — 四层递进审视
+﻿# reflection.md — 四层递进审视
 
 > 适用时机：任何子 skill 执行完成后，审视产出。不分场景，所有路由返回后执行一次。
 > 加载方式：`Get-Content -Encoding UTF8 -Raw`，不用 Read 工具。
@@ -99,7 +99,7 @@
 ## L3 ─ 质量检查（QA 报告判断）
 
 ```
-□ 如果子 skill 是 prose-render → 过 pop-novel-qa 质检
+□ 如果子 skill 是 prose-render → 过 11-pop-novel-qa 质检
 □ 读取 QA 报告结论：
   - "想跳过"≥2 或 "会弃书" → 标记 P0，退回 prose-render 重写
   - 无红线 → 通过

@@ -1,4 +1,4 @@
-# CHANGELOG — pop-novel-qa
+﻿# CHANGELOG — 11-pop-novel-qa
 
 ## v1.0.0 (2026-06-11)
 

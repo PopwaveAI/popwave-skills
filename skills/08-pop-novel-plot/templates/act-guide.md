@@ -1,7 +1,7 @@
-# act-guide.md — 幕字段计算公式参考
+﻿# act-guide.md — 幕字段计算公式参考
 
-> 管线: pop-novel-plot v6.1 · Step 2
-> 消费: pop-novel-chapter-design 做字段追溯时参考
+> 管线: 08-pop-novel-plot v6.1 · Step 2
+> 消费: 09-pop-novel-chapter-design 做字段追溯时参考
 > 输入: volume-XX.md（卷级战略）+ act-skeleton.yaml 骨架 + 状态/角色/核心角色卡
 > 产出: 设计/幕/vol-XX/act-YY.yaml
 
@@ -37,7 +37,7 @@
 
 ### 1.3 爽点分布
 
-> 设计方法论 → `references/payoff-design-guide.md`。承接指南 → `pop-novel-chapter-design/references/payoff-guide.md`
+> 设计方法论 → `references/payoff-design-guide.md`。承接指南 → `09-pop-novel-chapter-design/references/payoff-guide.md`
 > 此表仅列出 plot 层面需要关注的密度约束和大/特大位置规划。
 
 | 级别 | 密度约束 | plot 负责什么 |

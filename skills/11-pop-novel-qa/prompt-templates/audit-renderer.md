@@ -1,4 +1,4 @@
-# Audit Agent 项目全量对齐审计模板
+﻿# Audit Agent 项目全量对齐审计模板
 
 > 基准：`skills/expert-writer/references/pipeline-arch.md`（全链路总览 + S/D/M 矩阵 + 规范目录树）
 > 输入：项目根目录 + project.yaml
@@ -58,7 +58,7 @@
 | 设计/卷/volume-XX.md | plot S1 | 四节齐全？§〇 全书隶属段存在？ |
 | 设计/幕/vol-XX/act-YY.yaml | plot S2 | info_release_plan 段？Canvas 矩阵有 rhythm_check？有章级切片？ |
 | entity-snapshot.yaml | chapter-design | _meta.total_chapters 与目录文件数一致？ |
-| 写作资产/文风DNA/ | deconstructor/pop-dna | 含原文证据 + 规则？ |
+| 写作资产/文风DNA/ | deconstructor/03-pop-dna | 含原文证据 + 规则？ |
 
 单章产物一致性：章节数 = 设计包数 = entity-snapshot.total_chapters？
 

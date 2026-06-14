@@ -1,20 +1,20 @@
----
-name: pop-novel-prose-render
+﻿---
+name: 10-pop-novel-prose-render
 description: "当用户说'写第X章/渲染这章/上色/写正文'时启用。消费 chapter-design 的设计包 + styles/ 文风DNA，渲染为可读正文。产出：chXXX.md（正文 + 章末状态更新块）。"
 pipeline:
-  upstream: [pop-novel-chapter-design, pop-dna]
-  downstream: [pop-novel-qa]
+  upstream: [09-pop-novel-chapter-design, 03-pop-dna]
+  downstream: [11-pop-novel-qa]
 ---
 
 # 正文渲染 / 上色表达 v3.0
 
-消费 pop-novel-chapter-design 的设计包产物，全量加载 `写作资产/文风DNA/` 文风DNA（场景卡 v4 格式），对照设计包的 scene 字段定位场景卡后渲染。
+消费 09-pop-novel-chapter-design 的设计包产物，全量加载 `写作资产/文风DNA/` 文风DNA（场景卡 v4 格式），对照设计包的 scene 字段定位场景卡后渲染。
 
 **加载策略**：全量加载单文件（~20-30K），不拆分。过渡段/情绪缓冲/场景切换依赖整体风格感知。
 
 **核心约束：不碰剧情。** 不读上游 Canvas、不验证设定、不判断角色出场是否合理。Design 说了这章发生什么 → 我只管写好。
 
-**v3.0 核心变更**：对齐 pop-dna v4 场景卡格式。设计包 scene 字段 → DNA 场景卡 1:1 映射。全文加载为单一文件。
+**v3.0 核心变更**：对齐 03-pop-dna v4 场景卡格式。设计包 scene 字段 → DNA 场景卡 1:1 映射。全文加载为单一文件。
 
 ---
 
@@ -40,6 +40,7 @@ pipeline:
 | 风格验证通过 — 对照 `写作资产/文风DNA/` 原文验证，无风格偏差 ≥ 2 处 | ❌ 退回 Step 3，逐偏差修补后重新验证。 |
 | Canvas 约束未突破 | ❌ 标记违规项，退回上游修正或本章标注偏离。 |
 | 叙事者不解释 — 没有"他意识到/他感到/他仿佛"等 AI 观感词 | ❌ 退回 Step 2，逐处改写后再验证。 |
+| **产出只留摘要** — 写入文件后对话中不粘贴完整产出 | ❌ 说"已写入 {路径}。摘要：{核心}。需展开告诉我。" |
 
 ---
 
@@ -121,7 +122,7 @@ Step 4 — 最终输出
 | 条件 | 处理方式 |
 |:-----|:---------|
 | 设计包不存在 | ❌ 终止渲染。告知用户"chXXX-设计包.md 不存在，请先执行 chapter-design 产出设计包。" |
-| `写作资产/文风DNA/` 目录为空 | ⚠️ 降级为默认风格渲染。标记"文风DNA缺失，本章使用默认叙事风格。建议先执行 pop-dna 建立文风档案。" |
+| `写作资产/文风DNA/` 目录为空 | ⚠️ 降级为默认风格渲染。标记"文风DNA缺失，本章使用默认叙事风格。建议先执行 03-pop-dna 建立文风档案。" |
 | 续写时上一章正文缺失 | ❌ 终止渲染。告知用户"上一章正文不存在，无法获取末尾800字做衔接。" |
 | entity-snapshot 章节数不一致 | ⚠️ 继续渲染，但标记警告："entity-snapshot 声称{N}章，实际正文{M}章。章末状态更新块可能不准确。" |
 | 设计包中 scene 字段缺失 | ⚠️ 降级为线性叙事渲染。文风DNA场景卡映射跳过，使用通用风格。 |
@@ -152,14 +153,14 @@ Step 4 — 最终输出
 
 Step 4 输出完成后：
 - 写入：`正文/chXXX.md`（完整正文 + 章末状态更新块）
-- 告知用户："✅ chXXX 渲染完成。建议下一步执行 pop-novel-qa 做质检。"
+- 告知用户："✅ chXXX 渲染完成。建议下一步执行 11-pop-novel-qa 做质检。"
 
 ---
 
 ## 目录结构
 
 ```
-pop-novel-prose-render/
+10-pop-novel-prose-render/
 ├── SKILL.md              ← 路由层（本文件）
 ├── skill.json
 ├── CHANGELOG.md

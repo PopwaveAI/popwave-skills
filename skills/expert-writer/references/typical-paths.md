@@ -1,4 +1,4 @@
-# typical-paths.md — 典型路径速查
+﻿# typical-paths.md — 典型路径速查
 
 > 加载时机：Think 初次路由时，对照确认当前环节上下游。
 > 加载方式：`Get-Content -Encoding UTF8 -Raw`，不用 Read 工具。
@@ -28,23 +28,23 @@ Step 1 · pop-novel-bookstrap (forward)
   ├─ Phase 6:     起点快照.md → 设计/ [用户确认闸门]
   └─ Phase 7:     终点快照.md → 设计/ [用户确认闸门 → 进入 plot]
   ↓
-Step 2 · pop-novel-plot
+Step 2 · 08-pop-novel-plot
   ├─ Phase 0:  全书架构 → 设计/全书架构.md（卷拆分/地理全图/角色出场/主线全览）
   ├─ Step 1:   卷定义 → 设计/卷/volume-XX.md [用户确认闸门]
   └─ Step 2:   幕纲 → 设计/幕/vol-XX/act-YY.yaml（Canvas矩阵 + info_release_plan 内嵌）
   ↓
-Step 3 · pop-novel-chapter-design ★
+Step 3 · 09-pop-novel-chapter-design ★
   ├─ Step 1:  读入 act-XX.yaml + volume-XX.md + entity-snapshot + 角色卡
   ├─ Step 2:  事件链设计（逐个回合，同步地点/角色/情绪/信息释放）
   └─ Step 3:  产出 → 写作资产/设计包/chXXX-设计包.md + entity-snapshot 更新
   ↓
-Step 4 · pop-novel-prose-render ★
+Step 4 · 10-pop-novel-prose-render ★
   ├─ Step 1:  读入设计包 + 写作资产/文风DNA/ + 锚定章
   ├─ Step 2:  正文渲染
   ├─ Step 3:  风格验证（P0禁句/视角一致性/解说员句式）
   └─ Step 4:  输出 → 正文/chXXX.md（含章末状态更新块）
   ↓
-Step 5 · pop-novel-qa
+Step 5 · 11-pop-novel-qa
   ├─ Step 1:  大纲层 QC（act-XX.yaml + reader_profile）
   ├─ Step 2:  骨架层 QC（设计包 + reader_profile）
   └─ Step 3:  正文层 QC（正文/chXXX.md + reader_profile）
@@ -82,16 +82,16 @@ Step 2 → Step 3 → Step 4 → Step 5（同新书启动的 plot → chapter-de
 用户说"拆解这本书"
   │
   ▼
-Step 1 · download-webnovel-txt → {书名}.txt
+Step 1 · 01-download-webnovel-txt → {书名}.txt
   ↓
-Step 2 · pop-novel-deconstructor
+Step 2 · 02-pop-novel-deconstructor
   ├─ Phase 0:  采样日志
   ├─ Phase 1:  诊断报告
   ├─ Phase 2:  T1~T6 独立产出
   ├─ Phase 3:  验证报告
   └─ Phase 4:  三维拆书档案 + 卷1起点/终点快照
   ↓ (可选)
-Step 3 · pop-dna
+Step 3 · 03-pop-dna
   → 均匀采样 ≥20 章 → 产出 写作资产/文风DNA/{书名}.md
   ↓
 → 回到 路径一 · Step 1 bookstrap 的 Phase 0.6（融合拆书成果）
@@ -110,7 +110,7 @@ Step 3 · pop-dna
 | 「写第N章」 | chapter-design | act-XX.yaml + volume-XX 是否就位 |
 | 「渲染」「上色」 | prose-render | 设计包是否存在 |
 | 「审稿」「看看」 | qa | 正文是否存在 |
-| 「分析文风」 | pop-dna | 原文 ≥20 章是否可用 |
+| 「分析文风」 | 03-pop-dna | 原文 ≥20 章是否可用 |
 | 「改设定」「改角色」 | 定位→评估→逐层更新 | 修改路由表（SKILL.md §5） |
 
 ---
