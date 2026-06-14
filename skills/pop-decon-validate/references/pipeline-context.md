@@ -21,6 +21,6 @@ pop-decon-extract    pop-decon-cluster    pop-decon-world    pop-decon-engine   
 
 | 级别 | 覆盖步骤 | 输入来源 |
 |:-----|:---------|:---------|
-| Lv1 | Step 1-3 | Phase 1 产出（角色卡+龙套池+ETL 数据） |
-| Lv2 | Step 1-3 | Phase 1→2→3 产出 |
-| Lv3 | Step 1-3 | Phase 1→2→3→4 全部产出 |
+| 前N章 | Step 1-3 | Phase 1 产出（角色卡+龙套池+ETL 数据） |
+| 前N章 | Step 1-3 | Phase 1→2→3 产出 |
+| 全书 | Step 1-3 | Phase 1→2→3→4 全部产出 |

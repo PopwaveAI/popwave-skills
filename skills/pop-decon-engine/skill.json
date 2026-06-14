@@ -2,7 +2,7 @@
   "id": "pop-decon-engine",
   "version": "1.0.0",
   "displayName": "归纳故事引擎（Phase 4）",
-  "description": "Phase 4 of deconstruction. 仅 Lv3(全书). 逆 creative. 从所有已归纳的数据中提炼核心假说。前置条件：Phase 1/2/3 全部完成。Lv1/Lv2 不执行。",
+  "description": "Phase 4 归纳故事引擎。逆 creative。仅全书。核心假说→卖点→宪法→开篇→结构预期。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

@@ -2,7 +2,7 @@
   "id": "pop-decon-validate",
   "version": "1.0.0",
   "displayName": "验证打包（Phase 5）",
-  "description": "Phase 5 of deconstruction. 可回源性审计 + 跨 Phase 一致性 + 产出索引。终 Phase，验证全部拆解产出质量后打包。",
+  "description": "Phase 5 验证打包。可回源性审计+跨Phase一致性+产出索引。前N章/全书。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

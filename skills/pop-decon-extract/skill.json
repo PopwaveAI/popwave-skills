@@ -2,9 +2,26 @@
   "id": "pop-decon-extract",
   "version": "1.0.0",
   "displayName": "事实提取",
-  "description": "Phase 1 of deconstruction: ETL → character cards → fact skeleton. Invoke when user says '提取事实/跑ETL/角色卡提取' or when pop-decon routes to Phase 1.",
+  "description": "Phase 1 事实提取。ETL → 角色卡 → 事实骨架。前N章/全书。",
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["fact-extract", "事实提取", "etl"] },
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
-  "pipeline": { "upstream": ["tool-download-webnovel"], "downstream": ["pop-decon-cluster"], "expert": "pop-decon" }
+  "activation": {
+    "slashCommands": [
+      "fact-extract",
+      "事实提取",
+      "etl"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "pipeline": {
+    "upstream": [
+      "tool-download-webnovel"
+    ],
+    "downstream": [
+      "pop-decon-cluster"
+    ],
+    "expert": "pop-decon"
+  }
 }

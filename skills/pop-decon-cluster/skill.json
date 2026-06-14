@@ -2,7 +2,7 @@
   "id": "pop-decon-cluster",
   "version": "1.0.0",
   "displayName": "聚类卷幕（Phase 2）",
-  "description": "拆书管线 Phase 2：聚类卷幕。从 chapter-index.json 识别卷/幕边界，反推剧情线 Canvas，追踪契诃夫枪链。只聚类原文已呈现的结构，从不「设计」剧情。Lv2(ch1-100) / Lv3(全书)。前置依赖：Phase 1 事实提取完成。",
+  "description": "Phase 2 聚类卷幕。逆 plot+chapter-design。识别卷/幕/Canvas 矩阵+契诃夫枪追踪。前N章/全书。",
   "entry": "SKILL.md",
   "upstream": "pop-decon-extract",
   "downstream": "pop-decon-world",

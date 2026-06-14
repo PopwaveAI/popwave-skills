@@ -23,5 +23,5 @@ pop-decon-extract                pop-decon-world     pop-decon-engine  pop-decon
 
 | 级别 | 覆盖步骤 | 产出范围 |
 |:-----|:---------|:---------|
-| Lv2 | Step 1-8 | L1 六件套 + 世界宪法 + 数值体系 + 起点快照 |
-| Lv3 | Step 1-9 | Lv2 + 终点快照 + L1 六件套全书增补版 |
+| 前N章 | Step 1-8 | L1 六件套 + 世界宪法 + 数值体系 + 起点快照 |
+| 全书 | Step 1-9 | Lv2 + 终点快照 + L1 六件套全书增补版 |

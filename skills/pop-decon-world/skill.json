@@ -2,7 +2,7 @@
   "id": "pop-decon-world",
   "version": "1.0.0",
   "displayName": "归纳世界观（Phase 3）",
-  "description": "Phase 3 of deconstruction. 逆 world + creative（设定层）。从 world-data.json 归纳 L1 六件套 + 世界宪法 + 数值体系。前置条件：Phase 1 事实提取 + Phase 2 卷幕聚类完成。级别覆盖：Lv2(ch1-100) / Lv3(全书)。Lv1 不执行。",
+  "description": "Phase 3 归纳世界观。逆 world。L1六件套+宪法+战力数值+起点/终点快照。前N章/全书。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

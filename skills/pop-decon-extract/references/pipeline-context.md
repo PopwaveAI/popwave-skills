@@ -13,7 +13,7 @@
 
 1. **`_temp/baseline-data.json`**, **`chapter-index.json`**, **`world-data.json`** — structured data extracted from the raw TXT.
 2. **Character cards** (`状态/角色/`) — Lv4 protagonist card, Lv3 supporting character cards, walk-on pool.
-3. **Fact skeleton** (`写作资产/事实骨架/`) — per-chapter event chains (Lv2/Lv3 only).
+3. **Fact skeleton** (`写作资产/事实骨架/`) — per-chapter event chains (前N章/全书 only).
 4. **Phase 1 summary** (`_参考书/{书名}/Phase1-事实提取摘要.md`).
 
 ### Downstream Consumers
