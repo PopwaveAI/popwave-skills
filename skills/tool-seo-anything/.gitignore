@@ -1,0 +1,40 @@
+# ============================================================
+# PopWave SEO Pipeline — Git Ignore
+# ============================================================
+
+# External projects (not part of this repo)
+auto-browser/
+skills/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+
+# Generated outputs (SERP results, transcripts, briefs)
+youtube-seo-skill/outputs/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs
+*.log
+
+# Archive / old data
+data/ai_marketing_serp_results.json
+data/how_to_start_a_youtube_channel_serp_results.json
+data/wikihow_analysis.json
+data/youtube_channel_google_serp_results.md
+data/youtube_channel_serp_analysis.md

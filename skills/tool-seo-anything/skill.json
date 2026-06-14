@@ -1,0 +1,22 @@
+{
+  "id": "tool-seo-anything",
+  "version": "1.1.0",
+  "description": "Creates directly publishable English website-ready SEO blog posts from a keyword, article URL, or topic direction.",
+  "entry": "SKILL.md",
+  "pipeline": {
+    "upstream": [],
+    "downstream": []
+  },
+  "activation": {
+    "slashCommands": [
+      "tool-seo-anything",
+      "seo"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  }
+}
