@@ -17,7 +17,7 @@
     {
       "id": "pop-decon-design-pack",
       "description": "Phase 1 of deconstruction: ETL + split + 5-ch batch LLM extracting full design packs (events+worldbuilding+items+characters+key info+beats+hooks).",
-      "latest": "1.2.0",
+      "latest": "1.3.0",
       "path": "skills/pop-decon-design-pack"
     },
     {
