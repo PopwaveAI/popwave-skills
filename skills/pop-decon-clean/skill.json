@@ -1,0 +1,26 @@
+{
+  "id": "pop-decon-clean",
+  "version": "1.0.0",
+  "displayName": "章节清洗",
+  "description": "Phase 1 of deconstruction: extract.py → chapter splitting → ad removal → per-chapter structured JSON.",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "清洗",
+      "章节清洗",
+      "ch-clean"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "pipeline": {
+    "upstream": [
+      "tool-download-webnovel"
+    ],
+    "downstream": [
+      "pop-decon-design-pack"
+    ]
+  }
+}

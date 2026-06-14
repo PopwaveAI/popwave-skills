@@ -1,0 +1,19 @@
+{
+  "id": "pop-decon-design-pack",
+  "version": "1.0.0",
+  "displayName": "章节设计包",
+  "description": "Phase 2 of deconstruction: per-chapter JSON → chapter design packs aligned with pop-writer-chapter format.",
+  "entry": "SKILL.md",
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "pipeline": {
+    "upstream": [
+      "pop-decon-clean"
+    ],
+    "downstream": [
+      "pop-decon-volume"
+    ]
+  }
+}

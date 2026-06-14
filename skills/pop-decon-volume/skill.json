@@ -1,0 +1,22 @@
+{
+  "id": "pop-decon-volume",
+  "version": "1.0.0",
+  "displayName": "幕纲卷纲（Phase 3）",
+  "description": "Phase 3 幕纲卷纲。识别卷/幕/Canvas 矩阵+契诃夫枪追踪。前N章/全书。",
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-setting",
+  "expert": "pop-decon",
+  "activation": {
+    "slashCommands": [
+      "聚类",
+      "cluster",
+      "卷幕",
+      "clustering"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

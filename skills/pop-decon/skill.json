@@ -1,37 +1,19 @@
 {
   "id": "pop-decon",
-  "version": "12.1.0",
+  "version": "13.0.0",
   "displayName": "拆书管线调度",
-  "description": "拆书管线调度（orchestrator）。雪花法倒推——Phase 1 事实提取→Phase 2 聚类卷幕→Phase 3 归纳世界观→Phase 4 归纳故事引擎（仅全书）→Phase 5 验证。按章节量级调度5个子skill。",
+  "description": "拆书管线调度（orchestrator）。Phase 1 章节清洗→Phase 2 设计包→Phase 3 幕纲卷纲→Phase 4 设定世界观。按章节量级调度，前N章跑完整4 Phase，全书覆盖更完整。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "拆书",
-      "解构",
-      "分析",
-      "deconstruct",
-      "拆解",
-      "对标",
-      "快速拆",
-      "提取模板",
-      "解密"
-    ]
+    "slashCommands": ["拆书","解构","分析","deconstruct","拆解","对标","提取模板"]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
   "pipeline": {
-    "upstream": [
-      "tool-download-webnovel"
-    ],
-    "downstream": [
-      "pop-decon-extract",
-      "pop-decon-cluster",
-      "pop-decon-world",
-      "pop-decon-engine",
-      "pop-decon-validate"
-    ],
+    "upstream": ["tool-download-webnovel"],
+    "downstream": ["pop-decon-clean","pop-decon-design-pack","pop-decon-volume","pop-decon-setting"],
     "expert": "expert-writer"
   }
 }
