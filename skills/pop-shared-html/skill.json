@@ -1,0 +1,36 @@
+{
+  "id": "pop-shared-html",
+  "display_name": "HTML 渲染引擎（设计+多模态）",
+  "entry": "SKILL.md",
+  "version": "2.5.0",
+  "pipeline": {
+    "upstream": [
+      "pop-shared-reader",
+      "pop-shared-book-promo",
+      "tool-youtube-webbuilder"
+    ],
+    "downstream": [],
+    "role": "render"
+  },
+  "activation": {
+    "slashCommands": [
+      "pop-shared-html",
+      "html",
+      "render"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "shell": true,
+    "generateImage": true
+  },
+  "dependencies": {
+    "required": [
+      "references/design/DESIGN_CORE.md",
+      "references/design/components.md",
+      "references/design/responsive.md"
+    ]
+  },
+  "description": "HTML 渲染引擎 + 网站设计师。v2.5 Tier C 结构重构：steps/ 拆分 SOP、references/ 收纳设计+工具、SKILL.md 瘦身。v2.4 硬性配图触发——有角色必须配肖像、有场景必须配插图、有 Hero 必须配背景，不可跳过。内嵌 Seedream 生图脚本。"
+}

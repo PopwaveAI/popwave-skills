@@ -1,5 +1,0 @@
-{
-  "youtube_api_key": "AIzaSyAC770xjPVN6c6kBYvrF8xo9Qgt5wunBFY",
-  "kimi_api_key": "sk-9FVFhuRY5B8jvwzlNb1HseqDmUvfOa2LYvN7We9EVXPMaXxT",
-  "description": "pop-YouTubewebbuilder 共享配置。youtube_api_key 用于 YouTube Data API v3 数据抓取；kimi_api_key 用于 Kimi K2.5 视觉质检。"
-}

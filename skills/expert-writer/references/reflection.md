@@ -99,7 +99,7 @@
 ## L3 ─ 质量检查（QA 报告判断）
 
 ```
-□ 如果子 skill 是 prose-render → 过 11-pop-novel-qa 质检
+□ 如果子 skill 是 prose-render → 过 pop-writer-qa 质检
 □ 读取 QA 报告结论：
   - "想跳过"≥2 或 "会弃书" → 标记 P0，退回 prose-render 重写
   - 无红线 → 通过

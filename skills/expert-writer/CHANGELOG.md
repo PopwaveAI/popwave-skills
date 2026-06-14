@@ -1,5 +1,13 @@
 # CHANGELOG — expert-writer
 
+## v3.1.1 (2026-06-14)
+
+- **v5 结构重构**：SKILL.md 瘦身至 ≤120 行（从 176 行缩减），Think/Execute/Reflect 核心内容拆分至 `steps/step-1-think.md`、`steps/step-2-execute.md`、`steps/step-3-reflect.md`
+- **红线表格化**：从列表格式转为 `| # | 红线 |` 表格格式，7 条核心红线
+- **核心流程指针化**：SKILL.md 中只保留 3 步指针表，指向 steps/ 文件
+- **身份声明迁移**：pop 身份声明协议（每次新任务输出格式）从 SKILL.md 移至 `_shared/pop/IDENTITY.md`
+- **pipeline 字段**：skill.json 新增 `pipeline.upstream`（空数组，元 skill 无上游）和 `pipeline.downstream`（15 个子 skill 完整列表）
+
 ## v3.1.0 (2026-06-11)
 
 - **constitution.yaml 移除**：全链路删除，act-XX.yaml Canvas 字段（chekhov_set/combat.scale/payoff/plotlines_active）已全覆盖约束

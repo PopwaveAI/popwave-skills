@@ -1,0 +1,28 @@
+{
+  "id": "pop-writer-continue",
+  "version": "1.0.1",
+  "displayName": "续写搭档",
+  "description": "续写场景的叙事理解者。输入已有正文，输出当前状态卡+续写锚点+未被兑现的伏笔+快速设定还原。不是数据提取工程——是叙事理解。",
+  "pipeline": {
+    "upstream": [
+      "pop-writer-world"
+    ],
+    "downstream": [
+      "pop-writer-plot"
+    ]
+  },
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "续写",
+      "接着写",
+      "continue",
+      "继续"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

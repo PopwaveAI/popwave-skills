@@ -1,0 +1,111 @@
+---
+name: tool-opinion-tracker
+display_name: "网文舆情追踪"
+category: research
+scenario: research
+mode: report
+recommended: 8
+tags: ["舆情", "调研", "报告", "追踪"]
+pipeline:
+  upstream: []
+  downstream: []
+fidelity: production
+description: 当用户说"扫舆情/查口碑/看读者评价/网文评价/书评调查/平台口碑/8平台扫舆情/输入书名扫8平台"时启用。输入书名扫 8 平台舆情，输出标准化舆情报告至 `.trae/archives/book-opinion-reports/`。依赖 tool-cnovel-research 提供平台采集能力。
+version: 1.8.1
+---
+
+# tool-opinion-tracker · 网文舆情追踪 v1.8
+
+> **定位：搜口碑，不搜销量。** 8 个平台扫一遍，输出标准化舆情报告。
+> 依赖 `tool-cnovel-research` 做采集，本 skill 做分析 + 出报告。
+
+---
+
+## 红线
+
+| # | 禁止行为 |
+|:-:|:---------|
+| R1 | 只扫 1-2 个平台就出报告 |
+| R2 | 直接给结论不附原文 |
+| R3 | 人工粘贴的内容不做标注 |
+| R4 | 报告写成百科/简介而非舆情 |
+| R5 | 产出后对话中粘贴完整报告（只留摘要） |
+
+## 掉头检查
+
+| # | 条件 | 动作 |
+|:-:|:-----|:-----|
+| D1 | 某平台采集结果为 0 条 | 检查关键词是否匹配或是否需要人工兜底 |
+| D2 | 用户未完成人工粘贴 | 等待用户粘贴后继续 |
+| D3 | 只有 1 个平台的数据 | 退回：平台覆盖率不足，继续采集 |
+| D4 | 报告无原文引用 | 退回：没有引用 = 没有证据 |
+
+---
+
+## 执行步骤
+
+| 步骤 | 文件 | 职责 |
+|:-----|:-----|:-----|
+| Step 1 | `steps/step-01-confirm.md` | 输入书名 + 确认范围 |
+| Step 2 | `steps/step-02-collect.md` | 平台采集（调用 tool-cnovel-research） |
+| Step 3 | `steps/step-03-report.md` | 分析数据 + 输出报告 |
+
+---
+
+## 速查表
+
+| 操作 | 动作 | 预期耗时 |
+|:-----|:-----|:---------|
+| 扫 8 平台舆情 | 调用 tool-cnovel-research 能力矩阵采集 | 10-30min |
+| 输出报告 | 标准化舆情报告 → `.trae/archives/book-opinion-reports/` | 5-10min |
+| 人工兜底 | 低可采集平台走人工粘贴流程 | 视用户配合度 |
+| 模板位置 | 见 `舆情报告模板.md`（skill 内） | — |
+
+## 产出纪律
+
+| # | 规则 |
+|:-:|:-----|
+| 1 | **产出只留摘要** — 写入舆情报告后对话中不粘贴完整报告。说"已写入 {路径}。摘要：{平台覆盖 x N}，褒贬比 {X:Y}，关键信号：{一句}。需展开告诉我。" |
+
+### 8 平台覆盖
+
+| 平台 | 自动化 | 正文可拿？ | 兜底方案 |
+|:-----|:------:|:----------:|:---------|
+| 龙空 lkong.com | 是 | 部分 | 用 AnySearch site: 搜索 + extract |
+| 晋江碧水 bbs.jjwxc.net | 是 | 是 | HTTP 直接抓取 |
+| 贴吧 tieba.baidu.com | 是 | 是 | aiotieba protobuf API |
+| 知乎 zhihu.com | 是 | 是 | AnySearch site: + WebFetch |
+| B站 bilibili.com | 是 | 是 | B站搜索 API + 评论 API |
+| 微博 weibo.com | 是 | 是 | crawl4weibo 库 |
+| 豆瓣 douban.com | 否 | 否 (403) | AnySearch site: 扫标题 → 人工粘贴正文 |
+| 阅文 write.qq.com | 否 | 否 (需登录) | 问答搜索 API 扫标题 → 人工粘贴正文 |
+
+---
+
+## 异常与边界条件
+
+| # | 异常场景 | 处理方式 |
+|:-:|:---------|:---------|
+| 1 | 某平台 API 限流/返回空 | 换 AnySearch site: 搜索做补充；仍不行则跳过并标注 |
+| 2 | 所有平台均无相关讨论 | 告知用户"该话题在网文圈讨论度低"，出空白报告 |
+| 3 | 用户不愿配合人工粘贴 | 只输出自动化采集平台的报告，标注未覆盖平台 |
+| 4 | 书名过于通用（如"修真"） | 建议用户提供更精确的书名或作者名 |
+| 5 | 采集到大量无关内容（同名不同书） | 加作者名/关键词缩小范围 |
+| 6 | 平台改版导致采集工具失效 | 标注"该平台数据不可用"，走人工兜底 |
+| 7 | 报告文件写入失败（路径/权限） | 尝试写入 `d:\popwave-skills\` 兜底 |
+| 8 | 舆情涉及敏感/侵权内容 | 如实收录但标注争议性，不做价值判断 |
+
+---
+
+## 依赖关系
+
+```
+tool-opinion-tracker
+  └→ tool-cnovel-research（顶层 skill，提供平台采集能力矩阵）
+       ├→ anysearch（搜索引擎，scripts/anysearch/）
+       ├→ crawl4weibo（微博专用）
+       ├→ aiotieba（贴吧专用）
+       └→ 人工兜底流程（低可采集平台）
+```
+
+> 版本：v1.8.1 | 对齐 v3.3 | 报告模板见 `舆情报告模板.md`（skill 内） | Tier D v5 重构

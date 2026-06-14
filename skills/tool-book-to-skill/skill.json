@@ -1,0 +1,29 @@
+{
+  "id": "tool-book-to-skill",
+  "version": "1.1.0",
+  "displayName": "书籍转Skill",
+  "description": "将书籍和文档（PDF/EPUB/DOCX/HTML/Markdown/TXT/RTF/MOBI/AZW）转化为结构化Agent Skill，提取框架、心智模型、原则、技法和反模式。当用户想把一本书、文档文件夹或资料集合变成可复用的知识库Skill时触发。",
+  "entry": "SKILL.md",
+  "pipeline": {
+    "upstream": [],
+    "downstream": []
+  },
+  "activation": {
+    "slashCommands": [
+      "tool-book-to-skill",
+      "书籍转skill",
+      "book2skill"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 8000
+  }
+}

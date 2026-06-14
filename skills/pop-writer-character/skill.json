@@ -1,0 +1,30 @@
+{
+  "id": "pop-writer-character",
+  "version": "2.0.1",
+  "displayName": "角色分级模板",
+  "description": "角色卡分级标准定义（Lv1~Lv4）。Lv1=路人最简，Lv4=主角最全，维度逐级做加法。提供统一角色模板供 bookstrap/plot/chapter-design 及其他写作管线消费。可独立触发：用户设计角色储备时由 expert-writer 路由调用。跨赛道复用设计，不绑定特定题材术语。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "角色分级模板",
+      "角色模板",
+      "character-schema",
+      "角色设计"
+    ],
+    "default": false
+  },
+  "pipeline": {
+    "upstream": [
+      "pop-writer-creative"
+    ],
+    "downstream": [
+      "pop-writer-creative",
+      "pop-writer-plot"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false
+  }
+}

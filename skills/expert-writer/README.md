@@ -30,7 +30,7 @@ expert-writer/
 | 类型 | 数量 | 说明 |
 |------|------|------|
 | 推荐 Skill（主场） | 10 个 | bootstrap · plot · opening-arc · writer · qa · continuation · deconstructor · reader-making · html-renderer · game |
-| 延伸 Skill（可用） | 4 个 | cnovel-research · book-opinion-tracker · 01-download-webnovel-txt · knowledge-downloader |
+| 延伸 Skill（可用） | 4 个 | tool-cnovel-research · tool-opinion-tracker · tool-download-webnovel · tool-knowledge-downloader |
 
 ## 核心设计
 

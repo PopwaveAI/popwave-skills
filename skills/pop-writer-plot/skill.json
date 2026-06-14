@@ -1,0 +1,35 @@
+{
+  "id": "pop-writer-plot",
+  "version": "6.3.1",
+  "displayName": "剧情架构（情节线规划）",
+  "description": "剧情架构设计。卷级战略（目标/背景/剧情线/快照）+ 幕级战术（Canvas矩阵/情绪弧线/payoff/每章切片）。v6.0 分层重构。",
+  "entry": "SKILL.md",
+  "pipeline": {
+    "upstream": [
+      "pop-writer-world"
+    ],
+    "downstream": [
+      "pop-writer-chapter"
+    ],
+    "produces": [
+      "设计/卷/volume-XX.md",
+      "设计/幕/vol-XX/act-YY.yaml"
+    ]
+  },
+  "activation": {
+    "slashCommands": [
+      "剧情架构",
+      "剧情",
+      "幕纲",
+      "plot",
+      "架构",
+      "情节线",
+      "支线"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "tool-feishu-docs",
+  "version": "2.1.0",
+  "displayName": "Feishu Docs",
+  "description": "Create, read, update, delete Feishu cloud documents, comments, bitable records, folders, and manage permissions via Open API. Use for PRD writing, wiki management, surveys, and office automation.",
+  "entry": "SKILL.md",
+  "pipeline": {
+    "upstream": [],
+    "downstream": []
+  },
+  "activation": {
+    "slashCommands": [
+      "feishu",
+      "飞书"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 50000
+  }
+}

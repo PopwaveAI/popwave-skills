@@ -1,0 +1,13 @@
+{
+  "name": "pop-shared-html-tooling",
+  "version": "1.0.0",
+  "description": "pop-shared-html 自动化管线工具",
+  "private": true,
+  "scripts": {
+    "start": "node skill-unified.js",
+    "list": "node skill-unified.js list"
+  },
+  "dependencies": {
+    "puppeteer": "^25.0.0"
+  }
+}

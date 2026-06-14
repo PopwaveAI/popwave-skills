@@ -1,0 +1,92 @@
+{
+  "id": "pop-shared-book-promo",
+  "version": "3.1.1",
+  "displayName": "pop-shared-book-promo",
+  "description": "从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "pop-shared-book-promo"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 40000
+  },
+  "pipeline": {
+    "upstream": [
+      "pop-prose-render"
+    ],
+    "downstream": []
+  },
+  "dependencies": {
+    "python": [],
+    "env": [],
+    "api": {
+      "seedream": {
+        "description": "火山引擎 Seedream 图像生成 API（国内直连，推荐）",
+        "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+        "recommended_model": "doubao-seedream-5-0-260128",
+        "api_key_embedded": true,
+        "api_key_source": "内嵌在 scripts/generate.py（SKILL.md 🔑 章节有记录）"
+      },
+      "kimi": {
+        "description": "Moonshot Kimi 2.5 — 快照/检修/质检",
+        "api_key_embedded": true,
+        "api_key_source": "内嵌在 scripts/generate.py（SKILL.md 🔑 章节有记录）"
+      },
+      "open_router": {
+        "description": "Open Router 图像生成 API（海外备用方案）",
+        "base_url": "https://openrouter.ai/api/v1",
+        "recommended_model": "google/gemini-2.5-flash-image"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "id": "comic",
+      "name": "名场面四格漫画",
+      "desc": "4 个关键场景 → 每格 1 幅 AI 图 + 对话气泡 → 拼成四格漫画 HTML"
+    },
+    {
+      "id": "scroll",
+      "name": "古风人物画卷",
+      "desc": "长卷轴式角色展，不同章节的造型/状态变化 + AI 绘像"
+    },
+    {
+      "id": "scenes",
+      "name": "名场面高光帧",
+      "desc": "全书 N 大名场面列表 + AI 场景图，像电影海报合集"
+    },
+    {
+      "id": "quote",
+      "name": "金句分享卡",
+      "desc": "金句 + 角色半身 AI 图 + 书名水印，一张一发"
+    },
+    {
+      "id": "gallery",
+      "name": "角色立绘画廊",
+      "desc": "所有主要角色，每人一张 AI 立绘 + 名字 + 简短标签"
+    }
+  ],
+  "autocheck": {
+    "command": "python3 -B scripts/autocheck.py",
+    "description": "验证 Python 依赖、模板完整性、示例 JSON 合法性"
+  },
+  "preflight": {
+    "entry": "preflight.py",
+    "checks": [
+      "Seedream API Key 已内嵌（无需手动配置）",
+      "requests 模块可导入",
+      "输入 JSON 文件存在且格式合法",
+      "目标模板文件存在"
+    ]
+  }
+}

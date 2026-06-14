@@ -1,6 +1,6 @@
 {
   "id": "expert-writer",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "displayName": "写作专家",
   "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由（三层联动影响评估）和完成后引导（基于项目文件状态的跨轮引导）。",
   "entry": "SKILL.md",
@@ -16,5 +16,25 @@
     "readProjectFiles": true,
     "writeProjectFiles": false,
     "network": false
+  },
+  "pipeline": {
+    "upstream": [],
+    "downstream": [
+      "pop-novel-bookstrap",
+      "pop-decon",
+      "pop-writer-plot",
+      "pop-writer-chapter",
+      "pop-writer-prose",
+      "pop-writer-qa",
+      "pop-shared-dna",
+      "pop-writer-character",
+      "pop-writer-html",
+      "pop-writer-game",
+      "pop-shared-reader",
+      "pop-shared-html",
+      "tool-download-webnovel",
+      "tool-cnovel-research",
+      "tool-opinion-tracker"
+    ]
   }
 }

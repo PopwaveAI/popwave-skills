@@ -15,3 +15,7 @@ __pycache__/
 
 # expert-writer runtime state — belongs in user workspace, not skill repo
 workspace-index.yaml
+
+# Moved out of skill packages (intermediate/test data)
+_projects/
+.tmp-deconstruction/

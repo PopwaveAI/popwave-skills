@@ -17,14 +17,14 @@
                                 │ 产出: {书名}.txt
                                 ▼
   ┌─────────────────────────────────────────────────────┐
-  │               02-pop-novel-deconstructor                │
-  │               拆书分析 (Phase 0→4)                    │
-  │  产出: T1~T6 + 文风DNA + 卷1快照 + 三维拆书档案       │
+  │               pop-decon (v12)         │
+  │         雪花倒推：正文→事实→卷幕→世界观→故事引擎        │
+  │  产出: 角色卡 + L1六件套 + 卷/幕/Canvas + 故事引擎(Lv3)  │
   └──────────┬──────────┬──────────────────────────────┘
              │          │
              │          ▼
              │    ┌──────────────────┐
-             │    │    03-pop-dna       │
+             │    │    pop-shared-dna       │
              │    │  文风DNA蒸馏     │
              │    │  产出: 写作资产/  │
              │    │  文风DNA/{书名}.md│
@@ -40,7 +40,7 @@
              │
              ▼
   ┌─────────────────────────────────────────────────────┐
-  │               08-pop-novel-plot                         │
+  │               pop-writer-plot                         │
   │              剧情架构                                │
   │  输入: story-engine + 快照 + L1 + 角色卡              │
   │  产出: ★全书架构 → volume-XX → act-YY.yaml           │
@@ -48,7 +48,7 @@
              │
              ▼
   ┌─────────────────────────────────────────────────────┐
-  │          09-pop-novel-chapter-design  ★NEW              │
+  │          pop-writer-chapter  ★NEW              │
   │         章纲/导演卡 (Step 1→3)                       │
   │  输入: act-XX.yaml + volume-XX.md + entity-snapshot   │
   │        + 状态/角色/{主角}-角色卡    ⚠️ 不碰文风        │
@@ -57,7 +57,7 @@
              │
              ▼
   ┌─────────────────────────────────────────────────────┐
-  │          10-pop-novel-prose-render  ★NEW                │
+  │          pop-writer-prose  ★NEW                │
   │         正文渲染/上色 (Step 1→4)                      │
   │  输入: 设计包 + 写作资产/文风DNA/   ⚠️ 不碰剧情       │
   │  产出: 正文/chXXX.md（含章末状态更新块）              │
@@ -65,14 +65,14 @@
              │
              ▼
   ┌─────────────────────────────────────────────────────┐
-  │               11-pop-novel-qa                           │
+  │               pop-writer-qa                           │
   │              爽点质检 (Step 1→3)                     │
   │  输入: 正文 + 设计包 + act-XX.yaml + reader_profile   │
   └──────────┬──────────────────────────────────────────┘
              │
              ▼ (可选)
   ┌─────────────────────────────────────────────────────┐
-  │          12-pop-novel-html-renderer                     │
+  │          pop-writer-html                     │
   │         HTML 发布                                    │
   └─────────────────────────────────────────────────────┘
 ```
@@ -100,7 +100,7 @@
 | 00-总控/entity-snapshot.yaml | **D** | chapter-design(逐章) | chapter-design(下章) + expert-writer |
 | 写作资产/设计包/chXXX-设计包.md | **D** | chapter-design | prose-render |
 | 正文/chXXX.md | **D** | prose-render | qa + html-renderer |
-| 写作资产/文风DNA/{书名}.md | S | deconstructor/03-pop-dna | prose-render |
+| 写作资产/文风DNA/{书名}.md | S | deconstructor/pop-shared-dna | prose-render |
 
 > **S** = 静态（一次写入，只读不写） | **D** = 动态（持续维护，有更新者） | **M** = 元数据
 

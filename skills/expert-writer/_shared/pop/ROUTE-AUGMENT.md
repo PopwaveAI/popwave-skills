@@ -22,14 +22,14 @@
 | **已下载参考书 TXT** | `reference_materials.reference_novels[]` | 「已有 TXT：`{path}`」 |
 | **可用风格档案** | `style_profiles.dna_profiles[]` + `style_profiles.writer_styles[]` | 「可用风格列表：{name}×{N} 个。建议选择 1 个做文风锚定。」 |
 
-### 02-pop-novel-deconstructor（拆书）
+### pop-decon（拆书）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
 | **已有拆解报告** | `reference_materials.deconstructions[]` — 按书名匹配 | 「该书已有拆解报告：`{path}` 下 {N} 个文件。如有 T 文件缺失则补齐，已有则跳过。」 |
 | **已有 TXT 原文** | `reference_materials.reference_novels[]` | 「已有 TXT：`{path}`」 |
 
-### 08-pop-novel-plot（剧情架构）
+### pop-writer-plot（剧情架构）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
@@ -46,7 +46,7 @@
 | **collision_curve（vNext 新增）** | `{项目}/00-总控/数值体系/collision_curve.yaml` | 「碰撞曲线：`{path}`。战斗章分布和张力峰值需与此对齐。」 |
 | **T6 数据流写法（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T6 | 「该书的数据流写法/装备数值风格：`{path}`。Step 7 装备设计时参考——禁止 D&D 骰子符号。」 |
 
-### 09-pop-novel-chapter-design → 10-pop-novel-prose-render（章纲设计 → 正文渲染）
+### pop-writer-chapter → pop-writer-prose（章纲设计 → 正文渲染）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
@@ -61,7 +61,7 @@
 | **monster_rank_map（vNext 新增）** | `{项目}/00-总控/数值体系/monster_rank_map.yaml` | 「怪物等级对照：`{path}`。本章涉及怪物时，需从该表读取怪物的段位和难度注释。」 |
 | **L1-04 物种与天赋（vNext 新增）** | `{项目}/00-原始设定/L1-元设定层/04-物种与天赋.md` | 「种族数据：`{path}`。本章有非人类角色出场时，预取对应种族的 traits/faction_affiliation。」 |
 
-### 11-pop-novel-qa（质检）
+### pop-writer-qa（质检）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
@@ -70,26 +70,26 @@
 | **跨项目 qa 教训** | `cross_project_lessons[]` where `applicable_to` contains `qa` | 引用原文（如 L006 — QC 必须独立验证原文事实） |
 | **需质检的正文路径** | `file_registry[项目].active` — 取 type=draft 的最新文件 | 「需质检：`{path}`」 |
 
-### 03-pop-dna（文风DNA）
+### pop-shared-dna（文风DNA）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
 | **已有 DNA** | `style_profiles.dna_profiles[]` — 按书名匹配 | 「该书的 DNA 档案已存在：`{path}`。跳过提取，如有新增维度则补充。」 |
 
-### 12-pop-novel-html-renderer（发布）
+### pop-writer-html（发布）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
 | **style_profile** | `projects[].style_profile` | 「风格文件：`{path}`。用于渲染配色/字体选择。」 |
 | **reader_profile** | `projects[].reader_profile_ok` | 「读者画像：见 project.yaml」 |
 
-### 01-download-webnovel-txt（下载TXT）
+### tool-download-webnovel（下载TXT）
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|
 | **已有 TXT** | `reference_materials.reference_novels[]` — 按书名匹配 | 「已有 TXT：`{path}`。无需重复下载。」 |
 
-### cnovel-research / book-opinion-tracker / knowledge-downloader
+### tool-cnovel-research / tool-opinion-tracker / tool-knowledge-downloader
 
 | 增强项 | 索引字段 | 给子 skill 的形式 |
 |--------|---------|-----------------|

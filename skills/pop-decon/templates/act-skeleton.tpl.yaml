@@ -1,0 +1,64 @@
+﻿# act-01.yaml — 幕纲骨架（{书名}版）
+# @source_book: {书名}
+# @对应写作端模板: pop-writer-plot/templates/act-skeleton.yaml
+# ⚠️ 原文证据规则：每章 canvas 中的剧情线推进必须标注原文事件 chXX。
+# payoff_summary / 设线负载 必须来自 _temp/chapter-index.json 和 plot-data.json。
+# end_hook 必须从原文章尾提取，不得编造钩子。
+
+_meta:
+  version: "v6.3"
+  volume_ref: "设计/卷/volume-01.md"
+  act_number: 1
+  chapter_range: [ch1, chN]
+
+act:
+  purpose:
+    for_book: ""
+    for_reader: ""
+  conflict:
+    stakes: ""
+    escalation: ""
+
+chapters:
+  - ch: 1
+    title: ""
+    word_count: 2500
+    canvas:
+      payoff_summary: 0
+      设定线: ""
+      设线负载: 0
+      主线1: "";  主线1_payoff: ""
+      主线2: "";  主线2_payoff: ""
+      主线3: "";  主线3_payoff: ""
+      支线1: "";  支线1_payoff: ""
+      支线2: "";  支线2_payoff: ""
+      note: ""
+    登场角色: []
+    emotional_goal: ""
+    payoff_note: ""
+    end_hook:
+      type: ""           # 悬念|信息|情绪
+      drive: ""
+    chekhov_set: []
+    chekhov_fire: []
+
+# ... 逐章复制，直到本幕结束
+
+rhythm_check:
+  plotlines: [主线1, 主线2, 主线3, 设定线, 支线1, 支线2]
+  per_line_gaps: []
+  line_density:
+    min: 1; max: 3
+  payoff_constraints:
+    mid_every_chapter: true
+    no_line_dormant_over_3: true
+    big_max_gap: 5
+    ultimate_min_per_volume: 1
+  设线穿透:
+    max_consecutive_zero_负载: 2
+  first_volume_gate:
+    applicable: true
+    ch01_core_hook_present: true
+    ch01_selling_point: true
+    ch02_first_conflict: true
+    pure_setup_max: 1
