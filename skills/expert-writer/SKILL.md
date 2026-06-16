@@ -1,7 +1,7 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill，产出子Skill的完整执行结果。"
-version: 3.1.2
+version: 3.1.3
 pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
 ---
 
@@ -38,6 +38,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 | 5 | **子 skill SKILL.md 找不到** → 终止，静默跳过 = 违规 |
 | 6 | **Read 工具读子 skill 文档** → 统一用 `Get-Content -Encoding UTF8 -Raw`。仅 >25K 文件回退 Read+offset |
 | 7 | **长文产出全量贴入对话** — 文件写入后对话中只留摘要（≤ 200 字）。正确格式：`已写入 {路径}。摘要：{核心内容一句话}。` **非写入产出（Gap 分析/阶段总结/对比报告等正文型汇报）≤ 500 字，表格型 ≤ 300 字。超过 → 写入独立文件，对话只留摘要指针。** |
+| 8 | **delegate prose 任务时不传委托协议** — 父agent delegate 前未加载子 skill 的 step-0-delegation-contract.md → 凭自己理解过滤指令写 context → 子agent缺失关键约束（上下章衔接/剧情不变门禁/角色不可篡改）→ 输出偏离原文剧情。正确做法：先加载子 skill 的 step-0-delegation-contract.md → 按 D1-D6 自检清单准备路径矩阵+门禁+连续性摘要 → 6项全通过才 delegate。详见 references/batch-style-migration.md §Step 3。 |
 
 ## 核心流程
 
@@ -85,6 +86,8 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 - 角色卡快照与 entity-snapshot 一致
 
 ## 版本
+
+v3.1.3 | 2026-06-16 | 新增红线8（delegate prose 前须加载子skill的委托协议）+ batch-style-migration.md Step 3 新增父agent自检清单D1-D6+delegate context标准模板
 
 v3.1.2 | 2026-06-16 | 新增批量写作/风格迁移路由+典型错误9+边界条件"批量风格迁移"，新增 references/batch-style-migration.md
 

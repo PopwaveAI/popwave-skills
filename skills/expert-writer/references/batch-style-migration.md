@@ -100,15 +100,43 @@ batch 2: ch06-10  → delegate_task 2
 
 ### Step 3 — 并行渲染
 
-用 delegate_task 分发：
+用 delegate_task 分发。**父agent必须按 pop-writer-prose 的 step-0-delegation-contract.md 准备 context，不可凭自己理解过滤。**
 
-```
-task context 需包含：
-- 设计包完整内容（或文件路径 + 摘要）
-- 目标风格 DNA 要点（3-5 个核心差异点）
-- 体系映射表（跨体系迁移时）
-- 合成模式注意事项（synthesis-mode.md 核心规则）
-- 输出路径
+#### 父agent自检（发出 delegate 前逐项确认）：
+
+| # | 自检项 | 不通过处理 |
+|:-:|:-------|:----------|
+| D1 | 已加载 pop-writer-prose 的 `steps/step-0-delegation-contract.md` | 退回加载 | 
+| D2 | context 中包含子agent入口指令（`skill_view('pop-writer-prose') → 加载 step-0 到 step-4 → 按序执行`） | 缺则补 | 
+| D3 | context 中包含路径矩阵（design_pack / style_dna / output / prev_chapter） | 缺则补 |
+| D4 | context 中包含门禁3条（剧情不变/角色不可篡改/🔒原文照写） | 缺则补 |
+| D5 | context 中包含章节连续性摘要（时间/地点/角色状态/上章末事件） | 缺则补 |
+| D6 | 首章渲染标注 `is_first_chapter: true`（跳过 prev_chapter） | 检查标记 |
+
+#### delegate context 标准模板：
+
+```markdown
+task: 渲染 ch{NN}-{标题} {风格}风格
+design_pack: {项目}/写作资产/设计包v3/ch{NN}-设计包.md
+style_dna: {项目}/styles/{风格}.md
+output: {项目}/正文/{风格}v3/ch{NN}-{标题}.md
+prev_chapter: {项目}/正文/{风格}v3/ch{NN-1}-{标题}.md   # 首章可略
+is_first_chapter: true/false
+gates:
+  - 原文/设计包核心事件不可增删，不可改顺序
+  - 角色生死/状态不可篡改
+  - 🔒标记内容必须原文照写
+continuity:
+  - 上章末尾时间: {时间锚点}
+  - 上章末尾地点: {地点}
+  - 主角状态: {关键状态}
+  - 配角状态: {关键状态}
+  - 最后一幕事件: {简述}
+  - 本章起始点: {从哪开始}
+instructions: |
+  1. skill_view('pop-writer-prose') 全量加载
+  2. 加载 steps/step-0 到 step-4 共5个文件
+  3. 按 step 1-4 顺序执行渲染
 ```
 
 ### Step 4 — 验证
