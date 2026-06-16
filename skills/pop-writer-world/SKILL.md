@@ -78,13 +78,15 @@ version: 1.2.1
 > **产出什么**：`状态/角色/{name}-角色卡.md`
 > **门禁**：❌ 必须先选级再填写
 
-### Phase 4：数值体系
+## Phase 4：数值体系
 
 详见 [steps/step-8.md](steps/step-8.md)。
 
-> **产出什么**：`00-总控/数值体系/combat_capability.yaml` + `act_rank_schedule.yaml` + `monster_rank_map.yaml` + `collision_curve.yaml`
-> **门禁**：❌ 所有数值从 L1 力量体系推导，不照搬参考书
-> **适配参考**：`references/power-system-adaptation.md`（如何将模板适配到不同题材）
+> **产出什么：** `00-总控/数值体系/combat_capability.yaml` + `act_rank_schedule.yaml` + `monster_rank_map.yaml` + `collision_curve.yaml`
+> **门禁：** ❌ 所有数值从 L1 力量体系推导，不照搬参考书
+> **适配参考：** `references/power-system-adaptation.md`（如何将模板适配到不同题材）
+> 
+> ⚠️ **扩展阅读**：如果你的项目同时在做**拆书（反拆已有小说）**，数值体系的反向破译方法论在 `pop-decon` 的 `references/numerical-system-reverse-engineering.md` 中。正向构建（本 skill）和反向破译（pop-decon）共享同一个数值认知框架，只是方向相反。
 
 模板见 [templates/combat-capability.tpl.yaml](templates/combat-capability.tpl.yaml)。
 

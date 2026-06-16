@@ -197,6 +197,7 @@ metadata:
 | 中文 TXT 硬跑 extract.py | extract 后 chapter_count=0 仍继续 | 走 `references/chinese-novel-etl.md` 手动 ETL |
 | 广告混入 | 设计包事件包含「请下载XX APP 查看更多」| LLM 调用时指示去掉非正文内容 |
 | 跨批依赖 | 在批处理中引用下一批的内容 | 每批只读自己的 5 章，不跨批 |
+| **v3 模式输出合并文件** | 子 agent 将5章v3设计包写到1个文件中（如`v3_设计包_ch111-ch115.md`） | 指令中明确要求「每章独立文件，文件名 chXXX-设计包.md」。子 agent 产出后检查文件数=章数 |
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill，产出子Skill的完整执行结果。"
-version: 3.1.1
+version: 3.1.2
 pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
 ---
 
@@ -18,6 +18,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 | "设计剧情/规划大纲/情绪弧线" | pop-writer-plot | 必须先完成 bookstrap | 不设计章级细节（那是 chapter-design 的活） |
 | "设计第X章/章纲/骨架" | pop-writer-chapter | 必须先完成 plot | 不纠结渲染用词（那是 prose-render 的活） |
 | "写第X章/渲染这章/上色/写正文" | pop-writer-prose | 必须先完成 chapter-design | 不判断剧情逻辑（那是 QA 的活） |
+| "从第X章开始写N章/批量写N章/风格迁移N章" | pop-writer-prose + 并行委托（delegate_task） | 源文本存在（原文或设计包）→ 若无设计包，从原文提取事件链创建复合设计包（N章合1文件或逐章独立）→ 然后并行渲染。详见 references/batch-style-migration.md | 不逐章走 creative→plot→chapter 流水线 — 批量场景走旁路 |
 | "审查/审稿/QA/检查质量/看看" | pop-writer-qa | 无（可随时触发） | 不直接改正文（问题标记后由上游修复） |
 | "分析文风" | pop-shared-dna | 需有成文样本 | — |
 | "设计角色储备" | pop-writer-character | 无 | — |
@@ -56,6 +57,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 6. **非写入产出未做摘要化**：Gap 分析 / 阶段完成总结完整贴在对话中（1,700+ chars），挤占上下文窗口。正确做法：正文型汇报 ≤ 500 字，表格型 ≤ 300 字。完整内容写入独立文件，对话只留指针+摘要。
 7. **子 skill 的 step 文件未加载，凭记忆执行 SOP**：加载子 skill 时只调了 skill_view(name) 读 SKILL.md 描述，没有逐个调 skill_view(name, file_path="steps/step-*.md") 加载具体的步骤文件。凭 SKILL.md 速查表执行 → 遗漏 step 文件中的具体规则（如 chapter Step 2 要求的 scene/POV/关键对白/数据四字段、prose Step 3 的文本脉冲密度检查）。正确做法：路由到子 skill 后，列出其 steps/ 目录，用 skill_view 逐个加载所有步骤文件，确认完整了解执行指令后再开工。
 8. **skill_view 截断未被发现**：skill_view 返回的内容可能少于文件实际大小（如 L1-06.tpl.md 210 bytes 只返回 98 chars）。未交叉校验返回字符数 vs 文件实际大小 → 基于不完整指令执行。正确做法：skill_view 加载文件后，将返回内容的字符数与 `(Get-Item '{path}').Length` 对比。如果明显偏短 → 标记 "⚠️ 截断"，回退用 Read 工具重新读取。
+9. **批量写作时用单章流水线逐章串行**：用户说"从ch01写10章" → agent 走 pop-writer-prose 的 Step 0→1→2→3→4 循环 10 次 → 耗时数小时。正确做法：识别批量意图 → 创建复合设计包（N章事件链合并）→ 用 delegate_task 分发给 N 个子 agent 并行渲染。详见 references/batch-style-migration.md。
 
 ## 边界条件
 
@@ -72,6 +74,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 | 越界检测 | 当前阶段出现下一阶段内容 | 说"这属于 [X] 的范围，到那一步处理。先完成当前阶段。" |
 | **同人二创路由** | 用户说"基于《XXX》写同人/衍生/跨界融合，主角替换为YYY" | 路由到 pop-writer-creative 时标注 `mode: fanfic`，触发其 Phase 0 分支 B（跳过方向sketch碰撞，直接锚点书解析+元素叠层）。creative 完成后 → 参考 `references/derivative-gap-analysis.md` 做双层 gap 分析再进 plot |
 | **方向被拒退回** | 用户否定全部方向sketch，且仍在 creative 阶段 | 强制退回 pop-writer-creative Phase 0，不引导进入 world 阶段 |
+| **批量风格迁移** | 用户说"用XX风格从ch01写N章/风格迁移N章/改写成XX风格" | 源文本存在（原文txt或已有正文）→ 不走 creative→plot→chapter 管线。直接读原文逐章提取事件链 → 创建复合设计包（N章合1）→ delegate_task 分发给子 agent 并行渲染（每批 5 章）。详见 references/batch-style-migration.md |
 
 ## 落盘检查点
 
@@ -82,5 +85,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 - 角色卡快照与 entity-snapshot 一致
 
 ## 版本
+
+v3.1.2 | 2026-06-16 | 新增批量写作/风格迁移路由+典型错误9+边界条件"批量风格迁移"，新增 references/batch-style-migration.md
 
 v3.1.1 | 2026-06-14 | v5 结构重构：SKILL.md 瘦身至 ≤120 行，Think/Execute/Reflect 拆分至 steps/，红线表格化，pipeline 字段补全
