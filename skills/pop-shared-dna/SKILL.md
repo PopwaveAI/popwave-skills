@@ -1,13 +1,13 @@
-﻿---
+---
 name: pop-shared-dna
 description: 当用户说"提取文风/文风DNA/风格蒸馏/分析作者笔触/文风拆解/写作文风参考/styles文件/场景卡文风"时启用。从原文中按场景类型提取作者笔触，产出 prose-render 可直接对照的场景参考文件。**给 prose-render 的不是指令——是原文。**
-version: 4.0.1
+version: 4.0.2
 pipeline:
   upstream: [pop-decon]
   downstream: [pop-writer-prose]
 ---
 
-# pop-shared-dna · 文风DNA蒸馏引擎 v4.0.1
+# pop-shared-dna · 文风DNA蒸馏引擎 v4.0.2
 
 > **定位：从原文中按场景类型提取作者笔触。** 每个场景卡 = 1-2 句观察 + 500+ 字原文 + 时间演变。产出的不是分析报告，是 prose-render 渲染时旁边打开的参考页。
 
@@ -17,7 +17,7 @@ pipeline:
 
 | 步骤 | 操作 | 读什么 | 产出什么 | 门禁 |
 |:-----|:-----|:-------|:---------|:-----|
-| 步骤0 | 取样 | 全书扫描 | 采样清单（≥30章，≥20,000行） | ❌ 不够退回 |
+| 步骤0 | 取样 | 全书扫描 | 采样清单（≥30章，≥20,000行） | ❌ 不够退回（短章书走混合策略） |
 | 步骤1 | 逐章精读 | 采样章全文 | 场景类型标记 + 候选原文段 | — |
 | 步骤2 | 全书搜索验证 | 全书 | 验证过的判断 | — |
 | 步骤3 | 写风格文件 | 步骤1+2 产出 | `styles/{书名}.md`（20-30K） | ❌ 原文/场景/通用维度不达标退回 |
@@ -48,7 +48,7 @@ pipeline:
 
 详细指令 → [steps/step-0-sampling.md](steps/step-0-sampling.md)
 
-**门禁：** 不到 20,000 行 → **退回**，继续读更多章。
+**门禁：** 不到 20,000 行 → **退回**，继续读更多章。若全书每章均 <100 行，走 `references/short-chapter-sampling.md` 混合策略。
 
 ---
 
@@ -93,6 +93,9 @@ prose-render Step 1（读入输入）:
   - 20-25K 在 Get-Content 安全范围内，不触发截断
   - 文件全量驻留在 context 中，允许 agent 自由对照维度
   - 单一 DNA 文件结构简单，维护成本低
+
+**场景卡命名对齐规则（2026-06-15 新增）**：
+  pop-writer-chapter 现在会在每事件的 scene 字段产出 scene 值（如 combat_stealth）。DNA 场景卡头标注的 `scene:` 字段必须与之一致。修改 DNA 场景卡名后，同步检查 pop-writer-chapter 的 scene 值列表是否需要对齐。常见 mismatch：DNA 写 `combat_stealth` 而 design 包写 `combat_assassination` → prose-render 匹配失败。
 ```
 
 ---
@@ -124,7 +127,7 @@ prose-render Step 1（读入输入）:
 
 | # | 异常场景 | 处理方式 |
 |:-:|:---------|:---------|
-| 1 | 全书不足 20,000 行（短篇/未完结） | 降低采样目标到全书 80% 行数，标注"采样受限" |
+| 1 | 全书不足 20,000 行（短篇/未完结） | 降低采样目标到全书 80% 行数，标注"采样受限"。若每章均 <100行 → 走混合策略 `references/short-chapter-sampling.md` |
 | 2 | 全书场景类型单一（如全是对话） | 降低场景卡下限（≥3 个），用通用维度补足 |
 | 3 | 找到的原文段刚好 500 字但边缘模糊 | 扩到 600-700 字保证上下文完整 |
 | 4 | 多本书/多作者同时分析 | 每本书独立产出一个风格文件，不做交叉比较 |
@@ -137,11 +140,18 @@ prose-render Step 1（读入输入）:
 
 ---
 
+## 参考文件
+
+| 文件 | 用途 |
+|:-----|:-----|
+| `references/methodology.md` | 文风分析方法论 |
+| `references/short-chapter-sampling.md` | 短章书目（均 <100行/章）混合采样策略：30章精读+全文搜索验证 |
+
 ## 目录结构
 
 ```
 pop-shared-dna/
-├── SKILL.md                    ← 本文（v4.0.1）
+├── SKILL.md                    ← 本文（v4.0.2）
 ├── skill.json                  ← 元数据
 ├── CHANGELOG.md                ← 变更日志
 ├── steps/                      ← 分步详细指令
@@ -150,6 +160,9 @@ pop-shared-dna/
 │   ├── step-2-verify.md
 │   ├── step-3-write.md
 │   └── step-4-trial.md
+├── references/
+│   ├── methodology.md
+│   └── short-chapter-sampling.md
 ├── templates/
 │   └── style-dna-profile.md    ← v4 模板
 └── style/
@@ -160,4 +173,4 @@ pop-shared-dna/
 
 ## 版本
 
-v4.0.1 | 2026-06-14 | v5 结构重构：steps/ 目录、质量红线表格化、落盘检查点、pipeline 对齐 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
+v4.0.2 | 2026-06-15 | 新增短章书目混合采样策略参考文件 + 边界条件更新 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)

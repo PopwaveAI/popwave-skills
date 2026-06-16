@@ -36,7 +36,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 | 4 | **管道前置条件不满足硬跳** → 上游产出物缺失时告知用户缺什么，不直接跳过 |
 | 5 | **子 skill SKILL.md 找不到** → 终止，静默跳过 = 违规 |
 | 6 | **Read 工具读子 skill 文档** → 统一用 `Get-Content -Encoding UTF8 -Raw`。仅 >25K 文件回退 Read+offset |
-| 7 | **长文产出全量贴入对话** → 文件写入后对话中只留摘要（≤ 200 字）。正确格式：`已写入 {路径}。摘要：{核心内容一句话}。` |
+| 7 | **长文产出全量贴入对话** — 文件写入后对话中只留摘要（≤ 200 字）。正确格式：`已写入 {路径}。摘要：{核心内容一句话}。` **非写入产出（Gap 分析/阶段总结/对比报告等正文型汇报）≤ 500 字，表格型 ≤ 300 字。超过 → 写入独立文件，对话只留摘要指针。** |
 
 ## 核心流程
 
@@ -51,6 +51,11 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 1. **跳过管线检查直接写正文**：用户说"写正文" → agent 没检查 plot→chapter-design→prose-render 管线 → 缺失上游产出物。正确做法：检查上游产出物 → 缺失则路由到缺失 skill。
 2. **凭记忆判断子 skill 内容**：agent 跳过 Get-Content → 版本不一致产出格式不匹配。正确做法：每次都 Get-Content 最新版本。
 3. **entity-snapshot 脱节仍续写**：entity-snapshot 最后更新 ch05，用户要写 ch08 → agent 基于 ch05 续写 → 角色状态脱节。正确做法：检查快照章号 vs 目标章号 → 脱节则提示用户。
+4. **方向sketch 全被拒仍硬推进 world**：用户的创意方向未锁定 → agent 引导进入世界构建 → 浪费 work。正确做法：退回 pop-writer-creative Phase 0 重新碰撞。如果已拒 2+ 轮 → 引导缩小范围到单个场景而非完整方向。
+5. **同人二创不做 gap 分析直接进 plot**：基于源作品的二创 → creative 阶段的 L1 六件套产出后 → agent 直接进 plot 卷设计 → 漏了对照源作品 deconstructor 产出补齐设定层差异 → 剧情设计基于有 gap 的设定展开，后续返工成本高。正确做法：在 creative 完成后、plot 开工前，执行 `references/derivative-gap-analysis.md` 中的双层 gap 分析（设定层 1:1 对齐 → 设计层用户确认）。
+6. **非写入产出未做摘要化**：Gap 分析 / 阶段完成总结完整贴在对话中（1,700+ chars），挤占上下文窗口。正确做法：正文型汇报 ≤ 500 字，表格型 ≤ 300 字。完整内容写入独立文件，对话只留指针+摘要。
+7. **子 skill 的 step 文件未加载，凭记忆执行 SOP**：加载子 skill 时只调了 skill_view(name) 读 SKILL.md 描述，没有逐个调 skill_view(name, file_path="steps/step-*.md") 加载具体的步骤文件。凭 SKILL.md 速查表执行 → 遗漏 step 文件中的具体规则（如 chapter Step 2 要求的 scene/POV/关键对白/数据四字段、prose Step 3 的文本脉冲密度检查）。正确做法：路由到子 skill 后，列出其 steps/ 目录，用 skill_view 逐个加载所有步骤文件，确认完整了解执行指令后再开工。
+8. **skill_view 截断未被发现**：skill_view 返回的内容可能少于文件实际大小（如 L1-06.tpl.md 210 bytes 只返回 98 chars）。未交叉校验返回字符数 vs 文件实际大小 → 基于不完整指令执行。正确做法：skill_view 加载文件后，将返回内容的字符数与 `(Get-Item '{path}').Length` 对比。如果明显偏短 → 标记 "⚠️ 截断"，回退用 Read 工具重新读取。
 
 ## 边界条件
 
@@ -65,6 +70,8 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 | 用户要跳步 | 用户明确表示 | 说清代价，给两个选项。确认后立即切换 |
 | 未加载子 skill | agent 跳过加载 | 必须先加载再执行。跳过 = 退回 |
 | 越界检测 | 当前阶段出现下一阶段内容 | 说"这属于 [X] 的范围，到那一步处理。先完成当前阶段。" |
+| **同人二创路由** | 用户说"基于《XXX》写同人/衍生/跨界融合，主角替换为YYY" | 路由到 pop-writer-creative 时标注 `mode: fanfic`，触发其 Phase 0 分支 B（跳过方向sketch碰撞，直接锚点书解析+元素叠层）。creative 完成后 → 参考 `references/derivative-gap-analysis.md` 做双层 gap 分析再进 plot |
+| **方向被拒退回** | 用户否定全部方向sketch，且仍在 creative 阶段 | 强制退回 pop-writer-creative Phase 0，不引导进入 world 阶段 |
 
 ## 落盘检查点
 

@@ -1,6 +1,17 @@
 ﻿# CHANGELOG — 09-pop-novel-chapter-design
 
-## v1.5.0 — 2026-06-11
+## v1.6.0 — 2026-06-15
+
+### entity-snapshot 创建时机修复（CH1 首次运行专用）
+
+- **step-1-read-canvas.md 前置条件重构**：将 entity-snapshot.yaml 从硬性前置条件改为「已存在→正常读取 / 不存在→初始化创建」的分支逻辑
+  - 新增「★ entity-snapshot 初始化分支」章节，含完整的初始化 SOP（从 volume-XX.md 角色池 + 角色卡提取初始状态 → 组装初始 yaml → 写入 00-总控/）
+  - 初始化操作为一次性动作（CH1 触发），后续章节走正常读取路径
+  - 设计依据说明：Step 1 必须读到 entity-snapshot 才能设计事件链，但 Step 3 才写入第一次更新——CH1 必须在这里初始化
+- **step-3-output.md 更新**：增加 CH1 特殊情况说明——Step 1 已创建骨架，Step 3 填入 after 状态即可
+  - timeline 字段追加说明（追加本章时间节点而非覆盖）
+- **expert-writer/references/pipeline-check.md**：新增第⑤项——当路由目标为 chapter-design 时，输出 entity-snapshot 存在性检查提示
+- **skill_view 截断排查结论**：L1-06.tpl.md 等文件的 skill_view 返回与 read_file 对比验证，结果为正常。210 bytes = 98 chars（UTF-8 中文 3字节/字），文件完整无截断。为误报。
 
 ### 输入精简 + 路径对齐 PRD v1.4
 

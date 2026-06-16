@@ -147,6 +147,6 @@ rhythm_check:
     applicable:
     ch01_core_hook_present:    # 第1章章末钩子？(required: true)
     ch01_selling_point:        # 核心卖点亮相？(required: ch ≤ 1)
-    ch02_first_conflict:       # 战斗/重大矛盾？(required: ch ≤ 2)
+    ch02_first_conflict:       # 第2章正面战斗冲突（交手式战斗，非被动触发/逃跑/纯信息）？(required: ch ≤ 2, 最晚 ch3)
     pure_setup_max:            # 最大连续纯铺垫章 (required: ≤ 1)
 ```

@@ -1,6 +1,6 @@
 ﻿# Step 1：读入 Canvas + 状态
 
-> 管线: pop-writer-chapter v1.5
+> 管线: pop-writer-chapter v1.6
 > 模板: `templates/fact-skeleton.md`
 > 参考资料: `references/character-scheduling.md` / `references/location-orchestration.md` / `references/emotional-beats.md`
 
@@ -19,7 +19,47 @@
 - [ ] `设计/卷/volume-XX.md` 存在（卷级 Canvas：人物池/地点池/剧情线/版本里程碑）
 - [ ] `设计/幕/act-XX.yaml` 存在（当前幕的章级切片）
 - [ ] `状态/角色/{主角}-角色卡.md` 存在（取 core_desire）
-- [ ] 00-总控/entity-snapshot.yaml 存在
+
+### ★ entity-snapshot 初始化分支（CH1 首次运行专用）
+
+**检查规则**：尝试读取 `00-总控/entity-snapshot.yaml`。
+- ✅ **已存在** → 正常读取全部角色当前状态，进入 Step 1 主流程
+- ❌ **不存在（CH1 第一次运行）** → 执行以下初始化流程：
+
+```
+① 从 `设计/卷/volume-XX.md §三` 读取本卷角色池 → 获取角色名列表
+② 对每个角色，读取 `状态/角色/{角色名}-角色卡.md` 提取：
+   - core_desire、人格基线、能力上限（不变信息）
+   - 角色的初始等级/职业/位置（从角色卡中取"故事开始时"状态）
+③ 从 `00-原始设定/起点快照.md`（如有）提取世界初始状态
+④ 组装为以下格式写入 `00-总控/entity-snapshot.yaml`：
+
+```yaml
+_meta:
+  version: 1
+  created_from: "pop-writer-chapter step-1-init"
+  total_chapters: 0
+entities:
+  {角色名}:
+    class: {职业}
+    level: {初始等级}
+    position: {初始位置}
+    hp: {当前生命/状态描述}
+    equipment: {初始装备清单}
+    status_flags: []
+    relationships: {}
+event_log: []
+timeline:
+  - "故事开始: {时间锚点(取自act-XX.yaml或起点快照)}"
+flags: {}
+```
+
+⑤ 初始化完成后，标注以下日志供下游检查：
+   `⚠️ entity-snapshot.yaml 由 CH1 初始化创建，所有角色状态基于角色卡卷初始数据`
+```
+
+> **设计依据**：Step 3 会更新 entity-snapshot，但 Step 1 需要先读到它。如果不在这里初始化，CH1 设计事件链时所有角色微状态=空白。
+> **检查点**：初始化后，在步骤产出中标注 `entity_snapshot_initialized: true`
 
 ---
 

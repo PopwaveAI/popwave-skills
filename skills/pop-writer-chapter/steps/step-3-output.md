@@ -1,6 +1,6 @@
 ﻿# Step 3：产出与状态更新
 
-> 管线: pop-writer-chapter v1.5
+> 管线: pop-writer-chapter v1.6
 > 模板: `templates/fact-skeleton.md`（已合并，含事实骨架 + 登场人物卡）
 
 ## 目的
@@ -25,11 +25,13 @@
 
 ### 2. 更新 `00-总控/entity-snapshot.yaml`
 
+> **CH1 特殊情况**：如果本章是 CH1，entity-snapshot 已在 Step 1 初始化创建（仅有角色初始状态的骨架）。这里的更新操作与后续章节相同——根据 after 状态填实数据。
+
 根据本章所有角色的 after 状态更新：
-- 角色状态（等级/位置/装备/心理）
+- 角色状态（等级/位置/装备/心理）— CH1 时从初始状态→本章结束状态
 - 事件日志（追加本章事件摘要）
 - flags（新增/更新/移除）
-- timeline
+- timeline（追加本章时间节点）
 - `_meta.total_chapters + 1`
 
 ---

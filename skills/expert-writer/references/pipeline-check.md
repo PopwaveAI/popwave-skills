@@ -30,7 +30,12 @@
    entity-snapshot.yaml ........ ✅ 可用（快照存在且章数一致）
    T5-叙事技法.md .............. ✅ 可用（已注入增强信息）
 
-⑤ 输出校验报告：
+⑤ 当路由目标为 chapter-design 时的实体检查（entity-snapshot 专用）：
+   ⚠️ 读 entity-snapshot.yaml → 不存在则输出：
+      "entity-snapshot.yaml 不存在。如果是 CH1 首次设计，请确保 pop-writer-chapter Step 1 已按初始化分支流程创建。"
+   → 不是阻断（因为 chapter Step 1 会自行初始化），但输出提示确保 agent 不会跳过初始化逻辑
+
+⑥ 输出校验报告：
    ✅ 全部 required 通过 → 进入 §3.2 Execute
    ❌ 有 required 缺失 → 告知用户缺什么文件、来自哪个上游 Skill
    ⚠️ recommended 缺失 → 告知但不阻止，标注"缺少此数据可能影响质量"
