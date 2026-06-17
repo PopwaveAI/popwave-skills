@@ -87,6 +87,11 @@
 |:-----|:----:|:-------|:------|
 | story-engine.yaml | S | bookstrap Phase 0 | plot（内化→卷命题） |
 | L1-01~06 | S | bookstrap Phase 1 | plot（幕设计参考） |
+| 00-原始设定/融合适配清单.md | S | pop-writer-world Phase 0 | L1-01~06 维度 |
+| 00-原始设定/动态升级表.md | S | pop-writer-world Phase 7 | pop-writer-plot |
+| 00-总控/数值体系/socioeconomic_pyramid.md | S | pop-writer-world Phase 4 | plot + chapter-design |
+| _创意元素/作者想法.md | S | pop-writer-creative W0.5 | pop-writer-creative Phase 0 |
+| _素材聚合/元素复用建议.md | S | pop-writer-creative W0 | pop-writer-creative Phase 0 |
 | 数值体系 x4 | S | bookstrap Phase 5 | plot + chapter-design(战斗章) |
 | project.yaml | M | bookstrap Phase 3 | expert-writer 路由 |
 | 状态/角色/角色卡.md | **D** | bookstrap初版 → plot卷间回写 | plot(core_desire) + chapter-design |
@@ -96,7 +101,7 @@
 | 起点/终点快照.md | S | bookstrap | plot Step 2 |
 | 设计/全书架构.md | S+D | plot Phase 0 | volume-XX × N |
 | 设计/卷/volume-XX.md | S | plot Step 4.5 | chapter-design Step 1 |
-| 设计/幕/vol-XX/act-YY.yaml | **D** | plot Step 9 | chapter-design + qa |
+| 设计/幕/vol-XX/act-YY.md | **D** | plot Step 9 | chapter-design + qa |
 | 00-总控/entity-snapshot.yaml | **D** | chapter-design(逐章) | chapter-design(下章) + expert-writer |
 | 写作资产/设计包/chXXX-设计包.md | **D** | chapter-design | prose-render |
 | 正文/chXXX.md | **D** | prose-render | qa + html-renderer |
@@ -114,11 +119,22 @@
 │   ├── project.yaml           [bookstrap] {M}
 │   ├── entity-snapshot.yaml   [chapter-design] {D}
 │   └── 数值体系/              [bookstrap] {S}
+│       ├── combat_capability.yaml
+│       ├── act_rank_schedule.yaml
+│       ├── monster_rank_map.yaml
+│       ├── collision_curve.yaml
+│       └── socioeconomic_pyramid.md
 ├── 00-原始设定/                ← bookstrap 静态产出，仅 plot 消费
 │   ├── L0-产品层/ (story-engine + 融合摘要 + PRD)
 │   ├── L1-元设定层/ (01~06)
+│   ├── 融合适配清单.md           [pop-writer-world Phase 0]
+│   ├── 动态升级表.md             [pop-writer-world Phase 7]
 │   ├── 起点快照.md
 │   └── 终点快照.md
+├── _创意元素/                  ← creative 阶段——项目本地的作者自述素材
+│   └── 作者想法.md             [pop-writer-creative W0.5]
+├── _素材聚合/                  ← creative 阶段——搜索/归档/复用建议
+│   └── 元素复用建议.md          [pop-writer-creative W0]
 ├── 状态/                      ← 全书跨卷动态追踪 {D}
 │   ├── 角色/ (主角+配角卡, per-volume 快照段)
 │   ├── 势力/ (渗透阶段/规模/事件)
@@ -128,13 +144,17 @@
 │   ├── 全书架构.md             [S+D]
 │   ├── 卷/ (volume-01~07.md)  [S]
 │   └── 幕/ vol-XX/            [D]
-│       ├── act-01.yaml        (含 info_release_plan 段)
+│       ├── act-01.md           (含 info_release_plan 段)
 │       └── ...
 ├── 写作资产/                   ← design + render 共用
 │   ├── 设计包/ (ch001~800-设计包.md) [D]
 │   ├── 文风DNA/ ({书名}.md)    [S]
 │   └── 锚定章库/              [D]
 ├── 正文/ chXXX.md             [D]
+├── _创意元素/                  ← creative 阶段——作者自述的个性化素材
+│   └── 作者想法.md             [S]
+├── _素材聚合/                  ← creative 阶段——搜索/归档/复用建议
+│   └── 元素复用建议.md          [S]
 └── _参考书分析/               [S]
 ```
 
@@ -156,6 +176,7 @@
 | 阶段 | 必须存在 | 建议存在 |
 |:-----|:---------|:---------|
 | bookstrap 完成 | project.yaml + L1-01~06 + 角色卡 + 数值体系 + 快照 | deconstruct-融合摘要 |
+| world 完成 | 融合适配清单 + L1-01~06 + 角色卡 + 数值体系 + 静态金字塔 + 快照 + 宪法 + 动态升级表 | deconstruct-融合摘要 |
 | plot 完成 (卷N) | volume-NN.md + 幕/vol-NN/act-*.yaml × N幕 | 全书架构.md |
 | chapter-design 完成 (chN) | 写作资产/设计包/chN-设计包.md + entity-snapshot 更新 | — |
 | prose-render 完成 (chN) | 正文/chN.md | 章末状态更新块合规 |

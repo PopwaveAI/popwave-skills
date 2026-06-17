@@ -20,6 +20,8 @@ pipeline:
 
 **合成模式**：当 prose-render 无原文可校验（新写/同人二创/风格迁移测试），完全靠设计包+DNA渲染时，额外加载 `references/synthesis-mode.md`。该模式风险等级更高——设计包精度锚点是唯一约束源，🔒标记强度从"建议"升级为"唯一可靠性栅栏"。
 
+**外部DNA适配**：当文风DNA来自不同作品/世界（如遮天DNA渲染深渊主宰设计包），DNA场景卡可能不覆盖所有设计包事件类型。额外加载 `references/external-dna-adaptation.md`：缺口分析→三级降级策略→围观群众机制移植→跨类型战斗适配公式。
+
 ---
 
 ## ⚠️ 前置阻断检查（加载 SKILL.md 后、进入 Step 1 前必须执行）
@@ -35,6 +37,7 @@ pipeline:
 | ⚠️4 | 续写时上一章 `正文/ch{上一章}.md` 存在 | 缺 → ❌ 终止，无法获取衔接 |
 | ⚠️5 | 设计包中有 ◆小爽点 ≥ 5 + ★中爽点 ≥ 1 | 缺 → ⚠️ 警告：设计包爽点未达标，prose 渲染后必通不过 QA |
 | ⚠️6 | **合成模式检测** — `写作资产/` 下无原文章节目录且设计包来自创作管线（非拆书）→ 进入合成模式。须额外加载 `references/synthesis-mode.md` | 未加载合成模式指引 → 危险：无原文兜底时 prose 可能填充默认值 |
+| ⚠️7 | **首章 entity-snapshot 初始化** — 首次渲染（`正文/` 目录为空）时，检查 `entity-snapshot.yaml` 是否存在。若不存在 → 基于卷纲起点快照 + 设计包角色层提取初始角色状态，创建实体快照后再进 Step 1。续写时检查 entity-snapshot 章号与当前目标章号是否脱节 | 不存在 → 自动初始化（数据源：卷纲起点快照表 + 设计包角色行为锚定）。不满足创建条件（无卷纲/无设计包）→ ❌ 终止，告知缺初始状态数据 |
 
 ---
 
@@ -43,7 +46,7 @@ pipeline:
 | 我要 | 操作 | 前置条件 |
 |------|------|---------|
 | 渲染第X章 | 读设计包 → styles/ → 渲染 → 验证 → 输出 | chapter-design 必须先产出设计包 |
-| 首章渲染 | 同上述 + 开篇50字锻造（生成3版本，用户选）后再进 Step 2 | — |
+| **首章渲染** | 先初始化 entity-snapshot（如缺失）→ 读设计包 + 文风DNA → 开篇50字锻造（3版本，用户选）→ 渲染 → 验证 → 输出。详见 `references/first-chapter-init.md`。 | entity-snapshot 必须存在（缺失时自动基于卷纲+设计包初始化） |
 | 续写 | 读上一章正文最后800字 → 衔接渲染 | entity-snapshot 必须最新 |
 | 重渲染（文风DNA就位后覆盖旧版） | 先删除 `正文/chXXX.md` → 读设计包 → 渲染 → 验证 → 输出 | 旧版正文已清除 |
 | **批量渲染**（从源文本/原文批量改写为N章） | 读源文本 → 创建复合设计包（或逐章设计包）→ delegate_task 并行分发（每批5章）→ 汇总验证 | 源文本存在（原文txt或正文md）。DNA就绪。详见 `references/batch-style-migration.md`（在 expert-writer 技能下） |
@@ -92,6 +95,9 @@ Step 1 — 读入输入
 
 Step 1.5 — 首章开篇50字锻造（仅首章·必做）
   生成3个版本的开篇50字（含感官定位+氛围基调）→ 用户选一个 → 选定的版本嵌入 Step 2 的开幕段落
+  ⚡ 用户说"后面不用问我了"或"继续下一章"或路由命令"/pop-writer-prose" → 进入精简模式：
+     后续流程（Step 2→3→4）不暂停等待确认，持续执行到完整产出或遇到必须用户介入的错误。
+     章末提供摘要结果，不需途中请示。
   ↓
 
 Step 2 — 逐事件渲染（★ 核心）
@@ -101,10 +107,12 @@ Step 2 — 逐事件渲染（★ 核心）
 
 Step 3 — 风格验证
   对照文风DNA原文（场景卡句式/感官序列/段落呼吸/对话引导词）→ 标记偏差 → 最小修补
+  可用 `scripts/verify-prose.py` 自动化验证（字数/AI词/解说员句式/事件覆盖/脉冲密度）
   ↓
 
 Step 4 — 最终输出
   字数检查（偏差≤20%）→ 完整性检查（❌1-❌7）→ 写入 正文/chXXX.md + 章末状态更新块
+  ⚡ 大文件写入时参见 `references/file-write-reliability.md`（checkpoint 截断规避）
 ```
 
 ---
@@ -196,7 +204,17 @@ Step 4 输出完成后 → 建议执行 pop-writer-qa 做质检。
 
 ---
 
-## 版本 v3.5.0 | 2026-06-16
+## 版本 v3.5.5 | 2026-06-17
+
+- v3.5.5: 新增 `references/file-write-reliability.md`——Hermes checkpoint 系统截断大文件的规避指南。Step 4 流程图新增指针。适用于任何 >5KB 的正文写入。
+
+- v3.5.4: 新增 `scripts/verify-prose.py`——Step 3 自动化验证脚本（字数/AI词/解说员句式/事件覆盖/脉冲密度/状态块检查）。在 Step 3 流程图中添加脚本调用指针。用法：`python D:\\popwave-skills\\skills\\pop-writer-prose\\scripts\\verify-prose.py 正文/chXXX.md --word-count-min 2800 --word-count-max 3200 --events "灶台,牧师,希斯"`。
+
+- v3.5.3: 新增 ⚠️7「首章 entity-snapshot 初始化」前置阻断检查。新增 `references/first-chapter-init.md`——首章初始化工作流（卷纲起点快照→设计包角色层→合并写入）。速查表首章条目更新为三步式，末尾添加 reference 指针。
+
+- v3.5.2: 新增 `references/external-dna-adaptation.md`——外部DNA适配指南。当文风DNA来自不同作品/世界（如遮天DNA渲染深渊主宰），其场景卡不覆盖所有设计包事件类型时，执行缺口分析→三级降级策略→围观群众机制移植→跨类型战斗适配公式。SKILL.md 正文新增指针段落。
+
+- v3.5.1: Step 1.5 新增精简模式规则：用户选完开篇后说"后面不用问我了"/"继续下一章" → 后续流程不暂停，持续执行到完整产出。
 
 - v3.5.0: 新增 `steps/step-0-delegation-contract.md`——父agent委托协议。子agent自己加载skill执行SOP，父agent只传路径矩阵+门禁3条+章节连续性摘要。新增WRONG 14（父agent从DNA提取替换规则）。⚠️0扩展为5个step文件。Step 0新增委托协议引用。
 

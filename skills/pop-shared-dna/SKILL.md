@@ -1,7 +1,7 @@
 ---
 name: pop-shared-dna
 description: 当用户说"提取文风/文风DNA/风格蒸馏/分析作者笔触/文风拆解/写作文风参考/styles文件/场景卡文风"时启用。从原文中按场景类型提取作者笔触，产出 prose-render 可直接对照的场景参考文件。**给 prose-render 的不是指令——是原文。**
-version: 4.0.2
+version: 4.0.3
 pipeline:
   upstream: [pop-decon]
   downstream: [pop-writer-prose]
@@ -96,6 +96,11 @@ prose-render Step 1（读入输入）:
 
 **场景卡命名对齐规则（2026-06-15 新增）**：
   pop-writer-chapter 现在会在每事件的 scene 字段产出 scene 值（如 combat_stealth）。DNA 场景卡头标注的 `scene:` 字段必须与之一致。修改 DNA 场景卡名后，同步检查 pop-writer-chapter 的 scene 值列表是否需要对齐。常见 mismatch：DNA 写 `combat_stealth` 而 design 包写 `combat_assassination` → prose-render 匹配失败。
+
+**DNA 消费边界（2026-06-16 新增）**：
+  DNA 的'观察'字段描述的是作者的笔触特征（句式节奏/叙事距离/感官顺序/对话方式），不是'内容改写指令'。
+  父agent 将 DNA delegate 给子agent 时，**不得**从 DNA 中提取'A改成B'类的替换规则写入 context。
+  正确做法：只传 DNA 路径，让子agent 自己读原文感受笔触。详见 pop-writer-prose 的 `steps/step-0-delegation-contract.md`。
 ```
 
 ---
@@ -173,4 +178,4 @@ pop-shared-dna/
 
 ## 版本
 
-v4.0.2 | 2026-06-15 | 新增短章书目混合采样策略参考文件 + 边界条件更新 | 完整变更记录 → [CHANGELOG.md](CHANGELOG.md)
+v4.0.3 | 2026-06-16 | DNA消费边界新增：'观察'字段是笔触特征不是改写指令。模板新增消费警告。集成章节新增DNA消费边界说明。

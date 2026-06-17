@@ -2,8 +2,8 @@
 
 > 管线: pop-writer-plot v6.1 · Step 2
 > 消费: pop-writer-chapter 做字段追溯时参考
-> 输入: volume-XX.md（卷级战略）+ act-skeleton.yaml 骨架 + 状态/角色/核心角色卡
-> 产出: 设计/幕/vol-XX/act-YY.yaml
+> 输入: volume-XX.md（卷级战略）+ act-skeleton.md 骨架 + 状态/角色/核心角色卡
+> 产出: 设计/幕/vol-XX/act-YY.md（Markdown）
 
 ---
 
@@ -11,7 +11,7 @@
 
 - [ ] volume-XX.md 已产出（角色池/地点池/剧情线/势力动机）
 - [ ] 状态/角色/核心角色卡存在（取 core_desire）
-- [ ] act-skeleton.yaml 骨架已读取
+- [ ] act-skeleton.md 骨架已读取
 
 ---
 
@@ -27,7 +27,7 @@
 | `goal` | 格式 `"读者从「X」到「Y」"`。X = ch1读者的初始感受，Y = 幕末期待感受 |
 | `tone_note` | 1-3句散文。不用比例，写感受 |
 
-### 1.2 信息释放计划（内嵌在 act-skeleton.yaml#info_release_plan）
+### 1.2 信息释放计划（参考 act-skeleton.md 模板）
 
 | 字段 | 来源 |
 |:-----|:-----|

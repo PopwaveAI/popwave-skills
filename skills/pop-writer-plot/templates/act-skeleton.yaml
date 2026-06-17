@@ -1,6 +1,8 @@
-﻿# act-XX.yaml — 幕纲 YAML 骨架
+﻿# act-XX.md — 幕纲骨架 Markdown 格式
 
-> 产出路径: `设计/幕/vol-XX/act-YY.yaml`
+> **⚠️ 注意**：实际产出使用 Markdown 格式 act-YY.md（见 SKILL.md §质量红线 #4）。本 .yaml 模板仅作为字段参考骨架保留，不可直接用于产出。
+> 产出路径: `设计/幕/vol-XX/act-YY.md`
+> Markdown 格式模板: `templates/act-skeleton.md`
 > 管线: pop-writer-plot v6.3 · Step 2
 > 消费: pop-writer-chapter
 >

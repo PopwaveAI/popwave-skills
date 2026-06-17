@@ -1,4 +1,49 @@
-﻿# CHANGELOG — 05-pop-novel-creative
+﻿# CHANGELOG — pop-writer-creative
+
+## v2.0.0 — 2026-06-17
+
+### 核心重构：路由机制 + 双产出模型 + 独立调起
+
+- **新增 Phase R 路由诊断**：按用户启动状态走三分支。A: PRD先行（清晰想法）→ 定向采集；B: 广度采集 → PRD浮现（碎片灵感）；C: 方向碰撞 → PRD提炼（空白）
+- **新增 Phase Delta 独立调起**：项目中后期注入新元素（热点/IP/新灵感）时执行轻量级注入诊断。三步：PRD契合度评估 → 宪法冲突检测 → 素材储备池追加。不重跑全流程
+- **新增双产出模型**：产出物从单一「故事引擎」拆为「故事引擎.md（宪法约束）+ 素材储备池.md（剧情种子）」两件套。素材储备池按主线索材/支线索材/背景素材/剩余焊接点四类归档，供 plot 消费
+- **PRD 独立为前置/中置阶段**：PRD 从故事引擎的隐藏部分提前为独立产出（PRD.md），A分支在素材前、B分支在素材后、C分支在方向选定后
+- **故事引擎模板新增「〇、基本法」章节**：对接 PRD.md，作为引擎的宪法基线
+
+### 新增文件
+
+- `steps/step-r.md` — 路由诊断（三分支决策矩阵 + 追问策略 + 调用模式识别）
+- `steps/step-prd.md` — PRD 撰写指导（三种模式 + 微调模式）
+- `steps/step-delta.md` — 新元素注入流程（PRD契合度 + 宪法冲突 + D1/D2/D3 三等级）（★ NEW）
+- `templates/materials-pool.tpl.md` — 素材储备池模板（四类分类 + PRD反审记录 + Delta 注入段落）
+
+### 更新文件
+
+- `SKILL.md` — 完整重写：路由总图（含模式2独立调起）+ 三分支流程 + Phase Delta + 双产出模型 + 新增红线 x4 + Delta 红线 x5
+- `steps/step-r.md` — 新增调用模式识别（Delta vs 管线入口）+ 三分支诊断
+- `steps/step-w0.md` — 分支感知：PRD筛选检索 vs 广度检索
+- `steps/step-w1.md` — 拆分 Part A 跨域素材采集 + Part B 拆书融合，均分支感知
+- `steps/step-prd.md` — 新增模式 D（Phase Delta PRD 微调）
+- `templates/story-engine.tpl.md` — 新增「〇、基本法」章节对接 PRD.md
+- `skill.json` — v2.0.0 版本 + 描述更新 + downstream 新增 pop-writer-plot + 新增 activation 关键词
+
+### 新增红线
+
+| # | 红线 |
+|:-:|:-----|
+| ❌1 | Phase R 不可跳过 |
+| ❌3 | PRD 不可跳过 |
+| ❌4 | 素材储备池不可跳过 |
+| ❌12 | 素材储备池不分类直接堆 |
+| ❌D1 | Delta：不读项目已有产出就评估 |
+| ❌D2 | Delta：不擅自修订宪法 |
+| ❌D3 | Delta：冲突时不沉默吞入 |
+| ❌D4 | Delta：注入不写储备池 |
+| ❌D5 | Delta：重复注入同一元素 |
+
+### 重新编号
+
+红线从 10 条扩展为 12 条（原 ❌1-10 保留，❌2/W0 保留，新增 ❌1/R ❌3/PRD ❌4/池 ❌12/分类）+ Delta 5 条（❌D1-D5）
 
 ## v1.4.1 — 2026-06-14
 

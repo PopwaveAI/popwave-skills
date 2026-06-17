@@ -20,7 +20,7 @@ pipeline:
 | # | 检查项 | 不通过处理 |
 |:-:|:-------|:----------|
 | ⚠️0 | **用 skill_view 加载 steps/step-1-read-canvas.md、steps/step-2-event-chain.md、steps/step-3-output.md、templates/fact-skeleton.md 全部读取后**再进 Step 1。只读此 SKILL.md 就动手 = 必断链。 | 缺一步不开始 |
-| ⚠️1 | `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml` 是否存在 | 缺 → 终止，提示先完成 plot |
+| ⚠️1 | `设计/卷/volume-XX.md` + `设计/幕/vol-XX/act-YY.md` 是否存在 | 缺 → 终止，提示先完成 plot |
 | ⚠️2 | `00-总控/entity-snapshot.yaml` 是否存在 | 不存在 → 执行 Step 1 的 entity-snapshot 初始化分支（从角色卡+起点快照组装），创建完再进事件链设计 |
 | ⚠️3 | 本章登场角色的 `状态/角色/{角色名}-角色卡.md` 是否存在 | 缺 → 终止，不凭记忆编造角色基线 |
 | ⚠️4 | act-XX.yaml 中本章 canvas 是否有 payoff_summary≥1 | 0 → 本章需自行兜底制造 ★中爽点（见 payoff-guide 4.1-4.2） |
@@ -29,7 +29,7 @@ pipeline:
 
 | # | 红线 |
 |:-:|:-----|
-| ❌1 | **Canvas 未就绪** — `设计/卷/volume-XX.md` + `设计/幕/act-XX.yaml` 任一缺失 → 终止，提示先完成 plot |
+| ❌1 | **Canvas 未就绪** — `设计/卷/volume-XX.md` + `设计/幕/vol-XX/act-YY.md` 任一缺失 → 终止，提示先完成 plot |
 | ❌2 | **entity-snapshot 不存在也未初始化** — `00-总控/entity-snapshot.yaml` 缺失且未执行 Step 1 初始化分支创建 → 阻断。**CH1 首次运行时它不存在是正常的——必须创建而非阻断。** 详见 Step 1 `★ entity-snapshot 初始化分支`。 |
 | ❌3 | **出场角色不可追溯** — 事件引用角色不在 `volume-XX.md §三` 角色池中 → 拒绝，补充或注册进 volume |
 | ❌4 | **事件密度不达标** — 事件链事件数 < 章字数 ÷ 200 → 退回扩充事件直到达标 |
@@ -91,7 +91,7 @@ pipeline:
 
 | 场景 | 触发条件 | 处理 |
 |:-----|:---------|:-----|
-| Canvas 上游未产出 | act-XX.yaml 不存在 | 拒绝，提示先完成 plot 幕纲编排 |
+| Canvas 上游未产出 | act-YY.md 不存在 | 拒绝，提示先完成 plot 幕纲编排 |
 | 角色不在角色池 | 事件引用的角色未在 volume-XX.md §3 出现 | 拒绝，从角色池选取或先在 volume 中注册 |
 | 地点不在地点池 | 事件引用的地点未在 volume-XX.md §3 出现 | 拒绝，从地点池选取或先在 volume 中注册 |
 | 跨章弧线标注缺失 | 事件横跨多章但未标注 arc_span | 退回，补全 arc_span + 本章位置 |

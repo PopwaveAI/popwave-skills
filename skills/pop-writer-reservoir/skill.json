@@ -1,0 +1,27 @@
+{
+  "id": "pop-writer-reservoir",
+  "version": "1.1.0",
+  "displayName": "素材储备注入",
+  "description": "素材储备池 v1.1.0。新增SOP信息采集深度广度标准(三层穿透+四视角覆盖+信源多样性)、权重判定矩阵(规模×密度)、受众立场评估(三立场+安全等级)、质量闸门六道。内置4条实战案例参考。",
+  "pipeline": {
+    "upstream": ["pop-writer-creative"],
+    "downstream": ["pop-writer-plot"]
+  },
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "注入素材",
+      "素材储备",
+      "储备池",
+      "热点内化",
+      "内化",
+      "pool"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true
+  }
+}

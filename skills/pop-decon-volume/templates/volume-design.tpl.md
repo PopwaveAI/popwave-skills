@@ -1,5 +1,8 @@
-# volume-01 — {书名}
+# 卷1 · {书名}（ch001-ch999）
 
+> ⚠️ **基于前X章数据推断**：本文件只读到了全书的一部分（共约N卷）。
+> 所有后续结论（剧情线走向/未解之谜估计）均基于此有限窗口，不代表全书终态。
+> 
 > @source_book: {书名} | @source_chapters: [{start}, {end}]
 > 
 > ⚠️ **原文证据规则**：数据来源 = `\_temp\plot-data.json`（majorEvents[]/actBoundaries[]）。每个剧情线事实必须有 chXX 支撑。
