@@ -1,6 +1,6 @@
 ﻿# Step 1：卷设计
 
-> 产出: `设计/卷/volume-XX.md`
+> 产出: `剧情设计/卷/volume-XX.md`
 > 模板: `templates/volume-design.md`
 > 管线: pop-writer-plot v6.1 — 从全书架构中拆取单卷战略
 > 上游: `设计/全书架构.md`（本书架决定了卷总数、各卷命题、角色出场、地理展开）
@@ -51,7 +51,7 @@
 
 ### 3. 用户确认闸门
 
-展示 `设计/卷/volume-XX.md` 给用户 → 用户点头后才进 Step 2 的幕纲编排。
+展示 `剧情设计/卷/volume-XX.md` 给用户 → 用户点头后才进 Step 2 的幕纲编排。
 
 > ⚠️ 用户点头前不进幕纲设计。卷定义错了，后面的幕纲全是错的。
 
@@ -59,4 +59,4 @@
 
 ## 产出
 
-`设计/卷/volume-XX.md` — 单文件，下游 chapter-design 的卷级 Canvas。
+`剧情设计/卷/volume-XX.md` — 单文件，下游 chapter-design 的卷级 Canvas。

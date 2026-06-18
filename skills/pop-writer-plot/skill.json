@@ -12,8 +12,8 @@
       "pop-writer-chapter"
     ],
     "produces": [
-      "设计/卷/volume-XX.md",
-      "设计/幕/vol-XX/act-YY.yaml"
+      "剧情设计/卷/volume-XX.md",
+      "剧情设计/幕/vol-XX/act-YY.yaml"
     ]
   },
   "activation": {

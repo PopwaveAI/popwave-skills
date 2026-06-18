@@ -1,6 +1,6 @@
 # Step 1: L1-01 世界蓝图
 
-> **产出位置**：`00-原始设定/L1-元设定层/01-世界蓝图.md`
+> **产出位置**：`小说世界设定/L1-01-世界蓝图.md`
 > **@consumed_by**: plot.Step6(volume-XX.md — 地理总览+时空规则), plot.Step1(act.core_conflict — 世界基调), writer.Step1(chXXX-design块B — 场景空间设计)
 
 ## 子字段
@@ -15,4 +15,4 @@
 
 ## 产出
 
-`00-原始设定/L1-元设定层/01-世界蓝图.md`
+`小说世界设定/L1-01-世界蓝图.md`

@@ -1,6 +1,6 @@
 ﻿# chXXX-设计包模板（事实骨架 + 登场人物卡 合并）
 
-> 产出路径: `写作资产/设计包/chXXX-设计包.md`
+> 产出路径: `章节设计包/chXXX-设计包.md`
 > 生产方式: pop-writer-chapter v1.5
 > 下游消费者: pop-writer-prose
 

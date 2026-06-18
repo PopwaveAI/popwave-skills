@@ -87,8 +87,8 @@
 |:-----|:----:|:-------|:------|
 | story-engine.yaml | S | bookstrap Phase 0 | plot（内化→卷命题） |
 | L1-01~06 | S | bookstrap Phase 1 | plot（幕设计参考） |
-| 00-原始设定/融合适配清单.md | S | pop-writer-world Phase 0 | L1-01~06 维度 |
-| 00-原始设定/动态升级表.md | S | pop-writer-world Phase 7 | pop-writer-plot |
+| 小说世界设定/融合适配清单.md | S | pop-writer-world Phase 0 | L1-01~06 维度 |
+| 小说世界设定/动态升级表.md | S | pop-writer-world Phase 7 | pop-writer-plot |
 | 00-总控/数值体系/socioeconomic_pyramid.md | S | pop-writer-world Phase 4 | plot + chapter-design |
 | _创意元素/作者想法.md | S | pop-writer-creative W0.5 | pop-writer-creative Phase 0 |
 | _素材聚合/元素复用建议.md | S | pop-writer-creative W0 | pop-writer-creative Phase 0 |

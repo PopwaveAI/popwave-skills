@@ -9,10 +9,10 @@
 
 | 文件/目录 | 存在暗示 | 不存在暗示 |
 |:----------|:---------|:-----------|
-| `00-原始设定/PRD.md` | 创意阶段已启动 | 可能还没开始 |
-| `00-原始设定/故事引擎.md` | 创意核心阶段完成 | 仍在早期方向碰撞 |
-| `00-原始设定/L1-元设定层/` (6+ 个文件) | 世界构建完成 | 仍在 world 阶段或之前 |
-| `00-原始设定/素材储备池.md` | creative 全部完成 | 需检查缺失了哪步 |
+| `创意种子/PRD.md` | 创意阶段已启动 | 可能还没开始 |
+| `创意种子/故事引擎.md` | 创意核心阶段完成 | 仍在早期方向碰撞 |
+| `小说世界设定/L1-` (6+ 个文件) | 世界构建完成 | 仍在 world 阶段或之前 |
+| `储备剧情池/素材储备池.md` | creative 全部完成 | 需检查缺失了哪步 |
 | `设计/全书架构.md` | plot Phase 0 完成 | 可进入 plot |
 | `设计/卷/volume-XX.md` | plot Phase 1 进行中 | 需检查是否已有架构 |
 | `设计/幕/vol-XX/act-YY.md` | plot Phase 2 进行中 | 需检查卷设计 |
@@ -24,7 +24,7 @@
 
 ```python
 # 伪代码逻辑
-if 存在 00-原始设定/PRD.md:
+if 存在 创意种子/PRD.md:
     if 存在 设计/全书架构.md:
         if 存在 设计/卷/volume-01.md:
             if 存在 设计/幕/vol-01/act-01.md:
@@ -33,9 +33,9 @@ if 存在 00-原始设定/PRD.md:
                 phase = "volume_design_complete_waiting_user"
         else:
             phase = "architecture_complete"
-    elif 存在 00-原始设定/素材储备池.md:
+    elif 存在 储备剧情池/素材储备池.md:
         phase = "creative_complete_ready_for_plot"
-    elif 存在 00-原始设定/故事引擎.md:
+    elif 存在 创意种子/故事引擎.md:
         phase = "story_engine_done_world_in_progress"
     else:
         phase = "prd_done_creative_in_progress"

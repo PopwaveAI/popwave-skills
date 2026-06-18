@@ -40,7 +40,7 @@
 | **拆解报告（如有参考书）** | `reference_materials.deconstructions[]` | 「该参考书的 T4(剧情全貌·双主线+Act边界) / T5(叙事技法·高潮分布密度) 已存在：`{path}`」 |
 | **T4 剧情全貌（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T4 | 「该书的双主线分布/张力曲线/起点终点快照：`{path}`。作为本卷爽点分布和 Act 边界的节奏参考。」 |
 | **T5 叙事技法（vNext 新增）** | `reference_materials.deconstructions[]` → 按书名匹配 T5 | 「该书的高潮分布密度/节奏指纹：`{path}`。作为 act-guide payoff_distribution 的参考上限。」 |
-| **L1-01~06 路径（vNext 新增）** | `projects[].l1_path` 或推断 `{项目}/00-原始设定/L1-元设定层/` | 「L1 设定目录：`{path}`。Plot Step1~7 的 canvas 设计需对照此目录。」 |
+| **L1-01~06 路径（vNext 新增）** | `projects[].l1_path` 或推断 `{项目}/小说世界设定/L1-` | 「L1 设定目录：`{path}`。Plot Step1~7 的 canvas 设计需对照此目录。」 |
 | **combat_capability（vNext 新增）** | `{项目}/00-总控/数值体系/combat_capability.yaml` | 「段位战力范围：`{path}`。Step 7/9 的 act_end_state 和 combat 字段需对照对应段位的战力范围。」 |
 | **act_rank_schedule（vNext 新增）** | `{项目}/00-总控/数值体系/act_rank_schedule.yaml` | 「卷级段位排期：`{path}`。确认本卷目标段位。」 |
 | **collision_curve（vNext 新增）** | `{项目}/00-总控/数值体系/collision_curve.yaml` | 「碰撞曲线：`{path}`。战斗章分布和张力峰值需与此对齐。」 |
@@ -59,7 +59,7 @@
 | **pre_read_status** | `file_registry[项目].pre_read_status` | 「精读闸门状态：verified={bool}。{note}」
 | **combat_capability（vNext 新增）** | `{项目}/00-总控/数值体系/combat_capability.yaml` | 「段位战力参考：`{path}`。战斗章 chXXX-design 块D 的 beat 设计需对照对应段位的战力范围。」 |
 | **monster_rank_map（vNext 新增）** | `{项目}/00-总控/数值体系/monster_rank_map.yaml` | 「怪物等级对照：`{path}`。本章涉及怪物时，需从该表读取怪物的段位和难度注释。」 |
-| **L1-04 物种与天赋（vNext 新增）** | `{项目}/00-原始设定/L1-元设定层/04-物种与天赋.md` | 「种族数据：`{path}`。本章有非人类角色出场时，预取对应种族的 traits/faction_affiliation。」 |
+| **L1-04 物种与天赋（vNext 新增）** | `{项目}/小说世界设定/L1-04-物种与天赋.md` | 「种族数据：`{path}`。本章有非人类角色出场时，预取对应种族的 traits/faction_affiliation。」 |
 
 ### pop-writer-qa（质检）
 

@@ -1,6 +1,6 @@
 # 幕纲骨架 — act-YY.md 模板
 
-> 产出路径: `设计/幕/vol-XX/act-YY.md`
+> 产出路径: `剧情设计/幕/vol-XX/act-YY.md`
 > 管线: pop-writer-plot · Step 2
 > 消费: pop-writer-chapter
 >

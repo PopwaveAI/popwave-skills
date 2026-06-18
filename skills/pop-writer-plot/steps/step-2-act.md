@@ -1,6 +1,6 @@
 ﻿# Step 2：幕纲编排
 
-> 产出: `设计/幕/vol-XX/act-YY.yaml`
+> 产出: `剧情设计/幕/vol-XX/act-YY.yaml`
 > 模板: `templates/act-skeleton.yaml`
 > 管线: pop-writer-plot v6.2 — 每幕执行一次，重复直到所有幕完成
 
@@ -15,7 +15,7 @@
 
 ## 前置条件
 
-- [ ] `设计/卷/volume-XX.md` 已产出并用户确认（含剧情线定义）
+- [ ] `剧情设计/卷/volume-XX.md` 已产出并用户确认（含剧情线定义）
 - [ ] 当前幕的章节范围已确定（从卷设计的幕划分取）
 
 ---

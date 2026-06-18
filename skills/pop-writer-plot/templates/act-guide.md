@@ -3,7 +3,7 @@
 > 管线: pop-writer-plot v6.1 · Step 2
 > 消费: pop-writer-chapter 做字段追溯时参考
 > 输入: volume-XX.md（卷级战略）+ act-skeleton.md 骨架 + 状态/角色/核心角色卡
-> 产出: 设计/幕/vol-XX/act-YY.md（Markdown）
+> 产出: 剧情设计/幕/vol-XX/act-YY.md（Markdown）
 
 ---
 
