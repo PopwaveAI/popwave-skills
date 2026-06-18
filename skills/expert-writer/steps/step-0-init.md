@@ -6,37 +6,42 @@
 
 ## 目录骨架
 
-> 参考：`D:\popwave-skills\prd\01-管线架构\01-全链路依赖图-PRD.md` 附录A
+> 参考：`D:\\popwave-skills\\prd\\01-管线架构\\01-全链路依赖图-PRD.md` 附录A
 
 ```
 {项目根目录}/
 │
-├── README.md                       ← 自动生成，内容：「{项目名} - 本地 AI 写作工作区」
+├── README.md                       ← 自动生成
 │
 ├── 00-总控/                         ← 工程层（expert-writer 独占维护）
 │   ├── workspace-index.yaml        [expert-writer] {M}  全局索引
 │   ├── project.yaml                [creative] {M}       项目元数据
-│   ├── entity-snapshot.yaml        [chapter-design] {D} 角色状态快照
-│   ├── 世界宪法.md                   [world] {S}          约束集清单
-│   └── 数值体系/                    [world] {S}
-│       ├── combat_capability.yaml
-│       ├── monster_rank_map.yaml
-│       ├── act_rank_schedule.yaml
-│       └── collision_curve.yaml
+│   └── entity-snapshot.yaml        [chapter-design] {D} 角色状态快照
 │
-├── 00-原始设定/                      ← 创意层（creative + world 产出）
-│   ├── 爽点引擎.md                   [creative] {S}      元爽点星座（v3.0 NEW）
-│   ├── PRD.md                       [creative] {S}      基本法
-│   ├── 故事引擎.md                   [creative] {S}      创意宪法
-│   ├── 素材储备池.md                 [creative → reservoir] {D}  剧情储备卡
-│   ├── 样品试读.md                   [creative] {S}      方向验证
-│   ├── 对标分析摘要.md               [creative] {S}      对标书差异分析
-│   ├── L1-01~06.md                  [world] {S}          世界设定六件套
-│   ├── 融合适配清单.md               [world] {S}          跨域融合记录
-│   ├── 起点快照.md                   [world] {S}          卷1开始时状态
-│   └── 动态升级表.md                 [world] {S}          主角能力成长路径
+├── 创意种子/                        ← 创意宪法层（creative 产出，全卷不变）
+│   ├── 爽点引擎.md                  [creative] {S}      元爽点星座
+│   ├── PRD.md                      [creative] {S}      基本法
+│   ├── 故事引擎.md                  [creative] {S}      创意宪法
+│   ├── 样品试读.md                  [creative] {S}      方向验证
+│   └── 对标分析摘要.md              [creative] {S}      对标书差异
 │
-├── 状态/                            ← 跨卷动态追踪（chapter-design 持续维护）
+├── 小说世界设定/                    ← 世界设定层（world 产出，锁定后极少改）
+│   ├── 世界宪法.md                  [world] {S}          全书不可违反规则
+│   ├── 融合适配清单.md              [world] {S}          跨域融合记录
+│   ├── L1-01~06.md                 [world] {S}          世界设定六件套
+│   │   （01-世界蓝图 / 02-力量体系 / 03-历史与驱力 / 04-物种与天赋 / 05-势力格局 / 06-资源与物品）
+│   ├── 起点快照.md                  [world] {S}          卷1开始时主角/世界状态
+│   ├── 动态升级表.md                [world] {S}          主角全书能级路径
+│   └── 数值体系/                    [world] {S}          ★ .md 格式，非 .yaml
+│       ├── combat_capability.md    战力金字塔
+│       ├── monster_rank_map.md     怪物等级映射
+│       ├── act_rank_schedule.md    幕级数值排期
+│       └── collision_curve.md      碰撞曲线
+│
+├── 储备剧情池/                      ← 资源池层（creative 首版 → reservoir 持续注入）
+│   └── 素材储备池.md                [creative→reservoir] {D}  剧情储备卡
+│
+├── 状态/                            ← 跨卷动态追踪层（chapter-design 持续维护）
 │   ├── 角色/                        [world 初版 → plot 回写]
 │   │   ├── {主角}-角色卡.md
 │   │   ├── {配角}-角色卡.md
@@ -45,10 +50,10 @@
 │   ├── 卷摘要/                       [plot]
 │   └── 世界状态.md                   [chapter-design] {D}
 │
-├── 设计/                            ← 剧情层（plot 产出）
-│   ├── 卷/                          [plot Step 0]
-│   │   └── 卷{编号}-战略定位.md
-│   ├── 卷/卷{编号}-剧情种子拉取清单.md [plot Step 1]
+├── 剧情设计/                        ← 剧情层（plot 产出，每卷新增）
+│   ├── 卷/                          [plot Step 0-1]
+│   │   ├── 卷{编号}-战略定位.md
+│   │   └── 卷{编号}-剧情种子拉取清单.md
 │   ├── 剧情线/                      [plot Step 2]
 │   │   ├── 主线-01-{名称}.md
 │   │   ├── 主线-02-{名称}.md
@@ -60,17 +65,18 @@
 │       ├── act-YY.md                [plot Step 4] {D}
 │       └── chekhov-tracker.md      [plot Step 5 → chapter 更新] {D}
 │
-├── 写作资产/                         ← 写作层（chapter-design + prose-render 消费）
-│   ├── 设计包/chXXX-设计包.md        [chapter-design] {D}
+├── 章节设计包/                      ← 执行层（chapter-design 产出，每章新增）
+│   ├── chXXX-设计包.md              [chapter-design] {D}
 │   ├── 文风DNA/                     [deconstructor/pop-dna] {S}
 │   └── 锚定章库/                    [用户] {D}
 │
-├── 正文/chXXX.md                    [prose-render] {D}
+├── 正文/                            ← 最终输出（prose-render 产出，每章新增）
+│   └── chXXX.md                     [prose-render] {D}
 │
 ├── _路由记录/                        ← 调度层（expert-writer 临时产出）
 ├── _素材聚合/                        ← creative 临时产出
 ├── _创意元素/                        ← creative W0.5 产出
-├── _设计笔记/                        ← creative 04 产出
+├── _设计笔记/                        ← creative 0.4 产出
 ├── _参考书分析/                      ← creative W2 产出（有对标书时）
 ├── _样品试读/                        ← creative 0.5 产出
 │
@@ -109,20 +115,21 @@
 
 ## 目录定位说明
 
-分层逻辑：
-
-| 层级 | 用途 | 谁写 | 生命周期 |
-|:-----|:------|:-----|:---------|
-| **00-总控/** | 工程元数据：索引、宪法、数值 | expert-writer/world | 全书级，几乎不改 |
-| **00-原始设定/** | 创意宪法：PRD、引擎、储备池、世界观 | creative/world | 首版锁定后极少改 |
-| **状态/** | 跨卷动态：角色状态、势力、世界 | world初版→持续更新 | 每卷更新 |
-| **设计/** | 剧情层：卷目标、剧情线、幕、枪链 | plot | 每卷新增 |
-| **写作资产/** | 执行层：设计包、DNA、锚点 | chapter-design/decon | 每章新增 |
-| **正文/** | 最终输出 | prose-render | 每章新增 |
-| **\_\*/** | 运行时临时产出 | 各skill | 阶段性，可归档 |
+| 层级 | 目录 | 用途 | 谁写 | 变更频率 |
+|:-----|:-----|:------|:-----|:---------|
+| **工程层** | `00-总控/` | 元数据索引、快照 | expert-writer | 每阶段更新 |
+| **创意宪法层** | `创意种子/` | PRD、爽点、引擎、样品 | creative | 锁定后不改 |
+| **世界设定层** | `小说世界设定/` | 宪法、L1六件套、数值 | world | 锁定后极少改 |
+| **资源池层** | `储备剧情池/` | 剧情储备卡 | creative→reservoir | 持续追加 |
+| **动态追踪层** | `状态/` | 角色/势力/卷摘要 | world→持续更新 | 每卷更新 |
+| **剧情层** | `剧情设计/` | 卷目标、剧情线、幕、枪链 | plot | 每卷新增 |
+| **执行层** | `章节设计包/` | 设计包、DNA、锚点 | chapter-design | 每章新增 |
+| **输出层** | `正文/` | 最终正文 | prose-render | 每章新增 |
+| **临时层** | `_*/` | 运行时临时产出 | 各skill | 阶段性 |
 
 ## 注意
 
-- `00-原始设定/` 下的 `L1-01~06.md` 是 **6 个独立文件**（01-世界蓝图 ~ 06-资源与物品），不是 `L1-元设定层/` 子目录
-- `设计/幕/vol-XX/` 中的 `XX` 是卷号（如 `vol-01`），每卷一个子目录
+- `小说世界设定/L1-01~06.md` 是 **6 个独立文件**（01-世界蓝图 ~ 06-资源与物品），不是子目录
+- `剧情设计/幕/vol-XX/` 中的 `XX` 是卷号（如 `vol-01`），每卷一个子目录
 - `_` 开头的目录是运行时临时目录，不在初始化时创建，各 skill 按需创建
+- 数值体系全部使用 **.md** 格式，不使用 .yaml
