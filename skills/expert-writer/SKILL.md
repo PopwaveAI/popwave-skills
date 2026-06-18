@@ -13,10 +13,10 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 
 | 用户说 | 路由到 | 前置条件 | 本阶段不做什么 |
 |--------|--------|---------|--------------|
-| "开新书/启动项目/设世界观" | pop-writer-creative | 无 | 不设计具体剧情（那是 plot 的活） |
+| "开新书/启动项目/设世界观" | pop-writer-creative | 无。自动按流程走: Phase R → ★ Phase 爽点引擎(共创元爽点) → A/B/C分支 → PRD → 故事引擎 → 样品 | 不设计具体剧情（那是 plot 的活） |
 | "拆这本书/分析这本书/拆解" | pop-decon | 若 TXT 未下载 → 先调 tool-download-webnovel | 不写正文（那是 prose-render 的活） |
-| "设计剧情/规划大纲/情绪弧线" | pop-writer-plot | 必须先完成 bookstrap | 不设计章级细节（那是 chapter-design 的活） |
-| "设计第X章/章纲/骨架" | pop-writer-chapter | 必须先完成 plot | 不纠结渲染用词（那是 prose-render 的活） |
+| "设计剧情/规划大纲/情绪弧线" | pop-writer-plot (v7.0 重构) | 必须先完成 world(L1+角色+数值) + reservoir 有剧情储备卡可用 + trope-library 已查 | 不设计章级细节（那是 chapter-design 的活）。新6步流程: 卷目标→拉种子+配套路→剧情线独立.md→分幕→章锚点→契诃夫枪链 |
+| "设计第X章/章纲/骨架" | pop-writer-chapter (v2.0 升级) | 必须先完成 plot v7.0(剧情线设计文档 + 幕锚点 + chekhov-tracker) | 不纠结渲染用词（那是 prose-render 的活）。设计包含情绪弧/爽点机制/钩子回收/契诃夫枪/对白潜台词 |
 | "写第X章/渲染这章/上色/写正文" | pop-writer-prose | 必须先完成 chapter-design | 不判断剧情逻辑（那是 QA 的活） |
 | "从第X章开始写N章/批量写N章/风格迁移N章" | pop-writer-prose + 并行委托（delegate_task） | 源文本存在（原文或设计包）→ 若无设计包，从原文提取事件链创建复合设计包（N章合1文件或逐章独立）→ 然后并行渲染。详见 references/batch-style-migration.md | 不逐章走 creative→plot→chapter 流水线 — 批量场景走旁路 |
 | "审查/审稿/QA/检查质量/看看" | pop-writer-qa | 无（可随时触发） | 不直接改正文（问题标记后由上游修复） |
@@ -93,8 +93,22 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 - entity-snapshot.yaml 与章文件数一致
 - 角色卡快照与 entity-snapshot 一致
 
+## 升级优先于新建原则（2026-06-18 实战沉淀）
+
+本会话的教训：当需要增强管线能力时，**优先升级现有 skill，不新增 skill**。让魔门再次伟大拆书成果也证明了——更好的产出来自更丰富的 craft 层（升级现有 skill），而非新增功能节点。
+
+| 场景 | 应做 | 不应做 |
+|:-----|:-----|:-------|
+| plot 需要剧情线文档而非 Canvas | 升级 plot | 新建 "plot-line-designer" skill |
+| 设计包需要情绪弧/爽点/钩子 | 升级 chapter-design | 新建 "design-enricher" skill |
+| 套路库需要 full craft recipe | 升级 trope-library | 新建 "trope-crafter" skill |
+| 素材需要剧情储备卡格式 | 升级 reservoir | 已吸收 fuse 不另开 |
+
+核查：每次想"新建"之前，先问——**现有哪个 skill 可以升级来完成这个需求？**
+
 ## 版本
 
+v3.2.0 | 2026-06-18 | 更新 plot/chapter 路由表(v7.0/v2.0)；新增"升级优先于新建"原则。参考让魔门再次伟大拆书成果。
 v3.2.0 | 2026-06-17 | 新增裸章号路由（速查表行+精简模式触发器+典型错误#10+边界条件）。用户说"ch002""第8章"等紧接渲染产出后的裸章号时，路由到 pop-writer-prose 精简模式直接执行，不暂停确认。
 
 v3.1.4 | 2026-06-16 | 精简模式扩展：用户说"后面不用问我了"→不暂停执行；新增典型错误#10（search_files截断导致虚假结论）

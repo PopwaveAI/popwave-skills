@@ -194,6 +194,9 @@ for f in os.listdir('写作资产/设计包v3/'):
 v13.3.0 | 2026-06-16 | Phase 4(creative trace)加入管线地图(计划中)。Iceberg theory设计原则文档化。delegate_task命名归一化警告。新增 Step 2.5 Phase 1质量门禁。Phase 2调度时机强制化。
 
 v13.6.0 | 2026-06-17 | 新增 Step 2.6 路径归并步骤（并行提取后子 agent 路径不一致修复）。设计包目录从 v2/v3 双路径统一为仅 v3。
+v13.7.0 | 2026-06-18 | **Phase 2 <100章规则弹性化**：Step 2.5 #5 从「不足100章跳过」改为「告知用户+说明Phase 2价值+让用户决定」，Step 3 新增历史教训说明自动跳过引发的不满。新增 `references/small-book-phase2-strategy.md`。
+
+v13.6.0 | 2026-06-17 | 新增 Step 2.6 路径归并步骤（并行提取后子 agent 路径不一致修复）。设计包目录从 v2/v3 双路径统一为仅 v3。
 v13.5.0 | 2026-06-16 | 新增参考 `references/delegation-orchestration.md`
 
 ## 参考文件
