@@ -664,63 +664,79 @@ Phase Delta 冲突（reservoir 执行层检测 + creative 判定层输出）
 
 ## 附录 A：项目文件全貌模拟（含 v3.1 更新）
 
-```
+```text
 深渊主宰·外神低语/                          ← 写作项目
 │
-├── 00-总控/                               ← 工程层
-│   ├── workspace-index.yaml               [expert-writer] {M}
-│   ├── project.yaml                       [creative] {M}
-│   ├── entity-snapshot.yaml               [chapter-design] {D}
-│   ├── 世界宪法.md                         [world] {S}  约束集清单
-│   └── 数值体系/                           [world] {S}
+├── README.md                               [auto]  {M}
+
+├── 00-总控/                                 ← 工程层
+│   ├── workspace-index.yaml                [expert-writer] {M}
+│   ├── project.yaml                        [creative] {M}
+│   ├── entity-snapshot.yaml                [chapter-design] {D}
+│   ├── 世界宪法.md                           [world] {S}
+│   └── 数值体系/                            [world] {S}
 │       ├── combat_capability.yaml
 │       ├── monster_rank_map.yaml
 │       ├── act_rank_schedule.yaml
 │       └── collision_curve.yaml
-│
-├── 00-原始设定/                            ← 创意层
-│   ├── PRD.md                             [creative] {S}  基本法 v1 ★ NEW
-│   ├── 故事引擎.md                         [creative] {S}  创意宪法 ★ (从 yaml 改 md)
-│   ├── 素材储备池.md                       [creative 首版触发 → reservoir 注入] {D}  剧情储备卡 ★ v3.2 格式升级
-│   ├── 样品试读.md                         [creative] {S}
-│   ├── 对标分析摘要.md                     [creative] {S}
-│   ├── 融合适配清单.md                     [world] {S}
-│   ├── L1-01~06.md                        [world] {S}
-│   ├── 起点快照.md                         [world] {S}
-│   └── 动态升级表.md                       [world] {S}
 
-├── 状态/                                  ← 跨卷动态追踪 {D}
+├── 00-原始设定/                             ← 创意层
+│   ├── 爽点引擎.md                           [creative] {S}  ★ v3.0 NEW
+│   ├── PRD.md                               [creative] {S}
+│   ├── 故事引擎.md                           [creative] {S}
+│   ├── 素材储备池.md                          [creative→reservoir] {D}
+│   ├── 样品试读.md                           [creative] {S}
+│   ├── 对标分析摘要.md                        [creative] {S}
+│   ├── L1-01~06.md                          [world] {S}
+│   ├── 融合适配清单.md                        [world] {S}
+│   ├── 起点快照.md                            [world] {S}
+│   └── 动态升级表.md                          [world] {S}
+
+├── 状态/                                    ← 跨卷动态追踪 {D}
+│   ├── 角色/
+│   │   ├── {主角}-角色卡.md
+│   │   ├── {配角}-角色卡.md
+│   │   └── 龙套池.md
+│   ├── 势力/
+│   ├── 卷摘要/
+│   └── 世界状态.md
 
 ├── 设计/
-│   ├── 卷/卷{编号}-战略定位.md              [plot Step 0] {S}
-│   ├── 卷/卷{编号}-剧情种子拉取清单.md       [plot Step 1] {S}
-│   ├── 剧情线/                             [plot Step 2] {S+D}
+│   ├── 卷/卷{编号}-战略定位.md                [plot Step 0]
+│   ├── 卷/卷{编号}-剧情种子拉取清单.md         [plot Step 1]
+│   ├── 剧情线/
 │   │   ├── 主线-01-{名称}.md
 │   │   ├── 主线-02-{名称}.md
 │   │   ├── 主线-03-{名称}.md
 │   │   ├── 支线-{编号}-{名称}.md ×N
 │   │   └── {卷}-套路偏好分析.md
-│   ├── 幕/vol-XX/
-│   │   ├── 分幕规划.md                      [plot Step 3] {S}
-│   │   ├── act-YY.md                       [plot Step 4] {D}
-│   │   └── chekhov-tracker.md              [plot Step 5 → chapter-design 每章更新] {D}
-│   └── 世界状态.md
-│
+│   └── 幕/vol-XX/
+│       ├── 分幕规划.md                      [plot Step 3]
+│       ├── act-YY.md                       [plot Step 4]
+│       └── chekhov-tracker.md              [plot Step 5 → chapter 更新]
+
 ├── 写作资产/
-│   ├── 设计包/chXXX-设计包.md               [chapter-design] {D}
-│   ├── 文风DNA/                           [deconstructor/pop-dna] {S}
-│   └── 锚定章库/                           [用户] {D}
-│
-├── 正文/chXXX.md                           [prose-render] {D}
-│
-└── _参考书/                                ← 拆书专家产出
+│   ├── 设计包/chXXX-设计包.md                [chapter-design]
+│   ├── 文风DNA/                             [deconstructor/pop-dna]
+│   └── 锚定章库/                            [用户]
+
+├── 正文/chXXX.md                            [prose-render]
+
+├── _路由记录/                                ← 调度层临时产出
+├── _素材聚合/                                ← creative 临时
+├── _创意元素/                                ← creative W0.5
+├── _设计笔记/                                ← creative 0.4
+├── _参考书分析/                              ← creative W2
+├── _样品试读/                                ← creative 0.5
+
+└── _参考书/                                  ← 拆书专家产出
     └── {书名}/
-        ├── Lv1-拆解摘要.md                 ← Phase S
-        ├── Lv4-{主角}-参考卡.md            ← Phase S
-        ├── 卷1-起点/终点快照.md             ← Phase S
-        ├── 快速文风指纹-top5.md            ← Phase S
-        ├── T1~T7 分析报告                  ← Phase 2
-        └── 三维拆书档案.md                 ← Phase 4
+        ├── Lv1-拆解摘要.md
+        ├── Lv4-{主角}-参考卡.md
+        ├── 卷1-起点/终点快照.md
+        ├── 快速文风指纹-top5.md
+        ├── T1~T7 分析报告
+        └── 三维拆书档案.md
 ```
 
 ---
