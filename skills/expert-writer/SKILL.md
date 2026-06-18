@@ -1,19 +1,37 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill，产出子Skill的完整执行结果。"
-version: 3.2.0
-pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
+version: 3.3.0
+pipeline: { up: [], down: [pop-writer-creative, pop-writer-reservoir, pop-writer-world, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
 ---
 
 # expert-writer
 
 > 网文创作元 Skill（专家模式）。Think → Execute → Reflect 三层工作流：自动识别创作意图并路由子 Skill，集成修改路由（三层联动影响评估）、决策点闸门（人必须在场的拦截点）、完成后引导（基于项目文件状态的跨轮引导）。
 
+## 管线全景
+
+```
+[开书]     [注入素材]       [构筑世界]      [设计剧情]       [设计章节]      [写正文]    [质检]
+creative  → reservoir  →  world  →  plot v7.0  →  chapter v2.0  →  prose  →  qa
+ ↑            ↑               ↑
+Phase R      剧情储备卡格式   L1+角色+数值
+→爽点引擎    （9步注入）      +起点快照+宪法
+→A/B/C
+→PRD
+→故事引擎
+→样品
+```
+
+下游路由必须验证**全链前置条件**：进入 plot 前先确认 world 已产出 + reservoir 有卡 + trope-library 已查。遗漏 = 项目B 事故（跳过了 reservoir 和 world，creative 直接到 world 手动摸路）。
+
 ## 速查表
 
 | 用户说 | 路由到 | 前置条件 | 本阶段不做什么 |
 |--------|--------|---------|--------------|
-| "开新书/启动项目/设世界观" | pop-writer-creative | 无。自动按流程走: Phase R → ★ Phase 爽点引擎(共创元爽点) → A/B/C分支 → PRD → 故事引擎 → 样品 | 不设计具体剧情（那是 plot 的活） |
+| "开新书/启动项目/设世界观" | pop-writer-creative | 无。自动按流程走: Phase R → ★ Phase 爽点引擎(共创元爽点) → A/B/C分支 → PRD → 故事引擎 → 样品 | 产完后应调起 reservoir 产出剧情储备卡，而非 creative 自己手写储备池 |
+| "注入素材/融进书里/帮我把XX加进去" ★NEW | pop-writer-reservoir (v2.1.0) | 项目已有 PRD.md + 故事引擎.md + 素材储备池.md（即已跑过 creative 阶段）| 不修改 PRD/宪法/故事引擎（仅标注冲突）|
+| "构筑世界观/建世界/设定力量体系" ★NEW | pop-writer-world | 必须先完成 creative（有故事引擎+样品签字）| 不设计剧情线（那是 plot v7.0 的活）|
 | "拆这本书/分析这本书/拆解" | pop-decon | 若 TXT 未下载 → 先调 tool-download-webnovel | 不写正文（那是 prose-render 的活） |
 | "设计剧情/规划大纲/情绪弧线" | pop-writer-plot (v7.0 重构) | 必须先完成 world(L1+角色+数值) + reservoir 有剧情储备卡可用 + trope-library 已查 | 不设计章级细节（那是 chapter-design 的活）。新6步流程: 卷目标→拉种子+配套路→剧情线独立.md→分幕→章锚点→契诃夫枪链 |
 | "设计第X章/章纲/骨架" | pop-writer-chapter (v2.0 升级) | 必须先完成 plot v7.0(剧情线设计文档 + 幕锚点 + chekhov-tracker) | 不纠结渲染用词（那是 prose-render 的活）。设计包含情绪弧/爽点机制/钩子回收/契诃夫枪/对白潜台词 |
@@ -64,7 +82,7 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 
 10. **search_files 截断导致虚假结论**：用 search_files 发现设计包/章节目录时，返回50条截断结果（truncated: true），未做后续精确搜索就下结论说"没有ch01"。正确做法：每次 search_files 返回 truncation=true 时，先做精确搜索 (search_files pattern='ch001*') 确认目标是否存在。在确认前不说"没有"。
 
-11. **bare chapter number 被当作不明意图，暂停追问**：用户刚写完 ch001，回复"ch002" → agent 理解为意图不明，暂停追问"请问是要写ch002吗？" 打断用户节奏。正确做法：裸章号（chNNN / 第N章）紧跟在渲染产出之后，应识别为"继续写下一章"的简洁指令，直接进入 pop-writer-prose 精简模式执行。
+12. **参考素材结构复制而非设计哲学借鉴**：写样品/剧情线时从让魔门再次伟大的套路库或设计包中参考"死后金手指觉醒"模板 → 产出结构上过于相似（上线背叛→死后觉醒→布局复仇的三段式）。正确做法：从参考素材中**提取设计哲学而非拷贝结构**。读套路库的"核心张力"和"运作机制"段，理解为什么这个模式让读者爽，再自创差异化结构。问自己："如果让魔门是用A方式实现这个模式，我的书里还能用B/C/D什么方式？"
 
 ## 边界条件
 
@@ -93,7 +111,24 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 - entity-snapshot.yaml 与章文件数一致
 - 角色卡快照与 entity-snapshot 一致
 
-## 升级优先于新建原则（2026-06-18 实战沉淀）
+## 核心原则
+
+### 上瘾优于工程（2026-06-18 实战沉淀）
+
+本会话的核心教训：**管线优化必须优先回答"这怎么让读者停不下来"，而非"这怎么让输出更规范"**。
+
+v3.2 管线升级了情绪弧可视化、爽点机制表、契诃夫枪链、剧情线独立文档——这些都是"工程质量"，不是"上瘾设计"。用户一针见血指出了问题："网文核心是要爽，你给的方案爽在哪里？"
+
+| 问题 | 正确的第一追问 |
+|:-----|:--------------|
+| "这个PRD写得好不好" | **"这书第一章就要让人睡不着吗？"** |
+| "剧情线设计完整吗" | **"读者为什么会一章接一章停不下来？"** |
+| "套路链搭配合理吗" | **"连续5章分别是哪几个元爽点的变体？"** |
+| "幕划分合理吗" | **"每幕结束时的钩子让读者想立刻点下一章吗？"** |
+
+回答不上的时候，不要继续优化"结构"——回头想"爽感"。
+
+### 升级优先于新建（2026-06-18 实战沉淀）
 
 本会话的教训：当需要增强管线能力时，**优先升级现有 skill，不新增 skill**。让魔门再次伟大拆书成果也证明了——更好的产出来自更丰富的 craft 层（升级现有 skill），而非新增功能节点。
 
@@ -108,8 +143,8 @@ pipeline: { up: [], down: [pop-writer-creative, pop-decon, pop-writer-plot, pop-
 
 ## 版本
 
+v3.3.0 | 2026-06-18 | 管线全景图 + 下游路由修复：pop-writer-reservoir 和 pop-writer-world 补入 pipeline.down。新增 reservoir/world 路由行。新增全链前置条件验证要求（项目B事故根因：跳过了 reservoir 和 world 的自动路由）。
 v3.2.0 | 2026-06-18 | 更新 plot/chapter 路由表(v7.0/v2.0)；新增"升级优先于新建"原则。参考让魔门再次伟大拆书成果。
-v3.2.0 | 2026-06-17 | 新增裸章号路由（速查表行+精简模式触发器+典型错误#10+边界条件）。用户说"ch002""第8章"等紧接渲染产出后的裸章号时，路由到 pop-writer-prose 精简模式直接执行，不暂停确认。
 
 v3.1.4 | 2026-06-16 | 精简模式扩展：用户说"后面不用问我了"→不暂停执行；新增典型错误#10（search_files截断导致虚假结论）
 
