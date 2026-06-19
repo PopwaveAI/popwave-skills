@@ -1,414 +1,238 @@
-# 写作专家全链路依赖图 — 文件依赖与产出全景 PRD
+# 写作专家全链路依赖图 — 文件依赖与产出全景
 
-> 版本：v3.2 | 2026-06-18
-> 更新说明：v3.2 — **剧情管线重构**。reservoir v2.1.0（产出升级为剧情储备卡）、plot v7.0（新6步流程：卷目标→剧情线设计文档/每条线独立.md→分幕→章锚点→契诃夫枪链，废除 Canvas矩阵 为主输出）、chapter-design v2.0（设计包含情绪弧可视化/爽点机制表/钩子预期回收/契诃夫枪表/关键对白语气潜台词）。0 new skill，升级3个现有skill。
-> 说明：本文档覆盖写作专家（pop-writer-*）全链路。拆书专家见 `02-拆书专家全链路依赖图-PRD.md`。
+> 版本：v4.0 | 2026-06-19
+> 说明：本文档覆盖写作专家（pop-writer-*）全链路。基于各 skill 当前 SKILL.md 的 pipeline 字段现状构建。
+> 拆书专家见 `02-拆书专家全链路依赖图-PRD.md`。
+
+## 写作专家管线顺序（硬性）
+
+```
+creative → reservoir → world → plot → chapter → prose → qa
+   ↑           ↑          ↑       ↑        ↑       ↑      ↑
+pop-writer  pop-writer  pop-writer pop-writer pop-writer pop-writer pop-writer
+-creative  -reservoir  -world     -plot      -chapter   -prose    -qa
+  v3.0.0    v2.2.0     v1.5.0     v7.0.0     v2.0.0     v3.0.1    v1.0.1
+```
+
+**辅助skill（独立调起，不改变主线进度）：**
+- `pop-writer-character` v2.0.1 — 角色分级标准，world 消费
+- `pop-writer-continue` v1.0.1 — 续写场景，读正文→产出状态卡+续写锚点
+- `pop-writer-game` v2.0.2 — 文游化
+- `pop-writer-html` v1.3.2 — HTML发布
+
+**写作专家消费的拆书专家产出：**
+- `pop-decon` 系列 → Lv1 拆解摘要、T1~T7 分析 → creative、world 消费
+- `pop-shared-dna` v4.0.3 → 文风DNA档案 → prose-render 消费
+- `tool-download-webnovel` → {书名}.txt → deconstructor 消费
 
 ---
 
-## 目录
+## 一、各 Skill 详细文件依赖表
 
-- 一、写作专家架构总览
-- 二、Skill 管线流程
-- 三、各 Skill 详细文件依赖表
-- 四、核心共享文件
-- 五、管线闸门与调度
-- 六、典型路径速查
-- 七、关键架构决策
-- 附录 A：写作项目文件全貌
+### 1.1 pop-writer-creative v3.0.0（创意打磨 — 写作专家入口）
 
----
-
-## 一、写作专家架构总览
-
-### 1.1 为什么拆为写作专家和拆书专家
-
-| 维度 | 写作专家（pop-writer-*） | 拆书专家（pop-novel-*） |
-|:-----|:------------------------|:-----------------------|
-| **目标** | 创作一本新书 | 拆解分析现有作品 |
-| **输出** | 正文、设计包、世界观、剧情 | 拆书报告、文风DNA、参考数据 |
-| **独立调用** | 开新书 / 续写 / 注入元素 | 拆解参考书 / 提取文风DNA |
-| **消费关系** | 消费拆书专家的产出（Lv1/Lv2） | 独立运行，产出供写作专家消费 |
-| **技能前缀** | `pop-writer-*` | `pop-novel-*` |
-
-两位专家**不耦合**——拆书专家可以独立调起，写作专家也可以在没有拆书产出时独立运行。
-
-### 1.2 写作专家全链路
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│                     写作专家（pop-writer-*）                    │
-│                                                              │
-│  pop-writer-creative  v2.0.0                                 │
-│  创意打磨 (Phase R → A/B/C → Phase Delta)                    │
-│  输入: 用户想法 + 拆书 Lv1（如有）                             │
-│  产出: PRD.md + 故事引擎.md + 样品试读.md                     │
-│  ★ 路由诊断(Phase R): A:PRD先行 / B:广度浮现 / C:空白碰撞     │
-│  ★ Phase Delta: creative 触发 → reservoir 执行注入            │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: PRD.md + 故事引擎.md + 样品试读
-                       │       + reader_profile + 对标分析摘要
-                       │       + 外部素材采集产出
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-reservoir  v2.0.0  ★ 创意转换引擎 ★               │
-│  （吸收 pop-writer-fuse，已删除）                              │
-│  输入: PRD + 引擎 + 宪法 + 外部素材                           │
-│  ★ 9步注入: 素材解吸→品类路由→安全门禁→PRD评估→     │
-│           宪法检测→多路线适配→四类归档→写入池           │
-│  ★ 5品类拆解方法论(社会事件/IP/动漫电影/历史/神话)             │
-│  产出: 素材储备池.md (剧情种子，可被 creative 首版拉起         │
-│        或独立注入追加)                                        │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: 素材储备池.md
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-world                                            │
-│  小说世界构筑 (World Engineering)                             │
-│  输入: 故事引擎.md + 样品试读 + reader_profile                │
-│        + character-schema Lv1~Lv4 标准                       │
-│        + 拆书 T1/T2/T3/T4（如有参考书）                       │
-│  ★ 从宪法推导世界参数：L1设定 + 角色初版 + 数值体系           │
-│  产出: L1-01~06 + 角色卡初版 + 数值体系 x4 + 起点快照        │
-│        + 世界宪法文档                                         │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: L1 设定 + 角色卡 + 数值体系
-                       │       + 起点快照 + 世界宪法
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-plot  v7.0.0 (★ 重构)                               │
-│  剧情架构: 卷目标→剧情线设计文档→分幕→章锚点→契诃夫枪链      │
-│  ★ Step 0: 卷级宏观目标/战略定位                                │
-│  ★ Step 1: 从reservoir拉剧情储备种子 + 从trope-library配套路    │
-│  ★ Step 2: 产出剧情线设计文档 (每条线独立 .md)                  │
-│  ★ Step 3: 分幕切割 (剧情线→幕)                                │
-│  ★ Step 4: 幕内章锚点 (含情绪弧/爽点目标/钩子规划)              │
-│  ★ Step 5: 契诃夫枪链搭建 (chekhov-tracker)                    │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: 卷战略定位.md + 剧情线/主线-XX.md ×N(独立文档)
-                       │       + 设计/幕/vol-XX/分幕规划.md + act-YY.md(章锚点)
-                       │       + 设计/幕/vol-XX/chekhov-tracker.md
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-chapter-design  v2.0.0 (★ 升级)                   │
-│  章纲/导演卡 (含情绪弧可视化/爽点机制/钩子回收/契诃夫枪/对白) │
-│  输入: 剧情线设计文档 + 幕锚点 + chekhov-tracker              │
-│        + entity-snapshot + 状态/角色/角色卡                   │
-│  ⚠️ 不碰文风 — 只产出事件骨架                                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: chXXX-设计包.md + entity-snapshot 更新
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-prose-render                                      │
-│  正文渲染/上色 (Step 1→4)                                    │
-│  输入: 设计包 + 写作资产/文风DNA/{style}.md                   │
-│  ⚠️ 不碰剧情 — 只管写好                                     │
-└──────────────────────┬───────────────────────────────────────┘
-                       │ 产出: chXXX.md
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-qa                                               │
-│  爽点质检 (Step 1→3)                                         │
-│  输入: 正文 + 设计包 + act-XX.yaml + reader_profile           │
-│  产出: QC 报告 (纯感受型，不存盘)                             │
-└──────────────────────┬───────────────────────────────────────┘
-                       ▼ (可选)
-┌──────────────────────────────────────────────────────────────┐
-│  pop-writer-html-renderer                                     │
-│  HTML 发布                                                   │
-└──────────────────────────────────────────────────────────────┘
-```
-
-### 1.3 双专家交互关系
-
-> 写作专家消费拆书专家产出，但不依赖。详见 `02-拆书专家全链路依赖图-PRD.md`。
-
-```
-拆书专家产出          →       写作专家消费
-  Lv1 拆解摘要                 creative（PRD/引擎参考）
-  Lv4-主角参考卡                creative（主角设计参考）
-  卷1起终点快照                 creative（节奏参考）
-  快速文风指纹                  prose-render（风格感知）
-  T1/T2/T3/T4                 world（L1设定参考）
-  char-schema Lv1~Lv4          world（角色卡标准）
-```
-
-### 1.4 调度入口
-
-两位专家共享 expert-writer 元 Skill 调度：
-
-```
-用户消息
-  │
-  ▼
-expert-writer（元 Skill）
-  ├─ 意图识别
-  │   ├─ "开新书/续写/注入元素" → 写作专家
-  │   ├─ "拆解这本书/分析文风"  → 拆书专家
-  │   └─ "帮我写/检查/发布"    → 写作专家对应子Skill
-  │
-  ├─ 写作专家路由:
-  │   ├─ Phase R(路由) → A/B/C(开书) 或 Phase Delta(注入)
-  │   ├─ world → plot → chapter-design → prose-render → qa
-  │   └─ 处理期间检查 workspace-index.yaml 获取项目状态
-  │
-  └─ 拆书专家路由（详见拆书专家 PRD）
-```
-
----
-
-## 二、Skill 管线流程
-
-### 2.1 新书启动全流程
-
-```
-用户说"开书"
-  │
-  ▼
-Step 0 · expert-writer 全局感知
-  → 读取 workspace-index.yaml → 锚定项目（新项目/现有）
-  → 检测 _参考书/{书名}/ 下是否有拆书 Lv1 产出
-  ↓
-Step 1 · pop-writer-creative v2.0.0（创意打磨）
-  ├─ Phase R 路由诊断 → 走 A/B/C 分支
-  │   ├─ A: PRD先行 → 定向采集
-  │   ├─ B: 广度采集 → PRD浮现
-  │   └─ C: 方向碰撞 → PRD提炼
-  ├─ 产出：PRD.md（基本法，3-5条轻量约束）
-  ├─ 产出：故事引擎.md（宪法约束，PRD的展开深化）
-  ├─ 调用 pop-writer-reservoir 产出：素材储备池.md（剧情种子，四类归档）★
-  ├─ 产出：样品试读（500-2000字）★ 核心验证手段
-  ├─ 产出：reader_profile + 对标分析摘要（如有拆书）
-  └─ 用户确认样品："对就是这感觉" [闸门 → world]
-  ↓
-Step 2 · pop-writer-world（世界构筑）
-  ├─ 加载 creative 产出：PRD.md + 故事引擎.md + 样品 + reader_profile
-  ├─ 加载 character-schema Lv1~Lv4 标准
-  ├─ 加载拆书 T1/T2/T3/T4（如有参考书）
-  ├─ 从宪法推导世界参数：
-  │   ├── L1 六件套（01-世界蓝图 ~ 06-资源物品）
-  │   ├── 角色卡初版（按 character-schema Lv1~Lv4）
-  │   ├── 数值体系（combat_capability + rank_schedule + monster_map + collision）
-  │   └── 起点快照
-  ├─ 产出：世界宪法文档（for plot 审计）
-  └─ 用户确认 [闸门 → plot]
-  ↓
-Step 3 · pop-writer-plot v7.0.0（剧情架构 — ★ 重构）
-  ├─ Step 0: 卷级宏观目标/战略定位 → 设计/卷/卷{编号}-战略定位.md
-  │   （核心命题+全书定位+约束边界+情感基调）
-  ├─ Step 1: 从reservoir拉取剧情储备种子 + 从trope-library配套路
-  │   → 设计/卷/卷{编号}-剧情种子拉取清单.md
-  ├─ Step 2: 产出剧情线设计文档（每条线独立 .md）
-  │   → 设计/剧情线/{主线/支线}-{编号}-{名称}.md ×N
-  │   （含数值门槛/植入时间轴/人物/套路链/契诃夫枪链/起终点切片）
-  ├─ Step 2.5: 卷套路偏好分析（频率Top+特征+盲区警告）
-  ├─ Step 3: 分幕切割（剧情线→幕）→ 设计/幕/vol-XX/分幕规划.md
-  ├─ Step 4: 幕内章锚点（情绪弧/爽点目标/钩子规划）
-  │   → 设计/幕/vol-XX/act-YY.md（含副线活跃度/情绪弧线/爽点密度）
-  └─ Step 5: 契诃夫枪链搭建 → 设计/幕/vol-XX/chekhov-tracker.md
-       （跨幕伏笔追踪+回收窗口预警）
-  ↓
-Step 4 · pop-writer-chapter-design（章纲设计）
-Step 5 · pop-writer-prose-render（正文渲染）
-Step 6 · pop-writer-qa（爽点质检）
-```
-
-### 2.2 独立调起 — 新素材注入（创意转换）
-
-```
-用户说"把这个XX融进书里"
-  │
-  ▼
-Step 0 · expert-writer 全局感知
-  → 读取 workspace-index.yaml → 锚定现有项目
-  → 检查项目目录下是否有 PRD.md + 故事引擎.md + 素材储备池.md
-  ↓
-Phase Delta · creative 触发 + pop-writer-reservoir 执行（创意转换）
-  ├─ creative 调用 reservoir，传递：新素材 + PRD.md + 故事引擎.md + 世界宪法.md + 现有池子
-  │
-  ├─ [reservoir 执行层]
-  │   ├─ Step 1：素材采集（不足时搜索/追问，最多3次）
-  │   ├─ Step 2：素材解吸 + 品类路由（→ 走 1A~1E 子流程）
-  │   ├─ Step 3：★ 受众立场与情绪评估（安全门禁，不可跳过）
-  │   ├─ Step 4：PRD 契合度评估
-  │   ├─ Step 5：宪法冲突检测
-  │   ├─ Step 6：适配方式判定（含多路线评估，≥2条）
-  │   ├─ Step 7：四类归档（主线/支线/背景/剩余焊接点）
-  │   └─ Step 8：写入素材储备池
-  │
-  ├─ [creative 判定层] ← 收到 reservoir 结果后判定
-  │   ├─ ✅ D1: 直接注入 → 确认写入
-  │   ├─ ⚠️ D2: 微调后注入 → 输出 PRD 微调方案（用户签字）
-  │   └─ ❌ D3: 冲突报告 → 建议弃用或修宪
-  └─ 产出：素材储备池更新（含品类路由+安全等级标记）或 冲突报告
-```
-
-### 2.3 已有项目续写
-
-```
-用户说"续写"
-  │
-  ▼
-Step 0 · expert-writer 全局感知
-  → 读取 workspace-index.yaml → 检查 pre_read_status + entity-snapshot
-  → 检查故事引擎版本是否与 plot 同步
-  ↓
-Step 1 · pop-novel-bookstrap (reverse) ← 拆书专家的逆向能力
-  ├─ Phase r1: 事件日志（逐章读正文）
-  ├─ Phase r2: L0 提取
-  ├─ Phase r3: L1 提取
-  ├─ Phase r4: 卷纲/幕 还原
-  ├─ Phase r5: 卷大纲确认
-  └─ Phase r6: 交接验证报告
-  ↓
-Step 2 → Step 3 → Step 4 → Step 5 → Step 6（同 2.1 的 plot → design → render → qa）
-```
-
----
-
-## 三、各 Skill 详细文件依赖表
-
-### 3.1 pop-writer-creative（创意打磨 — 写作专家入口）
+**上游：** `[pop-decon]`
+**下游：** `[pop-writer-world, pop-writer-plot]`
 
 | 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
 |-|-|-|-|
-| Phase R 路由 | 用户初始输入 | `_路由记录/分支选择.md`（含 mode: pipeline/delta） | — |
-| PRD 撰写 | 用户想法（A先行）/ 素材堆积（B浮现）/ 方向（C提炼） | `00-原始设定/PRD.md`（6维度，1页） | story-engine |
-| W0 元素交叉库 | 元素交叉库（pop-trope-library） | `_素材聚合/元素复用建议.md` | 素材储备池 |
-| W0.5 问作者 | 用户本人 | `_创意元素/作者想法.md` | 素材储备池 |
-| W1 跨域素材 | WebSearch / 知识库 | `_素材聚合/跨域素材蒸馏.md` | 素材储备池 |
-| W2 拆书融合 | deconstructor Lv1（如有对标书） | `_参考书分析/拆书融合摘要.md` | 素材储备池、world |
-| 素材储备池 | 全部 W 产出 + 碰撞剩余 | `00-原始设定/素材储备池.md`（四类归档） | plot（剧情种子） |
-| Phase 0 故事引擎 | PRD.md + 素材储备池 + W产出 | `00-原始设定/故事引擎.md`（宪法约束） | world、plot |
-| 0.3 参考书策略 | 碰撞点 | `_参考书分析/观察清单+差异化.md` | — |
-| 0.4 主角设计 | 碰撞点 + 方向 | `_设计笔记/主角设计.md`（四维） | — |
-| 0.5 样品试读 | 故事引擎.md | `_样品试读/样品-v{N}.md` | 用户确认、world |
-| **Phase Delta** ★ | PRD.md + 故事引擎.md + 世界宪法.md + 素材储备池.md | 素材储备池追加（或冲突报告） | plot（剧情种子更新） |
+| Phase R 路由 | 用户初始输入 | `创意种子/路由记录-{项目}.md` | — |
+| Phase 爽点引擎 | 用户方向碰撞（Q&A） | `创意种子/爽点引擎.md`（元爽点星座 + 占比 + 变体家族） | story-engine |
+| A/B/C 分支执行 | 用户想法/素材 | （各分支不同，见子skill SOP） | — |
+| PRD 撰写 | 用户方向（A先行）/ 素材堆积（B浮现）/ 方向提炼（C碰撞） | `创意种子/PRD.md`（6维度：定位/类型/承诺/加工/DNA/边界） | story-engine、world、plot |
+| W0 元素交叉库 | 用户/套路库(pop-trope-library) | `创意种子/元素复用建议.md` | 素材储备池 |
+| W0.5 问作者 | 用户本人 | `创意种子/作者想法.md` | 素材储备池 |
+| W1 跨域素材 | WebSearch / 知识库 | `创意种子/跨域素材蒸馏.md` | 素材储备池 |
+| W2 拆书融合 | deconstructor Phase S（如有对标书） | `创意种子/拆书融合摘要.md` | 素材储备池、world |
+| 素材储备池（首版） | 全部 W 产出 + 碰撞剩余 | `创意种子/素材储备池.md`（四类归档，首版由creative手工触发reservoir） | plot（剧情种子） |
+| Phase 0 故事引擎 | PRD.md + 素材储备池 + W产出 | `创意种子/故事引擎.md`（宪法约束） | world、plot |
+| 主角设计 | 碰撞点 + 方向 | `创意种子/主角设计.md`（四维） | — |
+| 样品试读 | 故事引擎.md | `创意种子/样品试读.md`（500-2000字） | 用户确认、world |
+| **Phase Delta**（注入） | PRD.md + 故事引擎.md + 素材储备池.md | 素材储备池追加（或冲突报告） | plot（剧情种子更新） |
 
-> **核心定位：创意宪法 + 素材储备 + 样品验证。** 产出两件套：故事引擎.md（硬约束） + 素材储备池.md（软资源池）。
+> **核心定位：创意宪法 + 素材储备 + 样品验证。** 双产出：故事引擎.md（硬约束）+ 素材储备池.md（软资源池）。样品签字后→world。
 
-### 3.2 pop-writer-reservoir（创意转换引擎）★ v3.2 升级
+---
 
-> v2.1.0 — 产出升级：从"四类归档条目"升级为**剧情储备卡**。每张卡含核心冲突公式 + 人物原型 + 配套套路 + 契诃夫枪链 + 预期情绪基调。可被 plot 直接取用内化为剧情线。
+### 1.2 pop-writer-reservoir v2.2.0（创意转换引擎 ★ 剧情储备卡）
 
-| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
-|-|-|-|-|
-| **Step 0 前置检查** | 项目目录 | 项目状态判定（有PRD/有引擎/无项目） | — |
-| **Step 1 读已有产出** | PRD.md + 故事引擎.md + 世界宪法.md + 现有池子 | — | Step 2 |
-| **Step 2 素材采集** | 用户输入 / WebSearch（不足时补采） | 素材摘要 | Step 3 |
-| **Step 3 解吸+品类路由** | 素材摘要 + 品类判断 | 品类路由记录 → 走 1A~1E 子流程 | 安全门禁 |
-| **Step 3A~3E 品类拆解** | 品类路由 → 对应 1A~1E 子流程 | 品类专属产出（光谱/冲突/翻译/脱敏/原型） | 统一母题 |
-| **Step 3.5 叙事母题统一** | 品类拆解产出 | 主母题+底色（2条线） | 世界观映射 |
-| **Step 3.6 世界观映射** | 叙事母题 + 目标作品已有机制 | 映射总表（★零世界观修改原则） | Step 4 |
-| **Step 4 ★ 安全门禁** | 素材摘要 + 大众舆论 | 三方立场分析 + 情绪能量检测 + 安全等级 + 改编红线约束 | Step 5 |
-| **Step 5 PRD契合度评估** | PRD.md 加工哲学 | 匹配度标记（高/中/低/冲突） | Step 6 |
-| **Step 6 宪法冲突检测** | 故事引擎.md + 世界宪法.md | 冲突标记（无冲突/有冲突标注） | Step 7 |
-| **Step 7 适配方式判定** | 素材类型 × 项目类型 + 多路线评估 | 适配策略 + ≥2条可选路线 | Step 8 |
-| **Step 8 四类归档** | 全部 Step 产出 | 主线/支线/背景/剩余焊接点分类 | Step 9 |
-| **Step 9 写入储备池** | 归档结果 | `00-原始设定/素材储备池.md`追加 | plot |
-| **首版池子** | PRD.md + W0/W1/W2 全部素材 | `00-原始设定/素材储备池.md`（首版） | plot、world |
+**上游：** `[pop-writer-creative]`
+**下游：** `[pop-writer-plot]`
 
-**核心用途**：
-
-| 场景 | 处理 |
-|:-----|:-----|
-| 作者刷到社会热点 | 提取核心冲突 → PRD 评估 → 归档为主/支线索材 |
-| 作者看到民俗神话 | 提取独特设定 + 情感基调 → 评估适配方式 → 归档 |
-| 作者想融其他 IP | 提取叙事规律而非设定 → 归档为剩余焊接点/背景素材 |
-| 作者想用都市传说 | 评估基调是否匹配 → 适配方式判定 → 归档 |
-
-### 3.3 pop-writer-world（世界构筑）
+> v2.2.0 — 产出为剧情储备卡格式（含冲突公式+人物原型+配套套路+契诃夫枪链+预期情绪基调）。
+> 被 creative 拉动产出首版池子，也可通过 Phase Delta 独立调起注入新素材。
 
 | 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
 |-|-|-|-|
-| Phase 0 融合适配 | 故事引擎.md + 跨域素材蒸馏.md | `00-原始设定/融合适配清单.md` | L1 设定 |
-| L1 设定 | 故事引擎.md + 样品试读 + 拆书 T1/T2（如有） | `00-原始设定/L1-01~06.md` | plot |
-| 稳定性检验 | L1 六件套 | world-stability-check.md | — |
-| 角色初版 | 故事引擎 + character-schema Lv1~Lv4 + 拆书 T3（如有） | `状态/角色/{角色名}-角色卡.md` | plot、chapter-design |
-| 数值体系 | 故事引擎 + L1 力量体系 | `00-总控/数值体系/combat_capability.yaml + rank_schedule.yaml + monster_map.yaml + collision.yaml` | plot |
-| 起点快照 | 故事引擎 + L1 + 角色 | `设计/起点快照.md` | plot Step 2 |
-| 世界宪法 | 全部 world 产出 | `00-总控/世界宪法.md` | plot Step 0 |
-| 动态升级表 | 宪法已锁定 | `00-原始设定/动态升级表.md` | plot |
+| Step 0 前置检查 | 项目目录 | 项目状态判定（有PRD/有引擎/无项目） | — |
+| Step 1 读已有产出 | PRD.md + 故事引擎.md + 世界宪法.md + 现有池子 | — | Step 2 |
+| Step 2 素材采集 | 用户输入 / WebSearch（不足时补采） | 素材摘要 | Step 3 |
+| Step 3 解吸+品类路由 | 素材摘要 + 品类判断 | 品类路由记录 → 走 1A~1E 子流程 | 安全门禁 |
+| Step 3A~3E 品类拆解 | 品类路由 → 对应子流程 | 品类专属产出（光谱/冲突/翻译/脱敏/原型） | 统一母题 |
+| Step 3.5 叙事母题统一 | 品类拆解产出 | 主母题+底色（2条线） | 世界观映射 |
+| Step 3.6 世界观映射 | 叙事母题 + 目标作品已有机制 | 映射总表（★零世界观修改原则） | Step 4 |
+| **Step 4 ★ 安全门禁** | 素材摘要 + 大众舆论 | 三方立场分析 + 情绪能量检测 + 安全等级(✅/⚠️/🔴/☠️/⚡) | Step 5 |
+| Step 5 PRD契合度评估 | PRD.md 加工哲学 | 匹配度标记（高/中/低/冲突） | Step 6 |
+| Step 6 宪法冲突检测 | 故事引擎.md + 世界宪法.md | 冲突标记（无冲突/有冲突标注） | Step 7 |
+| Step 7 适配方式判定 | 素材类型 × 项目类型 + 多路线评估 | 适配策略 + ≥2条可选路线 | Step 8 |
+| Step 8 四类归档 | 全部 Step 产出 | 主线/支线/背景/剩余焊接点分类 | Step 9 |
+| Step 9 写入储备池 | 归档结果 | `创意种子/素材储备池.md` 追加 | plot（剧情种子） |
+
+> **核心定位：创意转换引擎。** 三模式：反应式（用户提供素材）、主动式（自主跨域搜索丰富池子）、混合式。
+
+---
+
+### 1.3 pop-writer-world v1.5.0（世界构筑）
+
+**上游：** `[pop-writer-creative, pop-writer-character, pop-writer-reservoir]`
+**下游：** `[pop-writer-plot]`
+
+| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
+|-|-|-|-|
+| Phase 0 融合适配 | 故事引擎.md + 跨域素材蒸馏.md | `小说世界设定/融合适配清单.md` | L1 设定 |
+| Phase 1 L1 设定 | 故事引擎.md + 样品试读 + 拆书 T1/T2（如有） | `小说世界设定/L1-01~06.md` | plot |
+| Phase 2 稳定性检验 | L1 六件套 | `小说世界设定/稳定性检验.md` | — |
+| Phase 3 角色初版 | 故事引擎 + character-schema Lv1~Lv4 + 拆书 T3（如有） | `状态/角色/{角色名}-角色卡.md` | plot、chapter |
+| Phase 4 数值体系 | 故事引擎 + L1 力量体系 | `小说世界设定/数值体系/combat_capability.md` + `rank_schedule.md` + `monster_map.md` + `collision.md` | plot |
+| Phase 5 起点快照 | 故事引擎 + L1 + 角色 | `小说世界设定/起点快照.md` | plot |
+| Phase 6 世界宪法 | 全部 world 产出 | `小说世界设定/世界宪法.md` | plot（审计） |
+| Phase 7 动态升级表 | 宪法已锁定 | `小说世界设定/动态升级表.md` | plot |
 
 > **核心定位：从宪法推导世界参数。** 不在"发明"世界——在兑现宪法。
+> 消费 reservoir 的剧情储备卡做设定参考。写作前必须确认力量体系命名方向。
 
-### 3.4 pop-writer-plot v7.0.0（剧情架构 — ★ 重构）
+---
+
+### 1.4 pop-writer-plot v7.0.0（剧情架构 — 剧情线设计）
+
+**上游：** `[pop-writer-creative, pop-writer-reservoir]`
+**下游：** `[pop-writer-chapter]`
 
 | Step | 上游依赖 | 产出文件 | 下游消费者 |
 |-|-|-|-|
-| **Step 0 卷目标** | 故事引擎.md + L1 + 角色卡 + 数值体系 | `设计/卷/卷{编号}-战略定位.md`（核心命题+约束边界+情感基调） | Step 1 |
-| **Step 1 拉种子+配套路** | 素材储备池.md（剧情储备卡）+ pop-trope-library | `设计/卷/卷{编号}-剧情种子拉取清单.md` | Step 2 |
-| **Step 2 剧情线文档** | 种子清单 + 角色池 + 数值体系 | `设计/剧情线/{主线/支线}-{编号}-{名称}.md` ×N | chapter-design |
-| **Step 2.5 套路偏好** | 全部剧情线文档 | `卷{编号}-套路偏好分析`（频率Top+特征+盲区警告） | 自检 |
-| **Step 3 分幕切割** | 剧情线文档 + 卷战略定位 | `设计/幕/vol-XX/分幕规划.md` | Step 4 |
-| **Step 4 章锚点** | 分幕规划 + rank_schedule | `设计/幕/vol-XX/act-YY.md` | chapter-design |
-| **Step 5 枪链** | 全部剧情线文档 + 章锚点 | `设计/幕/vol-XX/chekhov-tracker.md` | chapter-design（每章更新） |
+| **Step 0 卷目标** | 故事引擎.md + L1 + 角色卡 + 数值体系 | `剧情设计/卷/卷{编号}-战略定位.md` | Step 1 |
+| **Step 1 拉种子+配套路** | 素材储备池.md（剧情储备卡）+ pop-trope-library | `剧情设计/卷/卷{编号}-剧情种子拉取清单.md` | Step 2 |
+| **Step 2 剧情线文档** | 种子清单 + 角色池 + 数值体系 | `剧情设计/剧情线/{主线/支线}-{编号}-{名称}.md` ×N | chapter |
+| **Step 2.5 套路偏好** | 全部剧情线文档 | `剧情设计/卷{编号}-套路偏好分析.md` | 自检 |
+| **Step 3 分幕切割** | 剧情线文档 + 卷战略定位 | `剧情设计/幕/vol-XX/分幕规划.md` | Step 4 |
+| **Step 4 章锚点** | 分幕规划 + rank_schedule | `剧情设计/幕/vol-XX/act-YY.md` | chapter |
+| **Step 5 枪链** | 全部剧情线文档 + 章锚点 | `剧情设计/幕/vol-XX/chekhov-tracker.md` | chapter（每章更新） |
 
-> ★ **素材储备池消费**：plot Step 1 和 Step 4 从池中拉取剧情种子，不再从零发明冲突。
-
-### 3.5 pop-writer-chapter-design v2.0.0（章纲设计 — ★ 升级）
-
-| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
-|-|-|-|-|
-| 设计包 | 剧情线设计文档 + 幕锚点 + chekhov-tracker + entity-snapshot + 角色卡 | `写作资产/设计包/chXXX-设计包.md`（含本章套路/情绪弧线可视化/爽点机制表/章末钩子预期回收/契诃夫枪表/关键对白语气潜台词） | prose-render |
-| entity-snapshot 更新 | 当前 entity-snapshot + 设计包事件 | `00-总控/entity-snapshot.yaml` | 下章、expert-writer |
-| chekhov-tracker 更新 | chekhov-tracker + 本章枪表 | `设计/幕/vol-XX/chekhov-tracker.md` | 下章、plot |
-
-### 3.6 pop-writer-prose-render（正文渲染）
-
-| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
-|-|-|-|-|
-| 正文渲染 | 设计包 + 文风DNA/`{书名}.md` | `正文/chXXX.md` | qa、html-renderer |
+> ★ 废除 Canvas 矩阵为主输出。每条剧情线独立 .md 文档——含数值门槛/植入时间轴/人物/套路链/契诃夫枪链/起终点切片。
 
 ---
 
-## 四、核心共享文件
+### 1.5 pop-writer-chapter v2.0.0（章纲设计）
+
+**上游：** `[pop-writer-plot]`
+**下游：** `[pop-writer-prose]`
+
+| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
+|-|-|-|-|
+| Step 1 读入上下文 | act-YY.md + 剧情线文档 + entity-snapshot + chekhov-tracker | context 基线 | Step 2 |
+| Step 2 事件链设计（含情绪+爽点+钩子+枪链） | Step 1 基线 + 剧情线文档套路链 | 完整事件链（scene/POV/对白/感官/情绪/爽点/枪引用） | Step 3 |
+| Step 3 产出落盘 | Step 2 事件链 | `章节设计包/chXXX-设计包.md` + entity-snapshot 更新 + chekhov-tracker 更新 | prose |
+
+> **核心约束：不碰文风。** 只产出事件骨架。设计包含本章套路/情绪弧线可视化/爽点机制表/章末钩子预期回收/契诃夫枪表/关键对白语气潜台词。
+
+---
+
+### 1.6 pop-writer-prose v3.0.1（正文渲染）
+
+**上游：** `[pop-writer-chapter, pop-shared-dna]`
+**下游：** `[pop-writer-qa]`
+
+| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
+|-|-|-|-|
+| 正文渲染 | 设计包 + 文风DNA/`{书名}.md` | `正文/chXXX.md`（正文 + 章末状态更新块） | qa |
+
+> **核心约束：不碰剧情。** 只管把设计包+文风DNA渲染成可读正文。
+
+---
+
+### 1.7 pop-writer-qa v1.0.1（爽点质检）
+
+**上游：** `[pop-writer-prose]`
+**下游：** `[]`
+
+| 步骤 | 上游依赖 | 产出文件 | 下游消费者 |
+|-|-|-|-|
+| L1 硬门禁 | 正文 + 设计包 | 红线检查（不留盘） | — |
+| L2 感觉型三层介入 | 正文 + 读者画像 | 情绪感受报告（不留盘） | — |
+| L3 原文对照 | 正文 + 设计包 + act-YY | 对齐检查（不留盘） | — |
+
+---
+
+## 二、写作专家辅助 Skill
+
+### 2.1 pop-writer-character v2.0.1（角色分级标准）
+
+**上游：** `[pop-writer-creative, pop-writer-plot]`
+**下游：** `[]`
+
+定义角色卡分级标准（Lv1~Lv4），不含具体执行流程。world 消费此标准生成角色卡。
+
+### 2.2 pop-writer-continue v1.0.1（续写搭档）
+
+**上游：** `[pop-writer-world]`
+**下游：** `[pop-writer-plot]`
+
+读已有正文 → 产出状态卡 + 续写锚点 + 未被兑现的伏笔 + 快速设定还原。
+不执行数据提取工程——做叙事理解。
+
+### 2.3 pop-writer-game v2.0.2（文游化）
+
+将世界观、人设、剧情设定转化为 AI 驱动的互动文字游戏。
+
+### 2.4 pop-writer-html v1.3.2（HTML发布引擎）
+
+将正文/设定/场景卡等结构化数据 → 高质量单文件 HTML 发布页。
+
+---
+
+## 三、跨 Skill 共享文件清单
+
+> 类型：**S**-静态（一次产出，只读不写）/ **D**-动态（持续维护）
 
 | 文件 | 类型 | 产出者 | 消费者 | 用途 |
 |-|-|-|-|-|
-| **PRD.md** | S | creative | story-engine、world、plot | 基本法 — 6维度约束 |
-| **故事引擎.md** | S | creative | world → plot | 创意宪法 |
-| **素材储备池.md** | D | creative 首版 → reservoir 注入 | plot | 剧情种子池 |
-| **剧情线设计文档** | S/D | plot Step 2 | chapter-design、prose-render | 每条剧情线独立 .md |
+| **PRD.md** | S | creative | story-engine, world, plot | 基本法 — 6维度约束 |
+| **爽点引擎.md** | S | creative | story-engine | 元爽点星座 + 占比 + 变体家族 |
+| **故事引擎.md**（★ md 非 yaml） | S | creative | world, plot | 创意宪法 — PRD 展开深化 |
+| **素材储备池.md**（★ 剧情储备卡格式） | D | creative 首版/reservoir 注入 | plot | 剧情种子池 |
+| **样品试读.md** | S | creative | world, 用户 | 创意验证 — world 做设定时对照 |
+| **L1-01~06.md** | S | world | plot | 世界规则 + 资源体系 |
+| **状态/角色/{角色}-角色卡.md** | D | world 初版 → plot 卷间回写 | plot, chapter | 按 character-schema Lv1~Lv4 |
+| **数值体系 x4**（★ .md） | S | world | plot | combat_capability + rank_schedule + monster_map + collision |
+| **起点快照.md** | S | world | plot | 卷1开始时主角/世界状态 |
+| **世界宪法.md** | S | world | plot | 约束集清单 |
+| **终点快照.md** | S | plot | chapter | 卷N结束时目标状态 |
+| **剧情线文档 ×N**（★ 独立 .md） | S/D | plot Step 2 | chapter, prose | 每条线数值门槛/时间轴/人物/套路链/枪链/切片 |
 | **分幕规划.md** | S | plot Step 3 | plot Step 4 | 剧情线→幕分配表 |
-| **chekhov-tracker.md** | D | plot Step 5 → chapter 每章更新 | plot、chapter-design | 伏笔追踪 |
-| **样品试读.md** | S | creative | world、用户 | 创意验证 |
-| **reader_profile** | S | creative | world、plot、qa | 读者画像 |
-| **L1-01~06** | S | world | plot | 世界设定层 |
-| **角色卡.md** | D | world 初版 → plot 回写 | plot、chapter-design | 角色状态 |
-| **数值体系 x4** | S | world | plot | 战斗+升级+怪物+碰撞 |
-| **起点快照.md** | S | world | plot Step 2 | 卷1起始状态 |
-| **世界宪法.md** | S | world | plot Step 0 | 约束集清单 |
-| **终点快照.md** | S | plot Step 2 | chapter-design | 卷N目标状态 |
-| **entity-snapshot.yaml** | D | chapter-design | 下章、expert-writer | 角色当前状态 |
-| **chXXX-设计包.md** | D | chapter-design | prose-render | 回合级事件链 |
-| **正文/chXXX.md** | D | prose-render | qa、html-renderer | 完成正文 |
-| **文风DNA/{书名}.md** | S | deconstructor / pop-dna | prose-render | 文风档案 |
-
-### 调度层私有文件
-
-| 文件 | 读写者 | 用途 |
-|-|-|-|
-| **workspace-index.yaml** | expert-writer | 全局索引 |
-| **ROUTE-AUGMENT.md** | expert-writer | 路由增强映射表 |
-| **项目总控.md** | expert-writer（每阶段回写） | 项目全貌（人机共读） |
+| **chekhov-tracker.md** | D | plot Step 5 → chapter 每章更新 | plot, chapter | 契诃夫枪追踪 |
+| **act-YY.md** | D | plot Step 4 | chapter, qa | 章锚点 + 情绪弧 + 爽点密度 |
+| **entity-snapshot.yaml** | D | chapter | chapter（下章）, expert-writer | 角色状态 + event_log |
+| **chXXX-设计包.md** | D | chapter | prose | 回合级事件链 |
+| **正文/chXXX.md** | D | prose | qa, html | 完成正文 |
+| **文风DNA/{书名}.md** | S | pop-shared-dna | prose | 文风DNA档案 |
+| **项目总控.md** | D | expert-writer（每阶段回写） | human, agent | 管线进度 + 执行顺序日志 + 产出物公示表 + 理想文件树 |
 
 ---
 
-## 五、写作专家闸门与调度
+## 四、写作专家闸门与调度
 
-### 5.1 闸门
+### 4.1 闸门
 
 | 闸门 | 位置 | 条件 |
 |-|-|-|
 | **样品确认** | creative → world | 用户确认样品试读 |
+| **力量体系命名确认** | world Phase 4 前 | 用户选择命名方向（畸变系/意象系等） |
 | **安全门禁** ★ | reservoir Step 4 | 受众立场与情绪评估通过 |
 | **宪法审计** | world → plot | plot Step 0 发现冲突 → 退回 world |
 | **里程碑确认** | plot Step 3 | 用户确认里程碑 |
-| **场景卡确认** | plot Step 10 | 用户确认场景卡 |
 | **注入确认** ★ | Phase Delta D2 | 用户确认 PRD 微调方案 |
 
-### 5.2 修宪回路
+### 4.2 修宪回路
 
 ```
 plot Step 0 宪法审计发现冲突
@@ -416,185 +240,158 @@ plot Step 0 宪法审计发现冲突
     → 是宪法本身需要修订？    → 退回 creative 重审
     → 不冲突，继续
 
-Phase Delta 冲突（reservoir 执行层检测 + creative 判定层输出）
-    → 输出微调方案 → 用户签字 → 更新 PRD（带版本标记）
+Phase Delta 冲突
+    → 输出微调方案 → 用户签字 → 更新 PRD
     → 通知 world 检查受影响的 L1 维度
 ```
 
-### 5.3 索引更新
+### 4.3 索引更新
 
 ```
 写作专家完成某阶段
   → workspace-index.yaml.projects[].phase 更新
   → entity-snapshot._meta.total_chapters 更新
-  → 项目总控.md 更新（管线进度 + 执行顺序日志 + 产出物公示表）
+  → 项目总控.md 更新（管线进度 + 执行顺序日志 + 产出物公示表 + 理想文件树）
 ```
 
 ---
 
-## 六、典型路径速查
+## 五、典型路径速查
 
 | 场景 | 管线路径 | 关键闸门 |
 |:-|:---------|:---------|
-| **新书启动** | creative → world → plot(★6步新流程) → chapter(★含情绪弧/枪链) → prose → qa | 样品确认 / 卷目标确认 / 剧情线设计确认 |
-| **有对标书新书** | deconstruct Lv1 → creative（加载拆书）→ world → plot → ... | Lv1 拆完可选继续深拆或直接开书 |
+| **新书启动** | creative → reservoir → world → plot → chapter → prose → qa | 样品确认 / 卷目标确认 / 剧情线设计确认 |
+| **有对标书新书** | deconstruct Phase S → creative（加载拆书）→ reservoir → world → plot → ... | Lv1 拆完可选继续深拆或直接开书 |
 | **项目中注入新元素** | Phase Delta: creative 触发 → reservoir 执行注入(9步) → creative 判定 D1/D2/D3 | 安全门禁 / 注入确认（D2） |
-| **外部素材内化→储备剧情卡** | pop-writer-reservoir 素材解吸→品类路由→安全门禁→PRD评估→多路线适配→四类归档 | 安全门禁（不可跳过） |
-| **已有项目续写** | bookstrap REV → plot → design → render → qa | 精读闸门 |
-| **正文修改（骨架级）** | design → render → qa | — |
-| **正文修改（渲染级）** | render → qa | — |
-| **文风分析→应用** | pop-dna → prose-render | style_executed 验证 |
+| **外部素材→储备剧情卡** | pop-writer-reservoir 独立调起 → 9步注入 → 归档 | 安全门禁（不可跳过） |
+| **已有项目续写** | pop-writer-continue（读正文→状态卡）→ plot → chapter → prose → qa | 叙事理解闸门 |
+| **正文修改（骨架级）** | chapter → prose → qa | — |
+| **正文修改（渲染级）** | prose → qa | — |
+| **文风分析→应用** | pop-shared-dna → prose-render | style_executed 验证 |
+| **角色储备设计** | pop-writer-character（独立调起） | — |
 
 ---
 
-## 七、关键架构决策
+## 六、关键架构决策
 
-### 7.1 为什么拆为双专家
-
-| 决策 | 理由 |
-|-|-|
-| **独立调用** | 拆书专家不需要写作专家上下文即可独立运行。用户说"拆这本书"不与某个写作项目绑定 |
-| **产出可复用** | 拆书产出存于 _参考书/{书名}/，多个写作项目可同时消费同一份拆书数据 |
-| **职责隔离** | 写作专家专注于"怎么创作"，拆书专家专注于"怎么分析"。两个能力集不同，混在一个 skill 里难以维护 |
-| **调度清晰** | expert-writer 通过意图识别路由到对应专家，不耦合两个域的执行逻辑 |
-
-### 7.2 为什么 creative 升级 v2.0.0（路由 + 双产出）
+### 6.1 为什么拆为双专家
 
 | 决策 | 理由 |
 |-|-|
-| **Phase R 路由** | 用户不要总是同一种启动模式。有清晰想法走 A、碎片灵感走 B、空白走 C |
-| **Phase Delta** | 书写到一半想注入新元素是高频场景。不重跑全流程，只做轻量注入诊断 |
-| **PRD 独立** | PRD 是比故事引擎更早、更轻量的宪法。三种模式覆盖所有启动状态 |
-| **素材储备池** | creative 采集的大量素材归档为剧情种子供 plot 消费，避免"每次从零编冲突" |
-| **story-engine.md 替代 yaml** | 用户偏好 .md 叙事格式，更易编辑和跨 session 阅读 |
+| **独立调用** | 拆书专家不需要写作专家上下文即可独立运行 |
+| **产出可复用** | 拆书产出存于 _参考书/{书名}/，多个写作项目可同时消费 |
+| **职责隔离** | 写作专家专注"创作"，拆书专家专注"分析" |
+| **调度清晰** | expert-writer 通过意图识别路由到对应专家 |
 
-### 7.3 为什么创意与工程分离
+### 6.2 为什么 creative 升级 v3.0（Phase 爽点引擎）
+
+| 决策 | 理由 |
+|-|-|
+| **Phase 爽点引擎** | 元爽点共创 Q&A 保证产出聚焦"怎么让读者停不下来"而非"工程规范" |
+| **Phase R 路由** | 用户想法清晰走 A、碎片灵感走 B、空白走 C。避免千篇一律的追问 |
+| **Phase Delta** | 项目中注入新元素不走全流程，只做轻量注入诊断 |
+| **素材储备池** | 采集的大量素材归档为剧情种子供 plot 消费，避免每次从零编冲突 |
+| **story-engine.md 替代 yaml** | 用户偏好 .md 叙事格式，适合编辑和跨 session 阅读 |
+
+### 6.3 为什么创意与工程分离
 
 | 决策 | 理由 |
 |-|-|
 | **创意做"什么叫好"** | creative 定义方向、宪法、样品。不做具体实现 |
-| **工程做"能不能做"** | world 在宪法约束内兑现世界参数。两者混在一起导致产出物没有验证回路 |
+| **工程做"能不能做"** | world 在宪法约束内兑现世界参数 |
 
-### 7.4 为什么 character-schema 在拆书专家
-
-| 决策 | 理由 |
-|-|-|
-| **标准 ≠ 执行** | character-schema 定义"角色卡长什么样"（标准），world 执行"具体角色卡填写"（实现） |
-| **跨专家复用** | character-schema 被 world 消费，但标准本身由拆书专家维护 |
-| **拆书对齐** | 拆出的角色参考卡按 character-schema Lv1~Lv4 分级，world 产出时自动对照 |
-
-### 7.5 为什么数值体系在 world
+### 6.4 为什么 reservoir 吸收 fuse
 
 | 决策 | 理由 |
 |-|-|
-| **不是工业决策** | 数值体系是世界规则的一部分，不是叙事设计的决策 |
-| **plot 在约束内使用** | plot 使用 rank_schedule 做幕级排期，但不发明数值 |
+| **职能重叠** | 两者本质是一条流程的两端：先加工、后归档 |
+| **安全门禁不可绕过** | 品类拆解若无安全门禁前置，可能产出洗白方案 |
+| **单一认知入口** | 用户说"融进书里"只走一个 skill |
 
-### 7.6 为什么终点快照在 plot
-
-| 决策 | 理由 |
-|-|-|
-| **不可提前知道** | 终点状态只有在做完卷级设计后才知道 |
-| **plot 锚点的自然产出** | plot Step 2 锚点确认环节自然会产出终点快照 |
-
-### 7.7 为什么 reservoir 吸收 fuse（创意转换单一入口）
+### 6.5 为什么 plot v7.0 重构
 
 | 决策 | 理由 |
 |-|-|
-| **fuse 与 reservoir 职能重叠** | 两者本质是一条流程的两端：先加工、后归档。分开维护导致方法论分裂 |
-| **安全门禁不可绕过** | fuse 的品类拆解如果没有安全门禁前置，可能产出洗白方案 |
-| **单一认知入口** | 用户说"帮我把这个XX融进书里"只应该走一个 skill |
-| **职责分离** | creative 只触发不执行，reservoir 只执行不触发 |
-
-### 7.8 为什么 reservoir 定位为"创意转换引擎"
-
-| 决策 | 理由 |
-|-|-|
-| **不仅是注入** | reservoir 做完整的创意转换：品类路由→情绪光谱→安全门禁→世界观映射→多路线评估 |
-| **独立价值** | reservoir 即使没有 creative/plot 上下文，也能独立产出可复用的剧情种子 |
-| **合约关系** | creative 发号施令，reservoir 执行，creative 验收（D1/D2/D3） |
-
-### 7.9 为什么 plot v7.0 重构（剧情线独立文档 + 契诃夫枪链）
-
-| 决策 | 理由 |
-|-|-|
-| **废除 Canvas 矩阵为主输出** | 表格格式无法承载每条剧情线的完整复杂度，且无法跨卷追踪 |
-| **每条剧情线独立 .md** | 可以写数值门槛/植入时间轴/配套套路链/契诃夫枪链/起终点切片 |
-| **新增契诃夫枪链** | 没有系统化的设伏→回收管理，跨卷伏笔必然遗忘 |
-| **第一步改卷战略目标** | 先定位再执行——不做盲目的路线设计 |
-| **套路偏好分析** | 不做这个分析 = 不知道自己写偏了什么 |
+| **废除 Canvas 矩阵** | 表格无法承载每条剧情线的完整复杂度，且无法跨卷追踪 |
+| **每条线独立 .md** | 可以写数值门槛/时间轴/套路链/契诃夫枪链/切片 |
+| **契诃夫枪链必修** | 没有系统化的设伏→回收管理，跨卷伏笔必然遗忘 |
+| **先做卷战略目标** | 先定位再执行——不做盲目的路线设计 |
 
 ---
 
-## 附录 A：写作项目文件全貌（v3.2b 目录结构）
+## 附录 A：写作项目文件全貌
 
 ```text
 {项目名}/
 │
-├── README.md                       ← 自动生成
+├── 项目总控.md                        ← expert-writer（管线进度+顺序日志+产出公示+理想文件树+风险）
 │
-├── 00-总控/                         ← 工程层
-│   ├── workspace-index.yaml        [expert-writer]
-│   ├── project.yaml                [creative]
-│   ├── entity-snapshot.yaml        [chapter-design]
-│   └── 世界宪法.md                  [world]
+├── 00-总控/                           ← 工程层
+│   ├── workspace-index.yaml          [expert-writer]
+│   ├── project.yaml                  [creative]
+│   └── entity-snapshot.yaml          [chapter-design]
 │
-├── 创意种子/                        ← 创意宪法层
-│   ├── 爽点引擎.md                  [creative]
-│   ├── PRD.md                      [creative]
-│   ├── 故事引擎.md                  [creative]
-│   ├── 样品试读.md                  [creative]
-│   └── 对标分析摘要.md              [creative]
+├── 创意种子/                          ← 创意宪法层（creative→reservoir）
+│   ├── 爽点引擎.md                    [creative]
+│   ├── PRD.md                        [creative]
+│   ├── 故事引擎.md                    [creative]
+│   ├── 素材储备池.md                  [creative首版→reservoir注入]
+│   ├── 样品试读.md                    [creative]
+│   ├── 主角设计.md                    [creative]
+│   ├── 跨域素材蒸馏.md                [creative]
+│   └── 拆书融合摘要.md                [creative]
 │
-├── 小说世界设定/                    ← 世界设定层
-│   ├── 融合适配清单.md              [world]
-│   ├── L1-01~06.md                 [world]
-│   ├── 起点快照.md                  [world]
-│   ├── 动态升级表.md                [world]
-│   └── 数值体系/                    [world]
+├── 小说世界设定/                      ← 世界设定层（world）
+│   ├── 融合适配清单.md                [world]
+│   ├── 世界宪法.md                    [world]
+│   ├── L1-01世界蓝图.md               [world]
+│   ├── L1-02力量体系.md               [world]
+│   ├── L1-03历史驱力.md               [world]
+│   ├── L1-04物种天赋.md               [world]
+│   ├── L1-05势力格局.md               [world]
+│   ├── L1-06资源物品.md               [world]
+│   ├── 起点快照.md                    [world]
+│   ├── 动态升级表.md                  [world]
+│   ├── 稳定性检验.md                  [world]
+│   └── 数值体系/                      [world]
 │       ├── combat_capability.md
-│       ├── monster_rank_map.md
-│       ├── act_rank_schedule.md
-│       └── collision_curve.md
+│       ├── rank_schedule.md
+│       ├── monster_map.md
+│       └── collision.md
 │
-├── 储备剧情池/
-│   └── 素材储备池.md                [creative→reservoir]
+├── 状态/                              ← 动态追踪层
+│   ├── 角色/{主角}-角色卡.md           [world→plot回写]
+│   ├── 角色/{配角}-角色卡.md
+│   ├── 势力/
+│   └── 世界状态.md
 │
-├── 状态/
-│   ├── 角色/{主角/配角}-角色卡.md    [world→plot]
-│   └── 世界状态.md                  [expert-writer]
-│
-├── 剧情设计/
+├── 剧情设计/                          ← 剧情层（plot）
 │   ├── 卷/
-│   │   ├── 卷{编号}-战略定位.md      [plot Step 0]
+│   │   ├── 卷{编号}-战略定位.md       [plot Step 0]
 │   │   └── 卷{编号}-剧情种子拉取清单.md [plot Step 1]
 │   ├── 剧情线/
-│   │   ├── 主线-01~03-{名称}.md     [plot Step 2]
-│   │   ├── 支线-{编号}-{名称}.md    [plot Step 2]
-│   │   └── {卷}-套路偏好分析.md      [plot Step 2.5]
+│   │   ├── 主线-01-{名称}.md          [plot Step 2]
+│   │   ├── 支线-{编号}-{名称}.md
+│   │   └── {卷}-套路偏好分析.md       [plot Step 2.5]
 │   └── 幕/vol-XX/
-│       ├── 分幕规划.md              [plot Step 3]
-│       ├── act-YY.md               [plot Step 4]
-│       └── chekhov-tracker.md      [plot Step 5→chapter]
+│       ├── 分幕规划.md                [plot Step 3]
+│       ├── act-YY.md                 [plot Step 4]
+│       └── chekhov-tracker.md        [plot Step 5→chapter]
 │
-├── 章节设计包/
-│   ├── chXXX-设计包.md              [chapter-design]
-│   └── 文风DNA/                     [deconstructor→prose]
+├── 章节设计包/                        ← 执行层（chapter→prose）
+│   └── chXXX-设计包.md               [chapter]
 │
-├── 正文/
-│   └── chXXX.md                    [prose-render]
+├── 正文/                              ← 渲染层（prose）
+│   └── chXXX.md                      [prose]
 │
-├── 项目总控.md                      [expert-writer·每阶段回写]
-│
-└── _参考书/{书名}/                   ← 拆书专家产出，写作消费
-    ├── Lv1-拆解摘要.md
-    ├── Lv4-{主角}-参考卡.md
-    ├── 卷1-起点/终点快照.md
-    ├── 快速文风指纹-top5.md
-    ├── T1~T7 分析报告
-    └── 三维拆书档案.md
+└── 写作资产/
+    └── 文风DNA/{书名}.md              [pop-shared-dna→prose]
 ```
 
 ---
 
-> 本文档覆盖写作专家（pop-writer-*）全链路。拆书专家见 `02-拆书专家全链路依赖图-PRD.md`。
+> 本文档基于各 skill 当前 SKILL.md 的实际 pipeline 字段构建（2026-06-19）。
+> 写作专家 skill 清单：pop-writer-creative(v3.0.0)、pop-writer-reservoir(v2.2.0)、pop-writer-world(v1.5.0)、
+> pop-writer-plot(v7.0.0)、pop-writer-chapter(v2.0.0)、pop-writer-prose(v3.0.1)、pop-writer-qa(v1.0.1)、
+> pop-writer-character(v2.0.1)、pop-writer-continue(v1.0.1)、pop-writer-game(v2.0.2)、pop-writer-html(v1.3.2)。
+> 拆书专家见 `02-拆书专家全链路依赖图-PRD.md`（pop-decon-* / pop-shared-*）。
