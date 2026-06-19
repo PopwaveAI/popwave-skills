@@ -25,17 +25,18 @@
              │          ▼
              │    ┌──────────────────┐
              │    │    pop-shared-dna       │
-             │    │  文风DNA蒸馏     │
-             │    │  产出: 写作资产/  │
-             │    │  文风DNA/{书名}.md│
+    │    │  文风DNA蒸馏     │
+    │    │  产出: pop-trope- │
+    │    │  library/文风DNA/ │
+    │    │  {书名}.md        │
              │    └────────┬─────────┘
              │             │
              ▼             ▼
   ┌─────────────────────────────────────────────────────┐
   │               pop-writer-creative                    │
   │              开书设定 (forward/reverse)              │
-  │  产出: story-engine + L1-01~06 + 角色卡 + project    │
-  │         + 数值体系x4 + 起点/终点快照                  │
+  │  产出: PRD + 层架构.md + 故事引擎 + 素材储备池(首版)  │
+  │         + 爽点引擎 + 样品试读                         │
   └──────────┬──────────────────────────────────────────┘
              │
              ▼
@@ -59,7 +60,7 @@
   ┌─────────────────────────────────────────────────────┐
   │          pop-writer-prose  ★NEW                │
   │         正文渲染/上色 (Step 1→4)                      │
-  │  输入: 设计包 + 写作资产/文风DNA/   ⚠️ 不碰剧情       │
+  │  输入: 设计包 + pop-trope-library/文风DNA/   ⚠️ 不碰剧情│
   │  产出: 正文/chXXX.md（含章末状态更新块）              │
   └──────────┬──────────────────────────────────────────┘
              │
@@ -86,7 +87,7 @@
 | 文件 | 类型 | 产出者 | 消费者 |
 |:-----|:----:|:-------|:------|
 | story-engine.yaml | S | bookstrap Phase 0 | plot（内化→卷命题） |
-| L1-01~06 | S | bookstrap Phase 1 | plot（幕设计参考） |
+| L1-01~07 | S | pop-writer-world Phase 1 | plot（幕设计参考） |
 | 小说世界设定/融合适配清单.md | S | pop-writer-world Phase 0 | L1-01~06 维度 |
 | 小说世界设定/动态升级表.md | S | pop-writer-world Phase 7 | pop-writer-plot |
 | 00-总控/数值体系/socioeconomic_pyramid.md | S | pop-writer-world Phase 4 | plot + chapter-design |
@@ -105,7 +106,7 @@
 | 00-总控/entity-snapshot.yaml | **D** | chapter-design(逐章) | chapter-design(下章) + expert-writer |
 | 写作资产/设计包/chXXX-设计包.md | **D** | chapter-design | prose-render |
 | 正文/chXXX.md | **D** | prose-render | qa + html-renderer |
-| 写作资产/文风DNA/{书名}.md | S | deconstructor/pop-shared-dna | prose-render |
+| 写作资产/文风DNA/{书名}.md | S | pop-shared-dna（产出到 pop-trope-library/文风DNA/） | prose-render |
 
 > **S** = 静态（一次写入，只读不写） | **D** = 动态（持续维护，有更新者） | **M** = 元数据
 
@@ -126,7 +127,7 @@
 │       └── socioeconomic_pyramid.md
 ├── 00-原始设定/                ← bookstrap 静态产出，仅 plot 消费
 │   ├── L0-产品层/ (story-engine + 融合摘要 + PRD)
-│   ├── L1-元设定层/ (01~06)
+│   ├── L1-元设定层/ (01~07)
 │   ├── 融合适配清单.md           [pop-writer-world Phase 0]
 │   ├── 动态升级表.md             [pop-writer-world Phase 7]
 │   ├── 起点快照.md
@@ -175,8 +176,8 @@
 
 | 阶段 | 必须存在 | 建议存在 |
 |:-----|:---------|:---------|
-| bookstrap 完成 | project.yaml + L1-01~06 + 角色卡 + 数值体系 + 快照 | deconstruct-融合摘要 |
-| world 完成 | 融合适配清单 + L1-01~06 + 角色卡 + 数值体系 + 静态金字塔 + 快照 + 宪法 + 动态升级表 | deconstruct-融合摘要 |
+| bookstrap 完成 | project.yaml + L1-01~07 + 角色卡 + 数值体系 + 快照 | deconstruct-融合摘要 |
+| world 完成 | 融合适配清单 + L1-01~07 + 角色卡 + 数值体系 + 静态金字塔 + 快照 + 宪法 + 动态升级表 | deconstruct-融合摘要 |
 | plot 完成 (卷N) | volume-NN.md + 幕/vol-NN/act-*.yaml × N幕 | 全书架构.md |
 | chapter-design 完成 (chN) | 写作资产/设计包/chN-设计包.md + entity-snapshot 更新 | — |
 | prose-render 完成 (chN) | 正文/chN.md | 章末状态更新块合规 |

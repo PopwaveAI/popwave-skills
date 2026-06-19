@@ -12,9 +12,9 @@ creative → reservoir → world → plot → chapter → prose → qa
 
 | 阶段 | 调用 skill | 核心产出 | 前置条件 | 闸门 |
 |:-----|:-----------|:---------|:---------|:-----|
-| 1 creative | pop-writer-creative | PRD.md, 故事引擎.md, 素材储备池(首版), 爽点引擎.md, 样品试读.md | 无（开书入口） | 样品确认签字 |
+| 1 creative | pop-writer-creative | PRD.md, 层架构.md, 故事引擎.md, 素材储备池(首版), 爽点引擎.md, 样品试读.md | 无（开书入口） | 样品确认签字 |
 | 2 reservoir | pop-writer-reservoir | 素材储备池(升级为剧情储备卡, 含安全门禁) | creative 产出齐全 | 安全门禁通过 |
-| 3 world | pop-writer-world | L1-01~06, 角色卡, 数值体系×4, 起点快照, 世界宪法, 动态升级表 | reservoir 有剧情储备卡可用 | 宪法锁定 |
+| 3 world | pop-writer-world | L1-01~07(含L1-07术语与文明底色), 角色卡, 数值体系×4, 起点快照, 世界宪法, 动态升级表 | reservoir 有剧情储备卡可用 | 宪法锁定 |
 | 4 plot | pop-writer-plot | 卷战略定位, 剧情线文档独立.md×N, 分幕规划, act-YY.md, chekhov-tracker | world 产出齐全 + trop-library 已查 | 里程碑确认 |
 | 5 chapter | pop-writer-chapter | chXXX-设计包, entity-snapshot更新, chekhov-tracker更新 | plot 产出齐全 | — |
 | 6 prose | pop-writer-prose | 正文/chXXX.md | chapter 设计包就绪 | — |

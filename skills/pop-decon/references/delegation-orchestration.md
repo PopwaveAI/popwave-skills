@@ -124,12 +124,23 @@ results = delegate_task(tasks=tasks, description="并行扫描设计包识别卷
 3. orchestrator 在委派返回后，必须亲自用 `search_files` 或 `read_file` 验证关键输出
 
 ### ❌ 子 agent 产出命名格式不一致
+
 **现象**：不同子agent产出 `卷1 · 琥珀城风云`、`volume-02 — 远行之路`、`# 卷4·白马城的烽火` 三种不同格式。
 **原因**：每个子agent各自解释模板，没有统一的首行格式指令。
 **解决方案**：
 1. 在 context 中给出精确的 heading 范例：`文件首行必须严格为：「# 幕1 · 名称（ch001-ch020）」，禁止 volume-/act- 变体`
 2. 产出后验证：`head -1 各个目标文件` 检查一致性
 3. 包含 scope 声明的行也要统一：`文件第二行为："> ⚠️ **基于前X章数据推断**：本文件只读到了卷1的章节。"`
+
+### ❌ 设计包事件链格式不一致
+
+**现象**：有的子agent产出了表格格式（含scene/POV/原文证据），有的产出了段落式（仅文字描述）。
+**原因**：子agent没有统一的格式样板，各自按理解选择事件描述方式。段落式事件链无法被下游消费（pop-decon-volume 需要按 scene/POV 字段聚合数据）。
+**解决方案**：
+1. 在 context 中嵌入完整格式样板（直接复制 `pop-decon-design-pack/references/v3-format-quick-reference.md` 的内容）
+2. 在 context 第一行写明：`「产出设计包时事件链必须使用表格格式。表格列： # | 事件 | 类型 | scene | POV | 参与角色 | 字数估计 | 原文证据」`
+3. 要求子agent产出后在回复中确认：`「本章设计包已使用表格格式」`
+4. orchestrator 在子agent返回后抽检首章确认格式
 
 ### ❌ scope 声明缺失
 **现象**：只读到全书一部分时，产出使用"全书架构""全书主题"等绝对化表述。
