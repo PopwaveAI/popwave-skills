@@ -1,7 +1,7 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill，产出子Skill的完整执行结果。"
-version: 3.3.0
+version: 3.4.0
 pipeline: { up: [], down: [pop-writer-creative, pop-writer-reservoir, pop-writer-world, pop-decon, pop-writer-plot, pop-writer-chapter, pop-writer-prose, pop-writer-qa, pop-shared-dna, pop-writer-character, pop-writer-html, pop-writer-game, pop-shared-reader, pop-shared-html, tool-download-webnovel, tool-cnovel-research, tool-opinion-tracker] }
 ---
 
@@ -164,7 +164,16 @@ v3.2 管线升级了情绪弧可视化、爽点机制表、契诃夫枪链、剧
 
 ## 版本
 
-v3.4.0 | 2026-06-19 | 新增 `references/pipeline-manifest.md`（管线硬顺序合同+截断检测协议）+ `references/project-master-control.tpl.md`（项目总控模板）+ `references/project-health-check.md`（快速检测模式SOP）。step-1-think 新增截断检测协议和管线锚定流程。step-2-execute 强制加载段新增截断交叉校验。step-3-reflect 新增项目总控回写。SKILL.md 速查表新增"快速检测"路由行。落盘检查点新增项目总控更新。
+v3.4.0 | 2026-06-19 | 项目全貌修复：项目总控模板追加理想文件树（对照PRD附录A）+ 健康检查Step 0新增无文件时自动初始化+Step 1b改为文件树比对。详见本行展开。
+| 子项 | 改动 |
+|:-----|:------|
+| pipeline-manifest.md | 新建，管线硬顺序合同+截断检测协议 |
+| project-master-control.tpl.md | 新建，含管线进度+执行顺序日志+理想文件树+产出索引+风险 |
+| project-health-check.md | 新建，三优先级连续性检测+自动初始化+文件树比对+截断风险扫描 |
+| step-1-think.md | 新增截断检测协议+管线锚定流程（加载manifest+比对项目总控+管线断裂检测） |
+| step-2-execute.md | 强制加载段新增截断交叉校验 |
+| step-3-reflect.md | 新增项目总控回写（含执行顺序日志+首创初始化） |
+| SKILL.md | 速查表新增快速检测路由行，落盘检查点新增项目总控更新 |
 v3.2.0 | 2026-06-18 | 更新 plot/chapter 路由表(v7.0/v2.0)；新增"升级优先于新建"原则。参考让魔门再次伟大拆书成果。
 
 v3.1.4 | 2026-06-16 | 精简模式扩展：用户说"后面不用问我了"→不暂停执行；新增典型错误#10（search_files截断导致虚假结论）
