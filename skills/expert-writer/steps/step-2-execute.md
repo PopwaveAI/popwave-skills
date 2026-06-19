@@ -15,6 +15,19 @@ Get-Content -Encoding UTF8 -Raw 项目 YAML (project/entity-snapshot/act-XX)
 Get-Content -Encoding UTF8 -Raw styles/*
 ```
 
+**截断交叉校验（每次文件读取后强制执行）：**
+
+```
+1. 读取结果字符数 vs (Get-Item '{path}').Length 对比
+2. 字符数 < 文件大小 × 0.9 → ⚠️ 截断警告
+3. 回退 Get-Content -Encoding UTF8 -Raw 重读（Read+limit 不回退，只回退 Raw）
+4. 连续 2 次不过 → 终止，告知用户
+```
+
+> 完整检测协议见 `references/pipeline-manifest.md§截断检测协议`。
+
+**每次阶段完成后**：回写 `项目总控.md`，更新管线进度标记和当前阶段。
+
 **动态融合**：用户追加核心设定且当前在 L1 阶段 → 加载 `references/dynamic-fusion.md`
 
 **❌ WRONG**：

@@ -6,17 +6,44 @@
 
 ---
 
-## 1. 会话恢复协议（每次新会话优先执行）
+## 0. 截断检测协议（所有文件读取强制执行）
 
-1. 检查 workspace-index.yaml → 获取上次所在阶段和完成状态
-2. 如有已完成的产出物 → 向用户展示进度摘要：
+每次用 `Get-Content` 或 `Read` 工具加载文件后，先校验完整性再生产下文：
+
+```
+1. 读取结果实际字符数 → content.length
+2. 文件系统大小 → (Get-Item '{path}').Length  
+3. if content.length < file_size × 0.9:
+     标记 ⚠️ 截断警告
+     回退用 Get-Content -Encoding UTF8 -Raw 重新读取全文
+     （不回退用 Read+limit，只回退 Raw 模式）
+4. if 同一文件连续 2 次检查不通过:
+     终止，告知用户"文件过大需要分段处理"
+     绝不基于不完整内容继续执行
+```
+
+> 完整协议见 `references/pipeline-manifest.md§截断检测协议`。
+
+---
+
+## 1. 管线锚定与会话恢复协议（每次新会话优先执行）
+
+1. **加载管线合同**：`Get-Content -Raw references/pipeline-manifest.md`（系统级，只读，定义管线硬顺序）
+2. **加载项目总控**：检查项目根目录 `项目总控.md`
+   - 存在 → 读取，获取 `current_stage` 和 `completed_stages`，与 pipeline-manifest 比对推算出 `next_stage`
+   - 不存在（新项目）→ 用 `references/project-master-control.tpl.md` 模板初始化项目总控.md，标记 current_stage=creative
+3. **管线断裂检测**：比对 `completed_stages` 中的阶段在 pipeline-manifest 顺序上是否连续
+   - 例：completed=[creative, world] 但 reservoir 不在其中 → ⚠️ "管线断裂：reservoir 被跳过"
+   - 告知用户断裂风险，询问是否回退补齐
+4. 检查 workspace-index.yaml → 获取上次所在阶段和完成状态
+5. 如有已完成的产出物 → 向用户展示进度摘要：
    ```
    📊 [项目] | 第N章 | 幕M，上次停在 [阶段]。继续吗？
    ```
-3. **不重复提问**。优先读文件获取答案
-4. workspace-index.yaml 存在 → 读取。不存在 → 初始化索引
-5. 确认项目阶段（空/设定中/写作中/写作后）
-6. 若文件缺失 → 告知用户缺什么，不编造
+6. **不重复提问**。优先读文件获取答案
+7. workspace-index.yaml 存在 → 读取。不存在 → 初始化索引
+8. 确认项目阶段（空/设定中/写作中/写作后）
+9. 若文件缺失 → 告知用户缺什么，不编造
 
 ---
 

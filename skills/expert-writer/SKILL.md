@@ -25,6 +25,25 @@ Phase R      剧情储备卡格式   L1+角色+数值
 
 下游路由必须验证**全链前置条件**：进入 plot 前先确认 world 已产出 + reservoir 有卡 + trope-library 已查。遗漏 = 项目B 事故（跳过了 reservoir 和 world，creative 直接到 world 手动摸路）。
 
+## 管线stage顺序表（全链路合同）
+
+此表是写作专家全链路的**单一真相源**。每次阶段交接时**必须查询此表确定下一步**，不依赖子 skill 的 pipeline 字段（因为子 skill 的 pipeline 只声明相邻关系，不声明全链顺序——6.18项目B事故的直接根因）。
+
+| 步骤 | Skill | 产出 | 前置条件 | 完成后检查 |
+|:----:|:------|:-----|:---------|:-----------|
+| 1 | pop-writer-creative | 爽点引擎+PRD+故事引擎+样品 | 无 | creative 产出全部到位? |
+| 2 | pop-writer-reservoir | 剧情储备卡(含安全门禁通过) | PRD+故事引擎已产出 | 安全门禁已执行? 储备卡格式完整? |
+| 3 | pop-writer-world | L1+角色+数值+宪法+升级表 | creative+reservoir 已产出 | world 落盘检查点全通过? |
+| 4 | pop-writer-plot | 卷定位+剧情线+幕+锚点+枪链 | world+reservoir+trope-library 已就位 | plot 六步全完成? |
+| 5 | pop-writer-chapter | chXXX-设计包 | plot 全部产出 | 设计包容情绪弧/爽点/钩子/枪链? |
+| 6 | pop-writer-prose | 正文 | chapter-design 已产出 | 正文已落盘? |
+| 7 | pop-writer-qa | QC报告 | prose 已产出 | — |
+
+**使用规则**：
+1. **不查此表就跳阶段 = 项目B事故**。从 Step N 完成到 Step N+1 启动之间，必须先查此表确认 N+1 是什么，再加载 N+1 的 SKILL.md。
+2. **从表推断自己的位置**：首次加载时扫描项目文件，看最后一个阶段产出物存在于哪个 step 的路径中，从表中定位当前位置。如果同时有多个阶段产出物，以最后修改时间戳为准。
+3. **同人/跨界融合项目**：在 creative 完成后、reservoir 执行前，执行 `references/derivative-gap-analysis.md`（同人场景）或 `references/dynamic-fusion.md`（跨界融合）。此检查插入 Step 1→2 之间。
+
 ## 速查表
 
 | 用户说 | 路由到 | 前置条件 | 本阶段不做什么 |
@@ -38,6 +57,7 @@ Phase R      剧情储备卡格式   L1+角色+数值
 | "写第X章/渲染这章/上色/写正文" | pop-writer-prose | 必须先完成 chapter-design | 不判断剧情逻辑（那是 QA 的活） |
 | "从第X章开始写N章/批量写N章/风格迁移N章" | pop-writer-prose + 并行委托（delegate_task） | 源文本存在（原文或设计包）→ 若无设计包，从原文提取事件链创建复合设计包（N章合1文件或逐章独立）→ 然后并行渲染。详见 references/batch-style-migration.md | 不逐章走 creative→plot→chapter 流水线 — 批量场景走旁路 |
 | "审查/审稿/QA/检查质量/看看" | pop-writer-qa | 无（可随时触发） | 不直接改正文（问题标记后由上游修复） |
+| "快速检测/检查项目状态/健康检查/看看进度/看看差什么/查一下" ★NEW | project-health-check（本地模式）| 项目目录存在 | 不产出文件。报告对话内输出，按需更新项目总控.md |
 | "chNNN / 第N章"（如"ch002""ch03""第8章" — 紧接在上一章产出后的裸章号） | pop-writer-prose（精简模式） | 上一章正文存在 + entity-snapshot 章号连续 | 不暂停确认，不绕回 creative/plot/chapter — 直接读设计包渲染 |
 | "分析文风" | pop-shared-dna | 需有成文样本 | — |
 | "设计角色储备" | pop-writer-character | 无 | — |
@@ -108,6 +128,7 @@ Phase R      剧情储备卡格式   L1+角色+数值
 每次子 skill 执行完成后必须确认：
 - 产出物文件已写入且路径正确
 - workspace-index.yaml 已更新（file_registry / runtime / progress / change_log）
+- **项目总控.md 已更新**（管线进度标记、当前阶段、关键产出索引、待处理风险）
 - entity-snapshot.yaml 与章文件数一致
 - 角色卡快照与 entity-snapshot 一致
 
@@ -143,7 +164,7 @@ v3.2 管线升级了情绪弧可视化、爽点机制表、契诃夫枪链、剧
 
 ## 版本
 
-v3.3.0 | 2026-06-18 | 管线全景图 + 下游路由修复：pop-writer-reservoir 和 pop-writer-world 补入 pipeline.down。新增 reservoir/world 路由行。新增全链前置条件验证要求（项目B事故根因：跳过了 reservoir 和 world 的自动路由）。
+v3.4.0 | 2026-06-19 | 新增 `references/pipeline-manifest.md`（管线硬顺序合同+截断检测协议）+ `references/project-master-control.tpl.md`（项目总控模板）+ `references/project-health-check.md`（快速检测模式SOP）。step-1-think 新增截断检测协议和管线锚定流程。step-2-execute 强制加载段新增截断交叉校验。step-3-reflect 新增项目总控回写。SKILL.md 速查表新增"快速检测"路由行。落盘检查点新增项目总控更新。
 v3.2.0 | 2026-06-18 | 更新 plot/chapter 路由表(v7.0/v2.0)；新增"升级优先于新建"原则。参考让魔门再次伟大拆书成果。
 
 v3.1.4 | 2026-06-16 | 精简模式扩展：用户说"后面不用问我了"→不暂停执行；新增典型错误#10（search_files截断导致虚假结论）
