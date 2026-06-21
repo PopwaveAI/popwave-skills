@@ -2,12 +2,13 @@
 name: pop-decon-setting
 description: "Phase 3 of deconstruction. Induce L1 worldbuilding (6 elements + world constitution + combat capabilities) from design pack data and volume/act clustering."
 pipeline:
-  upstream: [pop-decon-volume]
+  upstream: [pop-decon-volume, wiki-skeleton]
   downstream: [pop-decon-trace]
+  note: "wiki-skeleton 为可选上游。当 pop-decon Step 2.7 产出 _temp/wiki-skeleton.md 时，Phase 3 消费其力量体系/势力/地理作为完整性补全源。对精度窗口之外的设定标注「📖 Wiki来源」。"
 tags: [deconstruction, worldbuilding, phase3]
 ---
 
-# pop-decon-setting · 设定世界观 v1.1.0
+# pop-decon-setting · 设定世界观 v1.2.0
 
 > **定位**：Phase 3 of deconstruction. 从全部分析数据中归纳 L1 六件套 + 世界宪法 + 数值体系。
 > **管线位置**：Phase 1 (设计包) → Phase 2 (幕纲卷纲) → **Phase 3 (设定世界观)** → Phase 4 (创意溯源)
@@ -31,7 +32,7 @@ tags: [deconstruction, worldbuilding, phase3]
 | 步骤 | 操作 | 读什么 | 数据来源 | 产出 | 门禁 |
 |:-----|:-----|:-------|:---------|:-----|:-----|
 | 1 | 地理蓝图 | Phase 2 卷地理范围 | 设计包地点数据 | `L1-01-世界蓝图.md` | — |
-| 2 | 力量体系 | Phase 1 设计包 | 境界/功法/升级路径 | `L1-02-力量体系.md` | — |
+| 2 | 力量体系 | Phase 1 设计包 + **Wiki骨架力量体系** | 境界/功法/升级路径 | `L1-02-力量体系.md` | Wiki 来源标注置信度 |
 | 3 | 历史驱动力 | Phase 2 主线 | 大事件时间线 | `L1-03-历史与驱动力.md` | — |
 | 4 | 物种与天赋 | Phase 1 设计包 | 角色/怪物数据 | `L1-04-物种与天赋.md` | — |
 | 5 | 势力格局 | Phase 2 幕数据 | 势力动机/权力关系 | `L1-05-势力格局.md` | — |
@@ -51,6 +52,7 @@ tags: [deconstruction, worldbuilding, phase3]
 | ❌3 | **编造境界链** — 原文从未出现的分级体系（如「凡人→超凡→破格」） |
 | ❌4 | **前N章产出全书级文件** — 文件名不得含"全书"，必须有 scope 声明 |
 | ❌5 | **归纳=编造** — 有 chXX 证据=归纳，没有且未标注=编造 |
+| ❌6 | **Wiki 数据未标注置信度** — 从 `_temp/wiki-skeleton.md` 消费的设定必须标注「📖 Wiki来源」，不得混入精度数据中伪装成已验证 |
 
 ## ❌ WRONG 示例
 
@@ -78,10 +80,13 @@ tags: [deconstruction, worldbuilding, phase3]
 ```
 [ ] Phase 1 设计包v3/ 存在
 [ ] Phase 2 — 卷1-架构.md + 幕文件
+[ ] （可选）_temp/wiki-skeleton.md — Wiki 全局骨架
 [ ] 套路库非空
 ```
 
 > **核心理念**：归纳≠编造。写作是引擎→设定→正文，拆书是正文→设定→引擎。每件套回答「走到第 N 章积累了什么原文证据」。填写前：扫描设计包 → 高频模式提取 → 每模式标注 ≥2 个 chXX 出处。
+> 
+> **Wiki 骨架使用时**：对精度窗口内已出现的设定标注「✅ chXX 确认」，对精度窗口外的设定标注「📖 Wiki来源，未在阅读窗口内验证」。不得用 Wiki 数据覆盖精度窗口内的原文证据。
 
 **并行策略**：L1 六件套可以并行委托 3-4 个子 agent 分组产出（如：①世界蓝图+历史驱动力 ②力量体系+战斗数值 ③物种天赋+资源物品 ④势力格局+世界宪法+起点快照）。每组读各自的设计包子集 + Phase 2 卷幕文件。context 中给出模板格式和关键数据摘要可减少子 agent 的阅读量。
 
@@ -94,4 +99,5 @@ tags: [deconstruction, worldbuilding, phase3]
 全书: + 终点快照 + L1 全书版
 ```
 
+> v1.2.0 | 2026-06-22 | **Wiki 骨架集成**：新增 `wiki-skeleton` 可选上游。前置条件增加 `_temp/wiki-skeleton.md`。Step 2 力量体系数据源增加 Wiki 骨架。新增红线❌6（Wiki 数据必须标注置信度）。配合 pop-decon v14.0.0 Step 2.7。
 > v1.1.0 | 2026-06-18 | 修正Phase编号（Phase 4→Phase 3）。新增并行策略说明。更新管线位置。修正上游依赖检查（移除对不存在的 world-data.json 的引用）。

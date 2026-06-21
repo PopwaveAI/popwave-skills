@@ -1,33 +1,35 @@
 # 设计包批量处理：高章数场景的并行策略
 
 > 适用场景：100+ 章大规模拆解。单批 5 章 × 20+ 批时，串行太慢，必须并行。
+>
+> ⚠️ **上下文预算硬约束（v3.3.0+）**：子 agent 的有效上下文约 100-130K tokens。每章原文 ~3-5K + 4层输出 ~5-8K。**批大小超过 8 章将导致 ch3+ 输出质量断崖下跌。详见 `references/token-budget-delegate.md`。**
 
 ## 核心策略
 
-`delegate_task` 每次最多 3 个并发子任务（该用户上限），每个子任务处理 1 个 5 章批次。
+`delegate_task` 每次最多 3 个并发子任务（该用户上限），每个子任务处理 1 个 **3 章**批次。
 
 ### 批次数计算
 
 ```python
 import math
 total_chapters = 187
-batch_size = 5
+batch_size = 3  # ⛔ 硬上限，不得超过
 batches = math.ceil(total_chapters / batch_size)
 rounds = math.ceil(batches / 3)  # 3 concurrent per round
-# 187 / 5 = 38 batches → 13 rounds
+# 187 / 3 = 63 batches → 21 rounds
 ```
 
 ### 批次对齐规则
 
-- 前 N 个完整批次：5 章/批（ch001-005, ch006-010, ...）
-- 最后一批可能不足 5 章（ch186-187），直接按实际章数处理
+- 前 N 个完整批次：3 章/批（ch001-003, ch004-006, ...）
+- 最后一批可能不足 3 章（ch185-187），直接按实际章数处理
 - 不跨卷对齐（卷边界由 Phase 2 识别）
 
 ## delegate_task 调用模板
 
 每个子任务接收：
 1. **工作目录**（固定路径）
-2. **5 个章节文件路径**（显式列出）
+2. **3 个章节文件路径**（显式列出）
 3. **上批末尾状态**（batch_link 上下文，首批传「（首批）」）
 4. **输出目标路径**
 
@@ -41,11 +43,11 @@ rounds = math.ceil(batches / 3)  # 3 concurrent per round
 - _temp/chapters/ch{N+1}.txt
 ...
 
-{书名}第X卷(ch{N}-{N+4})，作者{作者}。
+{书名}第X卷(ch{N}-{N+2})，作者{作者}。
 
-输出到: 写作资产/设计包/设计包-ch{N:03d}-{N+4:03d}.md
+输出到: 写作资产/设计包/设计包-ch{N:03d}-{N+2:03d}.md
 
-设计包格式(5章合一)，每事件有原文evidence。
+设计包格式(3章合一)，每事件有原文evidence。
 包含全部10个模块：基础信息、智慧实体、事件链、设定提取、物品一览、地点一览、重要信息/对话、情绪节拍、钩子、批次衔接
 ```
 
@@ -129,16 +131,18 @@ v3（单章独立）的并行策略与 v2（5章合一）不同：
 【重要】每章必须产出 INDIVIDUAL 独立文件，文件名严格为 ch{三位数}-设计包.md，不得合并多章到同一文件！
 每套路必须单独一个文件到套路库/，不得创建套路归档总表！
 
+【上下文预算】
+你的有效工作上下文约 100-130K tokens。本批次 3 章，每章原文 ~80-120 行。
+输出裁剪优先级（上下文不足时）：L4 感官层 → L3 角色层 → L2 爽点层。⛔ 绝不裁剪 L1 骨架层！
+
 项目根目录: D:/workspace/{项目}/
 
 读取这些章节文件:
 - D:/workspace/{项目}/_temp/chapters/ch{N}.txt
 - D:/workspace/{项目}/_temp/chapters/ch{N+1}.txt
 - D:/workspace/{项目}/_temp/chapters/ch{N+2}.txt
-- D:/workspace/{项目}/_temp/chapters/ch{N+3}.txt
-- D:/workspace/{项目}/_temp/chapters/ch{N+4}.txt
 
-{书名}({作者})ch{N}-ch{N+4}。
+{书名}({作者})ch{N}-ch{N+2}。
 
 无预先DNA档案时，感官层DNA映射部分标注"首章，后续补充"。
 

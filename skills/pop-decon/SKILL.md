@@ -1,7 +1,7 @@
 ---
 name: pop-decon
 description: "Orchestrator for novel deconstruction pipeline. Executes Phase 1 (design-pack) → Phase 2 (volume) → Phase 3 (setting) → Phase 4 (creative trace). Routes to sub-skills based on scope (first N chapters vs full book). Core philosophy: iceberg theory — extract the 1/8 above water, trace the 7/8 below."
-version: 13.8.0
+version: 14.1.0
 author: Popwave
 license: MIT
 metadata:
@@ -10,7 +10,7 @@ metadata:
     related_skills: [pop-decon-design-pack, pop-decon-volume, pop-decon-setting, pop-decon-trace]
 ---
 
-# pop-decon · 拆书管线调度 v13.5.0
+# pop-decon · 拆书管线调度 v14.1.0
 
 > **定位：拆书管线的元 skill。执行管线调度（Phase 1→4），不直接产出文件。**
 > **核心约束：按章节量级决定管线长度。全管线顺序推进，不得跳号。**
@@ -58,7 +58,9 @@ metadata:
 | 量级 | 范围 | 执行管线 | 触发子 skill | 预期耗时 |
 |:-----|:-----|:---------|:------------|:--------|
 | **前N章** | 用户指定（默认前100章） | Phase 1→2→3（不足100章Phase 2跳过） | design-pack → volume → setting | ~1-3h |
+| **前N章 + Wiki** | 知名书，有 Wiki 站点 | Phase 1→**1.5 Wiki骨架**→2→3 | design-pack → wiki-skeleton → volume → setting | ~1.5-3.5h |
 | **全书** | 全部章节 | Phase 1→2→3→4 | design-pack → volume → setting → **trace** | ~3-9h |
+| **全书 + Wiki** | 知名书全书 + Wiki | Phase 1→**1.5 Wiki骨架**→2→3→4 | design-pack → wiki-skeleton → volume → setting → trace | ~3.5-9.5h |
 
 ---
 
@@ -75,8 +77,13 @@ pop-decon (orchestrator)
     │   └── ⚠️ delegate_task 批量提取时，不同子agent可能用不同命名/格式
     │         → Phase 1 完成后必须执行 Step 2.6 命名归一化
     │
-    ├── Phase 2: pop-decon-volume        → 幕纲/卷纲（Markdown）
-    ├── Phase 3: pop-decon-setting       → L1六件套 + 宪法 + 数值
+    ├── Phase 1.5 (可选): Wiki 骨架     → 抓取 Wiki → 全局骨架.md
+    │   └── 触发: 用户声明「知名书」或检测到 Wiki 站点
+    │         产出 _temp/wiki-skeleton.md，含卷结构/力量体系/势力/地理/角色
+    │         所有数据标注置信度：📖 Wiki来源 / ✅ 文本验证
+    │
+    ├── Phase 2: pop-decon-volume        → 幕纲/卷纲（消费: 设计包 + Wiki骨架）
+    ├── Phase 3: pop-decon-setting       → L1六件套 + 宪法 + 数值（消费: 设计包 + Wiki骨架）
     ├── Phase 4: pop-decon-trace         → 创意溯源·跨域参考索引
     │
     └── （可选）SOP转化                  → 将创意溯源数据转化为卷/幕级设计模式
@@ -98,6 +105,18 @@ pop-decon (orchestrator)
 **做什么：** 调用 `pop-decon-design-pack`。手动 ETL → 按章拆分 → 逐章 v3 提取设计包 + 套路归档。
 **中文网文注意：** extract.py 不识别中文「第X章」格式。中文 TXT 文件需手动 ETL（详见 pop-decon-design-pack 的 `references/chinese-novel-etl.md`）。
 **❌ 门禁：** `写作资产/设计包v3/` 为空 → 退回。
+
+**⚠️ delegate_task 前置检查（使用并行提取时强制执行）：**
+
+在 delegate_task 之前，必须确认以下三项，缺一不可：
+
+| # | 检查项 | 确认方法 | 不通过时 |
+|:-:|:-------|:---------|:---------|
+| 1 | **章节已预拆分** | `ls _temp/chapters/ch*.txt \| wc -l` 返回的章数与预期一致 | ❌ 硬停止。告知用户：「必须先执行 ETL 拆分。子 agent 从 32000 行大文件中定位章节会消耗 25K+ tokens 仅用于定位，ch003 后输出质量断崖下跌。」 |
+| 2 | **批次 ≤ 3章/批** | 计算 `ceil(总章数 / 批次数)`，确认每批 ≤ 3章 | ❌ 硬停止。不可降级为 5章/批的临界模式，优先保证质量 |
+| 3 | **子 agent context 中包含了预算优先级** | 检查 delegate_task 的 context 参数是否包含「裁剪优先级：L4→L3→L2，绝不裁剪 L1」 | 缺失 → 补充后重新委派 |
+
+> 🔥 **历史教训**：前次 32000 行单体 TXT → 25章/批 → 无预算指导 → ch003 崩塌。这三个环节缺任何一个都会触发同样的崩塌链。
 
 ### Step 2.5：Phase 1 质量门禁（不可跳过）
 **做什么：** 在 Phase 1 完成后、Phase 2 开始前，强制执行一次全量质量门禁扫描。
@@ -178,6 +197,62 @@ for f in os.listdir('写作资产/设计包v3/'):
 
 **验证：** 重命名完成后重新执行 Step 2.5 的命名一致性检查。
 
+### Step 2.7：Wiki 骨架（可选 — 知名书专用）
+
+> **核心理念：** Wiki 提供全局骨架（完整性），精度提取提供本地验证（准确性）。Wiki 数据**不能替代**原文证据，但可以补全精度窗口之外的结构盲区。
+
+**触发条件（满足任一即触发）：**
+- 用户声明「这是知名书」「用 Wiki」「查 Wiki」
+- orchestrator 检测到书名在 fandom.com / baidu baike / zh.moegirl.org.cn 有 Wiki 站点
+- 用户选择「前N章 + Wiki」或「全书 + Wiki」量级
+
+**做什么：**
+
+1. **抓取 Wiki** — 用 `web_extract` 抓取目标书的主要 Wiki 页面：
+   - 优先：`fandom.com` > `baidu baike` > `zh.moegirl.org.cn`（萌娘百科）
+   - 策略：先抓主页面，根据链接深度抓取子页面（力量体系页、角色页、地理页）
+   - 注意：Wiki 可能有多语言版本，中文网文优先中文 Wiki
+
+2. **结构化提取** — 从 Wiki 页面提取以下维度，产出 `_temp/wiki-skeleton.md`：
+   - **全书卷结构**：卷数、各卷章范围、卷主题（标注「📖 Wiki来源」）
+   - **力量体系全貌**：完整等级链（如 1阶→传奇→圣者→神性），标注「卷1窗口中已出现 / 未出现」
+   - **势力全图**：所有主要势力 + 首次出现章号 + 大事件
+   - **地理全图**：完整地理版图 + 卷1已探索区域标记
+   - **关键角色弧线**：主角+重要配角的完整弧线，标注卷1已展开部分
+   - **已知创意参考**：Wiki 中的作者访谈、灵感来源、彩蛋
+
+3. **置信度标注** — 每个数据点标注来源类型：
+   | 标记 | 含义 |
+   |:-----|:-----|
+   | 📖 Wiki来源 | 来自 Wiki，未在精度窗口中验证 |
+   | ✅ 文本验证 | Wiki 数据与设计包中的 chXX 证据一致 |
+   | ⚠️ 存疑 | Wiki 数据可能不准确（社区编辑、版本过时） |
+
+**产出格式：** 详见 `templates/wiki-skeleton.tpl.md`
+
+**❌ 门禁：** Wiki 抓取失败（404/无内容）→ 标注「Wiki 不可用」，跳过此步骤继续 Phase 2。不得阻塞管线。
+
+**⚠️ 质量红线：**
+| # | 红线 |
+|:-:|:-----|
+| ❌W1 | **Wiki 数据替代精度数据** — 设计包有 chXX 证据时，不得用 Wiki 数据覆盖。Wiki 只能补全精度窗口之外的维度 |
+| ❌W2 | **Wiki 数据不标注置信度** — 所有 Wiki 来源的数据必须标注「📖 Wiki来源」，不得混入精度数据中伪装成已验证 |
+| ❌W3 | **Wiki 骨架缺失仍强行跑 Phase 3** — Wiki 不可用时只需标注跳过，Phase 3 照常基于精度数据产出。但 Wiki 可用而未使用 → 退回补充 |
+
+**下游消费：**
+- **Phase 2 (volume)** — 读取 `_temp/wiki-skeleton.md` 的「全书卷结构」作为卷边界参考。精度数据验证或修正 Wiki 边界。
+- **Phase 3 (setting)** — 读取 `_temp/wiki-skeleton.md` 的「力量体系/势力/地理」作为完整性补全。对精度窗口之外的设定标注「📖 Wiki来源，未在阅读窗口内验证」。
+- **Phase 4 (trace)** — 读取 Wiki 中「已知创意参考」辅助溯源。
+
+**交互规则（Wiki vs 精度数据发生冲突时）：**
+
+| 场景 | 规则 |
+|:-----|:-----|
+| Wiki 和精度数据一致 | 标注「✅ chXX 确认」 |
+| Wiki 说 X，精度窗口未覆盖 | 标注「📖 Wiki来源，未在阅读窗口内验证」 |
+| Wiki 和精度数据**冲突** | **精度数据胜出**。标注「⚠️ Wiki 说 X，但 chXX 原文证据显示 Y。可能 Wiki 有误，或后续章节修正」 |
+| Wiki 缺失某维度 | 标注「Wiki 无此数据，仅基于前X章推断」 |
+
 ### Step 3：Phase 2 — 幕纲卷纲
 
 **做什么：** 调用 `pop-decon-volume`。从设计包数据中识别卷边界、幕边界、剧情线。
@@ -224,19 +299,24 @@ for f in os.listdir('写作资产/设计包v3/'):
 | 用户中途改变量级 | 保存当前阶段产出，用户确认后再切 |
 | 源文件编码不确定 | 中文 TXT 优先 GBK → GB18030 → UTF-8 |
 | **多卷同目录拆解**（每卷章节从 ch1 重新编号） | 每卷置于独立子目录，如 `vol1/` `vol2/` `vol3/`，各自包含完整的 `_temp/` `写作资产/` `设计/` 结构。Phase 2 产出命名为 `卷N-架构.md`（N为卷号）。避免文件名冲突（`vol1/设计/卷1-架构.md` vs `vol2/设计/卷2-架构.md`） |
+| **Wiki 站点不可用** | 标注「Wiki 不可用」，跳过 Step 2.7，继续 Phase 2。不得阻塞管线 |
+| **Wiki 数据与精度数据冲突** | 精度数据胜出。wiki-skeleton.md 中标注冲突点，Phase 2/3 以精度数据为准 |
 
 ---
 
 ## 版本
 
-v13.3.0 | 2026-06-16 | Phase 4(creative trace)加入管线地图(计划中)。Iceberg theory设计原则文档化。delegate_task命名归一化警告。新增 Step 2.5 Phase 1质量门禁。Phase 2调度时机强制化。
+v14.1.0 | 2026-06-22 | **delegate_task 前置检查**：Step 2 新增 3 项硬门禁——①章节已预拆分 ②批次 ≤ 3章/批 ③context 含预算优先级。三层失误链根因复盘（未预拆分→批次过大→无预算），配合 pop-decon-design-pack v3.3.0。
 
-v13.6.0 | 2026-06-17 | 新增 Step 2.6 路径归并步骤（并行提取后子 agent 路径不一致修复）。设计包目录从 v2/v3 双路径统一为仅 v3。
+v14.0.0 | 2026-06-22 | **新增 Step 2.7 Wiki 骨架（可选）**
+
 v13.8.0 | 2026-06-19 | **Step 2.5.5扩展**：新增卷纲/幕纲格式一致性检查（原仅检查设计包格式）。新增卷首行/结构/幕首行三检。源自卷1(拆书格式)vs卷2(正向设计格式)的格式不一致复盘。同步 pop-decon-volume ❌10b。
 
 v13.7.0 | 2026-06-18 | **Phase 2 <100章规则弹性化**：Step 2.5 #5 从「不足100章跳过」改为「告知用户+说明Phase 2价值+让用户决定」，Step 3 新增历史教训说明自动跳过引发的不满。新增 `references/small-book-phase2-strategy.md`。
 
 v13.6.0 | 2026-06-17 | 新增 Step 2.6 路径归并步骤（并行提取后子 agent 路径不一致修复）。设计包目录从 v2/v3 双路径统一为仅 v3。
+
+v13.3.0 | 2026-06-16 | Phase 4(creative trace)加入管线地图(计划中)。Iceberg theory设计原则文档化。delegate_task命名归一化警告。新增 Step 2.5 Phase 1质量门禁。Phase 2调度时机强制化。
 
 ## 参考文件
 
@@ -246,3 +326,4 @@ v13.6.0 | 2026-06-17 | 新增 Step 2.6 路径归并步骤（并行提取后子 a
 | `references/delegation-orchestration.md` | 大规模拆书（≥50章）的 delegate_task 并行编排模式，含分块策略、Phase 2/4 编排流程、常见陷阱 |
 | `references/output-quality-standards.md` | 各 Phase 产出物的质量门禁标准（含 L1/L2/L3 分级） |
 | `references/small-book-phase2-strategy.md` | <100章拆书的 Phase 2 并行委托策略——分幕分配子 agent 的上下文模板、格式注意事项、产出验证标准 |
+| `templates/wiki-skeleton.tpl.md` | **Wiki 骨架模板（NEW v14.0.0）** —— Step 2.7 的产出格式规范，含卷结构/力量体系/势力/地理/角色/创意参考的完整模板 |
