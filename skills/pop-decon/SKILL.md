@@ -46,10 +46,9 @@ metadata:
 |:-:|:-----|
 | ❌1 | **不跳过 Phase** — 只能顺次推进 Phase 1→2→3→4，不得跳号 |
 | ❌2 | **跳过清洗直接写设计包** — Phase 1 未完成不准进 Phase 2 |
-| ❌3 | **编造事件** — 设计包事件必须有原文 chXX 证据 |
-| ❌4 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
-| ❌5 | **中文网文硬跑 extract.py** — Phase 1 前必须判断源文件语言。中文 TXT 不支持 extract.py 章节检测 → 走手动 ETL |
-| ❌6 | **产出物不经质量门禁直接交付** — 每个 Phase 的产出物必须对照质量标准表自检，不达标不准进下一 Phase |
+| ❌3 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
+| ❌4 | **中文网文硬跑 extract.py** — Phase 1 前必须判断源文件语言。中文 TXT 不支持 extract.py 章节检测 → 走手动 ETL |
+| ❌5 | **产出物不经质量门禁直接交付** — 每个 Phase 的产出物必须对照质量标准表自检，不达标不准进下一 Phase |
 
 ---
 
@@ -327,3 +326,4 @@ v13.3.0 | 2026-06-16 | Phase 4(creative trace)加入管线地图(计划中)。Ic
 | `references/output-quality-standards.md` | 各 Phase 产出物的质量门禁标准（含 L1/L2/L3 分级） |
 | `references/small-book-phase2-strategy.md` | <100章拆书的 Phase 2 并行委托策略——分幕分配子 agent 的上下文模板、格式注意事项、产出验证标准 |
 | `templates/wiki-skeleton.tpl.md` | **Wiki 骨架模板（NEW v14.0.0）** —— Step 2.7 的产出格式规范，含卷结构/力量体系/势力/地理/角色/创意参考的完整模板 |
+| `references/wiki-injection-case-study.md` | **Wiki 注入实战案例（v14.1.0）** —— 深渊主宰的首次完整 Wiki 注入，含增量数据维度表、产出调整对照、注入原则验证 |

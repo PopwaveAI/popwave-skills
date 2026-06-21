@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
-  "version": "3.1.1",
+  "version": "4.4.0",
   "displayName": "写作专家",
-  "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由（三层联动影响评估）和完成后引导（基于项目文件状态的跨轮引导）。",
+  "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -21,13 +21,15 @@
     "upstream": [],
     "downstream": [
       "pop-writer-creative",
+      "pop-writer-reservoir",
+      "pop-writer-world",
+      "pop-writer-character",
       "pop-decon",
       "pop-writer-plot",
       "pop-writer-chapter",
       "pop-writer-prose",
       "pop-writer-qa",
       "pop-shared-dna",
-      "pop-writer-character",
       "pop-writer-html",
       "pop-writer-game",
       "pop-shared-reader",

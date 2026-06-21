@@ -1,5 +1,153 @@
 # CHANGELOG — expert-writer
 
+## v4.4.0 (2026-06-22)
+
+### project/ 精简：health-check.md + state-discovery.md 删除
+
+**问题**：`project/` 下 3 个文件中 2 个冗余。health-check.md 的全部步骤已被 step-1-think.md（管线锚定+断裂检测+进度摘要）和 step-3-reflect.md（文件系统扫描+总控回写）覆盖。state-discovery.md 的阶段推断逻辑可内联到 step-1-think.md（4 行替代 106 行）。
+
+**删除文件（2 个）**：
+
+| 文件 | 删除原因 |
+|:-----|:---------|
+| `references/project/health-check.md` | Step 0→3 全部与 step-1-think.md §1 + step-3-reflect.md 重复 |
+| `references/project/state-discovery.md` | 阶段推断逻辑内联到 step-1-think.md §1（4 行替代 106 行） |
+
+**`step-1-think.md` 更新**：§1 "加载项目总控"的不存在分支从引用 state-discovery.md 改为内联 4 步推断逻辑（扫描文件→推断阶段→初始化总控→提示确认）。
+
+**`project/` 目录现在只剩 `master-control.tpl.md` 一个文件**（项目总控模板）。
+
+---
+
+## v4.3.0 (2026-06-22)
+
+### pipeline/ 合并：arch.md 删除 + manifest.md 精简
+
+**问题**：`pipeline/` 下两个文件 95% 内容重复。arch.md 222 行中：文件分类矩阵与 manifest.md 文件接口表几乎完全重复，目录树与 step-0-init.md 重复，Reflect 校验基线是越权内容（L1-L4 级检查，已从 step-3 删除）。
+
+**删除**：`references/pipeline/arch.md`（222 行）
+
+**精简 `references/pipeline/manifest.md`**（97→91 行）：
+- 删除对已删文件 `pipeline-design-rationale.md` 的引用
+- 删除截断检测协议（与 step-1-think.md 读取协议重复）
+- 补充前置链路说明（decon/dna 独立于写作管线，从 arch.md ASCII 图压缩为 2 行文字）
+- 目录骨架改为引用 `steps/step-0-init.md`（不再重复）
+
+---
+
+## v4.2.0 (2026-06-22)
+
+### _shared/ 清理 + soul 内联 SKILL.md + step-0 目录骨架修正
+
+**删除 `_shared/` 整个目录（8 文件）**：
+
+| 文件 | 删除原因 |
+|:-----|:---------|
+| `_shared/pop/IDENTITY.md` | 身份声明协议已在系统 user_rules 中，重复三份 |
+| `_shared/pop/SOUL.md` | 精炼后内联 SKILL.md（KGF认知栈/Dual-Phase/风格路由是 prose 级，归子 skill） |
+| `_shared/pop/POP-CALL.md` | 声明模板与 IDENTITY.md 重复，路由表与 SKILL.md 重复 |
+| `_shared/pop/POP-ROUTER.md` | 路由表与 SKILL.md 完全重复，引用废弃路径（project.yaml） |
+| `_shared/pop/ROUTE-AUGMENT.md` | 全部基于已废弃的 workspace-index.yaml，路径引用 `00-总控/` |
+| `_shared/universal-knowledge/timeline-tripartition.md` | 叙事设计知识，属于 world/plot 子 skill |
+| `_shared/project_config.py` | 读取已废弃的 project.yaml |
+| `_shared/thinking-mode-template.md` | 通用思考模板，非 pop soul |
+
+**SKILL.md 新增 `## pop 身份` 段落**：从 SOUL.md 73 行精炼为 8 行（身份+纪律+边界），内联到 SKILL.md 标题下方。
+
+**`steps/step-0-init.md` 目录骨架修正**：完全重写对齐 PRD v5.0 附录A — 删除 `00-总控/`、`创意种子/`、6个`_*/`临时目录；修正 `储备剧情池/`→`素材储备池/`；补 `终点快照.md`；修正 3 个数值文件名；`文风DNA/` 移到 `写作资产/` 下。
+
+**`references/pipeline/arch.md`**：修正 3 个数值文件名（`act_rank_schedule.md`→`rank_schedule.md` 等）。
+
+---
+
+## v4.1.0 (2026-06-22)
+
+### 越权精简：expert-writer 回归纯调度器
+
+**核心问题**：expert-writer 越权承担了子 skill 的职能（L1-L4 详细检查、前置条件校验、落盘检查、一致性校验、QA 质检），导致内容冗余、与子 skill 职责重叠。
+
+**精简原则**：expert-writer 只做 6 件事 — 路由决策、管线顺序管理、项目状态感知、子 skill 加载、闸门确认、项目总控回写+引导。L1-L4 详细检查、前置条件校验、落盘检查、状态协议校验等全部由子 skill 自管。
+
+**删除文件（8 个）**：
+
+| 文件 | 删除原因 |
+|:-----|:---------|
+| `references/guide/dynamic-fusion.md` | 追加核心设定的融合检查是 world 阶段 Phase 0 的职责 |
+| `references/guide/derivative-gap-analysis.md` | 同人二创 Gap 分析是 creative/world 的职责 |
+| `references/pipeline/check.md` | 前置条件详细检查由子 skill 自管，与 step-1-think.md 重复 |
+| `references/think/开书设定.md` | Think 部分重复 step-1-think.md，Reflect 部分是 creative 子 skill 职责 |
+| `references/think/审稿.md` | Think+Reflect 全是 qa 子 skill 自管职责 |
+| `references/think/续写.md` | Think 部分重复 step-1-think.md，Reflect 部分是 creative/prose 职责 |
+| `references/think/正文写作.md` | Think 部分是 prose 子 skill 自管，Reflect 部分是 L1-L4 详细检查（已从 step-3 删除） |
+| `references/guide/batch-style-migration.md` | delegate context 重复 prose 的 step-0-delegation-contract.md，风格映射是 DNA 职责，设计包格式是 chapter 职责 |
+
+**精简文件（6 个）**：
+
+| 文件 | BEFORE | AFTER | 精简内容 |
+|:-----|:-------|:------|:---------|
+| `steps/step-1-think.md` | 118 行 | 59 行 | 删除详细前置条件检查，只保留状态感知+路由+闸门 |
+| `steps/step-2-execute.md` | 96 行 | 70 行 | 简化修改路由为"退回子skill"原则，删除重复边界条件 |
+| `steps/step-3-reflect.md` | 189 行 | 73 行 | 删除 L1-L4 详细检查清单，只保留通用 3 问+项目总控回写+引导 |
+| `references/think/reflection.md` | 142 行 | 43 行 | 删除 L1-L4 审视清单，只保留通用层 |
+| `references/think/typical-errors.md` | 89 行 | 62 行 | 删除子 skill 级错误，只保留 8 条调度器级错误 |
+| `references/project/health-check.md` | 204 行 | 113 行 | 删除 Python 代码和截断扫描，精简初始化流程 |
+
+**SKILL.md 速查表同步更新**：删除已删文件引用，补上 `step-0-init.md`，修正典型错误条数（12→8），删除 guide/ 子目录（已空）。
+
+---
+
+## v4.0.0 (2026-06-22)
+
+### 全量重构：三层架构 + 读取协议 top1 + 管线对齐 PRD v5.0
+
+**核心问题**：SKILL.md 202 行混合三层内容（路由+执行+知识），无读取协议红线，管线缺 character 阶段，版本号 5 处不一致。
+
+**重构原则**：
+
+| 原则 | 说明 |
+|:-----|:-----|
+| 三层架构 | 路由层（SKILL.md ≤85行）→ 执行层（steps/）→ 知识层（references/） |
+| 读取协议 top1 | ❌1 红线 = 禁止 Read 工具，强制 skill_view / Get-Content -Raw |
+| 管线对齐 PRD | 8 步含 character（creative→reservoir→world→character→plot→chapter→prose→qa） |
+| 速查表=全文件目录引导 | 24 个文件全部列出读取时机 |
+| 版本统一 | SKILL.md / skill.json / CHANGELOG 三处版本号一致 |
+
+**文件变更**：
+
+| 文件 | BEFORE | AFTER | 变更 |
+|:-----|:-------|:------|:-----|
+| `SKILL.md` | 202 行 | 83 行 | 砍掉 59%：典型错误/核心原则/边界条件/落盘检查点/版本历史全部下沉 |
+| `skill.json` | v3.1.1 | v4.0.0 | 版本更新 + downstream 补全 reservoir/world/character + description 改触发式 |
+| `steps/step-1-think.md` | 121 行 | 118 行 | 新增读取协议红线，管线对齐 PRD（8步含character） |
+| `steps/step-2-execute.md` | 96 行 | 96 行 | 新增读取协议红线，截断检测精简引用 |
+| `steps/step-3-reflect.md` | 181 行 | 189 行 | 新增读取协议红线 |
+| `references/pipeline-manifest.md` | 46 行 | 77 行 | 新增 character 阶段 + 版本号列 + 文件接口表（对齐 PRD v5.0） |
+| `references/typical-errors.md` | — | 新建 | 从 SKILL.md 下沉 12 条典型错误防范 |
+| `references/core-principles.md` | — | 新建 | 从 SKILL.md 下沉 3 条核心原则 |
+| `README.md` | 53 行 | 删除 | 内容过时（v1.0.0），已被 SKILL.md 速查表替代 |
+
+**SKILL.md 砍了什么**：
+
+| 段落 | BEFORE 行数 | AFTER | 去向 |
+|:-----|:----:|:----:|:-----|
+| 典型错误 12 条 | 16 | 0 | → `references/typical-errors.md` |
+| 核心原则 3 条 | 44 | 0 | → `references/core-principles.md` |
+| 边界条件表 | 20 | 0 | 已在 `steps/step-2-execute.md`（去重） |
+| 落盘检查点 | 8 | 0 | 已在 `steps/step-3-reflect.md`（去重） |
+| 版本历史 | 18 | 1 | → CHANGELOG.md（只留当前版本号） |
+| 读取协议 | 0 | 0 | 新增在红线 ❌1（所有 step 文件也有） |
+| 速查表 | 4 行路由 | 24 行目录引导 | 扩展为全文件目录引导 |
+
+**管线对齐 PRD v5.0**：
+
+| 阶段 | BEFORE（v3.x） | AFTER（v4.0） |
+|:-----|:-------|:------|
+| 管线步骤 | 7 步（缺 character） | 8 步（含 character） |
+| 子 skill 版本号 | 未标注 | 标注（creative v4.3.0 / reservoir v2.2.0 / world v1.5.0 / character v2.0.1 / plot v7.0.0 / chapter v2.0.0 / prose v3.0.1 / qa v1.0.1） |
+| 文件接口表 | 无 | 新增（静态文件 + 动态文件，对齐 PRD） |
+
+---
+
 ## v3.1.1 (2026-06-14)
 
 - **v5 结构重构**：SKILL.md 瘦身至 ≤120 行（从 176 行缩减），Think/Execute/Reflect 核心内容拆分至 `steps/step-1-think.md`、`steps/step-2-execute.md`、`steps/step-3-reflect.md`
