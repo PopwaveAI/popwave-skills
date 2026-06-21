@@ -1,12 +1,26 @@
 # Step 4：会话审计模式 — 数据驱动分析
 
-> **定位：** 从 Hermes state.db 读取真实会话执行数据，分析 agent 行为与 SKILL.md 要求的偏差，产出带定量证据的改进提案。
 > **前置条件：** `state.db` 可读，目标 `session_id` 已知。
 > **产出：** 审计报告，归档到 `prd/02-问题诊断/{编号}-{描述}.md`。
+> **核心约束：审计不直接改 skill。** 产出改进建议供 B 模式消费。
 
 ---
 
-## 4.1 连接数据源
+## ❌ 质量红线（审计模式）
+
+| # | 红线 |
+|:-:|:-----|
+| ❌A1 | state.db 不可读或会话未找到 → 终止 |
+| ❌A2 | 无定量数据支撑的发现 → 退回补充证据 |
+| ❌A3 | 只看 assistant.content 不看 assistant.tool_calls → 漏掉 72% 膨胀源 |
+| ❌A4 | 只读几条消息就下结论 → 全量读取目标 session 所有消息 |
+| ❌A5 | 审计直接改 SKILL.md → 审计只产出建议，改造走 B 模式 |
+
+---
+
+## 审计流程
+
+### 4.1 连接数据源
 
 ```python
 import sqlite3
@@ -17,7 +31,9 @@ cur = conn.cursor()
 session_id = "20260615_113419_c9b495"
 ```
 
-## 4.2 会话元数据
+> DB 表结构详见 `references/session-data-guide.md`。
+
+### 4.2 会话元数据
 
 ```python
 cur.execute("""
@@ -29,15 +45,15 @@ cur.execute("""
 
 关键字段：
 
-| 字段 | 含义 | 审计价值 |
-|:-----|:------|:---------|
-| `message_count` | 消息总数 | 会话长度，>150 需关注上下文膨胀 |
-| `tool_call_count` | 工具调用次数 | 写操作占比，>50 需关注 write payload |
-| `input_tokens` | 输入 token 量 | 上下文大小基线，与模型窗口对比 |
+| 字段 | 审计价值 |
+|:-----|:---------|
+| `message_count` | >150 需关注上下文膨胀 |
+| `tool_call_count` | >50 需关注 write payload |
+| `input_tokens` | 上下文大小基线 |
 
-## 4.3 膨胀源定位（核心步骤）
+### 4.3 膨胀源定位（核心步骤）
 
-### 4.3.1 助理消息大小分布
+#### 4.3.1 助理消息大小分布
 
 ```python
 cur.execute("""
@@ -46,9 +62,9 @@ cur.execute("""
 """, (session_id,))
 ```
 
-**红线检查：** SKILL.md 要求写入文件后助理消息 ≤200 字。超过 500 字的助理消息就是违规。
+**红线检查：** SKILL.md 要求写入文件后助理消息 ≤200 字。超过 500 字 = 违规。
 
-### 4.3.2 tool_calls 膨胀（主战场）
+#### 4.3.2 tool_calls 膨胀（主战场）
 
 ```python
 cur.execute("""
@@ -60,7 +76,7 @@ cur.execute("""
 """, (session_id,))
 ```
 
-**关键洞察：** `assistant.tool_calls` 存储 write_file 的完整 arguments（含文件正文）。这是上下文膨胀的主战场（占 72%）。tool result（`tool.content`）只存元数据（~233 chars），不是问题。
+**关键洞察：** `assistant.tool_calls` 存储 write_file 的完整 arguments（含文件正文）。这是上下文膨胀的主战场（占 72%）。
 
 **对比公式：**
 
@@ -68,11 +84,13 @@ cur.execute("""
 tool_calls 总大小 = SUM(length(tool_calls)) for assistant messages
 content 总大小 = SUM(length(content)) for all roles
 膨胀比 = tool_calls 总大小 / content 总大小
-健康值：膨胀比 < 1.0（tool_calls 小于对话正文）
-警告值：膨胀比 > 3.0（tool_calls 是正文的 3 倍以上）
+健康值：膨胀比 < 1.0
+警告值：膨胀比 > 3.0
 ```
 
-### 4.3.3 各阶段膨胀分解
+> 膨胀根因详见 `references/toolcall-bloat-analysis.md`。
+
+#### 4.3.3 各阶段膨胀分解
 
 按 msg_id 范围分组，计算每阶段的新增 tool_calls：
 
@@ -96,16 +114,11 @@ for name, start, end in phase_ranges:
 
 **哪个阶段膨胀最严重，就是哪个 skill 需要优化。**
 
-### 4.3.4 上下文总量估算
+#### 4.3.4 上下文总量估算
 
 ```python
-# System prompt
 cur.execute("SELECT length(system_prompt) FROM sessions WHERE id = ?;", (session_id,))
-
-# All content (all roles)
 cur.execute("SELECT SUM(length(content)) FROM messages WHERE session_id = ?;", (session_id,))
-
-# All tool_calls (assistant only)
 cur.execute("""
     SELECT SUM(length(tool_calls)) FROM messages
     WHERE session_id = ? AND role='assistant' AND tool_calls IS NOT NULL;
@@ -116,9 +129,9 @@ estimated_tokens = total // 3  # 中文场景 approx
 pct_of_128k = total / 128000 * 100
 ```
 
-## 4.4 行为违规分析
+### 4.4 行为违规分析
 
-### 4.4.1 用户纠错检测
+#### 4.4.1 用户纠错检测
 
 扫描 user 消息，识别用户纠正 agent 行为的节点：
 
@@ -129,12 +142,11 @@ correction_keywords = ['跳过', '跳过了', '太浅', '不够', '不行',
 
 每个纠正节点 = 一个 skill 缺陷信号。
 
-### 4.4.2 写操作审计
+#### 4.4.2 写操作审计
 
-检查是否有文件被多次写入（重写浪费），按文件名分组识别重复写入。**多次重写同一文件 = 设计包/模板有缺陷，导致 agent 写错。**
+检查是否有文件被多次写入（重写浪费）。**多次重写同一文件 = 设计包/模板有缺陷。**
 
 ```python
-# 识别同一文件的多次写入
 cur.execute("""
     SELECT id, length(tool_calls) as tclen FROM messages
     WHERE session_id = ? AND role='assistant'
@@ -143,13 +155,11 @@ cur.execute("""
 """, (session_id,))
 ```
 
-### 4.4.3 阶段跳跃检测
+#### 4.4.3 阶段跳跃检测
 
 检查 agent 是否跳过了管线步骤（如 chapter-design 的 design 包）。
 
-## 4.5 产出审计报告
-
-### 报告模板
+### 4.5 产出审计报告
 
 ```markdown
 # Session 审计报告：{session_id}
@@ -179,7 +189,26 @@ cur.execute("""
 
 审计报告归档到 `prd/02-问题诊断/{序号}-{描述}.md`，序号接续已有文件。
 
-## 4.6 审计范围限制
+> PRD 写作规范详见 `references/prd-specification.md`。
+
+---
+
+## ❌ WRONG 示例
+
+```
+❌ WRONG: 会话审计只看 assistant.content 不看 assistant.tool_calls → 漏掉 72% 的膨胀源
+✅ CORRECT: assistant.content（对话正文）和 assistant.tool_calls（工具调用参数）分别分析
+
+❌ WRONG: 会话审计只读几条消息就下结论 → 样本偏差导致误判
+✅ CORRECT: 全量读取目标 session 的所有消息，按阶段分组分析，每条结论标注数据来源 msg_id
+
+❌ WRONG: 审计完直接改 SKILL.md → 越权
+✅ CORRECT: 审计只产出改进建议，交用户确认后走 B 改造模式执行
+```
+
+---
+
+## 审计范围限制
 
 | 不做什么 | 理由 |
 |:---------|:------|

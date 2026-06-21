@@ -111,7 +111,15 @@
 
 4. 写入空的 `00-总控/workspace-index.yaml`（初始骨架：`projects: [{id, name, phase: initialized, created_at}]`）
 
-5. 初始化完成 → 路由到 pop-writer-creative
+5. **初始化项目总控.md**：
+   - 从 `references/project-master-control.tpl.md` 读取模板
+   - 写入 `{项目根目录}/项目总控.md`
+   - 填写管线版本戳：读取 expert-writer SKILL.md 的 `version` 字段 → 写入 `管线版本` 和 `本项目启动时版本`
+   - `📊 项目现状` 全部标记为 ⬜（无文件产出）
+   - `🗺️ 所属管线` 从 `pipeline-manifest.md` 填充理想全流程和理想目录路由
+   - `管线差异映射` 初始为空（新项目无差异）
+
+6. 初始化完成 → 路由到 pop-writer-creative
 
 ## 目录定位说明
 

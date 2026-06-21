@@ -30,9 +30,15 @@
 
 1. **加载管线合同**：`Get-Content -Raw references/pipeline-manifest.md`（系统级，只读，定义管线硬顺序）
 2. **加载项目总控**：检查项目根目录 `项目总控.md`
-   - 存在 → 读取，获取 `current_stage` 和 `completed_stages`，与 pipeline-manifest 比对推算出 `next_stage`
-   - 不存在（新项目）→ 用 `references/project-master-control.tpl.md` 模板初始化项目总控.md，标记 current_stage=creative
-3. **管线断裂检测**：比对 `completed_stages` 中的阶段在 pipeline-manifest 顺序上是否连续
+   - 存在 → 读取，获取 `管线身份`（专家类型 / 版本号 / 启动时版本）和 `执行顺序日志`（已完成的阶段）
+   - 不存在（新项目）→ 用 `references/project-master-control.tpl.md` 模板初始化项目总控.md，标记当前阶段=creative
+3. **版本漂移检测**（项目总控存在时强制）：
+   - 比对 `项目总控.md §管线身份.管线版本` vs 当前 expert-writer SKILL.md 的 `version` 字段
+   - 版本一致 → 跳过
+   - 版本不一致 → ⚠️ "管线版本漂移：项目启动于 v{old}，当前最新 v{new}"
+   - 刷新 `项目总控.md` 的 `🗺️ 所属管线` 下半屏全部字段（管线身份/理想全流程/理想目录路由/管线差异映射），基于最新 manifest
+   - `📊 项目现状` 上半屏不动（文件系统扫描结果不受版本升级影响）
+4. **管线断裂检测**：比对 `执行顺序日志` 中的阶段在 pipeline-manifest 顺序上是否连续
    - 例：completed=[creative, world] 但 reservoir 不在其中 → ⚠️ "管线断裂：reservoir 被跳过"
    - 告知用户断裂风险，询问是否回退补齐
 4. 检查 workspace-index.yaml → 获取上次所在阶段和完成状态
