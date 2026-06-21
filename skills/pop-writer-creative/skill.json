@@ -1,28 +1,15 @@
 {
   "id": "pop-writer-creative",
-  "version": "2.0.0",
+  "version": "3.5.0",
   "displayName": "创意打磨",
-  "description": "创意打磨 v2.0.0。路由诊断(Phase R)→ 三分支(PRD先行/广度浮现/空白碰撞)→ 双产出(故事引擎+素材储备池)→ 样品试读。独立调起 Phase Delta 支持项目中后期注入新元素。产出给 world + plot。",
+  "description": "创意打磨 v3.5.0。用户给模糊想法 → agent 联网搜索+公共数据库生成 2-3 个故事概念选项 → 用户选择 → 产出 PRD.md。删除了 14 个遗产 step 文件、6 个遗产 reference、2 个遗产 template。",
   "pipeline": {
-    "upstream": [
-      "pop-decon"
-    ],
-    "downstream": [
-      "pop-writer-world",
-      "pop-writer-plot"
-    ]
+    "upstream": ["pop-decon"],
+    "downstream": ["pop-writer-world", "pop-writer-plot"]
   },
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "开书",
-      "创意",
-      "creative",
-      "新书",
-      "注入",
-      "融进",
-      "注入元素"
-    ],
+    "slashCommands": ["开书", "创意", "creative", "新书"],
     "default": false
   },
   "permissions": {
