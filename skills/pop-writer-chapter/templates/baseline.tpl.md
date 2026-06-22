@@ -1,6 +1,6 @@
 # 本章设计基线模板
 
-> 生产方式: pop-writer-chapter v2.2 · Step 1
+> 生产方式: pop-writer-chapter v2.3 · Step 1
 > 存储: **内存**（不落盘），Step 2 全程消费
 > 填充: 全部字段从 act-YY.md / entity-snapshot.yaml / 活跃剧情线 提取
 

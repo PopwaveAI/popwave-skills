@@ -12,8 +12,8 @@
 
 ## 前置条件
 
-- [ ] `写作资产/设计包/chXXX-设计包.md` 存在
-- [ ] `写作资产/文风DNA/` 目录下有文风DNA 档案
+- [ ] `章节设计包/chXXX-设计包.md` 存在
+- [ ] `pop-trope-library/文风DNA/`（fallback `写作资产/文风DNA/`）下有对应文风DNA 档案
 
 ---
 
@@ -21,7 +21,7 @@
 
 ### 1. 读设计包
 
-从 `chXXX-设计包.md` 提取：
+从 `章节设计包/chXXX-设计包.md` 提取：
 - 本章核心目的 → 理解这场戏的叙事意图
 - **★ scene 字段**（如 `combat_early_skirmish` / `dialogue_emotional` / `narration_suspense`）→ 用于 Step 2 定位 DNA 场景卡
 - 登场人物状态 → 每个角色的 before/after + 台词风格 + 关系动态
@@ -34,8 +34,8 @@
 
 ### 2. ★ 全量加载文风DNA
 
-> **exec: `Get-Content -Encoding UTF8 -Raw '{项目}/写作资产/文风DNA/*.md'`**
-> 不用 Read 工具。全量加载。文件 ~20-25K，在安全范围内。
+> **exec: `Get-Content -Encoding UTF8 -Raw '{pop-trope-library 或 项目}/文风DNA/*.md'`**
+> 不用 Read 工具。全量加载。优先 `pop-trope-library/文风DNA/`，fallback `写作资产/文风DNA/`。
 
 加载后建立两层感知：
 
@@ -57,18 +57,14 @@
 - 为次要场景卡做边界切换（过渡段 ← 对应 narration_transition 卡的写法）
 - 不要混——战斗事件内不要夹杂对话卡的笔触
 
-### 3. 锚定章感知（如有）
-
-`写作资产/锚定章库/` → 匹配本章场景类型 → 只取「核心特征提炼」+「可复用规则」，不取原文。
-
-### 4. 语感衔接
+### 3. 语感衔接
 
 读上一章正文最后 800 字 → 感受句子的长度/节奏/叙事者距离，确保衔接不突兀。
 
-### 5. 禁止读
+> ★ 此衔接与 chapter Step 2 的「上一章正文最后 500 字」不重复——chapter 读它为设计上下文，prose 读它为叙事语感。
 
 | 禁止 | 原因 |
 |:-----|:-----|
-| act-XX.yaml | Design 已消化 |
+| 剧情设计/幕/vol-XX/act-YY.md | 设计包已消化 |
 | L1 设定 | info_release 已在事件链中 |
-| entity-snapshot.yaml | Design 已更新，Render 从人物卡取 |
+| entity-snapshot.yaml | 由 chapter 维护，prose 从设计包人物卡读取 |

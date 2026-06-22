@@ -31,8 +31,9 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 ## 核心流程
 
 1. **路由** — 从速查表匹配模式，加载对应 step 文件
-2. **执行** — 按 step 文件的 SOP 执行
-3. **验收** — 按 step 文件的落盘检查点逐项验证
+2. **改造前置** — Mode B 必须先跑 `references/skill-audit-checklist.md`（7 类检查），通过后才进 step-2-refactor
+3. **执行** — 按 step 文件的 SOP 执行
+4. **验收** — 按 step 文件的落盘检查点逐项验证
 
 ## 读取协议（所有文件读取强制执行）
 
@@ -49,4 +50,4 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 
 ## 版本
 
-v5.0.0 | 2026-06-22 | 全量重构：三层架构（路由/执行/知识），注意力前置，读取协议 → [CHANGELOG.md](CHANGELOG.md)
+v5.1.0 | 2026-06-22 | 新增 references/skill-audit-checklist.md（7 类检查），核心流程补改造前置 → [CHANGELOG.md](CHANGELOG.md)
