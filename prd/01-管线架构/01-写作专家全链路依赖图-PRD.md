@@ -1,6 +1,6 @@
 # 写作专家全链路依赖图 — 文件依赖与产出全景
 
-> 版本：v5.1 | 2026-06-22
+> 版本：v5.2 | 2026-06-22
 > 说明：本文档覆盖写作专家（pop-writer-*）全链路。基于各 skill 当前 SKILL.md 的 pipeline 字段现状构建。
 > 拆书专家见 `02-拆书专家全链路依赖图-PRD.md`。
 
@@ -115,6 +115,45 @@ pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer
 
 ---
 
+## 四、项目级知识库路径约定
+
+> 在项目总控模板中固化的 `📚 知识库路径` 区块。解决 agent 找不到 library 路径的反复询问问题。
+> 执行者：expert-writer v4.6.0+ 的 `step-0-init.md` 3a。
+
+### 4.1 两类路径声明
+
+项目总控头顶一个固定区块，记录两类知识来源的绝对路径：
+
+| 类型 | 用途 | 初始化行为 | 后续维护 |
+|:-----|:-----|:----------|:---------|
+| **skill 公共库** | pop-trope-library 本地安装目录（设定库/剧情库/套路库/文风库） | step-0-init 自动解析绝对路径 + 扫描设定库书目 | 公共库迁移时手动更新路径 |
+| **用户私藏参考** | 原书拆解数据、wiki骨架、文风DNA等 — 精度更高的原文分析 | 初始留空（`❌待补充`），不猜测 | 用户主动填入或 Agent 追问后填入 |
+
+### 4.2 公共库内容速览
+
+初始化时自动扫描 `{pop-trope-library}/设定库/` 下所有子目录，列出书名。如本书是对标/移植某已有书目，标注 ★。
+
+Agent 进入 reservoir/world/plot 阶段时，从此表直接定位对标书的完整设定包，不再询问 "library 在哪"。
+
+### 4.3 Agent 使用规则（硬约定）
+
+1. **首次加载总控时**，检查知识库路径是否已填写 → 未填写则提示用户补充
+2. **reservoir / world / plot 阶段启动前**，必须先确认公共库路径可用（文件系统存在）
+3. **用户私藏参考路径 ≠ 空时**，优先消费私藏数据（精度更高）；skill 公共库作为 fallback
+4. **路径写入后**，Agent 不再询问「library 在哪」——直接读
+
+### 4.4 与 pop-trope-library 查询矩阵的关系
+
+本区块是 **"去哪找"**（路径元数据），三的查询矩阵是 **"找什么"**（内容路由）。两者互补：
+- Agent 启动 → 读总控 → 拿到路径 → 按查询矩阵路由 → 读对应模块
+- 路径缺失时阻塞查询矩阵，路径就位后查询矩阵可正常运转
+
+### 4.5 落地文件
+
+此约定落地于 `项目总控.md`（模板源头：`expert-writer/references/project/master-control.tpl.md`），非独立文件。
+
+---
+
 ## 附录 A：写作项目文件全貌
 
 ```text
@@ -172,7 +211,7 @@ pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer
 ---
 
 > 本文档基于各 skill 当前 SKILL.md 的实际 pipeline 字段构建（2026-06-22）。
-> 写作专家 skill 清单：pop-writer-creative(v4.3.0)、pop-writer-reservoir(v2.2.0)、pop-writer-world(v1.5.0)、
+> 写作专家 skill 清单：expert-writer(v4.6.0)、pop-writer-creative(v4.3.0)、pop-writer-reservoir(v2.2.0)、pop-writer-world(v1.5.0)、
 > pop-writer-character(v2.0.1)、pop-writer-plot(v7.0.0)、pop-writer-chapter(v2.0.0)、pop-writer-prose(v3.0.1)、pop-writer-qa(v1.0.1)、
 > pop-writer-continue(v1.0.1)、pop-writer-game(v2.0.2)、pop-writer-html(v1.3.2)。
 > 拆书专家见 `02-拆书专家全链路依赖图-PRD.md`（pop-decon-* / pop-shared-*）。
