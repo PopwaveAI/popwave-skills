@@ -38,7 +38,7 @@ pipeline:
 | ⚠️4 | 续写时上一章 `正文/ch{上一章}.md` 存在 | 缺 → ❌ 终止，无法获取衔接 |
 | ⚠️5 | 设计包中有 ◆小爽点 ≥ 5 + ★中爽点 ≥ 1 | 缺 → ⚠️ 警告：设计包爽点未达标，prose 渲染后必通不过 QA |
 | ⚠️6 | **合成模式检测** — `写作资产/` 下无原文章节目录且设计包来自创作管线（非拆书）→ 进入合成模式。须额外加载 `references/synthesis-mode.md` | 未加载合成模式指引 → 危险：无原文兜底时 prose 可能填充默认值 |
-| ⚠️7 | **首章 entity-snapshot 初始化** — 首次渲染（`正文/` 目录为空）时，检查 `entity-snapshot.yaml` 是否存在。若不存在 → 基于卷纲起点快照 + 设计包角色层提取初始角色状态，创建实体快照后再进 Step 1。续写时检查 entity-snapshot 章号与当前目标章号是否脱节 | 不存在 → 自动初始化（数据源：卷纲起点快照表 + 设计包角色行为锚定）。不满足创建条件（无卷纲/无设计包）→ ❌ 终止，告知缺初始状态数据 |
+| ⚠️7 | entity-snapshot 由 chapter 维护。prose 从设计包的登场人物 before/after 读取角色状态，entity-snapshot 仅用于续写衔接读取 | entity-snapshot 缺失 → ⚠️ 警告，非阻塞 |
 
 ---
 
@@ -47,7 +47,7 @@ pipeline:
 | 我要 | 操作 | 前置条件 |
 |------|------|---------|
 | 渲染第X章 | 读设计包 → styles/ → 渲染 → 验证 → 输出 | chapter-design 必须先产出设计包 |
-| **首章渲染** | 先初始化 entity-snapshot（如缺失）→ 读设计包 + 文风DNA → 开篇50字锻造（3版本，用户选）→ 渲染 → 验证 → 输出。详见 `references/first-chapter-init.md`。 | entity-snapshot 必须存在（缺失时自动基于卷纲+设计包初始化） |
+|| **首章渲染** | 读设计包 + 文风DNA → 开篇50字锻造（3版本，用户选）→ 渲染 → 验证 → 输出。entity-snapshot 由 chapter 初始化。 | 设计包 + DNA 就绪 |
 | 续写 | 读上一章正文最后800字 → 衔接渲染 | entity-snapshot 必须最新 |
 | 重渲染（文风DNA就位后覆盖旧版） | 先删除 `正文/chXXX.md` → 读设计包 → 渲染 → 验证 → 输出 | 旧版正文已清除 |
 | **批量渲染**（从源文本/原文批量改写为N章） | 读源文本 → 创建复合设计包（或逐章设计包）→ delegate_task 并行分发（每批5章）→ 汇总验证 | 源文本存在（原文txt或正文md）。DNA就绪。详见 `references/batch-style-migration.md`（在 expert-writer 技能下） |

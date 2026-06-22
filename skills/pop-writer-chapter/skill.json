@@ -1,16 +1,19 @@
 {
   "id": "pop-writer-chapter",
-  "version": "1.5.0",
+  "version": "2.2.0",
   "displayName": "章纲设计/导演卡",
-  "description": "消费 pop-writer-plot 的 Canvas 矩阵，产出事实骨架+登场人物卡合并设计包。当用户说'设计第X章/章纲/骨架/导演卡'时启用。",
+  "description": "消费 pop-writer-plot v7.6 的幕纲(act-YY.md)+剧情线文档，产出含事件链/情绪弧/爽点机制/章末钩子/契诃夫枪/调味空间的设计包。全量对齐 PRD v5.2 路径规范。",
   "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": ["设计第X章", "章纲", "骨架", "导演卡", "pop-writer-chapter"]
-  },
   "pipeline": {
     "upstream": ["pop-writer-plot"],
-    "downstream": ["pop-writer-prose"]
+    "downstream": ["pop-writer-prose"],
+    "references": ["pop-trope-library"]
   },
+  "produces": [
+    "章节设计包/chXXX-设计包.md",
+    "状态/entity-snapshot.yaml (更新)",
+    "剧情设计/幕/vol-XX/act-YY.md (枪链同步)"
+  ],
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true

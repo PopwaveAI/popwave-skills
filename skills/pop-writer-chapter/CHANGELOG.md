@@ -1,5 +1,23 @@
 ﻿# CHANGELOG — 09-pop-novel-chapter-design
 
+## v2.2.0 — 2026-06-22
+
+### 全量对齐 plot v7.6 + PRD v5.3 + entity-snapshot 归属 chapter
+
+**路径全局替换**：全部文件从旧目录规范（`00-总控/`、`设计/卷/volume-XX.md`、`设计/幕/act-XX.yaml`、`写作资产/设计包/`）迁移到当前 PRD v5.3 规范（`状态/`、`剧情设计/卷/卷{N}-卷纲.md`、`剧情设计/幕/vol-XX/act-YY.md`、`章节设计包/`）。
+
+**entity-snapshot 所有权明确**：chapter 创建（CH1 初始化）并每章更新 entity-snapshot，prose 仅读取。删除了与 prose `first-chapter-init.md` 的冲突路径。
+
+**SKILL.md 瘦身**：195 行 → 120 行。删除内联设计包模板（107 行），前置阻断检查压缩为红线表，# 引用 `templates/fact-skeleton.md`。
+
+**references 全量更新**：4 个参考文件（character/location/info/emotional）路径对齐 + 移除过时的 yaml 字段引用。continuous-chapter-workflow 重写。
+
+**新增**：Step1/Step2 读什么补 `pop-trope-library/套路库/{套路名}.md`（PRD 查询矩阵要求）。Step3 chekhov-tracker → act-YY.md 枪链段。
+
+**版本**：frontmatter v2.1.0 / 标题 v2.0.0 / skill.json v1.5.0 / CHANGELOG v1.6.0 → 统一 v2.2.0。
+
+---
+
 ## v1.6.0 — 2026-06-15
 
 ### entity-snapshot 创建时机修复（CH1 首次运行专用）

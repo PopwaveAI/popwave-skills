@@ -117,7 +117,7 @@
 │   ├── 角色/
 │   │   ├── 主角-角色卡.md             {状态}  ← character
 │   │   └── 配角-角色卡.md             {状态}  ← character
-│   └── entity-snapshot.yaml          {状态}  ← prose（每章更新）
+│   └── entity-snapshot.yaml          {状态}  ← chapter（每章设计后更新，prose 读取）
 │
 ├── 📁 剧情设计/                       ← plot
 │   ├── 卷/
@@ -225,7 +225,7 @@
 │   ├── 角色/
 │   │   ├── 主角-角色卡.md              ← T4 character
 │   │   └── 配角-角色卡.md              ← T4 character
-│   └── entity-snapshot.yaml           ← T7 prose（每章更新）
+│   └── entity-snapshot.yaml           ← T6 chapter（每章设计后更新，T7 prose 读取）
 │
 ├── 剧情设计/                           ← T5 plot
 │   ├── 卷/
