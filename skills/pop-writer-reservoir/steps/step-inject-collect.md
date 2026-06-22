@@ -6,7 +6,7 @@
 > **断点**：评估完成后进入 `steps/step-inject-archive.md` 归档
 >
 > 读取协议：❌ 禁止 Read 工具，用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`。
-> 必读项目文件见 SKILL.md 速查表「项目文件（必读）」。
+> 必读项目文件见 SKILL.md 速查表「项目文件」。
 
 ---
 

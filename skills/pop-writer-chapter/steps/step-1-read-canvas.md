@@ -13,11 +13,25 @@ Step 2 不再回头翻源文件——所有决策从基线出发。
 
 ## 读什么
 
+### 优先路径：pop-state-engine 上下文组装
+
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a for-creation -j '{"chapter": {N}}'
+```
+
+引擎返回 JSON 包含：book_summary → volume_summary → arc_summary → recent_summaries → active_entities → active_facts → open_hooks → continuity_notes。自动裁剪到 ~5-8KB，替代全量加载 act-YY.md + entity-snapshot.yaml。
+
+**fallback 条件**：引擎返回为空（`active_entities` 为空且 `recent_summaries` 为空）时，退回文件加载路径。
+
+### Fallback 路径：文件全量加载
+
 | # | 文件 | 读什么 | 为什么 |
 |:-:|:-----|:-------|:-------|
 | 1 | `剧情设计/幕/vol-XX/act-YY.md` | **全文** | 理解整段剧情全貌：幕功能/幕级门槛/章锚点/Canvas 矩阵/枪链。不是只看本章切片 |
 | 2 | `状态/entity-snapshot.yaml` | 全部角色当前状态 | 本章登场角色的 before 状态唯一 canon |
 | 3 | `剧情设计/剧情线/{线名}.md` | **仅本章 Canvas 中活跃的线** | 活跃线的驱动力/套路链/枪链/阶段位置。非活跃线不读 |
+
+> 双读过渡期：引擎和 entity-snapshot.yaml 并行。引擎有数据时优先用引擎（数据更新、裁剪更精准），引擎无数据时退回文件加载。
 
 ## 不读什么
 

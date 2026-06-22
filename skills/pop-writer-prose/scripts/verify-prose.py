@@ -151,11 +151,11 @@ def verify(args):
     else:
         report['checks']['pulse_density'] = {'status': 'OK', 'detail': f'all {len(pulses)} chunks pass'}
 
-    # 6. State update block
+    # 6. State update block (WARNING only — state now managed by pop-state-engine)
     has_state = check_state_update_block(text)
-    report['checks']['state_update'] = {'status': 'OK' if has_state else 'FAIL', 'detail': ''}
+    report['checks']['state_update'] = {'status': 'OK' if has_state else 'WARNING', 'detail': ''}
     if not has_state:
-        report['passed'] = False
+        report['warnings'].append('state_update block missing — state now managed by pop-state-engine CLI')
 
     return report
 

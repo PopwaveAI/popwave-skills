@@ -19,4 +19,8 @@ workspace-index.yaml
 # Moved out of skill packages (intermediate/test data)
 _projects/
 .tmp-deconstruction/
-武林半侠传.txt
+|武林半侠传.txt
+|
+|# IDE/tool config
+|.trae/
+|

@@ -5,10 +5,10 @@ pipeline:
   upstream: [pop-writer-chapter, pop-shared-dna]
   downstream: [pop-writer-qa]
   references: [pop-trope-library]
-version: 3.6.0
+version: 3.7.0
 ---
 
-# pop-writer-prose · 正文渲染 v3.6.0
+# pop-writer-prose · 正文渲染 v3.7.0
 
 > **定位：消费 chapter 的设计包 + 文风DNA，渲染为可读正文。**
 > **核心约束：不碰剧情、不编造。设计包是唯一输入源——角色台词风格/行为基线全在设计包里，prose 不读角色卡。**
@@ -56,7 +56,7 @@ version: 3.6.0
 
 ### 步骤2：验证 + 输出
 **读什么：** 正文初稿 + DNA 原文 + 设计包
-**做什么：** ①风格验证（偏差 ≥ 2 处退回）→ ②宪法检查（AI词/解说员句式/视角一致性）→ ③文本脉冲（500 字/微脉冲）→ ④字数检查（> 50% 退回）→ ⑤验证通过后写入 `正文/chXXX.md` + 章末状态块
+**做什么：** ①风格验证（偏差 ≥ 2 处退回）→ ②宪法检查（AI词/解说员句式/视角一致性）→ ③文本脉冲（500 字/微脉冲）→ ④字数检查（> 50% 退回）→ ⑤验证通过后写入 `正文/chXXX.md` → ⑥引擎登记（store-chapter + add-node + set-fact + resolve-hook，详见 step-2）
 **❌ 门禁：** 任一验证不通过退回 Step 1；落盘缺失退回
 
 详细指令见 `steps/step-2-verify-output.md`。
@@ -90,5 +90,6 @@ version: 3.6.0
 
 ## 版本
 
+v3.7.0 | 2026-06-23 | 章末新增引擎登记5步（store-chapter/add-node/set-fact/resolve-hook）; state_update检查从FAIL降为WARNING; 状态维护职责移交pop-state-engine
 v3.6.0 | 2026-06-22 | 5步→2步; 不读角色卡(设计包已有); 验证+输出合并 → [CHANGELOG.md](CHANGELOG.md)
 v3.6.1 | 2026-06-22 | 新增红线#8 对话比例门禁 + references/dialogue-proportion-gate.md

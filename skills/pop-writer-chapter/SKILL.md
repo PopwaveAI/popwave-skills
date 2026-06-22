@@ -5,10 +5,10 @@ pipeline:
   upstream: [pop-writer-plot]
   downstream: [pop-writer-prose]
   references: [pop-trope-library]
-version: 2.3.0
+version: 2.5.0
 ---
 
-# pop-writer-chapter · 章纲设计 / 导演卡 v2.3.0
+# pop-writer-chapter · 章纲设计 / 导演卡 v2.5.0
 
 > **定位：消费 plot 的幕纲 + 剧情线，产出回合级事件链设计包。**
 > **核心约束：不碰文风。不写叙事者声音、不写句子节奏、不写修辞风格。**
@@ -59,7 +59,7 @@ version: 2.3.0
 ## 核心流程
 
 ### 步骤1：建立基线
-**读什么：** `剧情设计/幕/vol-XX/act-YY.md`（全文）、`状态/entity-snapshot.yaml`、`剧情设计/剧情线/{活跃线}.md`
+**读什么：** 优先调用 `for-creation --chapter {N}` 获取引擎上下文包（~5-8KB）；引擎为空时 fallback 到 `剧情设计/幕/vol-XX/act-YY.md`（全文）+ `状态/entity-snapshot.yaml` + `剧情设计/剧情线/{活跃线}.md`
 **做什么：** 建立结构化基线——本章位置/Canvas约束/角色现状/活跃线上下文/篇幅预算。基线在内存，不落盘。
 **❌ 门禁：** 幕纲/entity-snapshot/剧情线 缺一终止。CH1 时初始化 entity-snapshot（从角色卡+起点快照组装）。
 
@@ -128,4 +128,5 @@ version: 2.3.0
 
 ## 版本
 
-v2.3.0 | 2026-06-22 | Step 拆分为 4 步：基线→事件链骨架→润色→落盘。爽点+套路从 Step2 剥离到 Step3 → [CHANGELOG.md](CHANGELOG.md)
+v2.5.0 | 2026-06-23 | Step 1 新增引擎上下文组装（for-creation）优先路径，entity-snapshot.yaml 降为 fallback; 双读过渡期并行
+v2.4.0 | 2026-06-23 | 新增"剧情推进点"概念（每章≥3个事件必须推进L2，≥3条不同L2）+字数基准改2~3k → [CHANGELOG.md](CHANGELOG.md)

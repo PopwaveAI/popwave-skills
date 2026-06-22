@@ -51,4 +51,4 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 
 ## 版本
 
-v5.1.0 | 2026-06-22 | 新增 references/skill-audit-checklist.md（7 类检查），核心流程补改造前置 → [CHANGELOG.md](CHANGELOG.md)
+v5.5.0 | 2026-06-23 | 新增 ❌D19/D20：瘦身不重复 + 注意力预算原则 → [CHANGELOG.md](CHANGELOG.md)

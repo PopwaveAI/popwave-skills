@@ -148,6 +148,8 @@
 
 ## 当前进度锚点
 
+> 数据来源：pop-state-engine `project-status` 命令（entity-snapshot.yaml 作为 fallback）
+
 - **entity-snapshot 章号**：ch{编号}（next_chapter: ch{编号}）
 - **当前幕**：幕{N}·{名称}（ch{起始}-ch{结束}）
 - **主角状态**：{一句话}

@@ -1,0 +1,32 @@
+{
+  "name": "pop-state-engine",
+  "version": "0.1.0",
+  "description": "Popwave 写作管线的运行时状态引擎 — SQLite 驱动的叙事状态管理",
+  "type": "engine",
+  "scripts_dir": "scripts",
+  "entry_point": "scripts/command_executor.py",
+  "cli_pattern": "python scripts/command_executor.py -p {project_path} -a {action} -j '{json_params}'",
+  "dependencies": [
+    "jieba (已 vendor 到 scripts/jieba/，无需 pip install)",
+    "onnxruntime>=1.16.0 (可选，语义向量检索)"
+  ],
+  "tables": [
+    "pop_scenes_content",
+    "pop_scenes",
+    "pop_embeddings",
+    "pop_summaries",
+    "pop_facts",
+    "pop_kg_nodes",
+    "pop_kg_edges",
+    "pop_hooks",
+    "pop_arcs"
+  ],
+  "integrates_with": [
+    "pop-writer-prose",
+    "pop-writer-chapter",
+    "pop-writer-plot",
+    "pop-writer-world",
+    "pop-writer-reservoir",
+    "expert-writer"
+  ]
+}

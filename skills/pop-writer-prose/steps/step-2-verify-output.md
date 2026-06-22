@@ -54,7 +54,91 @@
 {正文全文}
 ```
 
-> ★ 状态由 chapter 维护——prose 不写状态块。chapter 从设计包的 after 状态更新 `状态/entity-snapshot.yaml`。
+> ★ 状态由 pop-state-engine 维护——prose 章末调用 CLI 登记到引擎。chapter 从设计包的 after 状态更新 `状态/entity-snapshot.yaml`（双写过渡期并行）。
+
+## 引擎登记（验证通过 + 落盘后）
+
+正文写入 `正文/chXXX.md` 后，执行以下 5 步将本章叙事状态登记到 pop-state-engine：
+
+### 步骤 1：设计包入库
+
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a store-chapter -j '{
+  "chapter": {N},
+  "content": "{设计包全文}",
+  "tags": "{设计包tags}",
+  "location": "{场景地点}",
+  "characters": "{登场人物逗号分隔}",
+  "mood": "{情绪基调}",
+  "events": "{事件链逗号分隔}"
+}'
+```
+
+### 步骤 2：agent 标注新实体和状态变化
+
+阅读本章设计包，标注：
+- 本章首次出现的实体（角色/地点/物品/功法/概念）
+- 本章发生的状态变化（修为提升/关系变化/位置移动/获得物品）
+
+### 步骤 3：脚本辅助验证
+
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a extract-entities -j '{
+  "text": "{设计包全文}"
+}'
+```
+
+将脚本提取结果与步骤 2 的 agent 标注对比。以 agent 标注为准，脚本结果作为查漏补缺。
+
+### 步骤 4：写入新实体和状态变化
+
+对每个确认的新实体：
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a add-node -j '{
+  "id": "{实体ID}",
+  "type": "{character|location|item|skill|concept}",
+  "name": "{实体名}",
+  "tags": "{标签}",
+  "properties": "{}"
+}'
+```
+
+对每个状态变化：
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a set-fact -j '{
+  "entity": "{实体名}",
+  "attribute": "{属性名}",
+  "value": "{新值}",
+  "chapter": {N},
+  "importance": "{permanent|arc-scoped|chapter-scoped}"
+}'
+```
+
+主角状态汇总写入 `_meta/protagonist_state`：
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a set-fact -j '{
+  "entity": "_meta",
+  "attribute": "protagonist_state",
+  "value": "{修为}·{关键状态}·{当前位置}",
+  "chapter": {N},
+  "importance": "permanent"
+}'
+```
+
+### 步骤 5：伏笔回收检测
+
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a list-hooks -j '{}'
+```
+
+检查本章是否回收了某个伏笔。若回收，执行：
+```bash
+python {engine_scripts}/command_executor.py -p {项目路径} -a resolve-hook -j '{
+  "id": "{伏笔ID}",
+  "resolution": "{回收方式简述}",
+  "resolved_chapter": {N}
+}'
+```
 
 ## 产出自检
 
