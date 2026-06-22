@@ -99,6 +99,12 @@
    - `🗺️ 所属管线` 从 `references/pipeline/manifest.md` 填充理想全流程和理想目录路由
    - `管线差异映射` 初始为空（新项目无差异）
 
+   3a. **填充 📚 知识库路径**（★新增）：
+   - 解析 pop-trope-library 绝对路径：从当前 skill 目录（expert-writer 所在目录）上溯找到 pop-trope-library 的实际安装路径，写入 `skill 公共库` 行
+   - 扫描 `{pop-trope-library}/设定库/` 下所有子目录（书目），列出书名，填入「skill 公共库内容速览」表
+   - 如本书是对标/移植某已有书目 → 在对应行标注 ★
+   - 用户私藏参考路径初始留空（`❌待补充`），不猜测——由用户后续填入或 Agent 追问
+
 4. 初始化完成 → 路由到 pop-writer-creative
 
 ---

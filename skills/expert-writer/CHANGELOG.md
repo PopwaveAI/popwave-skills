@@ -1,5 +1,22 @@
 # CHANGELOG — expert-writer
 
+## v4.6.0 (2026-06-22)
+
+### 项目总控新增 📚知识库路径 固定区块
+
+**问题**：用户说"library里有XX设定"，agent 找不到路径——因为项目总控没有记录 library 的约定。pop-trope-library 公共库和用户私藏参考被混用同一个词"library"，agent 无法区分。
+
+**改动**：
+- `references/project/master-control.tpl.md`：在头部（📊项目现状之前）新增固定区块 `## 📚 知识库路径`，包含：
+  - 两类路径声明表（skill 公共库 + 用户私藏参考，各自独立的状态标记）
+  - skill 公共库内容速览（初始化时自动扫描设定库/剧情库/文风库/套路库）
+  - Agent 使用规则（4条硬约定：首次加载必查、阶段启动前确认、私藏优先、路径写入后不再追问）
+- `steps/step-0-init.md`：初始化步骤新增 3a，自动解析 pop-trope-library 绝对路径、扫描设定库书目、标注对标书
+
+**效果**：Agent 加载项目总控时直接读到 library 路径，不再重复询问"library 在哪"。两类路径（公共库 vs 私藏参考）明确区分，不再混淆。
+
+---
+
 ## v4.5.0 (2026-06-22)
 
 ### pop-trope-library 集成：查询矩阵系统化
