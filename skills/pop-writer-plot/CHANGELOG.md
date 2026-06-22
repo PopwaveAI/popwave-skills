@@ -1,12 +1,25 @@
 ﻿# CHANGELOG — 08-pop-novel-plot
 
+## v7.2.0 — 2026-06-22
+
+### 文件收敛：卷纲 / 剧情线 / 幕纲
+
+- **三类文件落盘**：取消单独产出 `卷{N}-战略定位.md`、`卷{N}-剧情种子拉取清单.md`、`分幕规划.md`、`chekhov-tracker.md`；统一收敛为 `卷{N}-卷纲.md`、`剧情线/*.md`、`act-YY.md`
+- **卷纲渐进升级**：Step1 创建战略层，Step2 在同一份卷纲中追加剧情卡筛选、卷级特化和候选线雏形
+- **幕纲渐进升级**：Step4 创建分幕层，Step5 追加章锚点与 Canvas，Step6 追加契诃夫枪链追踪
+- **枪链并入幕纲**：不再独立维护 `chekhov-tracker.md`，避免枪链和 Canvas/payoff 节奏脱节
+- **模板收敛**：新增 `templates/volume-outline.md` 与 `templates/act-outline.md`，移除旧拆分模板
+
+---
+
 ## v7.1.0 — 2026-06-22
 
 ### PRD 对齐：剧情线独立文档 + Canvas 节奏总控并存
 
 - **纠正 Canvas 口径**：Canvas 不废除，定位为剧情密度、每条线按章节奏、payoff 释放与多线汇聚的节奏仪表盘
+- **补正 Step2/Step3 边界**：Step2 负责剧情卡筛选与卷级特化，只产出候选线雏形；Step3 才负责主支线剧情线成文
 - **SKILL.md 重构**：从 363 行压缩为路由层，按 v6 skill 规范保留定位、红线、速查表、步骤索引、边界条件、落盘检查点
-- **流程对齐 PRD**：重构为 6 步：卷战略定位 → 拉种子与查库 → 剧情线独立文档 → 分幕规划 → 章锚点与 Canvas → 契诃夫枪链
+- **流程对齐 PRD**：重构为 6 步：卷战略定位 → 剧情卡筛选与卷级特化 → 主支线剧情线成文 → 分幕规划 → 章锚点与 Canvas → 契诃夫枪链
 - **steps 全量替换**：移除旧 `step-0-architecture.md`、`step-1-volume.md`、`step-2-act.md`，新增 `step-1-volume-strategy.md` 到 `step-6-chekhov.md`
 - **templates 全量替换**：移除旧 `volume-design.md`、`act-skeleton.md`、`act-skeleton.yaml`、`act-guide.md`、`rhythm-check.md`，新增六个 PRD 对齐模板
 - **skill.json 对齐**：版本升至 `7.1.0`，补齐真实上游 `creative/reservoir/world/character/trope-library` 和 PRD 产出路径

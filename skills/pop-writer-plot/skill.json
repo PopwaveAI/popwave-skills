@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-plot",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "displayName": "剧情架构设计",
-  "description": "当用户说'剧情架构/卷战略/拉剧情种子/剧情线/分幕/章锚点/契诃夫枪链/Canvas节奏'时启用。产出卷战略、剧情种子清单、独立剧情线文档、分幕规划、章锚点Canvas和枪链追踪，供 chapter 与 prose 消费。",
+  "description": "当用户说'剧情架构/卷纲/剧情卡筛选/卷级特化/剧情线/幕纲/章锚点/契诃夫枪链/Canvas节奏'时启用。产出卷纲、主支线独立剧情线文档、幕纲（分幕+章锚点+Canvas+枪链），供 chapter 与 prose 消费。",
   "entry": "SKILL.md",
   "pipeline": {
     "upstream": [
@@ -17,20 +17,21 @@
       "pop-writer-prose"
     ],
     "produces": [
-      "剧情设计/卷/卷{N}-战略定位.md",
-      "剧情设计/卷/卷{N}-剧情种子拉取清单.md",
+      "剧情设计/卷/卷{N}-卷纲.md",
       "剧情设计/剧情线/{主线,支线}-{编号}-{名称}.md",
-      "剧情设计/幕/vol-XX/分幕规划.md",
-      "剧情设计/幕/vol-XX/act-YY.md",
-      "剧情设计/幕/vol-XX/chekhov-tracker.md"
+      "剧情设计/幕/vol-XX/act-YY.md"
     ]
   },
   "activation": {
     "slashCommands": [
       "剧情架构",
       "剧情",
+      "卷纲",
       "卷战略",
+      "剧情卡筛选",
+      "卷级特化",
       "剧情线",
+      "幕纲",
       "分幕",
       "章锚点",
       "Canvas",
