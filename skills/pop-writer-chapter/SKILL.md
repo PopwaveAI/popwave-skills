@@ -39,7 +39,7 @@ version: 2.3.0
 | 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
 | 第 2 步 | `steps/step-2-event-chain.md` | 事件链骨架（地点/角色/事件/情绪/scene/对白/信息） | ❌ 密度不够/缺字段退回 |
 | 第 3 步 | `steps/step-3-polish.md` | 润色完成的设计包（爽点+套路+情绪弧+钩子+调味+枪+对白语气） | ❌ 爽点不足/钩子缺回收章退回 |
-| 第 4 步 | `steps/step-4-output.md` | 设计包落盘 + entity-snapshot 更新 + 枪链同步 | ❌ 缺落盘退回 |
+| 第 4 步 | `steps/step-4-output.md` | 质量自查 → 设计包落盘 + entity-snapshot 更新 + 枪链同步 | ❌ 自查任一条不通过退回；缺落盘退回 |
 
 ### templates/ — 模板层
 
@@ -91,8 +91,8 @@ version: 2.3.0
 
 ### 步骤4：产出落盘
 **读什么：** Step 3 润色后的设计包
-**做什么：** 写入 `章节设计包/chXXX-设计包.md` + 更新 `状态/entity-snapshot.yaml`（after 状态）+ 回写 act-YY.md 枪链段
-**❌ 门禁：** 缺落盘退回；entity-snapshot 未更新退回
+**做什么：** ①质量自查（对照基线 Canvas 逐项检查 10 条——爽点/钩子/枪/情绪/密度/调味/对白/信息）→ 不通过回退 Step 2/3 → ②通过后落盘：写 `章节设计包/chXXX-设计包.md` + 更新 `状态/entity-snapshot.yaml` + 回写 act-YY.md 枪链段
+**❌ 门禁：** 自查任一条不通过退回；缺落盘退回；entity-snapshot 未更新退回
 
 详细指令见 `steps/step-4-output.md`。
 
