@@ -1,6 +1,6 @@
 ﻿# Step 1：读入输入
 
-> 管线: pop-writer-prose v3.0
+> 管线: pop-writer-prose v3.6
 
 ---
 

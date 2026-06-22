@@ -1,6 +1,6 @@
 ﻿# Step 3：风格验证
 
-> 管线: pop-writer-prose v2.0
+> 管线: pop-writer-prose v3.6
 
 ---
 

@@ -1,6 +1,6 @@
 ﻿# Step 2：逐事件渲染
 
-> 管线: pop-writer-prose v2.0
+> 管线: pop-writer-prose v3.6
 
 ---
 
