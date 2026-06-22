@@ -32,27 +32,19 @@ version: 2.2.0
 
 ## 速查表
 
-| 步骤 | 操作 | 读什么 | 产出 | 门禁 |
-|:-----|:-----|:-------|:-----|:-----|
-| 1 | 建立基线 | act-YY.md 全文 + `状态/entity-snapshot.yaml` + 活跃剧情线文档 | 基线（内存，结构化模板） | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
-| 2 | 正式设计 | 基线 + 角色卡(登场角色) + 上一章正文最后~500字 + payoff-guide.md + 套路库/{套路名}.md | 完整设计包（事件链+情绪弧+爽点+钩子+枪+调味空间） | ❌ 密度/爽点/字段 不达标退回 |
-| 3 | 产出落盘 | Step 2 设计包 | `章节设计包/chXXX-设计包.md` + entity-snapshot 更新 + act-YY.md 枪链更新 | ❌ 缺落盘退回 |
-
-## 文件索引
-
-| 类型 | 路径 | 用途 |
-|:-----|:-----|:-----|
-| Step | `steps/step-1-read-canvas.md` | 建立基线：读 act-YY.md + entity-snapshot + 活跃剧情线 |
-| Step | `steps/step-2-event-chain.md` | 正式设计：事件链 + 情绪弧 + 爽点 + 钩子 + 枪 + 调味空间 |
-| Step | `steps/step-3-output.md` | 产出落盘：写设计包 + 更新 entity-snapshot + 同步枪链 |
-| Template | `templates/baseline.tpl.md` | 基线模板（6 块结构，内存） |
-| Template | `templates/fact-skeleton.md` | 设计包模板（事件链 + 全部设计层） |
-| Reference | `references/payoff-guide.md` | 爽点承接：四级爽点（小/中/大/特大）的承接规则 |
-| Reference | `references/emotional-beats.md` | 情绪节拍：词汇表 + 情绪弧线检查规则 |
-| Reference | `references/character-scheduling.md` | 角色调度：before 状态 / Canvas 验证 / 台词风格 |
-| Reference | `references/location-orchestration.md` | 空间编排：地点来源 / 地理可达 / 情绪匹配 |
-| Reference | `references/info-release.md` | 信息释放：分配规则 / 密度检查 / L1 设定读取 |
-| Reference | `references/continuous-chapter-workflow.md` | 连章工作流：逐章产出顺序 + 跨章衔接 + 并行委托 |
+| 类型 | 路径 | 用途 | 什么时候用 | 门禁 |
+|:-----|:-----|:-----|:----------|:-----|
+| Step | `steps/step-1-read-canvas.md` | 建立基线 | 第 1 步 | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
+| Step | `steps/step-2-event-chain.md` | 正式设计 | 第 2 步 | ❌ 密度/爽点/字段 不达标退回 |
+| Step | `steps/step-3-output.md` | 产出落盘 | 第 3 步 | ❌ 缺落盘退回 |
+| Template | `templates/baseline.tpl.md` | 基线模板（6 块结构，内存） | Step 1 产出时 | — |
+| Template | `templates/fact-skeleton.md` | 设计包模板（事件链 + 全部设计层） | Step 2/3 产出时 | — |
+| Reference | `references/payoff-guide.md` | 爽点承接：四级爽点承接规则 | Step 2 设计爽点时 | — |
+| Reference | `references/emotional-beats.md` | 情绪节拍：词汇表 + 弧线检查 | Step 2 标注情绪时 | — |
+| Reference | `references/character-scheduling.md` | 角色调度：before 状态 / 台词风格 | Step 2 设计角色事件时 | — |
+| Reference | `references/location-orchestration.md` | 空间编排：地点来源 / 地理可达 | Step 2 设计地点时 | — |
+| Reference | `references/info-release.md` | 信息释放：分配规则 / 密度检查 | Step 2 设计信息释放时 | — |
+| Reference | `references/continuous-chapter-workflow.md` | 连章工作流：逐章顺序 + 并行委托 | 批量生产 / 连续章节时 | — |
 
 ## 核心流程
 

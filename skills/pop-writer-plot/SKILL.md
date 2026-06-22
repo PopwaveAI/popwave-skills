@@ -22,25 +22,18 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 
 ## 速查表
 
-| 步骤 | 操作 | 读什么 | 更新/产出什么 | 门禁 |
-|:-----|:-----|:-------|:---------------|:-----|
-| 步骤1 | 创建卷纲 · 战略层 | PRD + L1 + 角色卡 + 数值体系 | `剧情设计/卷/卷{N}-卷纲.md` | ❌ 起点/终点/篇幅预算任一未锁定退回 |
-| 步骤2 | 更新卷纲 · 剧情卡筛选与卷级特化 | 卷纲 + 素材储备池 + 套路库 + 剧情库 | `剧情设计/卷/卷{N}-卷纲.md` | ❌ 只列清单不特化退回 |
-| 步骤3 | 主支线剧情线成文 | 卷纲候选线雏形 + 角色池 + 数值体系 | `剧情设计/剧情线/{主线,支线}-{编号}-{名称}.md` | ❌ 六件套缺失退回 |
-| 步骤4 | 创建幕纲 · 分幕层 | 剧情线文档 + 卷纲 | `剧情设计/幕/vol-XX/act-YY.md` | ❌ 每幕少于3条活跃线或篇幅预算缺失退回 |
-| 步骤5 | 更新幕纲 · 章锚点与 Canvas | 幕纲 + 剧情线（含枪链） + `rank_schedule` | `剧情设计/幕/vol-XX/act-YY.md` | ❌ Canvas 密度不达标或枪点回收无预留退回 |
-| 步骤6 | 验证幕纲 · Canvas 节奏与爽点密度 | 幕纲 Canvas + payoff-design-guide + 剧情线枪链 | `剧情设计/幕/vol-XX/act-YY.md`（验核报告） | ❌ 主线无枪链退回 Step3；其余标 ⚠️ 不阻塞 |
-
-## 文件索引
-
-> Steps 见上方速查表（含完整 I/O 与门禁）。以下仅列 templates 和 references。
-
-| 类型 | 路径 | 用途 | 什么时候读 |
-|:-----|:-----|:-----|:----------|
-| Template | `templates/volume-outline.md` | 卷纲模板（战略层 + 剧情卡特化） | Step 1/2 产出时 |
-| Template | `templates/plotline-doc.md` | 剧情线文档模板（六件套 + 枪链） | Step 3 产出时 |
-| Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） | Step 4/5/6 产出时 |
-| Reference | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则（四级爽点 + 设计案例） | Step 5 设计 Canvas + Step 6 验核时 |
+| 类型 | 路径 | 用途 | 什么时候用 | 门禁 |
+|:-----|:-----|:-----|:----------|:-----|
+| Step | `steps/step-1-volume-strategy.md` | 创建卷纲 · 战略层 | 第 1 步 | ❌ 起点/终点/篇幅预算任一未锁定退回 |
+| Step | `steps/step-2-seed-pull.md` | 更新卷纲 · 剧情卡筛选与卷级特化 | 第 2 步 | ❌ 只列清单不特化退回 |
+| Step | `steps/step-3-plotline-docs.md` | 主支线剧情线成文 | 第 3 步 | ❌ 六件套缺失退回 |
+| Step | `steps/step-4-act-plan.md` | 创建幕纲 · 分幕层 | 第 4 步 | ❌ 每幕少于 3 条活跃线或篇幅预算缺失退回 |
+| Step | `steps/step-5-chapter-anchors.md` | 更新幕纲 · 章锚点与 Canvas | 第 5 步 | ❌ Canvas 密度不达标或枪点回收无预留退回 |
+| Step | `steps/step-6-chekhov.md` | 验证幕纲 · Canvas 节奏与爽点密度 | 第 6 步 | ❌ 主线无枪链退回 Step3；其余标 ⚠️ 不阻塞 |
+| Template | `templates/volume-outline.md` | 卷纲模板（战略层 + 剧情卡特化） | Step 1/2 产出时 | — |
+| Template | `templates/plotline-doc.md` | 剧情线文档模板（六件套 + 枪链） | Step 3 产出时 | — |
+| Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） | Step 4/5/6 产出时 | — |
+| Reference | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则 | Step 5 设计 + Step 6 验核 | — |
 
 ## 核心流程
 
