@@ -59,3 +59,6 @@
 | 章首情绪 = 高潮级 | ❌ 退回 |
 | 连续 3 事件同一情绪 | ❌ 退回 |
 | 章末不是钩子 | ❌ 退回 |
+
+---
+⛔ 下一 step：`steps/step-3-polish.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-3-polish.md`）

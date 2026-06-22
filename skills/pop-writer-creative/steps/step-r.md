@@ -29,3 +29,6 @@
 - 建议选项数：{2/3}
 - 传递给 Step 2
 ```
+
+---
+⛔ 下一 step：`steps/step-prd-research.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-prd-research.md`）

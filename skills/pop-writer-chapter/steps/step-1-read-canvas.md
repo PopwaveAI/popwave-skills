@@ -41,6 +41,17 @@ Step 2 不再回头翻源文件——所有决策从基线出发。
 | Canvas 中本章无任何活跃线 | ⚠️ 警告，继续（可能是纯过渡章） |
 | 剧情线文档缺失（活跃线对应的） | ❌ 终止 |
 
+### 上游时效性检查（在存在性检查后执行）
+
+| 检查项 | 失败动作 |
+|:-------|:---------|
+| 幕纲 `lastUpdatedAt` 早于项目总控的框架级变更时间 | ⚠️ 标注「幕纲可能过期，建议先回 plot 更新」 |
+| entity-snapshot 最后更新章号 vs 当前目标章号差距 > 3 章 | ⚠️ 标注「entity-snapshot 过期」 |
+| 卷纲 `lastUpdatedAt` 早于项目总控的框架级变更时间 | ⚠️ 标注「卷纲可能过期」 |
+
 ## 产出
 
 基线写入**内存**（不落盘）。Step 2 从基线出发设计，不再回头翻源文件。
+
+---
+⛔ 下一 step：`steps/step-2-event-chain.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-2-event-chain.md`）

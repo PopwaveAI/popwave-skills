@@ -39,3 +39,6 @@
 ## 输出
 
 更新 `剧情设计/幕/vol-XX/act-YY.md` 的“Step5 章锚点与 Canvas”。
+
+---
+⛔ 下一 step：`steps/step-6-canvas-audit.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-6-canvas-audit.md`）

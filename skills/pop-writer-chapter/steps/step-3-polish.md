@@ -67,3 +67,6 @@
 | 钩子缺预期回收章 | ❌ 退回 |
 | 调味空间缺 | ❌ 退回 |
 | 契诃夫枪表缺 | ❌ 退回 |
+
+---
+⛔ 下一 step：`steps/step-4-output.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-4-output.md`）

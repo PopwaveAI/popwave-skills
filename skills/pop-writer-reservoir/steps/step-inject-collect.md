@@ -93,3 +93,6 @@
 ## ⏸ 评估完成
 
 > 评估结论产出后，进入 `steps/step-inject-archive.md` 归档写入。
+
+---
+⛔ 下一 step：`steps/step-inject-archive.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-inject-archive.md`）

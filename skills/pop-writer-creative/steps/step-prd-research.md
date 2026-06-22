@@ -149,3 +149,6 @@ Phase 2 开始前，先判定当前输入属于哪种场景，这决定追问链
 
 > 选项呈现后，**停下来等用户选择**。
 > 用户选择后 → 进入 `steps/step-prd-derive.md`（Step 3-9：锁定概念 → 推导 PRD）
+
+---
+⛔ 下一 step：`steps/step-prd-derive.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-prd-derive.md`）

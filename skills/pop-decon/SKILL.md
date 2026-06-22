@@ -1,7 +1,7 @@
 ---
 name: pop-decon
 description: "Orchestrator for novel deconstruction pipeline. Executes Phase 1 (design-pack) → Phase 2 (volume) → Phase 3 (setting) → Phase 4 (creative trace). Routes to sub-skills based on scope (first N chapters vs full book). Core philosophy: iceberg theory — extract the 1/8 above water, trace the 7/8 below."
-version: 14.1.0
+version: 14.2.0
 author: Popwave
 license: MIT
 metadata:
@@ -49,6 +49,7 @@ metadata:
 | ❌3 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
 | ❌4 | **中文网文硬跑 extract.py** — Phase 1 前必须判断源文件语言。中文 TXT 不支持 extract.py 章节检测 → 走手动 ETL |
 | ❌5 | **产出物不经质量门禁直接交付** — 每个 Phase 的产出物必须对照质量标准表自检，不达标不准进下一 Phase |
+| ❌6 | **全管线完成不执行入库确认** — Phase 1~4 + dna 全部跑完后，必须逐模块确认产出已写入 pop-trope-library 五库并更新索引。不入库 = 写作管线不可见 = 拆书白拆 |
 
 ---
 
@@ -73,6 +74,7 @@ pop-decon (orchestrator)
     │   └── 判断语言: 中文网文 → 手动 ETL；英文 → extract.py
     │
     ├── Phase 1: pop-decon-design-pack   → ETL → 拆分 → 设计包v3 + 套路库
+    │   │                                    → 入库 原始素材/（价值点分流）
     │   └── ⚠️ delegate_task 批量提取时，不同子agent可能用不同命名/格式
     │         → Phase 1 完成后必须执行 Step 2.6 命名归一化
     │
@@ -82,13 +84,20 @@ pop-decon (orchestrator)
     │         所有数据标注置信度：📖 Wiki来源 / ✅ 文本验证
     │
     ├── Phase 2: pop-decon-volume        → 幕纲/卷纲（消费: 设计包 + Wiki骨架）
+    │                                       → 入库 剧情库/{标签}/（标准剧情线提炼）
     ├── Phase 3: pop-decon-setting       → L1六件套 + 宪法 + 数值（消费: 设计包 + Wiki骨架）
+    │                                       → 入库 设定库/{书名}/（整本L1设定包）
     ├── Phase 4: pop-decon-trace         → 创意溯源·跨域参考索引
+    │                                       → 入库 立项库/（SOP转化后）
     │
-    └── （可选）SOP转化                  → 将创意溯源数据转化为卷/幕级设计模式
-                                           沉淀到 pop-trope-library
-                                           衔接写书管线
+    └── Step 6: 入库确认                → 逐模块检查 library 五库落盘
+                                           → 更新各模块 00-索引.md
+                                           → 通知用户"拆书完成，已入库"
 ```
+
+> **核心原则：拆书产出先入库（按 pop-trope-library 五库文件分类），写作管线从 library 按协议消费。两条线不交叉。**
+>
+> 入库目标路径速查 → `pop-trope-library/references/deconstruction-intake-quickref.md`。
 
 每 Phase 产出 → 消费关系见各子 skill 的 `references/pipeline-context.md`。
 
@@ -279,12 +288,26 @@ for f in os.listdir('写作资产/设计包v3/'):
 **核心红线：** 化用≠照抄。识别到索伦≈指环王索伦，不等于本作的索伦就是魔君。参考来源只是起点，创意转化才是重点。
 **❌ 门禁：** Phase 3 未完成 → 退回。
 
-### Step 6：完成后引导
-输出摘要，告知用户产出位置，询问是否需要：
-- **转换为写作项目**：运行 `pop-trope-library/references/创意溯源-设计模式SOP.md` 将创意溯源数据转化为卷/幕级设计模式，衔接写书管线
-- 或仅保留为纯书评/分析
+### Step 6：入库确认（强制）
 
-> **SOP转化**不是自动执行的——因为创意溯源原始数据本身就是完整的书评/分析产出。只有在用户明确要进入写书管线时才需要执行。
+> **核心原则：拆书产出先入库，再被消费。** library 是拆书和写书之间的唯一协议层。入库不是可选项——不入库的拆书产出对写作管线不可见。
+
+**做什么：** 全管线完成后，逐模块确认产出已写入 pop-trope-library 对应位置，并更新索引。
+
+| Phase | 入库模块 | 确认内容 | 通过标准 |
+|:------|:---------|:---------|:---------|
+| Phase 1 | `原始素材/` | L3 具体套路卡已复制 + `00-索引.md` 已更新 | 文件数 ≥ 设计包识别套路数 |
+| Phase 2 | `剧情库/{标签}/` | 标准剧情线卡已提炼写入 + 标签目录 `00-索引.md` 已更新 | 每卷 ≥ 5-6 条剧情线 |
+| Phase 3 | `设定库/{书名}/` | L1-01~06 + 世界宪法 + PRD.md 已复制 + `设定库/00-索引.md` 已更新 | L1 六件套齐全 |
+| Phase 4 | `立项库/`（可选）| 创意溯源 SOP 转化产物已写入 + `立项库/00-索引.md` 已更新 | 执行了 SOP 转化才检查 |
+| pop-shared-dna | `文风库/{书名}.md` + `文风DNA/{书名}.md` | 文风档案已双路径写入 | canonical + fallback 均存在 |
+
+**入库速查：** 每类产出的精确 library 路径 → `pop-trope-library/references/deconstruction-intake-quickref.md`。
+
+**完成后：**
+- 输出摘要，告知用户各模块入库状态
+- 告知用户："拆书完成，已入库 pop-trope-library。写作管线可直接从 library 消费。"
+- 询问是否需要转换为写作项目（运行 `创意溯源-设计模式SOP.md`）或仅保留为分析
 
 ---
 
@@ -304,6 +327,8 @@ for f in os.listdir('写作资产/设计包v3/'):
 ---
 
 ## 版本
+
+v14.2.0 | 2026-06-22 | **入库确认为强制步骤**：管线地图每个 Phase 增加 `→ 入库 {模块}` 标注。Step 6 从"可选 SOP 转化"升级为"入库确认（强制）"——逐模块核查五库落盘 + 更新索引。新增红线❌6（全管线完成不执行入库确认 = 拆书白拆）。入库速查指针 → `pop-trope-library/references/deconstruction-intake-quickref.md`。拆书→写书闭环从"可选"收口为"强制"。
 
 v14.1.0 | 2026-06-22 | **delegate_task 前置检查**：Step 2 新增 3 项硬门禁——①章节已预拆分 ②批次 ≤ 3章/批 ③context 含预算优先级。三层失误链根因复盘（未预拆分→批次过大→无预算），配合 pop-decon-design-pack v3.3.0。
 

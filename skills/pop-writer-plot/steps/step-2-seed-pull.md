@@ -50,3 +50,6 @@
 ## 输出
 
 更新 `剧情设计/卷/卷{N}-卷纲.md` 的“Step2 剧情卡筛选与卷级特化”。
+
+---
+⛔ 下一 step：`steps/step-3-plotline-docs.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-3-plotline-docs.md`）

@@ -1,8 +1,9 @@
 # 写作专家全链路依赖图 — 文件依赖与产出全景
 
-> 版本：v5.3 | 2026-06-22
+> 版本：v5.4 | 2026-06-22
 > 说明：本文档覆盖写作专家（pop-writer-*）全链路。基于各 skill 当前 SKILL.md 的 pipeline 字段现状构建。
 > 拆书专家见 `02-拆书专家全链路依赖图-PRD.md`。
+> **v5.4 迭代**：pop-trope-library 集成从"四模块"升级为"五库"，对齐 library 实际文件分类。查询矩阵新增立项库/文风库 canonical 路径。设定库从"框架+质感"改为"按书整包消费"。入库与消费分离原则强化。
 
 ## 写作专家管线顺序（硬性）
 
@@ -44,7 +45,7 @@ pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer
 | world ① L1设定 | PRD + 素材储备池 + library | `小说世界设定/L1-01~06.md` | S | character, plot | 世界蓝图/力量/历史/物种/势力/资源 |
 | world ② 数值+升级表 | PRD宪法 + L1力量体系 | `小说世界设定/数值体系/*.md` `动态升级表.md` | S | character, plot | 战斗数值 + 每卷力量膨胀曲线 |
 | world ③ 起终点快照 | PRD + L1 + 数值体系 | `小说世界设定/起点快照.md` `终点快照.md` | S | character, plot | 卷1初态 + 卷N终态 |
-| world（library获取） | pop-trope-library | `文风DNA/{书名}.md` | S | prose | 文风DNA档案 |
+| world（library获取） | pop-trope-library | `文风库/{书名}.md` → fallback `文风DNA/{书名}.md` | S | prose | 文风DNA档案 |
 | character v2.0.1 | PRD + L1 + 数值 + 快照 + library | `状态/角色/{主角,配角}-角色卡.md` | D | plot, chapter | 主角与主要配角设定卡 |
 
 ### 剧情设计环节
@@ -78,32 +79,36 @@ pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer
 ## 三、pop-trope-library 公共知识库集成
 
 > `pop-trope-library` 不是 skill，是公共知识库。当前本地存储，未来云端化。
-> 拆书专家（pop-decon）产出入库，写作专家（pop-writer-*）各环节查询消费。
-> 查询协议详见 `skills/pop-trope-library/references/调用匹配SOP.md`（三维查询：层×赛道×元爽点）。
+> **拆书专家（pop-decon-* / pop-shared-*）产出先入库（按五库文件分类），写作专家（pop-writer-*）各环节按需查询消费。**
+> 查询协议详见 `skills/pop-trope-library/references/调用匹配SOP.md`（分模块查询：立项库/设定库/文风库/剧情库/套路库）。
 
-### 四模块
+### 五库结构
 
-| 模块 | 内容 | 入库来源 |
-|:-----|:-----|:---------|
-| `套路库/` | 抽象叙事模式（模式家族+变体+跨书案例） | 原始素材晋升 |
-| `设定库/` | 赛道设定创意（框架层=力量体系/制度/数值，质感层=命名/术语/文明底色） | 拆书 world 阶段 |
-| `剧情库/` | 章级剧情单元卡（事件链+冲突弧线+复用要点） | pop-decon-volume Step 3.5 |
-| `文风DNA/` | 文风笔触特征档案（场景卡+通用维度+时间演变） | pop-shared-dna |
+| 模块 | 内容 | 服务本环节 | 入库来源 |
+|:-----|:-----|:---------|:---------|
+| `立项库/` | PRD 级经验：立项模式/元爽点组合/题材焊接/加工哲学/失败案例 | creative | 拆书 Phase 4 trace + 写书复盘 |
+| `设定库/` | **按书整包**的 L1 设定：PRD.md + L1-01~06 + 世界宪法 + 角色与关系 | reservoir, world, character | 拆书 Phase 3 setting |
+| `文风库/` | 文风笔触档案（场景卡+通用维度+时间演变），**canonical 路径** | prose | pop-shared-dna |
+| `剧情库/` | **标准剧情线**（六段格式），按内容标签分目录 | plot | 拆书 Phase 2 volume |
+| `套路库/` | 抽象叙事模式卡（10字段：模式家族+变体+跨书案例） | creative, plot, chapter, qa | 原始素材晋升 |
+| `文风DNA/` | 历史兼容路径（fallback） | prose | pop-shared-dna（兼容） |
+
+> **路径约定**：`文风库/` = canonical 主路径；`文风DNA/` = fallback 兼容路径。prose 先查 `文风库/`，不存在时降级到 `文风DNA/`。
 
 ### 各管线环节查询矩阵
 
 > 每个环节路由到子 skill 前，expert-writer 应确认子 skill 会查询对应模块。
-> 查询方法：按 `调用匹配SOP.md` 三维查询（层×赛道×元爽点）。
+> 查询方法：按 `调用匹配SOP.md` 分模块查询（立项库/设定库/文风库/剧情库/套路库各走各的查询键）。
 
 | 管线阶段 | 查询模块 | 查什么 | 用途 |
 |:---------|:---------|:-------|:-----|
-| creative | `套路库/00-总索引.md` + `references/元爽点-变体映射表.md` | 元爽点匹配 | 确定本书 2-3 个主元爽点 |
-| reservoir | `设定库/`（框架+质感） + `套路库/` | 跨域设定素材源 + 冲突公式/原型/套路 | 剧情储备卡的素材注入 |
-| world | `设定库/`（框架+质感） | 力量体系/制度/数值/命名创意池 | L1 设定+数值体系的创意参考 |
-| character | `设定库/质感` | 命名策略/身份/文化底色 | 角色卡设计的文化质感参考 |
-| plot | `套路库/` + `剧情库/` + `references/元爽点-变体映射表.md` | 套路链配套 + 剧情改建参考 | 卷战略/剧情线/分幕的套路选择 |
+| creative | `立项库/00-索引.md` + `套路库/00-总索引.md` + `references/元爽点-变体映射表.md` | 立项经验 + 元爽点匹配 | 确定本书书型 + 2-3个主元爽点 |
+| reservoir | `设定库/`（先查 PRD 卖点→读书级 L1）+ `套路库/` | 跨域设定素材源 + 冲突公式/原型/套路 | 剧情储备卡的素材注入 |
+| world | `设定库/{书名}/`（先查 00-索引→读 PRD→读 L1） | 力量体系/制度/数值/命名创意池 | L1 设定+数值体系的创意参考 |
+| character | `设定库/{书名}/` + `设定库/角色与关系/` | 角色身份张力/关系结构/说话风格 | 角色卡设计的文化质感和关系模式参考 |
+| plot | `剧情库/{标签}/` + `套路库/` + `references/元爽点-变体映射表.md` | 标准剧情线 + 套路链配套 | 卷战略/剧情线/分幕的剧情参考 |
 | chapter | `套路库/{具体套路名}.md` | 套路公式+节奏控制 | 章设计包的事件链设计 |
-| prose | `文风DNA/{书名}.md` | 风格渲染场景卡 | 正文渲染的文风锚定 |
+| prose | `文风库/{书名}.md` → fallback `文风DNA/{书名}.md` | 风格渲染场景卡（按 scene 匹配） | 正文渲染的文风锚定 |
 | qa | `套路库/{具体套路名}.md` 使用红线段 | L3 原文对照 | 质检时对照套路使用红线 |
 
 ### 查询纪律
@@ -111,7 +116,7 @@ pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer pop-writer
 1. **先查库再创作** — 每个环节进入子 skill 后，先查 trope-library 对应模块，再开始创作
 2. **库缺时声明** — 查询无匹配素材时标注"本赛道/元爽点库缺"，降级到通用素材，不静默跳过
 3. **查到的是参考不是模板** — trope-library 提供创意参考和套路公式，不直接复制，需根据本书 PRD 改写转化
-4. **入库与消费分离** — 拆书管线负责入库（按 `入库清洗SOP.md`），写作管线负责消费（按 `调用匹配SOP.md`），两条线不交叉
+4. **入库与消费分离** — 拆书管线产出先入库 pop-trope-library（按五库文件分类），写作管线从 library 按协议消费。两条线不交叉。写作管线不直接从拆书项目目录读取文件
 
 ---
 

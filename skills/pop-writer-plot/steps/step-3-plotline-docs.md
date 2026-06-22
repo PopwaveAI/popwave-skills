@@ -52,3 +52,6 @@
 ## 输出
 
 每条线按 `templates/plotline-doc.md` 写入 `剧情设计/剧情线/`。
+
+---
+⛔ 下一 step：`steps/step-4-act-plan.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-4-act-plan.md`）
