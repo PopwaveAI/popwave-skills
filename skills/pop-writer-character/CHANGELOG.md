@@ -1,4 +1,31 @@
-﻿# CHANGELOG — 04-pop-novel-character-schema
+# CHANGELOG — 04-pop-novel-character-schema
+
+## v2.0.3 (2026-06-22)
+
+### 全目录统一：角色声音正式纳入分级方法论
+
+- **方法论同步**：`references/level-selection-methodology.md` 补入 `说法风格` 维度、选级四问、每级角色声音目标
+- **弧线指南补充**：`references/character-arc.md` 新增“弧线与说法风格的关系”，要求角色变化同步反映到对白
+- **步骤口径统一**：`step-1-select-level.md` 去掉旧维度数口径，改成按对白复杂度与叙事权重判断；`step-3-verify.md` 新增“级别与对白复杂度匹配”检查
+- **模板颗粒度改写**：`Lv1~Lv4` 顶部颗粒度说明全部改成新口径，不再保留过时维度数
+- **版本统一**：`SKILL.md` 与 `skill.json` 升至 `2.0.3`
+
+---
+
+## v2.0.2 (2026-06-22)
+
+### 结构优化：首屏约束前置 + 核心流程 I/O 化 + 元数据对齐
+
+- **SKILL.md 首屏重写**：压缩 frontmatter，仅保留名称与触发描述；首屏补齐“定位 + 核心约束”
+- **质量红线升级为 6 条**：新增模板缺失不编造、题材扩展不改通用模板、落盘后不回贴全文等执行红线
+- **核心流程补齐 I/O**：三步流程全部改为 `读什么 / 做什么 / 产出 / 门禁` 结构，并统一指向 `steps/`
+- **新增文件索引与消费关系**：把 steps、references、templates 的入口显式列出，消费方改为 `creative / plot / chapter`
+- **异常边界条件重写**：按前置信息不足、模板缺失、格式不匹配、循环依赖、用户改需求、子 skill 不可用等场景重写
+- **skill.json 对齐**：版本升至 `2.0.2`，description 改为触发条件式，补充 `produces`，下游改为 `pop-writer-plot` + `pop-writer-chapter`，写权限改为 `true`
+- **角色卡模板补强**：`Lv1~Lv4` 全部新增“说法风格”字段与“最小样例”，让角色卡可直接驱动对白书写
+- **示例卡同步同构**：`examples/Lv1~Lv4` 全部补齐“说法风格”，并与新模板章节结构对齐
+
+---
 
 ## v2.0.1 (2026-06-14)
 

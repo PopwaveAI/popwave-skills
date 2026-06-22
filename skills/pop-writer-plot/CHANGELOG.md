@@ -1,5 +1,18 @@
 ﻿# CHANGELOG — 08-pop-novel-plot
 
+## v7.1.0 — 2026-06-22
+
+### PRD 对齐：剧情线独立文档 + Canvas 节奏总控并存
+
+- **纠正 Canvas 口径**：Canvas 不废除，定位为剧情密度、每条线按章节奏、payoff 释放与多线汇聚的节奏仪表盘
+- **SKILL.md 重构**：从 363 行压缩为路由层，按 v6 skill 规范保留定位、红线、速查表、步骤索引、边界条件、落盘检查点
+- **流程对齐 PRD**：重构为 6 步：卷战略定位 → 拉种子与查库 → 剧情线独立文档 → 分幕规划 → 章锚点与 Canvas → 契诃夫枪链
+- **steps 全量替换**：移除旧 `step-0-architecture.md`、`step-1-volume.md`、`step-2-act.md`，新增 `step-1-volume-strategy.md` 到 `step-6-chekhov.md`
+- **templates 全量替换**：移除旧 `volume-design.md`、`act-skeleton.md`、`act-skeleton.yaml`、`act-guide.md`、`rhythm-check.md`，新增六个 PRD 对齐模板
+- **skill.json 对齐**：版本升至 `7.1.0`，补齐真实上游 `creative/reservoir/world/character/trope-library` 和 PRD 产出路径
+
+---
+
 ## v6.3.0 — 2026-06-12
 
 ### D 线（设定穿透）落地
