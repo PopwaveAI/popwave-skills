@@ -21,7 +21,8 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 | 我要 | 读什么文件 | 什么时候读 | 产出 |
 |:-----|:----------|:----------|:-----|
 | 创建新 skill | `steps/step-1-design.md` | 用户说"创建/新建/加个 skill" | SKILL.md + skill.json 骨架 |
-| 改造存量 skill | `steps/step-2-refactor.md` + `references/skill-audit-checklist.md` | 用户说"改造/修复/重写 skill" | 改造后文件 + 审计报告 |
+| 改造存量 skill | `steps/step-2-refactor.md` | 用户说"改造/修复/重写 skill" | 改造后文件 + 审计报告 |
+| 跨 skill 边界审计 | `references/cross-skill-audit.md` | 改造完一个 skill 后，检查相邻 skill 边界 | 8 条边界检查通过 |
 | 评估 skill | `steps/step-3-evaluate.md` | 用户说"评估/打分/review" | 8 维评分卡 + 改进建议 |
 | 审计 skill 执行数据 | `steps/step-4-session-audit.md` | 用户说"审计/数据驱动分析" | 审计报告 |
 | 查 state.db 表结构 | `references/session-data-guide.md` | D 模式首次连接 DB 时 | — |
@@ -31,8 +32,8 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 ## 核心流程
 
 1. **路由** — 从速查表匹配模式，加载对应 step 文件
-2. **改造前置** — Mode B 必须先跑 `references/skill-audit-checklist.md`（7 类检查），通过后才进 step-2-refactor
-3. **执行** — 按 step 文件的 SOP 执行
+2. **改造前置** — Mode B 先输出扫描报告（结构/越界/膨胀/缺口），通过后进 step-2-refactor
+3. **改造后置** — 改造完成后执行 `references/cross-skill-audit.md`（8 条边界检查），确认相邻 skill 未破坏
 4. **验收** — 按 step 文件的落盘检查点逐项验证
 
 ## 读取协议（所有文件读取强制执行）

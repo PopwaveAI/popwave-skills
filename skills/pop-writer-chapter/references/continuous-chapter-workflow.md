@@ -2,14 +2,16 @@
 
 > 适用场景：第一卷已架构完成，需要逐章产出。
 > 前置条件：`状态/entity-snapshot.yaml` 已初始化。
-> 管线: pop-writer-chapter v2.2
+> 管线: pop-writer-chapter v2.3
 
 ## 一、每章产出顺序
 
 ```
-读 act-YY.md Canvas → 读 entity-snapshot → 设计事件链 → 写入设计包.md
-→ 渲染正文(prose) → 核验正文 → 更新 entity-snapshot → 供下一章调用
+读 act-YY.md Canvas → 读 entity-snapshot → 设计事件链 → 写入设计包
+→ 更新 entity-snapshot（after 状态）→ 渲染正文(prose) → 供下一章调用
 ```
+
+> ★ entity-snapshot 由 chapter 维护——prose 不参与状态管理。chapter 从设计包的 after 状态直接更新。
 
 ### Step 0：读幕纲 Canvas
 

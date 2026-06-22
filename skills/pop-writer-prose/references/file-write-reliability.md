@@ -43,7 +43,6 @@ print(f"Current: {size} bytes")  # 验证后决定是追加还是重写全文件
 # 方法 A：全文件重写（最可靠）
 with open("正文/chXXX.md", "r", encoding="utf-8") as f:
     existing = f.read()
-write_file("正文/chXXX.md", existing + state_update)
 
 # 方法 B：追加（仅当文件完整时可用）
 # 用 terminal 执行: printf '%s' "$STATE_UPDATE" >> 正文/chXXX.md
@@ -58,7 +57,6 @@ write_file("正文/chXXX.md", existing + state_update)
 wc -c 正文/chXXX.md  # 确认与预期一致
 
 # 2. 状态块存在性
-grep -c '_state_update' 正文/chXXX.md || echo "MISSING"
 
 # 3. 末行完整性
 tail -3 正文/chXXX.md  # 确认不是截断的中间行
@@ -112,7 +110,6 @@ if len(clean) < len(raw) * 0.9:
 
 1. **写文件内容时，永远从你的 Python 变量/模板直接构建**，不依赖 `read_file` 输出作为文本源
 2. 如需合并已有文件 + 新内容：
-   - ❌ `text = read_file("ch003.md").content + state_update`
    - ✅ 用 `terminal` 工具执行 `python3 -c "..."` 直接读写文件（不走 Hermes read_file/write_file 工具）
    - ✅ 或在 execute_code 中用 Python 的 `open()` + `f.read()` 直接读写
 3. **每次写入后立即验证**：检查文件前 3 行首字符是否为 `#`（正文文件）而非数字
