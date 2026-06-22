@@ -1,5 +1,22 @@
 # CHANGELOG — expert-writer
 
+## v4.5.0 (2026-06-22)
+
+### pop-trope-library 集成：查询矩阵系统化
+
+**问题**：PRD v5.0 只在"入"列写了"library"一词，没有系统化定义每个环节查什么模块。expert-writer 也没有 trope-library 查询引导。
+
+**PRD 迭代（v5.0 → v5.1）**：新增"三、pop-trope-library 公共知识库集成"章节 — 四模块定义 + 8 阶段查询矩阵 + 4 条查询纪律。
+
+**expert-writer 更新**：
+- `SKILL.md`：新增 `## pop-trope-library 查询矩阵` 段落（8 阶段×查询模块×用途），管线版本标注从 v5.0 改为 v5.1
+- `references/pipeline/manifest.md`：阶段表新增 `library 查询` 列，8 个阶段全部标注查询模块
+- `steps/step-2-execute.md`：强制加载部分新增 library 查询提醒
+
+**查询矩阵覆盖 8 个阶段**：creative（元爽点匹配）→ reservoir（设定+套路）→ world（设定创意池）→ character（质感参考）→ plot（套路链+剧情库）→ chapter（套路公式）→ prose（文风DNA）→ qa（使用红线）
+
+---
+
 ## v4.4.0 (2026-06-22)
 
 ### project/ 精简：health-check.md + state-discovery.md 删除

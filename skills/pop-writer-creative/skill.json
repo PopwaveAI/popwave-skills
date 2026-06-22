@@ -1,11 +1,12 @@
 {
   "id": "pop-writer-creative",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "displayName": "创意打磨",
-  "description": "创意打磨 v4.2.0。用户给模糊想法 → agent 联网搜索+公共数据库生成 2-3 个故事概念选项 → 用户选择 → 产出 PRD.md（宪法结构10块：剧情简述→篇幅→爽点→卖点→美学→宪法→承诺→DNA→矩阵→素材→画像）。网文基准2k-3k字/章。模板见 references/prd-创意版示例.md。",
+  "description": "创意打磨 v4.4.0。用户给模糊想法 → trope-library 查询 + 联网搜索生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（宪法结构10块）。网文基准2k-3k字/章。模板见 references/prd-模板-空白.md。",
   "pipeline": {
     "upstream": ["pop-decon"],
-    "downstream": ["pop-writer-world", "pop-writer-plot"]
+    "downstream": ["pop-writer-world", "pop-writer-plot"],
+    "references": ["pop-trope-library"]
   },
   "entry": "SKILL.md",
   "activation": {

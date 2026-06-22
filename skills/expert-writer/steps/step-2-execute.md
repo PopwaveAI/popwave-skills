@@ -24,6 +24,8 @@ Get-Content -Encoding UTF8 -Raw 子 skill SKILL.md → 验证完整
 Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 ```
 
+**library 查询提醒**：路由到子 skill 前，对照 SKILL.md 的 pop-trope-library 查询矩阵，提醒子 skill 查询对应模块。子 skill 自管查询逻辑（按 `skills/pop-trope-library/references/调用匹配SOP.md` 三维查询）。
+
 **每次阶段完成后**：回写 `项目总控.md`，更新管线进度标记和当前阶段。
 
 ---
