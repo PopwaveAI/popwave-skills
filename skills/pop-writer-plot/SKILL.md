@@ -3,7 +3,7 @@ name: pop-writer-plot
 description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化 / 剧情线 / 幕纲 / Canvas节奏 / 契诃夫枪链"时启用。产出剧情设计文件，供 chapter 与 prose 消费。
 ---
 
-# pop-writer-plot · 剧情架构设计 v7.2.0
+# pop-writer-plot · 剧情架构设计 v7.3.0
 
 > **定位：从 PRD、世界设定、角色卡、素材储备池和 trope-library，产出卷纲、剧情线、幕纲。**
 > **核心约束：文件收敛为 3 类：卷纲、剧情线、幕纲。Canvas 不废除，契诃夫枪链并入幕纲。**
@@ -28,8 +28,8 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 | 步骤2 | 更新卷纲 · 剧情卡筛选与卷级特化 | 卷纲 + 素材储备池 + 套路库 + 剧情库 | `剧情设计/卷/卷{N}-卷纲.md` | ❌ 只列清单不特化退回 |
 | 步骤3 | 主支线剧情线成文 | 卷纲候选线雏形 + 角色池 + 数值体系 | `剧情设计/剧情线/{主线,支线}-{编号}-{名称}.md` | ❌ 六件套缺失退回 |
 | 步骤4 | 创建幕纲 · 分幕层 | 剧情线文档 + 卷纲 | `剧情设计/幕/vol-XX/act-YY.md` | ❌ 每幕少于3条活跃线退回 |
-| 步骤5 | 更新幕纲 · 章锚点与 Canvas | 幕纲 + 剧情线 + `rank_schedule` | `剧情设计/幕/vol-XX/act-YY.md` | ❌ Canvas 密度不达标退回 |
-| 步骤6 | 更新幕纲 · 契诃夫枪链 | 剧情线枪点 + 幕纲 Canvas | `剧情设计/幕/vol-XX/act-YY.md` | ❌ 回收窗口缺失退回 |
+| 步骤5 | 更新幕纲 · 章锚点与 Canvas | 幕纲 + 剧情线（含枪链） + `rank_schedule` | `剧情设计/幕/vol-XX/act-YY.md` | ❌ Canvas 密度不达标或枪点回收无预留退回 |
+| 步骤6 | 验证幕纲 · Canvas 节奏与爽点密度 | 幕纲 Canvas + payoff-design-guide + 剧情线枪链 | `剧情设计/幕/vol-XX/act-YY.md`（验核报告） | ❌ 主线无枪链退回 Step3；其余标 ⚠️ 不阻塞 |
 
 ## 文件索引
 
@@ -40,7 +40,7 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 | Step | `steps/step-3-plotline-docs.md` | 主支线剧情线成文 |
 | Step | `steps/step-4-act-plan.md` | 创建幕纲分幕层 |
 | Step | `steps/step-5-chapter-anchors.md` | 更新幕纲：章锚点与 Canvas |
-| Step | `steps/step-6-chekhov.md` | 更新幕纲：契诃夫枪链 |
+| Step | `steps/step-6-chekhov.md` | 验证幕纲：Canvas 节奏与爽点密度 |
 | Template | `templates/volume-outline.md` | 卷纲模板 |
 | Template | `templates/plotline-doc.md` | 剧情线文档模板 |
 | Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） |
@@ -81,18 +81,18 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 详细指令见 `steps/step-4-act-plan.md`。
 
 ### 步骤5：更新幕纲 · 章锚点与 Canvas
-**读什么：** 幕纲、剧情线文档、`rank_schedule`
-**做什么：** 写章锚点、Canvas 矩阵和节奏评估
+**读什么：** 幕纲、剧情线文档（含每条线的契诃夫枪链）、`rank_schedule`
+**做什么：** 写章锚点、Canvas 矩阵、节奏评估；从剧情线提取枪点为回收章预留 payoff 容量
 **更新/产出：** `剧情设计/幕/vol-XX/act-YY.md`
-**❌ 门禁：** 每章至少 1 条线 payoff ≥ 中；任一线连续 3 章空铺垫后必须释放或说明缓冲原因
+**❌ 门禁：** 每章至少 1 条线 payoff ≥ 中；任一线连续 3 章空铺垫后必须释放或说明缓冲原因；枪点回收章无 payoff 预留退回
 
 详细指令见 `steps/step-5-chapter-anchors.md`。
 
-### 步骤6：更新幕纲 · 契诃夫枪链
-**读什么：** 剧情线文档中的枪链 + 幕纲章锚点/Canvas
-**做什么：** 在幕纲内维护枪点设伏、回收窗口、回收章和风险
-**更新/产出：** `剧情设计/幕/vol-XX/act-YY.md`
-**❌ 门禁：** 主线没有枪链或枪链没有回收窗口 → 退回补齐
+### 步骤6：验证幕纲 · Canvas 节奏与爽点密度
+**读什么：** 幕纲 Canvas、`references/payoff-design-guide.md`、剧情线枪链
+**做什么：** 对照 payoff 设计规范逐项验核：中爽点密度、大爽点间隔、特大爽点汇聚、全书承诺兑现、线间平衡、枪链子项
+**更新/产出：** `剧情设计/幕/vol-XX/act-YY.md`（验核报告段）
+**❌ 门禁：** 主线无枪链退回 Step3；其余密度/间隔/汇聚不达标标 ⚠️ 不阻塞
 
 详细指令见 `steps/step-6-chekhov.md`。
 
@@ -109,9 +109,10 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 
 > ❌ 因为每条剧情线已有独立文档，就删掉 Canvas
 > ✅ 保留 Canvas，用它检查每章剧情密度、每条线连续空白、payoff 释放和多线汇聚
+> ★ Canvas 设计时纳入剧情线枪链：枪点回收章预留 payoff 容量，同章回收不超过 2 个
 
 > ❌ 枪链单独放 `chekhov-tracker.md`，导致和 Canvas 脱节
-> ✅ 枪链并入幕纲，与章锚点和 Canvas 同屏维护
+> ✅ 枪链并入幕纲，与章锚点和 Canvas 同屏维护。★ Step5 Canvas 设计时就消费枪链，Step6 只做验证。
 
 ## 边界情况
 
@@ -137,4 +138,4 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 
 ## 版本
 
-v7.2.0 | 2026-06-22 | 文件收敛：卷纲 / 剧情线 / 幕纲；枪链并入幕纲 → [CHANGELOG.md](CHANGELOG.md)
+v7.4.0 | 2026-06-22 | Step6 重构：契诃夫枪链验证 → Canvas 节奏与爽点密度验核（对照 payoff-design-guide） → [CHANGELOG.md](CHANGELOG.md)
