@@ -1,24 +1,50 @@
-# Step 2: 下载 TXT
+# Step 2：直链下载/导入并转码
 
-> **读什么：** 第一步产出的直链 URL。
-> **产出什么：** `d:\popwave-skills\{书名}.txt`（TXT 文件）。
+> **读什么：** Step 1 的 `source` 与 `title`。
+> **产出什么：** UTF-8 TXT 文件。
 
-## 操作步骤
+## 推荐命令
 
-用 `curl` 或 `wget` 下载 TXT 文件。
+从仓库根目录运行：
 
-```bash
-curl -L "直链URL" -o "{书名}.txt"
+```powershell
+python skills\tool-download-webnovel\scripts\download_text.py "SOURCE" --title "书名"
 ```
+
+指定输出目录：
+
+```powershell
+python skills\tool-download-webnovel\scripts\download_text.py "SOURCE" --title "书名" --output-dir "D:\popwave-skills\downloads"
+```
+
+短篇/样章可降低阈值：
+
+```powershell
+python skills\tool-download-webnovel\scripts\download_text.py "SOURCE" --title "书名" --min-bytes 2048
+```
+
+## 脚本会做什么
+
+- 下载 http(s) URL，或复制本地文件。
+- 如来源是 `.zip`，提取其中最大的 `.txt/.md`。
+- 尝试识别 `utf-8-sig/utf-8/gb18030/gbk/big5`。
+- 统一保存为 UTF-8。
+- 拦截 HTML、错误页、网盘页、过小文件。
 
 ## 门禁
 
-- [ ] 下载成功，文件大小 > 0
-- [ ] 文件编码为 UTF-8（或可转换）
-- [ ] 文件内容可读（非乱码/非防盗链页面）
-- ❌ 文件大小为 0 或内容明显错误 → **退回**。尝试下一条直链。
-- ❌ 所有直链均下载失败 → **退回**。告知用户"所有直链均不可用"。
+| 检查项 | 失败动作 |
+|:-------|:---------|
+| 脚本退出码为 0 | 进入 Step 3 |
+| 脚本退出码为 2 | 读取错误信息，说明文件疑似无效 |
+| 下载失败 | 请用户换授权来源 |
+| RAR/7z | 请用户解压后提供 TXT 或 ZIP |
 
-## 产出
+## 输出
 
-`d:\popwave-skills\{书名}.txt`（TXT 文件）。
+脚本输出中读取：
+
+- `output=...`
+- `encoding=...`
+- `bytes=...`
+- `preview=...`

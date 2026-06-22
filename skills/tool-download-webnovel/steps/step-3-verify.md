@@ -1,31 +1,40 @@
-# Step 3: 验证输出
+# Step 3：验证并交付
 
-> **读什么：** 第二步下载的 TXT 文件。
-> **产出什么：** 确认可消费的 TXT 文件。
+> **读什么：** Step 2 的脚本输出和保存文件。
+> **产出什么：** 可交给 `pop-decon` 的 TXT 路径，或阻塞原因。
 
-## 操作步骤
+## 验证项
 
-验证文件完整性和编码。
+| 检查项 | 标准 |
+|:-------|:-----|
+| 文件存在 | `output` 路径存在 |
+| 文件大小 | 默认 ≥ 100KB；短篇/样章需用户确认 |
+| 编码 | 最终文件为 UTF-8 |
+| 内容 | 非 HTML、非错误页、非网盘提示页 |
+| 预览 | 前 100-120 字可读 |
 
-```bash
-# 检查文件大小
-ls -la "d:\popwave-skills\{书名}.txt"
+## 可选人工复查命令
 
-# 检查编码
-file "d:\popwave-skills\{书名}.txt"
-
-# 检查前 100 行是否包含小说正文
-head -100 "d:\popwave-skills\{书名}.txt"
+```powershell
+Get-Item "D:\popwave-skills\downloads\书名.txt"
+Get-Content "D:\popwave-skills\downloads\书名.txt" -Encoding UTF8 -TotalCount 20
 ```
 
-## 门禁
+## 交付格式
 
-- [ ] 文件 ≥ 100KB（正常小说长度）
-- [ ] 编码为 UTF-8（如非 UTF-8，先转换再保存）
-- [ ] 开头非乱码、非防盗链页面
-- ❌ 文件 < 100KB → **退回**。疑似不完整，告知用户。
-- ❌ 内容为 HTML/防盗链页面 → **退回**。直链已失效。
+不要粘贴全文。只回复：
 
-## 产出
+```text
+已导入：D:\popwave-skills\downloads\书名.txt
+大小：{N} MB
+原编码：{encoding}
+预览：{preview}
+状态：可交给 pop-decon
+```
 
-确认可消费的 TXT 文件。
+## 失败格式
+
+```text
+未能导入：{原因}
+建议：请提供授权 TXT/ZIP 直链，或先手动下载后把本地文件路径发给我。
+```
