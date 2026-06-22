@@ -20,20 +20,32 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 | ❌6 | **章锚点越权写成设计包** — 幕纲只给章级目标/钩子/Canvas，不写完整事件链和正文风格 |
 | ❌7 | **枪链游离在外** — 枪链必须并入幕纲，同屏检查设伏、回收窗口和 Canvas payoff |
 
-## 速查表
+## 速查表（完整目录引导）
 
-| 类型 | 路径 | 用途 | 什么时候用 | 门禁 |
-|:-----|:-----|:-----|:----------|:-----|
-| Step | `steps/step-1-volume-strategy.md` | 创建卷纲 · 战略层 | 第 1 步 | ❌ 起点/终点/篇幅预算任一未锁定退回 |
-| Step | `steps/step-2-seed-pull.md` | 更新卷纲 · 剧情卡筛选与卷级特化 | 第 2 步 | ❌ 只列清单不特化退回 |
-| Step | `steps/step-3-plotline-docs.md` | 主支线剧情线成文 | 第 3 步 | ❌ 六件套缺失退回 |
-| Step | `steps/step-4-act-plan.md` | 创建幕纲 · 分幕层 | 第 4 步 | ❌ 每幕少于 3 条活跃线或篇幅预算缺失退回 |
-| Step | `steps/step-5-chapter-anchors.md` | 更新幕纲 · 章锚点与 Canvas | 第 5 步 | ❌ Canvas 密度不达标或枪点回收无预留退回 |
-| Step | `steps/step-6-chekhov.md` | 验证幕纲 · Canvas 节奏与爽点密度 | 第 6 步 | ❌ 主线无枪链退回 Step3；其余标 ⚠️ 不阻塞 |
-| Template | `templates/volume-outline.md` | 卷纲模板（战略层 + 剧情卡特化） | Step 1/2 产出时 | — |
-| Template | `templates/plotline-doc.md` | 剧情线文档模板（六件套 + 枪链） | Step 3 产出时 | — |
-| Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） | Step 4/5/6 产出时 | — |
-| Reference | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则 | Step 5 设计 + Step 6 验核 | — |
+### steps/ — 执行层
+
+| 什么时候 | 读什么文件 | 产出 | 门禁 |
+|:---------|:----------|:-----|:-----|
+| 第 1 步 | `steps/step-1-volume-strategy.md` | 卷纲 · 战略层 | ❌ 起点/终点/篇幅预算任一未锁定退回 |
+| 第 2 步 | `steps/step-2-seed-pull.md` | 卷纲 · 剧情卡筛选与卷级特化 | ❌ 只列清单不特化退回 |
+| 第 3 步 | `steps/step-3-plotline-docs.md` | 剧情线文档（主线/支线） | ❌ 六件套缺失退回 |
+| 第 4 步 | `steps/step-4-act-plan.md` | 幕纲 · 分幕层 | ❌ 每幕少于 3 条活跃线或篇幅预算缺失退回 |
+| 第 5 步 | `steps/step-5-chapter-anchors.md` | 幕纲 · 章锚点与 Canvas | ❌ Canvas 密度不达标或枪点回收无预留退回 |
+| 第 6 步 | `steps/step-6-chekhov.md` | 幕纲 · Canvas 验核报告 | ❌ 主线无枪链退回 Step3；其余标 ⚠️ 不阻塞 |
+
+### templates/ — 模板层
+
+| 什么时候 | 读什么文件 | 产出 |
+|:---------|:----------|:-----|
+| Step 1/2 | `templates/volume-outline.md` | 卷纲（战略层 + 剧情卡特化） |
+| Step 3 | `templates/plotline-doc.md` | 剧情线文档（六件套 + 枪链） |
+| Step 4/5/6 | `templates/act-outline.md` | 幕纲（分幕 + Canvas + 枪链） |
+
+### references/ — 知识层（读后理解，指导操作）
+
+| 什么时候 | 读什么文件 | 产出 |
+|:---------|:----------|:-----|
+| Step 5 设计 + Step 6 验核 | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则（四级爽点 + 设计案例） |
 
 ## 核心流程
 

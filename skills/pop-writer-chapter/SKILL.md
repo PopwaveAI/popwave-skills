@@ -30,21 +30,39 @@ version: 2.2.0
 | 11 | **调味空间缺失** — 设计包缺调味空间段 → prose 不知道调味边界 |
 | 12 | **未查套路库就定事件链** — `pop-trope-library/套路库/{套路名}.md` 有公式和节奏控制，不查=重新发明 |
 
-## 速查表
+## 速查表（完整目录引导）
 
-| 类型 | 路径 | 用途 | 什么时候用 | 门禁 |
-|:-----|:-----|:-----|:----------|:-----|
-| Step | `steps/step-1-read-canvas.md` | 建立基线 | 第 1 步 | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
-| Step | `steps/step-2-event-chain.md` | 正式设计 | 第 2 步 | ❌ 密度/爽点/字段 不达标退回 |
-| Step | `steps/step-3-output.md` | 产出落盘 | 第 3 步 | ❌ 缺落盘退回 |
-| Template | `templates/baseline.tpl.md` | 基线模板（6 块结构，内存） | Step 1 产出时 | — |
-| Template | `templates/fact-skeleton.md` | 设计包模板（事件链 + 全部设计层） | Step 2/3 产出时 | — |
-| Reference | `references/payoff-guide.md` | 爽点承接：四级爽点承接规则 | Step 2 设计爽点时 | — |
-| Reference | `references/emotional-beats.md` | 情绪节拍：词汇表 + 弧线检查 | Step 2 标注情绪时 | — |
-| Reference | `references/character-scheduling.md` | 角色调度：before 状态 / 台词风格 | Step 2 设计角色事件时 | — |
-| Reference | `references/location-orchestration.md` | 空间编排：地点来源 / 地理可达 | Step 2 设计地点时 | — |
-| Reference | `references/info-release.md` | 信息释放：分配规则 / 密度检查 | Step 2 设计信息释放时 | — |
-| Reference | `references/continuous-chapter-workflow.md` | 连章工作流：逐章顺序 + 并行委托 | 批量生产 / 连续章节时 | — |
+### steps/ — 执行层
+
+| 什么时候 | 读什么文件 | 产出 | 门禁 |
+|:---------|:----------|:-----|:-----|
+| 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
+| 第 2 步 | `steps/step-2-event-chain.md` | 完整设计包 | ❌ 密度/爽点/字段 不达标退回 |
+| 第 3 步 | `steps/step-3-output.md` | 设计包落盘 + entity-snapshot 更新 + 枪链同步 | ❌ 缺落盘退回 |
+
+### templates/ — 模板层
+
+| 什么时候 | 读什么文件 | 产出 |
+|:---------|:----------|:-----|
+| Step 1 | `templates/baseline.tpl.md` | 基线（6 块结构，内存） |
+| Step 2/3 | `templates/fact-skeleton.md` | 设计包（事件链 + 全部设计层） |
+
+### references/ — 知识层（读后理解，指导操作）
+
+| 什么时候 | 读什么文件 | 产出 |
+|:---------|:----------|:-----|
+| Step 2 设计爽点时 | `references/payoff-guide.md` | 四级爽点承接规则（◆小爽点≥5 + ★中爽点≥1） |
+| Step 2 标注情绪时 | `references/emotional-beats.md` | 情绪词汇表 + 弧线检查规则 |
+| Step 2 设计角色时 | `references/character-scheduling.md` | 角色调度：before 状态 / 台词风格 |
+| Step 2 设计地点时 | `references/location-orchestration.md` | 空间编排：地点来源 / 地理可达 |
+| Step 2 信息释放时 | `references/info-release.md` | 信息释放：分配规则 / 密度检查 |
+| 批量 / 连续章节 | `references/continuous-chapter-workflow.md` | 连章顺序 + 并行委托 |
+
+### 外部依赖
+
+| 什么时候 | 读什么文件 | 产出 |
+|:---------|:----------|:-----|
+| Step 2 部署套路时 | `pop-trope-library/套路库/{套路名}.md` | 套路公式 + 节奏控制 |
 
 ## 核心流程
 

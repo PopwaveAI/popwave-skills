@@ -21,7 +21,7 @@ description: "当用户要求创建/改造/评估/审计 Popwave Skill 时启用
 | 我要 | 读什么文件 | 什么时候读 | 产出 |
 |:-----|:----------|:----------|:-----|
 | 创建新 skill | `steps/step-1-design.md` | 用户说"创建/新建/加个 skill" | SKILL.md + skill.json 骨架 |
-| 改造存量 skill | `steps/step-2-refactor.md` | 用户说"改造/修复/重写 skill" | 改造后文件 + 对比报告 |
+| 改造存量 skill | `steps/step-2-refactor.md` + `references/skill-audit-checklist.md` | 用户说"改造/修复/重写 skill" | 改造后文件 + 审计报告 |
 | 评估 skill | `steps/step-3-evaluate.md` | 用户说"评估/打分/review" | 8 维评分卡 + 改进建议 |
 | 审计 skill 执行数据 | `steps/step-4-session-audit.md` | 用户说"审计/数据驱动分析" | 审计报告 |
 | 查 state.db 表结构 | `references/session-data-guide.md` | D 模式首次连接 DB 时 | — |
