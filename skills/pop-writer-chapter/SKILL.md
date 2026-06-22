@@ -34,26 +34,41 @@ version: 2.2.0
 
 | 步骤 | 操作 | 读什么 | 产出 | 门禁 |
 |:-----|:-----|:-------|:-----|:-----|
-| 1 | 读入上下文 | act-YY.md + 剧情线文档 + `状态/entity-snapshot.yaml` + 角色卡 + `pop-trope-library/套路库/{套路名}.md` | 设计基线（内存） | ❌ 前置检查通过 |
-| 2 | 事件链设计 | Step1 基线 + 剧情线的套路链 + 枪链 | 完整事件链（每事件含 scene/POV/关键对白/感官锚点/情绪/爽点/枪链引用） | ❌ 密度不够退回 |
-| 3 | 产出落盘 | Step2 事件链 | `章节设计包/chXXX-设计包.md` + entity-snapshot 更新 + act-YY.md 枪链更新 | ❌ 缺落盘退回 |
+| 1 | 建立基线 | act-YY.md 全文 + `状态/entity-snapshot.yaml` + 活跃剧情线文档 | 基线（内存，结构化模板） | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
+| 2 | 正式设计 | 基线 + 角色卡(登场角色) + 上一章正文最后~500字 + payoff-guide.md + 套路库/{套路名}.md | 完整设计包（事件链+情绪弧+爽点+钩子+枪+调味空间） | ❌ 密度/爽点/字段 不达标退回 |
+| 3 | 产出落盘 | Step 2 设计包 | `章节设计包/chXXX-设计包.md` + entity-snapshot 更新 + act-YY.md 枪链更新 | ❌ 缺落盘退回 |
+
+## 文件索引
+
+| 类型 | 路径 | 用途 |
+|:-----|:-----|:-----|
+| Step | `steps/step-1-read-canvas.md` | 建立基线：读 act-YY.md + entity-snapshot + 活跃剧情线 |
+| Step | `steps/step-2-event-chain.md` | 正式设计：事件链 + 情绪弧 + 爽点 + 钩子 + 枪 + 调味空间 |
+| Step | `steps/step-3-output.md` | 产出落盘：写设计包 + 更新 entity-snapshot + 同步枪链 |
+| Template | `templates/baseline.tpl.md` | 基线模板（6 块结构，内存） |
+| Template | `templates/fact-skeleton.md` | 设计包模板（事件链 + 全部设计层） |
+| Reference | `references/payoff-guide.md` | 爽点承接：四级爽点（小/中/大/特大）的承接规则 |
+| Reference | `references/emotional-beats.md` | 情绪节拍：词汇表 + 情绪弧线检查规则 |
+| Reference | `references/character-scheduling.md` | 角色调度：before 状态 / Canvas 验证 / 台词风格 |
+| Reference | `references/location-orchestration.md` | 空间编排：地点来源 / 地理可达 / 情绪匹配 |
+| Reference | `references/info-release.md` | 信息释放：分配规则 / 密度检查 / L1 设定读取 |
+| Reference | `references/continuous-chapter-workflow.md` | 连章工作流：逐章产出顺序 + 跨章衔接 + 并行委托 |
 
 ## 核心流程
 
-### 步骤1：读入上下文
-**读什么：** `剧情设计/幕/vol-XX/act-YY.md`、`剧情设计/剧情线/*.md`、`状态/entity-snapshot.yaml`、`状态/角色/*.md`、`pop-trope-library/套路库/{套路名}.md`
-**做什么：** 建立本章设计基线：章位置/payoff/场景类型/登场角色/枪链/字数预算。CH1 时初始化 entity-snapshot（从角色卡+起点快照组装）。
-**❌ 门禁：** 上游文件缺失或 entity-snapshot 不可用 → 终止
+### 步骤1：建立基线
+**读什么：** `剧情设计/幕/vol-XX/act-YY.md`（全文）、`状态/entity-snapshot.yaml`、`剧情设计/剧情线/{活跃线}.md`
+**做什么：** 建立结构化基线——本章位置/Canvas约束/角色现状/活跃线上下文/篇幅预算。基线在内存，不落盘。
+**❌ 门禁：** 幕纲/entity-snapshot/剧情线 缺一终止。CH1 时初始化 entity-snapshot（从角色卡+起点快照组装）。
 
 详细指令见 `steps/step-1-read-canvas.md`。
 
-### 步骤2：事件链设计
-**读什么：** Step1 基线 + 剧情线的套路链/枪链
-**做什么：** 逐事件设计：地点/角色/scene/POV/关键对白/感官锚点/情绪/冲突层次/爽点/枪链引用/估计字数。全部事件后全局检查情绪弧线/因果/钩子。
-**❌ 门禁：** 事件数 < 章字数 ÷ 200 退回；缺四字段退回；跨章弧线未标注退回
+### 步骤2：正式设计
+**读什么：** Step1 基线 + 角色卡（登场角色）+ 上一章正文最后~500字 + `references/payoff-guide.md` + `pop-trope-library/套路库/{套路名}.md`
+**做什么：** Phase A 读入按需材料 → Phase B 逐事件设计事件链 → Phase C 补充设计层（情绪弧/爽点表/钩子/调味空间/对白语气/枪表/信息释放）
+**❌ 门禁：** 事件数不达标/缺字段/爽点不足/章首高潮/情绪断裂 任一 → 退回
 
 详细指令见 `steps/step-2-event-chain.md`。
-
 ### 步骤3：产出落盘
 **读什么：** Step2 事件链
 **做什么：** 写入设计包（含事件链/情绪弧/爽点机制/钩子/枪链/调味空间/对白分析）+ 更新 `状态/entity-snapshot.yaml`（after 状态）+ 回写 act-YY.md 枪链段
@@ -102,4 +117,4 @@ version: 2.2.0
 
 ## 版本
 
-v2.2.0 | 2026-06-22 | 全量对齐 plot v7.6 + PRD v5.2：路径修复/entity-snapshot 归属 chapter/瘦身 → [CHANGELOG.md](CHANGELOG.md)
+v2.2.0 | 2026-06-22 | 全量对齐 plot v7.6 + PRD v5.3：路径修复/entity-snapshot 归属 chapter/Step 拆分为基线+正式设计/瘦身 → [CHANGELOG.md](CHANGELOG.md)

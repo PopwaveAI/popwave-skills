@@ -1,6 +1,6 @@
 ﻿# payoff-guide.md — 爽点承接指南
 
-> 管线: pop-writer-chapter v1.5
+> 管线: pop-writer-chapter v2.2
 > 定位：chapter-design 专属。如何承接 plot 设计的爽点布局。
 > **小爽点例外：自设计自承接（本章独有）。**
 > 设计方法论 → `pop-writer-plot/references/payoff-design-guide.md`

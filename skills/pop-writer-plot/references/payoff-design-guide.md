@@ -1,6 +1,6 @@
 ﻿# payoff-design-guide.md — 四级爽点设计方法论
 
-> 管线: pop-writer-plot v7.2
+> 管线: pop-writer-plot v7.6
 > 定位：plot 专属。如何在幕纲 `act-YY.md` 的 Canvas 中设计四级爽点（小/中/大/特大）。
 > 消费方（如何承接） → `pop-writer-chapter/references/payoff-guide.md`
 

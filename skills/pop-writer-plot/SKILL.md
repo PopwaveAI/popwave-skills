@@ -3,7 +3,7 @@ name: pop-writer-plot
 description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化 / 剧情线 / 幕纲 / Canvas节奏 / 契诃夫枪链"时启用。产出剧情设计文件，供 chapter 与 prose 消费。
 ---
 
-# pop-writer-plot · 剧情架构设计 v7.3.0
+# pop-writer-plot · 剧情架构设计 v7.6.0
 
 > **定位：从 PRD、世界设定、角色卡、素材储备池和 trope-library，产出卷纲、剧情线、幕纲。**
 > **核心约束：文件收敛为 3 类：卷纲、剧情线、幕纲。Canvas 不废除，契诃夫枪链并入幕纲。**
@@ -33,18 +33,14 @@ description: 当用户说"剧情架构 / 卷纲 / 剧情卡筛选 / 卷级特化
 
 ## 文件索引
 
-| 类型 | 路径 | 用途 |
-|:-----|:-----|:-----|
-| Step | `steps/step-1-volume-strategy.md` | 创建卷纲战略层 |
-| Step | `steps/step-2-seed-pull.md` | 更新卷纲：剧情卡筛选与卷级特化 |
-| Step | `steps/step-3-plotline-docs.md` | 主支线剧情线成文 |
-| Step | `steps/step-4-act-plan.md` | 创建幕纲分幕层 |
-| Step | `steps/step-5-chapter-anchors.md` | 更新幕纲：章锚点与 Canvas |
-| Step | `steps/step-6-chekhov.md` | 验证幕纲：Canvas 节奏与爽点密度 |
-| Template | `templates/volume-outline.md` | 卷纲模板 |
-| Template | `templates/plotline-doc.md` | 剧情线文档模板 |
-| Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） |
-| Reference | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则 |
+> Steps 见上方速查表（含完整 I/O 与门禁）。以下仅列 templates 和 references。
+
+| 类型 | 路径 | 用途 | 什么时候读 |
+|:-----|:-----|:-----|:----------|
+| Template | `templates/volume-outline.md` | 卷纲模板（战略层 + 剧情卡特化） | Step 1/2 产出时 |
+| Template | `templates/plotline-doc.md` | 剧情线文档模板（六件套 + 枪链） | Step 3 产出时 |
+| Template | `templates/act-outline.md` | 幕纲模板（分幕 + Canvas + 枪链） | Step 4/5/6 产出时 |
+| Reference | `references/payoff-design-guide.md` | Canvas payoff 分级与密度规则（四级爽点 + 设计案例） | Step 5 设计 Canvas + Step 6 验核时 |
 
 ## 核心流程
 
