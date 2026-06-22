@@ -74,8 +74,9 @@ version: 2.2.0
 详细指令见 `steps/step-1-read-canvas.md`。
 
 ### 步骤2：正式设计
-**读什么：** Step1 基线 + 角色卡（登场角色）+ 上一章正文最后~500字 + `references/payoff-guide.md` + `pop-trope-library/套路库/{套路名}.md`
-**做什么：** Phase A 读入按需材料 → Phase B 逐事件设计事件链 → Phase C 补充设计层（情绪弧/爽点表/钩子/调味空间/对白语气/枪表/信息释放）
+**预加载：** 基线 + `正文/ch{上一章}.md` 最后 ~500 字 + `references/payoff-guide.md` + `状态/角色/{登场角色}-角色卡.md`
+**按需查：** `pop-trope-library/套路库/{套路名}.md`（用到套路时）+ `references/` 下各文件（设计到对应维度时）
+**做什么：** ①预加载衔接+规则+角色 → ②逐事件设计事件链 → ③补充设计层（情绪弧/爽点表/钩子/调味空间/对白语气/枪表/信息释放）
 **❌ 门禁：** 事件数不达标/缺字段/爽点不足/章首高潮/情绪断裂 任一 → 退回
 
 详细指令见 `steps/step-2-event-chain.md`。

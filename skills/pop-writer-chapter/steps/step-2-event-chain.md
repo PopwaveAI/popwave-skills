@@ -11,16 +11,15 @@
 
 ## 执行顺序
 
-### Phase A：读入按需材料（一次性）
+### Phase A：预加载（一次性，必须读完再开始设计）
 
-| # | 文件 | 为什么 | 加载策略 |
-|:-:|:-----|:-------|:---------|
-| 1 | `状态/角色/{角色名}-角色卡.md` | 本章登场角色的 core_desire + 人格基线 + 关系动态 | 按角色读（仅 baseline 中标注「登场」的角色） |
-| 2 | `正文/ch{上一章}.md` 最后 ~500 字 | 叙事衔接——上一章的情绪落脚点、笔触、未闭合的张力 | 每章必读 |
-| 3 | `references/payoff-guide.md` | ◆小爽点自设计承接 + ★中爽点承接规则 | 每章必读 |
-| 4 | `pop-trope-library/套路库/{套路名}.md` | 本章部署的套路公式 + 节奏控制 | 按套路读（仅 baseline §5 中出现的套路） |
+| # | 文件 | 为什么 |
+|:-:|:-----|:-------|
+| 1 | `正文/ch{上一章}.md` 最后 ~500 字 | 叙事衔接——上一章的情绪落脚点、笔触、未闭合的张力 |
+| 2 | `references/payoff-guide.md` | ◆小爽点自设计承接 + ★中爽点承接规则 |
+| 3 | `状态/角色/{角色名}-角色卡.md` | 本章登场角色的 core_desire + 人格基线（仅 baseline §4 标注「登场」的角色） |
 
-> 加载策略：每章按需读，不预加载所有文件。
+> 其余在设计中按需查：`pop-trope-library/套路库/{套路名}.md`（用到套路时）、`references/emotional-beats.md`（标注情绪时）、`references/character-scheduling.md`（设计角色事件时）、`references/location-orchestration.md`（设计地点时）、`references/info-release.md`（信息释放时）。
 
 ### Phase B：事件链设计
 
