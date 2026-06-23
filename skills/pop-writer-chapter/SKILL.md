@@ -1,6 +1,6 @@
 ---
 name: pop-writer-chapter
-description: "章纲设计/导演卡。消费 plot v8.2 的L2幕纲(act-YY.md)+剧情线文档，产出含事件链/情绪弧/爽点机制/章末钩子/契诃夫枪/调味空间的设计包。"
+description: "章纲设计/导演卡。消费 plot v9.0 的L2单元卡(L2-{编号}.md)+剧情线文档，产出含事件链/情绪弧/爽点机制/章末钩子/契诃夫枪/调味空间的设计包。"
 pipeline:
   upstream: [pop-writer-plot]
   downstream: [pop-writer-prose]

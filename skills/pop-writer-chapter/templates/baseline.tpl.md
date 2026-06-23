@@ -2,7 +2,7 @@
 
 > 生产方式: pop-writer-chapter v2.3 · Step 1
 > 存储: **内存**（不落盘），Step 2 全程消费
-> 填充: 全部字段从 L2幕纲 act-YY.md / state-log.yaml / 活跃剧情线 提取
+> 填充: 全部字段从 L2单元卡 L2-{编号}.md / state-log.yaml / 活跃剧情线 提取
 
 ## 模板正文
 

@@ -74,7 +74,7 @@ for round_batches in rounds_of_3:
 
 ```bash
 # 1. 扫描所有异常命名变体
-ls 写作资产/设计包v3/ | grep -vE '^ch[0-9]{3}-设计包\.md$'
+ls 写作资产/设计包v4/ | grep -vE '^ch[0-9]{3}-设计包\.md$'
 
 # 2a. 处理 _v3设计包 变体（ch036_v3设计包.md）
 # ❌ 不要用 grep -P（Windows git-bash 不兼容）

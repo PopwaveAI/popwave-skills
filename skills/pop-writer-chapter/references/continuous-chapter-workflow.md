@@ -7,7 +7,7 @@
 ## 一、每章产出顺序
 
 ```
-读 act-YY.md Canvas → 读 state-log.yaml → 设计事件链 → 写入设计包
+读 L2-{编号}.md Canvas → 读 state-log.yaml → 设计事件链 → 写入设计包
 → 渲染正文(prose) → prose 章末追加 event 到 state-log.yaml → 供下一章调用
 ```
 

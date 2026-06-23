@@ -23,7 +23,7 @@
 > 下游: pop-writer-prose
 
 ## 基础信息
-- 所属幕: act-YY
+- 所属单元: L2-{编号}
 - 章节号: X
 - 本章核心目的: (一句话——这章为什么存在？读者读完要带走什么？)
 - 场景类型: (combat / dialogue / discovery / crisis / transition / mix)
