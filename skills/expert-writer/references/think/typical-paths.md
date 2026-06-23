@@ -37,14 +37,14 @@ Step 4 · character
   ↓
 Step 5 · plot
   ├─ Phase 0:  全书架构 → 剧情设计/（卷拆分/地理全图/角色出场/主线全览）
-  ├─ Step 1:   卷定义 → 剧情设计/卷/卷{N}-战略定位.md [用户确认闸门]
-  ├─ Step 2:   剧情线 → 剧情设计/剧情线/{主线,支线}-{名称}.md
-  └─ Step 3:   分幕规划 → 剧情设计/幕/vol-XX/分幕规划.md + act-YY.md + chekhov-tracker.md
+  ├─ Step 1:   卷定义（L4卷纲） → 剧情设计/卷/卷{N}-战略定位.md [用户确认闸门]
+  ├─ Step 2:   剧情线（L3） → 剧情设计/剧情线/{主线,支线}-{名称}.md
+  └─ Step 3:   分幕规划（L2幕纲） → 剧情设计/幕/vol-XX/分幕规划.md + act-YY.md
   ↓
 Step 6 · chapter ★
-  ├─ Step 1:  读入 act-YY.md + 卷{N}-战略定位.md + 状态/entity-snapshot.yaml + 角色卡
+  ├─ Step 1:  读入 act-YY.md + 卷{N}-战略定位.md + 状态/state-log.yaml + 角色卡
   ├─ Step 2:  事件链设计（逐个回合，同步地点/角色/情绪/信息释放）
-  └─ Step 3:  产出 → 章节设计包/chXXX-设计包.md + entity-snapshot 更新
+  └─ Step 3:  产出 → 章节设计包/chXXX-设计包.md + state-log 更新
   ↓
 Step 7 · prose ★
   ├─ Step 1:  读入章节设计包 + 写作资产/文风DNA/ + 锚定章
@@ -68,13 +68,13 @@ Step 8 · qa
   ▼
 Step 0 · expert-writer 全局感知
   → 检查精读闸门（倒数20章已精读？）
-  → 检查 状态/entity-snapshot.yaml 一致性
+  → 检查 状态/state-log.yaml 一致性
   ↓
 Step 1 · creative (reverse)
   ├─ Phase r1:  事件日志（逐章读正文）
   ├─ Phase r2:  L0 提取
   ├─ Phase r3:  L1 提取
-  ├─ Phase r4:  卷纲/幕地图还原 → 剧情设计/卷/卷{N}-战略定位.md + 剧情设计/幕/vol-XX/act-YY.md
+  ├─ Phase r4:  L4卷纲/L2幕地图还原 → 剧情设计/卷/卷{N}-战略定位.md + 剧情设计/幕/vol-XX/act-YY.md
   ├─ Phase r5:  卷大纲确认
   └─ Phase r6:  交接验证报告
   ↓
@@ -131,5 +131,5 @@ Step 3 · pop-shared-dna
 | plot Phase 0 → Step 1 | 全书架构 用户确认 | 回到 Step 0 |
 | plot Step 1 → Step 2 | 卷{N}-战略定位 用户确认 | 回到 Step 1 |
 | plot → chapter | act-YY.md 首幕切片就位 | 等 plot 完成当前幕 |
-| chapter → prose | 章节设计包就位 + entity-snapshot 一致 | 回到 chapter |
+| chapter → prose | 章节设计包就位 + state-log 一致 | 回到 chapter |
 | prose → qa | 正文存在 + 风格验证通过 | 回到 prose |

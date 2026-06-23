@@ -1,5 +1,22 @@
 ﻿# CHANGELOG — 09-pop-novel-chapter-design
 
+## v2.6.1 (2026-06-23)
+
+### 幕纲引用标注L2 — 对齐拆书管线L2/L3叙事结构
+
+**问题**：chapter skill 消费 plot 产出的幕纲(act-YY.md)，但引用处未标注叙事层级。写作管线正在对齐拆书管线的L2/L3叙事结构，需在引用处标注"L2幕纲"以明确层级。
+
+**改动**：
+- `SKILL.md`：description 中"幕纲(act-YY.md)"→"L2幕纲(act-YY.md)"；plot 版本引用 v7.6→v8.2；门禁条件/定位描述等关键位置"幕纲"→"L2幕纲"；版本 v2.6.0→v2.6.1
+- `skill.json`：同步 description 中"L2幕纲"标注 + plot v8.2 + 版本号
+- `steps/step-1-read-canvas.md`：门禁检查项"幕纲"→"L2幕纲"
+- `templates/baseline.tpl.md`：act-YY.md 引用处标注L2
+- `references/continuous-chapter-workflow.md`："读幕纲Canvas"→"读L2幕纲Canvas"
+
+**原则**：只在门禁/前置条件/首次出现等关键位置加L2前缀，正文描述中保持"幕纲"不变，避免过度标注。
+
+---
+
 ## v2.4.0 (2026-06-23)
 
 ### 剧情推进点概念 + L2 关联门禁

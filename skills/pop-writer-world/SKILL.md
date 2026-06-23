@@ -6,12 +6,14 @@ pipeline:
   downstream: [pop-writer-plot]
   references: [pop-trope-library]
   note: "reservoir 必须优先于 world 执行。reservoir 的产出（剧情储备卡）是 world 设定创作时的素材来源之一。不从本 pipeline 字段推断管线顺序——以 expert-writer 的管线stage顺序表为准。"
-version: 2.0.0
+version: 2.0.1
 ---
 
-# 小说世界构筑 v2.0.0
+# 小说世界构筑 v2.0.1
 
 > **不在发明世界——在兑现宪法。** 每个设定必须追溯到故事引擎或 PRD 中的一条。凭空添加视为不合格。
+>
+> **术语澄清：** 本 skill 产出的 L1-01~07 是设定六件套的编号（L1-01 世界蓝图、L1-02 力量体系、...），与叙事结构 L0-L5 中的 L1（章节设计包）是不同维度。叙事结构 L 标记统一指 L0 事件→L1 章节设计包→L2 剧情单元卡/幕纲→L3 剧情线→L4 全书事件/卷纲。
 
 ## 加载指令清单（禁跳过）
 

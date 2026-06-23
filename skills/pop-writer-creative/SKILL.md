@@ -1,16 +1,16 @@
 ---
 name: pop-writer-creative
-description: "当用户说'开新书/创意打磨/方向碰撞/我想写个故事/修仙/玄幻'时启用。用户给模糊想法 → agent 联网搜索+trope-library 生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（唯一立项宪法）。"
+description: "当用户说'开新书/创意打磨/方向碰撞/我想写个故事/修仙/玄幻'时启用。用户给模糊想法 → agent 域研究+碰撞引擎生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（唯一立项宪法）。"
 pipeline:
   upstream: [pop-decon]
   downstream: [pop-writer-world, pop-writer-plot]
   references: [pop-trope-library]
-version: 4.4.0
+version: 5.0.0
 ---
 
-# pop-writer-creative · 创意打磨
+# pop-writer-creative · 创意碰撞引擎
 
-> 从用户模糊想法到高质量立项 PRD 的**唯一入口**。PRD 产出后交付 world。
+> 从用户模糊想法到高质量立项 PRD 的**唯一入口**。核心能力：域识别 → 域DNA浅层提取 → 碰撞合成。PRD 产出后交付 world。
 
 ## ❌ 质量红线
 
@@ -18,7 +18,7 @@ version: 4.4.0
 |:-:|:-----|
 | ❌1 | **读取协议** — 禁止用 Read 工具读取 skill 文件，用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`。截断 = 信息丢失 = 创作失误 |
 | ❌2 | **不读 PRD 模板就推导** — 必须加载 `templates/prd-模板-空白.md` 后才能写 PRD。凭记忆写 = 结构残缺 = 下游断裂 |
-| ❌3 | **不预设 L1 级施工细节** — PRD 写创意决策（世界名/主角名/金手指名），不写施工图（属性数值/冷却时间/分幕划分）。施工图留 L1/plot |
+| ❌3 | **不预设章级施工细节** — PRD 写创意决策（世界名/主角名/金手指名），不写施工图（属性数值/冷却时间/分幕划分）。施工图留 plot |
 
 ## ⚠️ 步骤加载门禁
 
@@ -52,7 +52,9 @@ version: 4.4.0
 | 什么时候 | 必须加载 | 产出 | ❌门禁 |
 |:---------|:----------|:-----|:-----|
 | Step 1 Phase 2b 自问链 | `references/爽点追问链.md` | 7类追问链+元模板 | — |
-| Step 2.1 联网搜索 | `references/搜索SOP.md` | 三路搜索路径+关键词 | — |
+| Step 2.1 域研究 | ⛔ `references/域研究SOP.md` | 域DNA四维浅层提取+trope-library对接 | 未加载就做域研究 → 退回加载 |
+| Step 2.2 碰撞合成 | ⛔ `references/碰撞引擎.md` | 6步碰撞工作流+5种碰撞模式+质量评估 | 未加载就合成选项 → 退回加载 |
+| Step 2.1 搜索参考（deprecated） | `references/搜索SOP.md` | v5.0起由域研究SOP替代 | 保留历史参考 |
 
 ### templates/ — 模板层（复制填充，直接产出）
 
@@ -81,8 +83,8 @@ Phase R · 路由诊断 → 判断输入粒度 → 决定搜索宽度
   │
   ▼
 Step PRD-A · 研究 + 生成选项 (step-prd-research.md)
-  Step 1: 最小化爽点确认（≤3 问）→ Phase 2 自问链 → 特征参数表
-  Step 2: trope-library 查询 + 联网搜索 → 2-3 个故事概念选项  ★
+  Step 1: 最小化爽点确认（≤3 问）→ Phase 2 自问链 → 特征参数表 → 域识别（2a+）
+  Step 2: trope-library 查询 + 域研究（四维DNA浅层提取）→ 碰撞合成 → 2-3 个故事概念选项  ★
   │
   ⏸ 用户断点：呈现选项，等用户选择
   │
@@ -91,10 +93,10 @@ Step PRD-B · 锁定概念 → 推导 PRD (step-prd-derive.md)
   Step 3: 用户选择 → 锁定概念 + 核心卖点(≥5条) + 用户画像
   Step 4: 从基因推导全书色彩 + 命名体系 + 视觉锚点场景
   Step 5: 推导世界宪法（4-6条，附违反后果）
-  Step 6: 跨域素材指引（方向性，非详细方案）
+  Step 6: 域研究委托 + 叙事语法声明（给reservoir采风方向）
   Step 7: 篇幅规划
-  Step 8: 合成 PRD（宪法结构 10 块）
-  Step 9: 验证 → 写入
+  Step 8: 合成 PRD（宪法结构 10 块，第九块=域研究委托）
+  Step 9: 验证（含碰撞质量检查）→ 写入
   │
   ▼
 全书立项PRD.md → 交付 world
@@ -108,4 +110,4 @@ Step PRD-B · 锁定概念 → 推导 PRD (step-prd-derive.md)
 
 ---
 
-v4.4.0 | 2026-06-22 | 对齐 pop-shared-skill-create v5.0 标准（读取协议top1+加载指令清单+CHANGELOG），集成 trope-library → [CHANGELOG.md](CHANGELOG.md)
+v5.0.0 | 2026-06-23 | 大幅强化：域碰撞引擎（替代参数匹配）+ 域研究SOP（替代三路搜索）+ PRD第九块升级为域研究委托 → [CHANGELOG.md](CHANGELOG.md)

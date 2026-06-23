@@ -35,7 +35,7 @@
 | 问题类型 | 退回到 |
 |:---------|:-------|
 | 产出文件格式/位置错误 | 原子 skill |
-| 一致性问题（entity-snapshot/角色卡） | 原子 skill |
+| 一致性问题（state-log/角色卡） | 原子 skill |
 | 质量不达标 | pop-writer-qa（质检）→ 原子 skill（修复） |
 | 活人感不足 | pop-writer-prose（局部重写） |
 

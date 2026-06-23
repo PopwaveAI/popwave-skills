@@ -50,7 +50,7 @@
 
 ```
 ❌ WRONG: Reflect 末尾给固定模板引导语，不检查项目实际进度
-✅ CORRECT: 读项目总控.md + entity-snapshot，基于实际状态给引导
+✅ CORRECT: 读项目总控.md + state-log.yaml，基于实际状态给引导
 ```
 
 ## 错误 8：expert-writer 自己做详细质检

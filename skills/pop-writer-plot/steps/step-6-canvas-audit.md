@@ -1,6 +1,6 @@
 # 步骤6：验证幕纲 · Canvas 节奏与爽点密度
 
-> **验证：** `剧情设计/幕/vol-XX/act-YY.md`
+> **验证：** `剧情设计/幕/vol-XX/act-YY.md`（L2 幕纲）
 > **参考：** `references/payoff-design-guide.md`
 > **核心约束：** Step 5 已产出 Canvas。Step 6 对照 payoff 设计规范逐项验核，不重新设计 Canvas，只在验证报告中标问题。
 

@@ -1,8 +1,9 @@
 # 拆书专家全链路依赖图 — 文件依赖与产出全景
 
-> 版本：v3.0 | 2026-06-23
+> 版本：v3.1 | 2026-06-23
 > 说明：本文档覆盖拆书专家（pop-decon-* / pop-shared-*）全链路。基于各 skill 当前 SKILL.md 的 pipeline 字段现状构建。
 > 写作专家见 `01-写作专家全链路依赖图-PRD.md`。
+> **v3.1 迭代**：补充写作侧消费映射。Phase 2 volume 产出明确标注 L2→plot幕纲设计、L3→plot剧情线设计的消费关系。入库矩阵补充写作侧消费说明。
 > **v3.0 迭代**：拆书管线从"卷纲/幕纲"物理结构改为"L2剧情单元卡/L3剧情线/L4全书事件"5级叙事结构。Phase S（快速扫描）废弃删除，其功能被 Phase 5 PRD 吸收。新增 Phase 5（全书立项PRD）作为管线最后环节，基于全管线数据深度综合产出立项PRD。L1=章节设计包=1章=2k~3k字=12~15个L0事件。
 
 ## 拆书专家管线顺序（硬性）
@@ -54,9 +55,9 @@ v2.0.1                              v3.3.0               v3.0.0             v1.2
 
 | Skill | 入 | 出 | S/D | → | 用途 |
 |:------|:----|:----|:---:|:---|:-----|
-| volume ① L2剧情单元识别 | 设计包 chXXX 数据 | L2单元卡 | S | volume ② | 识别L2剧情单元边界 |
-| volume ② L3剧情线追踪 | L2单元卡 | L3剧情线卡 | S/D | volume ③, plot | 追踪L3剧情线 |
-| volume ③ L4全书事件识别 | L3剧情线 | L4全书事件卡 | S | pop-trope-library(剧情库) | 识别跨线交汇全书事件 |
+| volume ① L2剧情单元识别 | 设计包 chXXX 数据 | L2单元卡 | S | volume ② | 识别L2剧情单元边界；写作消费：L2→plot Step4 幕纲设计 |
+| volume ② L3剧情线追踪 | L2单元卡 | L3剧情线卡 | S/D | volume ③, plot | 追踪L3剧情线；写作消费：L3→plot Step3 剧情线设计 |
+| volume ③ L4全书事件识别 | L3剧情线 | L4全书事件卡 | S | pop-trope-library(剧情库) | 识别跨线交汇全书事件；写作消费：L4→plot Step1 卷战略参考 |
 | volume ④ 套路聚合 | 套路库 | 套路分析段 | S | plot | L3线套路偏好分析 |
 | volume ⑤ L2/L3双轨入库 | L2单元卡 + L3剧情线 | 剧情库条目 | S | pop-trope-library(剧情库) | L2+L3双轨入库 |
 
@@ -142,6 +143,8 @@ v2.0.1                              v3.3.0               v3.0.0             v1.2
 | Phase 5 prd | `立项库/{书名}-立项PRD.md` | 全书立项PRD | 核心假说有chXX证据 |
 | pop-shared-dna ③ | `文风库/{书名}.md`（canonical）| 文风DNA档案 | 满足 pop-shared-dna 6条红线（原文>=500字/场景卡>=6/通用维度>=4/有时间演变/无降级替换） |
 | pop-shared-dna ③ | `文风DNA/{书名}.md`（fallback）| 文风DNA档案（兼容路径） | 同上；`文风库/` 写入后同步保留此 fallback |
+
+> **写作侧消费映射**：剧情库中 L2 可迁移单元卡 → plot Step4 幕纲设计参考；L3 剧情线卡 → plot Step3 剧情线设计参考。写作侧从 pop-trope-library/剧情库/ 按调用匹配SOP查询消费，不直接读拆书项目目录。
 
 ### 入库五步流程
 
@@ -308,6 +311,6 @@ pop-shared-reader 面向"拆书为读"——产出人类可读的叙事笔记，
 
 > 本文档基于各 skill 当前 SKILL.md 的实际 pipeline 字段构建（2026-06-23）。
 > 拆书专家 skill 清单：tool-download-webnovel(v2.0.1)、pop-decon(v15.0.0)、pop-decon-design-pack(v3.3.0)、
-> pop-decon-volume(v3.0.0)、pop-decon-setting(v1.2.0)、pop-shared-dna(v4.0.3)、pop-shared-reader(v0.15.0)、pop-decon-prd(v1.0.0)。
+> pop-decon-volume(v3.0.0)、pop-decon-setting(v1.3.0)、pop-shared-dna(v4.0.3)、pop-shared-reader(v0.15.0)、pop-decon-prd(v1.0.0)。
 > pop-decon-trace 已规划（forthcoming）。
 > 三级拆解体系见 `02-三级拆解-PRD.md`。写作专家见 `01-写作专家全链路依赖图-PRD.md`。

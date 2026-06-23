@@ -47,7 +47,7 @@
 | {状态} | 素材储备 | `素材储备池/{素材}.md`（剧情储备卡） |
 | {状态} | 世界构筑 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
 | {状态} | 角色设计 | `状态/角色/{主角,配角}-角色卡.md` |
-| {状态} | 剧情架构 | `剧情设计/卷/` + `剧情线/` + `幕/`（分幕规划 + act-YY + chekhov-tracker） |
+| {状态} | 剧情架构 | `剧情设计/卷/`（L4卷纲） + `剧情线/`（L3剧情线） + `幕/`（L2幕纲：分幕规划 + act-YY） |
 | {状态} | 章节设计 | `章节设计包/chXXX-设计包.md`（事件链+情绪弧+钩子+调味空间） |
 | {状态} | 正文渲染 | `正文/chXXX.md` |
 | {状态} | 爽点质检 | QC 报告（不留盘） |
@@ -117,19 +117,19 @@
 │   ├── 角色/
 │   │   ├── 主角-角色卡.md             {状态}  ← character
 │   │   └── 配角-角色卡.md             {状态}  ← character
-│   └── entity-snapshot.yaml          {状态}  ← chapter（每章设计后更新，prose 读取）
+│   └── state-log.yaml               {状态}  ← chapter（每章设计后更新，prose 读取）
 │
-├── 📁 剧情设计/                       ← plot
-│   ├── 卷/
+├── 📁 剧情设计/                       ← plot（L4卷纲 / L3剧情线 / L2幕纲）
+│   ├── 卷/                            ← L4卷纲
 │   │   └── 卷{N}-战略定位.md          {状态}
-│   ├── 剧情线/
+│   ├── 剧情线/                        ← L3剧情线
 │   │   ├── 主线-{名称}.md             {状态}
 │   │   └── 支线-{名称}.md             {状态}
-│   └── 幕/
+│   └── 幕/                            ← L2幕纲
 │       └── vol-XX/
 │           ├── 分幕规划.md            {状态}
 │           ├── act-YY.md             {状态}
-│           └── chekhov-tracker.md    {状态}
+│           └── chekhov-tracker.md    {状态}  [已废弃]
 │
 ├── 📁 章节设计包/                     ← chapter
 │   └── chXXX-设计包.md               {状态}
@@ -188,9 +188,9 @@
 | T2 | reservoir | pop-writer-reservoir | 素材注入→剧情储备卡 | `素材储备池/{素材}.md` |
 | T3 | world | pop-writer-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
 | T4 | character | pop-writer-character | 角色卡设计 | `状态/角色/{主角,配角}-角色卡.md` |
-| T5 | plot | pop-writer-plot | 卷战略+剧情线+分幕 | `剧情设计/卷/` + `剧情线/` + `幕/vol-XX/{分幕规划,act-YY,chekhov-tracker}.md` |
+| T5 | plot | pop-writer-plot | 卷战略+剧情线+分幕 | `剧情设计/卷/`（L4卷纲） + `剧情线/`（L3剧情线） + `幕/vol-XX/{分幕规划,act-YY}.md`（L2幕纲） |
 | T6 | chapter | pop-writer-chapter | 章设计包 | `章节设计包/chXXX-设计包.md` |
-| T7 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/entity-snapshot.yaml` |
+| T7 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
 | T8 | qa | pop-writer-qa | 三层介入质检 | QC 报告（不留盘） |
 
 ## 理想目录路由
@@ -225,19 +225,19 @@
 │   ├── 角色/
 │   │   ├── 主角-角色卡.md              ← T4 character
 │   │   └── 配角-角色卡.md              ← T4 character
-│   └── entity-snapshot.yaml           ← T6 chapter（每章设计后更新，T7 prose 读取）
+│   └── state-log.yaml                ← T6 chapter（每章设计后更新，T7 prose 读取）
 │
-├── 剧情设计/                           ← T5 plot
-│   ├── 卷/
+├── 剧情设计/                           ← T5 plot（L4卷纲 / L3剧情线 / L2幕纲）
+│   ├── 卷/                            ← L4卷纲
 │   │   └── 卷{N}-战略定位.md
-│   ├── 剧情线/
+│   ├── 剧情线/                        ← L3剧情线
 │   │   ├── 主线-{名称}.md
 │   │   └── 支线-{名称}.md
-│   └── 幕/
+│   └── 幕/                            ← L2幕纲
 │       └── vol-XX/
 │           ├── 分幕规划.md
 │           ├── act-YY.md
-│           └── chekhov-tracker.md
+│           └── chekhov-tracker.md    [已废弃]
 │
 ├── 章节设计包/                         ← T6 chapter
 │   └── chXXX-设计包.md

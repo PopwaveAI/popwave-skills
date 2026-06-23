@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-creative",
-  "version": "4.4.0",
-  "displayName": "创意打磨",
-  "description": "创意打磨 v4.4.0。用户给模糊想法 → trope-library 查询 + 联网搜索生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（宪法结构10块）。网文基准2k-3k字/章。模板见 references/prd-模板-空白.md。",
+  "version": "5.0.0",
+  "displayName": "创意碰撞引擎",
+  "description": "创意碰撞引擎 v5.0.0。用户给模糊想法 → 域研究（四维DNA浅层提取）+ 碰撞引擎（6步工作流）生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（宪法结构10块，第九块=域研究委托+叙事语法声明）。网文基准2k-3k字/章。",
   "pipeline": {
     "upstream": ["pop-decon"],
     "downstream": ["pop-writer-world", "pop-writer-plot"],

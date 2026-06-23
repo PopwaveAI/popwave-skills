@@ -1,5 +1,30 @@
 ﻿# CHANGELOG — 08-pop-novel-plot
 
+## v8.3.0 — 2026-06-23
+
+### 叙事结构对齐：内部L1/L2/L3分类去L化
+
+**问题**：plot skill内部有一套L1/L2/L3分类系统（L1=主线大类、L2=具体剧情线、L3=剧情节点），与拆书管线的L0-L5叙事结构冲突（拆书L1=章节设计包、L2=剧情单元卡、L3=剧情线、L4=全书事件）。
+
+**改动**：
+- 内部L1/L2/L3分类去L化：L1→主线大类、L2→具体剧情线、L3→剧情节点
+- 产出文档头部加叙事层级标注：卷纲=L4、剧情线=L3、幕纲=L2
+- `references/l1-classification-guide.md` 改名为 `references/mainline-classification-guide.md`
+- `SKILL.md` description 追加 L4/L3/L2 层级标注；管线图产出路径标注 (L4)/(L3)/(L2)
+- `steps/step-1-volume-strategy.md` 产出标注 L4
+- `steps/step-2-seed-pull.md` 去L化
+- `steps/step-3-plotline-docs.md` 三层结构整节去L化
+- `steps/step-4-act-plan.md` 去L化
+- `steps/step-5-chapter-anchors.md` 产出标注 L2
+- `steps/step-6-canvas-audit.md` 层级标注
+- `templates/volume-outline.md` 表头去L化 + 头部 L4 标注
+- `templates/act-outline.md` 表头去L化 + 头部 L2 标注
+- `templates/plotline-doc.md` 表头去L化 + 头部 L3 标注
+
+**效果**：与拆书管线L0-L5叙事结构对齐，消除两套L系统混用导致的歧义。
+
+---
+
 ## v8.0.0 — 2026-06-23
 
 ### L1/L2/L3 三层剧情线结构 + Step 3 门禁修正 + 节点数/密度量化

@@ -1,6 +1,6 @@
 # 步骤5：更新幕纲 · 章锚点与 Canvas
 
-> **更新：** `剧情设计/幕/vol-XX/act-YY.md`
+> **更新：** `剧情设计/幕/vol-XX/act-YY.md`（L2 幕纲）
 > **模板：** `templates/act-outline.md`
 > **核心约束：** Canvas 不废除；它是幕纲里的章节密度、线间节奏和 payoff 释放仪表盘。
 

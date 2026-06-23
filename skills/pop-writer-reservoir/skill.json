@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-reservoir",
-  "version": "3.3.0",
-  "displayName": "素材储备注入",
-  "description": "创意转换引擎 v3.1.0。外部素材→剧情储备卡（元卖点+参演势力+剧情线发展链条）或设定储备卡（设定内核+兼容性+可衍生冲突空间）。三模式：被creative调用/独立调起/主动丰富。安全门禁+权重矩阵+质量闸门。",
+  "version": "4.0.0",
+  "displayName": "采风转化引擎",
+  "description": "采风转化引擎 v4.0.0。深层域研究（四层穿透L1-L4）→ 域DNA档案 → 四层转化（素材来源/转化手法/跨域联动/叙事语法）→ 剧情储备卡或设定储备卡。三模式：被creative调用/独立调起/主动丰富。安全门禁+权重矩阵+质量闸门（含转化深度闸门G）。",
   "pipeline": {
     "upstream": ["pop-writer-creative"],
     "downstream": ["pop-writer-plot", "pop-writer-world", "pop-writer-character"],
