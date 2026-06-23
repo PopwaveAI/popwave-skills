@@ -119,32 +119,37 @@
 1. 每条线按 `templates/plotline-doc.md` 写入 `剧情设计/剧情线/`。
 2. 回填 `剧情设计/卷/卷{N}-卷纲.md` 的剧情线总览：线名 + 一句话brief + 节点数 + 起终点切片 + 咬合线 + 总计。
 
-## 引擎登记（剧情线落盘后）
+## 创建 state-log.yaml（plot 完成后）
 
-每条剧情线写入后，将叙事债务和线间咬合关系登记到 pop-state-engine：
+全部剧情线落盘后，创建 `状态/state-log.yaml`（仅 baseline #0，角色状态由 chapter CH1 补充）：
 
-```bash
-# 种埋叙事债务（契诃夫枪）
-python {engine_scripts}/command_executor.py -p {项目路径} -a plant-hook -j '{
-  "id": "{债务ID}",
-  "desc": "{债务描述}",
-  "planted_chapter": {种入章号},
-  "expected_resolve": {预期回收章号},
-  "priority": "{critical|high|normal}",
-  "tags": "{剧情线名}",
-  "related_characters": "{相关角色}"
-}'
+```yaml
+version: 1
+last_compacted_at: 0
+
+entries:
+  - chapter: 0
+    type: baseline
+    author: plot
+    content: |
+      ## 弧线
+      {卷名}·{幕名}（ch{起}-ch{终}）
+
+      ## 角色
+      （由 chapter CH1 Step 1 从角色卡补充）
+
+      ## 伏笔
+      [G-001] {伏笔描述} → ch{预期回收章}
+      [G-002] {伏笔描述} → ch{预期回收章}
+      （从全部剧情线的枪链节点中提取）
+
+      ## 世界状态
+      {世界大局}
+      {关键地点状态}
 ```
 
-```bash
-# 注册剧情线间咬合关系
-python {engine_scripts}/command_executor.py -p {项目路径} -a add-edge -j '{
-  "source": "{线A节点ID}",
-  "target": "{线B节点ID}",
-  "relation": "咬合",
-  "properties": "{\"type\":\"信息递送|压力制造|资源提供|共同爆发\"}"
-}'
-```
+从全部剧情线的枪链节点中提取伏笔，填入 baseline #0 的 `## 伏笔` 段。
 
----
+> state-log.yaml 此时只有 baseline #0 一条记录。characters 段由 chapter CH1 Step 1 从角色卡补充。之后每章由 prose 追加 event。
+
 ⛔ 下一 step：`steps/step-4-act-plan.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-4-act-plan.md`）

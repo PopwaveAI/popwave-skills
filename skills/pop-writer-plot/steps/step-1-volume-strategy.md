@@ -64,29 +64,4 @@
 
 按 `templates/volume-outline.md` 创建 `剧情设计/卷/卷{N}-卷纲.md`，填：本卷定位 + 起点与终点 + 爽点设计 + 篇幅预算 + 线数预算。
 
-## 引擎登记（卷纲落盘后）
-
-卷纲写入后，将卷级状态登记到 pop-state-engine：
-
-```bash
-# 创建卷弧线
-python {engine_scripts}/command_executor.py -p {项目路径} -a create-arc -j '{
-  "title": "卷{N}: {卷名}",
-  "arc_type": "volume",
-  "start_chapter": {起始章号},
-  "end_chapter": {结束章号},
-  "description": "{本卷命题一句话}"
-}'
-```
-
-```bash
-# 存储卷级摘要
-python {engine_scripts}/command_executor.py -p {项目路径} -a store-summary -j '{
-  "level": "volume",
-  "range_desc": "卷{N}",
-  "content": "{卷纲核心内容摘要}"
-}'
-```
-
----
 ⛔ 下一 step：`steps/step-2-seed-pull.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-2-seed-pull.md`）

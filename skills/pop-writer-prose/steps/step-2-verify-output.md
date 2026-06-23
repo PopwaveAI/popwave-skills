@@ -54,91 +54,34 @@
 {正文全文}
 ```
 
-> ★ 状态由 pop-state-engine 维护——prose 章末调用 CLI 登记到引擎。chapter 从设计包的 after 状态更新 `状态/entity-snapshot.yaml`（双写过渡期并行）。
+> ★ 状态由 prose 维护——prose 章末追加 event 到 `状态/state-log.yaml`。event 内容：①本章事件摘要（2-5句话）②角色状态变化 ③新实体/装备 ④伏笔种埋/回收。
 
-## 引擎登记（验证通过 + 落盘后）
+## 追加 state-log event（正文落盘后）
 
-正文写入 `正文/chXXX.md` 后，执行以下 5 步将本章叙事状态登记到 pop-state-engine：
+正文写入 `正文/chXXX.md` 后，向 `状态/state-log.yaml` 的 entries 数组末尾追加一条：
 
-### 步骤 1：设计包入库
+```yaml
+  - chapter: {N}
+    type: event
+    author: prose
+    content: |
+      ## 事件
+      {本章发生了什么，2-5句话}
 
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a store-chapter -j '{
-  "chapter": {N},
-  "content": "{设计包全文}",
-  "tags": "{设计包tags}",
-  "location": "{场景地点}",
-  "characters": "{登场人物逗号分隔}",
-  "mood": "{情绪基调}",
-  "events": "{事件链逗号分隔}"
-}'
+      ## 变化
+      {角色名}：{什么变了（等级/位置/装备/心理/关系）}
+      {新实体}：{类型和状态}
+
+      ## 伏笔
+      [G-{ID}] {伏笔状态变化（种埋/回收/进展）}
+      [新] {新种埋的伏笔描述} → ch{预期回收章}
 ```
 
-### 步骤 2：agent 标注新实体和状态变化
-
-阅读本章设计包，标注：
-- 本章首次出现的实体（角色/地点/物品/功法/概念）
-- 本章发生的状态变化（修为提升/关系变化/位置移动/获得物品）
-
-### 步骤 3：脚本辅助验证
-
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a extract-entities -j '{
-  "text": "{设计包全文}"
-}'
-```
-
-将脚本提取结果与步骤 2 的 agent 标注对比。以 agent 标注为准，脚本结果作为查漏补缺。
-
-### 步骤 4：写入新实体和状态变化
-
-对每个确认的新实体：
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a add-node -j '{
-  "id": "{实体ID}",
-  "type": "{character|location|item|skill|concept}",
-  "name": "{实体名}",
-  "tags": "{标签}",
-  "properties": "{}"
-}'
-```
-
-对每个状态变化：
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a set-fact -j '{
-  "entity": "{实体名}",
-  "attribute": "{属性名}",
-  "value": "{新值}",
-  "chapter": {N},
-  "importance": "{permanent|arc-scoped|chapter-scoped}"
-}'
-```
-
-主角状态汇总写入 `_meta/protagonist_state`：
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a set-fact -j '{
-  "entity": "_meta",
-  "attribute": "protagonist_state",
-  "value": "{修为}·{关键状态}·{当前位置}",
-  "chapter": {N},
-  "importance": "permanent"
-}'
-```
-
-### 步骤 5：伏笔回收检测
-
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a list-hooks -j '{}'
-```
-
-检查本章是否回收了某个伏笔。若回收，执行：
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a resolve-hook -j '{
-  "id": "{伏笔ID}",
-  "resolution": "{回收方式简述}",
-  "resolved_chapter": {N}
-}'
-```
+**写 event 的要点**：
+- 只写**变化**，不写全量状态（全量在 baseline 里）
+- 事件摘要要精炼——agent 下一章读这条就能理解发生了什么
+- 伏笔用 `[G-ID]` 格式引用，新种埋用 `[新]` 标注
+- 如果本章没有任何状态变化（纯过渡章），仍然追加一条 event（写"无显著变化"）
 
 ## 产出自检
 

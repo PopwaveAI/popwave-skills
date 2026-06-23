@@ -1,7 +1,8 @@
 {
   "name": "pop-state-engine",
   "version": "0.1.0",
-  "description": "Popwave 写作管线的运行时状态引擎 — SQLite 驱动的叙事状态管理",
+  "description": "Popwave 写作管线的运行时状态引擎 — SQLite 驱动的叙事状态管理（方案搁置，代码保留为可选诊断工具）",
+  "status": "shelved",
   "type": "engine",
   "scripts_dir": "scripts",
   "entry_point": "scripts/command_executor.py",

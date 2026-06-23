@@ -1,18 +1,18 @@
 ---
 name: pop-decon
-description: "Orchestrator for novel deconstruction pipeline. Executes Phase 1 (design-pack) → Phase 2 (volume) → Phase 3 (setting) → Phase 4 (creative trace). Routes to sub-skills based on scope (first N chapters vs full book). Core philosophy: iceberg theory — extract the 1/8 above water, trace the 7/8 below."
-version: 14.2.0
+description: "Orchestrator for novel deconstruction pipeline. Executes Phase 1 (design-pack) → Phase 2 (volume) → Phase 3 (setting) → Phase 4 (creative trace). Routes to sub-skills based on scope (first N chapters vs full book). Core philosophy: iceberg theory — extract the 1/8 above water, trace the 7/8 below. → Phase 5 (prd)"
+version: 15.0.0
 author: Popwave
 license: MIT
 metadata:
   hermes:
     tags: [deconstruction, pipeline, orchestration, novel-analysis]
-    related_skills: [pop-decon-design-pack, pop-decon-volume, pop-decon-setting, pop-decon-trace]
+    related_skills: [pop-decon-design-pack, pop-decon-volume, pop-decon-setting, pop-decon-trace, pop-decon-prd]
 ---
 
-# pop-decon · 拆书管线调度 v14.1.0
+# pop-decon · 拆书管线调度 v15.0.0
 
-> **定位：拆书管线的元 skill。执行管线调度（Phase 1→4），不直接产出文件。**
+> **定位：拆书管线的元 skill。执行管线调度（Phase 1→5），不直接产出文件。**
 > **核心约束：按章节量级决定管线长度。全管线顺序推进，不得跳号。**
 >
 > **冰山理论 · 拆书哲学**
@@ -44,12 +44,12 @@ metadata:
 
 | # | 红线 |
 |:-:|:-----|
-| ❌1 | **不跳过 Phase** — 只能顺次推进 Phase 1→2→3→4，不得跳号 |
+| ❌1 | **不跳过 Phase** — 只能顺次推进 Phase 1→2→3→4→5，不得跳号 |
 | ❌2 | **跳过清洗直接写设计包** — Phase 1 未完成不准进 Phase 2 |
 | ❌3 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
 | ❌4 | **中文网文硬跑 extract.py** — Phase 1 前必须判断源文件语言。中文 TXT 不支持 extract.py 章节检测 → 走手动 ETL |
 | ❌5 | **产出物不经质量门禁直接交付** — 每个 Phase 的产出物必须对照质量标准表自检，不达标不准进下一 Phase |
-| ❌6 | **全管线完成不执行入库确认** — Phase 1~4 + dna 全部跑完后，必须逐模块确认产出已写入 pop-trope-library 五库并更新索引。不入库 = 写作管线不可见 = 拆书白拆 |
+| ❌6 | **全管线完成不执行入库确认** — Phase 1~5 + dna 全部跑完后，必须逐模块确认产出已写入 pop-trope-library 五库并更新索引。不入库 = 写作管线不可见 = 拆书白拆 |
 
 ---
 
@@ -59,8 +59,8 @@ metadata:
 |:-----|:-----|:---------|:------------|:--------|
 | **前N章** | 用户指定（默认前100章） | Phase 1→2→3（不足100章Phase 2跳过） | design-pack → volume → setting | ~1-3h |
 | **前N章 + Wiki** | 知名书，有 Wiki 站点 | Phase 1→**1.5 Wiki骨架**→2→3 | design-pack → wiki-skeleton → volume → setting | ~1.5-3.5h |
-| **全书** | 全部章节 | Phase 1→2→3→4 | design-pack → volume → setting → **trace** | ~3-9h |
-| **全书 + Wiki** | 知名书全书 + Wiki | Phase 1→**1.5 Wiki骨架**→2→3→4 | design-pack → wiki-skeleton → volume → setting → trace | ~3.5-9.5h |
+| **全书** | 全部章节 | Phase 1→2→3→4→5 | design-pack → volume → setting → **trace** → prd | ~3-9h |
+| **全书 + Wiki** | 知名书全书 + Wiki | Phase 1→**1.5 Wiki骨架**→2→3→4→5 | design-pack → wiki-skeleton → volume → setting → trace → prd | ~3.5-9.5h |
 
 ---
 
@@ -83,12 +83,14 @@ pop-decon (orchestrator)
     │         产出 _temp/wiki-skeleton.md，含卷结构/力量体系/势力/地理/角色
     │         所有数据标注置信度：📖 Wiki来源 / ✅ 文本验证
     │
-    ├── Phase 2: pop-decon-volume        → 幕纲/卷纲（消费: 设计包 + Wiki骨架）
-    │                                       → 入库 剧情库/{标签}/（标准剧情线提炼）
+    ├── Phase 2: pop-decon-volume        → L2单元卡 + L3剧情线 + L4全书事件（消费: 设计包 + Wiki骨架）
+    │                                       → 入库 剧情库/{标签}/（L2+L3双轨入库）
     ├── Phase 3: pop-decon-setting       → L1六件套 + 宪法 + 数值（消费: 设计包 + Wiki骨架）
     │                                       → 入库 设定库/{书名}/（整本L1设定包）
     ├── Phase 4: pop-decon-trace         → 创意溯源·跨域参考索引
     │                                       → 入库 立项库/（SOP转化后）
+    ├── Phase 5: pop-decon-prd             → 全书立项PRD（消费: L1-L4全管线产出 + 设定 + 创意溯源）
+    │                                       → 入库 立项库/{书名}-立项PRD.md
     │
     └── Step 6: 入库确认                → 逐模块检查 library 五库落盘
                                            → 更新各模块 00-索引.md
@@ -135,7 +137,7 @@ pop-decon (orchestrator)
 | 2 | **命名一致性** | 全部文件名为 `chXXX-设计包.md`，无变体 | 不一致 → 先执行 Step 2.6 命名归一化，再重新检查 |
 | 3 | **首行格式** | 抽检后30%文件，首行匹配 `# 设计包 —` | 不匹配 → 低质量警告 |
 | 4 | **事件密度** | 抽检后期5章，每章事件数≥5 | <5 → 低密度警告 |
-| 5 | **Phase 2 前置条件** | 章节数 ≥ 100（否则建议跳过，但用户有权决定） | 不足100章 → **询问用户是否继续**。告知：\"当前仅X章，不足100章。Phase 2（幕纲/卷纲）在短卷上仍有价值，但边界信号可能不够清晰。要执行还是跳过？\"用户坚持就跑。❌ 不可自动跳过而不通知 |
+| 5 | **Phase 2 前置条件** | 章节数 ≥ 100（否则建议跳过，但用户有权决定） | 不足100章 → **询问用户是否继续**。告知：\"当前仅X章，不足100章。Phase 2（L2/L3/L4）在短卷上仍有价值，但边界信号可能不够清晰。要执行还是跳过？\"用户坚持就跑。❌ 不可自动跳过而不通知 |
 
 ### Step 2.5.5：跨卷格式一致性审计（多卷拆解时强制）
 
@@ -151,19 +153,19 @@ pop-decon (orchestrator)
 | 4 | **4层结构** | 所有卷的设计包都包含 骨架层/爽点层/角色层/感官层 | 不一致 → 标记需重构的卷 |
 | 5 | **套路分析** | 所有卷的设计包都有套路分析区块 | 不一致 → 标记需重构的卷 |
 
-**扩展检查：卷纲/幕纲格式一致性** — 如果各卷的 `设计/卷/` 或 `设计/幕/` 下有历史产出，追加：
+**扩展检查：L2/L3 格式一致性** — 如果 `设计/L2单元卡/` 或 `设计/L3剧情线/` 下有产出，追加：
 
 | # | 检查项 | 通过标准 | 差异处理 |
 |:-:|:-------|:---------|:---------|
-| 6 | **卷纲首行格式** | 首行匹配 `# 卷X · 名称(chXXX-chYYY)` | 不一致 → 标记需归一化 |
-| 7 | **卷纲结构一致** | 所有卷纲含相同核心区块(scope声明/剧情线/幕级摘要/分支线跟踪表) | 不一致 → 标记格式偏差 |
-| 8 | **幕纲格式一致** | 幕纲首行匹配 `# 幕X · 名称(chXXX-chYYY)` | 不一致 → 标记 |
+| 6 | **L2 首行格式** | 首行匹配 `# L2-{编号} · 名称(chXXX-chYYY)` | 不一致 → 标记需归一化 |
+| 7 | **L2 结构一致** | 所有 L2 单元卡含相同核心区块(物理坐标/结构分析/嵌套子线/可迁移要点) | 不一致 → 标记格式偏差 |
+| 8 | **L3 格式一致** | L3 剧情线首行匹配 `# L3-{编号} · 名称` | 不一致 → 标记 |
 
-注意：卷纲格式不一致常因不同卷走了不同子skill（卷1走pop-decon-volume拆书格式、卷2走pop-writer-plot正向设计格式）。输出对比表后询问用户统一方向。
+注意：L2/L3 格式不一致常因不同单元走了不同子skill（拆书格式 vs 正向设计格式）。输出对比表后询问用户统一方向。
 
 **产出：** `_temp/format-consistency-audit.md` (差异清单 + 重构建议)
 
-**用户通知：** 如果发现格式差异，输出差异清单并询问用户是否要统一重构。提示：格式差异不仅在设计包，也可能在卷纲/幕纲（不同子skill用不同模板）。统一后所有卷才能被下游 skill 一致消费。
+**用户通知：** 如果发现格式差异，输出差异清单并询问用户是否要统一重构。提示：格式差异不仅在设计包，也可能在 L2/L3（不同子skill用不同模板）。统一后所有产出才能被下游 skill 一致消费。
 
 **诊断提示：** 设计包格式不一致时，优先怀疑「delegate_task 未锁定格式样板」或「先后用了不同 skill 版本」，而非直接推断来自不同管线（如拆书 vs 正向设计）。卷2格式偏差的真实原因是子 agent 并行提取时 context 中缺少格式样板，而非走错了管线。
 
@@ -261,16 +263,16 @@ for f in os.listdir('写作资产/设计包v3/'):
 | Wiki 和精度数据**冲突** | **精度数据胜出**。标注「⚠️ Wiki 说 X，但 chXX 原文证据显示 Y。可能 Wiki 有误，或后续章节修正」 |
 | Wiki 缺失某维度 | 标注「Wiki 无此数据，仅基于前X章推断」 |
 
-### Step 3：Phase 2 — 幕纲卷纲
+### Step 3：Phase 2 — 叙事结构提取（L2/L3/L4）
 
-**做什么：** 调用 `pop-decon-volume`。从设计包数据中识别卷边界、幕边界、剧情线。
+**做什么：** 调用 `pop-decon-volume`。从设计包数据中识别L2剧情单元、追踪L3剧情线、识别L4全书事件。
 
 **⏰ 调度时机：** Phase 1 + 质量门禁完成后立即调度。不得因对话中断/用户切换话题而遗忘。
 
-**📐 不足100章的处理**：如果章节数 < 100，**不可自动跳过**。先告知用户：\n> "当前仅X章，不够100章。Phase 2 产出幕纲/卷纲/伏笔追踪，小型卷同样有价值。要执行还是跳过？""当前仅X章，不够100章。Phase 2 产出幕纲/卷纲/伏笔追踪，小型卷同样有价值。要执行还是跳过？\"\n>\n> **说明 Phase 2 产出什么**：每幕的幕级元数据（戏剧功能/状态变化/冲突）+ 章级切片（每章事件/角色/爽点/钩子/契诃夫枪）+ 节奏自检表 + chekhov-tracker 伏笔追踪表。\n>\n> 用户坚持就跑。**不可自动跳过也不解释**——上轮教训：37章卷被自动跳过导致用户不满。\n\n可用 delegate_task 并行产出各幕文件（每幕一个子agent），<100章的场景特别适合此模式（幕数少，上下文可控）。
-**❌ ❌ ❌ 历史教训：**\n1. 前次187章拆解后设计包全部产出完毕，但由于 orchestrator 未主动调度 Phase 2，volume-01.md 和 act-*.md 完全未产出，整套拆书降级为半成品。**Phase 2 必须作为 pipeline 的自动下一步执行，而非等待用户提示。**\n2. **37章卷被自动跳过 Phase 2 引发用户不满**：Step 2.5 #5 的硬规则「不足100章跳过」导致37章的完整卷只产了一个卷1-架构.md，幕纲文件全缺。用户质问后才补跑。教训：**规则应弹性执行——章节不足100章时告知用户+说明Phase 2价值+让用户决定，不可自动跳过。**
+**📐 不足100章的处理**：如果章节数 < 100，**不可自动跳过**。先告知用户：\n> "当前仅X章，不够100章。Phase 2 产出L2单元卡/L3剧情线/L4全书事件，小型卷同样有价值。要执行还是跳过？""当前仅X章，不够100章。Phase 2 产出L2单元卡/L3剧情线/L4全书事件，小型卷同样有价值。要执行还是跳过？\"\n>\n> **说明 Phase 2 产出什么**：每幕的幕级元数据（戏剧功能/状态变化/冲突）+ 章级切片（每章事件/角色/爽点/钩子/契诃夫枪）+ 节奏自检表 + chekhov-tracker 伏笔追踪表。\n>\n> 用户坚持就跑。**不可自动跳过也不解释**——上轮教训：37章卷被自动跳过导致用户不满。\n\n可用 delegate_task 并行产出各幕文件（每幕一个子agent），<100章的场景特别适合此模式（幕数少，上下文可控）。
+**❌ ❌ ❌ 历史教训：**\n1. 前次187章拆解后设计包全部产出完毕，但由于 orchestrator 未主动调度 Phase 2，L2-*.md 和 L3-*.md 完全未产出，整套拆书降级为半成品。**Phase 2 必须作为 pipeline 的自动下一步执行，而非等待用户提示。**\n2. **37章卷被自动跳过 Phase 2 引发用户不满**：Step 2.5 #5 的硬规则「不足100章跳过」导致37章的完整卷只产了一个卷1-架构.md，幕纲文件全缺。用户质问后才补跑。教训：**规则应弹性执行——章节不足100章时告知用户+说明Phase 2价值+让用户决定，不可自动跳过。**
 **📐 卷数估计**：如果只读到了全书的一部分（如前N章），执行 Phase 2 前先向用户确认全书约多少卷，然后告知用户"当前仅基于前N章产出卷1的内容，后续章节补充后可继续产出卷2+。"
-**❗ scope声明强制执行**：Phase 2 所有产出文件必须在首行之后添加声明「基于前X章数据推断」，文件名不得出现"全书"字样。当 Volume 1 已跑完且现在跑 Volume N 时，命名为 `卷N-架构.md`（N为卷号）。当前仅产出本卷数据时统一用 `卷N-架构.md`。
+**❗ scope声明强制执行**：Phase 2 所有产出文件必须在首行之后添加声明「基于前X章数据推断」，文件名不得出现"全书"字样。当 Volume 1 已跑完且现在跑 Volume N 时，命名为 `L2/L3/L4 产出`（N为卷号）。当前仅产出本卷数据时统一用 `L2/L3/L4 产出`。
 
 ### Step 4：Phase 3 — 设定世界观
 **做什么：** 调用 `pop-decon-setting`。归纳 L1 六件套 + 宪法 + 数值。
@@ -281,12 +283,16 @@ for f in os.listdir('写作资产/设计包v3/'):
 >
 > 反向破译的方法论详见 `references/numerical-system-reverse-engineering.md`。
 
-**❌ 门禁：** 卷幕产出缺失 → 退回 Phase 2。
+**❌ 门禁：** L2/L3产出缺失 → 退回 Phase 2。
 
 ### Step 5：Phase 4 — 创意溯源
 **做什么：** 调用 `pop-decon-trace`。从设计包+L1设定中反向破译作者的创意参考版图，产出跨域参考索引。
 **核心红线：** 化用≠照抄。识别到索伦≈指环王索伦，不等于本作的索伦就是魔君。参考来源只是起点，创意转化才是重点。
 **❌ 门禁：** Phase 3 未完成 → 退回。
+
+### Step 5.5：Phase 5 — 全书立项PRD
+**做什么：** 调用 `pop-decon-prd`。消费L1-L4全管线产出+设定+创意溯源，产出全书立项PRD（逆向破解总结）。
+**❌ 门禁：** Phase 4 未完成 → 退回。
 
 ### Step 6：入库确认（强制）
 
@@ -297,9 +303,10 @@ for f in os.listdir('写作资产/设计包v3/'):
 | Phase | 入库模块 | 确认内容 | 通过标准 |
 |:------|:---------|:---------|:---------|
 | Phase 1 | `原始素材/` | L3 具体套路卡已复制 + `00-索引.md` 已更新 | 文件数 ≥ 设计包识别套路数 |
-| Phase 2 | `剧情库/{标签}/` | 标准剧情线卡已提炼写入 + 标签目录 `00-索引.md` 已更新 | 每卷 ≥ 5-6 条剧情线 |
+| Phase 2 | `剧情库/{标签}/` | L2可迁移单元卡 + L3剧情线卡已双轨写入 + 标签目录 `00-索引.md` 已更新 | L2单元卡 + L3剧情线各 ≥ 3条 |
 | Phase 3 | `设定库/{书名}/` | L1-01~06 + 世界宪法 + PRD.md 已复制 + `设定库/00-索引.md` 已更新 | L1 六件套齐全 |
 | Phase 4 | `立项库/`（可选）| 创意溯源 SOP 转化产物已写入 + `立项库/00-索引.md` 已更新 | 执行了 SOP 转化才检查 |
+| Phase 5 | `立项库/` | 全书立项PRD已写入 + `立项库/00-索引.md`已更新 | PRD文件存在 |
 | pop-shared-dna | `文风库/{书名}.md` + `文风DNA/{书名}.md` | 文风档案已双路径写入 | canonical + fallback 均存在 |
 
 **入库速查：** 每类产出的精确 library 路径 → `pop-trope-library/references/deconstruction-intake-quickref.md`。
@@ -327,6 +334,8 @@ for f in os.listdir('写作资产/设计包v3/'):
 ---
 
 ## 版本
+
+v15.0.0 | 2026-06-23 | **5级结构重构**：删除Phase S，新增Phase 5 PRD节点。Phase 2从"幕纲/卷纲"改为"L2单元卡/L3剧情线/L4全书事件"。入库从"标准剧情线"改为"L2+L3双轨"。配合 pop-decon-volume v3.0.0 + pop-decon-prd v1.0.0。
 
 v14.2.0 | 2026-06-22 | **入库确认为强制步骤**：管线地图每个 Phase 增加 `→ 入库 {模块}` 标注。Step 6 从"可选 SOP 转化"升级为"入库确认（强制）"——逐模块核查五库落盘 + 更新索引。新增红线❌6（全管线完成不执行入库确认 = 拆书白拆）。入库速查指针 → `pop-trope-library/references/deconstruction-intake-quickref.md`。拆书→写书闭环从"可选"收口为"强制"。
 

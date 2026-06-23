@@ -1,4 +1,4 @@
-﻿# 角色调度参考（Step 2 消费）
+# 角色调度参考（Step 2 消费）
 
 > 所属: pop-writer-chapter v2.2 · references/
 > 说明: 此文件不独立执行。Agent 在 Step 2 逐事件设计时参考。
@@ -7,7 +7,7 @@
 
 ### 1. 角色的 before 状态
 
-**必须从 `状态/entity-snapshot.yaml` 取。** 不允许凭记忆。
+**必须从 `状态/state-log.yaml` 取。** 不允许凭记忆。
 
 ### 2. 角色是否在登场人物中
 
@@ -26,6 +26,6 @@
 
 ## 红线
 
-- ❌ 角色 before 状态来自记忆而非 entity-snapshot → 退回
+- ❌ 角色 before 状态来自记忆而非 state-log.yaml → 退回
 - ❌ 事件引用的角色不在剧情线登场人物中 → 退回
 - ❌ 台词风格 = 「符合人设」 → 退回

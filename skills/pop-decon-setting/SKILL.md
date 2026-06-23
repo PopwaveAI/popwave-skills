@@ -1,6 +1,6 @@
 ---
 name: pop-decon-setting
-description: "Phase 3 of deconstruction. Induce L1 worldbuilding (6 elements + world constitution + combat capabilities) from design pack data and volume/act clustering."
+description: "Phase 3 of deconstruction. Induce L1 worldbuilding (6 elements + world constitution + combat capabilities) from design pack data and L2/L3 narrative structure."
 pipeline:
   upstream: [pop-decon-volume, wiki-skeleton]
   downstream: [pop-decon-trace]
@@ -8,17 +8,17 @@ pipeline:
 tags: [deconstruction, worldbuilding, phase3]
 ---
 
-# pop-decon-setting · 设定世界观 v1.2.0
+# pop-decon-setting · 设定世界观 v1.3.0
 
 > **定位**：Phase 3 of deconstruction. 从全部分析数据中归纳 L1 六件套 + 世界宪法 + 数值体系。
-> **管线位置**：Phase 1 (设计包) → Phase 2 (幕纲卷纲) → **Phase 3 (设定世界观)** → Phase 4 (创意溯源)
+> **管线位置**：Phase 1 (设计包) → Phase 2 (L2单元卡/L3剧情线) → **Phase 3 (设定世界观)** → Phase 4 (创意溯源)
 > **级别覆盖**：前N章 / 全书 | **前置**：Phase 1 + Phase 2 已完成
 
 ## 管线位置
 
 ```
-正文 → 事实提取 → 卷幕聚类 → 设定世界观 → 创意溯源
-       Phase 1/2    Phase 2    Phase 3       Phase 4
+正文 → 事实提取 → L2/L3叙事结构 → 设定世界观 → 创意溯源
+       Phase 1/2      Phase 2       Phase 3       Phase 4
                                 ↑
                         这是你在这里 ← Phase 3
 ```
@@ -31,15 +31,15 @@ tags: [deconstruction, worldbuilding, phase3]
 
 | 步骤 | 操作 | 读什么 | 数据来源 | 产出 | 门禁 |
 |:-----|:-----|:-------|:---------|:-----|:-----|
-| 1 | 地理蓝图 | Phase 2 卷地理范围 | 设计包地点数据 | `L1-01-世界蓝图.md` | — |
+| 1 | 地理蓝图 | Phase 2 L2单元卡物理坐标·地点 | 设计包地点数据 | `L1-01-世界蓝图.md` | — |
 | 2 | 力量体系 | Phase 1 设计包 + **Wiki骨架力量体系** | 境界/功法/升级路径 | `L1-02-力量体系.md` | Wiki 来源标注置信度 |
-| 3 | 历史驱动力 | Phase 2 主线 | 大事件时间线 | `L1-03-历史与驱动力.md` | — |
+| 3 | 历史驱动力 | Phase 2 L3剧情线 | 大事件时间线 | `L1-03-历史与驱动力.md` | — |
 | 4 | 物种与天赋 | Phase 1 设计包 | 角色/怪物数据 | `L1-04-物种与天赋.md` | — |
-| 5 | 势力格局 | Phase 2 幕数据 | 势力动机/权力关系 | `L1-05-势力格局.md` | — |
+| 5 | 势力格局 | Phase 2 L2单元卡数据 | 势力动机/权力关系 | `L1-05-势力格局.md` | — |
 | 6 | 资源与物品 | Phase 1 设计包 | 物品/资源/货币 | `L1-06-资源与物品.md` | — |
 | 7 | 世界宪法 | L1 六件套 | 叙事规律 | `世界宪法.md` | ≥3 原文证据 |
 | 8 | 数值体系 | 战斗章设计包 | 战力/段位 | `combat_capability.yaml` | — |
-| 9 | 起点/终点快照 | Phase 1 角色状态 | Phase 2 卷边界 | `起点快照.md` | — |
+| 9 | 起点/终点快照 | Phase 1 角色状态 | Phase 2 L2/L3边界 | `起点快照.md` | — |
 
 ---
 
@@ -47,7 +47,7 @@ tags: [deconstruction, worldbuilding, phase3]
 
 | # | 红线 |
 |:-:|:-----|
-| ❌1 | **Phase 2 未完成就归纳** — 卷幕产出缺失 → 退回 Phase 2 |
+| ❌1 | **Phase 2 未完成就归纳** — L2/L3产出缺失 → 退回 Phase 2 |
 | ❌2 | **凭空发明设定** — 无设计包/chXX 证据且未标注「数据极少」的名称 |
 | ❌3 | **编造境界链** — 原文从未出现的分级体系（如「凡人→超凡→破格」） |
 | ❌4 | **前N章产出全书级文件** — 文件名不得含"全书"，必须有 scope 声明 |
@@ -79,7 +79,7 @@ tags: [deconstruction, worldbuilding, phase3]
 
 ```
 [ ] Phase 1 设计包v3/ 存在
-[ ] Phase 2 — 卷1-架构.md + 幕文件
+[ ] Phase 2 — L2单元卡 + L3剧情线
 [ ] （可选）_temp/wiki-skeleton.md — Wiki 全局骨架
 [ ] 套路库非空
 ```
@@ -88,7 +88,7 @@ tags: [deconstruction, worldbuilding, phase3]
 > 
 > **Wiki 骨架使用时**：对精度窗口内已出现的设定标注「✅ chXX 确认」，对精度窗口外的设定标注「📖 Wiki来源，未在阅读窗口内验证」。不得用 Wiki 数据覆盖精度窗口内的原文证据。
 
-**并行策略**：L1 六件套可以并行委托 3-4 个子 agent 分组产出（如：①世界蓝图+历史驱动力 ②力量体系+战斗数值 ③物种天赋+资源物品 ④势力格局+世界宪法+起点快照）。每组读各自的设计包子集 + Phase 2 卷幕文件。context 中给出模板格式和关键数据摘要可减少子 agent 的阅读量。
+**并行策略**：L1 六件套可以并行委托 3-4 个子 agent 分组产出（如：①世界蓝图+历史驱动力 ②力量体系+战斗数值 ③物种天赋+资源物品 ④势力格局+世界宪法+起点快照）。每组读各自的设计包子集 + Phase 2 L2/L3文件。context 中给出模板格式和关键数据摘要可减少子 agent 的阅读量。
 
 ---
 
@@ -99,5 +99,6 @@ tags: [deconstruction, worldbuilding, phase3]
 全书: + 终点快照 + L1 全书版
 ```
 
+> v1.3.0 | 2026-06-23 | **5级结构对齐**：所有"卷/幕"引用改为"L2/L3"。管线位置从"卷幕聚类"改为"L2/L3叙事结构"。前置条件从"卷1-架构.md + 幕文件"改为"L2单元卡 + L3剧情线"。配合 pop-decon v15.0.0 + pop-decon-volume v3.0.0。
 > v1.2.0 | 2026-06-22 | **Wiki 骨架集成**：新增 `wiki-skeleton` 可选上游。前置条件增加 `_temp/wiki-skeleton.md`。Step 2 力量体系数据源增加 Wiki 骨架。新增红线❌6（Wiki 数据必须标注置信度）。配合 pop-decon v14.0.0 Step 2.7。
 > v1.1.0 | 2026-06-18 | 修正Phase编号（Phase 4→Phase 3）。新增并行策略说明。更新管线位置。修正上游依赖检查（移除对不存在的 world-data.json 的引用）。

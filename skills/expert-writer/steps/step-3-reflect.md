@@ -66,16 +66,7 @@
    - 首屏仪表盘：将刚完成的阶段标记从 ⏳/⬜ 改为 ✅
    - 实际阶段执行表：追加已完成阶段行
    - 产出物清单：扫描文件系统，更新状态列
-   - 当前进度锚点：调用 pop-state-engine `project-status` 命令获取引擎聚合数据（entity-snapshot.yaml 作为 fallback）
-     ```bash
-     python {engine_scripts}/command_executor.py -p {项目路径} -a project-status
-     ```
-     将返回 JSON 中的字段映射到总控进度锚点段：
-     - `total_chapters` → entity-snapshot 章号
-     - `current_arc.title` → 当前幕
-     - `protagonist_state` → 主角状态
-     - `critical_hooks` → 关键伏笔
-     - 引擎查询失败时退回读 `状态/entity-snapshot.yaml`
+   - 当前进度锚点：读 `状态/state-log.yaml` 最后一条 baseline + 之后的 event，提取：当前章号（最后一条 event 的 chapter）、当前弧线（baseline 的弧线段）、主角状态（最后一条 event 的变化段）、关键伏笔（baseline 伏笔段中未回收的）
    - 追加执行顺序日志：`| {序号} | {阶段名} | {时间戳} | {备注} |`
 3. **写入更新后的 `项目总控.md`**
 4. **确认写入成功**（重新读取验证）
@@ -84,6 +75,21 @@
 **⛔ 门禁检查：**
 - 项目总控.md 是否已更新？→ 未更新 = 阶段未完成，禁止进入下一阶段
 - 产出物清单是否与实际文件系统一致？→ 不一致 = 补齐后再进入下一阶段
+
+### state-log 压缩检查
+
+每次 reflect 时检查 state-log.yaml 是否需要压缩：
+
+1. 读 `last_compacted_at` 和最后一条 event 的 chapter
+2. 如果差值 ≥ 20（即上次压缩后已累积 20+ 章 event），执行压缩：
+   - 读最后一个 baseline + 它之后的所有 event
+   - 合并成一条新 baseline（角色变化、伏笔状态、世界状态全部体现在叙事中）
+   - 删掉旧 baseline 及其后的所有 event
+   - 追加新 baseline
+   - 更新 `last_compacted_at` 为新 baseline 的 chapter
+3. 如果差值 < 20，跳过
+
+> 压缩是可选的——即使不压缩，state-log 也能正常工作（只是文件稍大）。20 章是建议值，可根据项目节奏调整。
 
 ---
 

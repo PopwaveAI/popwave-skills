@@ -1,15 +1,17 @@
 ---
 name: pop-shared-dna
 description: 当用户说"提取文风/文风DNA/风格蒸馏/分析作者笔触/文风拆解/写作文风参考/styles文件/场景卡文风"时启用。从原文中按场景类型提取作者笔触，产出 prose-render 可直接对照的场景参考文件。**给 prose-render 的不是指令——是原文。**
-version: 4.0.3
+version: 4.0.4
 pipeline:
   upstream: [pop-decon]
   downstream: [pop-writer-prose]
 ---
 
-# pop-shared-dna · 文风DNA蒸馏引擎 v4.0.2
+# pop-shared-dna · 文风DNA蒸馏引擎 v4.0.4
 
 > **定位：从原文中按场景类型提取作者笔触。** 每个场景卡 = 1-2 句观察 + 500+ 字原文 + 时间演变。产出的不是分析报告，是 prose-render 渲染时旁边打开的参考页。
+>
+> **5级结构定位**：在5级叙事结构（L0-L5）中，文风DNA是横切辅助层，不参与纵向层级，为L1设计包的 scene 字段提供笔触参考。
 
 ---
 
@@ -156,7 +158,7 @@ prose-render Step 1（读入输入）:
 
 ```
 pop-shared-dna/
-├── SKILL.md                    ← 本文（v4.0.2）
+├── SKILL.md                    ← 本文（v4.0.4）
 ├── skill.json                  ← 元数据
 ├── CHANGELOG.md                ← 变更日志
 ├── steps/                      ← 分步详细指令
@@ -178,4 +180,5 @@ pop-shared-dna/
 
 ## 版本
 
+v4.0.4 | 2026-06-23 | **5级结构对齐**：新增横切辅助层定位说明。在5级叙事结构（L0-L5）中，文风DNA不参与纵向层级，为L1设计包的 scene 字段提供笔触参考。
 v4.0.3 | 2026-06-16 | DNA消费边界新增：'观察'字段是笔触特征不是改写指令。模板新增消费警告。集成章节新增DNA消费边界说明。

@@ -5,10 +5,10 @@ pipeline:
   upstream: [pop-writer-plot]
   downstream: [pop-writer-prose]
   references: [pop-trope-library]
-version: 2.5.0
+version: 2.6.0
 ---
 
-# pop-writer-chapter · 章纲设计 / 导演卡 v2.5.0
+# pop-writer-chapter · 章纲设计 / 导演卡 v2.6.0
 
 > **定位：消费 plot 的幕纲 + 剧情线，产出回合级事件链设计包。**
 > **核心约束：不碰文风。不写叙事者声音、不写句子节奏、不写修辞风格。**
@@ -18,7 +18,7 @@ version: 2.5.0
 | # | 红线 |
 |:-:|:-----|
 | 1 | **上游未就绪** — `剧情设计/幕/vol-XX/act-YY.md` 或 `剧情设计/剧情线/` 缺失 → 终止 |
-| 2 | **entity-snapshot 不存在也未初始化** — 终止（CH1 由 Step 1 初始化） |
+| 2 | **state.yaml 不存在也未初始化** — 终止（CH1 由 Step 1 初始化） |
 | 3 | **出场角色不可追溯** — 事件引用角色不在剧情线登场人物中 → 退回 |
 
 ## 加载指令清单（禁跳过）
@@ -27,10 +27,10 @@ version: 2.5.0
 
 | 什么时候 | 读什么文件 | 产出 | 门禁 |
 |:---------|:----------|:-----|:-----|
-| 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ 幕纲/entity-snapshot/剧情线 缺一终止 |
+| 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ 幕纲/state-log.yaml/剧情线 缺一终止 |
 | 第 2 步 | `steps/step-2-event-chain.md` | 事件链骨架（地点/角色/事件/情绪/scene/对白/信息） | ❌ 密度不够/缺字段退回 |
 | 第 3 步 | `steps/step-3-polish.md` | 润色完成的设计包（爽点+套路+情绪弧+钩子+调味+枪+对白语气） | ❌ 爽点不足/钩子缺回收章退回 |
-| 第 4 步 | `steps/step-4-output.md` | 质量自查 → 设计包落盘 + entity-snapshot 更新 + 枪链同步 | ❌ 自查任一条不通过退回；缺落盘退回 |
+| 第 4 步 | `steps/step-4-output.md` | 质量自查 → 设计包落盘 + 质量自查 + 伏笔预判 | ❌ 自查任一条不通过退回；缺落盘退回 |
 
 ### templates/ — 模板层
 
@@ -59,9 +59,9 @@ version: 2.5.0
 ## 核心流程
 
 ### 步骤1：建立基线
-**读什么：** 优先调用 `for-creation --chapter {N}` 获取引擎上下文包（~5-8KB）；引擎为空时 fallback 到 `剧情设计/幕/vol-XX/act-YY.md`（全文）+ `状态/entity-snapshot.yaml` + `剧情设计/剧情线/{活跃线}.md`
+**读什么：** `剧情设计/幕/vol-XX/act-YY.md`（全文）、`状态/state-log.yaml`、`剧情设计/剧情线/{活跃线}.md`
 **做什么：** 建立结构化基线——本章位置/Canvas约束/角色现状/活跃线上下文/篇幅预算。基线在内存，不落盘。
-**❌ 门禁：** 幕纲/entity-snapshot/剧情线 缺一终止。CH1 时初始化 entity-snapshot（从角色卡+起点快照组装）。
+**❌ 门禁：** 幕纲/state-log.yaml/剧情线 缺一终止。CH1 时初始化 state-log baseline #0（从角色卡补充角色状态到 baseline）。
 
 详细指令见 `steps/step-1-read-canvas.md`。
 
@@ -82,8 +82,8 @@ version: 2.5.0
 
 ### 步骤4：产出落盘
 **读什么：** Step 3 润色后的设计包
-**做什么：** ①质量自查（对照基线 Canvas 逐项检查 10 条——爽点/钩子/枪/情绪/密度/调味/对白/信息）→ 不通过回退 Step 2/3 → ②通过后落盘：写 `章节设计包/chXXX-设计包.md` + 更新 `状态/entity-snapshot.yaml` + 回写 act-YY.md 枪链段
-**❌ 门禁：** 自查任一条不通过退回；缺落盘退回；entity-snapshot 未更新退回
+**做什么：** ①质量自查（对照基线 Canvas 逐项检查 10 条——爽点/钩子/枪/情绪/密度/调味/对白/信息）→ 不通过回退 Step 2/3 → ②通过后落盘：写 `章节设计包/chXXX-设计包.md` + 更新 `状态/state.yaml` + 存档 state-history/ch-{NNN}.yaml
+**❌ 门禁：** 自查任一条不通过退回；缺落盘退回；state.yaml 未更新退回
 
 详细指令见 `steps/step-4-output.md`。
 
@@ -93,8 +93,8 @@ version: 2.5.0
 |:--------|:-------|
 | 事件内容写「一场激烈的战斗爆发了」 | 事件内容写「目标转身拔剑——刀从侧面切入他右腕」 |
 | 关键对白写「主角嘲讽对方」 | 关键对白写原文「废物。」 |
-| 凭记忆写角色 before 状态 | 从 `状态/entity-snapshot.yaml` 取 |
-| 枪链更新写到独立 chekhov-tracker.md | 回写到 `剧情设计/幕/vol-XX/act-YY.md` 枪链段 |
+| 凭记忆写角色 before 状态 | 从 `状态/state-log.yaml` 读最后 baseline + event |
+| 枪链更新写到独立 chekhov-tracker.md | 更新到 `状态/state.yaml` hooks 段 |
 | 不查套路库直接设计事件 | 先查 `pop-trope-library/套路库/{套路名}.md` 节奏控制段 |
 | 事件链阶段部署套路/标注爽点 | 事件链只写骨架，套路和爽点在 Step 3 润色时统一处理 |
 
@@ -105,13 +105,13 @@ version: 2.5.0
 | 事件链骨架设计（地点/角色/事件/情绪） | ❌ 不渲染正文 |
 | 爽点标注 + 套路部署 + 润色层 | ❌ 不验证剧情逻辑 |
 | 调味空间标注 | ❌ 不修改剧情线文档 |
-| entity-snapshot 更新 | ❌ 不替 prose 做文风决策 |
+| 设计包落盘 + 伏笔预判（不写 state-log） | ❌ 不替 prose 做文风决策 |
 
 ## 边界条件
 
 | 场景 | 处理 |
 |:-----|:-----|
-| CH1 entity-snapshot 不存在 | Step 1 初始化：从角色卡+起点快照组装 |
+| CH1 state-log.yaml 不存在 | Step 1 初始化：从角色卡补充角色状态到 baseline #0 |
 | 登场角色卡缺失 | 终止，不凭记忆编造 |
 | Canvas 无 payoff 供给 | Step 3 兜底制造中爽点（微释放/对话揭示/内部抉择） |
 | 连续 ≥3 章无释放 | 通知 plot 建议增加 S 线 |
@@ -122,11 +122,12 @@ version: 2.5.0
 | 确认项 | 状态 |
 |:-------|:-----|
 | `章节设计包/chXXX-设计包.md` 已写入 | [ ] |
-| `状态/entity-snapshot.yaml` 已更新 | [ ] |
-| `剧情设计/幕/vol-XX/act-YY.md` 枪链段已同步 | [ ] |
+| 设计包 after 段已标注伏笔预判 | [ ] |
+| `状态/state.yaml` hooks 段伏笔已更新 | [ ] |
 | 设计包含全部节（事件链/情绪弧/爽点机制/钩子/枪链/调味空间/对白分析） | [ ] |
 
 ## 版本
 
-v2.5.0 | 2026-06-23 | Step 1 新增引擎上下文组装（for-creation）优先路径，entity-snapshot.yaml 降为 fallback; 双读过渡期并行
+v2.6.0 | 2026-06-23 | state.yaml+history → state-log.yaml（append-only 叙事日志）; chapter 不再写状态，prose 章末追加 event; CH1 只补充 baseline #0 角色状态
+v2.5.0 | 2026-06-23 | entity-snapshot.yaml → state.yaml + state-history 快照机制; 伏笔追踪收敛到 state.yaml hooks 段; act-YY 枪链段废弃
 v2.4.0 | 2026-06-23 | 新增"剧情推进点"概念（每章≥3个事件必须推进L2，≥3条不同L2）+字数基准改2~3k → [CHANGELOG.md](CHANGELOG.md)

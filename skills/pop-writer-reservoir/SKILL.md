@@ -5,7 +5,7 @@ pipeline:
   upstream: [pop-writer-creative]
   downstream: [pop-writer-plot, pop-writer-world, pop-writer-character]
   references: [pop-trope-library]
-version: 3.4.0
+version: 3.2.0
 ---
 
 # pop-writer-reservoir · 创意转换引擎
@@ -151,33 +151,6 @@ Step Inject-B · 归档写入 (step-inject-archive.md)
 素材储备池/素材储备池.md — 索引页（速览表+权重说明，区分剧情/设定类型）
 ```
 
-## 引擎登记（储备卡落盘后）
-
-每张储备卡写入后，将卡内实体和设定规则登记到 pop-state-engine：
-
-```bash
-# 注册储备卡实体到知识图谱（properties 标注来源）
-python {engine_scripts}/command_executor.py -p {项目路径} -a add-node -j '{
-  "id": "{实体ID}",
-  "type": "{character|location|faction|item|skill|concept}",
-  "name": "{实体名}",
-  "tags": "储备卡",
-  "properties": "{\"source\": \"{储备卡名}\"}"
-}'
-```
-
-```bash
-# 写入储备卡设定规则到事实表（permanent 级）
-python {engine_scripts}/command_executor.py -p {项目路径} -a set-fact -j '{
-  "entity": "{实体名}",
-  "attribute": "{属性名}",
-  "value": "{值}",
-  "chapter": 0,
-  "importance": "permanent"
-}'
-```
-
 ---
 
-v3.4.0 | 2026-06-23 | 储备卡落盘后新增引擎登记（add-node+set-fact）; 修正 skill.json 与 SKILL.md 版本不一致
 v3.3.0 | 2026-06-23 | archive步骤补设定卡流程+模板瘦身（剧情卡172→105行/设定卡137→106行）+修假层级 → [CHANGELOG.md](CHANGELOG.md)

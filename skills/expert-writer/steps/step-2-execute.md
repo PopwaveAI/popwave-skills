@@ -101,8 +101,8 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 | creative | — | world/character/plot/chapter/prose 全部产出 |
 | world | PRD + 素材储备池 | character/plot/chapter/prose 全部产出 |
 | character | PRD + 素材储备池 + world | plot/chapter/prose 全部产出 |
-| plot | PRD + 素材储备池 + world + character | chapter/prose 全部产出（卷纲/剧情线/幕纲/Canvas/章锚也删） |
-| chapter | PRD + 素材储备池 + world + character + plot | prose 全部产出（正文文件+entity-snapshot重置到对应章前） |
+| plot | PRD + 素材储备池 + world + character | chapter/prose 全部产出 + 删 state-log.yaml（plot 会重新创建） |
+| chapter | PRD + 素材储备池 + world + character + plot | prose 全部产出 + 删 state-log.yaml 中 chapter > N 的条目 |
 
 4. **执行删除**：
    - 删除目标层之后的所有产出文件
@@ -117,9 +117,10 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
    - 写入回滚记录：`| 回滚 | {时间} | 从 {层} 回滚到 {层} | 删除 {N} 个文件 |`
 
 6. **重置状态文件**：
-   - 如果回滚到 plot 之前：删除 `状态/entity-snapshot.yaml`（chapter 会重新初始化）
-   - 如果回滚到 chapter 之前：重置 entity-snapshot 到 plot 完成时的状态
-   - 如果回滚到 prose 之前：不重置 entity-snapshot（chapter 已完成）
+   - 回滚到 creative/world：删 `状态/state-log.yaml` + 删 `状态/角色/` 目录
+   - 回滚到 plot：删 `状态/state-log.yaml`（plot Step 3 会重新创建 baseline #0）
+   - 回滚到 chapter（第 N 章）：编辑 `状态/state-log.yaml`，删除 entries 中 chapter > N 的所有条目。如果删完后最后一个条目是 baseline 且其 chapter > N，继续向前找 chapter ≤ N 的最后一个 baseline，删掉它之后的所有条目
+   - 回滚到 prose（第 N 章）：同上（state-log 回到 chapter=N 的最后一条 event，正文文件删除 ch>N 的）
 
 7. **告知用户**："已回滚到 {层}。当前项目状态：{保留的产出列表}。可以重新开始 {层} 的设计了。"
 

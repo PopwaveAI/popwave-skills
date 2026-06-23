@@ -1,4 +1,4 @@
-﻿# Step 1：建立基线
+# Step 1：建立基线
 
 > 管线: pop-writer-chapter v2.2
 > 模板: `templates/baseline.tpl.md`
@@ -13,25 +13,11 @@ Step 2 不再回头翻源文件——所有决策从基线出发。
 
 ## 读什么
 
-### 优先路径：pop-state-engine 上下文组装
-
-```bash
-python {engine_scripts}/command_executor.py -p {项目路径} -a for-creation -j '{"chapter": {N}}'
-```
-
-引擎返回 JSON 包含：book_summary → volume_summary → arc_summary → recent_summaries → active_entities → active_facts → open_hooks → continuity_notes。自动裁剪到 ~5-8KB，替代全量加载 act-YY.md + entity-snapshot.yaml。
-
-**fallback 条件**：引擎返回为空（`active_entities` 为空且 `recent_summaries` 为空）时，退回文件加载路径。
-
-### Fallback 路径：文件全量加载
-
 | # | 文件 | 读什么 | 为什么 |
 |:-:|:-----|:-------|:-------|
 | 1 | `剧情设计/幕/vol-XX/act-YY.md` | **全文** | 理解整段剧情全貌：幕功能/幕级门槛/章锚点/Canvas 矩阵/枪链。不是只看本章切片 |
-| 2 | `状态/entity-snapshot.yaml` | 全部角色当前状态 | 本章登场角色的 before 状态唯一 canon |
+| 2 | `状态/state-log.yaml` | 最后一条 baseline + 之后的 event | 本章登场角色的 before 状态 + open 伏笔列表 |
 | 3 | `剧情设计/剧情线/{线名}.md` | **仅本章 Canvas 中活跃的线** | 活跃线的驱动力/套路链/枪链/阶段位置。非活跃线不读 |
-
-> 双读过渡期：引擎和 entity-snapshot.yaml 并行。引擎有数据时优先用引擎（数据更新、裁剪更精准），引擎无数据时退回文件加载。
 
 ## 不读什么
 
@@ -51,7 +37,7 @@ python {engine_scripts}/command_executor.py -p {项目路径} -a for-creation -j
 | 检查项 | 失败动作 |
 |:-------|:---------|
 | 幕纲不存在 | ❌ 终止，提示先完成 plot |
-| entity-snapshot 不存在 | CH1 → 执行初始化；非 CH1 → ❌ 终止 |
+| state-log.yaml 不存在 | CH1 → 执行初始化；非 CH1 → ❌ 终止 |
 | Canvas 中本章无任何活跃线 | ⚠️ 警告，继续（可能是纯过渡章） |
 | 剧情线文档缺失（活跃线对应的） | ❌ 终止 |
 
@@ -60,8 +46,21 @@ python {engine_scripts}/command_executor.py -p {项目路径} -a for-creation -j
 | 检查项 | 失败动作 |
 |:-------|:---------|
 | 幕纲 `lastUpdatedAt` 早于项目总控的框架级变更时间 | ⚠️ 标注「幕纲可能过期，建议先回 plot 更新」 |
-| entity-snapshot 最后更新章号 vs 当前目标章号差距 > 3 章 | ⚠️ 标注「entity-snapshot 过期」 |
+| state-log.yaml 最后一条 event 的 chapter vs 当前目标章号差距 > 3 章 | ⚠️ 标注「state-log 过期」 |
 | 卷纲 `lastUpdatedAt` 早于项目总控的框架级变更时间 | ⚠️ 标注「卷纲可能过期」 |
+
+### ★ state-log.yaml 初始化分支（CH1 首次运行专用）
+
+**触发条件**：`状态/state-log.yaml` 不存在，或存在但 baseline #0 缺少角色状态
+
+**执行步骤**：
+1. 检查 `状态/state-log.yaml` 是否由 plot Step 3 创建（含 baseline #0，但只有弧线+伏笔+世界状态，无角色状态）
+   - 若完全不存在：❌ 终止，提示先完成 plot
+2. 读取全部角色卡（`状态/角色/*.md`），提取每个角色的初始状态（等级/位置/装备/心理）
+3. 将角色状态合并到 baseline #0 的 content 中（直接编辑该条目的 content，在 `## 角色` 下补充每个角色的初始状态）
+4. 继续正常流程（Step 2 事件链设计）
+
+> baseline #0 就是 CH1 的 before 状态。prose 写完 CH1 后会追加第一条 event。
 
 ## 产出
 

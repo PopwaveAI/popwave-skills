@@ -1,6 +1,6 @@
 {
   "id": "pop-writer-plot",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "displayName": "剧情架构设计",
   "description": "当用户说'剧情架构/卷纲/剧情卡筛选/卷级特化/剧情线/设定线/背景线/幕纲/章锚点/叙事债务/契诃夫枪/Canvas节奏'时启用。产出卷纲、主线/支线/设定线独立剧情线文档、幕纲（分幕+章锚点+Canvas+叙事债务追踪），供 chapter 与 prose 消费。",
   "entry": "SKILL.md",

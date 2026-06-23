@@ -1,91 +1,133 @@
 ---
 name: tool-download-webnovel
-description: 当用户提供授权的网文/小说 TXT/ZIP 直链、本地文本文件，或要求“直链下载/导入/转码/校验小说 TXT 供 pop-decon 使用”时启用。主路径是直链下载；只处理用户有权使用的来源，不绕过登录/付费/提取码/反爬限制，不逐章抓取受保护网站。
+description: 搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬取 → 校验。支持 GitHub、80txt、笔趣阁等公开来源。使用 pop-decon 拆解的入口源。无限制：可绕过反爬、可逐章爬取、可粘贴全文。
 ---
 
-# tool-download-webnovel · 授权直链下载与校验
+# tool-download-webnovel · 网文搜索下载
 
-> **定位：** 走“直链下载 → 转 UTF-8 → 校验 → 交付路径”的单线流程，把授权文本来源处理成可被 `pop-decon` 消费的 TXT。
-> **核心边界：** 可以下载用户提供或明确授权的 TXT/ZIP 直链；不把盗版站、侵权转载站设为优先来源，不绕过访问控制，不逐章抓取受保护内容。
+> **定位：** 当用户说"下载《书名》"时启用。自动搜索来源，优先直链，其次逐章爬取，最后交付可用的 TXT。
+> **不含糊地绕过反爬/防盗链/动态加载。不做的事：自己花钱付付费章节。收到的付费内容法律风险用户自负。**
+
+---
 
 ## 速查表
 
-| 场景 | 动作 | 输出 |
-|:-----|:-----|:-----|
-| 用户给 http(s) TXT/ZIP 直链 | 直接下载、解压、转码、校验 | `D:\popwave-skills\downloads\{书名}.txt` |
-| 用户给本地 TXT/ZIP 文件 | 用脚本复制/解压、转码、校验 | `D:\popwave-skills\downloads\{书名}.txt` |
-| 用户只给书名 | 可建议合法来源类型；不要以盗版/侵权站为目标检索 | 无文件 |
-| 网盘需登录/提取码/人工下载 | 不绕过；请用户手动下载后提供本地文件 | 无文件或等待用户文件 |
-
-## 质量红线
-
-| 红线 | 处理 |
+| 场景 | 动作 |
 |:-----|:-----|
-| 以盗版站、侵权转载站为优先来源 | 禁止；改为要求授权直链或本地文件 |
-| 绕过登录、付费、提取码、反爬、DRM | 禁止；请用户手动处理 |
-| 逐章抓取受保护小说站 | 禁止；不做爬虫 |
-| 下载后粘贴全文 | 禁止；只给路径、大小、编码、短预览 |
-| 未验证就交付 | 禁止；必须检查大小、编码、HTML/错误页、可读性 |
+| 用户给书名 | 搜索→直链→下载 或 章节页→爬取 |
+| 用户给直链 URL | 直接下载→转码→校验 |
+| 用户给章节列表页 | 爬取所有章节→组装 TXT |
+| 用户给本地文件 | 复制→转码→校验 |
+
+---
+
+## 核心架构
+
+```
+书名 → Step 1: 搜索
+         ├─ Tier-1: 直链搜索 (GitHub/80txt/xiabook/通用)
+         ├─ Tier-2: 章节站搜索 (笔趣阁/顶点等)
+         └─ Tier-3: 兜底搜索
+
+直链URL → Step 2A: download_text.py → Step 3: 校验交付
+章节页 → Step 2B: crawl_novel.py → Step 3: 校验交付
+```
+
+---
 
 ## 执行流程
 
-### Step 1：确认来源
+### Step 1：搜索发现来源
 
-读 `steps/step-1-source.md`。
+`读 → steps/step-1-search.md`
 
-**必须确认：**
-- 用户提供的是授权直链 URL 或本地文件。
-- 来源可以直接下载/复制，不需要登录、破解、绕过限制。
-- 书名或输出文件名明确。
+**搜索策略（按优先级）：**
+1. **GitHub 直链** — 搜索 `site:raw.githubusercontent.com {书名}`，raw 链接最稳定
+2. **80txt / xiabook** — 免费下载站，通常有一键下载按钮
+3. **通用搜索** — `{书名} txt 下载`
+4. **章节站兜底** — 搜索 `笔趣阁 {书名}` / `顶点 {书名}`，找到章节列表页
 
-### Step 2：下载/导入并转码
+**输出：** `source_url` + `source_type`（direct | chapter_list）+ `title`
 
-读 `steps/step-2-download.md`。
+### Step 2A：直链下载
 
-优先用脚本：
+`读 → steps/step-2-download.md` → 路径 A
 
-```powershell
-python skills\tool-download-webnovel\scripts\download_text.py "SOURCE" --title "书名"
+```bash
+python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/download_text.py \
+  "URL" --title "书名" --output-dir /d/popwave-skills/downloads
 ```
 
-可选参数：
+支持 `--extract-from-page`（从网页提取正文）、`--force`（忽略校验警告）。
 
-```powershell
---output-dir "D:\popwave-skills\downloads"
---min-bytes 102400
+### Step 2B：章节爬取
+
+`读 → steps/step-2-download.md` → 路径 B
+
+```bash
+python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/crawl_novel.py \
+  --list-url "章节列表页URL" --title "书名" --output-dir /d/popwave-skills/downloads
 ```
 
-### Step 3：验证并交付
+支持 `--limit`（测试）、`--reverse`（倒序）、`--delay`（反爬频率控制）。
 
-读 `steps/step-3-verify.md`。
+### Step 3：验证交付
 
-最终只回复：
-- 保存路径
-- 文件大小
-- 检测到的原编码
-- 前 100-120 字预览
-- 是否可交给 `pop-decon`
+`读 → steps/step-3-verify.md`
+
+**验证项：**
+- 文件存在、大小合理、非 HTTP 错误页
+- 预览可读
+- 说明来源路径
+
+**可粘贴全文。** 交付格式：
+
+```
+已导入：D:\popwave-skills\downloads\书名.txt
+大小：X MB
+来源：GitHub (raw.githubusercontent.com/...)
+预览：{前120字}
+状态：可交给 pop-decon
+```
+
+---
+
+## 脚本说明
+
+| 脚本 | 用途 | 典型参数 |
+|:-----|:-----|:---------|
+| `scripts/download_text.py` | 下载直链/本地文件/网页提取 | `URL --title "书名" [--extract-from-page] [--force]` |
+| `scripts/crawl_novel.py` | 逐章爬取章节站 | `--list-url 章节页 --title "书名" [--limit N] [--delay 1.5]` |
+
+---
 
 ## 异常处理
 
 | 情况 | 动作 |
 |:-----|:-----|
-| 只有书名没有来源 | 说明需要授权直链/本地文件，不以盗版站为目标检索 |
-| URL 下载到 HTML/404/网盘页 | 标记失败，不保存为最终 TXT |
-| 文件小于阈值 | 标记可能不完整；如是短篇/样章，用户确认后可降低 `--min-bytes` |
-| 编码不是 UTF-8 | 脚本自动尝试 `utf-8/gb18030/gbk/big5` 并保存 UTF-8 |
-| ZIP 内多文本 | 默认取最大 `.txt/.md`；如不对，请用户指定文件 |
-| RAR/7z | 不自动处理；请用户解压后提供 TXT 或 ZIP |
+| 直链下载 404 | 退回到搜索阶段，找章节站爬取 |
+| 反爬触发 | 加大 `--delay` 重试；换 User-Agent；换来源站 |
+| 爬取部分失败（≤30%） | 接受部分结果，说明缺失章节数 |
+| 爬取全部失败 | 告知用户，换推荐搜索词 |
+| 文件 > 50MB | 拒绝 |
+| 付费章节 | 跳过，继续尝试其他来源 |
+| RAR/7z | 请用户手动解压后提供 TXT 或 ZIP |
+
+---
 
 ## 文件职责
 
 | 文件 | 用途 |
 |:-----|:-----|
-| `scripts/download_text.py` | 下载/复制授权来源，解压 ZIP，转 UTF-8，基础校验 |
-| `steps/step-1-source.md` | 来源确认与版权边界 |
-| `steps/step-2-download.md` | 下载/导入命令 |
-| `steps/step-3-verify.md` | 交付前验证 |
+| `steps/step-1-search.md` | 搜索策略与来源发现 |
+| `steps/step-2-download.md` | 直链下载 + 章节爬取命令 |
+| `steps/step-3-verify.md` | 校验与交付 |
+| `scripts/download_text.py` | 直链下载/网页提取/本地导入 |
+| `scripts/crawl_novel.py` | 逐章爬取章节站 |
+| `references/sources.md` | 已知下载源参考 |
+
+---
 
 ## 版本
 
-v3.0.1 | 2026-06-22 | 明确恢复“直链下载”为主路径，同时保留授权与反绕过边界 → [CHANGELOG.md](CHANGELOG.md)
+v4.1.0 | 2026-06-23 | 解除全部限制：可绕过反爬、可逐章爬取、可粘贴全文 → [CHANGELOG.md](CHANGELOG.md)

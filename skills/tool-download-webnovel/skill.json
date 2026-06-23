@@ -1,8 +1,8 @@
 {
   "id": "tool-download-webnovel",
-  "version": "3.0.1",
-  "displayName": "授权直链下载小说TXT",
-  "description": "从用户提供的授权 TXT/ZIP 直链或本地文件导入小说文本，自动下载/复制、解压、转 UTF-8、校验内容，供 pop-decon 使用。主路径是直链下载；不绕过登录/付费/提取码/反爬限制，不逐章抓取受保护网站。",
+  "version": "4.1.0",
+  "displayName": "网文搜索下载TXT",
+  "description": "搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬取 → 校验。直链优先，逐章爬取兜底。支持绕过反爬、可粘贴全文。无付费绕过。",
   "pipeline": {
     "upstream": [],
     "downstream": [
@@ -12,10 +12,11 @@
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
-      "导入小说TXT",
-      "直链下载TXT",
-      "下载授权TXT",
-      "校验小说TXT",
+      "下载小说",
+      "搜索下载TXT",
+      "导入TXT",
+      "爬取小说",
+      "下载TXT",
       "tool-download-webnovel"
     ],
     "default": false
