@@ -10,7 +10,7 @@ metadata:
     related_skills: [pop-decon-design-pack, pop-decon-volume, pop-decon-setting, pop-decon-trace, pop-decon-prd]
 ---
 
-# pop-decon · 拆书管线调度 v15.0.0
+# pop-decon · 拆书管线调度 v15.1.0
 
 > **定位：拆书管线的元 skill。执行管线调度（Phase 1→5），不直接产出文件。**
 > **核心约束：按章节量级决定管线长度。全管线顺序推进，不得跳号。**
@@ -49,7 +49,7 @@ metadata:
 | ❌3 | **子 skill 不可用时静默跳过** — 找不到子 skill → 终止，告知用户 |
 | ❌4 | **中文网文硬跑 extract.py** — Phase 1 前必须判断源文件语言。中文 TXT 不支持 extract.py 章节检测 → 走手动 ETL |
 | ❌5 | **产出物不经质量门禁直接交付** — 每个 Phase 的产出物必须对照质量标准表自检，不达标不准进下一 Phase |
-| ❌6 | **全管线完成不执行入库确认** — Phase 1~5 + dna 全部跑完后，必须逐模块确认产出已写入 pop-trope-library 五库并更新索引。不入库 = 写作管线不可见 = 拆书白拆 |
+| ❌6 | **全管线完成不执行入库确认** — Phase 1~5 + dna 全部跑完后，必须逐模块确认产出已写入 pop-trope-library 四库并更新索引。不入库 = 写作管线不可见 = 拆书白拆 |
 
 ---
 
@@ -73,8 +73,7 @@ pop-decon (orchestrator)
     ├── 判断量级: 前N章 or 全书
     │   └── 判断语言: 中文网文 → 手动 ETL；英文 → extract.py
     │
-    ├── Phase 1: pop-decon-design-pack   → ETL → 拆分 → 设计包v3 + 套路库
-    │   │                                    → 入库 原始素材/（价值点分流）
+    ├── Phase 1: pop-decon-design-pack   → ETL → 拆分 → 设计包v4
     │   └── ⚠️ delegate_task 批量提取时，不同子agent可能用不同命名/格式
     │         → Phase 1 完成后必须执行 Step 2.6 命名归一化
     │
@@ -92,12 +91,12 @@ pop-decon (orchestrator)
     ├── Phase 5: pop-decon-prd             → 全书立项PRD（消费: L1-L4全管线产出 + 设定 + 创意溯源）
     │                                       → 入库 立项库/{书名}-立项PRD.md
     │
-    └── Step 6: 入库确认                → 逐模块检查 library 五库落盘
+    └── Step 6: 入库确认                → 逐模块检查 library 四库落盘
                                            → 更新各模块 00-索引.md
                                            → 通知用户"拆书完成，已入库"
 ```
 
-> **核心原则：拆书产出先入库（按 pop-trope-library 五库文件分类），写作管线从 library 按协议消费。两条线不交叉。**
+> **核心原则：拆书产出先入库（按 pop-trope-library 四库文件分类），写作管线从 library 按协议消费。两条线不交叉。**
 >
 > 入库目标路径速查 → `pop-trope-library/references/deconstruction-intake-quickref.md`。
 
@@ -112,9 +111,9 @@ pop-decon (orchestrator)
 **❌ 门禁：** 用户未确认量级 → 退回询问。
 
 ### Step 2：Phase 1 — 设计包（强制前置）
-**做什么：** 调用 `pop-decon-design-pack`。手动 ETL → 按章拆分 → 逐章 v3 提取设计包 + 套路归档。
+**做什么：** 调用 `pop-decon-design-pack`。手动 ETL → 按章拆分 → 逐章 v4 提取设计包。
 **中文网文注意：** extract.py 不识别中文「第X章」格式。中文 TXT 文件需手动 ETL（详见 pop-decon-design-pack 的 `references/chinese-novel-etl.md`）。
-**❌ 门禁：** `写作资产/设计包v3/` 为空 → 退回。
+**❌ 门禁：** `写作资产/设计包v4/` 为空 → 退回。
 
 **⚠️ delegate_task 前置检查（使用并行提取时强制执行）：**
 
@@ -133,7 +132,7 @@ pop-decon (orchestrator)
 
 | # | 检查项 | 通过标准 | 失败处理 |
 |:-:|:-------|:---------|:---------|
-| 1 | **覆盖率** | `设计包v3/` 文件数 ≥ `_temp/chapters/` 文件数 × 95% | 缺太多 → 退回补充 |
+| 1 | **覆盖率** | `设计包v4/` 文件数 ≥ `_temp/chapters/` 文件数 × 95% | 缺太多 → 退回补充 |
 | 2 | **命名一致性** | 全部文件名为 `chXXX-设计包.md`，无变体 | 不一致 → 先执行 Step 2.6 命名归一化，再重新检查 |
 | 3 | **首行格式** | 抽检后30%文件，首行匹配 `# 设计包 —` | 不匹配 → 低质量警告 |
 | 4 | **事件密度** | 抽检后期5章，每章事件数≥5 | <5 → 低密度警告 |
@@ -141,7 +140,7 @@ pop-decon (orchestrator)
 
 ### Step 2.5.5：跨卷格式一致性审计（多卷拆解时强制）
 
-**执行时机：** 当 `设计包v3/` 目录下有多卷设计包（如 `写作资产/设计包v3/` 和 `vol2/写作资产/设计包v3/`）时强制执行。在 Step 2.5 完成后、Step 2.6 之前。
+**执行时机：** 当 `设计包v4/` 目录下有多卷设计包（如 `写作资产/设计包v4/` 和 `vol2/写作资产/设计包v4/`）时强制执行。在 Step 2.5 完成后、Step 2.6 之前。
 
 **做什么：** 对比不同卷的设计包格式是否一致。
 
@@ -174,9 +173,9 @@ pop-decon (orchestrator)
 **执行时机：** Step 2.5 检查到命名不一致或文件数不足时强制执行。也可作为预防性步骤在 Phase 1 完成后无条件执行一次。
 
 **做什么（两步）：**
-1. **命名归一化**：扫描 `写作资产/设计包v3/` 目录，将所有设计包文件重命名为统一格式 `chXXX-设计包.md`。
-2. **路径归并**：并行提取时子 agent 可能用不同项目根目录名（如 `让仙门再次伟大` vs `让魔门再次伟大`）。扫描 `D:/workspace/` 下所有含设计包v3的目录，cp 到目标项目。详见 pop-decon-design-pack 的 Step 3.5。
-**做什么：** 扫描 `写作资产/设计包v3/` 目录，将所有设计包文件重命名为统一格式 `chXXX-设计包.md`。
+1. **命名归一化**：扫描 `写作资产/设计包v4/` 目录，将所有设计包文件重命名为统一格式 `chXXX-设计包.md`。
+2. **路径归并**：并行提取时子 agent 可能用不同项目根目录名（如 `让仙门再次伟大` vs `让魔门再次伟大`）。扫描 `D:/workspace/` 下所有含设计包v4的目录，cp 到目标项目。详见 pop-decon-design-pack 的 Step 3.5。
+**做什么：** 扫描 `写作资产/设计包v4/` 目录，将所有设计包文件重命名为统一格式 `chXXX-设计包.md`。
 
 **已知的命名变体（必须覆盖）：**
 
@@ -193,7 +192,7 @@ pop-decon (orchestrator)
 **批量重命名（Python，推荐用于中文路径）：**
 ```python
 import os, re
-for f in os.listdir('写作资产/设计包v3/'):
+for f in os.listdir('写作资产/设计包v4/'):
     m = re.search(r'ch(\d+)', f)
     if m:
         num = int(m.group(1))
@@ -302,12 +301,11 @@ for f in os.listdir('写作资产/设计包v3/'):
 
 | Phase | 入库模块 | 确认内容 | 通过标准 |
 |:------|:---------|:---------|:---------|
-| Phase 1 | `原始素材/` | L3 具体套路卡已复制 + `00-索引.md` 已更新 | 文件数 ≥ 设计包识别套路数 |
 | Phase 2 | `剧情库/{标签}/` | L2可迁移单元卡 + L3剧情线卡已双轨写入 + 标签目录 `00-索引.md` 已更新 | L2单元卡 + L3剧情线各 ≥ 3条 |
 | Phase 3 | `设定库/{书名}/` | L1-01~06 + 世界宪法 + PRD.md 已复制 + `设定库/00-索引.md` 已更新 | L1 六件套齐全 |
 | Phase 4 | `立项库/`（可选）| 创意溯源 SOP 转化产物已写入 + `立项库/00-索引.md` 已更新 | 执行了 SOP 转化才检查 |
 | Phase 5 | `立项库/` | 全书立项PRD已写入 + `立项库/00-索引.md`已更新 | PRD文件存在 |
-| pop-shared-dna | `文风库/{书名}.md` + `文风DNA/{书名}.md` | 文风档案已双路径写入 | canonical + fallback 均存在 |
+| pop-shared-dna | `文风库/{书名}.md` | 文风档案已写入 | 文件存在 |
 
 **入库速查：** 每类产出的精确 library 路径 → `pop-trope-library/references/deconstruction-intake-quickref.md`。
 
@@ -334,6 +332,8 @@ for f in os.listdir('写作资产/设计包v3/'):
 ---
 
 ## 版本
+
+v15.1.0 | 2026-06-24 | **移除套路归档pass和价值点分流pass**：Phase 1 管线地图删除「+套路库」和「→入库原始素材/（价值点分流）」。Step 2 描述从「逐章v3提取设计包+套路归档」改为「逐章v4提取设计包」。所有「设计包v3」引用改为「设计包v4」。Step 6 入库确认表删除 Phase 1 原始素材/行。文风库+文风DNA双路径改为文风库单一路径。红线❌6「五库」改为「四库」。
 
 v15.0.0 | 2026-06-23 | **5级结构重构**：删除Phase S，新增Phase 5 PRD节点。Phase 2从"幕纲/卷纲"改为"L2单元卡/L3剧情线/L4全书事件"。入库从"标准剧情线"改为"L2+L3双轨"。配合 pop-decon-volume v3.0.0 + pop-decon-prd v1.0.0。
 

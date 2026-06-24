@@ -45,7 +45,7 @@ Step 5 · chapter ★
   └─ Step 3:  产出 → 章节设计包/chXXX-设计包.md + state-log 更新
   ↓
 Step 6 · prose ★
-  ├─ Step 1:  读入章节设计包 + 写作资产/文风DNA/ + 锚定章
+  ├─ Step 1:  读入章节设计包 + 写作资产/文风库/ + 锚定章
   ├─ Step 2:  正文渲染
   ├─ Step 3:  风格验证（P0禁句/视角一致性/解说员句式）
   └─ Step 4:  输出 → 正文/chXXX.md（含章末状态更新块）
@@ -98,7 +98,7 @@ Step 2 · pop-decon (v12 雪花倒推)
   └─ Phase 5:  验证打包
   ↓ (可选)
 Step 3 · pop-shared-dna
-  → 均匀采样 ≥20 章 → 产出 写作资产/文风DNA/{书名}.md
+  → 均匀采样 ≥20 章 → 产出 写作资产/文风库/{书名}.md
   ↓
  回到 路径一 · Step 1 creative 的 Phase 0.6（融合拆书成果）
 ```

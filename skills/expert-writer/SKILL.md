@@ -44,7 +44,7 @@ creative → world → character → plot → chapter → prose → qa
 | character | 设定库/质感 | 角色卡的文化质感参考 |
 | plot | 套路库/ + 剧情库/ + 元爽点-变体映射表 | 套路链+剧情改建参考 |
 | chapter | 套路库/{具体套路名}.md | 事件链设计的套路公式 |
-| prose | 文风DNA/{书名}.md | 正文渲染的文风锚定 |
+| prose | 文风库/{书名}.md | 正文渲染的文风锚定 |
 | qa | 套路库/{具体套路名}.md 使用红线段 | 质检对照套路红线 |
 
 ## 速查表（全文件目录引导）

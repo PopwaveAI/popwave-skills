@@ -42,7 +42,7 @@ version: 3.8.0
 
 | 什么时候 | 读什么文件 | 产出 |
 |:---------|:----------|:-----|
-| 文风 DNA 加载 | `pop-trope-library/文风DNA/{书名}.md`，fallback `写作资产/文风DNA/{书名}.md` | 场景卡 + 通用维度 |
+| 文风 DNA 加载 | `pop-trope-library/文风库/{书名}.md` | 场景卡 + 通用维度 |
 | 自动化验证 | `scripts/verify-prose.py`（可选） | 验证报告 |
 
 ## 核心流程

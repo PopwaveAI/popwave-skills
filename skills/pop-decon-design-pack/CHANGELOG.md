@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v4.1.0 | 2026-06-24
+- 删除 Step 4（套路归档批量pass）和 Step 5（价值点分流批量pass）
+- 删除 `价值点采集-入库分流SOP.md`、`step-4-trope-pass.md`、`step-5-valuepoint-pass.md`
+- 套路库保留但不再有自动化入库 pass
+- 速查表、参考文件表、WRONG 示例同步清理
+
 ## v4.0.0 | 2026-06-23
 - 章节设计包精简：4层→3层+1区(事件链+爽点+角色+设定/物品提取区)
 - 套路归档/价值点分流defer到Step 4/5批量pass

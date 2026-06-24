@@ -11,7 +11,7 @@
 | # | 文件 | 为什么 |
 |:-:|:-----|:-------|
 | 1 | `章节设计包/chXXX-设计包.md` | 唯一输入源 |
-| 2 | 文风DNA | `pop-trope-library/文风DNA/{书名}.md`，fallback `写作资产/文风DNA/` |
+| 2 | 文风DNA | `pop-trope-library/文风库/{书名}.md` |
 
 ## 执行
 

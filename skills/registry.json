@@ -40,7 +40,7 @@
     },
     {
       "id": "pop-shared-dna",
-      "description": "文风DNA蒸馏引擎 v4.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 styles/ 风格文件供 writer 消费。",
+      "description": "文风DNA蒸馏引擎 v4.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 文风库/{书名}.md 风格文件供 writer 消费。",
       "latest": "4.0.1",
       "path": "skills/pop-shared-dna"
     },

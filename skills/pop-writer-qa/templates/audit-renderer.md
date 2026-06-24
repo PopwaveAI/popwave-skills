@@ -31,7 +31,7 @@
 剧情设计/卷/        → [列出]                → ✅/⚠️/❌
 剧情设计/幕/vol-*/      → [列出]                → ✅/⚠️/❌
 章节设计包/        → [N个文件]             → ✅/⚠️/❌
-章节设计包/文风DNA/ → [列出]                → ✅/⚠️/❌
+章节设计包/文风库/ → [列出]                → ✅/⚠️/❌
 写作资产/锚定章库/  → [列出]                → ✅/⚠️/❌
 正文/               → [N个文件]             → ✅/⚠️/❌
 ```
@@ -58,7 +58,7 @@
 | 剧情设计/卷/XX.md | plot S1 | 四节齐全？§〇 全书隶属段存在？ |
 | 剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md | plot S4 | 结构分析段？Canvas 矩阵有 rhythm_check？有章级切片？ |
 | state-log.yaml | pop-writer-chapter | 最后 baseline + event 条目与目录文件数一致？ |
-| 写作资产/文风DNA/ | deconstructor/pop-shared-dna | 含原文证据 + 规则？ |
+| 写作资产/文风库/ | deconstructor/pop-shared-dna | 含原文证据 + 规则？ |
 
 单章产物一致性：章节数 = 设计包数 = state-log event 条目数？
 

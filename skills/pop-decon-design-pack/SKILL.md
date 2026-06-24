@@ -1,7 +1,7 @@
 ---
 name: pop-decon-design-pack
-description: "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Enrichment (trope archive / value-point routing) deferred to batch passes. Chinese web novel only."
-version: 4.0.0
+description: "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only."
+version: 4.1.0
 author: Popwave
 license: MIT
 metadata:
@@ -10,12 +10,11 @@ metadata:
     related_skills: [pop-decon, pop-decon-volume, pop-decon-setting]
 ---
 
-# pop-decon-design-pack · 章节设计包 v4.0.0
+# pop-decon-design-pack · 章节设计包 v4.1.0
 
 > **定位：Phase 1 of deconstruction. 逐章单文件提取，v4 精简模式。**
 > - 每章独立 `chXXX-设计包.md`，3层结构（事件链+爽点+角色）+ 设定/物品提取区
 > - 一次 LLM 调用完成单章全量提取，不跨章聚合
-> - 套路归档/价值点分流 defer 到 Step 4/5 批量 pass，单章阶段不执行
 > - 中文网文「第X章」格式走手动 ETL（见 `references/chinese-novel-etl.md`）
 > - **产出目录只有 `设计包v4/`，不创建 `设计包v3/`。**
 
@@ -44,8 +43,6 @@ metadata:
 | 1 | ETL + 拆分 | TXT → 手动 ETL | `_temp/chapters/ch001.txt ... chNNN.txt` | ❌ 章数不匹配退回 |
 | 2 | **逐章 v4 提取** | 单章 chXXX.txt | `写作资产/设计包v4/chXXX-设计包.md` | ❌ 3层+1区完整、每事件有精度锚点、设定区非空 |
 | 3 | 验证 | 设计包v4目录 | 验证报告 | ❌ 所有章全覆盖 |
-| 4 | 套路归档批量pass | 设计包v4/ 全部文件 | `写作资产/套路库/{套路名}.md` | ❌ 每章套路已检查 |
-| 5 | 价值点分流批量pass | 设计包v4/ 全部文件 | `写作资产/价值点分流/chXXX-价值点.md` | ❌ 每章价值点已分流 |
 
 > **⚠️ 核心警告：Step 2 是整条拆书管线的质量瓶颈。** 设计包质量决定 setting（Phase 3）和 creative trace（Phase 4）的全部产出。
 >
@@ -135,8 +132,6 @@ metadata:
 > 🎯 感官锚点(事件2): 听觉(雨声噼啪)+触觉(手指粗糙)+视觉(火光半明半暗)
 ```
 
-**Enrichment（套路归档/价值点分流）defer 到 Step 4/5 批量 pass，单章阶段不执行。** 单章提取只产出设计包本身，不同步执行套路归档或价值点分流。全部章节设计包完成后，在 Step 4 统一执行套路归档批量 pass，在 Step 5 统一执行价值点分流批量 pass。这样做的目的：减少单章 LLM 调用的上下文负担，让子 agent 专注于事件链精度；同时批量 pass 可以跨章去重和聚合，提高套路库/价值点分流的覆盖率。
-
 **产出路径：**
 - 设计包：`写作资产/设计包v4/chXXX-设计包.md`
 
@@ -174,7 +169,7 @@ metadata:
 
 **⚠️ 首行格式漂移是持续顽疾：** 实测 69/150 文件的格式在 batch 提取后偏离标准格式，尽管每个 delegate_task context 都明确了格式要求。子 agent 不受格式锁定充分约束——因此首行格式检查必须是全量扫描（不能仅抽检），修复策略必须是 post-hoc 脚本化归一化（`references/post-hoc-format-normalization.md`），不能指望子 agent 自修正。**tag: drifting-first-line-format**
 
-**验证通过后** 通知 orchestrator（pop-decon）Phase 1 设计包提取完成，可进入 Step 4/5 enrichment。
+**验证通过后** 通知 orchestrator（pop-decon）Phase 1 设计包提取完成，可进入 Phase 2。
 
 ### Step 3.5: 跨目录路径归并（delegate_task 并行提取后强制）
 
@@ -193,36 +188,6 @@ find "D:/workspace" -path "*/设计包v4/ch*-设计包.md" -exec cp {} "D:/works
 
 **❌ 门禁：** 归并后设计包文件数仍 < 章节文件数 → 退回 Step 2。
 **验证：** 归并后 `ls | sort` 确认文件号从 ch001 到 chNNN 连续无缺失。
-
-### Step 4: 套路归档批量pass
-
-详见 `steps/step-4-trope-pass.md`
-
-**读什么：** `写作资产/设计包v4/` 全部文件
-**做什么：** 全部章节设计包完成后，批量扫描所有设计包的爽点层套路字段，统一执行套路归档到 `写作资产/套路库/`。每个套路一个独立文件，同名套路累加原文案例。跨章去重，避免不同章节对同一套路的重复归档。
-
-**产出：**
-- `写作资产/套路库/{套路名}.md`（每套路一个独立文件，含四段式+关键数据+原文案例）
-
-**❌ 门禁：**
-- 每章套路已检查（纯过渡章显式标"无"）
-- 不得产出合并的「套路归档总表」——每套路一个独立文件
-- 套路名必须来自已知套路列表或原文自然命名，不得自创术语
-
-### Step 5: 价值点分流批量pass
-
-详见 `steps/step-5-valuepoint-pass.md`
-
-**读什么：** `写作资产/设计包v4/` 全部文件 + `references/价值点采集-入库分流SOP.md`
-**做什么：** 全部章节设计包完成后，批量扫描所有设计包，提取可复用价值点，按 `pop-trope-library` 五库分流：立项库 / 设定库 / 文风库 / 剧情库 / 套路库。套路只是价值点的一类；人物关系、兑现节奏、章法、文风、失败红线同样要分流。
-
-**产出：**
-- `写作资产/价值点分流/chXXX-价值点.md`（每章一份分流清单）
-
-**❌ 门禁：**
-- 每章价值点已分流（纯过渡章可标"无新价值点"，但必须说明原因）
-- 每条价值点必须有 `chXXX-¶YY` 或稳定段落定位
-- 不服务写书侧的观察不入库
 
 ---
 
@@ -268,15 +233,12 @@ find "D:/workspace" -path "*/设计包v4/ch*-设计包.md" -exec cp {} "D:/works
 |:-----|:------|
 | `references/chinese-novel-etl.md` | 中文网文手动 ETL 流程（替代 extract.py） |
 | `references/v3-format-quick-reference.md` | **v4 格式快照** — 可嵌入 delegate_task context 的精简格式样板（3层+1区），用于锁定子agent产出格式。⚠️ `templates/fact-skeleton.md` 是旧版正向设计模板，仅供交叉参考，**不是**拆书设计包的格式标准 |
-| `references/价值点采集-入库分流SOP.md` | **价值点分流标准** — 从写书 PRD 倒推采集类型，决定价值点进入立项库/设定库/文风库/剧情库/套路库。Step 5 批量pass 时使用 |
 | `references/precision-anchor-format.md` | 事件精度锚点格式——scene/POV/关键对白(🔒)/感官锚点 四个字段 |
 | `references/batch-scaling.md` | 200+ 章大规模拆解时 delegate_task 并行策略（含 token 预算硬约束） |
 | `references/token-budget-delegate.md` | **delegate_task 上下文预算指南** — 批次大小 vs token 消耗对照表、输出裁剪优先级、预拆分的强制要求、三层防护总结 |
 | `references/post-hoc-format-normalization.md` | **格式后处理归一化** — 并行提取后首行格式/3层结构命名的批量修复脚本。**高频漂移场景改用 `scripts/normalize-headlines-from-source.py`（从源文件提取标题，更可靠）** |
 | `scripts/normalize-headlines-from-source.py` | **从源文件提取标题的头行归一化脚本** — 比 regex 恢复更可靠。从 `_temp/chapters/chXXX.txt` 读取实际章节标题，修复设计包首行 |
 | `references/cn-novel-format-injection-failure.md` | **格式注入失败复盘** — 海贼法典 32 章 5 种格式的根因分析。多批次并行提取时格式规范被剪裁的退化路径 |
-| `steps/step-4-trope-pass.md` | **Step 4: 套路归档批量pass** — 全部设计包完成后，批量扫描爽点层套路字段，统一归档到套路库 |
-| `steps/step-5-valuepoint-pass.md` | **Step 5: 价值点分流批量pass** — 全部设计包完成后，批量提取可复用价值点，按 pop-trope-library 五库分流 |
 
 ---
 
@@ -289,11 +251,12 @@ find "D:/workspace" -path "*/设计包v4/ch*-设计包.md" -exec cp {} "D:/works
 | 中文 TXT 硬跑 extract.py | chapter_count=0 仍继续 | 走手动 ETL |
 | 广告混入 | 设计包事件包含「下载APP 查看更多」| LLM 调用时指示去掉非正文内容 |
 | 多章合并到同一文件 | 子 agent 将多章写到1个文件（如 `v4_设计包_ch111-ch115.md`） | 指令中明确「每章独立文件，文件名 chXXX-设计包.md」|
-| 单章阶段执行套路归档 | 单章提取时就同步执行套路归档/价值点分流 | 套路归档/价值点分流 defer 到 Step 4/5 批量 pass |
 
 ---
 
 ## 版本
+
+v4.1.0 | 2026-06-24 | **移除套路归档pass和价值点分流pass**：删除 Step 4（套路归档批量pass）和 Step 5（价值点分流批量pass）。删除 `价值点采集-入库分流SOP.md`、`step-4-trope-pass.md`、`step-5-valuepoint-pass.md`。套路库保留但不再有自动化入库 pass。速查表、参考文件表、WRONG 示例同步清理。
 
 v4.0.0 | 2026-06-23 | **3层+1区架构重构**：4层结构（骨架+爽点+角色+感官）→ 3层（事件链+爽点+角色）+ 设定/物品提取区。事件表8列→7列（删除字数估计）。感官锚点改为每事件下标注（与🔒并列）。套路归档/价值点分流从单章同步 → defer到Step 4/5批量pass。质量红线19条→9条。新增Step 4（套路归档批量pass）和Step 5（价值点分流批量pass）。产出目录设计包v3/→设计包v4/。删除节奏分布图、DNA对接映射表、价值点分流门禁
 

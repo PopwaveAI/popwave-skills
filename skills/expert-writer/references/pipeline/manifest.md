@@ -23,7 +23,7 @@ creative → world → character → plot → chapter → prose → qa
 | 3 character | pop-writer-character | v2.0.3 | `状态/角色/{主角,配角}-角色卡.md` | world 产出齐全 | 角色卡确认 | 设定库/ |
 | 4 plot | pop-writer-plot | v9.0.0 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `剧情设计/卷/卷{N}-卷纲.md`（每卷战略） + `剧情设计/剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） | world+character 产出齐全 + trop-library 已查 | 里程碑确认 | 套路库/ + 剧情库/ + 元爽点-变体映射表 |
 | 5 chapter | pop-writer-chapter | v2.7.0 | `章节设计包/chXXX-设计包.md` + state-log读取（取before状态） + L2-{编号}读取 | plot 产出齐全 | — | 套路库/{具体套路名}.md |
-| 6 prose | pop-writer-prose | v3.8.0 | `正文/chXXX.md` + state-log追加event（唯一写入者） + 总控更新 | chapter 设计包就绪 + 文风DNA就位 | — | 文风DNA/{书名}.md |
+| 6 prose | pop-writer-prose | v3.8.0 | `正文/chXXX.md` + state-log追加event（唯一写入者） + 总控更新 | chapter 设计包就绪 + 文风DNA就位 | — | 文风库/{书名}.md |
 | 7 qa | pop-writer-qa | v1.0.1 | （不留盘）L1硬门禁→L2三层介入→L3原文对照 | prose 正文产出 | — | 套路库/{具体套路名}.md 使用红线段 |
 
 > library 查询协议详见 `skills/pop-trope-library/references/调用匹配SOP.md`（三维查询：层×赛道×元爽点）。
@@ -56,6 +56,11 @@ creative → world → character → plot → chapter → prose → qa
 |:-----|:---------|:---------|:---:|
 | `全书立项PRD.md` | creative | world, character, plot | S→D |
 | `素材储备池/{素材}.md` | creative | world, plot | D |
+| `研究档案/研究档案索引.md` | creative | world, character, plot | S→D |
+| `研究档案/域DNA档案-{域名}.md` | creative | world | S→D |
+| `研究档案/创意溯源记录.md` | creative | character | S→D |
+| `研究档案/交叉授粉.md` | creative | plot | S→D |
+| `研究档案/种子展开图.md` | creative | world, plot（可选） | S→D |
 
 ### 小说设定环节
 
@@ -66,7 +71,7 @@ creative → world → character → plot → chapter → prose → qa
 | `小说世界设定/起点快照.md` | world | character, plot | S→D |
 | `小说世界设定/终点快照.md` | world | character, plot | S→D |
 | `小说世界设定/动态升级表.md` | world | character, plot | S→D |
-| `写作资产/文风DNA/{书名}.md` | world（从 library 获取） | prose | S |
+| `写作资产/文风库/{书名}.md` | world（从 library 获取） | prose | S |
 | `状态/角色/{主角,配角}-角色卡.md` | character | plot, chapter | D |
 
 ### 剧情设计环节
@@ -141,6 +146,7 @@ creative → world → character → plot → chapter → prose → qa
 | 变更源 | 传播目标 | 传播方式 |
 |:-------|:---------|:---------|
 | PRD 修改 | world/plot/chapter/prose | 在项目总控.md 标注「PRD 版本变更」，下游 skill 进入时检查版本戳 |
+| 研究档案更新（Mode 2/3 追加域或素材） | world/character/plot | 在研究档案索引.md 标注 lastUpdatedAt，下游 skill 进入时检查时间戳 |
 | L1 设定修改 | character/plot/chapter | 在 L1 文件头标注 `lastUpdatedAt`，下游 skill 进入时检查时间戳 |
 | 角色卡修改 | plot/chapter/prose | 在角色卡头标注 `lastUpdatedAt`，chapter/prose 进入时检查 |
 | 卷纲修改 | chapter/prose | 在卷纲头标注 `lastUpdatedAt`，chapter/prose 进入时检查 |
