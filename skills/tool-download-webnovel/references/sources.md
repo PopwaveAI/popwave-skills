@@ -16,7 +16,8 @@
 
 | 站点类型 | 搜索方式 | 说明 |
 |:---------|:---------|:-----|
-| **笔趣阁系** | `笔趣阁 {书名}` | 大量镜像站，章节列表通常在 `<div#list>` + `<dd>` |
+| **幻言网 (read.novel.qq.com)** | `幻言网 {书名}` 或 `read.novel.qq.com/chapter/{起点书号}` | **首选章节爬取源**。章节 URL 为纯数字 `read/{bookId}/{n}`，requests 直接可访问，无 Cloudflare。内容区 `<div#chaptercontent>`。 |
+| **笔趣阁系** | `笔趣阁 {书名}` | 大量镜像站，章节列表通常在 `<div#list>` + `<dd>`。部分站点有 Cloudflare。 |
 | **顶点小说** | `顶点 {书名}` | 结构稳定，`<div#chaptercontent>` 内容区 |
 | **UU看书** | `uukanshu {书名}` | 章节页，内容区 `<div#contentbox>` |
 

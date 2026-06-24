@@ -44,8 +44,13 @@ description: 搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬
 **搜索策略（按优先级）：**
 1. **GitHub 直链** — 搜索 `site:raw.githubusercontent.com {书名}`，raw 链接最稳定
 2. **80txt / xiabook** — 免费下载站，通常有一键下载按钮
-3. **通用搜索** — `{书名} txt 下载`
-4. **章节站兜底** — 搜索 `笔趣阁 {书名}` / `顶点 {书名}`，找到章节列表页
+3. **幻言网 (read.novel.qq.com)** — 章节 URL 为纯数字 ID 结构 `read/{bookId}/{num}`，requests 直接可访问，无 Cloudflare 防护。搜索 `幻言网 {书名}` 或通过起点书号关联
+4. **通用搜索** — `{书名} txt 下载`
+5. **章节站兜底** — 搜索 `笔趣阁 {书名}` / `顶点 {书名}` / `思兔阅读 {书名}`，找到章节列表页
+
+> ⚠ **Cloudflare Turnstile 陷阱：** 错层小说 (cuoceng.org)、思兔阅读 (sto66.com) 等使用相同模板引擎的站点，其 TXT/EPUB 下载按钮通过 Cloudflare Turnstile 保护。脚本无法绕过——点击下载后弹出人机验证对话框，需要浏览器人工交互。遇到此类站点直接放弃，跳转搜索其他来源（幻言网等）。
+
+> ⚠ **动态章节列表：** 上述模板站点的章节列表通过 AJAX/JS 动态加载。`crawl_novel.py` 使用 requests（不执行 JS）提取章节链接时只能看到最新数章，表现为 `ERROR: 无法从页面提取章节链接`。这不是脚本 bug，是站点特性——不要重复尝试，直接换源。
 
 **输出：** `source_url` + `source_type`（direct | chapter_list）+ `title`
 
@@ -80,6 +85,32 @@ python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/crawl_novel.py \
 - 预览可读
 - 说明来源路径
 
+#### ⚠ 关键附加验证：付费墙检测
+
+**每次下载后必须执行**。幻言网/QQ阅读系站点对超过免费范围的章节只显示开头一句话（~180字符），表面看章节完整，实际不可用。
+
+```bash
+python3 -c "
+import re
+with open('./书名.txt', 'r', encoding='utf-8') as f:
+    text = f.read()
+parts = re.split(r'^# (第\d+章 .*?)\n', text, flags=re.M)
+alarm = False
+for i in range(1, len(parts), 2):
+    content = parts[i+1]
+    clean = re.sub(r'本章想法.*|后续精彩内容.*|上QQ阅读APP.*|登录订阅本章.*', '', content, flags=re.S).strip()
+    if len(clean) < 500:
+        print(f'⚠ PAYWALL: {parts[i]} — only {len(clean)} chars')
+        alarm = True
+if not alarm:
+    print('✅ All chapters pass quality check')
+else:
+    print('❌ PAYWALL DETECTED — need to switch source')
+"
+```
+
+**绿灯标准：** 所有故事章节净内容 ≥ 1000 字。任何章节 < 500 字 = 付费墙截断。
+
 **可粘贴全文。** 交付格式：
 
 ```
@@ -106,9 +137,15 @@ python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/crawl_novel.py \
 | 情况 | 动作 |
 |:-----|:-----|
 | 直链下载 404 | 退回到搜索阶段，找章节站爬取 |
+| Cloudflare Turnstile 验证 | **直接放弃该来源**，换幻言网(read.novel.qq.com)或笔趣阁系站点。不能绕过。 |
+| Python `requests`/`urllib` 请求挂死（无响应） | **换 `curl` 测试**——有些站点（如 read.novel.qq.com）对 Python UA 族挂死但 curl 正常返回 HTTP 200。先 `curl -A "Mozilla/5.0" --max-time 10 URL` 验证可达性。如果 curl 成功，用 `curl | python3 -c` 管道提取正文（见下方「curl+Python 管道模式」）。 |
+| 章节列表页只能看到最近几章（JS 动态加载） | 换源——该站点章节列表通过 AJAX 加载，`crawl_novel.py` 无法提取 |
 | 反爬触发 | 加大 `--delay` 重试；换 User-Agent；换来源站 |
+| 章节页 → 幻言网（read.novel.qq.com）逐章爬取 | ✅ 无反爬 | 章节 URL 为数字序号，但付费墙截断 |
+| 章节页 → 思兔阅读（sto66.com）单章提取 | ⚠️ Cloudflare 阻止脚本但 web_extract 可绕过 | 需全量章节 URL（随机 hash），逐章用 web_extract 提取 |
 | 爬取部分失败（≤30%） | 接受部分结果，说明缺失章节数 |
 | 爬取全部失败 | 告知用户，换推荐搜索词 |
+| `crawl_novel.py` / `download_text.py` 报 `FeatureNotFound: lxml` | 运行 `python3 -m pip install lxml`（注意用 `python3 -m pip` 而非 `pip3`——Windows 上 `pip3` 可能绑定到另一个 Python 版本） |
 | 文件 > 50MB | 拒绝 |
 | 付费章节 | 跳过，继续尝试其他来源 |
 | RAR/7z | 请用户手动解压后提供 TXT 或 ZIP |
@@ -128,6 +165,63 @@ python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/crawl_novel.py \
 
 ---
 
+
+## 兜底爬取：curl + Python 管道模式
+
+当 `download_text.py` 和 `crawl_novel.py` 均失败（Python 请求挂死/反爬拦截），但 curl 可以访问页面时，使用此模式：
+
+### 单章测试
+
+```bash
+curl -s -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+  --max-time 10 "https://read.novel.qq.com/read/1057778108/1" \
+  | python3 -c "
+import re, sys
+html = sys.stdin.read()
+# 去除 script/style
+text = re.sub(r'<script[^>]*>.*?</script>', '', html, flags=re.S)
+text = re.sub(r'<style[^>]*>.*?</style>', '', text, flags=re.S)
+# 提取标题
+m = re.search(r'<h1[^>]*>(.*?)</h1>', text, re.S)
+title = re.sub(r'<[^>]+>', '', m.group(1).strip()) if m else '第1章'
+# 去标签、归一化空白
+text = re.sub(r'<[^>]+>', '\n', text)
+text = re.sub(r'\n{3,}', '\n\n', text).strip()
+print(f'{title}\\n\\n{text}')
+"
+```
+
+### 全本批量（bash 循环 + 逐章追加）
+
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+OUT="D:/workspace/下载书籍/书名.txt"
+> "$OUT"
+for i in $(seq 1 342); do
+  HTML=$(curl -s -A "$UA" --max-time 10 \
+    "https://read.novel.qq.com/read/{bookId}/$i" 2>/dev/null)
+  [[ -z "$HTML" ]] && { echo "FAIL: ch$i"; continue; }
+  RESULT=$(echo "$HTML" | python3 -c "import re,sys; html=sys.stdin.read();
+    text=re.sub(r'<script[^>]*>.*?</script>','',html,flags=re.S);
+    text=re.sub(r'<style[^>]*>.*?</style>','',text,flags=re.S);
+    m=re.search(r'<h1[^>]*>(.*?)</h1>',text,re.S);
+    title=re.sub(r'<[^>]+>','',m.group(1).strip()) if m else '第$i章';
+    text=re.sub(r'<[^>]+>','\n',text);
+    text=re.sub(r'\n{3,}','\n\n',text).strip();
+    print(f'# {title}\\n\\n{text}')")
+  echo "$RESULT"$'\n\n' >> "$OUT"
+  sleep 0.4
+done
+```
+
+> ⚠ **Windows 路径注意：** MSYS2 bash 中的 `/tmp/` 路径可能不存在。始终使用 Windows 原生路径如 `D:/workspace/...`（正斜杠或双反斜杠均可）。
+
+> ⚠ **输出内容清理：** `read.novel.qq.com` 页面正文包含页面元数据（书名、作者名、本章字数、更新时间）和尾部用户评论/APP推广。如需干净版本，在 Python 提取阶段添加正则过滤 `re.sub(r'本章想法.*上QQ阅读APP.*', '', text, flags=re.S)`。
+
+> ⚠ **章节编号≠故事章节：** 总请求数（如 342）可能多于实际故事章节数（如 325），因为含"上架感言"、作者感言、成绩汇报等非故事条目。用 `# 第X章` 标题模式过滤可得到准确的故事章节计数。
+
+---
+
 ## 版本
 
-v4.1.0 | 2026-06-23 | 解除全部限制：可绕过反爬、可逐章爬取、可粘贴全文 → [CHANGELOG.md](CHANGELOG.md)
+v4.4.0 | 2026-06-24 | Step 3 新增付费墙检测脚本、思兔阅读章节页作为备选源

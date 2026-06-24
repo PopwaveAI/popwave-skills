@@ -20,9 +20,9 @@ creative → world → character → plot → chapter → prose → qa
 |:-----|:-----------|:-----|:---------|:---------|:-----|:-------------|
 | 1 creative | pop-writer-creative | v6.0.0 | `全书立项PRD.md`（10块结构）+ `素材储备池/{素材}.md`（剧情储备卡/设定储备卡）+ `研究档案/`（种子展开中间产物） | 无（开书入口） | 样品确认签字 | 套路库/00-总索引 + 元爽点-变体映射表 + 设定库/（框架+质感） |
 | 2 world | pop-writer-world | v2.0.1 | `小说世界设定/L1-01~07.md` + `数值体系/*.md`×4 + `起点快照.md` + `终点快照.md` + `动态升级表.md` | creative 有剧情储备卡可用 | 宪法锁定 | 设定库/ |
-| 3 character | pop-writer-character | v2.0.3 | `状态/角色/{主角,配角}-角色卡.md` | world 产出齐全 | 角色卡确认 | 设定库/ |
-| 4 plot | pop-writer-plot | v9.0.0 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `剧情设计/卷/卷{N}-卷纲.md`（每卷战略） + `剧情设计/剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） | world+character 产出齐全 + trop-library 已查 | 里程碑确认 | 套路库/ + 剧情库/ + 元爽点-变体映射表 |
-| 5 chapter | pop-writer-chapter | v2.7.0 | `章节设计包/chXXX-设计包.md` + state-log读取（取before状态） + L2-{编号}读取 | plot 产出齐全 | — | 套路库/{具体套路名}.md |
+| 3 character | pop-writer-character | v3.1.0 | `状态/角色/{主角,配角}-角色卡.md`（含剧情驱动接口+决策转折点预判7列） | world 产出齐全 | 角色卡确认（含驱动接口+压力测试+决策质量标签） | 设定库/角色与关系 + 剧情库 + 套路库/角色关系转折 |
+| 4 plot | pop-writer-plot | v9.1.0 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `剧情设计/卷/卷{N}-卷纲.md`（每卷战略） + `剧情设计/剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡，含决策溯源/代价/不可逆后果） | character 产出含驱动接口 | L2确认（含决策溯源验证） | 剧情库 + 套路库 + 元爽点-变体映射表 |
+| 5 chapter | pop-writer-chapter | v2.9.0 | `章节设计包/chXXX-设计包.md` + state-log读取（取before状态） + L2-{编号}读取（含驱动决策列+决策溯源/代价/不可逆后果） | plot L2含驱动决策列+溯源 | 设计包确认（含决策质量自查14条） | 套路库（场景技法+角色关系转折） |
 | 6 prose | pop-writer-prose | v3.8.0 | `正文/chXXX.md` + state-log追加event（唯一写入者） + 总控更新 | chapter 设计包就绪 + 文风DNA就位 | — | 文风库/{书名}.md |
 | 7 qa | pop-writer-qa | v1.0.1 | （不留盘）L1硬门禁→L2三层介入→L3原文对照 | prose 正文产出 | — | 套路库/{具体套路名}.md 使用红线段 |
 
@@ -150,6 +150,8 @@ creative → world → character → plot → chapter → prose → qa
 | L1 设定修改 | character/plot/chapter | 在 L1 文件头标注 `lastUpdatedAt`，下游 skill 进入时检查时间戳 |
 | 角色卡修改 | plot/chapter/prose | 在角色卡头标注 `lastUpdatedAt`，chapter/prose 进入时检查 |
 | 卷纲修改 | chapter/prose | 在卷纲头标注 `lastUpdatedAt`，chapter/prose 进入时检查 |
+| 下游产出与PRD核心设定不一致 | PRD + 全部下游 | 触发 `prd-change-protocol.md`：标记项目总控"PRD变更待审"→暂停→用户确认→PRD更新或产出修正。详见 `references/pipeline/prd-change-protocol.md` |
+| PRD硬边界违反（不可妥协DNA） | 全部下游 | ⛔ 立即阻断，不允许继续。必须修正产出或修改PRD硬边界（需用户明确确认后果） |
 
 ### 下游检查协议
 
@@ -167,3 +169,61 @@ creative → world → character → plot → chapter → prose → qa
 ```
 
 ❌ 禁止用 Read 工具读取 skill 文件 — 用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`。
+
+## 驱动力数据流（★UPDATED v3.1.0/v9.1.0/v2.9.0 — DQTC）
+
+角色决策意图从 character 产出，经 plot 结构化，到 chapter 场景化，全程不衰减：
+
+```
+Character v3.1.0 产出：
+  └─ 剧情驱动接口（含决策质量标签：戏剧类型/角色特异性/代价/不可逆后果）
+      ├─ 核心驱动力映射 ──────→ Plot L3 核心驱动力段
+      ├─ 驱动的剧情线清单 ───→ Plot L4 设计 + L3 成文
+      ├─ 决策转折点预判 ──────→ Plot L2 7阶段表驱动决策列（+决策溯源/代价/不可逆后果）──→ Chapter 事件链驱动角色/角色决策（+溯源/代价/不可逆后果/决策一致性）
+      └─ 角色化学反应 ───────→ Plot L2 嵌套子线咬合 ──→ Chapter 角色关系动态
+```
+
+| 断点 | 修复前 | 修复后 |
+|:---|:---|:---|
+| Character → Plot | 角色卡无驱动力，plot 自创压力测试 | 角色卡有驱动接口，plot 直接消费 |
+| Plot → Chapter | L2 驱动决策列是空的 | L2 驱动决策列有内容（从 character 映射） |
+| Character → Chapter | chapter 不读角色卡 | chapter 读角色卡驱动接口段（决策转折点预判） |
+
+## 反馈循环协议（★NEW — DQTC Part D）
+
+> 反馈循环不是"退回重做"（那是管线回溯规则的事），而是"质量问题上报"。
+> 触发条件是决策质量问题，不是设定变更。
+> 反馈循环触发后，agent 必须暂停并告知用户，由用户确认是否退回上游修复。
+
+### 4 条反馈循环
+
+| 循环 | 方向 | 触发条件 | 反馈格式 | 处理 |
+|:-----|:-----|:---------|:---------|:-----|
+| 1 | chapter → plot | L2 驱动决策无法场景化 | `⚠️ L2场景化失败：L2-{编号}·7阶段表·{阶段}的驱动决策"{决策}"无法落地。原因：{具体原因}` | 暂停 chapter → 退回 plot Step 4 |
+| 2 | chapter → character | 决策漂移（角色卡预判 vs 实际需要不一致） | `⚠️ 决策漂移：{角色名}预判"{预判决策}" vs 本章需要"{实际决策}"。原因：{具体原因}` | 暂停 chapter → 退回 character Step 2 |
+| 3 | prose → chapter | 决策不合理（渲染时发现逻辑不通） | `⚠️ 决策不合理：事件{N}的"{决策}"{原因}` | 暂停 prose → 退回 chapter Step 2 |
+| 4 | qa → all | 系统性决策质量问题 | `⚠️ 系统性问题：{描述}。影响范围：{skill列表}。建议回溯到：{skill名}` | 根据问题性质退回相应 skill |
+
+### 反馈循环 vs 管线回溯
+
+| 维度 | 管线回溯（已有） | 反馈循环（新增） |
+|:-----|:---------------|:---------------|
+| 触发原因 | 设定变更（用户改上游） | 决策质量问题（下游发现） |
+| 触发者 | 用户 | 下游 skill |
+| 方向 | 上游 → 下游 | 下游 → 上游 |
+| 处理 | 影响范围声明 + 逐文件更新 | 暂停 + 标注反馈 + 退回上游 |
+
+## DQTC 质量验证层（★NEW — Part B/C/D）
+
+在驱动力数据流的基础上，增加质量验证层：
+
+| 验证点 | 验证内容 | 验证位置 | 不通过 → |
+|:-------|:---------|:---------|:---------|
+| Character → Plot 消费验证 | 每个 Lv4 角色的每个接口段是否已映射到 L3/L2 | Plot Step 0 消费确认块 | 退回重新消费(❌13) |
+| Plot L2 溯源验证 | L2 7阶段表每个驱动决策是否标注溯源 | Plot Step 4 门禁 | 退回补写(❌11) |
+| Plot L2 代价/不可逆性验证 | L2 7阶段表每个驱动决策是否有代价和不可逆后果 | Plot Step 4 门禁 | 退回补写(❌12) |
+| Chapter 事件链溯源验证 | 每个事件的驱动角色/角色决策是否有溯源 | Chapter Step 2 门禁 | 退回补写(❌7) |
+| Chapter 事件链代价/不可逆性验证 | 本章关键决策是否有代价和不可逆后果 | Chapter Step 4 自查 | 退回补写(❌8) |
+| 跨 skill 决策一致性验证 | 事件链驱动决策与 L2 驱动决策列是否一致 | Chapter Step 4 自查 | 触发反馈循环2 |
+
+> 灵魂质量清单（7 维度）详见 `references/pipeline/soul-quality-checklist.md`

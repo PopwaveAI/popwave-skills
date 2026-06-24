@@ -5,10 +5,10 @@ pipeline:
   upstream: [pop-decon]
   downstream: [pop-writer-world, pop-writer-character, pop-writer-plot]
   references: [pop-trope-library]
-version: 6.0.0
+version: 6.1.0
 ---
 
-# pop-writer-creative · 创意研究+碰撞引擎 v6.0.0
+# pop-writer-creative · 创意研究+碰撞引擎 v6.1.0
 
 > 从用户模糊想法到高质量立项PRD+素材储备池的**唯一入口**。核心理念：海明威冰山原则——深度调研是水下的八分之七，PRD是水面的八分之一。没收集够信息不该开PRD。三种调用模式：①新书（全流程）②素材注入（储备卡产出）③主动丰富（缺口补采）
 
@@ -19,6 +19,7 @@ version: 6.0.0
 | ❌1 | **读取协议** — 禁止用 Read 工具读取 skill 文件，用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`。截断 = 信息丢失 = 创作失误 |
 | ❌2 | **不读模板就产出** — 必须加载 `templates/prd-模板-空白.md` 后才能写 PRD，必须加载 `templates/剧情储备卡-模板.md` 或 `templates/设定储备卡-模板.md` 后才能写储备卡。凭记忆写 = 结构残缺 = 下游断裂 |
 | ❌3 | **不预设章级施工细节** — PRD 写创意决策（世界名/主角名/金手指名），不写施工图（属性数值/冷却时间/分幕划分）。施工图留 plot |
+| ❌4 | **金手指不查库就设计** — 必须先查金手指库/00-索引.md 获取设计参考（WHAT层），再查套路库获取叙事节奏（HOW层）。凭空设计 = 机制平庸/代价缺失/成长路径断裂 |
 
 ## ⚠️ 步骤加载门禁
 
@@ -45,7 +46,7 @@ version: 6.0.0
 | 什么时候 | 必须加载 | 产出 | ❌门禁 |
 |:---------|:----------|:-----|:-----|
 | 路由诊断 | ⛔ `steps/step-r.md`（加载后才能继续） | 输入粒度+调用模式→搜索宽度 | 未加载就定搜索方向 → 退回加载 |
-| 研究+生成选项 | ⛔ `steps/step-research.md`（加载后才能继续） | 2-3个故事概念选项+研究档案 | 未加载就生成选项 → 退回加载 |
+| 研究+生成选项 | ⛔ `steps/step-research.md`（加载后才能继续） | 2-3个故事概念选项+研究档案 | 未加载就生成选项 → 退回加载；未查金手指库就设计金手指 → 退回查库 |
 | 用户选择后推导 PRD | ⛔ `steps/step-prd-derive.md`（加载后才能继续） | 全书立项PRD.md | 未加载就写PRD → 退回加载 |
 | 储备卡产出 | ⛔ `steps/step-reserve.md`（加载后才能继续） | 素材储备池/{素材名}.md | 未加载就写卡 → 退回加载 |
 
@@ -79,6 +80,7 @@ version: 6.0.0
 | Step 2 生成选项前 | `skills/pop-trope-library/套路库/00-总索引.md` | 套路模式家族列表 | — |
 | Step 2 生成选项前 | `skills/pop-trope-library/references/元爽点-变体映射表.md` | 元爽点→变体家族映射 | — |
 | Step 2 搜索方向 | `skills/pop-trope-library/references/调用匹配SOP.md` | 三维查询协议 | — |
+| Step 2 生成选项前 | `skills/pop-trope-library/金手指库/00-索引.md` | 金手指设计卡索引（WHAT层参考） | — |
 
 ## 三种调用模式
 
@@ -124,6 +126,7 @@ Phase 3 · 储备卡产出 (step-reserve.md)
 素材储备池/{素材名}.md — 剧情储备卡/设定储备卡
 素材储备池/素材储备池.md — 索引页
 研究档案/ — 种子展开图+域DNA档案+创意溯源记录+交叉授粉图（Phase 1 产出）
+金手指设计文档.md — 金手指设计参考文档（PRD附件，交付 world 验证）
 ```
 
 ## 储备池数量级约束
@@ -163,3 +166,4 @@ Phase 3 · 储备卡产出 (step-reserve.md)
 ---
 
 v6.0.0 | 2026-06-24 | 大改：合并reservoir→种子展开法替代域研究SOP→新增Phase 3储备卡产出→三调用模式 → [CHANGELOG.md](CHANGELOG.md)
+v6.1.0 | 2026-06-24 | 新增金手指库消费链：红线❌4+查库步骤+金手指设计文档产出
