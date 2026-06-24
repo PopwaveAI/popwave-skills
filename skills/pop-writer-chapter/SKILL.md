@@ -5,19 +5,19 @@ pipeline:
   upstream: [pop-writer-plot]
   downstream: [pop-writer-prose]
   references: [pop-trope-library]
-version: 2.6.1
+version: 2.7.0
 ---
 
-# pop-writer-chapter · 章纲设计 / 导演卡 v2.6.1
+# pop-writer-chapter · 章纲设计 / 导演卡 v2.7.0
 
-> **定位：消费 plot 的L2幕纲 + 剧情线，产出回合级事件链设计包。**
+> **定位：消费 plot 的L2单元卡 + 剧情线，产出回合级事件链设计包。**
 > **核心约束：不碰文风。不写叙事者声音、不写句子节奏、不写修辞风格。**
 
 ## ❌ 质量红线
 
 | # | 红线 |
 |:-:|:-----|
-| 1 | **上游未就绪** — `剧情设计/幕/vol-XX/act-YY.md` 或 `剧情设计/剧情线/` 缺失 → 终止 |
+| 1 | **上游未就绪** — `剧情设计/幕/vol-XX/L2-{编号}.md` 或 `剧情设计/剧情线/` 缺失 → 终止 |
 | 2 | **state.yaml 不存在也未初始化** — 终止（CH1 由 Step 1 初始化） |
 | 3 | **出场角色不可追溯** — 事件引用角色不在剧情线登场人物中 → 退回 |
 
@@ -27,7 +27,7 @@ version: 2.6.1
 
 | 什么时候 | 读什么文件 | 产出 | 门禁 |
 |:---------|:----------|:-----|:-----|
-| 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ L2幕纲/state-log.yaml/剧情线 缺一终止 |
+| 第 1 步 | `steps/step-1-read-canvas.md` | 基线（内存，6 块结构） | ❌ L2单元卡/state-log.yaml/剧情线 缺一终止 |
 | 第 2 步 | `steps/step-2-event-chain.md` | 事件链骨架（地点/角色/事件/情绪/scene/对白/信息） | ❌ 密度不够/缺字段退回 |
 | 第 3 步 | `steps/step-3-polish.md` | 润色完成的设计包（爽点+套路+情绪弧+钩子+调味+枪+对白语气） | ❌ 爽点不足/钩子缺回收章退回 |
 | 第 4 步 | `steps/step-4-output.md` | 质量自查 → 设计包落盘 + 质量自查 + 伏笔预判 | ❌ 自查任一条不通过退回；缺落盘退回 |
@@ -59,9 +59,9 @@ version: 2.6.1
 ## 核心流程
 
 ### 步骤1：建立基线
-**读什么：** `剧情设计/幕/vol-XX/act-YY.md`（全文）、`状态/state-log.yaml`、`剧情设计/剧情线/{活跃线}.md`
+**读什么：** `剧情设计/幕/vol-XX/L2-{编号}.md`（全文）、`状态/state-log.yaml`、`剧情设计/剧情线/{活跃线}.md`
 **做什么：** 建立结构化基线——本章位置/Canvas约束/角色现状/活跃线上下文/篇幅预算。基线在内存，不落盘。
-**❌ 门禁：** L2幕纲/state-log.yaml/剧情线 缺一终止。CH1 时初始化 state-log baseline #0（从角色卡补充角色状态到 baseline）。
+**❌ 门禁：** L2单元卡/state-log.yaml/剧情线 缺一终止。CH1 时初始化 state-log baseline #0（从角色卡补充角色状态到 baseline）。
 
 详细指令见 `steps/step-1-read-canvas.md`。
 
@@ -128,7 +128,8 @@ version: 2.6.1
 
 ## 版本
 
-v2.6.1 | 2026-06-23 | 幕纲引用标注L2（对齐拆书管线L2/L3叙事结构）; plot版本引用 v7.6→v8.2; 门禁/前置条件等关键位置标注"L2幕纲"
+v2.7.0 | 2026-06-23 | 对齐 plot v9.0 L0-L5 深度重构：L2文件 act-YY.md→L2-{编号}.md; "幕纲"→"L2单元卡"; plot版本引用 v8.2→v9.0
+v2.6.1 | 2026-06-23 | L2单元卡引用标注L2（对齐拆书管线L2/L3叙事结构）; plot版本引用 v7.6→v8.2; 门禁/前置条件等关键位置标注"L2单元卡"
 v2.6.0 | 2026-06-23 | state.yaml+history → state-log.yaml（append-only 叙事日志）; chapter 不再写状态，prose 章末追加 event; CH1 只补充 baseline #0 角色状态
-v2.5.0 | 2026-06-23 | entity-snapshot.yaml → state.yaml + state-history 快照机制; 伏笔追踪收敛到 state.yaml hooks 段; act-YY 枪链段废弃
+v2.5.0 | 2026-06-23 | entity-snapshot.yaml → state.yaml + state-history 快照机制; 伏笔追踪收敛到 state.yaml hooks 段; L2-{编号} 枪链段废弃
 v2.4.0 | 2026-06-23 | 新增"剧情推进点"概念（每章≥3个事件必须推进L2，≥3条不同L2）+字数基准改2~3k → [CHANGELOG.md](CHANGELOG.md)

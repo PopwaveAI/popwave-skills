@@ -1,5 +1,31 @@
 ﻿# CHANGELOG — 08-pop-novel-plot
 
+## v9.0.0 — 2026-06-23
+
+### L0-L5 深度结构对齐
+
+**问题**：plot skill 的产出文档（卷纲/剧情线/幕纲）与拆书管线的 L0-L5 叙事结构仅做了表层标注（v8.3.0 加了 L4/L3/L2 标签），但内部字段、模板结构、ID 系统和双向链接均未对齐。剧情线没有 L3-ID，幕纲没有 L2-ID，没有 parent_saga 双向链接，没有 L4 全书事件层。
+
+**改动**：
+- **新建 L4 全书事件模板**（`templates/L4-全书事件.tpl.md`）：跨卷大事件演化阶段（触发→酝酿→爆发→余波→新均衡）、组成线 L3-ID 回填、交汇点设计、全局影响三维度
+- **L3 剧情线重构**（`templates/L3-剧情线.tpl.md`，原 `plotline-doc.md`）：新增 L3-ID / parent_saga / 组成单元 / 物理坐标（5维度）/ 骨架承载单元列（L2编号占位）/ 起终点快照重构为5维度表
+- **L2 幕纲重构为剧情单元卡**（`templates/L2-剧情单元卡.tpl.md`，原 `act-outline.md`）：新增 L2-ID / 所属线(L3-ID) / 单元类型 / 物理坐标 / 一句话单元 / 结构分析(7阶段) / 情绪弧线 / 节奏控制分析 / 主题表达 / 嵌套子线 / 单元边界信号；保留 Canvas/章锚点/叙事债务追踪执行调度层
+- **引入 L4/L3/L2 强 ID 系统和双向链接**：L3 标注 parent_saga(→L4) 和组成单元(→L2)；L2 标注所属线(→L3)；L4 标注组成线(→L3) 和关联卷纲
+- **卷纲去 L4 标签**：卷纲从"L4 卷纲"改为每卷战略文档，引用 L4 parent_saga
+- **模板重命名对齐拆书管线**：`plotline-doc.md` → `L3-剧情线.tpl.md`；`act-outline.md` → `L2-剧情单元卡.tpl.md`
+- **Step 文件全量更新**：
+  - `steps/step-1-volume-strategy.md`：新增 L4 全书事件创建步骤 + 降级门禁 + parent_saga 门禁
+  - `steps/step-2-seed-pull.md`：候选线新增 L3-ID 预分配 + 剧情线总览改用 L3-{编号}
+  - `steps/step-3-plotline-docs.md`：模板/路径更新 + 新增字段填写要求 + 回填 L4 组成线
+  - `steps/step-4-act-plan.md`：模板/路径更新 + 结构分析层填写 + 回填 L3 组成单元 + 3 项新门禁
+  - `steps/step-5-chapter-anchors.md`：路径更新 + Canvas/债务改用 L3-{编号} 引用
+  - `steps/step-6-canvas-audit.md`：路径更新 + 验核报告线引用改用 L3-{编号}
+- **SKILL.md**：步骤总表/文件职责边界/Step 0 同步 v9.0.0 结构
+
+**效果**：plot 产出文档与拆书管线 L0-L5 叙事结构深度对齐——共享 L3-ID/L2-ID/L4-ID 强 ID 系统、parent_saga 双向链接、5维度物理坐标和起终点快照、7阶段结构分析。下游 chapter/prose 可通过 ID 精确追溯任何单元的叙事层级归属。
+
+---
+
 ## v8.3.0 — 2026-06-23
 
 ### 叙事结构对齐：内部L1/L2/L3分类去L化

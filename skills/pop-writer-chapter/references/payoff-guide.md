@@ -86,7 +86,7 @@ Step 2 逐事件设计时：
 ### 3.2 承接流程
 
 ```
-Step 1 读入 act-XX.yaml 的 canvas.payoff_map[本章]：
+Step 1 读入 L2-{编号}.md 的 canvas.payoff_map[本章]：
 
 total_payoff ≥ 1 → Canvas 已供给中爽点位置
   lines[] 中标注了释放的线号和级别（如 "主线1:中", "主线3:小"）
@@ -145,7 +145,7 @@ Canvas 标记 "主线2:中"：
 ### 4.3 策略 A（上游反馈）：连续 ≥3 章无释放 → 建议 plot 增加 S 线
 
 > 策略 B 或 C 可单章解决；如果连续 ≥3 章都在兜底，说明 Canvas 设计有问题。
-> 通知 plot："vol-XX act-YY 连续 3 章无线释放，建议增加一条 S 线或调整现有线节奏。"
+> 通知 plot："vol-XX L2-{编号} 连续 3 章无线释放，建议增加一条 S 线或调整现有线节奏。"
 
 ---
 

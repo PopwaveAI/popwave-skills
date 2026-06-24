@@ -1,6 +1,25 @@
 {
-  "name": "pop-decon-prd",
+  "id": "pop-decon-prd",
   "version": "1.0.0",
-  "description": "Phase 5 of deconstruction: 全书立项PRD",
+  "displayName": "全书立项PRD（Phase 5）",
+  "description": "Phase 5 of deconstruction: 全书立项PRD逆向破解",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "拆书PRD",
+      "立项破解"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": false
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 50000
+  },
   "type": "skill"
 }

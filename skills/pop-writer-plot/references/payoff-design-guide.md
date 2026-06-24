@@ -1,7 +1,7 @@
 ﻿# payoff-design-guide.md — 四级爽点设计方法论
 
-> 管线: pop-writer-plot v7.6
-> 定位：plot 专属。如何在幕纲 `act-YY.md` 的 Canvas 中设计四级爽点（小/中/大/特大）。
+> 管线: pop-writer-plot v9.0
+> 定位：plot 专属。如何在 L2 剧情单元卡 `L2-{编号}-{单元名}.md` 的 Canvas 中设计四级爽点（小/中/大/特大）。
 > 消费方（如何承接） → `pop-writer-chapter/references/payoff-guide.md`
 
 ---
@@ -11,7 +11,7 @@
 | 级别 | 设计者 | 设计位置 | 谁承接 | 设计本质 |
 |:-----|:------|:--------|:------|:---------|
 | 小 | **chapter-design**（自设计自承接） | 单章事件链 | chapter-design | 一个干脆利落的动作/事件 |
-| 中 | **plot**（Canvas 描线）+ **chapter**（事件执行） | `act-YY.md` Canvas 铺垫→释放 | chapter-design | 一条子线经过 ≥3 章铺垫后释放 |
+| 中 | **plot**（Canvas 描线）+ **chapter**（事件执行） | `L2-{编号}.md` Canvas 铺垫→释放 | chapter-design | 一条子线经过 ≥3 章铺垫后释放 |
 | 大 | **plot**（位置+蓄力） | 幕级 Canvas | chapter-design（按位置执行） | 剧情格局发生变化 |
 | 特大 | **plot**（位置+多线汇聚） | 幕级/卷级 Canvas | chapter-design（按位置执行） | 全书承诺兑现 |
 
@@ -48,7 +48,7 @@
 
 ### 3.1 设计定义
 
-> **中爽点设计 = 在 `act-YY.md` Canvas 中画一条线：确定这条子线的铺垫窗口和释放窗口。**
+> **中爽点设计 = 在 `L2-{编号}.md` Canvas 中画一条线：确定这条子线的铺垫窗口和释放窗口。**
 > 你不需要设计具体事件（那是 chapter-design 的事），你只需要决定：
 > - 哪条线、在哪些章处于"铺垫状态"（payoff_level=空）
 > - 哪条线、在哪一章"释放"（payoff_level=中）

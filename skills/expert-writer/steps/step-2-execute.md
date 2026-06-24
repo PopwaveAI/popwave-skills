@@ -53,7 +53,7 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 **触发条件**：用户要求修改 world/character/plot 层面的框架级设定（加穿越者、改力量体系、换核心矛盾等）
 
 **执行步骤**：
-1. 扫描全链文件清单（PRD→L1→数值→宪法→卷纲→剧情线→幕纲→设计包→正文）
+1. 扫描全链文件清单（PRD→L1→数值→宪法→卷纲→剧情线→L2单元卡→设计包→正文）
 2. 输出「影响范围声明」：
 
 ```markdown

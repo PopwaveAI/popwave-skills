@@ -65,7 +65,7 @@ def check_and_report():
     return issues
 ```
 
-### 2. 4层结构小节命名映射表
+### 2. 3层+1区结构小节命名映射表
 
 ```python
 SECTION_MAP = {

@@ -10,8 +10,8 @@
     },
     {
       "id": "pop-decon",
-      "description": "拆书管线调度（orchestrator）。Phase 1 设计包→Phase 2 幕纲卷纲→Phase 3 设定世界观。",
-      "latest": "13.1.0",
+      "description": "拆书管线调度（orchestrator）。Phase 1 设计包→Phase 2 L2单元卡/L3剧情线/L4全书事件→Phase 3 设定世界观。",
+      "latest": "15.0.0",
       "path": "skills/pop-decon"
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "id": "pop-decon-volume",
-      "description": "Phase 3 of deconstruction: volume/act clustering from chapter data and design packs. Identifies volume boundaries, act boundaries, plotlines, and Chekhov's gun tracking.",
-      "latest": "1.0.0",
+      "description": "Phase 2 of deconstruction: L2 unit cards/L3 plotlines/L4 saga events from chapter data and design packs. Identifies plot units, plotlines, saga events, and Chekhov's gun tracking.",
+      "latest": "3.0.0",
       "path": "skills/pop-decon-volume"
     },
     {
@@ -100,8 +100,8 @@
     },
     {
       "id": "pop-writer-plot",
-      "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划。用户说【设计剧情/画幕纲/做大纲/剧情架构/爽点分布/幕纲/情节线/支线】时启用。",
-      "latest": "6.3.1",
+      "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划。用户说【设计剧情/画L2单元卡/做大纲/剧情架构/爽点分布/L2单元卡/剧情单元卡/情节线/支线】时启用。",
+      "latest": "9.0.0",
       "path": "skills/pop-writer-plot"
     },
     {

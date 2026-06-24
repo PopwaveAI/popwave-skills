@@ -37,12 +37,12 @@ Step 4 · character
   ↓
 Step 5 · plot
   ├─ Phase 0:  全书架构 → 剧情设计/（卷拆分/地理全图/角色出场/主线全览）
-  ├─ Step 1:   卷定义（L4卷纲） → 剧情设计/卷/卷{N}-战略定位.md [用户确认闸门]
-  ├─ Step 2:   剧情线（L3） → 剧情设计/剧情线/{主线,支线}-{名称}.md
-  └─ Step 3:   分幕规划（L2幕纲） → 剧情设计/幕/vol-XX/分幕规划.md + act-YY.md
+  ├─ Step 1:   L4全书事件 → 剧情设计/卷/L4-{编号}-{事件名}.md [用户确认闸门]
+  ├─ Step 2:   L3剧情线 → 剧情设计/剧情线/L3-{编号}-{名称}.md
+  └─ Step 3:   L2单元卡 → 剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md
   ↓
 Step 6 · chapter ★
-  ├─ Step 1:  读入 act-YY.md + 卷{N}-战略定位.md + 状态/state-log.yaml + 角色卡
+  ├─ Step 1:  读入 L2-{编号}-{单元名}.md + 卷{N}-卷纲.md + 状态/state-log.yaml + 角色卡
   ├─ Step 2:  事件链设计（逐个回合，同步地点/角色/情绪/信息释放）
   └─ Step 3:  产出 → 章节设计包/chXXX-设计包.md + state-log 更新
   ↓
@@ -53,7 +53,7 @@ Step 7 · prose ★
   └─ Step 4:  输出 → 正文/chXXX.md（含章末状态更新块）
   ↓
 Step 8 · qa
-  ├─ Step 1:  大纲层 QC（act-YY.md + reader_profile）
+  ├─ Step 1:  大纲层 QC（L2-{编号}-{单元名}.md + reader_profile）
   ├─ Step 2:  骨架层 QC（章节设计包 + reader_profile）
   └─ Step 3:  正文层 QC（正文/chXXX.md + reader_profile）
 ```
@@ -74,12 +74,12 @@ Step 1 · creative (reverse)
   ├─ Phase r1:  事件日志（逐章读正文）
   ├─ Phase r2:  L0 提取
   ├─ Phase r3:  L1 提取
-  ├─ Phase r4:  L4卷纲/L2幕地图还原 → 剧情设计/卷/卷{N}-战略定位.md + 剧情设计/幕/vol-XX/act-YY.md
+  ├─ Phase r4:  L4全书事件/L2单元卡还原 → 剧情设计/卷/L4-{编号}-{事件名}.md + 剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md
   ├─ Phase r5:  卷大纲确认
   └─ Phase r6:  交接验证报告
   ↓
 Step 5 → Step 6 → Step 7 → Step 8（同新书启动的 plot → chapter → prose → qa）
-  ⚠️ 续写项目 plot 从当前幕续设计下一个 act-YY.md，不重新规划全卷
+  ⚠️ 续写项目 plot 从当前幕续设计下一个 L2-{编号}-{单元名}.md，不重新规划全卷
 ```
 
 ---
@@ -115,7 +115,7 @@ Step 3 · pop-shared-dna
 | 「续写」「下一章」 | 当前阶段 + 1 | 项目总控.md 管线进度 → next_skill |
 | 「拆解」「分析这本书」 | download→decon | 参考书 TXT 是否存在 |
 | 「设计剧情」「规划大纲」 | plot | world 产出是否齐全 |
-| 「写第N章」 | chapter | act-YY.md + 卷{N}-战略定位.md 是否就位 |
+| 「写第N章」 | chapter | L2-{编号}-{单元名}.md + 卷{N}-卷纲.md 是否就位 |
 | 「渲染」「上色」 | prose | 章节设计包是否存在 |
 | 「审稿」「看看」 | qa | 正文是否存在 |
 | 「分析文风」 | pop-shared-dna | 原文 ≥20 章是否可用 |
@@ -129,7 +129,7 @@ Step 3 · pop-shared-dna
 |:-----|:-----|:------|
 | world → character | 终点快照 用户确认 | 回到 world 终点快照 |
 | plot Phase 0 → Step 1 | 全书架构 用户确认 | 回到 Step 0 |
-| plot Step 1 → Step 2 | 卷{N}-战略定位 用户确认 | 回到 Step 1 |
-| plot → chapter | act-YY.md 首幕切片就位 | 等 plot 完成当前幕 |
+| plot Step 1 → Step 2 | L4全书事件 用户确认 | 回到 Step 1 |
+| plot → chapter | L2-{编号}-{单元名}.md 首幕切片就位 | 等 plot 完成当前幕 |
 | chapter → prose | 章节设计包就位 + state-log 一致 | 回到 chapter |
 | prose → qa | 正文存在 + 风格验证通过 | 回到 prose |

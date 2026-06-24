@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "1.3.0",
+  "version": "4.0.0",
   "displayName": "章节设计包",
-  "description": "Phase 1 of deconstruction: ETL → chapter splitting → 5-ch batch LLM extracting full chapter design packs (events + worldbuilding + items + characters + key info + emotional beats + hooks).",
+  "description": "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Enrichment (trope archive / value-point routing) deferred to batch passes. Chinese web novel only.",
   "entry": "SKILL.md",
   "permissions": {
     "readProjectFiles": true,

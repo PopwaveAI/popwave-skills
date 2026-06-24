@@ -56,11 +56,11 @@
 | 起点/终点快照 | bookstrap P6/7 | 时间/位置/等级/矛盾/已知信息等维度？ |
 | 设计/全书架构.md | plot P0 | 卷拆分/地理全图/角色出场/主线全览/钩子？ |
 | 剧情设计/卷/XX.md | plot S1 | 四节齐全？§〇 全书隶属段存在？ |
-| 剧情设计/幕/vol-XX/act-YY.yaml | plot S2 | info_release_plan 段？Canvas 矩阵有 rhythm_check？有章级切片？ |
-| entity-snapshot.yaml | pop-writer-chapter | _meta.total_chapters 与目录文件数一致？ |
+| 剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md | plot S4 | 结构分析段？Canvas 矩阵有 rhythm_check？有章级切片？ |
+| state-log.yaml | pop-writer-chapter | 最后 baseline + event 条目与目录文件数一致？ |
 | 写作资产/文风DNA/ | deconstructor/pop-shared-dna | 含原文证据 + 规则？ |
 
-单章产物一致性：章节数 = 设计包数 = entity-snapshot.total_chapters？
+单章产物一致性：章节数 = 设计包数 = state-log event 条目数？
 
 ---
 
@@ -69,8 +69,8 @@
 | project.yaml#phase | 应有文件 |
 |:-------------------|:--------|
 | bootstrapped | bookstrap 全产出 + 快照用户确认 |
-| plotted | 全书架构 + volume-XX × 当前卷 + act-YY × 当前幕 |
-| writing | 设计包对齐章节号 + entity-snapshot 章数一致 |
+| plotted | 全书架构 + volume-XX × 当前卷 + L2-{编号} × 当前单元 |
+| writing | 设计包对齐章节号 + state-log event 章数一致 |
 | paused | 暂停原因已记录 |
 
 ---
@@ -83,7 +83,7 @@
 |:-----|:--------|:----|:----:|
 | story-engine.yaml | S | 是否未被后续修改？ | ✅/⚠️ |
 | 状态/角色/角色卡 | D | 是否在卷末被回写？ | ✅/⚠️ |
-| entity-snapshot.yaml | D | 是否逐章更新？ | ✅/⚠️ |
+| state-log.yaml | D | 是否逐章更新？ | ✅/⚠️ |
 
 ---
 

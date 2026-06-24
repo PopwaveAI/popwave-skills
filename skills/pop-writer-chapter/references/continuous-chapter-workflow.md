@@ -13,11 +13,11 @@
 
 > ★ state-log.yaml 是 append-only 叙事日志。chapter 只读不写——prose 章末追加 event。当日志过长时执行 compaction（将旧 event 合并为新 baseline），不再使用 history 快照。
 
-### Step 0：读L2幕纲 Canvas
+### Step 0：读L2单元卡 Canvas
 
-从 `剧情设计/幕/vol-XX/act-YY.md` 提取本章信息：
+从 `剧情设计/幕/vol-XX/L2-{编号}.md` 提取本章信息：
 
-| 从L2幕纲取 | 用途 |
+| 从L2单元卡取 | 用途 |
 |:---------|:------|
 | 章锚点表的章目标/活跃线/钩子/payoff | 本章约束 |
 | Canvas 矩阵各线状态 | 哪些线在动 |
