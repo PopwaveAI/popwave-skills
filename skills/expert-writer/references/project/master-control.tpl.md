@@ -3,7 +3,7 @@
 > 人机共读 | 更新时间 {YYYY-MM-DD HH:MM}
 > **上半屏 = 项目实际状态（文件系统扫描）· 下半屏 = 所属管线的理想模式**
 > Agent 首次加载 / 会话恢复时从此文件获取进度锚点与目录路由。
-> 对齐 PRD v5.0：管线8步 `creative → reservoir → world → character → plot → chapter → prose → qa`
+> 对齐 PRD v5.0：管线7步 `creative → world → character → plot → chapter → prose → qa`
 
 ---
 
@@ -31,7 +31,7 @@
 ### Agent 使用规则
 
 - 首次加载总控时，检查「知识库路径」是否已填写 → 未填写则提示用户补充
-- reservoir/world/plot 阶段启动前，必须先确认公共库路径可用（文件系统存在）
+- creative/world/plot 阶段启动前，必须先确认公共库路径可用（文件系统存在）
 - 用户私藏参考路径 ≠ 空时，优先消费私藏数据（精度更高）; skill 公共库作为 fallback
 - 路径写入后，Agent 不再询问「library 在哪」——直接读
 
@@ -97,7 +97,7 @@
 ├── 📄 项目总控.md                    ✅（本文件）
 ├── 📄 全书立项PRD.md                 {状态}  ← creative
 │
-├── 📁 素材储备池/                     ← reservoir
+├── 📁 素材储备池/                     ← creative
 │   └── {素材}.md                     {状态}
 │
 ├── 📁 小说世界设定/                   ← world
@@ -172,24 +172,23 @@
 |:-----|:---|
 | **专家类型** | {expert-writer / expert-deconstructor / ...} |
 | **管线版本** | v{当前最新版本}（{日期}） |
-| **管线顺序** | creative → reservoir → world → character → plot → chapter → prose → qa |
+| **管线顺序** | creative → world → character → plot → chapter → prose → qa |
 | **本项目启动时版本** | v{启动版本}（{日期}）· {无差异 / ⚠️ 差 {N} 个版本} |
 
 ## 理想全流程
 
 > 按管线合同顺序排列。每步标注调用的 skill 与核心产出。
-> 对齐 PRD v5.0：8步管线，不可跳跃。
+> 对齐 PRD v5.0：7步管线，不可跳跃。
 
 | # | 阶段 | Skill | 一句话 | 核心产出物 |
 |:-:|:-----|:------|:------|:----------|
-| T1 | creative | pop-writer-creative | 方向碰撞→立项PRD | `全书立项PRD.md` |
-| T2 | reservoir | pop-writer-reservoir | 素材注入→剧情储备卡 | `素材储备池/{素材}.md` |
-| T3 | world | pop-writer-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
-| T4 | character | pop-writer-character | 角色卡设计 | `状态/角色/{主角,配角}-角色卡.md` |
-| T5 | plot | pop-writer-plot | L4全书事件+每卷战略+L3剧情线+L2单元卡 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `卷{N}-卷纲.md`（每卷战略） + `剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） |
-| T6 | chapter | pop-writer-chapter | 章设计包 | `章节设计包/chXXX-设计包.md` |
-| T7 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
-| T8 | qa | pop-writer-qa | 三层介入质检 | QC 报告（不留盘） |
+| T1 | creative | pop-writer-creative | 方向碰撞→立项PRD+储备卡 | `全书立项PRD.md` + `素材储备池/{素材}.md` |
+| T2 | world | pop-writer-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
+| T3 | character | pop-writer-character | 角色卡设计 | `状态/角色/{主角,配角}-角色卡.md` |
+| T4 | plot | pop-writer-plot | L4全书事件+每卷战略+L3剧情线+L2单元卡 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `卷{N}-卷纲.md`（每卷战略） + `剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） |
+| T5 | chapter | pop-writer-chapter | 章设计包 | `章节设计包/chXXX-设计包.md` |
+| T6 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
+| T7 | qa | pop-writer-qa | 三层介入质检 | QC 报告（不留盘） |
 
 ## 理想目录路由
 
@@ -203,10 +202,10 @@
 ├── 项目总控.md                         ← 工程层（prose 每章更新）
 ├── 全书立项PRD.md                      ← T1 creative
 │
-├── 素材储备池/                          ← T2 reservoir
+├── 素材储备池/                          ← T1 creative
 │   └── {素材}.md
 │
-├── 小说世界设定/                        ← T3 world
+├── 小说世界设定/                        ← T2 world
 │   ├── L1-01.md
 │   ├── L1-02.md
 │   ├── L1-03.md
@@ -219,13 +218,13 @@
 │   └── 数值体系/
 │       └── *.md
 │
-├── 状态/                               ← T4 character + T7 prose
+├── 状态/                               ← T3 character + T6 prose
 │   ├── 角色/
-│   │   ├── 主角-角色卡.md              ← T4 character
-│   │   └── 配角-角色卡.md              ← T4 character
-│   └── state-log.yaml                ← T6 chapter（每章设计后更新，T7 prose 读取）
+│   │   ├── 主角-角色卡.md              ← T3 character
+│   │   └── 配角-角色卡.md              ← T3 character
+│   └── state-log.yaml                ← T5 chapter（每章设计后更新，T6 prose 读取）
 │
-├── 剧情设计/                           ← T5 plot（L4全书事件 / 每卷战略 / L3剧情线 / L2单元卡）
+├── 剧情设计/                           ← T4 plot（L4全书事件 / 每卷战略 / L3剧情线 / L2单元卡）
 │   ├── 卷/                            ← L4全书事件 + 每卷战略
 │   │   ├── L4-{编号}-{事件名}.md
 │   │   └── 卷{N}-卷纲.md
@@ -235,13 +234,13 @@
 │       └── vol-XX/
 │           └── L2-{编号}-{单元名}.md
 │
-├── 章节设计包/                         ← T6 chapter
+├── 章节设计包/                         ← T5 chapter
 │   └── chXXX-设计包.md
 │
-├── 正文/                               ← T7 prose
+├── 正文/                               ← T6 prose
 │   └── chXXX.md
 │
-└── 写作资产/                           ← T3 world（从 library 获取）
+└── 写作资产/                           ← T2 world（从 library 获取）
     └── 文风DNA/
         └── {书名}.md
 ```
@@ -292,7 +291,7 @@
 > 3. 写 `## 管线身份` 中的版本号为当前 expert-writer SKILL.md 的 version 字段
 > 4. 写 `本项目启动时版本` = 当前版本（新项目）或从已有总控继承（存量项目）
 > 5. `📊 项目现状` 全部字段通过文件系统扫描填充
-> 6. `🗺️ 所属管线` 从 pipeline-manifest.md 填充阶段列表（8步：creative → reservoir → world → character → plot → chapter → prose → qa）
+> 6. `🗺️ 所属管线` 从 pipeline-manifest.md 填充阶段列表（7步：creative → world → character → plot → chapter → prose → qa）
 >
 > **每次阶段完成后**（step-3-reflect）：
 > 1. 更新 `📊 项目现状` → 首屏仪表盘 / 实际阶段执行 / 产出物清单 / 进度锚点
@@ -305,4 +304,4 @@
 > 3. `📊 项目现状` 不动（文件系统扫描结果不受版本影响）
 >
 > **跨专家复用**：
-> 此模板的上半屏（`📊 项目现状`）骨架通用。下半屏（`🗺️ 所属管线`）由各专家 skill 自定义——写作专家填 T1-T8，拆书专家填 D1-D7。
+> 此模板的上半屏（`📊 项目现状`）骨架通用。下半屏（`🗺️ 所属管线`）由各专家 skill 自定义——写作专家填 T1-T7，拆书专家填 D1-D7。

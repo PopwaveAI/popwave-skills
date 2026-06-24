@@ -1,5 +1,38 @@
 # CHANGELOG — pop-writer-creative
 
+## v6.0.0 (2026-06-24)
+
+### 大改：合并 reservoir → 种子展开法 → 深度调研前置 → 三调用模式
+
+**核心理念**：海明威冰山原则——深度调研是水下的八分之七，PRD 是水面的八分之一。没收集够信息不该开 PRD。
+
+**架构变更**：8 阶段管线 → 7 阶段管线（creative 吸收 reservoir）
+
+**新增文件**：
+- `references/种子展开法.md`（~300行）— 5阶段系统调研：种子识别→直接研究→切向扩展（5辐射路径）→深度域研究→交叉授粉。替代域研究SOP
+- `references/深度域研究SOP.md` — 从 reservoir 采风SOP 移入，四层穿透(L1-L4)+域DNA档案
+- `references/四层转化模型.md` — 从 reservoir 移入
+- `references/安全门禁.md` — 从 reservoir 移入
+- `references/权重矩阵.md` — 从 reservoir 移入
+- `steps/step-reserve.md` — 全新，合并 reservoir 的 step-inject-collect + step-inject-archive
+- `templates/剧情储备卡-模板.md` — 从 reservoir 移入
+- `templates/设定储备卡-模板.md` — 从 reservoir 移入
+- `templates/materials-pool.tpl.md` — 从 reservoir 移入
+
+**重写文件**：
+- `SKILL.md`：v5.0.0→v6.0.0，新增三调用模式（新书/素材注入/主动丰富），Phase R→1→2→3 四阶段
+- `steps/step-prd-research.md` → `steps/step-research.md`：重命名+大改，Step 2 从浅层域研究升级为种子展开法全流程
+- `steps/step-prd-derive.md`：Step 6 从"域研究委托"升级为"研究档案引用"，末尾交接 step-reserve.md
+- `steps/step-r.md`：新增 Mode 2/3 路由
+- `references/碰撞引擎.md`：更新四层转化对接引用
+- `skill.json`：v5.0.0→v6.0.0
+- `templates/prd-模板-空白.md`：第九块从"域研究委托"升级为"域DNA档案引用"
+
+**删除文件**：
+- `references/域研究SOP.md`（被种子展开法替代）
+- `steps/step-prd-research.md`（重命名为 step-research.md）
+- 整个 `pop-writer-reservoir/` 目录（能力已被 creative 吸收）
+
 ## v5.0.0 (2026-06-23)
 
 ### 大幅强化：域碰撞引擎 + 域研究SOP + PRD第九块升级

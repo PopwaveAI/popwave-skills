@@ -2,10 +2,10 @@
 name: pop-writer-world
 description: "当用户说建世界观/设定/力量体系/世界构筑/L1设定时启用。消费 creative 的故事引擎.md + PRD.md + 素材储备池.md + 跨域素材，产出 L1 六件套 + 角色卡 + 数值体系 + 起点快照 + 世界宪法。"
 pipeline:
-  upstream: [pop-writer-creative, pop-writer-character, pop-writer-reservoir]
+  upstream: [pop-writer-creative, pop-writer-character]
   downstream: [pop-writer-plot]
   references: [pop-trope-library]
-  note: "reservoir 必须优先于 world 执行。reservoir 的产出（剧情储备卡）是 world 设定创作时的素材来源之一。不从本 pipeline 字段推断管线顺序——以 expert-writer 的管线stage顺序表为准。"
+  note: "creative 的素材储备池产出（剧情储备卡）是 world 设定创作时的素材来源之一。不从本 pipeline 字段推断管线顺序——以 expert-writer 的管线stage顺序表为准。"
 version: 2.0.1
 ---
 

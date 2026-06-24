@@ -1,5 +1,13 @@
 # CHANGELOG — expert-writer
 
+## v6.0.0 | 2026-06-24
+- creative 合并 reservoir：8阶段管线→7阶段管线
+- creative v4.4.0→v6.0.0：种子展开法替代域研究SOP，新增Phase 3储备卡产出
+- reservoir skill 已删除，能力被 creative 吸收
+- 下游配套文件全部更新引用
+
+---
+
 ## v4.6.0 (2026-06-22)
 
 ### 项目总控新增 📚知识库路径 固定区块
@@ -30,7 +38,7 @@
 - `references/pipeline/manifest.md`：阶段表新增 `library 查询` 列，8 个阶段全部标注查询模块
 - `steps/step-2-execute.md`：强制加载部分新增 library 查询提醒
 
-**查询矩阵覆盖 8 个阶段**：creative（元爽点匹配）→ reservoir（设定+套路）→ world（设定创意池）→ character（质感参考）→ plot（套路链+剧情库）→ chapter（套路公式）→ prose（文风DNA）→ qa（使用红线）
+**查询矩阵覆盖 7 个阶段**：creative（元爽点匹配+设定+套路）→ world（设定创意池）→ character（质感参考）→ plot（套路链+剧情库）→ chapter（套路公式）→ prose（文风DNA）→ qa（使用红线）
 
 ---
 
@@ -142,7 +150,7 @@
 |:-----|:-----|
 | 三层架构 | 路由层（SKILL.md ≤85行）→ 执行层（steps/）→ 知识层（references/） |
 | 读取协议 top1 | ❌1 红线 = 禁止 Read 工具，强制 skill_view / Get-Content -Raw |
-| 管线对齐 PRD | 8 步含 character（creative→reservoir→world→character→plot→chapter→prose→qa） |
+| 管线对齐 PRD | 7 步含 character（creative→world→character→plot→chapter→prose→qa） |
 | 速查表=全文件目录引导 | 24 个文件全部列出读取时机 |
 | 版本统一 | SKILL.md / skill.json / CHANGELOG 三处版本号一致 |
 
@@ -151,7 +159,7 @@
 | 文件 | BEFORE | AFTER | 变更 |
 |:-----|:-------|:------|:-----|
 | `SKILL.md` | 202 行 | 83 行 | 砍掉 59%：典型错误/核心原则/边界条件/落盘检查点/版本历史全部下沉 |
-| `skill.json` | v3.1.1 | v4.0.0 | 版本更新 + downstream 补全 reservoir/world/character + description 改触发式 |
+| `skill.json` | v3.1.1 | v4.0.0 | 版本更新 + downstream 补全 world/character + description 改触发式 |
 | `steps/step-1-think.md` | 121 行 | 118 行 | 新增读取协议红线，管线对齐 PRD（8步含character） |
 | `steps/step-2-execute.md` | 96 行 | 96 行 | 新增读取协议红线，截断检测精简引用 |
 | `steps/step-3-reflect.md` | 181 行 | 189 行 | 新增读取协议红线 |
@@ -177,7 +185,7 @@
 | 阶段 | BEFORE（v3.x） | AFTER（v4.0） |
 |:-----|:-------|:------|
 | 管线步骤 | 7 步（缺 character） | 8 步（含 character） |
-| 子 skill 版本号 | 未标注 | 标注（creative v4.3.0 / reservoir v2.2.0 / world v1.5.0 / character v2.0.1 / plot v7.0.0 / chapter v2.0.0 / prose v3.0.1 / qa v1.0.1） |
+| 子 skill 版本号 | 未标注 | 标注（creative v4.3.0 / world v1.5.0 / character v2.0.1 / plot v7.0.0 / chapter v2.0.0 / prose v3.0.1 / qa v1.0.1） |
 | 文件接口表 | 无 | 新增（静态文件 + 动态文件，对齐 PRD） |
 
 ---

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-15T15:00:00.000Z",
+  "updatedAt": "2026-06-24T00:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
@@ -82,8 +82,8 @@
     },
     {
       "id": "pop-writer-creative",
-      "description": "故事引擎/创意打磨。消费 deconstructor 产出 + 跨域素材，产出故事引擎.md + 样品试读。",
-      "latest": "1.4.1",
+      "description": "创意研究+碰撞引擎 v6.0.0。种子展开法深度调研→碰撞引擎生成2-3个故事概念选项→用户选择→产出全书立项PRD.md + 素材储备池/。海明威冰山原则：调研是水下八分之七。三模式：新书/素材注入/主动丰富。",
+      "latest": "6.0.0",
       "path": "skills/pop-writer-creative"
     },
     {

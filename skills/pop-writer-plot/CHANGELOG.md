@@ -1,5 +1,18 @@
 ﻿# CHANGELOG — 08-pop-novel-plot
 
+## v9.0.1 — 2026-06-24
+
+### reservoir skill 删除：上游管线更新
+
+**背景**：reservoir skill 已删除，其能力被 creative (v6.0.0) 吸收。
+
+**改动**：
+- `skill.json`：upstream 移除 `pop-writer-reservoir`（creative 已覆盖其职责）
+
+**效果**：管线从 `creative → reservoir → world → ...` 简化为 `creative → world → ...`，减少一个独立 skill 依赖。
+
+---
+
 ## v9.0.0 — 2026-06-23
 
 ### L0-L5 深度结构对齐

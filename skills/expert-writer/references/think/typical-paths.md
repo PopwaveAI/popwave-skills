@@ -18,11 +18,9 @@ Step 1 · creative (forward)
   ├─ Phase 0:     全书立项 → 全书立项PRD.md
   ├─ Phase 0.5:   跨域素材聚合 (HARD-GATE)
   ├─ Phase 0.6:   ⬅ 消费 deconstructor 拆书成果 → 素材储备池/融合摘要.md
+  ├─ Phase 3:     储备卡产出 → 素材储备池/{素材}.md
   ↓
-Step 2 · reservoir
-  ├─ 素材储备池/{素材}.md
-  ↓
-Step 3 · world
+Step 2 · world
   ├─ L1 设定 → 小说世界设定/L1-01~06.md
   ├─ L1 深度展开
   ├─ L1 交叉关联
@@ -31,7 +29,7 @@ Step 3 · world
   ├─ 起点快照 → 小说世界设定/起点快照.md [用户确认闸门]
   └─ 终点快照 → 小说世界设定/终点快照.md [用户确认闸门 → 进入 character]
   ↓
-Step 4 · character
+Step 3 · character
   ├─ 角色卡 → 状态/角色/{主角,配角}-角色卡.md
   ├─ 动态升级表 → 小说世界设定/动态升级表.md
   ↓
@@ -41,18 +39,18 @@ Step 5 · plot
   ├─ Step 2:   L3剧情线 → 剧情设计/剧情线/L3-{编号}-{名称}.md
   └─ Step 3:   L2单元卡 → 剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md
   ↓
-Step 6 · chapter ★
+Step 5 · chapter ★
   ├─ Step 1:  读入 L2-{编号}-{单元名}.md + 卷{N}-卷纲.md + 状态/state-log.yaml + 角色卡
   ├─ Step 2:  事件链设计（逐个回合，同步地点/角色/情绪/信息释放）
   └─ Step 3:  产出 → 章节设计包/chXXX-设计包.md + state-log 更新
   ↓
-Step 7 · prose ★
+Step 6 · prose ★
   ├─ Step 1:  读入章节设计包 + 写作资产/文风DNA/ + 锚定章
   ├─ Step 2:  正文渲染
   ├─ Step 3:  风格验证（P0禁句/视角一致性/解说员句式）
   └─ Step 4:  输出 → 正文/chXXX.md（含章末状态更新块）
   ↓
-Step 8 · qa
+Step 7 · qa
   ├─ Step 1:  大纲层 QC（L2-{编号}-{单元名}.md + reader_profile）
   ├─ Step 2:  骨架层 QC（章节设计包 + reader_profile）
   └─ Step 3:  正文层 QC（正文/chXXX.md + reader_profile）
@@ -78,7 +76,7 @@ Step 1 · creative (reverse)
   ├─ Phase r5:  卷大纲确认
   └─ Phase r6:  交接验证报告
   ↓
-Step 5 → Step 6 → Step 7 → Step 8（同新书启动的 plot → chapter → prose → qa）
+Step 4 → Step 5 → Step 6 → Step 7（同新书启动的 plot → chapter → prose → qa）
   ⚠️ 续写项目 plot 从当前幕续设计下一个 L2-{编号}-{单元名}.md，不重新规划全卷
 ```
 

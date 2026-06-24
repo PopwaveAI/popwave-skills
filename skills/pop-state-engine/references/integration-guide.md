@@ -21,7 +21,7 @@ python scripts/command_executor.py -p {项目路径} -a {动作} -j '{JSON参数
 2. pop-writer-chapter    ← 读上下文需要引擎已有数据（prose 先写入）
 3. pop-writer-plot       ← 卷级状态，依赖 chapter 已能正常读引擎
 4. pop-writer-world      ← 引擎初始化，L1 设定入库
-5. pop-writer-reservoir  ← 储备卡注册
+5. pop-writer-creative  ← 储备卡注册
 6. expert-writer         ← 总控 project-status 锚点同步（最后接入）
 ```
 
@@ -288,9 +288,9 @@ python {ENGINE}/command_executor.py -p {P} -a store-summary -j '{
 
 ---
 
-## 模式五：pop-writer-reservoir 储备卡注册
+## 模式五：pop-writer-creative 储备卡注册
 
-reservoir 产出储备卡（预备角色、预备场景、预备道具等）后，注册到引擎知识图谱。
+creative 产出储备卡（预备角色、预备场景、预备道具等）后，注册到引擎知识图谱。
 
 ### 储备卡输出后：add-node + set-fact
 

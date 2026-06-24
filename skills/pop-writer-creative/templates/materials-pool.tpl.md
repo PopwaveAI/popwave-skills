@@ -1,6 +1,6 @@
 # 素材储备池 — 《书名/项目名》
 
-> 产出者：pop-writer-reservoir（首版/持续注入） | 版本：2.0
+> 产出者：pop-writer-creative（首版/持续注入） | 版本：3.0
 > 说明：这是给 plot/world/character 的素材资源池。设计卷/幕/角色时，从池中拉取素材。
 >
 > **两类素材**：

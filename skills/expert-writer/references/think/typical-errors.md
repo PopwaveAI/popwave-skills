@@ -21,15 +21,15 @@
 ## 错误 3：决策点跳过用户确认
 
 ```
-❌ WRONG: creative 闸门未等用户确认就继续推进到 reservoir
+❌ WRONG: creative 闸门未等用户确认就继续推进到 world
 ✅ CORRECT: 4 个闸门（creative/plot/chapter/prose）必须等待用户点头
 ```
 
 ## 错误 4：管线跳步
 
 ```
-❌ WRONG: creative 完成后直接跳到 world，跳过 reservoir
-✅ CORRECT: creative → reservoir → world → character → plot → chapter → prose → qa，硬性不可跳跃
+❌ WRONG: creative 完成后直接跳到 character，跳过 world
+✅ CORRECT: creative → world → character → plot → chapter → prose → qa，硬性不可跳跃
 ```
 
 ## 错误 5：长文全量贴入对话

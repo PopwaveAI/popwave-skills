@@ -56,4 +56,4 @@
 ✅ CORRECT: expert-writer 持有 pipeline/manifest.md 硬编码顺序，首次加载灌入
 ```
 
-**事故复盘：** 6.18 项目 B 中 agent 跳过 reservoir 阶段，因为 world 的 SKILL.md 声明 upstream 缺中间节点。修复方案就是集中合同。
+**事故复盘：** 6.18 项目 B 中 agent 跳过 creative Phase 3（储备卡产出），因为 world 的 SKILL.md 声明 upstream 缺中间节点。修复方案就是集中合同。

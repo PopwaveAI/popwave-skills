@@ -120,7 +120,7 @@ v2.0.1                              v3.3.0               v3.0.0             v1.2
 | 模块 | 内容 | 服务对象 | 入库来源 |
 |:-----|:-----|:---------|:---------|
 | `立项库/` | PRD 级经验：立项模式/元爽点组合/题材焊接/加工哲学/失败案例 | creative, expert-writer | Phase 4 trace（SOP转化）+ Phase 5 prd + 写书复盘 |
-| `设定库/` | **按书整包**的 L1 设定：PRD.md + L1-01~06 + 世界宪法 + 角色与关系 | reservoir, world, character | Phase 3 setting |
+| `设定库/` | **按书整包**的 L1 设定：PRD.md + L1-01~06 + 世界宪法 + 角色与关系 | creative, world, character | Phase 3 setting |
 | `文风库/` | 文风笔触档案（场景卡+通用维度+时间演变），**canonical 路径** | prose | pop-shared-dna |
 | `剧情库/` | **L2可迁移单元卡 + L3剧情线卡**（双轨），按内容标签分目录 | plot | Phase 2 volume（L2/L3双轨提炼） |
 | `套路库/` | 抽象叙事模式卡（10字段：模式家族+变体+跨书案例） | creative, plot, chapter, qa | 原始素材晋升 |

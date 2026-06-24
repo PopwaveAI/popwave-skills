@@ -21,7 +21,6 @@
     "upstream": [],
     "downstream": [
       "pop-writer-creative",
-      "pop-writer-reservoir",
       "pop-writer-world",
       "pop-writer-character",
       "pop-decon",

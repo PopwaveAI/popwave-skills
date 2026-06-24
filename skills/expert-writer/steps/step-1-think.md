@@ -20,7 +20,7 @@
 ## 1. 管线锚定与会话恢复（每次新会话优先执行）
 
 1. **加载管线合同**：`Get-Content -Encoding UTF8 -Raw references/pipeline/manifest.md`
-   - 管线顺序：creative → reservoir → world → character → plot → chapter → prose → qa
+   - 管线顺序：creative → world → character → plot → chapter → prose → qa
 2. **加载项目总控**：检查项目根目录 `项目总控.md`
    - 存在 → 读取，获取当前阶段和执行顺序日志
    - 不存在 → 推断阶段并初始化：

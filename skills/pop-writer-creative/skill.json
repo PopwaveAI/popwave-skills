@@ -1,16 +1,16 @@
 {
   "id": "pop-writer-creative",
-  "version": "5.0.0",
-  "displayName": "创意碰撞引擎",
-  "description": "创意碰撞引擎 v5.0.0。用户给模糊想法 → 域研究（四维DNA浅层提取）+ 碰撞引擎（6步工作流）生成 2-3 个故事概念选项 → 用户选择 → 产出 全书立项PRD.md（宪法结构10块，第九块=域研究委托+叙事语法声明）。网文基准2k-3k字/章。",
+  "version": "6.0.0",
+  "displayName": "创意研究+碰撞引擎",
+  "description": "创意研究+碰撞引擎 v6.0.0。种子展开法深度调研（5阶段：种子识别→直接研究→切向扩展→深度域研究→交叉授粉）→ 碰撞引擎生成2-3个故事概念选项 → 用户选择 → 产出全书立项PRD.md + 素材储备池/。海明威冰山原则：调研是水下八分之七。三模式：新书/素材注入/主动丰富。",
   "pipeline": {
     "upstream": ["pop-decon"],
-    "downstream": ["pop-writer-world", "pop-writer-plot"],
+    "downstream": ["pop-writer-world", "pop-writer-character", "pop-writer-plot"],
     "references": ["pop-trope-library"]
   },
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["开书", "创意", "creative", "新书"],
+    "slashCommands": ["开书", "创意", "creative", "新书", "注入素材", "素材储备", "储备池", "升级池子", "内化", "pool"],
     "default": false
   },
   "permissions": {

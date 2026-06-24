@@ -1,14 +1,28 @@
 # Step R：路由诊断（HARD GATE）
 
-> **定位**：判断用户输入的模糊程度 → 决定后续 Step 2 联网搜索的**宽度**和**选项多样性**。
-> **产出**：路由结论（不是文件）——直接传递给 step-prd.md Step 2 的搜索策略。
+> **定位**：判断用户输入的模糊程度 + 调用模式 → 决定后续研究的**宽度**和**选项多样性**。
+> **产出**：路由结论（不是文件）——直接传递给 step-research.md 的研究策略。
 > **门禁**：❌ 不可跳过。
 >
 > 读取协议：❌ 禁止 Read 工具，用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`。
 
 ---
 
-## 输入分类
+## 调用模式判定
+
+读取用户的第一条消息，先判定调用模式：
+
+| 模式 | 信号 | 流程 |
+|:-----|:-----|:-----|
+| **1 新书** | "开书/新书/创意/我想写个故事" | Phase R → Phase 1（种子展开+深度研究）→ Phase 2（PRD推导）→ Phase 3（储备卡产出） |
+| **2 素材注入** | "注入素材/内化/帮我把这个XX内化" | Phase R → Phase 1（mini，针对新素材）→ Phase 3（储备卡产出） |
+| **3 主动丰富** | "升级池子/丰富储备池" | 缺口分析 → Phase 1（定向研究）→ Phase 3（储备卡产出） |
+
+> Mode 2/3 跳过 Phase 2（PRD推导），直接从 Phase 1 进入 Phase 3。
+
+---
+
+## 输入分类（Mode 1 新书模式）
 
 读取用户的第一条消息，判断属于哪种：
 
@@ -24,11 +38,12 @@
 
 ```
 路由结论：
-- 输入类型：{定向/碎片/空白}
-- 搜索宽度：{窄搜/中搜/宽搜}
-- 建议选项数：{2/3}
-- 传递给 Step 2
+- 调用模式：{新书/素材注入/主动丰富}
+- 输入类型：{定向/碎片/空白}（Mode 1 才填）
+- 搜索宽度：{窄搜/中搜/宽搜}（Mode 1 才填）
+- 建议选项数：{2/3}（Mode 1 才填）
+- 传递给 step-research.md
 ```
 
 ---
-⛔ 下一 step：`steps/step-prd-research.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-prd-research.md`）
+⛔ 下一 step：`steps/step-research.md` — 加载后才能继续（`Get-Content -Encoding UTF8 -Raw steps/step-research.md`）

@@ -27,7 +27,7 @@ pop-trope-library/
 | 模块 | 服务对象 | 解决的问题 |
 |:-----|:---------|:-----------|
 | `立项库/` | creative, expert-writer | 这本书为什么成立，PRD 怎么立，元爽点怎么组合 |
-| `设定库/` | reservoir, world, character | 世界怎么搭，力量/制度/命名/文明底色怎么借鉴 |
+| `设定库/` | creative, world, character | 世界怎么搭，力量/制度/命名/文明底色怎么借鉴 |
 | `文风库/` | prose | 语言怎么写，scene 如何匹配文风DNA |
 | `剧情库/` | plot | 剧情线如何推进、升级、兑现与收束 |
 | `套路库/` | creative, plot, chapter, qa | 模式怎么复用，套路公式和使用红线是什么 |
@@ -147,7 +147,7 @@ status: trial
 
 ### 主定位
 
-`设定库` 是 world / reservoir / character 的设定参考库。
+`设定库` 是 world / creative / character 的设定参考库。
 
 主模型：按书整包消费。
 

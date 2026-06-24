@@ -105,7 +105,7 @@ python scripts/command_executor.py -p {项目} -a list-hooks
 | 每卷开始 | pop-writer-plot | `create-arc` + `store-summary` + `plant-hook` | 卷弧线+伏笔种入 |
 | 每章设计时 | pop-writer-chapter | `for-creation` | 替代全量加载 |
 | 每章写完后 | pop-writer-prose | `store-chapter` + `add-node` + `set-fact` + `resolve-hook` | 章末5步登记 |
-| 储备卡产出后 | pop-writer-reservoir | `add-node` + `set-fact` | 储备卡注册 |
+| 储备卡产出后 | pop-writer-creative | `add-node` + `set-fact` | 储备卡注册 |
 | 每次 skill 执行后 | expert-writer | `project-status` | 总控进度锚点同步 |
 
 ## 数据库结构
