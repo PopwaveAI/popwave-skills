@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-25T00:00:00.000Z",
+  "updatedAt": "2026-06-26T00:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
       "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由和完成后引导。",
-      "latest": "7.0.0",
+      "latest": "8.0.0",
       "path": "skills/expert-writer"
     },
     {
@@ -41,7 +41,7 @@
     {
       "id": "pop-shared-dna",
       "description": "文风DNA蒸馏引擎 v4.0。不统计、不浸泡、不写禁令——从原文中提取作者在每个维度上的模式，配原文证据，标注全周期变化。产出 文风库/{书名}.md 风格文件供 writer 消费。",
-      "latest": "4.0.1",
+      "latest": "4.1.0",
       "path": "skills/pop-shared-dna"
     },
     {
@@ -121,6 +121,24 @@
       "description": "质检。密度量化、多样性量化、温度量化检查。",
       "latest": "2.0.0",
       "path": "skills/pop-writer-qa"
+    },
+    {
+      "id": "pop-writer-v3-seed",
+      "description": "v3涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴，金手指→种子金手指，文风DNA→种子文风DNA，PRD→种子组装。活种子初始化。",
+      "latest": "1.0.0",
+      "path": "skills/pop-writer-v3-seed"
+    },
+    {
+      "id": "pop-writer-v3-emerge",
+      "description": "v3涌现写作环。本章规划→信息需求判断→涌现写作(chapter+prose合并)→反思五问→活记忆更新+种子生长→方向提示。网文爽感机制强制对照。",
+      "latest": "1.1.0",
+      "path": "skills/pop-writer-v3-emerge"
+    },
+    {
+      "id": "pop-writer-v3-arc",
+      "description": "v3弧线校准。六项宏观检查+种子修剪+三级回退+活记忆压缩。",
+      "latest": "1.0.0",
+      "path": "skills/pop-writer-v3-arc"
     },
     {
       "id": "tool-book-to-skill",

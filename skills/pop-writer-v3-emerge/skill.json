@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v3-emerge",
+  "displayName": "涌现写作环",
+  "description": "v3涌现写作环。每章执行六步循环：本章规划→信息需求判断→涌现写作（chapter+prose合并）→反思五问→活记忆更新+种子生长→方向提示。文风DNA硬阻塞，网文爽感机制强制对照，活记忆唯一写入者，活种子可生长。",
+  "entry": "SKILL.md",
+  "activation": "当v3项目进入涌现写作阶段时启用",
+  "version": "1.1.0"
+}

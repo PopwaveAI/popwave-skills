@@ -1,5 +1,10 @@
 ﻿# CHANGELOG — 03-pop-dna
 
+## v4.1.0 | 2026-06-26
+- v3涌现式管线消费支持：pop-writer-v3-seed 种子设计阶段引用文风DNA（种子第七要素），pop-writer-v3-emerge 涌现写作时硬阻塞消费（缺失=终止）
+- downstream 新增 pop-writer-v3-seed + pop-writer-v3-emerge
+- v2 管线的 pop-writer-prose 消费方式不变
+
 ## v4.0.0 | 2026-06-11
 
 - **场景卡矩阵**："战斗"不再是一个维度——拆为早期遭遇战/中坚 boss 战/后期大规模/暗杀偷袭 4 个独立场景卡。对话拆为日常兄妹/情感高潮/信息交换 3 卡。描写/叙述各 2 卡。共 11 个可选场景卡。

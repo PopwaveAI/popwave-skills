@@ -19,14 +19,22 @@
 
 ## 1. 强制加载（不可跳过）
 
+> **模式检查（★v8.0.0）**：读取项目总控.md 的「管线模式」字段。
+> - v2 → 加载 `skills/pop-writer-{阶段}/`
+> - v3 → 按 v3 路由表加载 `skills/pop-writer-v3-{seed|emerge|arc}/`
+
 ```
 Get-Content -Encoding UTF8 -Raw 子 skill SKILL.md → 验证完整
 Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 ```
 
 **加载子 skill**：
-- 从项目总控读取当前阶段
-- 加载 `skills/pop-writer-{阶段}/` 目录下的子 skill
+- 从项目总控读取当前阶段（v2）或当前阶段+模式（v3）
+- v2：加载 `skills/pop-writer-{阶段}/` 目录下的子 skill
+- v3：按 v3 路由表加载对应 skill 集：
+  - 种子设计阶段 → `pop-writer-v3-seed`
+  - 涌现写作阶段 → `pop-writer-v3-emerge`
+  - 弧线校准阶段 → `pop-writer-v3-arc`
 
 **library 查询提醒**：路由到子 skill 前，对照 SKILL.md 的 pop-trope-library 查询矩阵，提醒子 skill 查询对应模块。子 skill 自管查询逻辑（按 `skills/pop-trope-library/references/调用匹配SOP.md` 三维查询）。
 
@@ -35,14 +43,33 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 > ⛔ **强制**：每个阶段完成后必须更新项目总控.md 的阶段状态（待启动→进行中→已完成）。未更新项目总控 = 阶段未完成。
 
 > ⛔ **阶段间一致性快检**：进入下一阶段前，对比当前阶段产出与 PRD 核心字段（主角名/种族/起点/力量体系）。检测到不一致时暂停并触发 `prd-change-protocol.md`。
+> **v3 模式**：一致性检查改为对比种子文档七要素 + 活记忆状态。检测到种子要素与正文不一致时，暂停并提醒退回 v3-seed 或 v3-emerge 修正。
 
 ---
 
 ## 2. 按子 skill 的 SOP 执行
 
+### v2 模式（原有逻辑不变）
+
 按子 skill 的分步指令执行。**子 skill 自管前置检查、落盘检查、阶段闸门、状态更新。** expert-writer 不重复这些。
 
-**纪律**：
+### v3 模式执行要点（★v8.0.0新增）
+
+> expert-writer 是纯调度器，执行细节由 v3 子 skill 自管。以下仅列出调度层需协调的事项。
+
+**v3-emerge 执行时**：
+1. 信息获取调度：根据 Think 层传递的信息需求清单，提醒 emerge 查询对应模块（套路库/文风库/活记忆）
+2. 涌现写作 + 五问反思：emerge 自管，expert-writer 不介入
+3. 活记忆更新：emerge 完成后追加 event 到 `活记忆/活记忆.yaml`
+4. 种子生长调度：emerge 完成后检查种子是否需要生长（新要素涌现时），需要则提醒 emerge 写回种子文档（version+1，changelog 追加）
+
+**v3-arc 执行时**：
+1. 六项宏观检查：arc 自管检查，expert-writer 不重复
+2. 种子修剪：arc 完成后，根据校准结果修剪种子文档中已失效的要素（移入已关闭区，version+1）
+3. 回退：arc 判定需要回退的章节，由 arc 自管回退机制
+4. 压缩：arc 完成后执行活记忆压缩（合并 baseline + event 为新 baseline）
+
+**纪律**（v2/v3 共用）：
 - 先问修改 → 再建议下一步 → 不催促
 - QA 后只问修改
 - 中文。不暴露内部 skill 名。
@@ -141,6 +168,28 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 | 剧情走向 | pop-writer-plot（受影响的卷/幕） |
 | 世界观规则 | pop-writer-world（L1+宪法+级联） |
 | 起点/终点状态 | pop-writer-world → plot → chapter → prose（级联） |
+
+### 3.5 v3 修改路由（★v8.0.0新增）
+
+> v3 模式修改路由逻辑与 v2 不同：不按管线层回溯，按种子/正文/活记忆三层处理。
+
+| 用户改了什么 | 退回哪个子 skill | 处理方式 |
+|:------------|:----------------|:---------|
+| 种子要素（七要素之一） | pop-writer-v3-seed | 修改种子文档 → version+1 → emerge 重新消费 |
+| 正文内容（某章） | pop-writer-v3-emerge | 退回重写该章正文（不改种子） |
+| 弧线/节奏问题 | pop-writer-v3-arc | 退回 arc 重新校准 → 必要时回退章节 |
+
+### 3.6 v3 项目回滚（★v8.0.0新增）
+
+> v3 回滚 ≠ v2 回滚。v3 没有"管线层"概念，回滚按 **章号** 执行：删活记忆 entries + 删正文。
+
+**执行步骤**：
+1. 确认回滚目标章号 N
+2. 删除 `正文/ch{>N}.md` 所有文件
+3. 编辑 `活记忆/活记忆.yaml`：删除 chapter > N 的所有 event 条目，将 baseline 回退到 chapter ≤ N 的最后一条
+4. 不删除种子文档（种子是跨章节持久资产）
+5. 更新项目总控.md：章号回退到 N、弧线计数调整、写入回滚记录
+6. 告知用户："已回滚到第 N 章。活记忆已同步。可以重新写第 N+1 章了。"
 
 ---
 

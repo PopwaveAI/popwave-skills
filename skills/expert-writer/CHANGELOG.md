@@ -1,5 +1,18 @@
 # CHANGELOG — expert-writer
 
+## v8.0.0 | 2026-06-26
+- 重新引入双轨支持（v2雪花式/v3涌现式），用于AB测试
+- v3涌现式管线独立新建：pop-writer-v3-seed(种子设计) + pop-writer-v3-emerge(涌现写作环) + pop-writer-v3-arc(弧线校准)
+- SKILL.md：新增管线模式声明段(v2/v3对比表) + 红线❌5(v3项目不可混用v2 skill) + v3路由表 + version→8.0.0
+- step-0-init：新增模式询问步骤 + v3目录骨架(5目录简化版)
+- step-1-think：模式感知路由(v2→8阶段/v3→3阶段+v3信息需求判断+智能调度)
+- step-2-execute：按模式加载不同skill集 + v3信息获取调度+种子生长调度
+- step-3-reflect：模式感知审视 + v3方向提示+弧线校准检查+种子生长判断
+- manifest.md：新增v3管线合同段(3阶段循环+活种子+活记忆七组件+信息需求判断)
+- master-control.tpl.md：新增管线模式字段 + v3项目总控模板(3阶段仪表盘)
+- registry.json：新增3个v3 skill条目 + expert-writer→8.0.0 + pop-shared-dna→4.1.0
+- 新增PRD：prd/01-管线架构/10-涌现式写作专家全链路-PRD.md v2.0（实施级PRD）
+
 ## v7.0.0 | 2026-06-25
 - v2管线转正为默认模式，移除v1/v2双轨切换机制
 - SKILL.md：管线模式段替换为单管线声明，删除红线❌5，version→7.0.0

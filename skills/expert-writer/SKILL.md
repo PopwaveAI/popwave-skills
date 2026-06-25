@@ -1,20 +1,23 @@
 ---
 name: expert-writer
-description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。"
-version: 7.0.0
+description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。支持v2雪花式/v3涌现式双轨。"
+version: 8.0.0
 ---
 
-# expert-writer · 写作专家调度引擎 v7.0.0
+# expert-writer · 写作专家调度引擎 v8.0.0
 
-> 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。
+> 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。支持 v2/v3 双轨。
 
-## 管线说明
+## 管线模式声明
 
-本项目写作管线已统一为转正后的 pop-writer-* 系列（原 v2 管线）。
-- 设计特点：场景流设计·DNA硬阻塞·金手指行动引擎·生态图谱
-- 原 v1 管线已封存至 `skills/_deprecated/`，不再调用
-- 管线顺序不变：creative → world → character → plot → chapter → prose → qa
-- 未来架构演进方向见 `prd/01-管线架构/09-涌现反馈环写作管线-PRD.md`
+本项目支持两种写作管线，项目初始化时确定，不可切换：
+
+| 模式 | 管线结构 | 适用场景 | skill 集 |
+|:-----|:---------|:---------|:---------|
+| **v2 雪花式** | creative→world→character→plot→chapter→prose→qa（8阶段线性） | 设定驱动型、需要完整世界观 | pop-writer-* |
+| **v3 涌现式** | 种子设计→涌现写作环↔弧线校准（3阶段循环） | 压力驱动型、网文爽感优先 | pop-writer-v3-* |
+
+模式存储在项目总控.md 的「管线模式」字段。v3 项目必须使用 v3 skill 集，不得混用 v2 skill。
 
 ## pop 身份
 
@@ -30,31 +33,30 @@ version: 7.0.0
 |:-:|:-----|
 | ❌1 | **读取 skill 文件禁止用 Read 工具** — 用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`，Read 有行数限制会截断 |
 | ❌2 | **不读子 SKILL.md 就路由** — 必须先 `Get-Content -Encoding UTF8 -Raw` 目标子 skill 全文 |
-| ❌3 | **决策点跳过用户确认** — 4 个闸门必须等待用户点头（creative/plot/chapter/prose） |
+| ❌3 | **决策点跳过用户确认** — 闸门必须等待用户点头 |
 | ❌4 | **框架级变更不做影响范围声明** — 加穿越者/改力量体系/换核心矛盾时，必须先出影响范围声明再动笔 |
+| ❌5 | **v3 项目混用 v2 skill** — v3 项目必须使用 pop-writer-v3-* skill 集，v2 项目使用 pop-writer-* skill 集，不可混用 |
 
-## 管线顺序（对齐 PRD v5.3）
+## 管线顺序
 
-```
-creative → world → character → plot → chapter → prose → qa
-```
+**v2 模式**：`creative → world → character → plot → chapter → prose → qa`
+**v3 模式**：`种子设计(pop-writer-v3-seed) → 涌现写作环(pop-writer-v3-emerge) ↔ 弧线校准(pop-writer-v3-arc)`
 
-> 管线合同详见 `references/pipeline/manifest.md`。PRD 详见 `prd/01-管线架构/01-写作专家全链路依赖图-PRD.md`。
+> 管线合同详见 `references/pipeline/manifest.md`（含 v2/v3 双轨）。
 
 ## pop-trope-library 查询矩阵
 
-> 公共知识库（非 skill）。每个环节路由到子 skill 前，确认子 skill 会查询对应模块。
-> 查询协议：`skills/pop-trope-library/references/调用匹配SOP.md`（三维查询：层×赛道×元爽点）
+> 公共知识库（非 skill）。v2/v3 共享。
 
-| 管线阶段 | 查询模块 | 用途 |
-|:---------|:---------|:-----|
-| creative | 套路库/00-总索引 + 元爽点-变体映射表 + 设定库/（框架+质感） | 确定本书主元爽点 + 剧情储备卡的素材注入 |
-| world | 设定库/（框架+质感） | L1 设定+数值的创意参考 |
-| character | 设定库/质感 | 角色卡的文化质感参考 |
-| plot | 套路库/ + 剧情库/ + 元爽点-变体映射表 | 套路链+剧情改建参考 |
-| chapter | 套路库/{具体套路名}.md | 事件链设计的套路公式 |
-| prose | 文风库/{书名}.md | 正文渲染的文风锚定 |
-| qa | 套路库/{具体套路名}.md 使用红线段 | 质检对照套路红线 |
+| 管线阶段(v2) | 管线阶段(v3) | 查询模块 | 用途 |
+|:---------|:---------|:---------|:-----|
+| creative | v3-seed | 套路库+元爽点+设定库 | 确定书型+素材注入+压力矩阵调研 |
+| world | — | 设定库 | L1 设定+数值参考 |
+| character | — | 设定库 | 角色卡参考 |
+| plot | — | 套路库+剧情库 | 套路链+剧情参考 |
+| chapter | v3-emerge(按需) | 套路库 | 场景技法参考 |
+| prose | v3-emerge(硬阻塞) | 文风库 | 文风锚定 |
+| qa | v3-emerge(反思) | 套路库 | 质检对照 |
 
 ## 速查表（全文件目录引导）
 
@@ -62,62 +64,62 @@ creative → world → character → plot → chapter → prose → qa
 
 | 什么时候 | 读什么文件 | 产出 |
 |:---------|:----------|:-----|
-| 项目初始化 | `steps/step-0-init.md` | 项目总控初始化 |
-| Think 阶段 | `steps/step-1-think.md` | 项目阶段判断+路由目标 |
-| Execute 阶段 | `steps/step-2-execute.md` | 子skill执行结果 |
-| Reflect 阶段 | `steps/step-3-reflect.md` | 审视报告+索引回写 |
+| 项目初始化 | `steps/step-0-init.md` | 项目总控初始化（含模式选择） |
+| Think 阶段 | `steps/step-1-think.md` | 项目阶段判断+路由目标（模式感知） |
+| Execute 阶段 | `steps/step-2-execute.md` | 子skill执行结果（模式路由） |
+| Reflect 阶段 | `steps/step-3-reflect.md` | 审视报告+索引回写（模式感知） |
 
-### references/pipeline/ — 管线架构
-
-| 什么时候 | 读什么文件 | 产出 |
-|:---------|:----------|:-----|
-| 每次新会话 | `references/pipeline/manifest.md` | 管线硬顺序合同+文件接口 |
-
-### references/project/ — 项目状态管理
+### references/ — 知识层
 
 | 什么时候 | 读什么文件 | 产出 |
 |:---------|:----------|:-----|
-| 初始化项目总控 | `references/project/master-control.tpl.md` | 项目总控.md |
-
-### references/think/ — 审视与防错
-
-| 什么时候 | 读什么文件 | 产出 |
-|:---------|:----------|:-----|
+| 每次新会话 | `references/pipeline/manifest.md` | 管线合同（v2/v3双轨） |
+| 初始化项目总控 | `references/project/master-control.tpl.md` | 项目总控.md（含模式字段） |
 | Reflect 通用层 | `references/think/reflection.md` | 通用3问+质量信号 |
-| Reflect 末尾引导 | `references/think/completion-guide.md` | 引导语 |
-| Think 典型路径 | `references/think/typical-paths.md` | 路径速查 |
-| 执行时防错 | `references/think/typical-errors.md` | 8条典型错误 |
-| 设计决策参考 | `references/think/core-principles.md` | 3条核心原则 |
+| Reflect 引导 | `references/think/completion-guide.md` | 引导语 |
+| Think 路径 | `references/think/typical-paths.md` | 路径速查 |
+| 执行防错 | `references/think/typical-errors.md` | 典型错误 |
+| 设计决策 | `references/think/core-principles.md` | 核心原则 |
 
 ## 路由表
 
+### v2 模式路由
+
 | 用户说 | 路由到 | 前置条件 |
 |:-------|:-------|:---------|
-| "开新书/启动项目" | pop-writer-creative | 无 |
-| "注入素材/内化/升级池子" | pop-writer-creative | 全书立项PRD.md已产出 |
-| "构筑世界观/建世界" | pop-writer-world | creative 已产出 |
-| "设计角色/角色卡" | pop-writer-character | world 已产出 |
-| "设计剧情/规划大纲" | pop-writer-plot | world+character 已就位 |
-| "设计第X章/章纲" | pop-writer-chapter | plot 已产出 |
-| "写第X章/写正文" | pop-writer-prose | chapter 设计包已产出 |
-| "审查/审稿/QA" | pop-writer-qa | prose 已产出 |
-| "拆这本书/分析" | pop-decon | TXT 已下载 |
-| "继续/下一步" | 检查项目总控.md | — |
-| "批量写N章/风格迁移" | pop-writer-prose + 并行 | 源文本存在 |
-| "检查项目状态/健康检查" | step-1-think.md（管线锚定+进度摘要） | 项目目录存在 |
-| "回滚到XX层/回到XX重新设计/从XX开始重来" | step-2-execute.md §3.3 项目回滚 | 项目目录存在 |
+| "开新书/启动项目(v2)" | pop-writer-creative | 无 |
+| "构筑世界观" | pop-writer-world | creative 已产出 |
+| "设计角色" | pop-writer-character | world 已产出 |
+| "设计剧情" | pop-writer-plot | world+character 已就位 |
+| "设计章节" | pop-writer-chapter | plot 已产出 |
+| "写正文" | pop-writer-prose | chapter 设计包已产出 |
+| "审稿/QA" | pop-writer-qa | prose 已产出 |
+
+### v3 模式路由
+
+| 用户说 | 路由到 | 前置条件 |
+|:-------|:-------|:---------|
+| "开新书/启动项目(v3)" | pop-writer-v3-seed | 无 |
+| "继续/下一步/写第X章" | pop-writer-v3-emerge | 种子文档已产出 |
+| "检查/审稿/弧线校准" | pop-writer-v3-arc | 已有≥10章正文 |
+| "回滚到第N章" | pop-writer-v3-arc(回退) | 项目存在 |
+
+### 通用路由
+
+| 用户说 | 路由到 |
+|:-------|:-------|
+| "拆这本书/分析" | pop-decon |
+| "继续/下一步" | 检查项目总控.md（模式+阶段） |
+| "检查项目状态" | step-1-think.md |
+| "回滚" | step-2-execute.md §3.3 |
 
 ## 核心流程
 
-1. **Think** — 感知状态+意图识别+前置校验 → `steps/step-1-think.md`
-2. **Execute** — 加载子skill+闸门+执行 → `steps/step-2-execute.md`
-3. **Reflect** — 通用审视+回写+引导 → `steps/step-3-reflect.md`
+1. **Think** — 感知状态(含模式)+意图识别+前置校验+v3信息需求判断+v3智能调度 → `steps/step-1-think.md`
+2. **Execute** — 加载子skill(按模式)+闸门+执行+v3信息获取调度+v3种子生长调度 → `steps/step-2-execute.md`
+3. **Reflect** — 通用审视+回写+引导+v3方向提示+v3弧线校准检查 → `steps/step-3-reflect.md`
 
 ## 版本
 
-v7.0.0 | 2026-06-25 | v2管线转正为默认模式，移除v1/v2双轨切换；v1封存至_deprecated/；红线❌5删除；step-0/1/2去模式分支 → [CHANGELOG.md](CHANGELOG.md)
-v6.2.0 | 2026-06-25 | 新增v1/v2管线模式切换（AB测试）：SKILL.md模式声明+红线❌5；step-0询问模式；step-1/2按模式路由；manifest新增v2映射表；master-control新增模式字段 → [CHANGELOG.md](CHANGELOG.md)
-v6.1.0 | 2026-06-25 | step-0-init新增文风DNA路径强制解析(3b步)；master-control.tpl加DNA自动解析 → [CHANGELOG.md](CHANGELOG.md)
-v6.0.0 | 2026-06-24 | creative 合并 reservoir：8阶段→7阶段管线；reservoir skill 删除，能力被 creative v6.0.0 吸收 → [CHANGELOG.md](CHANGELOG.md)
-v4.9.0 | 2026-06-23 | state.yaml → state-log.yaml; step-3 读 log 最后 baseline+event + 压缩检查; step-3.3 回滚改为删 entries → [CHANGELOG.md](CHANGELOG.md)
-v4.7.0 | 2026-06-22 | step-2加影响范围声明+回溯触发判定（Gap①⑧），step-3加阶段级读者体验验收+弃书风险章标注（Gap⑭），SKILL.md加❌7红线 → [CHANGELOG.md](CHANGELOG.md)
+v8.0.0 | 2026-06-26 | 重新引入双轨（v2/v3）；v3涌现式管线独立新建（pop-writer-v3-seed/emerge/arc）；中控层强化（信息需求判断+活种子管理+智能调度）；红线❌5新增 → [CHANGELOG.md](CHANGELOG.md)
+v7.0.0 | 2026-06-25 | v2管线转正为默认模式，移除v1/v2双轨切换 → [CHANGELOG.md](CHANGELOG.md)

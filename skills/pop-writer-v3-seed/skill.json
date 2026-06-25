@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v3-seed",
+  "displayName": "种子设计",
+  "description": "v3涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴，金手指→种子金手指，文风DNA→种子文风DNA，PRD→种子组装。活种子初始化。",
+  "entry": "SKILL.md",
+  "activation": "v3项目种子设计阶段",
+  "version": "1.0.0"
+}

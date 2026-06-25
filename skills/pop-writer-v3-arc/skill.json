@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v3-arc",
+  "displayName": "弧线校准",
+  "description": "涌现式写作v3弧线校准。每10-20章触发宏观检查：六项检查+种子修剪+回退机制+活记忆压缩。",
+  "entry": "SKILL.md",
+  "activation": "当v3项目触发弧线校准时启用（每10-20章/事件触发/用户触发）",
+  "version": "1.0.0"
+}

@@ -64,6 +64,27 @@
 | **当前幕** | 幕{N}·{名称}（ch{起始}-ch{结束}） |
 | **下一章** | ch{编号} |
 
+### v3 模式仪表盘（★v8.0.0新增 — 仅 v3 项目使用）
+
+> v3 项目用此仪表盘替代上方 v2 首屏仪表盘。v2 项目跳过本节。
+
+| 🏷️ | v3 阶段 | 📦 核心产出 |
+|:----|:---------|:-----------|
+| {状态} | 种子设计 | `种子文档.md`（七要素+版本元数据+变更日志） |
+| {状态} | 涌现写作环 | `正文/chXXX.md` + `活记忆/活记忆.yaml` |
+| {状态} | 弧线校准 | `弧线校准报告/arc-XX.md` |
+
+> 标记：✅ 已完成 · ⏳ 进行中 · ⬜ 未开始
+
+| 📈 v3 项目统计 | |
+|:------------|:---|
+| **正文进度** | ch{起始}-ch{最新}（共 {N} 章） |
+| **种子版本** | v{版本号} |
+| **弧线校准次数** | {N} 次 |
+| **活记忆压缩计数** | {N} 次（上次压缩在 ch{编号}） |
+| **活记忆 baseline 章号** | ch{编号} |
+| **方向提示** | {✅ 已生成 / ❌ 缺失} |
+
 ---
 
 ## PRD 变更待审
@@ -193,24 +214,25 @@
 | 属性 | 值 |
 |:-----|:---|
 | **专家类型** | {expert-writer / expert-deconstructor / ...} |
+| **管线模式** | {v2 雪花式 / v3 涌现式}（项目初始化时确定，不可切换） |
 | **管线版本** | v{当前最新版本}（{日期}） |
-| **管线顺序** | creative → world → character → plot → chapter → prose → qa |
+| **管线顺序** | v2: creative → world → character → plot → chapter → prose → qa / v3: 种子设计 → 涌现写作环 ↔ 弧线校准 |
 | **本项目启动时版本** | v{启动版本}（{日期}）· {无差异 / ⚠️ 差 {N} 个版本} |
 
 ## 理想全流程
 
-> 按管线合同顺序排列。每步标注调用的 skill 与核心产出。
-> 对齐 PRD v5.0：7步管线，不可跳跃。
+> 按管线合同顺序排列。v2/v3 双列对照。
+> v2 对齐 PRD v5.0：7步管线，不可跳跃。v3 为 3 阶段循环。
 
-| # | 阶段 | Skill | 一句话 | 核心产出物 |
-|:-:|:-----|:------|:------|:----------|
-| T1 | creative | pop-writer-creative | 方向碰撞→立项PRD+储备卡 | `全书立项PRD.md` + `素材储备池/{素材}.md` + `研究档案/`（生态图谱+种子展开图+创意溯源记录+交叉授粉图） |
-| T2 | world | pop-writer-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
-| T3 | character | pop-writer-character | 角色卡设计（含生态位置） | `状态/角色/{主角,配角}-角色卡.md` |
-| T4 | plot | pop-writer-plot | L4全书事件+每卷战略+L3剧情线+L2单元卡 | `剧情设计/卷/L4-{编号}-{事件名}.md` + `卷{N}-卷纲.md` + `剧情线/L3-{编号}-{名称}.md` + `幕/vol-XX/L2-{编号}-{单元名}.md` |
-| T5 | chapter | pop-writer-chapter | 场景流设计包 | `章节设计包/chXXX-设计包.md` |
-| T6 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
-| T7 | qa | pop-writer-qa | 三层介入质检 | QC 报告（不留盘） |
+| # | v2 阶段 | v2 Skill | v3 阶段 | v3 Skill | 核心产出物 |
+|:-:|:-----|:------|:-----|:------|:----------|
+| T1 | creative | pop-writer-creative | 种子设计 | pop-writer-v3-seed | v2: `全书立项PRD.md`+`素材储备池/`+`研究档案/` / v3: `种子文档.md`（七要素+版本元数据） |
+| T2 | world | pop-writer-world | 涌现写作环 | pop-writer-v3-emerge | v2: `小说世界设定/L1-01~06.md`+`数值体系/`+快照 / v3: `正文/chXXX.md`+活记忆追加 |
+| T3 | character | pop-writer-character | 弧线校准 | pop-writer-v3-arc | v2: `状态/角色/*-角色卡.md` / v3: `弧线校准报告/arc-XX.md`+种子修剪+活记忆压缩 |
+| T4 | plot | pop-writer-plot | （循环） | — | v2: `剧情设计/`L4+L3+L2 / v3: emerge↔arc 循环 |
+| T5 | chapter | pop-writer-chapter | | | v2: `章节设计包/chXXX-设计包.md` |
+| T6 | prose | pop-writer-prose | | | v2: `正文/chXXX.md`+`状态/state-log.yaml` |
+| T7 | qa | pop-writer-qa | | | v2: QC 报告（不留盘） |
 
 ## 理想目录路由
 
@@ -318,9 +340,13 @@
 > 1. 用 `{书名}` 替换标题
 > 2. 写 `更新时间` 为当前时间戳
 > 3. 写 `## 管线身份` 中的版本号为当前 expert-writer SKILL.md 的 version 字段
-> 4. 写 `本项目启动时版本` = 当前版本（新项目）或从已有总控继承（存量项目）
+> 4. 写 `管线模式` = 用户选择的模式（v2/v3），写 `本项目启动时版本` = 当前版本（新项目）或从已有总控继承（存量项目）
 > 5. `📊 项目现状` 全部字段通过文件系统扫描填充
-> 6. `🗺️ 所属管线` 从 pipeline-manifest.md 填充阶段列表（7步：creative → world → character → plot → chapter → prose → qa）
+>    - v2 项目：使用首屏仪表盘（8阶段）
+>    - v3 项目：使用 v3 模式仪表盘（3阶段）+ 种子版本/弧线计数/活记忆压缩计数
+> 6. `🗺️ 所属管线` 从 pipeline-manifest.md 填充阶段列表
+>    - v2：7步 creative → world → character → plot → chapter → prose → qa
+>    - v3：3阶段 种子设计 → 涌现写作环 ↔ 弧线校准
 >
 > **每次阶段完成后**（step-3-reflect）：
 > 1. 更新 `📊 项目现状` → 首屏仪表盘 / 实际阶段执行 / 产出物清单 / 进度锚点
