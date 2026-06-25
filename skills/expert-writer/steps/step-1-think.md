@@ -21,6 +21,10 @@
 
 1. **加载管线合同**：`Get-Content -Encoding UTF8 -Raw references/pipeline/manifest.md`
    - 管线顺序：creative → world → character → plot → chapter → prose → qa
+   - **管线模式感知**（★v6.2.0新增）：读取项目总控的「管线模式」字段（v1/v2），按模式选择对应skill前缀
+     - v1 → `pop-writer-{creative,world,...}`
+     - v2 → `pop-writer-v2-{creative,world,...}`
+     - 未确定 → ❌红线❌5：不可路由，必须先询问用户
 2. **加载项目总控**：检查项目根目录 `项目总控.md`
    - 存在 → 读取，获取当前阶段和执行顺序日志
    - 不存在 → 推断阶段并初始化：
@@ -38,6 +42,7 @@
 ## 2. 意图识别
 
 1. 从用户消息提取关键词，对照 SKILL.md 路由表定位目标子 skill
+   - **按管线模式选择skill**：v1 → `pop-writer-{阶段}`，v2 → `pop-writer-v2-{阶段}`
 2. 检查管线前置条件：上游阶段是否完成（查项目总控.md 的执行顺序日志）
 3. 上游未完成 → 告知用户缺什么阶段，建议先补齐
 4. 上游已完成 → 进入 Execute

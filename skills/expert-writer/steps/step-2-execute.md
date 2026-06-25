@@ -24,6 +24,12 @@ Get-Content -Encoding UTF8 -Raw 子 skill SKILL.md → 验证完整
 Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 ```
 
+**管线模式感知**（★v6.2.0新增）：
+- 从项目总控读取「管线模式」字段
+- v1 模式 → 加载 `skills/pop-writer-{阶段}/` 目录下的子skill
+- v2 模式 → 加载 `skills/pop-writer-v2-{阶段}/` 目录下的子skill
+- 模式未确定 → ❌红线❌5，不可执行
+
 **library 查询提醒**：路由到子 skill 前，对照 SKILL.md 的 pop-trope-library 查询矩阵，提醒子 skill 查询对应模块。子 skill 自管查询逻辑（按 `skills/pop-trope-library/references/调用匹配SOP.md` 三维查询）。
 
 **每次阶段完成后**：回写 `项目总控.md`，更新管线进度标记和当前阶段。
@@ -130,13 +136,13 @@ Get-Content -Encoding UTF8 -Raw steps/*.md, templates/*.md
 
 ### 3.4 常规修改路由
 
-| 改什么 | 退回哪个子 skill |
+| 改什么 | 退回哪个子 skill（v1 / v2） |
 |:-------|:----------------|
-| 修辞/措辞 | pop-writer-prose（局部重写） |
-| 人物性格/关系 | pop-writer-character（角色卡） |
-| 剧情走向 | pop-writer-plot（受影响的卷/幕） |
-| 世界观规则 | pop-writer-world（L1+宪法+级联） |
-| 起点/终点状态 | pop-writer-world → plot → chapter → prose（级联） |
+| 修辞/措辞 | pop-writer-prose / pop-writer-v2-prose（局部重写） |
+| 人物性格/关系 | pop-writer-character / pop-writer-v2-character（角色卡） |
+| 剧情走向 | pop-writer-plot / pop-writer-v2-plot（受影响的卷/幕） |
+| 世界观规则 | pop-writer-world / pop-writer-v2-world（L1+宪法+级联） |
+| 起点/终点状态 | pop-writer-world → plot → chapter → prose / pop-writer-v2-world → v2-plot → v2-chapter → v2-prose（级联） |
 
 ---
 

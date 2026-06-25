@@ -1,14 +1,14 @@
 ---
 name: pop-writer-chapter
-description: "章纲设计/导演卡。消费 plot v9.0 的L2单元卡(L2-{编号}.md)+剧情线文档，产出含事件链/情绪弧/爽点机制/章末钩子/契诃夫枪/调味空间的设计包。"
+description: "章纲设计/导演卡。消费 plot 的L2单元卡(L2-{编号}.md)+剧情线文档，产出含场景流/情绪弧/爽点机制/章末钩子的设计包。"
 pipeline:
   upstream: [pop-writer-plot]
   downstream: [pop-writer-prose]
   references: [pop-trope-library]
-version: 2.9.0
+version: 3.0.0
 ---
 
-# pop-writer-chapter · 章节设计包 v2.9.0
+# pop-writer-chapter · 章节设计包 v3.0.0
 
 > **定位：消费 plot 的L2单元卡（含驱动决策列）+ 角色卡的剧情驱动接口，产出决策驱动的事件链设计包。每个事件不仅回答"发生了什么"，更回答"谁的决策导致了这件事"。**
 > **核心约束：不碰文风。不写叙事者声音、不写句子节奏、不写修辞风格。**

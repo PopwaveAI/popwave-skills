@@ -3,7 +3,7 @@ name: pop-writer-plot
 description: 当用户说"剧情架构 / L4全书事件 / 卷纲 / 剧情卡筛选 / 卷级特化 / L3剧情线 / 设定线 / 背景线 / L2剧情单元卡 / Canvas节奏 / 叙事债务 / 契诃夫枪"时启用。产出剧情设计文件，供 chapter 与 prose 消费。
 ---
 
-# pop-writer-plot · 剧情架构设计 v9.1.0
+# pop-writer-plot · 剧情架构设计 v9.2.0
 
 > **定位：从 PRD、世界设定、角色卡、素材储备池和 trope-library，产出 L4 全书事件、卷纲、L3 剧情线、L2 剧情单元卡。**
 

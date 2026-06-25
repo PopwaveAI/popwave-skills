@@ -38,7 +38,7 @@ tags: [deconstruction, worldbuilding, phase3]
 | 5 | 势力格局 | Phase 2 L2单元卡数据 | 势力动机/权力关系 | `L1-05-势力格局.md` | — |
 | 6 | 资源与物品 | Phase 1 设计包 | 物品/资源/货币 | `L1-06-资源与物品.md` | — |
 | 7 | 世界宪法 | L1 六件套 | 叙事规律 | `世界宪法.md` | ≥3 原文证据 |
-| 8 | 数值体系 | 战斗章设计包 | 战力/段位 | `combat_capability.yaml` | — |
+| 8 | 数值体系 | 全量设计包（含战斗/非战斗章节） | 战力/段位/属性轨迹/经济 | `combat_capability.yaml` | — |
 | 9 | 起点/终点快照 | Phase 1 角色状态 | Phase 2 L2/L3边界 | `起点快照.md` | — |
 
 ---

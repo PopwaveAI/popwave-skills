@@ -1,6 +1,6 @@
 {
   "id": "expert-writer",
-  "version": "4.6.0",
+  "version": "6.2.0",
   "displayName": "写作专家",
   "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。",
   "entry": "SKILL.md",

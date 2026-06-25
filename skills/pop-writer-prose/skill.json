@@ -1,7 +1,7 @@
 {
   "id": "pop-writer-prose",
   "name": "pop-writer-prose",
-  "version": "3.8.0",
+  "version": "3.9.0",
   "description": "正文渲染/上色表达。消费 Design 的骨架产物，注入文风DNA和锚定章，渲染可读正文。",
   "author": "江轩",
   "tags": [

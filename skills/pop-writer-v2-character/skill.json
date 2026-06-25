@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v2-character",
+  "displayName": "v2-角色设计",
+  "description": "v2管线角色设计。增加生态位置、生态关系、生态冲突点字段。AB测试用。",
+  "entry": "SKILL.md",
+  "activation": "v2管线·角色设计",
+  "version": "1.0.0"
+}

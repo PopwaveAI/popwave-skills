@@ -26,6 +26,20 @@ creative → world → character → plot → chapter → prose → qa
 | 6 prose | pop-writer-prose | v3.8.0 | `正文/chXXX.md` + state-log追加event（唯一写入者） + 总控更新 | chapter 设计包就绪 + 文风DNA就位 | — | 文风库/{书名}.md |
 | 7 qa | pop-writer-qa | v1.0.1 | （不留盘）L1硬门禁→L2三层介入→L3原文对照 | prose 正文产出 | — | 套路库/{具体套路名}.md 使用红线段 |
 
+### v2 管线（★v6.2.0新增 — AB测试用）
+
+| 阶段 | 调用 skill | 版本 | 核心差异 vs v1 |
+|:-----|:-----------|:-----|:---------------|
+| 1 creative | pop-writer-v2-creative | v1.0.0 | 生态图谱替代域DNA + 文风DNA立项锁定 + 金手指行动引擎 |
+| 2 world | pop-writer-v2-world | v1.0.0 | 金手指数值化以行动引擎为核心 + 社会结构从生态图谱推导 |
+| 3 character | pop-writer-v2-character | v1.0.0 | 增加生态位置/生态关系/生态冲突点字段 |
+| 4 plot | pop-writer-v2-plot | v1.0.0 | 危机交叉设计 + 事件密度基准(≥8/章) + 情绪闭环检查 |
+| 5 chapter | pop-writer-v2-chapter | v1.0.0 | 场景流设计包（导演指令式，≤8K字，非逐事件填表） |
+| 6 prose | pop-writer-v2-prose | v1.0.0 | 文风DNA硬阻塞 + 场景流渲染 + 80%展示20%内省 |
+| 7 qa | pop-writer-v2-qa | v1.0.0 | 密度/多样性/温度量化检查 |
+
+> **模式选择规则**：项目初始化时从项目总控读取「管线模式」字段（v1/v2）。v1→上表，v2→本表。模式一旦确定不可切换。
+
 > library 查询协议详见 `skills/pop-trope-library/references/调用匹配SOP.md`（三维查询：层×赛道×元爽点）。
 
 ## 入口规则

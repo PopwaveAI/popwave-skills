@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v2-qa",
+  "displayName": "v2-质检",
+  "description": "v2管线质检。密度量化、多样性量化、温度量化检查。AB测试用。",
+  "entry": "SKILL.md",
+  "activation": "v2管线·质检",
+  "version": "1.0.0"
+}

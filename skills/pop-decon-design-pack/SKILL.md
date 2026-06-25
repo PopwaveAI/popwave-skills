@@ -1,7 +1,7 @@
 ---
 name: pop-decon-design-pack
 description: "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only."
-version: 4.1.0
+version: 4.2.0
 author: Popwave
 license: MIT
 metadata:
@@ -10,7 +10,7 @@ metadata:
     related_skills: [pop-decon, pop-decon-volume, pop-decon-setting]
 ---
 
-# pop-decon-design-pack · 章节设计包 v4.1.0
+# pop-decon-design-pack · 章节设计包 v4.2.0
 
 > **定位：Phase 1 of deconstruction. 逐章单文件提取，v4 精简模式。**
 > - 每章独立 `chXXX-设计包.md`，3层结构（事件链+爽点+角色）+ 设定/物品提取区
@@ -90,6 +90,19 @@ metadata:
 | 8章/批 | ~160-220K | ❌ 高风险，ch3+ 退化 |
 | 10章/批 | ~200-280K | ❌ 不可接受 |
 | 25章/批 | ~400K+ | ❌ ❌ ❌ 自杀 |
+
+**⚠️ 路径漂移陷阱（NEW — 源自 74章实测复盘）：**
+
+当 orchestrator 在 delegate context 中使用**相对路径**指定产出目录时，子 agent 的 `write_file` 会解析出不同的父目录——尤其是当 orchestrator 在后期批次压缩 context 大小时。典型退化路径：
+
+```
+批次1-6（ch001-054）：context 含绝对路径 → 正确写入「写作资产/设计包v4/」 ✅
+批次7-9（ch055-072）：context 被简化为「设计包v4/」→ 写入平级目录「设计包v4/」❌
+```
+
+**硬性约束：** 每个 delegate_task 的 context 中，产出路径必须使用**绝对路径**。禁止写 `设计包v4/` 或 `写作资产/设计包v4/`。必须写完整的 `D:/workspace/{项目名}/写作资产/设计包v4/`。参见 Step 2 的「产出路径」段。
+
+**验证方式（先于 delegate_task 执行前校验）：** 检查 context 中出现的所有产出目标路径是否以盘符开头。任何以 `写作资产/` 或裸目录名开头的相对路径都是定时炸弹。
 
 **⚠️ 格式规范注入陷阱（严重 — 源自海贼法典32章5种格式的复盘）：**
 
@@ -173,17 +186,24 @@ metadata:
 
 ### Step 3.5: 跨目录路径归并（delegate_task 并行提取后强制）
 
-**执行时机：** 使用 `delegate_task` 并行提取后，且 Step 3 发现文件数 < 章节数时强制执行。
-**为什么需要：** 不同子 agent 可能用不同项目根目录名（如 `让仙门再次伟大` vs `让魔门再次伟大`），导致产出分散。
+**执行时机：**
+- **主要触发：** Step 3 发现文件数 < 章节数时强制执行
+- **💡 预防性执行（推荐）：** 即使 Step 3 覆盖率达 100%，最后一轮 delegate_task 完成后也建议执行一次全项目扫描。路径漂移可能只影响 1/9 批次（如本会话实测：8 批正常，第 9 批写入了平级目录），Step 3 的门禁虽然能通过覆盖率差（65/74=87.8%）捕获，但预防性扫描能在用户看到失败的质检报告前自愈，避免用户等待多一轮。
+
+**为什么需要：** 两种场景导致产出分散：
+1. **跨项目根目录路径不一致** — 不同子 agent 可能用不同项目根目录名（如 `让仙门再次伟大` vs `让魔门再次伟大`），导致产出分散
+2. **相对路径漂移** — context 中使用相对路径（如 `设计包v4/` 而非 `写作资产/设计包v4/`）导致子 agent 写入项目的平级目录而非目标子目录。最隐蔽的变体是：orchestrator 在前 8 批写绝对路径，第 9 批因 context 压缩写成 `设计包v4/` ——这种批次间路径规范退化比跨项目路径漂移更难诊断，因为它只出现在 Context 被压缩的后期批次
 
 **做什么：**
-1. 扫描 `D:/workspace/` 下所有含 `写作资产/设计包v4/` 的目录
-2. 将所有设计包文件 cp（非 mv，保留源备份）到目标项目目录
-3. 重新执行 Step 3 验证
+1. 扫描项目目录下所有含 `设计包v4` 子串的目录（`写作资产/设计包v4/` 和裸 `设计包v4/` 都可能存在）
+2. 使用 `search_files(pattern="*-设计包.md", target="files", path="{项目根}")` 获取所有设计包文件的真实位置
+3. 用 `cp`（非 mv，保留源备份）将非标准路径下的文件复制到 `写作资产/设计包v4/`
+4. 删除已归并的空目录（`设计包v4/` 等）
+5. 重新执行 Step 3 验证
 
 ```bash
-# 归并命令示例
-find "D:/workspace" -path "*/设计包v4/ch*-设计包.md" -exec cp {} "D:/workspace/{目标项目}/写作资产/设计包v4/" \;
+# 归并命令示例：扫描项目内所有非标准路径下的设计包文件并复制到正确位置
+find "D:/workspace/{目标项目}" -path "*/设计包v4/ch*-设计包.md" -not -path "*/写作资产/*" -exec cp {} "D:/workspace/{目标项目}/写作资产/设计包v4/" \;
 ```
 
 **❌ 门禁：** 归并后设计包文件数仍 < 章节文件数 → 退回 Step 2。
@@ -251,12 +271,15 @@ find "D:/workspace" -path "*/设计包v4/ch*-设计包.md" -exec cp {} "D:/works
 | 中文 TXT 硬跑 extract.py | chapter_count=0 仍继续 | 走手动 ETL |
 | 广告混入 | 设计包事件包含「下载APP 查看更多」| LLM 调用时指示去掉非正文内容 |
 | 多章合并到同一文件 | 子 agent 将多章写到1个文件（如 `v4_设计包_ch111-ch115.md`） | 指令中明确「每章独立文件，文件名 chXXX-设计包.md」|
+| **产出路径用相对路径** | context 中写「设计包v4/」→ 子 agent 解析为平级目录「项目根/设计包v4/」而非目标目录「项目根/写作资产/设计包v4/」 | context 中始终用**绝对路径**指定产出目录，如 `D:/workspace/{项目名}/写作资产/设计包v4/`。被 Step 2.5 覆盖率门禁捕获后 cp 归并是备选方案，不应取代事前预防 |
 
 ---
 
 ## 版本
 
-v4.1.0 | 2026-06-24 | **移除套路归档pass和价值点分流pass**：删除 Step 4（套路归档批量pass）和 Step 5（价值点分流批量pass）。删除 `价值点采集-入库分流SOP.md`、`step-4-trope-pass.md`、`step-5-valuepoint-pass.md`。套路库保留但不再有自动化入库 pass。速查表、参考文件表、WRONG 示例同步清理。
+v4.3.0 | 2026-06-25 | **Step 3.5 强化预防性扫描**：新增「预防性执行」时机（不等待 Step 3 失败，最后一轮 delegate_task 后主动扫描）。Step 3.5 做什么步骤第 2 项从 `扫描 D:/workspace/ 下所有含写作资产/设计包v4/ 的目录` 改为 `search_files 扫描全项目`（更准确）。新增批次间路径退化场景描述（orchestrator 前 8 批用绝对路径、第 9 批用相对路径的「规范退化」模式）。源自 74 章实测复盘。
+
+v4.2.0 | 2026-06-25 | **路径漂移陷阱防护**：新增 Step 2「⚠️ 路径漂移陷阱」段（relative-path-in-context → sibling-directory-drift 退化路径 + 硬性约束 + 验证方式）。Step 3.5 扩展两种场景（跨项目路径 + 相对路径漂移）。归并命令增加 `-not -path "*/写作资产/*"` 排除误拷。❌ WRONG 示例表新增「产出路径用相对路径」行。源自 74 章实测（ch064-072 因 context 中写相对路径导致写入平级目录）。
 
 v4.0.0 | 2026-06-23 | **3层+1区架构重构**：4层结构（骨架+爽点+角色+感官）→ 3层（事件链+爽点+角色）+ 设定/物品提取区。事件表8列→7列（删除字数估计）。感官锚点改为每事件下标注（与🔒并列）。套路归档/价值点分流从单章同步 → defer到Step 4/5批量pass。质量红线19条→9条。新增Step 4（套路归档批量pass）和Step 5（价值点分流批量pass）。产出目录设计包v3/→设计包v4/。删除节奏分布图、DNA对接映射表、价值点分流门禁
 

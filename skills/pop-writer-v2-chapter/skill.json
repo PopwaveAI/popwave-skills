@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v2-chapter",
+  "displayName": "v2-章节设计",
+  "description": "v2管线章节设计。场景流设计包，导演指令式，设计包控制在8K字以内。AB测试用。",
+  "entry": "SKILL.md",
+  "activation": "v2管线·场景设计",
+  "version": "1.0.0"
+}

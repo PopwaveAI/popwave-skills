@@ -34,6 +34,7 @@
 - creative/world/plot 阶段启动前，必须先确认公共库路径可用（文件系统存在）
 - 用户私藏参考路径 ≠ 空时，优先消费私藏数据（精度更高）; skill 公共库作为 fallback
 - 路径写入后，Agent 不再询问「library 在哪」——直接读
+- 文风DNA路径自动解析：初始化时扫描 `写作资产/文风库/` 目录，有文件→自动填入路径并标记✅；空目录→硬阻塞，提示用户先完成DNA锁定
 
 ---
 
@@ -59,7 +60,7 @@
 | **正文进度** | ch{起始}-ch{最新}（共 {N} 章 · 约 {N} 字） |
 | **设计包** | ch{起始}-ch{最新}（{N} 个文件） |
 | **素材储备池** | {N} 张（`素材储备池/`） |
-| **文风DNA** | `写作资产/文风库/{书名}.md` |
+| **文风DNA** | `写作资产/文风库/{书名}.md` | 初始化时自动扫描此目录，空=硬阻塞 |
 | **当前幕** | 幕{N}·{名称}（ch{起始}-ch{结束}） |
 | **下一章** | ch{编号} |
 
@@ -192,6 +193,7 @@
 | 属性 | 值 |
 |:-----|:---|
 | **专家类型** | {expert-writer / expert-deconstructor / ...} |
+| **管线模式** | {v1 / v2} — v1=pop-writer-* 系列skill，v2=pop-writer-v2-* 系列skill。一旦确定不可切换 |
 | **管线版本** | v{当前最新版本}（{日期}） |
 | **管线顺序** | creative → world → character → plot → chapter → prose → qa |
 | **本项目启动时版本** | v{启动版本}（{日期}）· {无差异 / ⚠️ 差 {N} 个版本} |
@@ -201,15 +203,15 @@
 > 按管线合同顺序排列。每步标注调用的 skill 与核心产出。
 > 对齐 PRD v5.0：7步管线，不可跳跃。
 
-| # | 阶段 | Skill | 一句话 | 核心产出物 |
-|:-:|:-----|:------|:------|:----------|
-| T1 | creative | pop-writer-creative | 方向碰撞→立项PRD+储备卡 | `全书立项PRD.md` + `素材储备池/{素材}.md` + `研究档案/`（种子展开图+域DNA档案+创意溯源记录+交叉授粉图） |
-| T2 | world | pop-writer-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
-| T3 | character | pop-writer-character | 角色卡设计 | `状态/角色/{主角,配角}-角色卡.md` |
-| T4 | plot | pop-writer-plot | L4全书事件+每卷战略+L3剧情线+L2单元卡 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `卷{N}-卷纲.md`（每卷战略） + `剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） |
-| T5 | chapter | pop-writer-chapter | 章设计包 | `章节设计包/chXXX-设计包.md` |
-| T6 | prose | pop-writer-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
-| T7 | qa | pop-writer-qa | 三层介入质检 | QC 报告（不留盘） |
+| # | 阶段 | Skill（v1模式） | Skill（v2模式） | 一句话 | 核心产出物 |
+|:-:|:-----|:------|:------|:------|:----------|
+| T1 | creative | pop-writer-creative | pop-writer-v2-creative | 方向碰撞→立项PRD+储备卡 | `全书立项PRD.md` + `素材储备池/{素材}.md` + `研究档案/`（种子展开图+域DNA档案+创意溯源记录+交叉授粉图） |
+| T2 | world | pop-writer-world | pop-writer-v2-world | L1设定+数值体系+快照 | `小说世界设定/L1-01~06.md` + `数值体系/*.md` + `起点快照.md` + `终点快照.md` + `动态升级表.md` |
+| T3 | character | pop-writer-character | pop-writer-v2-character | 角色卡设计 | `状态/角色/{主角,配角}-角色卡.md` |
+| T4 | plot | pop-writer-plot | pop-writer-v2-plot | L4全书事件+每卷战略+L3剧情线+L2单元卡 | `剧情设计/卷/L4-{编号}-{事件名}.md`（L4全书事件） + `卷{N}-卷纲.md`（每卷战略） + `剧情线/L3-{编号}-{名称}.md`（L3剧情线） + `幕/vol-XX/L2-{编号}-{单元名}.md`（L2单元卡） |
+| T5 | chapter | pop-writer-chapter | pop-writer-v2-chapter | 章设计包 | `章节设计包/chXXX-设计包.md` |
+| T6 | prose | pop-writer-prose | pop-writer-v2-prose | 正文渲染+状态更新 | `正文/chXXX.md` + `状态/state-log.yaml` |
+| T7 | qa | pop-writer-qa | pop-writer-v2-qa | 三层介入质检 | QC 报告（不留盘） |
 
 ## 理想目录路由
 

@@ -1,14 +1,162 @@
-# combat_capability.yaml — 战力数值模板（{书名}版）
+# combat_capability.yaml — 战力数值模板
 # @source_book: {书名}
 # @对应写作端模板: pop-writer-world/phases/phase-5.pe.md
-# ⚠️ 原文证据规则：段位名/突破条件/弱点必须来自 _temp/world-data.json（class字段）。不得编造境界链。
+# ⚠️ 原文证据规则：段位名/突破条件/弱点必须来自设计包或原文。不得编造境界链。
 # 格式：每项末尾加 # @chXX 标注原文出处
 
-ranks:
-  - name: "{段位名}"  # @chXX
-    min_attack: 0
-    max_attack: 0
-    breakthrough: "{突破条件}"  # @chXX
-    combat_role: "{单挑/群战/辅助}"
-    weakness: "{弱点}"  # @chXX
-    iconic_scene: "{标志性画面锚点}"  # @chXX
+# ===== 一、元数据（必填）=====
+metadata:
+  数据覆盖: "前N章（ch001-chXXX）"
+  警告: "基于设计包数据推断，部分为系统面板直接显示，部分为文本描述推定。"
+
+# ===== 二、主角基础面板（起始/终点）=====
+protagonist_baseline:
+  level:
+    start: "0级（初始）/ 1级（冒险者）"  # @chXX
+    end: "N级（职业名）"  # @chXX
+  attributes:
+    - name: "体力"     # @chXX 说明：力量/耐力/战斗能力（1.0=常人基准）
+      start: "数值/上限"
+      end: "数值/上限"
+    - name: "智力"     # @chXX 说明：知识储备/判断力
+      start: "数值/上限"
+      end: "数值/上限"
+    - name: "精神力"   # @chXX 说明：技能使用次数上限（核心消耗属性）
+      start: "数值/上限"
+      end: "数值/上限"
+    - name: "血量"     # @chXX 说明：生命值，低于5触发斩杀线
+      start: "数值/上限"
+      end: "数值/上限"
+    - name: "经验值"   # @chXX 说明：满100升级
+      start: "0/100"
+      end: "数值/100"
+  free_attribute_points: "N（已用/N剩余）"  # @chXX
+  state: "初始状态 → 终点状态（如：大病虚弱→正常）"  # @chXX
+
+# ===== 三、属性变化轨迹（时间线）=====
+attribute_timeline:
+  - milestone: "里程碑名（chXX-chXX）"
+    description: "简要描述"
+    体力: "数值/上限"
+    智力: "数值/上限"
+    精神力: "数值/上限"
+    血量: "数值/上限"
+    经验值: "数值/100"
+    自由属性点: N
+    state: "状态"
+  # ...每个里程碑一个条目
+
+# ===== 四、战斗/遭遇统计（前N章）=====
+combat_summary:
+  total_combats: N
+  total_kills_by_self: N  # 亲手击杀数
+  total_kills_by_order: N # 命令击杀数
+  total_assassination_attempts: N # 刺杀次数
+  combat_type_ratio:
+    direct_combat: "N%"
+    performance_combat: "N%"
+    social_combat: "N%"
+  typical_mode: "主角的典型战斗/避战模式"
+  # 注意：标注哪些数据不足
+
+combat_records:
+  - encounter: "事件名"
+    chapter: "chXX"
+    enemy: "敌人描述"  # @chXX 系统种族/现实身份
+    enemy_count: N
+    enemy_force: "敌人战力描述"
+    wayne_state: "韦恩当时状态/面板"
+    resolution: "化解方式（击杀/智斗/第三方介入等）"
+    loot: "战利品"  # 经验/技能/物品/称号
+    type: "战斗类型（直接/表演/社交/刺杀）"
+    note: "备注"
+
+# ===== 五、力量升级路径=====
+power_upgrade_path:
+  level:
+    - tier: "N级（职业名）"
+      chapter_reached: "chXX"  # @chXX
+      requirement: "突破条件"
+      unlocked: "解锁内容"
+      note: "前N章仅出现N级，更高等级未见"
+
+  skills:
+    skill_gain_methods:
+      - method: "获取方式1（如：初始自带）"
+        examples: ["技能名（等级%）@chXX", "技能名（等级%）@chXX"]
+      - method: "获取方式2（如：搜刮尸体）"
+        examples: [...]
+
+    skill_fusion:
+      - target: "目标技能"  # @chXX
+        materials: ["消耗技能1", "消耗技能2"]
+        result: "融合后等级"
+        chapter: "chXX"
+        note: "技能融合系统解锁条件及限制"
+
+  weapons_equipment:
+    - name: "装备名"
+      type: "武器/防具/道具"
+      acquired: "chXX"
+      stats: "战斗效果描述"
+      source: "获取方式（炼制/拾取/购买等）"
+
+  shelter:
+    - name: "庇护所名"
+      level: "青铜/白银/黄金等"
+      activated: "chXX"  # @chXX
+      abilities: ["能力1", "能力2"]
+      core_artifact: "圣遗物名"
+
+  items:
+    - name: "物品/材料"
+      type: "黑暗法器/药品/材料等"
+      acquired: "chXX"
+      current_use: "当前用途"
+
+  titles:
+    - name: "称号名"
+      quality: "普通/金色"
+      progress: "N%"
+      effect: "称号效果"
+      acquired: "chXX"  # @chXX
+
+# ===== 六、关键战力对比（前N章）=====
+power_comparison:
+  - opponent: "对手/势力名"
+    chapter: "chXX"
+    wayne_win_rate: "胜率评估"
+    wayne_edge: "韦恩优势项"
+    wayne_disadvantage: "韦恩劣势项"
+    key_factors: "决定性因素"
+
+# ===== 七、经济体系（前N章）=====
+economic_system:
+  currency:
+    system_gold: "1金币 = 100g金 ≈ 1万多美刀"  # @chXX
+    preferred_choice: "真实美刀"  # 主角偏好
+
+  store:  # @chXX
+    - item: "商品名"
+      price: "N金币（≈N万美刀）"
+      effect: "效果描述"
+
+  income_milestones:
+    - milestone: "里程碑名"
+      chapter: "chXX"
+      amount: "收入金额"
+      method: "收入方式"
+
+  debt:
+    - source: "债务来源"
+      amount: "债务金额"
+      interest: "利率/翻倍周期"
+      deadline: "还款期限"
+      status: "当前状态"
+
+# ===== 八、数据不足标注（必须）=====
+data_insufficient:
+  - item: "未出现的概念或体系"
+    reason: "为什么数据不足"
+    chapter_range: "前N章未出现"
+    expected: "推测根据（如有）"

@@ -1,5 +1,19 @@
 # CHANGELOG — expert-writer
 
+## v6.2.0 | 2026-06-25
+- 新增v1/v2管线模式切换（AB测试支持）
+- SKILL.md：新增管线模式声明+红线❌5（模式未确定不可路由）
+- step-0-init：新增步骤1a询问用户选择v1/v2模式
+- step-1-think：管线模式感知，按模式选择对应skill前缀
+- step-2-execute：按模式加载对应skill目录+修改路由表双列
+- manifest.md：新增v2管线skill映射表（7个v2 skill）
+- master-control.tpl.md：新增管线模式字段+理想全流程双列（v1/v2）
+
+## v6.1.0 | 2026-06-25
+- step-0-init 新增步骤3b：文风DNA路径强制解析（扫描写作资产/文风库/，空=硬阻塞）
+- master-control.tpl.md 新增文风DNA自动解析规则
+- 文风DNA路径未解析 = creative 阶段不可启动
+
 ## v6.0.0 | 2026-06-24
 - creative 合并 reservoir：8阶段管线→7阶段管线
 - creative v4.4.0→v6.0.0：种子展开法替代域研究SOP，新增Phase 3储备卡产出

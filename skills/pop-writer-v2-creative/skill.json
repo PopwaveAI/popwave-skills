@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v2-creative",
+  "displayName": "v2-创意研究",
+  "description": "v2管线创意研究。生态图谱替代域DNA，文风DNA立项锁定，金手指行动引擎检查。AB测试用。",
+  "entry": "SKILL.md",
+  "activation": "v2管线·立项+生态调研",
+  "version": "1.0.0"
+}
