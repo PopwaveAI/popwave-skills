@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-v2-prose",
-  "displayName": "v2-正文渲染",
-  "description": "v2管线正文渲染。文风DNA硬阻塞，场景流渲染，允许情感内省。AB测试用。",
-  "entry": "SKILL.md",
-  "activation": "v2管线·正文渲染",
-  "version": "1.0.0"
-}

@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-v2-plot",
-  "displayName": "v2-剧情架构",
-  "description": "v2管线剧情架构。危机交叉设计，事件密度基准，情绪闭环检查。AB测试用。",
-  "entry": "SKILL.md",
-  "activation": "v2管线·剧情架构",
-  "version": "1.0.0"
-}

@@ -1,0 +1,53 @@
+{
+  "id": "pop-writer-plot",
+  "version": "9.2.0",
+  "displayName": "剧情架构设计",
+  "description": "当用户说'剧情架构/卷纲/剧情卡筛选/卷级特化/剧情线/设定线/背景线/L2单元卡/剧情单元卡/幕纲/章锚点/叙事债务/契诃夫枪/Canvas节奏'时启用。产出L4全书事件、卷纲、L3剧情线文档、L2剧情单元卡（结构分析+分幕+章锚点+Canvas+叙事债务追踪），供 chapter 与 prose 消费。",
+  "entry": "SKILL.md",
+  "pipeline": {
+    "upstream": [
+      "pop-writer-creative",
+      "pop-writer-world",
+      "pop-writer-character",
+      "pop-trope-library"
+    ],
+    "downstream": [
+      "pop-writer-chapter",
+      "pop-writer-prose"
+    ],
+    "produces": [
+      "剧情设计/卷/L4-{编号}-{事件名}.md",
+      "剧情设计/卷/卷{N}-卷纲.md",
+      "剧情设计/剧情线/L3-{编号}-{名称}.md",
+      "剧情设计/幕/vol-XX/L2-{编号}-{单元名}.md"
+    ]
+  },
+  "activation": {
+    "slashCommands": [
+      "剧情架构",
+      "剧情",
+      "卷纲",
+      "卷战略",
+      "剧情卡筛选",
+      "卷级特化",
+      "剧情线",
+      "设定线",
+      "背景线",
+      "幕纲",
+      "L2单元卡",
+      "剧情单元卡",
+      "分幕",
+      "章锚点",
+      "Canvas",
+      "叙事债务",
+      "契诃夫枪",
+      "plot"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false
+  }
+}

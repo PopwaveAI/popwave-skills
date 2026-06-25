@@ -1,5 +1,17 @@
 # CHANGELOG — expert-writer
 
+## v7.0.0 | 2026-06-25
+- v2管线转正为默认模式，移除v1/v2双轨切换机制
+- SKILL.md：管线模式段替换为单管线声明，删除红线❌5，version→7.0.0
+- step-0-init：删除步骤1a模式询问，路由简化为单一pop-writer-creative
+- step-1-think：删除管线模式感知，路由简化为pop-writer-{阶段}
+- step-2-execute：删除管线模式感知，修改路由表从双列改为单列
+- manifest.md：主管线表更新为v2.0.0版本，删除v2独立管线表和模式选择规则
+- master-control.tpl.md：删除管线模式字段，理想全流程表从双列(v1/v2)改为单列
+- registry.json：删除7个v1写作skill条目，7个v2条目去-v2前缀并更新为v2.0.0
+- v1写作skill封存至skills/_deprecated/（7个目录+README.md）
+- 新增PRD：prd/01-管线架构/09-涌现反馈环写作管线-PRD.md（未来架构愿景）
+
 ## v6.2.0 | 2026-06-25
 - 新增v1/v2管线模式切换（AB测试支持）
 - SKILL.md：新增管线模式声明+红线❌5（模式未确定不可路由）

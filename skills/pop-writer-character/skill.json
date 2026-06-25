@@ -1,33 +1,8 @@
 {
   "id": "pop-writer-character",
-  "version": "3.2.0",
-  "displayName": "角色分级模板",
-  "description": "当用户说'设计角色/创建角色卡/写人设/设计配角/角色分级/角色模板/角色储备'时启用。从 PRD、世界设定、研究档案和 trope-library，产出带'剧情驱动接口'的分级角色卡（Lv1~Lv4），供 pop-writer-creative、pop-writer-plot、pop-writer-chapter 及独立角色储备设计消费。",
+  "displayName": "角色设计",
+  "description": "角色设计。增加生态位置、生态关系、生态冲突点字段。",
   "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": [
-      "角色分级模板",
-      "角色模板",
-      "character-schema",
-      "角色设计"
-    ],
-    "default": false
-  },
-  "pipeline": {
-    "upstream": [
-      "pop-writer-creative"
-    ],
-    "downstream": [
-      "pop-writer-plot",
-      "pop-writer-chapter"
-    ],
-    "produces": [
-      "设计/角色层/{角色名}-{定位}.md"
-    ]
-  },
-  "permissions": {
-    "readProjectFiles": true,
-    "writeProjectFiles": true,
-    "network": false
-  }
+  "activation": "角色设计",
+  "version": "2.0.0"
 }

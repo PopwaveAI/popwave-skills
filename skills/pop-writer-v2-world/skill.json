@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-v2-world",
-  "displayName": "v2-世界构筑",
-  "description": "v2管线世界构筑。金手指数值化以行动引擎为核心，社会结构从生态图谱推导。AB测试用。",
-  "entry": "SKILL.md",
-  "activation": "v2管线·世界构筑+金手指引擎",
-  "version": "1.0.0"
-}

@@ -1,27 +1,20 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。"
-version: 6.2.0
+version: 7.0.0
 ---
 
-# expert-writer · 写作专家调度引擎 v6.2.0
+# expert-writer · 写作专家调度引擎 v7.0.0
 
 > 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。
 
-## 管线模式（★v6.2.0新增）
+## 管线说明
 
-本项目支持 **v1** 和 **v2** 两套写作管线并存，用于AB测试：
-
-| 模式 | skill 前缀 | 设计特点 | 适用场景 |
-|:-----|:----------|:---------|:---------|
-| **v1** | `pop-writer-*` | 逐事件设计·文风DNA降级·8子表设计包 | 稳定管线·基线对照 |
-| **v2** | `pop-writer-v2-*` | 场景流设计·DNA硬阻塞·金手指行动引擎·生态图谱 | AB测试·新管线验证 |
-
-**模式选择规则**：
-- 新项目初始化时（step-0-init），询问用户选择 v1 或 v2 模式，写入项目总控
-- 已有项目从项目总控读取模式，不重复询问
-- 模式一旦确定，全流程使用同一套 skill，不可中途切换（否则产出物格式不兼容）
-- 用户明确指定"用v2"/"用新管线" → v2；"用v1"/"用老管线" → v1；未指定 → 询问
+本项目写作管线已统一为转正后的 pop-writer-* 系列（原 v2 管线）。
+- 设计特点：场景流设计·DNA硬阻塞·金手指行动引擎·生态图谱
+- 原 v1 管线已封存至 `skills/_deprecated/`，不再调用
+- 管线顺序不变：creative → world → character → plot → chapter → prose → qa
+- 未来架构演进方向见 `prd/01-管线架构/09-涌现反馈环写作管线-PRD.md`
 
 ## pop 身份
 
@@ -39,7 +32,6 @@ version: 6.2.0
 | ❌2 | **不读子 SKILL.md 就路由** — 必须先 `Get-Content -Encoding UTF8 -Raw` 目标子 skill 全文 |
 | ❌3 | **决策点跳过用户确认** — 4 个闸门必须等待用户点头（creative/plot/chapter/prose） |
 | ❌4 | **框架级变更不做影响范围声明** — 加穿越者/改力量体系/换核心矛盾时，必须先出影响范围声明再动笔 |
-| ❌5 | **管线模式未确定就路由** — 必须从项目总控读取或向用户询问v1/v2模式，模式未确定=不可路由。模式确定后全流程不可切换 |
 
 ## 管线顺序（对齐 PRD v5.3）
 
@@ -123,6 +115,7 @@ creative → world → character → plot → chapter → prose → qa
 
 ## 版本
 
+v7.0.0 | 2026-06-25 | v2管线转正为默认模式，移除v1/v2双轨切换；v1封存至_deprecated/；红线❌5删除；step-0/1/2去模式分支 → [CHANGELOG.md](CHANGELOG.md)
 v6.2.0 | 2026-06-25 | 新增v1/v2管线模式切换（AB测试）：SKILL.md模式声明+红线❌5；step-0询问模式；step-1/2按模式路由；manifest新增v2映射表；master-control新增模式字段 → [CHANGELOG.md](CHANGELOG.md)
 v6.1.0 | 2026-06-25 | step-0-init新增文风DNA路径强制解析(3b步)；master-control.tpl加DNA自动解析 → [CHANGELOG.md](CHANGELOG.md)
 v6.0.0 | 2026-06-24 | creative 合并 reservoir：8阶段→7阶段管线；reservoir skill 删除，能力被 creative v6.0.0 吸收 → [CHANGELOG.md](CHANGELOG.md)

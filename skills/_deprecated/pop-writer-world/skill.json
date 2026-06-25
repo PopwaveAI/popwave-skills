@@ -1,0 +1,29 @@
+{
+  "id": "pop-writer-world",
+  "version": "2.0.2",
+  "displayName": "小说世界构筑",
+  "description": "小说世界构筑 v2.0.2。消费 creative 产出 → Phase 1 L1设定 → 2稳定性 → 3角色 → 4数值 → 5起点 → 6宪法。上游消费 creative 的故事引擎.md + 跨域素材 + 拆书融合摘要，下游供给 plot Step 0 审计。",
+  "pipeline": {
+    "upstream": [
+      "pop-writer-creative",
+      "pop-writer-character"
+    ],
+    "downstream": [
+      "pop-writer-plot"
+    ]
+  },
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "世界构筑",
+      "world",
+      "设定"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true
+  }
+}

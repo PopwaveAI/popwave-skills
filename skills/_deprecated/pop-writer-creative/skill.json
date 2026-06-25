@@ -1,0 +1,21 @@
+{
+  "id": "pop-writer-creative",
+  "version": "6.2.0",
+  "displayName": "创意研究+碰撞引擎",
+  "description": "创意研究+碰撞引擎 v6.2.0。种子展开法深度调研（5阶段：种子识别→直接研究→切向扩展→深度域研究→交叉授粉）→ 碰撞引擎生成2-3个故事概念选项 → 用户选择 → 产出全书立项PRD.md + 素材储备池/。海明威冰山原则：调研是水下八分之七。三模式：新书/素材注入/主动丰富。",
+  "pipeline": {
+    "upstream": ["pop-decon"],
+    "downstream": ["pop-writer-world", "pop-writer-character", "pop-writer-plot"],
+    "references": ["pop-trope-library"]
+  },
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["开书", "创意", "creative", "新书", "注入素材", "素材储备", "储备池", "升级池子", "内化", "pool"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true
+  }
+}

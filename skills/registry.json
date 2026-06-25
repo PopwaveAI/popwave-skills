@@ -5,7 +5,7 @@
     {
       "id": "expert-writer",
       "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由和完成后引导。",
-      "latest": "6.2.0",
+      "latest": "7.0.0",
       "path": "skills/expert-writer"
     },
     {
@@ -63,28 +63,10 @@
       "path": "skills/pop-shared-skill-create"
     },
     {
-      "id": "pop-writer-chapter",
-      "description": "章纲设计/导演卡。消费 plot 的 Canvas 矩阵，产出场景流设计包。",
-      "latest": "3.0.0",
-      "path": "skills/pop-writer-chapter"
-    },
-    {
-      "id": "pop-writer-character",
-      "description": "角色系统设计。按 Lv1-Lv4 分级定义角色模板，提供维度递增体系和角色弧线设计方法论。",
-      "latest": "2.0.1",
-      "path": "skills/pop-writer-character"
-    },
-    {
       "id": "pop-writer-continue",
       "description": "续写（逆过程）。从已有正文反向推导出当前设计状态 → 修改需求 → 重新生成正文。",
       "latest": "1.0.1",
       "path": "skills/pop-writer-continue"
-    },
-    {
-      "id": "pop-writer-creative",
-      "description": "创意研究+碰撞引擎 v6.2.0。种子展开法深度调研→碰撞引擎生成2-3个故事概念选项→用户选择→产出全书立项PRD.md + 素材储备池/。海明威冰山原则：调研是水下八分之七。三模式：新书/素材注入/主动丰富。",
-      "latest": "6.2.0",
-      "path": "skills/pop-writer-creative"
     },
     {
       "id": "pop-writer-game",
@@ -99,28 +81,46 @@
       "path": "skills/pop-writer-html"
     },
     {
+      "id": "pop-writer-creative",
+      "description": "创意研究。生态图谱替代域DNA，文风DNA立项锁定，金手指行动引擎检查。",
+      "latest": "2.0.0",
+      "path": "skills/pop-writer-creative"
+    },
+    {
+      "id": "pop-writer-world",
+      "description": "世界构筑。金手指数值化以行动引擎为核心，社会结构从生态图谱推导。",
+      "latest": "2.0.0",
+      "path": "skills/pop-writer-world"
+    },
+    {
+      "id": "pop-writer-character",
+      "description": "角色设计。增加生态位置、生态关系、生态冲突点字段。",
+      "latest": "2.0.0",
+      "path": "skills/pop-writer-character"
+    },
+    {
       "id": "pop-writer-plot",
-      "description": "剧情架构设计，以情绪驱动设计幕级爽点分布、情绪弧线和情节线规划。用户说【设计剧情/画L2单元卡/做大纲/剧情架构/爽点分布/L2单元卡/剧情单元卡/情节线/支线】时启用。",
-      "latest": "9.2.0",
+      "description": "剧情架构。危机交叉设计，事件密度基准，情绪闭环检查。",
+      "latest": "2.0.0",
       "path": "skills/pop-writer-plot"
     },
     {
+      "id": "pop-writer-chapter",
+      "description": "章节设计。场景流设计包，导演指令式，设计包控制在8K字以内。",
+      "latest": "2.0.0",
+      "path": "skills/pop-writer-chapter"
+    },
+    {
       "id": "pop-writer-prose",
-      "description": "正文渲染引擎。消费 chapter-design 的设计包 + pop-shared-dna 的文风文件，产出 chXXX-正文.md。",
-      "latest": "3.9.0",
+      "description": "正文渲染。文风DNA硬阻塞，场景流渲染，允许情感内省。",
+      "latest": "2.0.0",
       "path": "skills/pop-writer-prose"
     },
     {
       "id": "pop-writer-qa",
-      "description": "审稿/质检/QA。纯感受型三层介入 QC。不评分、不给建议——只回答'我读的时候怎么了'。",
-      "latest": "1.0.1",
+      "description": "质检。密度量化、多样性量化、温度量化检查。",
+      "latest": "2.0.0",
       "path": "skills/pop-writer-qa"
-    },
-    {
-      "id": "pop-writer-world",
-      "description": "世界观生成。从故事引擎出发，产出 L1 六件套（世界蓝图→力量体系→历史驱动力→物种天赋→势力格局→资源物品）+ 世界宪法 + 战力数值。",
-      "latest": "1.2.1",
-      "path": "skills/pop-writer-world"
     },
     {
       "id": "tool-book-to-skill",
@@ -187,48 +187,6 @@
       "description": "Build a personal website based on YouTube content with customizable layout, design, and features.",
       "latest": "4.2.0",
       "path": "skills/tool-youtube-webbuilder"
-    },
-    {
-      "id": "pop-writer-v2-creative",
-      "description": "v2管线·创意研究。生态图谱替代域DNA+文风DNA立项锁定+金手指行动引擎。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-creative"
-    },
-    {
-      "id": "pop-writer-v2-world",
-      "description": "v2管线·世界构筑。金手指数值化以行动引擎为核心+社会结构从生态图谱推导。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-world"
-    },
-    {
-      "id": "pop-writer-v2-character",
-      "description": "v2管线·角色设计。增加生态位置/生态关系/生态冲突点字段。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-character"
-    },
-    {
-      "id": "pop-writer-v2-plot",
-      "description": "v2管线·剧情架构。危机交叉设计+事件密度基准+情绪闭环检查。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-plot"
-    },
-    {
-      "id": "pop-writer-v2-chapter",
-      "description": "v2管线·章节设计。场景流设计包（导演指令式，≤8K字）。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-chapter"
-    },
-    {
-      "id": "pop-writer-v2-prose",
-      "description": "v2管线·正文渲染。文风DNA硬阻塞+场景流渲染+情感内省允许。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-prose"
-    },
-    {
-      "id": "pop-writer-v2-qa",
-      "description": "v2管线·质检。密度/多样性/温度量化检查。AB测试用。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v2-qa"
     }
   ]
 }
