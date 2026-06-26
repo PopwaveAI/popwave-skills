@@ -1,16 +1,16 @@
 ---
 name: expert-writer
-description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。v3.2涌现式写作管线调度引擎。"
-version: 9.1.0
+description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。v3.3涌现式写作管线唯一调度引擎。"
+version: 9.2.0
 ---
 
-# expert-writer · 写作专家调度引擎 v9.1.0
+# expert-writer · 写作专家调度引擎 v9.2.0
 
-> 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。v3.2涌现式写作管线专用。
+> 网文创作元 Skill（唯一调度器）。Think → Execute → Reflect 三层工作流。v3.3涌现式写作管线专用。涌现写作环由expert-writer主会话直接执行7步循环，不再路由到emerge。
 
 ## 管线模式声明
 
-本项目使用 v3.2 涌现式写作管线：
+本项目使用 v3.3 涌现式写作管线：
 
 | 模式 | 管线结构 | 适用场景 | skill 集 |
 |:-----|:---------|:---------|:---------|
@@ -36,7 +36,7 @@ version: 9.1.0
 
 ## 管线顺序
 
-**种子设计**(pop-writer-v3-seed) → **涌现写作环**(pop-writer-v3-emerge) ↔ **弧线校准**(pop-writer-v3-arc)
+**种子设计**(pop-writer-v3-seed) → **涌现写作环**(expert-writer主会话7步循环，调度create/revise/qa) ↔ **弧线校准**(pop-writer-v3-arc)
 
 > 管线合同详见 `references/pipeline/manifest.md`。
 
@@ -71,6 +71,10 @@ version: 9.1.0
 | Think 路径 | `references/think/typical-paths.md` | 路径速查 |
 | 执行防错 | `references/think/typical-errors.md` | 典型错误 |
 | 设计决策 | `references/think/core-principles.md` | 核心原则 |
+| **涌现写作环执行** | `references/emerge-loop/step-0~6` | **7步循环参考文档**（本章规划/信息获取/调度create/调度revise/调度qa/记忆更新/落盘） |
+| 涌现写作环法则 | `references/emerge-loop/网文爽感机制.md` | 10条法则（本章规划对照） |
+| 涌现写作环SOP | `references/emerge-loop/信息获取强制化SOP.md` | 信息获取强制化流程 |
+| 涌现写作环生长 | `references/emerge-loop/活种子生长触发规则.md` | 种子生长触发规则 |
 
 ## 路由表
 
@@ -79,7 +83,7 @@ version: 9.1.0
 | 用户说 | 路由到 | 前置条件 |
 |:-------|:-------|:---------|
 | "开新书/启动项目" | pop-writer-v3-seed | 无 |
-| "继续/下一步/写第X章" | pop-writer-v3-emerge(调度器)→3子skill | 种子文档已产出 |
+| "继续/下一步/写第X章" | expert-writer(7步循环)→调度create/revise/qa子skill | 种子文件夹已产出 |
 | "检查/审稿/弧线校准" | pop-writer-v3-arc | 已有≥10章正文 |
 | "回滚到第N章" | pop-writer-v3-arc(回退) | 项目存在 |
 
@@ -95,11 +99,12 @@ version: 9.1.0
 ## 核心流程
 
 1. **Think** — 状态感知+意图识别+前置校验+智能调度 → `steps/step-1-think.md`
-2. **Execute** — 加载子skill+闸门+emerge调度器→3子skill调度+信息获取+记忆更新+落盘 → `steps/step-2-execute.md`
+2. **Execute** — 加载子skill+闸门+7步循环(主会话执行Step0/1/5/6+调度create/revise/qa子skill) → `steps/step-2-execute.md`
 3. **Reflect** — 通用审视+项目总控回写+引导+方向提示+弧线校准检查 → `steps/step-3-reflect.md`
 
 ## 版本
 
+v9.2.0 | 2026-06-26 | expert-writer吸收emerge调度职能，消除两层调度器冗余；7步循环由主会话直接执行；emerge降为废弃（step文件迁移至references/emerge-loop/）；v3.3管线 → [CHANGELOG.md](CHANGELOG.md)
 v9.1.0 | 2026-06-26 | 管线升级v3.2：emerge拆分为3独立子skill(create/revise/qa)，emerge降为调度器；红线❌5改为子skill调度context隔离；路由表更新 → [CHANGELOG.md](CHANGELOG.md)
 v9.0.0 | 2026-06-26 | 去掉v2双轨，全方面服务于v3.1；3子agent调度+context隔离；种子六要素 → [CHANGELOG.md](CHANGELOG.md)
 v8.0.0 | 2026-06-26 | 重新引入双轨（v2/v3）；v3涌现式管线独立新建 → [CHANGELOG.md](CHANGELOG.md)

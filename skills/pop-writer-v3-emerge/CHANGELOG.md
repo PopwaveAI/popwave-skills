@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.1.0 — 2026-06-26
+
+### 设定库按需读取 + 路径修正
+
+- **step-1 新增设定库读取**：信息获取步骤新增"1.5 读设定库索引"——检查 `写作资产/设定库/_index.yaml` 是否存在，存在则按 chapter_plan 判断是否需要读力量体系/社会结构/世界宪法/角色档案/卷纲路标
+- **step-1 读什么表格更新**：第3项 `种子文档.md` → `种子/`文件夹；第6项 creative `生态调研SOP.md` → v3-seed `种子搜索法SOP.md`（creative已废弃）；新增第7项 设定库索引
+- **step-1 info_acquired 新增字段**：setting_lib_read + setting_files_read
+- **step-1 产出自检新增**：设定库索引已检查
+- **消费方更新**：header 消费项新增 `写作资产/设定库（如有）`
+
 ## v2.0.0 — 2026-06-26
 
 ### 架构变更：3子agent拆为3独立skill，emerge降为纯调度器

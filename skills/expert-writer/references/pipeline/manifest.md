@@ -1,23 +1,23 @@
-# 写作专家全链路合同（pipeline-manifest）
+﻿# 写作专家全链路合同（pipeline-manifest）
 
-> v3.2涌现式写作管线合同。emerge调度器→3子skill独立调度架构，context隔离。
+> v3.3涌现式写作管线合同。expert-writer唯一调度器→7步循环+3子skill调度，context隔离。
 > 对齐 PRD v3.0：`prd/01-管线架构/10-涌现式写作专家全链路-PRD.md`
 
 ## 管线顺序
 
 ```
-种子设计(pop-writer-v3-seed) → 涌现写作环(pop-writer-v3-emerge) ↔ 弧线校准(pop-writer-v3-arc)
+种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 7步循环) ↔ 弧线校准(pop-writer-v3-arc)
 ```
 
-- 种子设计是一次性起点阶段（产出种子文档后进入循环）
-- 涌现写作环与弧线校准构成循环：emerge 写若干章 → arc 校准 → emerge 继续 → arc 校准 → ...
+- 种子设计是一次性起点阶段（产出种子文件夹后进入循环）
+- 涌现写作环与弧线校准构成循环：expert-writer 写若干章 → arc 校准 → expert-writer 继续 → arc 校准 → ...
 - 弧线校准触发条件：每 10-20 章 / 重大剧情转折 / 用户触发
 
 | 阶段 | 调用 skill | 核心产出 | 前置条件 | 闸门 |
 |:-----|:-----------|:---------|:---------|:-----|
-| 1 种子设计 | pop-writer-v3-seed | `种子文档.md`（六要素+版本元数据+变更日志+已关闭区）+ `写作资产/文风库/{书名}.md` + `素材库/研究档案/种子展开图-{书名}.md` + `素材库/研究档案/交叉困境分析-{书名}.md` | 无（开书入口） | 种子确认 |
-| 2 涌现写作环 | pop-writer-v3-emerge | `正文/chXXX.md` + 活记忆追加 event + 方向提示 + `素材库/知识沉淀/` | 种子文档已产出 | 质检子skill通过 |
-| 3 弧线校准 | pop-writer-v3-arc | `弧线校准报告/arc-XX.md` + 种子修剪 + 活记忆压缩 | 已有 ≥10 章正文 | 校准确认 |
+| 1 种子设计 | pop-writer-v3-seed | `种子/`文件夹（_index.yaml+_log.md+核心卖点+六要素+行为准则）+ `写作资产/文风库/{书名}.md` + `写作资产/设定库/`（可选） + `素材库/研究档案/种子展开图-{书名}.md` + `素材库/研究档案/交叉困境分析-{书名}.md` | 无（开书入口） | 种子确认 |
+| 2 涌现写作环 | expert-writer（7步循环主会话+调度3子skill） | `正文/chXXX.md` + 活记忆追加 event + 方向提示 + `素材库/知识沉淀/` | 种子文件夹已产出 | 质检子skill通过 |
+| 3 弧线校准 | pop-writer-v3-arc | `弧线校准报告/arc-XX.md` + 种子修剪（更新要素文件+_log.md）+ 设定库补充（如有） + 活记忆压缩 | 已有 ≥10 章正文 | 校准确认 |
 
 ## 入口规则
 
@@ -27,12 +27,12 @@
 | "继续/下一步" | → 查 `项目总控.md` 的 current_stage | 不改变进度，按 current 路由 |
 | "拆解这本书" | → pop-decon（拆书专家） | 不改变写作管线进度。独立运行 |
 
-## 涌现写作环内部架构（emerge调度器→3子skill）
+## 涌现写作环内部架构（expert-writer主会话7步循环→3子skill）
 
-> v3.2 核心架构：emerge 调度器调度 3 个独立子skill（create/revise/qa），context隔离。
+> v3.2 核心架构：expert-writer 主会话执行7步循环，调度3个独立子skill（create/revise/qa），context隔离。
 
 ```
-emerge（调度器）
+expert-writer（主会话7步循环）
 ├─ Step 0：本章规划
 │   读种子六要素+活记忆+上章末尾+方向提示+网文法则
 │   → 5决策点（场景/线索/爽点/危机/钩子）+ 10法则对照
@@ -40,6 +40,7 @@ emerge（调度器）
 │
 ├─ Step 1：信息获取（强制化）
 │   读 素材库/索引.md（强制）
+│   读 写作资产/设定库/_index.yaml（如有，按需读取设定库文件）
 │   → 有匹配 → 读素材库文件
 │   → 无匹配 → WebSearch → 写入素材库 → 更新索引
 │   → 产出info_acquired
@@ -77,36 +78,37 @@ emerge（调度器）
 
 | 文件 | 产出者 | 消费者 | S/D |
 |:-----|:-------|:-------|:---:|
-| `项目总控.md` | v3-emerge（每章更新） | expert-writer | D |
+| `项目总控.md` | expert-writer（每章更新） | expert-writer | D |
 
 ### 种子设计产出
 
 | 文件 | 产出者 | 消费者 | S/D |
 |:-----|:-------|:-------|:---:|
-| `种子文档.md` | v3-seed | v3-emerge, v3-arc | D（活种子，可生长/修剪） |
-| `写作资产/文风库/{书名}.md` | v3-seed（从 library 获取+蒸馏） | v3-emerge（修订层消费） | S |
-| `素材库/研究档案/种子展开图-{书名}.md` | v3-seed | v3-emerge, v3-arc | S |
-| `素材库/研究档案/交叉困境分析-{书名}.md` | v3-seed | v3-emerge, v3-arc | S |
-| `素材库/索引.md` | v3-seed（初始化） | v3-emerge（追加） | D |
+| `种子/`文件夹 | v3-seed | expert-writer, v3-arc | D（活种子，可生长/修剪） |
+| `写作资产/文风库/{书名}.md` | v3-seed（从 library 获取+蒸馏） | expert-writer（修订层消费） | S |
+| `写作资产/设定库/`（可选） | v3-seed（可选产出）/ expert-writer（生长）/ v3-arc（补充） | expert-writer（按需读取）, v3-arc | D |
+| `素材库/研究档案/种子展开图-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
+| `素材库/研究档案/交叉困境分析-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
+| `素材库/索引.md` | v3-seed（初始化） | expert-writer（追加） | D |
 
 ### 涌现写作环产出
 
 | 文件 | 产出者 | 消费者 | S/D |
 |:-----|:-------|:-------|:---:|
-| `活记忆/活记忆.yaml` | v3-seed（初始化）/ v3-emerge（追加）/ v3-arc（压缩） | v3-emerge, v3-arc | D |
-| `正文/chXXX.md` | v3-emerge | v3-arc | D |
-| `素材库/索引.md` | v3-emerge（信息获取追加） | v3-emerge | D |
-| `素材库/知识沉淀/{主题}.md` | v3-emerge（信息获取） | v3-emerge | D |
+| `活记忆/活记忆.yaml` | v3-seed（初始化）/ expert-writer（追加）/ v3-arc（压缩） | expert-writer, v3-arc | D |
+| `正文/chXXX.md` | expert-writer | v3-arc | D |
+| `素材库/索引.md` | expert-writer（信息获取追加） | expert-writer | D |
+| `素材库/知识沉淀/{主题}.md` | expert-writer（信息获取） | expert-writer | D |
 
 ### 弧线校准产出
 
 | 文件 | 产出者 | 消费者 | S/D |
 |:-----|:-------|:-------|:---:|
-| `弧线校准报告/arc-XX.md` | v3-arc | v3-emerge（参考） | S |
+| `弧线校准报告/arc-XX.md` | v3-arc | expert-writer（参考） | S |
 
 ## 活种子版本管理
 
-种子文档是"活种子"——随写作过程可生长、可修剪，但每次变更必须版本化：
+种子文件夹是"活种子"——随写作过程可生长、可修剪，但每次变更必须版本化：
 
 | 字段 | 说明 |
 |:-----|:-----|
@@ -115,7 +117,7 @@ emerge（调度器）
 | `closed_zones` | 已关闭区——早期确定的不可变要素（锁定后不可修改） |
 
 **版本变更触发**：
-- emerge 涌现新要素 → 种子生长（version+1，changelog 追加）
+- expert-writer 涌现新要素 → 种子生长（version+1，changelog 追加）
 - arc 校准发现失效要素 → 种子修剪（version+1，changelog 追加，失效要素移入已关闭区）
 
 **种子六要素**（文风DNA为项目资产，不进种子）：
@@ -138,12 +140,12 @@ emerge（调度器）
 | # | 组件 | 说明 | 写入者 |
 |:-:|:-----|:-----|:-------|
 | 1 | baseline | 状态快照（角色状态+世界状态+伏笔状态） | v3-seed（初始）/ v3-arc（压缩后） |
-| 2 | events | 每章变化日志（chapter + 变化段） | v3-emerge |
-| 3 | 角色弧线 | 主角弧线进展（每章追加） | v3-emerge |
-| 4 | 伏笔 | 伏笔埋设/回收记录 | v3-emerge |
-| 5 | 世界状态 | 世界规则变化记录 | v3-emerge |
-| 6 | 关系 | 角色关系动态 | v3-emerge |
-| 7 | 方向提示 | 下一章走向建议（emerge 写完每章后生成） | v3-emerge |
+| 2 | events | 每章变化日志（chapter + 变化段） | expert-writer |
+| 3 | 角色弧线 | 主角弧线进展（每章追加） | expert-writer |
+| 4 | 伏笔 | 伏笔埋设/回收记录 | expert-writer |
+| 5 | 世界状态 | 世界规则变化记录 | expert-writer |
+| 6 | 关系 | 角色关系动态 | expert-writer |
+| 7 | 方向提示 | 下一章走向建议（emerge 写完每章后生成） | expert-writer |
 
 > 压缩机制：每 20 章由 v3-arc 合并 baseline + events 为新 baseline，清空旧 entries。
 
@@ -151,7 +153,7 @@ emerge（调度器）
 
 > v3.2 核心变更：信息获取从"自主判断要不要查"改为"强制读索引→读/搜→写本地→更新索引"。
 
-**每章 emerge 执行 Step 1 时强制执行**：
+**每章 expert-writer 执行 Step 1 时强制执行**：
 
 | 步骤 | 动作 | 产物 |
 |:-----|:-----|:-----|

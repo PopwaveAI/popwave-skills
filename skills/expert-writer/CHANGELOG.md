@@ -1,5 +1,15 @@
 # CHANGELOG — expert-writer
 
+## v9.2.0 | 2026-06-26
+- expert-writer 吸收 emerge 调度职能，消除两层调度器冗余
+- step-2-execute.md 重写为7步循环执行流程（Step 0/1/5/6主会话执行 + Step 2/3/4调度3子skill）
+- emerge 的 7个step文件 + 3个references文件迁移到 references/emerge-loop/（作为参考文档，已更新路径引用）
+- SKILL.md：管线顺序移除emerge；路由表"继续/下一步"改为expert-writer(7步循环)；references速查表新增emerge-loop条目；版本9.2.0
+- skill.json：downstream移除pop-writer-v3-emerge，新增pop-writer-v3-create/revise/qa
+- manifest.md：管线阶段2从pop-writer-v3-emerge改为expert-writer（7步循环主会话+调度3子skill）
+- pop-writer-v3-emerge 标记为废弃（SKILL.md添加deprecated标记）
+- v3.3管线：种子文件夹结构 + 三界压力框架 + 设定库按需读取 + expert-writer唯一调度器
+
 ## v9.0.0 | 2026-06-26
 - 去掉v2双轨，全方面服务于v3.1涌现式写作管线
 - v2 skill文件本身不动（pop-writer-creative/world/character/plot/chapter/prose/qa不修改不删除），expert-writer不再引用
