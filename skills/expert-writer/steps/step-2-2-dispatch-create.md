@@ -1,6 +1,6 @@
 ﻿# Step 2：调度创作子skill
 
-> 参考: expert-writer 涌现写作环（原 pop-writer-v3-emerge）
+> 参考: expert-writer 涌现写作环
 > 类型: 主会话调度（调用 pop-writer-v3-create）
 > 消费: Step 0本章规划 + Step 1信息获取 + 种子文件夹 + 活记忆
 > 产出: 正文初稿 + 创作决策记录
@@ -17,7 +17,7 @@ emerge作为调度器，组装精简context调用pop-writer-v3-create子skill执
 | 种子六要素 | `种子/文件夹`（当前版本） | 压力矩阵/主角引擎（含行为准则）/金手指/冲突轴+活跃线索/成长路径/目的地 |
 | 活记忆七组件 | `活记忆/活记忆.yaml`（最后baseline+event） | 种子追踪/压力状态/角色状态/世界规则/节奏日志/战力曲线/目的地进度 |
 | 上章末尾 | `正文/ch{上一章}.md` 最后~800字 | 语感衔接+悬念承接 |
-| chapter_plan | Step 0产出 | 场景设计/线索推进/爽点设计/危机设计/钩子设计 |
+| chapter_plan | `章节规划/chXXX-plan.md`（Step 0已落盘+用户确认） | 场景设计/线索推进/爽点设计/危机设计/钩子设计 |
 | info_acquired | Step 1产出 | 增量信息（制度细节/场景技法/伏笔回收线索） |
 | 创作模板 | `pop-writer-v3-create/templates/创作-模板.md` | 正文涌现结构+创作决策记录格式+行为准则确认项 |
 
@@ -50,4 +50,4 @@ emerge作为调度器，组装精简context调用pop-writer-v3-create子skill执
 | 创作决策记录未产出 | 补产出后再继续 |
 
 ---
-下一 step：`references/emerge-loop/step-3-dispatch-revise.md` — 调度revise子skill（文风对齐/人设丰富含行为准则对齐/爽点验证/bug修复/AI观感词清理）
+下一 step：`steps/step-2-3-dispatch-revise.md` — 调度revise子skill（文风对齐/人设丰富含行为准则对齐/爽点验证/bug修复/AI观感词清理）

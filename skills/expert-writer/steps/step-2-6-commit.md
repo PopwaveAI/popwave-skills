@@ -1,6 +1,6 @@
 ﻿# Step 6：落盘+项目总控更新+弧线触发检查
 
-> 参考: expert-writer 涌现写作环（原 pop-writer-v3-emerge）
+> 参考: expert-writer 涌现写作环
 > 类型: **主会话**
 > 消费: Step 3修订稿（已通过质检） + 活记忆 + 种子文件夹 + 项目总控
 > 产出: 正文落盘 + 项目总控更新 + 弧线触发判定
@@ -29,6 +29,18 @@
 
 {正文全文}
 ```
+
+### 1.5 质检报告落盘
+
+将Step 4质检报告写入 `质检报告/chXXX-qa.md`：
+
+```markdown
+# chXXX 质检报告
+
+{质检报告全文}
+```
+
+> 质检报告持久化供 arc 弧线校准时参考历史质检结论。
 
 ### 2. 项目总控更新
 
@@ -85,7 +97,7 @@
 七步循环：本章规划 → 信息获取(强制化) → 调度创作子skill → 调度修订子skill → 调度质检子skill → 记忆更新+方向提示 → 落盘+项目总控更新
 
 - 如弧线校准触发 → 交接给 `pop-writer-v3-arc`
-- 如未触发 → 回到 `steps/step-0-chapter-plan.md` 开始下一章
+- 如未触发 → 回到 `steps/step-2-0-chapter-plan.md` 开始下一章
 
 ---
-本章完成。下一章从 `steps/step-0-chapter-plan.md` 重新开始七步循环。
+本章完成。下一章从 `steps/step-2-0-chapter-plan.md` 重新开始七步循环。

@@ -1,8 +1,14 @@
 ﻿# CHANGELOG — 03-pop-dna
 
+## v4.1.1 | 2026-06-26
+- **产出路径修正**：`pop-trope-library/文风库/` → `写作资产/文风库/`（对齐 PRD v3.3 与 revise 子skill，涉及 SKILL.md 5处 + step-3-write.md 1处）
+- **文风DNA定位修正**：删除"种子第七要素"表述，改为"项目资产（非种子要素，种子为六要素）"（对齐 PRD v3.3）
+- **消费方修正**：`pop-writer-v3-emerge` → `pop-writer-v3-revise`（emerge 已废弃，硬阻塞消费方为 revise 子skill），涉及 SKILL.md + skill.json + CHANGELOG
+- 同步修正 v4.1.0 条目中的上述错误表述
+
 ## v4.1.0 | 2026-06-26
-- v3涌现式管线消费支持：pop-writer-v3-seed 种子设计阶段引用文风DNA（种子第七要素），pop-writer-v3-emerge 涌现写作时硬阻塞消费（缺失=终止）
-- downstream 新增 pop-writer-v3-seed + pop-writer-v3-emerge
+- v3 管线消费支持：文风DNA 降为项目资产（非种子要素，种子为六要素），pop-writer-v3-revise 子skill 硬阻塞消费（缺失=终止）
+- downstream 新增 pop-writer-v3-seed + pop-writer-v3-revise
 - v2 管线的 pop-writer-prose 消费方式不变
 
 ## v4.0.0 | 2026-06-11

@@ -1,4 +1,4 @@
-# typical-paths.md — 典型路径速查
+﻿# typical-paths.md — 典型路径速查
 
 > 加载时机：Think 初次路由时，对照确认当前环节上下游。
 > 加载方式：`Get-Content -Encoding UTF8 -Raw`，不用 Read 工具。
@@ -21,7 +21,7 @@ Step 1 · v3-seed（种子设计）
   ├─ 文风DNA蒸馏 → 写作资产/文风库/{书名}.md
   └─ 种子确认闸门 → 种子/文件夹
   ↓
-Step 2 · v3-emerge（涌现写作环 · 调度器→3子skill）
+Step 2 · expert-writer（涌现写作环 · 7步循环→3子skill）
   ├─ Step 0: 本章规划 → chapter_plan
   ├─ Step 1: 信息获取（强制化）→ 读索引→读/搜→写本地→更新索引
   ├─ Step 2: 调度 pop-writer-v3-create（context隔离）→ 正文初稿
@@ -36,7 +36,7 @@ Step 3 · v3-arc（弧线校准）
   ├─ 种子修剪（失效要素移入已关闭区）
   └─ 活记忆压缩（合并baseline+events）
   ↓
-回到 v3-emerge 继续涌现写作
+回到 expert-writer 继续涌现写作
 ```
 
 ---
@@ -54,7 +54,7 @@ Step 0 · expert-writer 全局感知
   ↓
 Step 1 · 按当前阶段路由
   ├─ 种子未完成 → v3-seed（继续种子设计）
-  ├─ 种子已完成 → v3-emerge（继续涌现写作）
+  ├─ 种子已完成 → expert-writer（继续涌现写作）
   └─ 弧线校准触发 → v3-arc
 ```
 
@@ -101,5 +101,5 @@ Step 3 · pop-shared-dna
 | 环节 | 闸门 | 不过则 |
 |:-----|:-----|:------|
 | v3-seed 完成 | 种子六要素总览 用户确认 | 回到 v3-seed 调整 |
-| v3-emerge 每章 | 质检子skill通过 | 回退创作子skill或修订子skill |
+| expert-writer(涌现写作环) 每章 | 质检子skill通过 | 回退创作子skill或修订子skill |
 | v3-arc 完成 | 校准报告六项检查 用户确认 | 回到 v3-arc 重新校准 |

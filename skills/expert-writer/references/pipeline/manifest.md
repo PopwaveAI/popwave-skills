@@ -29,7 +29,7 @@
 
 ## 涌现写作环内部架构（expert-writer主会话7步循环→3子skill）
 
-> v3.2 核心架构：expert-writer 主会话执行7步循环，调度3个独立子skill（create/revise/qa），context隔离。
+> v3.3 核心架构：expert-writer 主会话执行7步循环，调度3个独立子skill（create/revise/qa），context隔离。
 
 ```
 expert-writer（主会话7步循环）
@@ -145,13 +145,13 @@ expert-writer（主会话7步循环）
 | 4 | 伏笔 | 伏笔埋设/回收记录 | expert-writer |
 | 5 | 世界状态 | 世界规则变化记录 | expert-writer |
 | 6 | 关系 | 角色关系动态 | expert-writer |
-| 7 | 方向提示 | 下一章走向建议（emerge 写完每章后生成） | expert-writer |
+| 7 | 方向提示 | 下一章走向建议（expert-writer 写完每章后生成） | expert-writer |
 
 > 压缩机制：每 20 章由 v3-arc 合并 baseline + events 为新 baseline，清空旧 entries。
 
 ## 信息获取强制化产物
 
-> v3.2 核心变更：信息获取从"自主判断要不要查"改为"强制读索引→读/搜→写本地→更新索引"。
+> v3.3 核心变更：信息获取从"自主判断要不要查"改为"强制读索引→读/搜→写本地→更新索引"。
 
 **每章 expert-writer 执行 Step 1 时强制执行**：
 

@@ -47,7 +47,8 @@ version: 9.2.0
 | 管线阶段 | 查询模块 | 用途 |
 |:---------|:---------|:-----|
 | v3-seed | 套路库+元爽点+设定库 | 确定书型+素材注入+压力矩阵调研 |
-| v3-emerge | 创作层(按需)→套路库 + 修订层→文风库 | 场景技法参考 + 文风锚定 |
+| v3-create | 套路库(按需) | 场景技法参考（创作层按需查询） |
+| v3-revise | 文风库 | 文风锚定（修订层硬阻塞消费） |
 
 ## 速查表（全文件目录引导）
 
@@ -71,7 +72,7 @@ version: 9.2.0
 | Think 路径 | `references/think/typical-paths.md` | 路径速查 |
 | 执行防错 | `references/think/typical-errors.md` | 典型错误 |
 | 设计决策 | `references/think/core-principles.md` | 核心原则 |
-| **涌现写作环执行** | `references/emerge-loop/step-0~6` | **7步循环参考文档**（本章规划/信息获取/调度create/调度revise/调度qa/记忆更新/落盘） |
+| **涌现写作环执行** | `steps/step-2-0~6` | **7步循环执行层**（本章规划/信息获取/调度create/调度revise/调度qa/记忆更新/落盘） |
 | 涌现写作环法则 | `references/emerge-loop/网文爽感机制.md` | 10条法则（本章规划对照） |
 | 涌现写作环SOP | `references/emerge-loop/信息获取强制化SOP.md` | 信息获取强制化流程 |
 | 涌现写作环生长 | `references/emerge-loop/活种子生长触发规则.md` | 种子生长触发规则 |

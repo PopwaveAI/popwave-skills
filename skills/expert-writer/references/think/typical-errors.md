@@ -1,4 +1,4 @@
-# 典型错误防范（调度层）
+﻿# 典型错误防范（调度层）
 
 > 只列 expert-writer 调度层面的错误。子 skill 内部的错误由各子 skill 自管。
 
@@ -7,8 +7,8 @@
 ## 错误 1：不读子 SKILL.md 就路由
 
 ```
-❌ WRONG: 用户说"写正文"→ 直接跳到 pop-writer-v3-emerge，不读 emerge 的 SKILL.md
-✅ CORRECT: 先 Get-Content -Encoding UTF8 -Raw 加载 emerge/SKILL.md 全文，再按其 SOP 执行
+❌ WRONG: 用户说"写正文"→ 直接跳到 expert-writer(7步循环)，不读 expert-writer 的 step-2-* 文件
+✅ CORRECT: 先 Get-Content -Encoding UTF8 -Raw 加载 steps/step-2-execute.md 全文，再按其 SOP 执行
 ```
 
 ## 错误 2：用 Read 工具读取 skill 文件被截断
@@ -28,7 +28,7 @@
 ## 错误 4：管线跳步
 
 ```
-❌ WRONG: 种子未完成就直接路由到 v3-emerge
+❌ WRONG: 种子未完成就直接路由到 expert-writer(涌现写作环)
 ✅ CORRECT: 种子设计 → 涌现写作环 ↔ 弧线校准，种子文件夹未产出不可进入涌现写作
 ```
 
@@ -56,8 +56,8 @@
 ## 错误 8：expert-writer 自己做详细质检
 
 ```
-❌ WRONG: emerge 产出后 expert-writer 自己做五问反思+种子生长判断
-✅ CORRECT: expert-writer 只做通用三问+宏观检查，详细质检由 emerge 的质检子skill处理
+❌ WRONG: 涌现写作环完成后 expert-writer 自己做五问反思+种子生长判断
+✅ CORRECT: expert-writer 只做通用三问+宏观检查，详细质检由 质检子skill(pop-writer-v3-qa)处理
 ```
 
 ## 错误 9：不捕获用户心智模型就开工

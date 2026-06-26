@@ -48,7 +48,7 @@
     "downstream": [
       "pop-writer-prose",
       "pop-writer-v3-seed",
-      "pop-writer-v3-emerge"
+      "pop-writer-v3-revise"
     ]
   }
 }

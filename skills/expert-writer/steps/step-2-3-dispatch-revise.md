@@ -1,6 +1,6 @@
 ﻿# Step 3：调度修订子skill
 
-> 参考: expert-writer 涌现写作环（原 pop-writer-v3-emerge）
+> 参考: expert-writer 涌现写作环
 > 类型: 主会话调度（调用 pop-writer-v3-revise）
 > 消费: Step 2正文初稿 + 文风DNA + 种子文件夹 + 活记忆
 > 产出: 修订稿 + 修订记录
@@ -52,4 +52,4 @@ emerge作为调度器，组装精简context调用pop-writer-v3-revise子skill执
 | 8020比例超标 | 退回重写 |
 
 ---
-下一 step：`references/emerge-loop/step-4-dispatch-qa.md` — 调度qa子skill（五问反思+种子生长判断+爽点终验+行为一致性终验）
+下一 step：`steps/step-2-4-dispatch-qa.md` — 调度qa子skill（五问反思+种子生长判断+爽点终验+行为一致性终验）

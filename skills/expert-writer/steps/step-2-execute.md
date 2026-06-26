@@ -1,6 +1,6 @@
-# step-2-execute.md — 加载子 Skill + 执行 + 修改路由
+﻿# step-2-execute.md — 加载子 Skill + 执行 + 修改路由
 
-> **读什么**：目标子 skill SKILL.md + steps/ + templates/ + references/emerge-loop/
+> **读什么**：目标子 skill SKILL.md + steps/step-2-* + references/emerge-loop/
 > **产出什么**：子 Skill 执行结果
 > **闸门**：决策点闸门（种子设计/弧线校准 — 必须用户确认）
 
@@ -21,12 +21,12 @@
 
 按路由表加载对应 skill 集：
 - 种子设计阶段 → `pop-writer-v3-seed`
-- **涌现写作环 → expert-writer 主会话直接执行7步循环（不再路由到 emerge）**
+- **涌现写作环 → expert-writer 主会话直接执行7步循环**
 - 弧线校准阶段 → `pop-writer-v3-arc`
 
 ```
 种子设计/弧线校准：Get-Content -Encoding UTF8 -Raw 子 skill SKILL.md → 验证完整
-涌现写作环：Get-Content -Encoding UTF8 -Raw references/emerge-loop/*.md（参考文档）
+涌现写作环：加载 `steps/step-2-*.md`（执行层）+ `references/emerge-loop/*.md`（知识层）
 ```
 
 **library 查询提醒**：路由到子 skill 前，对照 SKILL.md 的 pop-trope-library 查询矩阵，提醒子 skill 查询对应模块。子 skill 自管查询逻辑（按 `skills/pop-trope-library/references/调用匹配SOP.md` 三维查询）。
@@ -39,122 +39,40 @@
 
 ---
 
-## 2. 涌现写作环（expert-writer 主会话执行7步循环）
+## 2. 涌现写作环（7步循环）
 
-> expert-writer 是唯一调度器。涌现写作环由 expert-writer 主会话直接执行 Step 0/1/5/6，调度3个独立子skill执行 Step 2/3/4（context隔离）。不再路由到 pop-writer-v3-emerge。
+> expert-writer 是唯一调度器。7步循环的详细执行流程在 `steps/step-2-*.md` 目录下，按步骤加载对应step文件执行。知识层参考文档在 `references/emerge-loop/`。
 
-### 循环概览
+### 循环结构
 
-```
-Step 0：本章规划（主会话）→ 参考 references/emerge-loop/step-0-chapter-plan.md
-Step 1：信息获取（主会话，强制化）→ 参考 references/emerge-loop/step-1-info-forced.md
-Step 2：调度 pop-writer-v3-create（context隔离）→ 参考 references/emerge-loop/step-2-dispatch-create.md
-Step 3：调度 pop-writer-v3-revise（context隔离）→ 参考 references/emerge-loop/step-3-dispatch-revise.md
-Step 4：调度 pop-writer-v3-qa（context隔离）→ 参考 references/emerge-loop/step-4-dispatch-qa.md
-Step 5：记忆更新+种子生长+方向提示（主会话，机械执行）→ 参考 references/emerge-loop/step-5-memory-direction.md
-Step 6：落盘+项目总控更新+弧线触发检查（主会话）→ 参考 references/emerge-loop/step-6-commit.md
-```
+| 步骤 | 执行者 | step文件 | 知识层参考 | 核心动作 |
+|:-----|:-------|:---------|:-----------|:---------|
+| Step 0 本章规划 | 主会话 | `steps/step-2-0-chapter-plan.md` | `references/emerge-loop/网文爽感机制.md` | 5决策点(场景/线索/爽点/危机/钩子)+法则对照+info_gaps |
+| Step 1 信息获取 | 主会话 | `steps/step-2-1-info-forced.md` | `references/emerge-loop/信息获取强制化SOP.md` | 强制读素材库索引+读设定库索引(如有)+WebSearch+写入素材库 |
+| Step 2 调度创作 | **调度create子skill** | `steps/step-2-2-dispatch-create.md` | - | 传入精简context→涌现写作+行为一致性检查 |
+| Step 3 调度修订 | **调度revise子skill** | `steps/step-2-3-dispatch-revise.md` | - | 传入精简context→文风对齐+人设丰富+AI词清理 |
+| Step 4 调度质检 | **调度qa子skill** | `steps/step-2-4-dispatch-qa.md` | `references/emerge-loop/网文爽感机制.md` | 传入精简context→五问反思+行为终验+种子生长判断 |
+| Step 5 记忆+生长 | 主会话 | `steps/step-2-5-memory-direction.md` | `references/emerge-loop/活种子生长触发规则.md` | 机械执行：活记忆更新+种子生长写入+方向提示 |
+| Step 6 落盘 | 主会话 | `steps/step-2-6-commit.md` | - | 修订稿落盘+项目总控更新+弧线触发检查 |
 
-### Step 0：本章规划（主会话）
+### 执行规则
 
-加载 `references/emerge-loop/step-0-chapter-plan.md` 获取完整流程。
+1. **种子文件夹读取协议**（所有步骤通用）：
+   - 先读 `种子/_index.yaml` → 获取版本号 + 要素文件清单 + 各要素 last_updated_ch
+   - 再按步骤需要读取对应要素文件（不全量读取，按需加载）：
+     - Step 0 本章规划：全量六要素（压力矩阵/主角引擎/金手指/冲突轴/成长路径/目的地）
+     - Step 1 信息获取：按 chapter_plan 涉及的要素按需读
+     - Step 2 调度create：传入六要素精简context
+     - Step 3 调度revise：传入主角引擎+金手指+冲突轴
+     - Step 4 调度qa：传入活跃线索(冲突轴)+压力矩阵+主角引擎
+     - Step 5 种子生长：按质检报告更新对应要素文件
+     - Step 6 落盘：读_index.yaml获取版本号回写项目总控
 
-核心动作：
-1. 读种子文件夹六要素 + 活记忆 + 上章正文末尾500字 + 方向提示
-2. 故事状态感知（压力倒计时/线索超期/节奏趋势/战力/目的地/角色状态）
-3. 5个决策点：场景设计/线索推进(≥3条)/爽点设计(≥1个即时)/危机设计/钩子设计(即时危机型)
-4. 网文爽感机制10条法则对照检查（红线❌5）
-5. 产出 chapter_plan（含 info_gaps 信息缺口引导 Step 1 搜索）
-
-门禁：种子文件夹不存在=终止；10条法则未全对照=退回调；≥3线索/≥1爽点/章末即时钩子
-
-### Step 1：信息获取（主会话，强制化）
-
-加载 `references/emerge-loop/step-1-info-forced.md` 获取完整流程。
-
-核心动作：
-1. **强制读 `素材库/索引.md`**（红线❌6门禁：未读取=退回补读）
-2. **读 `写作资产/设定库/_index.yaml`（如有）**——按 chapter_plan 判断是否需要读力量体系/社会结构/世界宪法/角色档案
-3. 优先处理 chapter_plan.info_gaps（Step 0 产出的信息缺口）
-4. 4类检查：制度流程/场景技法/已埋伏笔/创意参考
-5. 索引匹配：有→读素材库文件；无→WebSearch→写入素材库/知识沉淀→更新索引
-6. 搜索深度标准：每篇≥500字+具体案例/流程/数据+多轮搜索（最多3轮）
-7. 无需求时 no_need_reasons 四项逐类说明
-8. 产出 info_acquired（YAML格式）
-
-### Step 2：调度 pop-writer-v3-create（context隔离）
-
-加载 `references/emerge-loop/step-2-dispatch-create.md` 获取完整调度流程。
-
-**传入精简context（不传会话历史，红线❌5）：**
-- 种子文件夹六要素（压力矩阵/主角引擎含行为准则/金手指/冲突轴+活跃线索/成长路径/目的地）
-- 活记忆七组件（最后baseline+event）
-- 上章末尾~800字
-- chapter_plan（Step 0产出）
-- info_acquired（Step 1产出）
-- 创作模板（pop-writer-v3-create/templates/创作-模板.md）
-
-**不传入：** 会话历史、Step 0/1执行过程、文风DNA、修订指南、质检模板
-
-子skill执行：上下文确认→涌现写作(场景流+压力源+钩子)→**行为一致性逐场景检查**→创作决策记录
-
-门禁：传入了会话历史=退回重组；未产出正文初稿=终止；行为一致性未通过=退回重写
-
-### Step 3：调度 pop-writer-v3-revise（context隔离）
-
-加载 `references/emerge-loop/step-3-dispatch-revise.md` 获取完整调度流程。
-
-**传入精简context（不传会话历史，红线❌5）：**
-- 正文初稿（Step 2产出）
-- 文风DNA（`写作资产/文风库/{书名}.md`，硬阻塞红线❌1）
-- 种子文件夹六要素（主角引擎含行为准则/金手指/冲突轴）
-- 活记忆七组件
-- 修订checklist（pop-writer-v3-revise/templates/修订checklist-模板.md）
-
-**不传入：** 会话历史、创作决策记录、质检模板
-
-子skill执行：文风DNA硬阻塞检查→文风对齐→人设丰富(含行为准则对齐)→爽点验证→bug修复→AI观感词清理
-
-门禁：文风DNA缺失=硬阻塞终止；AI观感词>3种=退回create重写；8020比例超标=退回重写
-
-### Step 4：调度 pop-writer-v3-qa（context隔离）
-
-加载 `references/emerge-loop/step-4-dispatch-qa.md` 获取完整调度流程。
-
-**传入精简context（不传会话历史，红线❌5）：**
-- 修订稿（Step 3产出）
-- 活记忆七组件
-- 种子文件夹六要素（活跃线索+压力矩阵+主角引擎含行为准则）
-- 网文法则（references/emerge-loop/网文爽感机制.md）
-- 质检模板（pop-writer-v3-qa/templates/质检报告-模板.md）
-
-**不传入：** 会话历史、创作决策记录、修订记录、文风DNA
-
-子skill执行：五问反思(引用正文证据)→种子生长判断→爽点终验→**行为一致性终验**→质检总结+回退判定
-
-门禁：质检不通过=按回退目标回退（故事层→create；文风层→revise）；连续3次不通过=标记严重问题建议弧线校准
-
-### Step 5：记忆更新+种子生长+方向提示（主会话，机械执行）
-
-加载 `references/emerge-loop/step-5-memory-direction.md` 获取完整流程。
-
-**机械执行，不做判断**——种子生长判断已在Step 4完成，本步骤只按质检报告机械写入。
-
-核心动作：
-1. 活记忆七组件更新（红线❌3：唯一写入者）——从修订稿提取状态变化，追加event
-2. 种子生长执行（红线❌4）——读质检报告生长建议，有则更新种子文件夹对应要素文件+last_updated_ch+版本号minor+1+_log.md变更日志
-3. 方向提示生成——从质检报告不达标项+超期预警机械转化为1-2句方向感（非章纲）
-4. 方向提示回写活记忆event.direction_hint
-
-### Step 6：落盘+项目总控更新+弧线触发检查（主会话）
-
-加载 `references/emerge-loop/step-6-commit.md` 获取完整流程。
-
-核心动作：
-1. 修订稿落盘到 `正文/chXXX.md`
-2. 项目总控更新：章号+1/种子版本/弧线计数/阶段状态
-3. 弧线触发检查：定期触发(距上次校准满10-20章) / 事件触发(伏笔超期>20章/战力跳级/连续5章低密度/目的地20章无进展/线索10章未触及/要素last_updated_ch>15章)
-4. 触发→提示用户进入 pop-writer-v3-arc；未触发→回到Step 0开始下一章
+2. **按步骤顺序执行**，每步加载对应step文件获取完整流程
+3. **Step 2/3/4 调度子skill时必须context隔离**（红线❌5）：传入精简context，不传会话历史
+4. **Step 0 产出 chapter_plan 必须落盘到 `章节规划/chXXX-plan.md` 并经用户确认**后才进入Step 1
+5. **Step 5 机械执行**：种子生长判断已在Step 4完成，Step 5只按质检报告机械写入
+6. **Step 6 循环回Step 0**：弧线未触发→回到Step 0开始下一章；触发→进入弧线校准
 
 ### 弧线校准执行（pop-writer-v3-arc）
 

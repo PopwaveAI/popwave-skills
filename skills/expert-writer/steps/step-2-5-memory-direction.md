@@ -1,6 +1,6 @@
 ﻿# Step 5：记忆更新+种子生长+方向提示（主会话机械执行）
 
-> 参考: expert-writer 涌现写作环（原 pop-writer-v3-emerge）
+> 参考: expert-writer 涌现写作环
 > 类型: **主会话**（机械执行，不做判断）
 > 消费: Step 4质检报告 + 修订稿 + 活记忆 + 种子文件夹
 > 产出: 活记忆event追加 + 种子文件夹（如生长则更新版本） + 方向提示
@@ -149,4 +149,4 @@ event条目格式：
 - [ ] event的seed_growths字段已填写
 
 ---
-下一 step：`references/emerge-loop/step-6-commit.md` — 落盘+项目总控更新+弧线触发检查
+下一 step：`steps/step-2-6-commit.md` — 落盘+项目总控更新+弧线触发检查
