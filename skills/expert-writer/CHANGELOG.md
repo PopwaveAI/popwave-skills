@@ -1,5 +1,17 @@
 # CHANGELOG — expert-writer
 
+## v9.3.0 | 2026-06-27
+- v3.4修复：SKILL.md内联6步核心门禁表+文件加载规范（框架加载即生效，解决skill一次性消费）
+- 7步→6步剔除qa调用（质检职责下沉revise层）
+- plan重构为任务list（Markdown格式，定义"达成什么"非"怎么达成"）
+- revise重构为完全重写（基于正文+文风DNA直接重写，禁止改写事实信息）
+- create→revise自动连贯，仅双check点（plan确认+最终正文验收）
+- 子agent降级策略B（重试1次→降级主会话但必须重读完整种子context+DNA完整加载+独立质检）
+- 资料总索引标准化（取代散落的素材库/索引.md和设定库/_index.yaml）
+- 字数硬门禁（2500-3500字/章）
+- step-2-5/6重命名为step-2-4/5（qa剔除后序号前移）
+- references全量stale清理（manifest/活种子生长规则/typical-paths/typical-errors）
+
 ## v9.2.0 | 2026-06-26
 - expert-writer 吸收 emerge 调度职能，消除两层调度器冗余
 - step-2-execute.md 重写为7步循环执行流程（Step 0/1/5/6主会话执行 + Step 2/3/4调度3子skill）

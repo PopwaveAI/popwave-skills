@@ -23,3 +23,6 @@ _projects/
 
 # IDE/tool config
 .trae/
+
+# Temp directory
+.tmp/

@@ -7,7 +7,7 @@
 ## 错误 1：不读子 SKILL.md 就路由
 
 ```
-❌ WRONG: 用户说"写正文"→ 直接跳到 expert-writer(7步循环)，不读 expert-writer 的 step-2-* 文件
+❌ WRONG: 用户说"写正文"→ 直接跳到 expert-writer(6步循环)，不读 expert-writer 的 step-2-* 文件
 ✅ CORRECT: 先 Get-Content -Encoding UTF8 -Raw 加载 steps/step-2-execute.md 全文，再按其 SOP 执行
 ```
 
@@ -53,11 +53,11 @@
 ✅ CORRECT: 读项目总控.md + 活记忆/活记忆.yaml，基于实际状态给引导
 ```
 
-## 错误 8：expert-writer 自己做详细质检
+## 错误 8：expert-writer 主会话自己做文风DNA终验
 
 ```
-❌ WRONG: 涌现写作环完成后 expert-writer 自己做五问反思+种子生长判断
-✅ CORRECT: expert-writer 只做通用三问+宏观检查，详细质检由 质检子skill(pop-writer-v3-qa)处理
+❌ WRONG: 涌现写作环完成后 expert-writer 主会话自己做文风DNA终验+事实一致性检查
+✅ CORRECT: expert-writer 只做通用三问+宏观检查，文风DNA终验+事实一致性检查由 revise子skill处理
 ```
 
 ## 错误 9：不捕获用户心智模型就开工

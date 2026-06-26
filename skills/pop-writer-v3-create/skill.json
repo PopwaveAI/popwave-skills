@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-v3-create",
   "displayName": "创作子skill",
-  "description": "涌现写作创作子skill。context隔离，专注故事涌现——场景流渲染+压力源逼近+章末钩子+主角行为一致性。不论文风。",
+  "description": "涌现写作创作子skill。context隔离，专注故事涌现——场景流渲染+压力源逼近+章末钩子+主角行为一致性。不论文风。v3.4：输入context从场景list改为任务list+字数下限门禁",
   "entry": "SKILL.md",
-  "activation": "由pop-writer-v3-emerge Step 2调度时启用",
-  "version": "1.0.0"
+  "activation": "由expert-writer Step 2调度时启用",
+  "version": "1.1.0"
 }

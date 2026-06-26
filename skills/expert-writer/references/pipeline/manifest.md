@@ -1,12 +1,12 @@
 ﻿# 写作专家全链路合同（pipeline-manifest）
 
-> v3.3涌现式写作管线合同。expert-writer唯一调度器→7步循环+3子skill调度，context隔离。
+> v3.3涌现式写作管线合同。expert-writer唯一调度器→6步循环+2子skill调度，context隔离。
 > 对齐 PRD v3.0：`prd/01-管线架构/10-涌现式写作专家全链路-PRD.md`
 
 ## 管线顺序
 
 ```
-种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 7步循环) ↔ 弧线校准(pop-writer-v3-arc)
+种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 6步循环) ↔ 弧线校准(pop-writer-v3-arc)
 ```
 
 - 种子设计是一次性起点阶段（产出种子文件夹后进入循环）
@@ -16,7 +16,7 @@
 | 阶段 | 调用 skill | 核心产出 | 前置条件 | 闸门 |
 |:-----|:-----------|:---------|:---------|:-----|
 | 1 种子设计 | pop-writer-v3-seed | `种子/`文件夹（_index.yaml+_log.md+核心卖点+六要素+行为准则）+ `写作资产/文风库/{书名}.md` + `写作资产/设定库/`（可选） + `素材库/研究档案/种子展开图-{书名}.md` + `素材库/研究档案/交叉困境分析-{书名}.md` | 无（开书入口） | 种子确认 |
-| 2 涌现写作环 | expert-writer（7步循环主会话+调度3子skill） | `正文/chXXX.md` + 活记忆追加 event + 方向提示 + `素材库/知识沉淀/` | 种子文件夹已产出 | 质检子skill通过 |
+| 2 涌现写作环 | expert-writer（6步循环主会话+调度2子skill） | `正文/chXXX.md` + 活记忆追加 event + 方向提示 + `素材库/知识沉淀/` | 种子文件夹已产出 | revise重写稿用户验收（CHECK 2） |
 | 3 弧线校准 | pop-writer-v3-arc | `弧线校准报告/arc-XX.md` + 种子修剪（更新要素文件+_log.md）+ 设定库补充（如有） + 活记忆压缩 | 已有 ≥10 章正文 | 校准确认 |
 
 ## 入口规则
@@ -27,20 +27,20 @@
 | "继续/下一步" | → 查 `项目总控.md` 的 current_stage | 不改变进度，按 current 路由 |
 | "拆解这本书" | → pop-decon（拆书专家） | 不改变写作管线进度。独立运行 |
 
-## 涌现写作环内部架构（expert-writer主会话7步循环→3子skill）
+## 涌现写作环内部架构（expert-writer主会话6步循环→2子skill）
 
-> v3.3 核心架构：expert-writer 主会话执行7步循环，调度3个独立子skill（create/revise/qa），context隔离。
+> v3.3 核心架构：expert-writer 主会话执行6步循环，调度2个独立子skill（create/revise），context隔离。
 
 ```
-expert-writer（主会话7步循环）
+expert-writer（主会话6步循环）
 ├─ Step 0：本章规划
 │   读种子六要素+活记忆+上章末尾+方向提示+网文法则
 │   → 5决策点（场景/线索/爽点/危机/钩子）+ 10法则对照
 │   → 产出chapter_plan
 │
 ├─ Step 1：信息获取（强制化）
-│   读 素材库/索引.md（强制）
-│   读 写作资产/设定库/_index.yaml（如有，按需读取设定库文件）
+│   读 资料总索引.md（强制）
+│   读 资料总索引.md（如有，按需读取设定库文件）
 │   → 有匹配 → 读素材库文件
 │   → 无匹配 → WebSearch → 写入素材库 → 更新索引
 │   → 产出info_acquired
@@ -55,16 +55,12 @@ expert-writer（主会话7步循环）
 │   调用 pop-writer-v3-revise → 文风对齐/人设丰富(含行为准则对齐)/爽点验证/bug修复/AI观感词清理
 │   输出：修订稿+修订记录
 │
-├─ ── Step 4：调度质检子skill（context隔离）──
-│   组装精简context：修订稿+活记忆+种子六要素+网文法则+质检模板
-│   调用 pop-writer-v3-qa → 五问反思(引用正文证据)+行为一致性终验+种子生长判断+爽点终验
-│   输出：质检报告+通过/不通过+回退目标
-│   不通过 → 回退Step 2(故事层)或Step 3(文风/人设)
+├─ ── （v3.4已剔除qa环节，质检职责下沉revise层）──
 │
-├─ Step 5：记忆更新+种子生长+方向提示（主会话机械执行）
+├─ Step 4：记忆更新+种子生长+方向提示（主会话机械执行）
 │   读质检报告 → 机械写入种子(如生长)+活记忆+方向提示
 │
-└─ Step 6：落盘+项目总控更新
+└─ Step 5：落盘+项目总控更新
     正文落盘 → 项目总控(章号+1/种子版本/弧线触发)
     → 触发弧线校准 → 交接v3-arc
     → 未触发 → 回Step 0
@@ -89,7 +85,7 @@ expert-writer（主会话7步循环）
 | `写作资产/设定库/`（可选） | v3-seed（可选产出）/ expert-writer（生长）/ v3-arc（补充） | expert-writer（按需读取）, v3-arc | D |
 | `素材库/研究档案/种子展开图-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
 | `素材库/研究档案/交叉困境分析-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
-| `素材库/索引.md` | v3-seed（初始化） | expert-writer（追加） | D |
+| `资料总索引.md` | v3-seed（初始化） | expert-writer（追加） | D |
 
 ### 涌现写作环产出
 
@@ -97,7 +93,7 @@ expert-writer（主会话7步循环）
 |:-----|:-------|:-------|:---:|
 | `活记忆/活记忆.yaml` | v3-seed（初始化）/ expert-writer（追加）/ v3-arc（压缩） | expert-writer, v3-arc | D |
 | `正文/chXXX.md` | expert-writer | v3-arc | D |
-| `素材库/索引.md` | expert-writer（信息获取追加） | expert-writer | D |
+| `资料总索引.md` | expert-writer（信息获取追加） | expert-writer | D |
 | `素材库/知识沉淀/{主题}.md` | expert-writer（信息获取） | expert-writer | D |
 
 ### 弧线校准产出
@@ -157,10 +153,10 @@ expert-writer（主会话7步循环）
 
 | 步骤 | 动作 | 产物 |
 |:-----|:-----|:-----|
-| 1 | 读 `素材库/索引.md`（强制，不可跳过） | 索引内容 |
+| 1 | 读 `资料总索引.md`（强制，不可跳过） | 索引内容 |
 | 2a | 索引有匹配主题 → 读对应素材库文件 | 素材库文件内容 |
 | 2b | 索引无匹配 → WebSearch 搜索 → 写入 `素材库/知识沉淀/{主题}.md` | 新素材库文件 |
-| 3 | 更新 `素材库/索引.md`（追加新条目） | 更新后的索引 |
+| 3 | 更新 `资料总索引.md`（追加新条目） | 更新后的索引 |
 | 4 | 产出 `info_acquired` 传递给创作子skill | 信息获取记录 |
 
 **门禁**：索引未读取 = 退回补读。即使无需求也必须读索引（可 `needs: []`）。

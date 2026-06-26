@@ -20,7 +20,7 @@
 ## 1. 管线锚定与会话恢复（每次新会话优先执行）
 
 1. **加载管线合同**：`Get-Content -Encoding UTF8 -Raw references/pipeline/manifest.md`
-   - 管线顺序：种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 7步循环) ↔ 弧线校准(pop-writer-v3-arc)
+   - 管线顺序：种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 6步循环) ↔ 弧线校准(pop-writer-v3-arc)
 2. **加载项目总控**：检查项目根目录 `项目总控.md`
    - 存在 → 读取，获取当前阶段和执行顺序日志
    - 不存在 → 推断阶段并初始化：
@@ -45,15 +45,15 @@
 
 ## 2. 意图识别
 
-1. 从用户消息提取关键词，对照 SKILL.md 路由表定位目标：种子设计→`pop-writer-v3-seed`，涌现写作环→`expert-writer(7步循环)`，弧线校准→`pop-writer-v3-arc`
+1. 从用户消息提取关键词，对照 SKILL.md 路由表定位目标：种子设计→`pop-writer-v3-seed`，涌现写作环→`expert-writer(6步循环)`，弧线校准→`pop-writer-v3-arc`
 2. **信息获取判断**：涌现写作环路由时，提醒执行 Step 1 强制化信息获取（读索引→读设定库→读/搜→写本地→更新索引）
 3. **智能调度判断**：
 
 | 调度条件 | 路由目标 | 说明 |
 |:---------|:---------|:-----|
-| 正常写作 | expert-writer(7步循环) | 未触发弧线校准、质检子skill通过 |
+| 正常写作 | expert-writer(6步循环) | revise重写稿用户验收（CHECK 2） |
 | 弧线校准触发点（每10-20章 / 事件触发 / 用户触发） | pop-writer-v3-arc | 检查章号差值 + 用户指令 + 重大剧情转折 |
-| 质检不通过 | 回退重写当前章 | 质检子skill未过 → 回退到创作子skill(Step 2)或修订子skill(Step 3) |
+| 质检不通过 | 回退重写当前章 | revise重写稿未通过用户验收 → 回退revise重写(Step 3) |
 
 **精简模式**：用户说"直接写/快一点/跳过解释" → 少解释、多执行、保留闸门确认。
 
@@ -70,6 +70,6 @@
 | v3-seed（种子设计完成） | 种子六要素总览 → 方案A：确认种子 / 方案B：调整某要素 / 4. 我重新来 |
 | v3-arc（弧线校准完成） | 校准报告六项检查结果 → 方案A：确认校准 / 方案B：调整某项 / 4. 我重新来 |
 
-> 涌现写作环每章闸门由质检子skill(pop-writer-v3-qa)处理，expert-writer 不重复——只做宏观检查（见 step-3-reflect）。
+> 涌现写作环每章闸门由revise子skill(文风DNA终验+事实一致性检查)+用户CHECK 2验收处理，expert-writer 不重复——只做宏观检查（见 step-3-reflect）。
 
 跳过闸门 = 违规。

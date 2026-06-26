@@ -21,15 +21,14 @@ Step 1 · v3-seed（种子设计）
   ├─ 文风DNA蒸馏 → 写作资产/文风库/{书名}.md
   └─ 种子确认闸门 → 种子/文件夹
   ↓
-Step 2 · expert-writer（涌现写作环 · 7步循环→3子skill）
+Step 2 · expert-writer（涌现写作环 · 6步循环→2子skill）
   ├─ Step 0: 本章规划 → chapter_plan
   ├─ Step 1: 信息获取（强制化）→ 读索引→读/搜→写本地→更新索引
   ├─ Step 2: 调度 pop-writer-v3-create（context隔离）→ 正文初稿
   ├─ Step 3: 调度 pop-writer-v3-revise（context隔离）→ 修订稿
-  ├─ Step 4: 调度 pop-writer-v3-qa（context隔离）→ 质检报告
-  ├─ Step 5: 记忆更新+种子生长+方向提示
-  └─ Step 6: 落盘+项目总控更新
-  ↓ （循环：每章重复 Step 0-6）
+  ├─ Step 4: 记忆更新+种子生长+方向提示
+  └─ Step 5: 落盘+项目总控更新
+  ↓ （循环：每章重复 Step 0-5）
   ↓ （触发弧线校准 → 交接 v3-arc）
 Step 3 · v3-arc（弧线校准）
   ├─ 六项宏观检查（节奏/伏笔/角色弧线/世界一致性/爽点密度/读者体验）
@@ -101,5 +100,5 @@ Step 3 · pop-shared-dna
 | 环节 | 闸门 | 不过则 |
 |:-----|:-----|:------|
 | v3-seed 完成 | 种子六要素总览 用户确认 | 回到 v3-seed 调整 |
-| expert-writer(涌现写作环) 每章 | 质检子skill通过 | 回退创作子skill或修订子skill |
+| expert-writer(涌现写作环) 每章 | revise重写稿用户验收（CHECK 2） | 回退创作子skill或修订子skill |
 | v3-arc 完成 | 校准报告六项检查 用户确认 | 回到 v3-arc 重新校准 |

@@ -85,7 +85,7 @@
 | 写作资产/文风库/{书名}.md | pop-trope-library/文风库 + 对标书 | v3-seed | {状态} |
 | 活记忆/活记忆.yaml | 种子文件夹（baseline #0） | v3-seed/expert-writer/v3-arc | {状态} |
 | 正文/chXXX.md | 种子文件夹+活记忆+chapter_plan+info_acquired | expert-writer | {状态} |
-| 素材库/索引.md | — | v3-seed（初始化）/ expert-writer（追加） | {状态} |
+| 资料总索引.md | — | v3-seed（初始化）/ expert-writer（追加） | {状态} |
 | 素材库/研究档案/种子展开图-{书名}.md | 种子搜索法调研 | v3-seed | {状态} |
 | 素材库/研究档案/交叉困境分析-{书名}.md | 种子搜索法调研 | v3-seed | {状态} |
 | 素材库/知识沉淀/{分类}/{主题}.md | WebSearch | expert-writer | {状态} |
@@ -134,7 +134,7 @@
 ├── 📁 正文/                           ← expert-writer
 │   └── chXXX.md                      {状态}
 │
-├── 📁 质检报告/                       ← expert-writer Step 4（arc校准时参考）
+├── 📁 修订记录/                       ← expert-writer Step 4（arc校准时参考）
 │   └── chXXX-qa.md                    {状态}
 │
 └── 📁 弧线校准报告/                   ← v3-arc
