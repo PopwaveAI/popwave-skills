@@ -57,7 +57,7 @@
 
 ```
 ❌ WRONG: emerge 产出后 expert-writer 自己做五问反思+种子生长判断
-✅ CORRECT: expert-writer 只做通用三问+宏观检查，详细质检由 emerge 的质检子agent处理
+✅ CORRECT: expert-writer 只做通用三问+宏观检查，详细质检由 emerge 的质检子skill处理
 ```
 
 ## 错误 9：不捕获用户心智模型就开工

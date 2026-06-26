@@ -1,16 +1,16 @@
 ---
 name: expert-writer
-description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。v3.1涌现式写作管线调度引擎。"
-version: 9.0.0
+description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。v3.2涌现式写作管线调度引擎。"
+version: 9.1.0
 ---
 
-# expert-writer · 写作专家调度引擎 v9.0.0
+# expert-writer · 写作专家调度引擎 v9.1.0
 
-> 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。v3.1涌现式写作管线专用。
+> 网文创作元 Skill（调度器）。Think → Execute → Reflect 三层工作流。v3.2涌现式写作管线专用。
 
 ## 管线模式声明
 
-本项目使用 v3.1 涌现式写作管线：
+本项目使用 v3.2 涌现式写作管线：
 
 | 模式 | 管线结构 | 适用场景 | skill 集 |
 |:-----|:---------|:---------|:---------|
@@ -32,7 +32,7 @@ version: 9.0.0
 | ❌2 | **不读子 SKILL.md 就路由** — 必须先 `Get-Content -Encoding UTF8 -Raw` 目标子 skill 全文 |
 | ❌3 | **决策点跳过用户确认** — 闸门必须等待用户点头 |
 | ❌4 | **框架级变更不做影响范围声明** — 加穿越者/改力量体系/换核心矛盾时，必须先出影响范围声明再动笔 |
-| ❌5 | **子agent调度必须context隔离** — 传入精简context，不传会话历史 |
+| ❌5 | **子skill调度必须context隔离** — 传入精简context，不传会话历史 |
 
 ## 管线顺序
 
@@ -79,7 +79,7 @@ version: 9.0.0
 | 用户说 | 路由到 | 前置条件 |
 |:-------|:-------|:---------|
 | "开新书/启动项目" | pop-writer-v3-seed | 无 |
-| "继续/下一步/写第X章" | pop-writer-v3-emerge（调度3子agent） | 种子文档已产出 |
+| "继续/下一步/写第X章" | pop-writer-v3-emerge(调度器)→3子skill | 种子文档已产出 |
 | "检查/审稿/弧线校准" | pop-writer-v3-arc | 已有≥10章正文 |
 | "回滚到第N章" | pop-writer-v3-arc(回退) | 项目存在 |
 
@@ -95,11 +95,12 @@ version: 9.0.0
 ## 核心流程
 
 1. **Think** — 状态感知+意图识别+前置校验+智能调度 → `steps/step-1-think.md`
-2. **Execute** — 加载子skill+闸门+3子agent调度+信息获取+记忆更新+落盘 → `steps/step-2-execute.md`
+2. **Execute** — 加载子skill+闸门+emerge调度器→3子skill调度+信息获取+记忆更新+落盘 → `steps/step-2-execute.md`
 3. **Reflect** — 通用审视+项目总控回写+引导+方向提示+弧线校准检查 → `steps/step-3-reflect.md`
 
 ## 版本
 
+v9.1.0 | 2026-06-26 | 管线升级v3.2：emerge拆分为3独立子skill(create/revise/qa)，emerge降为调度器；红线❌5改为子skill调度context隔离；路由表更新 → [CHANGELOG.md](CHANGELOG.md)
 v9.0.0 | 2026-06-26 | 去掉v2双轨，全方面服务于v3.1；3子agent调度+context隔离；种子六要素 → [CHANGELOG.md](CHANGELOG.md)
 v8.0.0 | 2026-06-26 | 重新引入双轨（v2/v3）；v3涌现式管线独立新建 → [CHANGELOG.md](CHANGELOG.md)
 v7.0.0 | 2026-06-25 | v2管线转正为默认模式，移除v1/v2双轨切换 → [CHANGELOG.md](CHANGELOG.md)

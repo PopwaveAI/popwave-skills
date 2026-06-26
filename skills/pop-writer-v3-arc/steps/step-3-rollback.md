@@ -1,6 +1,6 @@
 # Step 3：回退机制
 
-> 管线: pop-writer-v3-arc v1.1.0
+> 管线: pop-writer-v3-arc v1.2.0
 > 消费: Step 1宏观检查结果 + Step 2种子修剪结果
 > 产出: 回退建议（写入校准报告）
 

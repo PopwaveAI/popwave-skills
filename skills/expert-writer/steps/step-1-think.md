@@ -51,9 +51,9 @@
 
 | 调度条件 | 路由目标 | 说明 |
 |:---------|:---------|:-----|
-| 正常写作 | pop-writer-v3-emerge | 未触发弧线校准、质检子agent通过 |
+| 正常写作 | pop-writer-v3-emerge | 未触发弧线校准、质检子skill通过 |
 | 弧线校准触发点（每10-20章 / 事件触发 / 用户触发） | pop-writer-v3-arc | 检查章号差值 + 用户指令 + 重大剧情转折 |
-| emerge 质检不通过 | 回退重写当前章 | 质检子agent未过 → 回退到创作子agent(Step 2)或修订子agent(Step 3) |
+| emerge 质检不通过 | 回退重写当前章 | 质检子skill未过 → 回退到创作子skill(Step 2)或修订子skill(Step 3) |
 
 **精简模式**：用户说"直接写/快一点/跳过解释" → 少解释、多执行、保留闸门确认。
 
@@ -70,6 +70,6 @@
 | v3-seed（种子设计完成） | 种子六要素总览 → 方案A：确认种子 / 方案B：调整某要素 / 4. 我重新来 |
 | v3-arc（弧线校准完成） | 校准报告六项检查结果 → 方案A：确认校准 / 方案B：调整某项 / 4. 我重新来 |
 
-> v3-emerge 每章闸门由 emerge 内部质检子agent处理，expert-writer 不重复——只做宏观检查（见 step-3-reflect）。
+> v3-emerge 每章闸门由 emerge 内部质检子skill处理，expert-writer 不重复——只做宏观检查（见 step-3-reflect）。
 
 跳过闸门 = 违规。

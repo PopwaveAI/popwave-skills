@@ -21,12 +21,12 @@ Step 1 · v3-seed（种子设计）
   ├─ 文风DNA蒸馏 → 写作资产/文风库/{书名}.md
   └─ 种子确认闸门 → 种子文档.md
   ↓
-Step 2 · v3-emerge（涌现写作环 · 3子agent调度）
+Step 2 · v3-emerge（涌现写作环 · 调度器→3子skill）
   ├─ Step 0: 本章规划 → chapter_plan
   ├─ Step 1: 信息获取（强制化）→ 读索引→读/搜→写本地→更新索引
-  ├─ Step 2: 创作子agent（context隔离）→ 正文初稿
-  ├─ Step 3: 修订子agent（context隔离）→ 修订稿
-  ├─ Step 4: 质检子agent（context隔离）→ 质检报告
+  ├─ Step 2: 调度 pop-writer-v3-create（context隔离）→ 正文初稿
+  ├─ Step 3: 调度 pop-writer-v3-revise（context隔离）→ 修订稿
+  ├─ Step 4: 调度 pop-writer-v3-qa（context隔离）→ 质检报告
   ├─ Step 5: 记忆更新+种子生长+方向提示
   └─ Step 6: 落盘+项目总控更新
   ↓ （循环：每章重复 Step 0-6）
@@ -101,5 +101,5 @@ Step 3 · pop-shared-dna
 | 环节 | 闸门 | 不过则 |
 |:-----|:-----|:------|
 | v3-seed 完成 | 种子六要素总览 用户确认 | 回到 v3-seed 调整 |
-| v3-emerge 每章 | 质检子agent通过 | 回退创作子agent或修订子agent |
+| v3-emerge 每章 | 质检子skill通过 | 回退创作子skill或修订子skill |
 | v3-arc 完成 | 校准报告六项检查 用户确认 | 回到 v3-arc 重新校准 |

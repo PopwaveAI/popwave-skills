@@ -1,6 +1,6 @@
 # Step 3：文风DNA蒸馏→文风库文件
 
-> 管线: pop-writer-v3-seed v1.1.0
+> 管线: pop-writer-v3-seed v1.2.0
 > 消费: 对标书原文 / 用户指定文风参考 / pop-shared-dna
 > 产出: 写作资产/文风库/{书名}.md（文风DNA档案，项目资产，不写入种子）
 

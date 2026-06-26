@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## v2.0.0 — 2026-06-26
+
+### 架构变更：3子agent拆为3独立skill，emerge降为纯调度器
+
+- **emerge降为调度器**：3子agent（创作/修订/质检）从emerge内嵌step拆为3个独立skill（pop-writer-v3-create/revise/qa），emerge降为纯调度器。context隔离从纪律约束变为架构边界（红线❌7改写为"子skill调度context隔离"）
+- **Step 2/3/4改为dispatch契约**：step-2-create.md→step-2-dispatch-create.md（调度create子skill）；step-3-revise.md→step-3-dispatch-revise.md（调度revise子skill）；step-4-qa.md→step-4-dispatch-qa.md（调度qa子skill）。每个dispatch step含：输入context组装→调用子skill→输出收集→门禁
+- **行为准则贯穿**：create子skill新增行为一致性检查（红线❌2）；revise子skill人设丰富新增行为准则对齐（2.3）；qa子skill新增行为一致性终验维度
+- **素材库替代知识库**：所有 `写作资产/知识库/` 路径改为 `素材库/知识沉淀/`；红线❌6从"读 `写作资产/知识库/索引.md`"改为"读 `素材库/索引.md`"
+- **搜索深度标准**：emerge step-1新增"4e. 搜索深度标准"（每篇≥500字+具体案例/流程/数据+多轮搜索策略）；信息获取强制化SOP新增"5.4 搜索深度标准"+"5.5 知识沉淀文件字数门禁"
+- **无需求门槛提高**：needs:[]需逐类说明理由no_need_reasons（4项未全部填写=退回补填）；连续3章needs:[]→标记信息获取退化预警
+
+### 红线变更
+
+- ❌1 文风DNA缺失：从"修订子agent"→"revise子skill"（措辞更新）
+- ❌2 质检不通过：新增"行为一致性终验❌"作为不通过条件之一
+- ❌6 信息获取必须读索引：路径从 `写作资产/知识库/索引.md` → `素材库/索引.md`
+- ❌7 context隔离：从"3子agent context隔离"→"子skill调度context隔离"（架构边界化）
+
+### 文件变更
+
+| 操作 | 文件 | 说明 |
+|:-----|:-----|:-----|
+| 删除 | steps/step-2-create.md | 迁移到pop-writer-v3-create/steps/step-1-create.md |
+| 删除 | steps/step-3-revise.md | 迁移到pop-writer-v3-revise/steps/step-1-revise.md |
+| 删除 | steps/step-4-qa.md | 迁移到pop-writer-v3-qa/steps/step-1-qa.md |
+| 新建 | steps/step-2-dispatch-create.md | 调度create子skill的dispatch契约 |
+| 新建 | steps/step-3-dispatch-revise.md | 调度revise子skill的dispatch契约 |
+| 新建 | steps/step-4-dispatch-qa.md | 调度qa子skill的dispatch契约 |
+| 删除 | references/创作指南.md | 迁移到pop-writer-v3-create/references/创作指南.md（+行为一致性检查章节） |
+| 删除 | references/修订指南.md | 迁移到pop-writer-v3-revise/references/修订指南.md（+行为准则对齐） |
+| 删除 | templates/创作-模板.md | 迁移到pop-writer-v3-create/templates/创作-模板.md（+行为准则确认项） |
+| 删除 | templates/修订checklist-模板.md | 迁移到pop-writer-v3-revise/templates/修订checklist-模板.md（+2.3行为准则对齐） |
+| 删除 | templates/质检报告-模板.md | 迁移到pop-writer-v3-qa/templates/质检报告-模板.md（+行为一致性终验） |
+| 改写 | steps/step-1-info-forced.md | 素材库路径+搜索深度标准+无需求门槛 |
+| 改写 | references/信息获取强制化SOP.md | 素材库路径+搜索深度标准+字数门禁 |
+| 改写 | templates/信息获取记录-模板.md | 素材库路径+no_need_reasons |
+| 改写 | references/活种子生长触发规则.md | 新增行为准则演化生长场景+细化行为准则边界 |
+
 ## v1.2.0 — 2026-06-26
 
 ### 架构重构

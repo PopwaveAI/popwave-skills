@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v3-revise",
+  "displayName": "修订子skill",
+  "description": "涌现写作修订子skill。context隔离，文风DNA硬阻塞+人设丰富（含行为准则对齐）+爽点验证+bug修复+AI观感词清理。",
+  "entry": "SKILL.md",
+  "activation": "由pop-writer-v3-emerge Step 3调度时启用",
+  "version": "1.0.0"
+}

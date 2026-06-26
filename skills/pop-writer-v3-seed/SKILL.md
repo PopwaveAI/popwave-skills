@@ -1,11 +1,11 @@
 ---
 name: pop-writer-v3-seed
-description: "v3涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴，金手指→种子金手指，文风DNA→文风库文件（不写入种子），PRD→种子组装。活种子初始化。"
+description: "v3涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴（研究档案持久化到素材库），金手指→种子金手指，文风DNA→文风库文件（不写入种子），PRD→种子组装（主角引擎含行为准则）。活种子初始化。"
 pipeline:
   upstream: [pop-decon, pop-shared-dna]
   downstream: [pop-writer-v3-emerge]
   references: [pop-trope-library]
-version: 1.1.0
+version: 1.2.0
 ---
 
 # 种子设计（v3涌现式）
@@ -46,3 +46,5 @@ upstream `pop-decon` → **本skill** → downstream `pop-writer-v3-emerge`
 - 种子文档.md（活种子·六要素·含版本元数据+变更日志）
 - 写作资产/文风库/{书名}.md
 - 活记忆/活记忆.yaml（baseline #0）
+- 素材库/研究档案/种子展开图-{书名}.md（8维度制度调研详情）
+- 素材库/研究档案/交叉困境分析-{书名}.md（交叉困境详细分析）

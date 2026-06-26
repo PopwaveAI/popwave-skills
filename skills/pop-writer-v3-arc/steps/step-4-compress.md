@@ -1,6 +1,6 @@
 # Step 4：活记忆压缩
 
-> 管线: pop-writer-v3-arc v1.1.0
+> 管线: pop-writer-v3-arc v1.2.0
 > 消费: 活记忆.yaml（最后baseline + 之后全部event）
 > 产出: 压缩后的活记忆.yaml + 压缩记录
 
