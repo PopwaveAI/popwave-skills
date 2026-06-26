@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "displayName": "写作专家",
-  "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。支持v2雪花式/v3涌现式双轨。",
+  "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。v3.1涌现式写作管线调度引擎。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -20,14 +20,7 @@
   "pipeline": {
     "upstream": [],
     "downstream": [
-      "pop-writer-creative",
-      "pop-writer-world",
-      "pop-writer-character",
       "pop-decon",
-      "pop-writer-plot",
-      "pop-writer-chapter",
-      "pop-writer-prose",
-      "pop-writer-qa",
       "pop-writer-v3-seed",
       "pop-writer-v3-emerge",
       "pop-writer-v3-arc",

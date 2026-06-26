@@ -1,7 +1,7 @@
 # 四层审视框架（通用层）
 
 > expert-writer 只做通用三问 + 风险标记 + 退回决策。
-> L1-L4 详细清单由各子 skill 自管。
+> 详细清单由各子 skill 自管。
 
 ---
 
@@ -35,8 +35,8 @@
 | 问题类型 | 退回到 |
 |:---------|:-------|
 | 产出文件格式/位置错误 | 原子 skill |
-| 一致性问题（state-log/角色卡） | 原子 skill |
-| 质量不达标 | pop-writer-qa（质检）→ 原子 skill（修复） |
-| 活人感不足 | pop-writer-prose（局部重写） |
+| 一致性问题（活记忆/种子要素） | 原子 skill |
+| 质量不达标 | v3-emerge（质检子agent）→ 原子 skill（修复） |
+| 活人感不足 | v3-emerge（修订子agent，局部重写） |
 
-> **expert-writer 不自己做 L1-L4 详细检查。** 子 skill 有自己的落盘检查点、一致性校验、QA 三层审查。expert-writer 只做通用三问，发现问题就退回子 skill。
+> **expert-writer 不自己做详细检查。** 子 skill 有自己的落盘检查点、一致性校验、质检子agent。expert-writer 只做通用三问，发现问题就退回子 skill。

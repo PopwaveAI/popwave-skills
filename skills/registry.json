@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-26T00:00:00.000Z",
+  "updatedAt": "2026-06-26T12:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
-      "description": "网文创作元 Skill（专家模式）。加载后 Agent 按两步判断规则（范围→意图路由）自动识别创作意图并调用子 Skill，集成修改路由和完成后引导。",
-      "latest": "8.0.0",
+      "description": "v3.1涌现式写作管线调度引擎。加载后Agent按Think/Execute/Reflect三阶段调度种子设计→涌现写作环(调度+3子agent:创作/修订/质检)↔弧线校准。v9.0.0全面服务于v3.1，不再引用v2 skill。",
+      "latest": "9.0.0",
       "path": "skills/expert-writer"
     },
     {
@@ -124,20 +124,20 @@
     },
     {
       "id": "pop-writer-v3-seed",
-      "description": "v3涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴，金手指→种子金手指，文风DNA→种子文风DNA，PRD→种子组装。活种子初始化。",
-      "latest": "1.0.0",
+      "description": "v3.1涌现式种子设计。从creative复制重建，生态图谱→压力矩阵+冲突轴，金手指→种子金手指，文风DNA→文风库文件(不写入种子)，PRD→种子组装。活种子初始化(六要素+last_updated_ch)。",
+      "latest": "1.1.0",
       "path": "skills/pop-writer-v3-seed"
     },
     {
       "id": "pop-writer-v3-emerge",
-      "description": "v3涌现写作环。本章规划→信息需求判断→涌现写作(chapter+prose合并)→反思五问→活记忆更新+种子生长→方向提示。网文爽感机制强制对照。",
-      "latest": "1.1.0",
+      "description": "v3.1涌现式写作环。本章规划→信息获取(强制化)→调度3子agent(创作/修订/质检)→记忆更新+种子生长→方向提示。文风从创作端拆出到修订层，context隔离。",
+      "latest": "1.2.0",
       "path": "skills/pop-writer-v3-emerge"
     },
     {
       "id": "pop-writer-v3-arc",
-      "description": "v3弧线校准。六项宏观检查+种子修剪+三级回退+活记忆压缩。",
-      "latest": "1.0.0",
+      "description": "v3.1弧线校准。六项宏观检查+种子修剪(六要素+last_updated_ch新鲜度判据)+三级回退+活记忆压缩。触发：定期/事件/用户。",
+      "latest": "1.1.0",
       "path": "skills/pop-writer-v3-arc"
     },
     {

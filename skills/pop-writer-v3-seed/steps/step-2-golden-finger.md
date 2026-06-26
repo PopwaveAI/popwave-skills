@@ -1,6 +1,6 @@
 # Step 2：金手指行动引擎→种子金手指
 
-> 管线: pop-writer-v3-seed v1.0.0
+> 管线: pop-writer-v3-seed v1.1.0
 > 消费: Step 1 压力矩阵 + 用户金手指设想 + library套路库/金手指库
 > 产出: 种子§金手指
 
