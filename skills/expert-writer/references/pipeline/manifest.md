@@ -36,7 +36,7 @@ expert-writer（主会话6步循环）
 ├─ Step 0：本章规划
 │   读种子六要素+活记忆+上章末尾+方向提示+网文法则
 │   → 5决策点（场景/线索/爽点/危机/钩子）+ 10法则对照
-│   → 产出chapter_plan
+│   → 产出更新后的种子文档.md
 │
 ├─ Step 1：信息获取（强制化）
 │   读 资料总索引.md（强制）
@@ -46,7 +46,7 @@ expert-writer（主会话6步循环）
 │   → 产出info_acquired
 │
 ├─ ── Step 2：调度创作子skill（context隔离）──
-│   组装精简context：种子六要素+活记忆+上章末尾+chapter_plan+info_acquired+创作模板
+│   组装精简context：种子文档+活记忆+上章末尾+info_acquired+创作模板
 │   调用 pop-writer-v3-create → 纯故事涌现（场景流+压力源+章末钩子+主角行为一致性），不管文风
 │   输出：正文初稿+创作决策记录
 │

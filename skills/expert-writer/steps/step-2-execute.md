@@ -60,7 +60,7 @@
    - 先读 `种子/_index.yaml` → 获取版本号 + 要素文件清单 + 各要素 last_updated_ch
    - 再按步骤需要读取对应要素文件（不全量读取，按需加载）：
      - Step 0 本章规划：全量六要素（压力矩阵/主角引擎/金手指/冲突轴/成长路径/目的地）
-     - Step 1 信息获取：按 chapter_plan 涉及的要素按需读
+     - Step 1 信息获取：按种子文档本章聚焦段涉及的要素按需读
      - Step 2 调度create：传入六要素精简context
      - Step 3 调度revise：传入主角引擎+金手指+冲突轴
      - Step 4 种子生长：按revise修订记录更新对应要素文件
@@ -68,7 +68,7 @@
 
 2. **按步骤顺序执行**，每步加载对应step文件获取完整流程
 3. **Step 2/3 调度子skill时必须context隔离**（红线❌5）：传入精简context，不传会话历史
-4. **Step 0 产出 chapter_plan 必须落盘到 `章节规划/chXXX-plan.md` 并经用户确认**后才进入Step 1
+4. **Step 0 产出种子文档更新（本章聚焦段）必须经用户确认**后才进入Step 1
 5. **v3.4自动连贯**：Step 1→Step 2→Step 3 自动执行不暂停，仅Step 0（plan确认）和Step 3（revise重写稿验收）两个人工check点
 6. **Step 3 revise承担原qa全部质检职责**（文风DNA终验+事实一致性+字数终检），不再调用qa子skill
 7. **Step 4 机械执行**：种子生长判断已在Step 3 revise完成，Step 4只按revise修订记录机械写入

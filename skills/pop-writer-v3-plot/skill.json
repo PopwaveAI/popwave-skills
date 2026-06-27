@@ -1,0 +1,20 @@
+{
+  "id": "pop-writer-v3-plot",
+  "version": "1.0.0",
+  "displayName": "任务链设计",
+  "description": "v3涌现式任务链设计。2步流程：step-1卷方向锚（卷定位+起点终点+主冲突）→step-2任务链设计（目的地展开为三层映射任务链+金手指任务驱动节点）。产出写入种子文档主线任务段+卷纲方向锚文件。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["任务链", "plot", "剧情线"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false
+  },
+  "pipeline": {
+    "upstream": ["pop-writer-v3-seed"],
+    "downstream": ["expert-writer"]
+  }
+}

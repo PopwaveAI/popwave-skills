@@ -43,7 +43,7 @@ event条目格式：
 - type: event
   chapter: {章号}
   timestamp: ...
-  chapter_plan: {}          # Step 0产出
+  seed_card_update: {}      # Step 0产出（种子文档本章聚焦更新）
   info_acquired: {}         # Step 1产出
   creation_log: {}          # Step 2产出（创作决策记录）
   revision_log: {}          # Step 3产出（修订记录，含文风DNA终验+事实一致性检查+种子生长建议）

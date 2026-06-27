@@ -1,11 +1,11 @@
 ---
 name: pop-writer-v3-seed
-description: "v3涌现式种子设计。5步流程：step-0创意共创（元素融合+核心卖点+用户QA）→step-1三界压力调研→压力矩阵+冲突轴（研究档案持久化）→step-2金手指→step-3文风DNA蒸馏→step-4种子组装（主角引擎含行为准则）。六要素与用户逐步共创。种子文件夹结构（_index+_log+分要素文件）。活种子初始化。"
+description: "v3涌现式种子设计（种子文档统一化·v3.5）。5步流程：step-0创意共创（元素融合+核心卖点+用户QA）→step-1三界压力调研→压力矩阵+冲突轴（研究档案持久化）→step-2金手指→step-3文风DNA蒸馏→step-4种子组装（主角引擎含行为准则）；step-5维护SOP（供下游调用参考）。六要素与用户逐步共创。种子文档统一化（活文档·任务表+要素切片·头部含version/last_updated_ch/current_ch/current_arc）。活种子初始化。"
 pipeline:
   upstream: [pop-decon, pop-shared-dna]
-  downstream: [pop-writer-v3-emerge]
+  downstream: [pop-writer-v3-plot, expert-writer]
   references: [pop-trope-library]
-version: 1.4.0
+version: 1.5.0
 ---
 
 # 种子设计（v3涌现式）
@@ -31,6 +31,7 @@ version: 1.4.0
 | step-2 | steps/step-2-golden-finger.md | 金手指行动引擎→种子金手指（用户QA确认） |
 | step-3 | steps/step-3-dna-lock.md | 文风DNA蒸馏→文风库文件（不写入种子）（用户QA确认） |
 | step-4 | steps/step-4-seed-assembly.md | 主角引擎+成长路径+目的地+种子组装+验证（用户QA确认） |
+| step-5 | steps/step-5-maintenance.md | 种子维护SOP（供下游调用参考） |
 
 ## references/ — 知识层
 
@@ -41,13 +42,13 @@ version: 1.4.0
 
 ## 路由
 
-upstream `pop-decon` → **本skill** → downstream `pop-writer-v3-emerge`
+upstream `pop-decon` → **本skill** → downstream `pop-writer-v3-plot`/`expert-writer`
 
 ## 产出
 
-- `种子/`文件夹（活种子·核心卖点+六要素·_index.yaml+_log.md+分要素文件）
+- `种子文档.md`（统一活文档·任务表+要素切片·头部含version/last_updated_ch/current_ch/current_arc）
 - 写作资产/文风库/{书名}.md
-- 写作资产/设定库/（可选，复杂世界观才产出：世界宪法.md+力量体系.md+社会结构.md+角色档案/+卷纲路标/+_index.yaml）
+- 写作资产/设定库/（压力矩阵全量.md+冲突轴全量.md+人物库/+已废弃/；复杂世界观另含世界宪法.md+力量体系.md+社会结构.md+角色档案/+卷纲路标/）
 - 活记忆/活记忆.yaml（baseline #0）
 - 素材库/研究档案/种子展开图-{书名}.md（三界压力调研详情）
 - 素材库/研究档案/交叉困境分析-{书名}.md（交叉困境详细分析，含同界/跨界标注）

@@ -45,7 +45,6 @@
 │   └── 活记忆.yaml                       七组件 append-only 日志（baseline + event）
 │
 ├── 章节规划/                             [expert-writer Step 0 产出，用户确认后进入写作]
-│   └── chXXX-plan.md                     本章规划（5决策点+法则对照+info_gaps）
 │
 ├── 正文/                                 [expert-writer(6步循环)]
 │   └── chXXX.md

@@ -84,7 +84,7 @@
 | 种子/文件夹 | 压力矩阵+冲突轴+金手指+主角引擎+成长路径+目的地 | v3-seed | {状态} |
 | 写作资产/文风库/{书名}.md | pop-trope-library/文风库 + 对标书 | v3-seed | {状态} |
 | 活记忆/活记忆.yaml | 种子文件夹（baseline #0） | v3-seed/expert-writer/v3-arc | {状态} |
-| 正文/chXXX.md | 种子文件夹+活记忆+chapter_plan+info_acquired | expert-writer | {状态} |
+| 正文/chXXX.md | 种子文档+活记忆+info_acquired | expert-writer | {状态} |
 | 资料总索引.md | — | v3-seed（初始化）/ expert-writer（追加） | {状态} |
 | 素材库/研究档案/种子展开图-{书名}.md | 种子搜索法调研 | v3-seed | {状态} |
 | 素材库/研究档案/交叉困境分析-{书名}.md | 种子搜索法调研 | v3-seed | {状态} |
@@ -129,7 +129,7 @@
 │   └── 活记忆.yaml                    {状态}
 │
 ├── 📁 章节规划/                       ← expert-writer Step 0（用户确认后进入写作）
-│   └── chXXX-plan.md                  {状态}
+│   └── chXXX-revise.md               {状态}
 │
 ├── 📁 正文/                           ← expert-writer
 │   └── chXXX.md                      {状态}

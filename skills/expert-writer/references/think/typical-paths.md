@@ -22,7 +22,7 @@ Step 1 · v3-seed（种子设计）
   └─ 种子确认闸门 → 种子/文件夹
   ↓
 Step 2 · expert-writer（涌现写作环 · 6步循环→2子skill）
-  ├─ Step 0: 本章规划 → chapter_plan
+  ├─ Step 0: 任务表更新+本章聚焦 → 种子文档.md
   ├─ Step 1: 信息获取（强制化）→ 读索引→读/搜→写本地→更新索引
   ├─ Step 2: 调度 pop-writer-v3-create（context隔离）→ 正文初稿
   ├─ Step 3: 调度 pop-writer-v3-revise（context隔离）→ 修订稿
