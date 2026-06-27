@@ -5,7 +5,7 @@ pipeline:
   upstream: [pop-decon, pop-shared-dna]
   downstream: [pop-writer-v3-plot, expert-writer]
   references: [pop-trope-library, pop-research]
-version: 1.7.0
+version: 1.8.0
 ---
 
 # 初始设定设计（v3.5涌现式）

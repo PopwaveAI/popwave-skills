@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-28T16:00:00.000Z",
+  "updatedAt": "2026-06-28T18:30:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
@@ -125,7 +125,7 @@
     {
       "id": "pop-writer-v3-seed",
       "description": "v3.5初始设定设计。与用户共创六要素，产出写作参考/设定/下独立设定文件（主角引擎/金手指/压力矩阵/冲突轴/核心卖点）。调研委托pop-research。种子文档已取消，活记忆改自然语言。",
-      "latest": "1.7.0",
+      "latest": "1.8.0",
       "path": "skills/pop-writer-v3-seed"
     },
     {
@@ -143,7 +143,7 @@
     {
       "id": "pop-writer-v3-create",
       "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。网文风格基准（直接易懂、世界观卖点前置）。不加载文风DNA。context receipt回执。仅可更新L2卡本章聚焦。",
-      "latest": "1.4.0",
+      "latest": "1.5.0",
       "path": "skills/pop-writer-v3-create"
     },
     {

@@ -4,7 +4,7 @@ description: 涌现写作创作子skill。v3.5：输入改为导演意图（从L
 pipeline:
   upstream: [expert-writer]
   downstream: [pop-writer-v3-revise]
-version: 1.4.0
+version: 1.5.0
 ---
 
 # 创作子skill

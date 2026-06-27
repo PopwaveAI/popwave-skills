@@ -4,5 +4,5 @@
   "description": "涌现写作创作子skill。v3.5：输入改为导演意图（从L2卡结构分析表提取），context隔离，在导演意图框架内自由涌现——网文风格基准（直接易懂、世界观卖点前置）+场景流渲染+压力源逼近+章末钩子+主角行为一致性。不加载文风DNA（文风渲染由revise负责）。",
   "entry": "SKILL.md",
   "activation": "由expert-writer Step 3调度时启用",
-  "version": "1.4.0"
+  "version": "1.5.0"
 }
