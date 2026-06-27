@@ -1,11 +1,11 @@
 {
   "id": "pop-writer-v3-plot",
-  "version": "1.0.0",
-  "displayName": "任务链设计",
-  "description": "v3涌现式任务链设计。2步流程：step-1卷方向锚（卷定位+起点终点+主冲突）→step-2任务链设计（目的地展开为三层映射任务链+金手指任务驱动节点）。产出写入种子文档主线任务段+卷纲方向锚文件。",
+  "version": "1.2.0",
+  "displayName": "L2剧情单元卡设计",
+  "description": "v3.5 L2剧情单元卡设计。2步流程：step-1卷方向锚（卷定位+起终点四维度+主冲突）→step-2 L2卡设计（library匹配同类卡参考→设计L2卡→信息需求预判→设定引用指针→调研补缺）。L2卡是唯一运行时活文档，取消种子文档。结构分析表含设定引用指针列，事件brief用动作链，子线咬合用因果推导。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["任务链", "plot", "剧情线"],
+    "slashCommands": ["L2卡", "剧情单元", "plot", "剧情线"],
     "default": false
   },
   "permissions": {
@@ -14,7 +14,7 @@
     "network": false
   },
   "pipeline": {
-    "upstream": ["pop-writer-v3-seed"],
+    "upstream": ["pop-writer-v3-seed", "pop-trope-library"],
     "downstream": ["expert-writer"]
   }
 }

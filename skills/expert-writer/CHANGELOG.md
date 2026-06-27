@@ -1,5 +1,57 @@
 # CHANGELOG — expert-writer
 
+## v9.5.0 | 2026-06-28
+
+### v3.5涌现式写作管线重构：6步→5步+L2卡替代种子文档+context manifest白盒
+
+**核心变化：**
+
+| 维度 | v9.4.0 (v3.4) | v9.5.0 (v3.5) |
+|:-----|:--------------|:--------------|
+| 循环步数 | 6步 | 5步 |
+| 活文档 | 种子文档.md | L2剧情单元卡 |
+| 种子文档 | 存在 | 取消（功能被L2卡+写作参考吸收） |
+| 结构约束 | 种子文档任务表 | L2卡（跨章）+导演意图（单章） |
+| 设定读取 | 靠agent自觉 | L2卡设定指针→主会话强制读→manifest验证 |
+| 状态管理 | 活记忆7组件结构化YAML | 活记忆自然语言段落 |
+| 子agent上下文 | 黑盒 | context manifest白盒 |
+| 素材库+设定库 | 分开 | 合并为写作参考/ |
+| arc触发 | 每10-20章 | 每个L2单元结束时 |
+| 种子生长 | 8种场景 | 删除（L2卡每单元由arc更新） |
+
+**5步循环结构（替代6步）：**
+- Step0：导演意图提取（从L2卡结构分析表取本章行→组装导演意图≤150字）
+- Step1：状态快照投影（从活记忆+L2卡物理坐标投影≤400字）
+- Step2：信息获取（设定指针强制读取+library按需查询+pop-research如需）
+- Step3：子agent创作（create涌现→revise重写，一次调度，context manifest白盒）
+- Step4：receipt检查（manifest vs receipt一致性+导演意图验证）
+- Step5：活记忆更新+落盘（合并原memory+commit两步）
+
+**文件变更：**
+- `SKILL.md`：v9.4.0→v9.5.0，6步门禁表→5步门禁表，5条红线更新，文件加载规范更新（L2卡+写作参考替代种子文档+素材库+设定库），管线顺序新增plot+pop-research，emerge标注废弃
+- `skill.json`：v9.4.0→v9.5.0，downstream新增pop-research
+- `steps/step-0-init.md`：项目空间结构更新（卷纲/L2/L3+写作参考替代素材库+设定库）
+- `steps/step-1-think.md`：管线锚定更新（L2卡替代种子文档），5步循环路由
+- `steps/step-2-execute.md`：6步循环→5步循环执行流程
+- `steps/step-2-0-director-intent.md`：新建（导演意图提取，替代step-2-0-chapter-plan.md）
+- `steps/step-2-1-state-snapshot.md`：新建（状态快照投影，替代step-2-1-info-forced.md）
+- `steps/step-2-2-info-acquisition.md`：新建（信息获取：设定指针强制读取+library查询）
+- `steps/step-2-3-dispatch-create-revise.md`：新建（合并dispatch-create+dispatch-revise，create→revise一次调度）
+- `steps/step-2-4-receipt-check.md`：新建（receipt一致性检查，context manifest白盒）
+- `steps/step-2-5-memory-commit.md`：新建（合并memory-direction+commit，活记忆自然语言追加+落盘）
+- `steps/step-3-reflect.md`：更新引用（5步循环+L2卡）
+- `references/pipeline/manifest.md`：v3.3→v3.5，阶段表新增plot和pop-research
+- `references/project/master-control.tpl.md`：管线身份更新为v9.5.0，种子文档引用改为L2卡
+- `references/think/typical-paths.md`：路径更新（新增plot阶段）
+
+**删除文件（6个旧step文件）：**
+- `steps/step-2-0-chapter-plan.md` → 替换为 `step-2-0-director-intent.md`
+- `steps/step-2-1-info-forced.md` → 替换为 `step-2-1-state-snapshot.md`
+- `steps/step-2-2-dispatch-create.md` → 合并入 `step-2-3-dispatch-create-revise.md`
+- `steps/step-2-3-dispatch-revise.md` → 合并入 `step-2-3-dispatch-create-revise.md`
+- `steps/step-2-4-memory-direction.md` → 合并入 `step-2-5-memory-commit.md`
+- `steps/step-2-5-commit.md` → 合并入 `step-2-5-memory-commit.md`
+
 ## v9.4.0 | 2026-06-27
 - v3.5修复：管线顺序前置+无大纲声明（任务表内化大纲功能）
 - Step0从"做chapter plan"改为"更新种子文档任务表+本章聚焦"

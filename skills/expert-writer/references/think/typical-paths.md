@@ -1,104 +1,129 @@
-﻿# typical-paths.md — 典型路径速查
+# typical-paths.md — 典型路径速查
 
 > 加载时机：Think 初次路由时，对照确认当前环节上下游。
 > 加载方式：`Get-Content -Encoding UTF8 -Raw`，不用 Read 工具。
 
 ---
 
-## 路径一：新书启动
+## v3.5 管线全路径
 
 ```
-用户说"开书"
-  │
-  ▼
-Step 0 · expert-writer 项目初始化
-  ├─ 创建目录骨架（种子/写作资产/活记忆/正文/弧线校准报告）
-  ├─ 初始化知识库索引
-  └─ 初始化项目总控.md
-  ↓
-Step 1 · v3-seed（种子设计）
-  ├─ 压力矩阵 + 主角引擎 + 金手指 + 冲突轴 + 成长路径 + 目的地
-  ├─ 文风DNA蒸馏 → 写作资产/文风库/{书名}.md
-  └─ 种子确认闸门 → 种子/文件夹
-  ↓
-Step 2 · expert-writer（涌现写作环 · 6步循环→2子skill）
-  ├─ Step 0: 任务表更新+本章聚焦 → 种子文档.md
-  ├─ Step 1: 信息获取（强制化）→ 读索引→读/搜→写本地→更新索引
-  ├─ Step 2: 调度 pop-writer-v3-create（context隔离）→ 正文初稿
-  ├─ Step 3: 调度 pop-writer-v3-revise（context隔离）→ 修订稿
-  ├─ Step 4: 记忆更新+种子生长+方向提示
-  └─ Step 5: 落盘+项目总控更新
-  ↓ （循环：每章重复 Step 0-5）
-  ↓ （触发弧线校准 → 交接 v3-arc）
-Step 3 · v3-arc（弧线校准）
-  ├─ 六项宏观检查（节奏/伏笔/角色弧线/世界一致性/爽点密度/读者体验）
-  ├─ 种子修剪（失效要素移入已关闭区）
-  └─ 活记忆压缩（合并baseline+events）
-  ↓
-回到 expert-writer 继续涌现写作
+种子设计(pop-writer-v3-seed) → L2卡设计(pop-writer-v3-plot) → 涌现写作环(expert-writer 5步循环) ↔ 弧线校准(pop-writer-v3-arc)
+                                                                ↑ 按需：pop-research
+```
+
+> emerge 已废弃：5步循环由 expert-writer 主会话直接执行。
+
+---
+
+## 典型路径
+
+### 路径1：新书启动
+
+```
+用户："开新书"
+→ step-0-init.md（项目初始化）
+→ pop-writer-v3-seed（种子设计）
+  → 产出：卷纲/卷N-方向锚.md + 写作参考/设定/* + 写作资产/文风库/{书名}.md + 活记忆/活记忆.yaml(baseline)
+→ pop-writer-v3-plot（L2卡设计）
+  → 产出：卷纲/L2-NNN-名称.md（含结构分析表+物理坐标段+设定引用指针）
+→ expert-writer 5步循环（涌现写作环）
+```
+
+### 路径2：继续写作（每章）
+
+```
+用户："继续"/"下一步"/"写第X章"
+→ step-1-think.md（状态感知+意图识别）
+  → 判断：L2卡存在？ → 是
+  → 前置校验：活记忆+文风DNA+写作参考索引
+→ step-2-execute.md（5步循环执行）
+  → Step0 导演意图提取（主会话）
+    → 读L2卡结构分析表 → 组装导演意图 → 【CHECK 1】用户确认
+  → Step1 状态快照投影（主会话）
+    → 读活记忆+L2卡物理坐标 → 投影状态快照
+  → Step2 信息获取（主会话）
+    → 设定指针强制读取 → library查询 → pop-research(如需)
+  → Step3 子agent创作（调度子agent）
+    → create：context manifest→涌现写作→初稿+receipt
+    → revise：初稿+文风DNA→重写稿+receipt → 【CHECK 2】用户验收
+  → Step4 receipt检查（主会话）
+    → 6项检查 → 通过/修复/降级
+  → Step5 活记忆更新+落盘（主会话）
+    → 活记忆追加 → 正文落盘 → 项目总控更新 → 弧线触发检查
+→ step-3-reflect.md（审视+引导）
+```
+
+### 路径3：L2单元完成 → 弧线校准
+
+```
+L2单元最后一章 Step5 完成
+→ 弧线触发检查：是最后一章 → 触发arc
+→ pop-writer-v3-arc（弧线校准）
+  → 检查L2单元结构完整性
+  → 校准L3剧情线
+  → 压缩活记忆
+  → 修剪失效要素（归档到写作参考/已废弃/）
+  → 更新L2卡
+→ arc完成 → expert-writer 5步循环（下一L2单元）
+```
+
+### 路径4：按需调研
+
+```
+Step2 信息获取中判断需要外部调研
+→ pop-research（按需调用，尚未创建则WebSearch替代）
+  → 调研结果沉淀到 写作参考/知识沉淀/
+  → 更新 写作参考/索引.md
+→ 回到 Step2 继续信息获取
+```
+
+### 路径5：回滚
+
+```
+用户："回滚到第N章"
+→ step-2-execute.md §3.2
+→ 删除 正文/chNNN.md 及之后
+→ 回退活记忆
+→ 更新项目总控
+→ 从第N章 Step0 重新开始
+```
+
+### 路径6：拆书
+
+```
+用户："拆这本书"
+→ pop-decon（拆书分析）
+→ 产出拆书报告
 ```
 
 ---
 
-## 路径二：已有项目续写
+## 文件产出/消费关系
 
-```
-用户说"续写"
-  │
-  ▼
-Step 0 · expert-writer 全局感知
-  → 读取项目总控.md（阶段+章号+种子版本）
-  → 读取活记忆/活记忆.yaml（七组件当前状态）
-  → 读取种子/文件夹（_index.yaml+_log.md）
-  ↓
-Step 1 · 按当前阶段路由
-  ├─ 种子未完成 → v3-seed（继续种子设计）
-  ├─ 种子已完成 → expert-writer（继续涌现写作）
-  └─ 弧线校准触发 → v3-arc
-```
+| 阶段 | 产出 | 消费 |
+|:-----|:-----|:-----|
+| seed | 卷纲/卷N方向锚 + 写作参考/设定/* + 文风库 + 活记忆(baseline) | — |
+| plot | 卷纲/L2-NNN.md | 卷N方向锚 + 设定 |
+| emerge Step0 | 导演意图 | L2卡结构分析表 |
+| emerge Step1 | 状态快照 | 活记忆 + L2卡物理坐标 |
+| emerge Step2 | info_acquired | 导演意图settings_ref + 写作参考/索引 + library |
+| emerge Step3 | 初稿(create) + 重写稿(revise) + 2个receipt | context manifest |
+| emerge Step4 | receipt检查结果 | manifest + receipt |
+| emerge Step5 | 活记忆追加 + 正文落盘 + 项目总控更新 | 本章正文 + 导演意图 + 状态快照 |
+| arc | 弧线校准报告 + L2卡更新 + L3卡 + 活记忆压缩 | 正文 + 活记忆 + L2卡 |
 
 ---
 
-## 路径三：参考书拆解 → 融入写作
+## 关键文件路径速查
 
-```
-用户说"拆解这本书"
-  │
-  ▼
-Step 1 · tool-download-webnovel → {书名}.txt
-  ↓
-Step 2 · pop-decon（拆书专家）
-  ├─ 事实提取（角色卡 + ETL数据）
-  ├─ 聚类卷幕（全书架构 + Canvas矩阵）
-  ├─ 归纳世界观
-  ├─ 归纳故事引擎
-  └─ 验证打包
-  ↓ （可选）
-Step 3 · pop-shared-dna
-  → 均匀采样 ≥20 章 → 产出 写作资产/文风库/{书名}.md
-  ↓
-回到路径一 · v3-seed（基于拆书成果设计种子）
-```
-
----
-
-## 快速路由速查
-
-| 用户说 | 路由目标 | 需检查 |
-|:-------|:--------|:------|
-| 「开书」「新书」 | v3-seed | 项目总控.md 是否已初始化 |
-| 「续写」「下一章」 | 查项目总控.md → 按阶段路由 | 种子/文件夹 是否已产出 |
-| 「拆解」「分析这本书」 | download → pop-decon | 参考书 TXT 是否存在 |
-| 「检查」「审稿」 | v3-arc | 已有 ≥10 章正文 |
-| 「回滚」 | step-2-execute §3.2 | 项目存在 |
-| 「改设定」 | step-2-execute §3.1 | 定位修改层级（种子/正文/弧线） |
-
----
-
-## 闸门检查点
-
-| 环节 | 闸门 | 不过则 |
-|:-----|:-----|:------|
-| v3-seed 完成 | 种子六要素总览 用户确认 | 回到 v3-seed 调整 |
-| expert-writer(涌现写作环) 每章 | revise重写稿用户验收（CHECK 2） | 回退创作子skill或修订子skill |
-| v3-arc 完成 | 校准报告六项检查 用户确认 | 回到 v3-arc 重新校准 |
+| 文件 | 路径 | 加载方式 |
+|:-----|:-----|:---------|
+| L2卡 | `卷纲/L2-NNN-名称.md` | Get-Content -Raw |
+| 活记忆 | `活记忆/活记忆.yaml` | Get-Content -Raw |
+| 文风DNA | `写作资产/文风库/{书名}.md` | Get-Content -Raw |
+| 写作参考索引 | `写作参考/索引.md` | Get-Content -Raw |
+| 设定文件 | `写作参考/设定/*.md` | Get-Content -Raw（强制） |
+| 正文 | `正文/chXXX.md` | Get-Content -Raw |
+| 项目总控 | `项目总控.md` | Get-Content -Raw |
+| 管线合同 | `references/pipeline/manifest.md` | Get-Content -Raw |

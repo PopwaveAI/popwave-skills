@@ -1,162 +1,142 @@
-﻿# 写作专家全链路合同（pipeline-manifest）
+# 写作专家全链路合同（pipeline-manifest）
 
-> v3.3涌现式写作管线合同。expert-writer唯一调度器→6步循环+2子skill调度，context隔离。
-> 对齐 PRD v3.0：`prd/01-管线架构/10-涌现式写作专家全链路-PRD.md`
+> v3.5涌现式写作管线合同。expert-writer唯一调度器→5步循环+2子skill调度，L2卡驱动，context manifest白盒。
+> 对齐 PRD v3.5：`prd/01-管线架构/16-v3.5涌现式写作管线重构PRD.md`
+> 对齐 context-manifest PRD：`prd/01-管线架构/15-context-manifest-子agent上下文清晰化PRD.md`
+
+---
+
+## 管线阶段表（v3.5）
+
+| 阶段 | skill | 产出 | 消费 | 状态 |
+|:-----|:------|:-----|:-----|:-----|
+| 种子设计 | pop-writer-v3-seed | 卷纲/卷N-方向锚.md + 写作参考/设定/* + 写作资产/文风库/{书名}.md + 活记忆/活记忆.yaml(baseline) | — | ✅ 已有 |
+| L2卡设计 | pop-writer-v3-plot | 卷纲/L2-NNN-名称.md（含结构分析表+物理坐标段+设定引用指针） | 卷N方向锚+设定 | ✅ 已有 |
+| 涌现写作环 | expert-writer（主会话5步循环） | 正文/chXXX.md + 活记忆追加 + 项目总控更新 | L2卡+写作参考+活记忆+文风DNA | ✅ 已有 |
+| ↳ create | pop-writer-v3-create | 初稿+create receipt | context manifest | ✅ 已有 |
+| ↳ revise | pop-writer-v3-revise | 重写稿+revise receipt | 初稿+文风DNA | ✅ 已有 |
+| 弧线校准 | pop-writer-v3-arc | 弧线校准报告/arc-XX.md + L2卡更新 + L3卡 + 活记忆压缩 | 正文+活记忆+L2卡 | ✅ 已有 |
+| 按需调研 | pop-research | 写作参考/知识沉淀/* | 按需 | ⏳ 预留（尚未创建） |
+
+> **v3.5关键变化（vs v3.3）：**
+> - 新增 **L2卡设计**（pop-writer-v3-plot）阶段 — 取代种子文档，L2卡为唯一运行时活文档
+> - 新增 **pop-research**（按需调研）— 管线预留位置，尚未创建
+> - **emerge已废弃** — 5步循环由expert-writer主会话直接执行，不再作为独立环节
+> - 6步循环 → **5步循环**（导演意图→状态快照→信息获取→子agent创作→receipt检查→活记忆更新）
+> - 新增 **context manifest白盒机制** — 子agent上下文可追溯
+> - 素材库+设定库 → **写作参考**（合并）
+
+---
 
 ## 管线顺序
 
 ```
-种子设计(pop-writer-v3-seed) → 涌现写作环(expert-writer 6步循环) ↔ 弧线校准(pop-writer-v3-arc)
+种子设计(pop-writer-v3-seed) → L2卡设计(pop-writer-v3-plot) → 涌现写作环(expert-writer 5步循环) ↔ 弧线校准(pop-writer-v3-arc)
+                                                                ↑ 按需：pop-research
 ```
 
-- 种子设计是一次性起点阶段（产出种子文件夹后进入循环）
-- 涌现写作环与弧线校准构成循环：expert-writer 写若干章 → arc 校准 → expert-writer 继续 → arc 校准 → ...
-- 弧线校准触发条件：每 10-20 章 / 重大剧情转折 / 用户触发
+### 触发规则
 
-| 阶段 | 调用 skill | 核心产出 | 前置条件 | 闸门 |
-|:-----|:-----------|:---------|:---------|:-----|
-| 1 种子设计 | pop-writer-v3-seed | `种子/`文件夹（_index.yaml+_log.md+核心卖点+六要素+行为准则）+ `写作资产/文风库/{书名}.md` + `写作资产/设定库/`（可选） + `素材库/研究档案/种子展开图-{书名}.md` + `素材库/研究档案/交叉困境分析-{书名}.md` | 无（开书入口） | 种子确认 |
-| 2 涌现写作环 | expert-writer（6步循环主会话+调度2子skill） | `正文/chXXX.md` + 活记忆追加 event + 方向提示 + `素材库/知识沉淀/` | 种子文件夹已产出 | revise重写稿用户验收（CHECK 2） |
-| 3 弧线校准 | pop-writer-v3-arc | `弧线校准报告/arc-XX.md` + 种子修剪（更新要素文件+_log.md）+ 设定库补充（如有） + 活记忆压缩 | 已有 ≥10 章正文 | 校准确认 |
+| 触发条件 | 路由到 | 说明 |
+|:---------|:-------|:-----|
+| 项目初始化 | pop-writer-v3-seed | 首次启动 |
+| seed完成 | pop-writer-v3-plot | L2卡设计 |
+| plot完成（L2卡已产出） | expert-writer 5步循环 | 涌现写作 |
+| **L2单元最后一章Step5完成** | pop-writer-v3-arc | **每个L2单元结束时触发**（v3.5变更） |
+| arc完成 | expert-writer 5步循环 | 下一L2单元 |
+| 需要外部调研 | pop-research | 按需调用 |
 
-## 入口规则
+> v3.4 arc触发：每10-20章
+> v3.5 arc触发：每个L2单元结束时
 
-| 用户说 | 路由 | 对管线进度的影响 |
-|:-------|:-----|:-----------------|
-| "开新书/启动项目" | → v3-seed（首次管线起点） | 初始化 `项目总控.md`，标记 种子设计 为 current |
-| "继续/下一步" | → 查 `项目总控.md` 的 current_stage | 不改变进度，按 current 路由 |
-| "拆解这本书" | → pop-decon（拆书专家） | 不改变写作管线进度。独立运行 |
+---
 
-## 涌现写作环内部架构（expert-writer主会话6步循环→2子skill）
+## 5步循环（expert-writer主会话执行）
 
-> v3.3 核心架构：expert-writer 主会话执行6步循环，调度2个独立子skill（create/revise），context隔离。
+| Step | 名称 | 执行者 | 核心动作 | 人工check |
+|:-----|:-----|:-------|:---------|:---------|
+| Step0 | 导演意图提取 | 主会话 | 从L2卡结构分析表取本章行→组装导演意图（≤150字） | CHECK 1：用户确认 |
+| Step1 | 状态快照投影 | 主会话 | 从活记忆+L2卡物理坐标投影当前状态（≤400字） | 无 |
+| Step2 | 信息获取 | 主会话 | 设定指针强制读取→library按需查询→pop-research(如需) | 无 |
+| Step3 | 子agent创作 | 子agent | context manifest组装→create涌现写作→revise完全重写 | CHECK 2：用户验收 |
+| Step4 | receipt检查 | 主会话 | 对照manifest vs receipt→对照导演意图验证 | 无 |
+| Step5 | 活记忆更新+落盘 | 主会话 | 自然语言追加活记忆→正文落盘→项目总控更新 | 无 |
+
+> v3.4 的6步（plan→info→create→revise→memory→commit）→ v3.5 的5步
+> 原 Step4（dispatch-revise）合并进 Step3（create→revise一次调度）
+> 原 Step4（memory）+ Step5（commit）合并为 Step5（活记忆更新+落盘）
+
+---
+
+## context manifest 白盒机制
+
+> 对齐 context-manifest PRD（`prd/01-管线架构/15-context-manifest-子agent上下文清晰化PRD.md`）
+
+### create阶段 manifest
+
+| 注入项 | 来源 | 说明 |
+|:-------|:-----|:-----|
+| 导演意图 | Step0产出 | 含三问+settings_ref |
+| 状态快照 | Step1产出 | protagonist+pressures+pending |
+| 上章末尾 | 正文/chXXX.md | 500-800字衔接 |
+| 设定文件 | Step2强制读取 | settings_ref指向的文件 |
+| info_acquired | Step2产出 | library+research结果 |
+
+### revise阶段 manifest
+
+| 注入项 | 来源 | 说明 |
+|:-------|:-----|:-----|
+| create初稿 | create阶段产出 | 全文 |
+| 文风DNA | 写作资产/文风库/{书名}.md | 精确匹配目标 |
+| 要素切片 | 导演意图+状态快照 | 子线+伏笔+承诺+揭示 |
+| 导演意图验证清单 | Step0导演意图三问 | 5项验证 |
+
+### receipt 检查（Step4）
+
+6项检查：
+1. 完整性：receipt.status=full 且 actual_read≈manifest.size
+2. 关键元素：key_elements_confirmed覆盖所有声明元素
+3. 导演意图（create）：三问全部确认
+4. 设定文件读取：settings_ref全部status=full
+5. 文风DNA（revise）：status=full 且精确匹配（0误差）
+6. 导演意图验证（revise）：5项验证全部通过
+
+修复策略：连续2次同一项不通过 → 降级策略B（红线5）
+
+---
+
+## 理想目录路由
 
 ```
-expert-writer（主会话6步循环）
-├─ Step 0：本章规划
-│   读种子六要素+活记忆+上章末尾+方向提示+网文法则
-│   → 5决策点（场景/线索/爽点/危机/钩子）+ 10法则对照
-│   → 产出更新后的种子文档.md
-│
-├─ Step 1：信息获取（强制化）
-│   读 资料总索引.md（强制）
-│   读 资料总索引.md（如有，按需读取设定库文件）
-│   → 有匹配 → 读素材库文件
-│   → 无匹配 → WebSearch → 写入素材库 → 更新索引
-│   → 产出info_acquired
-│
-├─ ── Step 2：调度创作子skill（context隔离）──
-│   组装精简context：种子文档+活记忆+上章末尾+info_acquired+创作模板
-│   调用 pop-writer-v3-create → 纯故事涌现（场景流+压力源+章末钩子+主角行为一致性），不管文风
-│   输出：正文初稿+创作决策记录
-│
-├─ ── Step 3：调度修订子skill（context隔离）──
-│   组装精简context：初稿+文风DNA+种子六要素+活记忆+修订checklist
-│   调用 pop-writer-v3-revise → 文风对齐/人设丰富(含行为准则对齐)/爽点验证/bug修复/AI观感词清理
-│   输出：修订稿+修订记录
-│
-├─ ── （v3.4已剔除qa环节，质检职责下沉revise层）──
-│
-├─ Step 4：记忆更新+种子生长+方向提示（主会话机械执行）
-│   读质检报告 → 机械写入种子(如生长)+活记忆+方向提示
-│
-└─ Step 5：落盘+项目总控更新
-    正文落盘 → 项目总控(章号+1/种子版本/弧线触发)
-    → 触发弧线校准 → 交接v3-arc
-    → 未触发 → 回Step 0
+{项目名}/
+├── 卷纲/
+│   ├── 卷N-方向锚.md                     [seed] → [plot消费]
+│   ├── L2-NNN-名称.md                    [plot产出] → [emerge消费] → [arc更新]
+│   └── L3-NNN-名称.md                    [arc产出] → [arc更新]
+├── 写作参考/
+│   ├── 索引.md                           [seed初始化] → [全管线追加]
+│   ├── 设定/                             [seed产出] → [emerge Step2强制读取]
+│   ├── 知识沉淀/                         [pop-research/expert-writer产出]
+│   └── 已废弃/                           [arc修剪归档]
+├── 写作资产/
+│   └── 文风库/{书名}.md                  [seed产出] → [revise消费]
+├── 活记忆/活记忆.yaml                    [seed初始化] → [emerge Step5追加] → [arc压缩]
+├── 正文/chXXX.md                        [emerge Step5落盘]
+├── 弧线校准报告/arc-XX.md                [arc产出]
+└── 项目总控.md                           [expert-writer每章更新]
 ```
 
-## 文件接口
+> v3.5变化：
+> - 种子文档.md **取消** → L2卡+写作参考吸收
+> - 素材库/ + 设定库/ → **写作参考/**（合并）
+> - 新增卷纲/ 目录（L2卡+L3卡+卷方向锚）
 
-> S = 一次性产出 / D = 持续维护
+---
 
-### 总控文件
+## 版本历史
 
-| 文件 | 产出者 | 消费者 | S/D |
-|:-----|:-------|:-------|:---:|
-| `项目总控.md` | expert-writer（每章更新） | expert-writer | D |
-
-### 种子设计产出
-
-| 文件 | 产出者 | 消费者 | S/D |
-|:-----|:-------|:-------|:---:|
-| `种子/`文件夹 | v3-seed | expert-writer, v3-arc | D（活种子，可生长/修剪） |
-| `写作资产/文风库/{书名}.md` | v3-seed（从 library 获取+蒸馏） | expert-writer（修订层消费） | S |
-| `写作资产/设定库/`（可选） | v3-seed（可选产出）/ expert-writer（生长）/ v3-arc（补充） | expert-writer（按需读取）, v3-arc | D |
-| `素材库/研究档案/种子展开图-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
-| `素材库/研究档案/交叉困境分析-{书名}.md` | v3-seed | expert-writer, v3-arc | S |
-| `资料总索引.md` | v3-seed（初始化） | expert-writer（追加） | D |
-
-### 涌现写作环产出
-
-| 文件 | 产出者 | 消费者 | S/D |
-|:-----|:-------|:-------|:---:|
-| `活记忆/活记忆.yaml` | v3-seed（初始化）/ expert-writer（追加）/ v3-arc（压缩） | expert-writer, v3-arc | D |
-| `正文/chXXX.md` | expert-writer | v3-arc | D |
-| `资料总索引.md` | expert-writer（信息获取追加） | expert-writer | D |
-| `素材库/知识沉淀/{主题}.md` | expert-writer（信息获取） | expert-writer | D |
-
-### 弧线校准产出
-
-| 文件 | 产出者 | 消费者 | S/D |
-|:-----|:-------|:-------|:---:|
-| `弧线校准报告/arc-XX.md` | v3-arc | expert-writer（参考） | S |
-
-## 活种子版本管理
-
-种子文件夹是"活种子"——随写作过程可生长、可修剪，但每次变更必须版本化：
-
-| 字段 | 说明 |
-|:-----|:-----|
-| `version` | 当前版本号（初始 1.0，每次生长/修剪 +1） |
-| `changelog` | 变更日志（版本号 + 时间 + 变更内容 + 触发者） |
-| `closed_zones` | 已关闭区——早期确定的不可变要素（锁定后不可修改） |
-
-**版本变更触发**：
-- expert-writer 涌现新要素 → 种子生长（version+1，changelog 追加）
-- arc 校准发现失效要素 → 种子修剪（version+1，changelog 追加，失效要素移入已关闭区）
-
-**种子六要素**（文风DNA为项目资产，不进种子）：
-
-| # | 要素 | 说明 |
-|:-:|:-----|:-----|
-| 1 | 压力矩阵 | 压力源+机制+杀人方式+显性表现 |
-| 2 | 主角引擎 | 驱动力三层+缺陷+决策风格+行为准则（背景映射/战斗风格/道德底线/行为禁忌） |
-| 3 | 金手指 | 核心创意+能力解锁+限制+数值风格 |
-| 4 | 冲突轴+活跃线索 | 四层生态+活跃线索清单 |
-| 5 | 成长路径 | 能力里程碑+心态变化+资源积累 |
-| 6 | 目的地 | 5-10个模糊路标 |
-
-每条要素附带 `last_updated_ch` 字段，记录最后更新章号。`当前章号 - last_updated_ch > 15` → 要素可能需关注（休眠/进化/修剪）。
-
-## 活记忆七组件
-
-活记忆（`活记忆/活记忆.yaml`）是 append-only 日志，由七组件构成：
-
-| # | 组件 | 说明 | 写入者 |
-|:-:|:-----|:-----|:-------|
-| 1 | baseline | 状态快照（角色状态+世界状态+伏笔状态） | v3-seed（初始）/ v3-arc（压缩后） |
-| 2 | events | 每章变化日志（chapter + 变化段） | expert-writer |
-| 3 | 角色弧线 | 主角弧线进展（每章追加） | expert-writer |
-| 4 | 伏笔 | 伏笔埋设/回收记录 | expert-writer |
-| 5 | 世界状态 | 世界规则变化记录 | expert-writer |
-| 6 | 关系 | 角色关系动态 | expert-writer |
-| 7 | 方向提示 | 下一章走向建议（expert-writer 写完每章后生成） | expert-writer |
-
-> 压缩机制：每 20 章由 v3-arc 合并 baseline + events 为新 baseline，清空旧 entries。
-
-## 信息获取强制化产物
-
-> v3.3 核心变更：信息获取从"自主判断要不要查"改为"强制读索引→读/搜→写本地→更新索引"。
-
-**每章 expert-writer 执行 Step 1 时强制执行**：
-
-| 步骤 | 动作 | 产物 |
+| 版本 | 日期 | 变更 |
 |:-----|:-----|:-----|
-| 1 | 读 `资料总索引.md`（强制，不可跳过） | 索引内容 |
-| 2a | 索引有匹配主题 → 读对应素材库文件 | 素材库文件内容 |
-| 2b | 索引无匹配 → WebSearch 搜索 → 写入 `素材库/知识沉淀/{主题}.md` | 新素材库文件 |
-| 3 | 更新 `资料总索引.md`（追加新条目） | 更新后的索引 |
-| 4 | 产出 `info_acquired` 传递给创作子skill | 信息获取记录 |
-
-**门禁**：索引未读取 = 退回补读。即使无需求也必须读索引（可 `needs: []`）。
+| v3.5 | 2026-06-28 | 6步→5步；L2卡替代种子文档；素材库+设定库合并为写作参考；context manifest白盒；arc每L2单元触发；新增plot+pop-research |
+| v3.3 | 2026-06-26 | emerge调度合并到expert-writer；7步→6步剔除qa |
+| v3.1 | 2026-06-25 | 去掉v2双轨，全方面服务于v3.1 |

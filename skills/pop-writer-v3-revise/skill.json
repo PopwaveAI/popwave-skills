@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-v3-revise",
   "displayName": "修订子skill",
-  "description": "涌现写作修订子skill。context隔离，文风DNA硬阻塞+人设丰富（含行为准则对齐）+爽点验证+bug修复+AI观感词清理。v3.4：完全重写模式（基于正文+文风DNA）+文风DNA终验+事实信息一致性+字数终检。qa剔除后承担全部质检职责。",
+  "description": "涌现写作修订子skill（v3.5渲染层）。context隔离，完全重写模式+文风DNA硬阻塞（Get-Content -Raw完整加载）+文风DNA终验（7项附证据）+事实信息一致性检查（6项零改写）+导演意图验证（5项，v3.5新增核心质量机制）+AI观感词清理+字数终检。输入来源从种子文档改为写作参考/设定/（主角引擎+金手指）+L2卡活跃线索。context receipt预留接口（批次2完整实现）。",
   "entry": "SKILL.md",
-  "activation": "由pop-writer-v3-emerge Step 3调度时启用",
-  "version": "1.1.0"
+  "activation": "由expert-writer主会话涌现写作循环Step 3调度时启用",
+  "version": "1.2.0"
 }
