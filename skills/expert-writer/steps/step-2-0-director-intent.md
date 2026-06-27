@@ -56,10 +56,16 @@ director_intent:
     - "系统：升级+街头感知解锁"
     - "超自然线：命运迷宫纹首次出现"
   chapter_hook: "灵能警告+灰色注释（超自然悬念）"  # 章末钩子
-  three_questions:                              # 三问（核心约束）
+  worldview_delivery:                           # 世界观传递（v9.6新增）
+    core_selling_point: "邪神渗透美国+超凡复苏+大选博弈"  # 本书核心卖点
+    chapter_must_deliver: "通过索伦回忆/系统面板/薇薇安对话让读者感知邪神渗透现实"  # 本章必须传递什么
+    method: "回忆闪回+系统面板注释"               # 传递方式
+  five_questions:                                # 五问（核心约束，v9.6从三问扩展）
     info: "读者必须知道系统升级机制"              # 读者必须知道什么？
     pressure: "搜索圈逼近必须推进到触发反杀"      # 压力必须推进到什么程度？
     hook: "章末留灵能警告"                       # 章末留什么钩子？
+    worldview: "读者必须感知到邪神渗透这个世界"   # 本章传递了什么世界观？
+    clarity: "小学生能直接看懂这章发生了什么"     # 读者读完是否清晰知道发生了什么？
   settings_ref:                                 # 设定引用指针（Step2强制读取）
     - "写作参考/设定/金手指.md#升级机制"
     - "写作参考/设定/主角引擎.md#行为准则"
@@ -73,16 +79,20 @@ director_intent:
 4. **pacing**：从"节奏"列取值
 5. **sublines_advance**：从"子线推进"列取值，拆分为列表
 6. **chapter_hook**：从"章末钩子"列取值
-7. **three_questions**：从L2卡结构分析表本章行推导：
+7. **worldview_delivery**（v9.6新增）：从 `写作参考/设定/核心卖点.md` 提取本书核心卖点，判断本章需要传递什么世界观信息、用什么方式传递。前三章尤其重要——读者前三章没get到卖点就会弃书
+8. **five_questions**（v9.6从三问扩展为五问）：
    - info：读者读完本章必须知道什么信息？
    - pressure：哪条压力线必须推进到什么程度？
    - hook：章末留什么钩子？
-8. **settings_ref**：从L2卡本章行的"设定引用"列取值，指向 `写作参考/设定/` 下的具体文件+锚点
+   - worldview：本章传递了什么世界观？（从worldview_delivery推导）
+   - clarity：小学生能直接看懂这章发生了什么？（检查是否过于含蓄/文学化）
+9. **settings_ref**：从L2卡本章行的"设定引用"列取值，指向 `写作参考/设定/` 下的具体文件+锚点
 
 ### 导演意图约束
 
 - 核心部分（narrative_function + event_chain + emotion_curve + pacing）≤150字
-- three_questions 是硬约束：create阶段必须回答全部三问
+- worldview_delivery 是硬约束：create阶段必须通过正文传递本章指定的世界观信息
+- five_questions 是硬约束：create阶段必须回答全部五问
 - settings_ref 是硬指针：Step2必须强制读取（不靠agent判断）
 
 ---
@@ -94,7 +104,8 @@ director_intent:
 1. 将导演意图 YAML 交付用户
 2. 用引导语：
    > 本章导演意图已提取。核心叙事功能是「{narrative_function}」。
-   > 三问约束：info={info} / pressure={pressure} / hook={hook}。
+   > 五问约束：info={info} / pressure={pressure} / hook={hook} / worldview={worldview} / clarity={clarity}。
+   > 世界观传递：{worldview_delivery.chapter_must_deliver}（方式：{worldview_delivery.method}）。
    > 设定引用：{settings_ref列表}。
    > 请确认导演意图，确认后开始状态快照投影。
 3. 等待用户确认
@@ -108,6 +119,6 @@ director_intent:
 
 - [x] 门禁表已重新读取（红线3）
 - [x] L2卡已完整读取
-- [x] 导演意图 YAML 已组装（含三问+settings_ref）
+- [x] 导演意图 YAML 已组装（含五问+settings_ref+worldview_delivery）
 - [x] 导演意图已交付用户确认（红线4）
 - [x] 用户已确认 → 进入 Step1

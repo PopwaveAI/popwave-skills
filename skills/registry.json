@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-28T12:00:00.000Z",
+  "updatedAt": "2026-06-28T16:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
       "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→L2卡设计→5步涌现写作循环（导演意图→状态快照→信息获取→子agent创作→receipt检查→落盘）↔弧线校准。L2卡替代种子文档，context manifest白盒注入，设定引用指针强制读取。",
-      "latest": "9.5.0",
+      "latest": "9.7.0",
       "path": "skills/expert-writer"
     },
     {
@@ -125,7 +125,7 @@
     {
       "id": "pop-writer-v3-seed",
       "description": "v3.5初始设定设计。与用户共创六要素，产出写作参考/设定/下独立设定文件（主角引擎/金手指/压力矩阵/冲突轴/核心卖点）。调研委托pop-research。种子文档已取消，活记忆改自然语言。",
-      "latest": "1.6.0",
+      "latest": "1.7.0",
       "path": "skills/pop-writer-v3-seed"
     },
     {
@@ -142,14 +142,14 @@
     },
     {
       "id": "pop-writer-v3-create",
-      "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。不加载文风DNA。context receipt回执。仅可更新L2卡本章聚焦。",
-      "latest": "1.3.0",
+      "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。网文风格基准（直接易懂、世界观卖点前置）。不加载文风DNA。context receipt回执。仅可更新L2卡本章聚焦。",
+      "latest": "1.4.0",
       "path": "skills/pop-writer-v3-create"
     },
     {
       "id": "pop-writer-v3-revise",
-      "description": "v3.5修订子skill。完全重写+文风DNA终验+导演意图验证(5项)+事实一致性+字数终检。context receipt回执。",
-      "latest": "1.2.0",
+      "description": "v3.5修订子skill。完全重写+文风DNA终验+导演意图验证(6项，含世界观传递)+事实一致性+字数终检。context receipt回执。",
+      "latest": "1.3.0",
       "path": "skills/pop-writer-v3-revise"
     },
     {
@@ -160,8 +160,8 @@
     },
     {
       "id": "pop-writer-v3-plot",
-      "description": "v3.5 L2剧情单元卡设计。从library匹配同类L2卡作参考→设计当前项目L2卡→设定引用指针→信息需求预判→调用pop-research调研补缺。L2卡为唯一运行时活文档。",
-      "latest": "1.2.0",
+      "description": "v3.5 L2剧情单元卡设计。从library匹配同类L2卡作参考→设计当前项目L2卡→设定引用指针→信息需求预判→调用pop-research调研补缺。L2卡为唯一运行时活文档。含library防污染指导和篇幅确认硬门禁。",
+      "latest": "1.3.0",
       "path": "skills/pop-writer-v3-plot"
     },
     {

@@ -1,6 +1,6 @@
 {
   "id": "pop-writer-v3-plot",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "L2剧情单元卡设计",
   "description": "v3.5 L2剧情单元卡设计。2步流程：step-1卷方向锚（卷定位+起终点四维度+主冲突）→step-2 L2卡设计（library匹配同类卡参考→设计L2卡→信息需求预判→设定引用指针→调研补缺）。L2卡是唯一运行时活文档，取消种子文档。结构分析表含设定引用指针列，事件brief用动作链，子线咬合用因果推导。",
   "entry": "SKILL.md",

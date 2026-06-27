@@ -1,6 +1,6 @@
 {
   "id": "expert-writer",
-  "version": "9.5.0",
+  "version": "9.7.0",
   "displayName": "写作专家",
   "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。v3.5涌现式写作管线唯一调度引擎，L2卡驱动。涌现写作环5步循环由主会话直接执行（导演意图→状态快照→信息获取→子agent创作→receipt检查→活记忆更新）。",
   "entry": "SKILL.md",

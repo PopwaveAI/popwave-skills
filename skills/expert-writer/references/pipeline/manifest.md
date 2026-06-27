@@ -72,34 +72,54 @@
 
 > 对齐 context-manifest PRD（`prd/01-管线架构/15-context-manifest-子agent上下文清晰化PRD.md`）
 
+### ⚠️ 全文注入铁律（v9.7新增）
+
+**主agent禁止摘要信息给子agent。所有文件类注入项必须全文注入，禁止主agent提炼/摘要后注入。**
+
+| 禁止行为 | 正确行为 |
+|:---------|:---------|
+| 主agent读L2卡后提炼"结构分析表本章行"注入 | **全文注入L2卡**（子agent自己从中提取本章行） |
+| 主agent读设定文件后提炼"核心创意+数据面板"注入 | **全文注入设定文件**（子agent看到完整设定） |
+| 主agent读文风DNA后提炼"核心融合规则"注入 | **全文注入文风DNA**（子agent看到完整文风档案+原文证据） |
+| 主agent读create初稿后提炼"核心事实信息清单"注入 | **全文注入create初稿**（revise子agent看到完整初稿） |
+
+**设计理由：**
+1. 摘要会丢失信息，且主agent不知道丢失了什么——这比不注入更危险
+2. 文风DNA包含大量目标小说原文片段，是让子agent理解写作风格的关键——摘要会丢掉原文证据
+3. L2卡是唯一运行时活文档，替代了种子文档——必须全文注入让子agent看到完整上下文
+4. 实测文件大小：L2卡14KB/文风DNA 12KB/设定文件5-22KB——全部加起来<120KB，token空间足够
+
 ### create阶段 manifest
 
-| 注入项 | 来源 | 说明 |
-|:-------|:-----|:-----|
-| 导演意图 | Step0产出 | 含三问+settings_ref |
-| 状态快照 | Step1产出 | protagonist+pressures+pending |
-| 上章末尾 | 正文/chXXX.md | 500-800字衔接 |
-| 设定文件 | Step2强制读取 | settings_ref指向的文件 |
-| info_acquired | Step2产出 | library+research结果 |
+| 注入项 | 来源 | 注入方式 | 说明 |
+|:-------|:-----|:---------|:-----|
+| 导演意图 | Step0产出 | 全文注入（主agent产出，非文件读取） | 含五问+settings_ref+worldview_delivery |
+| 状态快照 | Step1产出 | 全文注入（主agent产出，非文件读取） | protagonist+pressures+pending |
+| L2卡全文 | 卷纲/L2-NNN.md | **全文注入**（Get-Content -Raw） | L2卡替代种子文档，是唯一运行时活文档，子agent需要看到完整结构分析表+物理坐标+嵌套子线+子线咬合 |
+| 上章末尾 | 正文/chXXX.md | **全文注入**（最后500-800字） | 衔接上章 |
+| 设定文件 | Step2强制读取 | **逐个全文注入**（Get-Content -Raw每个文件） | settings_ref指向的文件，每个都全文注入，不摘要 |
+| 文风DNA | 写作资产/文风库/{书名}.md | **全文注入**（Get-Content -Raw） | create阶段标注"仅参考不强制对齐"（文风硬阻塞在revise），但全文可见让子agent了解风格方向 |
+| info_acquired | Step2产出 | 全文注入（主agent产出，非文件读取） | library查询结果+pop-research结果 |
 
 ### revise阶段 manifest
 
-| 注入项 | 来源 | 说明 |
-|:-------|:-----|:-----|
-| create初稿 | create阶段产出 | 全文 |
-| 文风DNA | 写作资产/文风库/{书名}.md | 精确匹配目标 |
-| 要素切片 | 导演意图+状态快照 | 子线+伏笔+承诺+揭示 |
-| 导演意图验证清单 | Step0导演意图三问 | 5项验证 |
+| 注入项 | 来源 | 注入方式 | 说明 |
+|:-------|:-----|:---------|:-----|
+| create初稿 | create阶段产出 | **全文注入**（完整初稿，不摘要） | revise基于完整初稿重写渲染层，摘要会丢失事实信息 |
+| 文风DNA | 写作资产/文风库/{书名}.md | **全文注入**（Get-Content -Raw） | 文风DNA包含目标小说原文片段，是让子agent理解写作风格的关键。摘要会丢失原文证据 |
+| 导演意图验证清单 | Step0导演意图五问 | 全文注入（主agent产出，非文件读取） | 6项验证标准 |
+| 要素切片 | 导演意图+状态快照+L2卡嵌套子线 | **全文注入L2卡嵌套子线段** | 子线+伏笔+承诺+揭示（从L2卡提取，不单独摘要） |
 
 ### receipt 检查（Step4）
 
-6项检查：
+7项检查（v9.7更新）：
 1. 完整性：receipt.status=full 且 actual_read≈manifest.size
 2. 关键元素：key_elements_confirmed覆盖所有声明元素
-3. 导演意图（create）：三问全部确认
-4. 设定文件读取：settings_ref全部status=full
-5. 文风DNA（revise）：status=full 且精确匹配（0误差）
-6. 导演意图验证（revise）：5项验证全部通过
+3. 导演意图（create）：五问全部确认（v9.6从三问扩展）
+4. 设定文件全文读取：settings_ref全部status=full 且注入方式=全文（v9.7新增：禁止摘要注入）
+5. 文风DNA全文读取（revise）：status=full 且注入方式=全文（v9.7：禁止摘要注入）
+6. 导演意图验证（revise）：6项验证全部通过（v9.6从5项扩展）
+7. L2卡全文注入（v9.7新增）：create和revise都注入了L2卡全文
 
 修复策略：连续2次同一项不通过 → 降级策略B（红线5）
 
@@ -138,5 +158,6 @@
 | 版本 | 日期 | 变更 |
 |:-----|:-----|:-----|
 | v3.5 | 2026-06-28 | 6步→5步；L2卡替代种子文档；素材库+设定库合并为写作参考；context manifest白盒；arc每L2单元触发；新增plot+pop-research |
+| v3.5.1 | 2026-06-28 | 全文注入铁律（v9.7）：禁止主agent摘要信息给子agent；L2卡/设定文件/文风DNA/create初稿全部全文注入；receipt检查从6项扩展为7项（新增L2卡全文注入验证+全文注入方式检查）；create manifest新增L2卡全文+文风DNA全文；revise manifest新增L2卡嵌套子线全文 |
 | v3.3 | 2026-06-26 | emerge调度合并到expert-writer；7步→6步剔除qa |
 | v3.1 | 2026-06-25 | 去掉v2双轨，全方面服务于v3.1 |

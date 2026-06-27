@@ -1,5 +1,29 @@
 # CHANGELOG — expert-writer
 
+## [9.7.0] - 2026-06-28
+### Added
+- 全文注入铁律红线（❌8禁止摘要注入子agent）
+- manifest.md新增「全文注入铁律」章节：禁止主agent提炼/摘要后注入，所有文件类注入项必须全文
+- create manifest新增L2卡全文注入+文风DNA全文注入（仅参考）
+- revise manifest新增L2卡嵌套子线全文注入+文风DNA全文注入
+- receipt新增injection_verified字段（确认收到的是全文不是摘要）
+- receipt检查从6项扩展为7项（新增L2卡全文注入验证）
+### Changed
+- step-2-3 dispatch文件全面重写：manifest_version 1.0→1.1，所有注入项新增injection: full标注
+- create manifest注入项从6项扩展为8项（新增L2卡全文+文风DNA全文）
+- create receipt从three_questions确认改为five_questions确认
+- revise manifest的element_slices改为l2_sublines（L2卡嵌套子线全文）
+- revise receipt导演意图验证从5项改为6项
+
+## [9.6.0] - 2026-06-28
+### Added
+- 网文写作铁律红线（❌6直接易懂爽感优先+❌7世界观卖点前置）
+- 导演意图验证从5项扩展为6项（新增世界观传递验证）
+- 5步循环门禁表更新（Step3/Step4验证项更新）
+### Changed
+- step-2-0导演意图组装：三问→五问（新增worldview+clarity）
+- step-2-0导演意图新增worldview_delivery字段
+
 ## v9.5.0 | 2026-06-28
 
 ### v3.5涌现式写作管线重构：6步→5步+L2卡替代种子文档+context manifest白盒
