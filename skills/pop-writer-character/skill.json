@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-character",
-  "displayName": "角色设计",
-  "description": "角色设计。增加生态位置、生态关系、生态冲突点字段。",
-  "entry": "SKILL.md",
-  "activation": "角色设计",
-  "version": "2.0.0"
-}

@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-prose",
-  "displayName": "正文渲染",
-  "description": "正文渲染。文风DNA硬阻塞，场景流渲染，允许情感内省。",
-  "entry": "SKILL.md",
-  "activation": "正文渲染",
-  "version": "2.0.0"
-}

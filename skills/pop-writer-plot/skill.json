@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-plot",
-  "displayName": "剧情架构",
-  "description": "剧情架构。危机交叉设计，事件密度基准，情绪闭环检查。",
-  "entry": "SKILL.md",
-  "activation": "剧情架构",
-  "version": "2.0.0"
-}

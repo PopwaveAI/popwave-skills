@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-chapter",
-  "displayName": "章节设计",
-  "description": "章节设计。场景流设计包，导演指令式，设计包控制在8K字以内。",
-  "entry": "SKILL.md",
-  "activation": "场景设计",
-  "version": "2.0.0"
-}

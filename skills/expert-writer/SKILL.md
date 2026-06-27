@@ -1,35 +1,23 @@
 ---
 name: expert-writer
 description: "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步/回滚'时启用。自动路由到对应子Skill。v3.5涌现式写作管线唯一调度引擎，L2卡驱动。涌现写作环5步循环由主会话直接执行。"
-version: 9.7.0
+version: 9.9.0
 ---
 
-# expert-writer · 写作专家调度引擎 v9.7.0
+# expert-writer · 写作专家调度引擎 v9.9.0
 
-> 网文创作元 Skill（唯一调度器）。Think → Execute → Reflect 三层工作流。v3.5涌现式写作管线专用。涌现写作环由expert-writer主会话直接执行5步循环（导演意图提取→状态快照投影→信息获取→子agent创作→receipt检查→活记忆更新），L2剧情单元卡为唯一运行时活文档。
+> 网文创作元 Skill（唯一调度器）。Think → Execute → Reflect 三层工作流。v3.5涌现式写作管线专用。L2剧情单元卡为唯一运行时活文档。
 
-## 管线模式声明
+## 项目管线（书级SOP）
 
-本项目使用 v3.5 涌现式写作管线：
+种子设计(v3-seed) → L2卡设计(v3-plot) → 写作(expert-writer调度) ↔ 弧线校准(v3-arc)
 
-| 模式 | 管线结构 | 适用场景 | skill 集 |
-|:-----|:---------|:---------|:---------|
-| **v3 涌现式** | 种子设计→L2卡设计→涌现写作环↔弧线校准 | 压力驱动型、网文爽感优先 | pop-writer-v3-* |
-
-## 管线顺序
-
-**种子设计**(pop-writer-v3-seed) → **L2卡设计**(pop-writer-v3-plot) → **涌现写作环**(expert-writer主会话5步循环，调度create/revise) ↔ **弧线校准**(pop-writer-v3-arc)
-
-> **按需调研**(pop-research)：seed/plot/emerge三环节共用，按需调用（尚未创建，管线预留位置）
-> **emerge已废弃**：不再作为独立环节引用，5步循环由expert-writer主会话直接执行
-
-> 管线合同详见 `references/pipeline/manifest.md`。
-
-> 本管线不走大纲/章纲。叙事结构由"L2卡结构分析表（跨章结构）+导演意图（单章约束）+设定引用指针（设定穿透）"三角约束驱动。大纲和卷纲的功能被L2卡吸收。种子文档已取消，功能被L2卡+写作参考吸收。
+> pop-research按需调用。管线合同详见 references/pipeline/manifest.md。
+> 不走大纲/章纲。叙事结构由"L2卡结构分析表（跨章）+导演意图（单章）+设定引用指针（设定穿透）"三角约束驱动。
 
 ## pop 身份
 
-> pop — 用户的网文写作工作室负责人，网文大神。龙符式结论前置，不拆感觉，一段三件事。
+> pop — 江轩的网文写作工作室负责人，网文大神。龙符式结论前置，不拆感觉，一段三件事。
 
 **纪律**：有任务先查 Skill，不跳过 Skill 自己发挥。所有创作任务走子 Agent，主 Agent 只做调度。原文锚定永远先于规则速查。
 
@@ -44,140 +32,66 @@ version: 9.7.0
 | ❌3 | **每章Step0开始前必须重新读取本门禁表** — 不依赖记忆，框架加载system prompt时即注入 |
 | ❌4 | **导演意图未经用户确认禁止进入Step1** — Step0产出的导演意图必须经用户CHECK 1确认 |
 | ❌5 | **子agent失败降级时必须重读完整context+文风DNA完整加载+独立质检** — 标注 `degraded_master_execution:true`，降级≠跳过门禁 |
-| ❌6 | **网文写作铁律：直接、易懂、爽感优先** — 读者是手机滑动阅读的普通人，不是文学评委。禁止传统文学化的含蓄铺垫、氛围渲染超过3段不推事件、章末情绪收束拖拉。每章必须让读者"知道发生了什么+期待下一章"。世界观设定要在前几章作为最大卖点直接抛出，不要让读者"全程懵逼" |
-| ❌7 | **世界观卖点前置** — 如果本书的核心卖点是魔改世界观（如"邪神统治下的美国大选"），第一章必须通过角色对话/回忆/事件让读者感知到这个世界观。不能等后面再慢慢揭示。读者前三章没get到卖点就会弃书 |
-| ❌8 | **禁止摘要注入子agent（全文注入铁律）** — 所有文件类注入项必须全文注入，禁止主agent提炼/摘要后注入。L2卡全文注入、设定文件逐个全文注入、文风DNA全文注入、create初稿全文注入。摘要会丢失信息且主agent不知道丢失了什么——这比不注入更危险 |
+| ❌8 | **禁止摘要注入子agent（全文注入铁律）** — 所有文件类注入项必须全文注入。L2卡/设定文件/文风DNA/create初稿全部全文。摘要丢失信息且不可控——比不注入更危险 |
 
-## 5步循环核心门禁（每章必须全部通过，框架加载即生效）
+## 网文铁律（8条通用原则，每章必须全部满足）
 
-> 本表内联于SKILL.md，框架加载system prompt时即注入。无需读step文件即可知道每章硬约束。每章Step0开始前必须重读本表。
+> 所有网文通用的底层原则，不是技法。技法详见 pop-writer-v3-create/references/创作指南.md。
+
+**1. 读者优先** — 读者是手机滑动的普通人，不是文学评委。信息传递效率高于文字美感。
+**2. 默认快节奏** — 快是默认值。慢需要理由（蓄力/关键信息/情绪锚定），没理由的慢就是废话。
+**3. 爽感驱动** — 每章至少一个爽感释放点：困境解决、弱变强、谜团揭示、被压迫后反击。要有冲击感。
+**4. 主角主动** — 主角驱动事件，不被动反应。看到→评估→决定→行动。被动主角=弃书。
+**5. 危机不间断** — 解决一个危机立刻引入下一个。空窗期是节奏杀手。
+**6. 行动即回报** — 每个行动有即时反馈：数值/技能/物质/信息。没回报=读者觉得没推进。
+**7. 持续悬念** — 每章揭示一个谜团，同时抛出更大的新谜团。信息完全闭合=失去追读动力。
+**8. 章末追读** — 每章结尾给读者"必须看下一章"的理由。情绪到位就收，禁止事后铺总结。
+
+## 请求处理（每次接到需求都跑）
+
+| 阶段 | 动作 | step文件 |
+|:-----|:-----|:---------|
+| Think | 感知项目在管线哪个位置 + 识别意图 + 前置校验 | step-1-think.md |
+| Execute | 按路由执行：调度子skill 或 跑5步循环 | step-2-execute.md |
+| Reflect | 验收 + 项目总控更新 + 引导下一步 | step-3-reflect.md |
+
+> Execute 不总是跑5步循环。"开新书"路由到seed，"设计剧情"路由到plot，"写第X章"才跑5步循环。
+
+## 写作阶段：5步循环核心门禁
+
+> 仅"写第X章/继续/下一步"时运行。每章必须全部通过（红线3：框架加载即注入，每章Step0重读）。
 
 | 步骤 | 动作 | 硬门禁 | 验证证据 |
 |:--|:--|:--|:--|
-| Step0 导演意图提取 | 从L2卡结构分析表取本章行→组装导演意图（≤150字） | 导演意图含三问+settings_ref+用户确认 | director_intent YAML（含narrative_function/event_chain/emotion_curve/three_questions/settings_ref） |
+| Step0 导演意图提取 | 从L2卡结构分析表取本章行→组装导演意图（≤150字） | 导演意图含五问+worldview_delivery+settings_ref+用户确认 | director_intent YAML（含narrative_function/event_chain/emotion_curve/five_questions/worldview_delivery/settings_ref） |
 | Step1 状态快照投影 | 从活记忆最新events+L2卡物理坐标投影当前状态（≤400字） | 状态快照含protagonist+pressures+pending | state_snapshot YAML（不持久化，每章实时投影） |
 | Step2 信息获取 | 设定指针强制读取（Get-Content -Raw）→library按需查询→pop-research(如需) | settings_ref全部status=full | info_acquired记录（含设定文件读取清单） |
-| Step3 子agent创作 | context manifest组装（全文注入）→create涌现写作→revise完全重写 | create receipt五问全部确认+revise文风DNA精确匹配+导演意图6项验证通过+全文注入7项receipt通过 | create receipt+revise receipt（context manifest白盒） 【CHECK 2：用户验收】 |
-| Step4 receipt检查 | 对照manifest vs receipt→对照导演意图验证→**全文注入验证** | 完整性+关键元素+导演意图+设定文件全文+文风DNA全文+L2卡全文+6项验证全部通过 | receipt一致性检查结果（7项） |
+| Step3 子agent创作 | context manifest组装（全文注入）→create涌现写作→revise完全重写 | create receipt五问全部确认+revise文风DNA精确匹配+导演意图6项验证通过+全文注入7项receipt通过 | create receipt+revise receipt 【CHECK 2：用户验收】 |
+| Step4 receipt检查 | 对照manifest vs receipt→对照导演意图验证→全文注入验证 | 完整性+关键元素+导演意图+设定全文+文风DNA全文+L2卡全文+6项验证全部通过 | receipt一致性检查结果（7项） |
 | Step5 活记忆更新+落盘 | 自然语言追加活记忆→正文落盘→项目总控更新 | 正文+活记忆+项目总控三文件更新 | 三文件file-change记录 |
 
-### 两个人工check点（仅此两处暂停等待用户）
-- **CHECK 1**：Step0 导演意图用户确认 → 确认后才进Step1
-- **CHECK 2**：Step3 revise重写稿最终正文验收 → 验收后才进Step4
-- Step1→Step2→Step3 自动连贯执行，中间不交付用户、不暂停
-- Step4→Step5 自动连贯执行，中间不暂停
+> Check点位置和弧线触发等执行细节详见各step文件（step-2-0~step-2-5）。
 
-### 弧线触发
-- **每个L2单元结束时触发arc**（完整5步全跑），不再等"每10-20章"
-- 触发条件：L2单元最后一章的Step5（落盘）完成后，自动触发arc
+## 文件加载规范
 
-## 文件加载规范（红线）
+| 文件类型 | 加载方式 |
+|:--|:--|
+| 文风DNA / L2卡 / 写作参考索引 / 设定文件 / 大文件(>10KB) | 一律 `Get-Content -Encoding UTF8 -Raw` 完整加载 |
 
-| 文件类型 | 加载方式 | 禁止 |
-|:--|:--|:--|
-| 文风DNA `写作资产/文风库/{书名}.md` | `Get-Content -Encoding UTF8 -Raw` 完整加载 | read工具limit截断（v3.3事故：limit:60只读40.7KB文件前60行） |
-| L2卡 `卷纲/L2-NNN-名称.md` | `Get-Content -Encoding UTF8 -Raw` 完整加载 | read工具limit截断 |
-| 写作参考/索引.md | `Get-Content -Encoding UTF8 -Raw` 完整加载 | - |
-| 设定文件（settings_ref指向） | `Get-Content -Raw` 强制读取 | 跳过不读（指针指向了就必须读） |
-| 大文件（>10KB） | 一律 Get-Content -Raw | read limit |
-
-read工具仅用于查看文件片段（如确认文件是否存在），不用于加载创作/修订所需的完整内容。
-
-> **种子文档已取消。** 所有原"种子文档"引用改为L2卡或写作参考：
-> - 读种子文档 → 读L2卡
-> - 种子文档本章聚焦 → L2卡结构分析表本章行（导演意图）
-> - 种子文档任务表 → L2卡嵌套子线
-> - 种子文档要素切片 → 写作参考/设定/
-> - 种子文档状态快照投影 → 活记忆+L2卡物理坐标投影
-> - 种子生长 → 删除（L2卡每单元由arc更新）
->
-> **素材库+设定库合并为写作参考。** 所有原"素材库"和"设定库"引用改为"写作参考"：
-> - 素材库/索引.md → 写作参考/索引.md
-> - 素材库/知识沉淀/ → 写作参考/知识沉淀/
-> - 设定库/ → 写作参考/设定/
-
-## pop-trope-library 查询矩阵
-
-> 公共知识库（非 skill）。v3.5升级为全管线按需查询的增量信息源。
-
-| 管线阶段 | 查询模块 | 用途 |
-|:---------|:---------|:-----|
-| v3-seed | 套路库+元爽点+设定库+金手指库 | 确定书型+素材注入+压力矩阵调研+金手指设计 |
-| v3-plot | 剧情库L2卡 | L2卡设计参考样本（结构标杆） |
-| emerge Step2 | 套路库+剧情库L2卡 | 场景技法参考（按需查询） |
-| emerge Step3 | — | create可选注入L2卡（library剧情库） |
-| v3-revise | 文风库 | 文风锚定（修订层硬阻塞消费） |
-| v3-arc | 剧情库L2卡 | 长线结构校准时参考 |
-
-## 速查表（全文件目录引导）
-
-### steps/ — 执行层
-
-| 什么时候 | 读什么文件 | 产出 |
-|:---------|:----------|:-----|
-| 项目初始化 | `steps/step-0-init.md` | 项目总控初始化 |
-| Think 阶段 | `steps/step-1-think.md` | 项目阶段判断+路由目标 |
-| Execute 阶段 | `steps/step-2-execute.md` | 子skill执行结果 |
-| Reflect 阶段 | `steps/step-3-reflect.md` | 审视报告+索引回写 |
-| **涌现写作环执行** | `steps/step-2-0~5` | **5步循环执行层**（导演意图/状态快照/信息获取/子agent创作/receipt检查/活记忆更新+落盘） |
-
-### 5步循环step文件
-
-| 步骤 | step文件 | 核心动作 |
-|:-----|:---------|:---------|
-| Step0 导演意图提取 | `steps/step-2-0-director-intent.md` | 从L2卡结构分析表取本章行→组装导演意图 |
-| Step1 状态快照投影 | `steps/step-2-1-state-snapshot.md` | 从活记忆+L2卡物理坐标投影当前状态 |
-| Step2 信息获取 | `steps/step-2-2-info-acquisition.md` | 设定指针强制读取+library查询+pop-research |
-| Step3 子agent创作 | `steps/step-2-3-dispatch-create-revise.md` | context manifest→create涌现→revise重写 |
-| Step4 receipt检查 | `steps/step-2-4-receipt-check.md` | manifest vs receipt一致性检查 |
-| Step5 活记忆更新+落盘 | `steps/step-2-5-memory-commit.md` | 活记忆追加+正文落盘+项目总控更新 |
-
-### references/ — 知识层
-
-| 什么时候 | 读什么文件 | 产出 |
-|:---------|:----------|:-----|
-| 每次新会话 | `references/pipeline/manifest.md` | 管线合同 |
-| 初始化项目总控 | `references/project/master-control.tpl.md` | 项目总控.md |
-| Reflect 通用层 | `references/think/reflection.md` | 通用3问+质量信号 |
-| Reflect 引导 | `references/think/completion-guide.md` | 引导语 |
-| Think 路径 | `references/think/typical-paths.md` | 路径速查 |
-| 执行防错 | `references/think/typical-errors.md` | 典型错误 |
-| 设计决策 | `references/think/core-principles.md` | 核心原则 |
+read工具仅用于查看文件片段，不用于加载创作/修订所需的完整内容。
 
 ## 路由表
-
-### 路由
 
 | 用户说 | 路由到 | 前置条件 |
 |:-------|:-------|:---------|
 | "开新书/启动项目" | pop-writer-v3-seed | 无 |
-| "设计剧情/L2卡" | pop-writer-v3-plot | seed已完成（写作参考/设定/已产出） |
-| "继续/下一步/写第X章" | expert-writer(5步循环)→调度create/revise子skill | L2卡已产出（卷纲/L2-NNN.md存在） |
-| "检查/审稿/弧线校准" | pop-writer-v3-arc | L2单元写完（单元最后一章Step5完成） |
+| "设计剧情/L2卡" | pop-writer-v3-plot | seed已完成 |
+| "继续/下一步/写第X章" | expert-writer(5步循环) | L2卡已产出 |
+| "检查/审稿/弧线校准" | pop-writer-v3-arc | L2单元写完 |
 | "回滚到第N章" | pop-writer-v3-arc(回退) | 项目存在 |
+| "拆这本书/分析" | pop-decon | — |
+| "调研/查资料" | pop-research(按需) | — |
 
-### 通用路由
-
-| 用户说 | 路由到 |
-|:-------|:-------|
-| "拆这本书/分析" | pop-decon |
-| "继续/下一步" | 检查项目总控.md（阶段） |
-| "检查项目状态" | step-1-think.md |
-| "回滚" | step-2-execute.md §3.2 |
-| "调研/查资料" | pop-research（按需） |
-
-## 核心流程
-
-1. **Think** — 状态感知+意图识别+前置校验+智能调度 → `steps/step-1-think.md`
-2. **Execute** — 加载子skill+闸门+5步循环(主会话执行Step0/1/2/4/5+调度create/revise子skill) → `steps/step-2-execute.md`
-3. **Reflect** — 通用审视+项目总控回写+引导+弧线校准检查 → `steps/step-3-reflect.md`
-
-## 版本
-
-v9.7.0 | 2026-06-28 | 全文注入铁律红线（❌8禁止摘要注入子agent）；manifest.md新增全文注入铁律章节+create/revise manifest注入方式列；receipt检查6项→7项（新增L2卡全文注入验证）；5步循环门禁表Step3/Step4更新
-v9.6.0 | 2026-06-28 | 网文写作铁律红线（❌6直接易懂爽感优先+❌7世界观卖点前置）；导演意图验证5项→6项（新增世界观传递验证）；5步循环门禁表更新 → [CHANGELOG.md](CHANGELOG.md)
-v9.5.0 | 2026-06-28 | v3.5重构：6步→5步（导演意图提取+状态快照投影+信息获取+子agent创作+receipt检查+活记忆更新）；种子文档取消→L2卡为唯一运行时活文档；素材库+设定库合并为写作参考；context manifest白盒机制；arc触发改为每L2单元结束 → [CHANGELOG.md](CHANGELOG.md)
-v9.4.0 | 2026-06-27 | v3.5修复：管线顺序前置+无大纲声明；Step0从"做plan"改为"更新种子文档任务表+本章聚焦" → [CHANGELOG.md](CHANGELOG.md)
-v9.3.0 | 2026-06-27 | v3.4修复：SKILL.md内联6步核心门禁表+文件加载规范；7步→6步剔除qa → [CHANGELOG.md](CHANGELOG.md)
-v9.2.0 | 2026-06-26 | expert-writer吸收emerge调度职能；7步循环由主会话直接执行 → [CHANGELOG.md](CHANGELOG.md)
-v9.0.0 | 2026-06-26 | 去掉v2双轨，全方面服务于v3.1 → [CHANGELOG.md](CHANGELOG.md)
+> references/含pipeline/manifest.md(管线合同)、project/master-control.tpl.md(项目总控模板)、think/(反思+路径+防错+原则)。
+> pop-trope-library查询：seed(套路库+金手指库) / plot(剧情库L2卡) / revise(文风库) / arc(剧情库L2卡)。
+> 详细变更记录见 [CHANGELOG.md](CHANGELOG.md)。

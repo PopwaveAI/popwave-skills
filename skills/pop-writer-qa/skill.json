@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-qa",
-  "displayName": "质检",
-  "description": "质检。密度量化、多样性量化、温度量化检查。",
-  "entry": "SKILL.md",
-  "activation": "质检",
-  "version": "2.0.0"
-}

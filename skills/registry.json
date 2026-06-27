@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-28T18:30:00.000Z",
+  "updatedAt": "2026-06-28T19:30:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
-      "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→L2卡设计→5步涌现写作循环（导演意图→状态快照→信息获取→子agent创作→receipt检查→落盘）↔弧线校准。L2卡替代种子文档，context manifest白盒注入，设定引用指针强制读取。",
-      "latest": "9.7.0",
+      "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→L2卡设计→写作(expert-writer调度)↔弧线校准。L2卡替代种子文档，context manifest白盒注入，设定引用指针强制读取。网文铁律8条通用原则内联。管线/执行分层解耦。",
+      "latest": "9.9.0",
       "path": "skills/expert-writer"
     },
     {
@@ -81,58 +81,10 @@
       "path": "skills/pop-writer-html"
     },
     {
-      "id": "pop-writer-creative",
-      "description": "创意研究。生态图谱替代域DNA，文风DNA立项锁定，金手指行动引擎检查。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-creative"
-    },
-    {
-      "id": "pop-writer-world",
-      "description": "世界构筑。金手指数值化以行动引擎为核心，社会结构从生态图谱推导。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-world"
-    },
-    {
-      "id": "pop-writer-character",
-      "description": "角色设计。增加生态位置、生态关系、生态冲突点字段。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-character"
-    },
-    {
-      "id": "pop-writer-plot",
-      "description": "剧情架构。危机交叉设计，事件密度基准，情绪闭环检查。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-plot"
-    },
-    {
-      "id": "pop-writer-chapter",
-      "description": "章节设计。场景流设计包，导演指令式，设计包控制在8K字以内。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-chapter"
-    },
-    {
-      "id": "pop-writer-prose",
-      "description": "正文渲染。文风DNA硬阻塞，场景流渲染，允许情感内省。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-prose"
-    },
-    {
-      "id": "pop-writer-qa",
-      "description": "质检。密度量化、多样性量化、温度量化检查。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-qa"
-    },
-    {
       "id": "pop-writer-v3-seed",
       "description": "v3.5初始设定设计。与用户共创六要素，产出写作参考/设定/下独立设定文件（主角引擎/金手指/压力矩阵/冲突轴/核心卖点）。调研委托pop-research。种子文档已取消，活记忆改自然语言。",
       "latest": "1.8.0",
       "path": "skills/pop-writer-v3-seed"
-    },
-    {
-      "id": "pop-writer-v3-emerge",
-      "description": "v3.2涌现式写作环调度器。本章规划→信息获取(强制化,素材库)→调度3子skill(创作/修订/质检)→记忆更新+种子生长→方向提示。emerge降为纯调度器，3子skill独立context隔离。",
-      "latest": "2.0.0",
-      "path": "skills/pop-writer-v3-emerge"
     },
     {
       "id": "pop-writer-v3-arc",
@@ -151,12 +103,6 @@
       "description": "v3.5修订子skill。完全重写+文风DNA终验+导演意图验证(6项，含世界观传递)+事实一致性+字数终检。context receipt回执。",
       "latest": "1.3.0",
       "path": "skills/pop-writer-v3-revise"
-    },
-    {
-      "id": "pop-writer-v3-qa",
-      "description": "v3.2涌现写作质检子skill。五问反思(引用正文证据)+行为一致性终验+种子生长判断+爽点终验。",
-      "latest": "1.0.0",
-      "path": "skills/pop-writer-v3-qa"
     },
     {
       "id": "pop-writer-v3-plot",

@@ -1,8 +1,0 @@
-{
-  "id": "pop-writer-world",
-  "displayName": "世界构筑",
-  "description": "世界构筑。金手指数值化以行动引擎为核心，社会结构从生态图谱推导。",
-  "entry": "SKILL.md",
-  "activation": "世界构筑+金手指引擎",
-  "version": "2.0.0"
-}
