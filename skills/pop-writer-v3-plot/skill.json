@@ -1,11 +1,11 @@
 {
   "id": "pop-writer-v3-plot",
-  "version": "2.0.0",
-  "displayName": "剧情单元运行器",
-  "description": "正向原创剧情单元运行与幕纲编译。从seed的故事种子、硬设定、设定缺口和活记忆出发，生成状态契约、章节事件仿真日志、设定账本和编译后的单元卡。核心是先运行故事再提取结构，不直接填表式写幕纲。",
+  "version": "1.5.0",
+  "displayName": "幕纲设计",
+  "description": "v3.5 幕纲设计。2步流程：step-1卷方向锚+卷级故事大纲（beat级骨架）→step-2 幕纲设计（单元故事推演→创作节拍表提取）。核心：先推演故事再提取结构——卷级beat大纲+单元级场景推演，节拍表/子线/红线全从推演中读出。网文铁律9条前置为推演时创作约束。消除机械填表。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["幕纲", "剧情单元", "plot", "运行日志", "单元卡"],
+    "slashCommands": ["幕纲", "剧情单元", "plot", "剧情线"],
     "default": false
   },
   "permissions": {
@@ -15,6 +15,6 @@
   },
   "pipeline": {
     "upstream": ["pop-writer-v3-seed", "pop-trope-library"],
-    "downstream": ["pop-writer-v3-create", "expert-writer"]
+    "downstream": ["expert-writer"]
   }
 }

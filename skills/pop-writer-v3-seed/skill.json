@@ -1,10 +1,10 @@
 {
   "id": "pop-writer-v3-seed",
-  "displayName": "故事种子设计",
-  "description": "正向原创管线的故事种子与世界生长语法设计。产出故事DNA、硬设定、主角引擎、金手指、核心卖点、设定生长语法、初始种子池和活记忆；不一次性写全百科设定，把软设定缺口交给plot在剧情运行中孵化。",
+  "displayName": "初始设定设计",
+  "description": "v3.5涌现式初始设定设计。5步流程：step-0创意共创（元素融合+核心卖点+用户QA）→step-1委托pop-research调研→压力矩阵全量+冲突轴全量+研究档案→step-2金手指→写作参考/设定/金手指.md→step-3文风DNA蒸馏→step-4设定产出（主角引擎+核心卖点+活记忆baseline#0）；step-5维护SOP。六要素与用户逐步共创。v3.5取消种子文档，产出改为写作参考/设定/下的独立设定文件。活记忆改为自然语言格式。调研委托pop-research。",
   "entry": "SKILL.md",
-  "activation": "开新书、重建底层设定、生成plot可运行的初始故事种子时启用",
-  "version": "2.0.0",
+  "activation": "v3项目初始设定设计阶段",
+  "version": "1.8.0",
   "pipeline": {
     "upstream": ["pop-decon", "pop-shared-dna"],
     "downstream": ["pop-writer-v3-plot", "expert-writer"],

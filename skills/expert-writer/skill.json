@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
-  "version": "10.0.0",
+  "version": "9.10.0",
   "displayName": "写作专家",
-  "description": "Pop应用强制入口写作专家调度器。每次写作请求都会先启用本skill；它负责识别意图、判断项目阶段、读取目标子skill、装配上下文并路由到seed/plot/create/revise/arc。它不亲自设计剧情、不默认审稿，只执行轻调度。",
+  "description": "当用户说'开书/拆书/设计剧情/写正文/审稿/继续/下一步'时启用。自动路由到对应子Skill。v3.5涌现式写作管线唯一调度引擎，幕纲驱动。涌现写作环5步循环由主会话直接执行（导演意图→状态快照→信息获取→子agent创作→receipt检查→活记忆更新）。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -26,7 +26,15 @@
       "pop-writer-v3-create",
       "pop-writer-v3-revise",
       "pop-writer-v3-arc",
-      "pop-research"
+      "pop-research",
+      "pop-shared-dna",
+      "pop-writer-html",
+      "pop-writer-game",
+      "pop-shared-reader",
+      "pop-shared-html",
+      "tool-download-webnovel",
+      "tool-cnovel-research",
+      "tool-opinion-tracker"
     ]
   }
 }

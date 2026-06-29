@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-v3-create",
-  "displayName": "正文创作",
-  "description": "正文创作子skill。把plot产出的章节事件仿真日志、单元卡导演指令、设定账本、状态快照和文风DNA转化为单章正文。create不重新设计剧情线，不新增重大设定，不做事后质检，只把已运行过的事件轨迹正文化。",
+  "displayName": "创作子skill",
+  "description": "涌现写作创作子skill。v3.5：输入改为导演意图（从幕纲结构分析表提取），context隔离，在导演意图框架内自由涌现——网文风格基准（直接易懂、世界观卖点前置）+场景流渲染+压力源逼近+章末钩子+主角行为一致性。不加载文风DNA（文风渲染由revise负责）。",
   "entry": "SKILL.md",
-  "activation": "由expert-writer调度写正文，或需要把章节运行日志写成正文时启用",
-  "version": "2.0.0"
+  "activation": "由expert-writer Step 3调度时启用",
+  "version": "1.5.0"
 }
