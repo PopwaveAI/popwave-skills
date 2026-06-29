@@ -1,8 +1,8 @@
 {
   "id": "pop-writer-v3-revise",
-  "displayName": "修订子skill",
-  "description": "涌现写作修订子skill（v3.5渲染层）。context隔离，完全重写模式+文风DNA硬阻塞（Get-Content -Raw完整加载）+文风DNA终验（7项附证据）+事实信息一致性检查（6项零改写）+导演意图验证（6项，v1.3新增世界观传递验证）+AI观感词清理+字数终检。输入来源从种子文档改为写作参考/设定/（主角引擎+金手指）+L2卡活跃线索。context receipt预留接口（批次2完整实现）。",
+  "displayName": "按需修订",
+  "description": "用户指定的正文再创作与渲染修订。用于用户要求重写、调文风、补节奏、强化爽点、压缩或扩写时。revise不再作为每章必经质检层；默认create正文即交付，只有用户要求或明确偏差时触发。",
   "entry": "SKILL.md",
-  "activation": "由expert-writer主会话涌现写作循环Step 3调度时启用",
-  "version": "1.3.0"
+  "activation": "用户要求修订、重写、调文风、压缩、扩写，或主流程发现明确正文偏差时启用",
+  "version": "2.0.0"
 }

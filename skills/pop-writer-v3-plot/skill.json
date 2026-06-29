@@ -1,11 +1,11 @@
 {
   "id": "pop-writer-v3-plot",
-  "version": "1.3.0",
-  "displayName": "L2剧情单元卡设计",
-  "description": "v3.5 L2剧情单元卡设计。2步流程：step-1卷方向锚（卷定位+起终点四维度+主冲突）→step-2 L2卡设计（library匹配同类卡参考→设计L2卡→信息需求预判→设定引用指针→调研补缺）。L2卡是唯一运行时活文档，取消种子文档。结构分析表含设定引用指针列，事件brief用动作链，子线咬合用因果推导。",
+  "version": "2.0.0",
+  "displayName": "剧情单元运行器",
+  "description": "正向原创剧情单元运行与幕纲编译。从seed的故事种子、硬设定、设定缺口和活记忆出发，生成状态契约、章节事件仿真日志、设定账本和编译后的单元卡。核心是先运行故事再提取结构，不直接填表式写幕纲。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["L2卡", "剧情单元", "plot", "剧情线"],
+    "slashCommands": ["幕纲", "剧情单元", "plot", "运行日志", "单元卡"],
     "default": false
   },
   "permissions": {
@@ -15,6 +15,6 @@
   },
   "pipeline": {
     "upstream": ["pop-writer-v3-seed", "pop-trope-library"],
-    "downstream": ["expert-writer"]
+    "downstream": ["pop-writer-v3-create", "expert-writer"]
   }
 }

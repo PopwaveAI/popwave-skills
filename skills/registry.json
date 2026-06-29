@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-06-28T19:30:00.000Z",
+  "updatedAt": "2026-06-29T18:00:00.000Z",
   "skills": [
     {
       "id": "expert-writer",
-      "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→L2卡设计→写作(expert-writer调度)↔弧线校准。L2卡替代种子文档，context manifest白盒注入，设定引用指针强制读取。网文铁律8条通用原则内联。管线/执行分层解耦。",
-      "latest": "9.9.0",
+      "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→幕纲设计（v1.4导演指令集格式）→写作(expert-writer调度)↔弧线校准。幕纲替代种子文档，context manifest白盒注入，设定引用指针强制读取。网文铁律8条通用原则内联。管线/执行分层解耦。",
+      "latest": "9.10.0",
       "path": "skills/expert-writer"
     },
     {
@@ -88,13 +88,13 @@
     },
     {
       "id": "pop-writer-v3-arc",
-      "description": "v3.5弧线校准。每个L2单元结束时触发完整5步：宏观检查+设定修剪+L2卡更新(设计方案→实际记录)+L3卡提炼(剧情线追踪)+活记忆压缩(自然语言)。",
+      "description": "v3.5弧线校准。每个L2单元结束时触发完整5步：宏观检查+设定修剪+幕纲更新(设计方案→实际记录)+L3卡提炼(剧情线追踪)+活记忆压缩(自然语言)。",
       "latest": "1.4.0",
       "path": "skills/pop-writer-v3-arc"
     },
     {
       "id": "pop-writer-v3-create",
-      "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。网文风格基准（直接易懂、世界观卖点前置）。不加载文风DNA。context receipt回执。仅可更新L2卡本章聚焦。",
+      "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。网文风格基准（直接易懂、世界观卖点前置）。不加载文风DNA。context receipt回执。仅可更新幕纲本章聚焦。",
       "latest": "1.5.0",
       "path": "skills/pop-writer-v3-create"
     },
@@ -106,8 +106,8 @@
     },
     {
       "id": "pop-writer-v3-plot",
-      "description": "v3.5 L2剧情单元卡设计。从library匹配同类L2卡作参考→设计当前项目L2卡→设定引用指针→信息需求预判→调用pop-research调研补缺。L2卡为唯一运行时活文档。含library防污染指导和篇幅确认硬门禁。",
-      "latest": "1.3.0",
+      "description": "v3.5 幕纲设计。2步流程：卷方向锚+卷级故事大纲→幕纲设计（单元故事推演→创作节拍表提取）。核心：先推演故事再提取结构——卷级beat大纲+单元级场景推演，节拍表/子线/红线全从推演中读出。网文铁律9条前置为推演时创作约束。消除机械填表。",
+      "latest": "1.5.0",
       "path": "skills/pop-writer-v3-plot"
     },
     {
@@ -166,7 +166,7 @@
     },
     {
       "id": "tool-web-access",
-      "description": "提供网络访问能力，允许技能通过 HTTP 请求获取实时信息或与在线服务交互。",
+      "description": "提供网络访问能力，允许技能通过 HTTP 请求获取实时信息或在线服务交互。",
       "latest": "2.4.4",
       "path": "skills/tool-web-access"
     },

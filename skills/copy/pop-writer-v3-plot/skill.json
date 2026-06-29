@@ -1,0 +1,20 @@
+{
+  "id": "pop-writer-v3-plot",
+  "version": "1.5.0",
+  "displayName": "幕纲设计",
+  "description": "v3.5 幕纲设计。2步流程：step-1卷方向锚+卷级故事大纲（beat级骨架）→step-2 幕纲设计（单元故事推演→创作节拍表提取）。核心：先推演故事再提取结构——卷级beat大纲+单元级场景推演，节拍表/子线/红线全从推演中读出。网文铁律9条前置为推演时创作约束。消除机械填表。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["幕纲", "剧情单元", "plot", "剧情线"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false
+  },
+  "pipeline": {
+    "upstream": ["pop-writer-v3-seed", "pop-trope-library"],
+    "downstream": ["expert-writer"]
+  }
+}
