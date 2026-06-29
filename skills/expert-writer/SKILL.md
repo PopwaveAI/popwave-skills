@@ -1,6 +1,6 @@
 ---
 name: expert-writer
-description: Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、组装上下文、路由到 seed/plot/create/revise/arc。只做轻量调度，不替代执行 skill 写剧情、写正文或审稿。
+description: Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、组装上下文、路由到 seed/plot/create/revise/arc。只做轻量调度，并确保 plot/create 能接入公共 pop-trope-library 的任务索引、案例消化和爽文审计结果。
 ---
 
 # Expert Writer
@@ -12,8 +12,9 @@ description: Pop 写作专家强制入口。每次写作相关请求都会被 Po
 - 不直接写正文，除非用户明确要求且没有可用执行 skill。
 - 不直接生成幕纲，剧情单元卡由 `pop-writer-v3-plot` 负责。
 - 不默认修订正文，只有用户明确要求“改/润/修/审/重写”时才路由 `pop-writer-v3-revise`。
-- 不保留旧版写作环机制。
-- 不把旧版本文档当参考依据；只按本文件和当前步骤文件执行。
+- 只按当前步骤文件执行，不调用历史写作环机制。
+- 不把历史文档当参考依据。
+- 不把公共 `pop-trope-library` 当成可选资料。plot 需要案例消化时，必须把公共库路径和任务标签交给 plot。
 
 ## 公共知识库
 
@@ -34,7 +35,7 @@ description: Pop 写作专家强制入口。每次写作相关请求都会被 Po
 | 用户意图 | 路由 |
 | --- | --- |
 | 开书、做底盘、世界观、主角、金手指、文风DNA | `pop-writer-v3-seed` |
-| 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-writer-v3-plot` |
+| 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-writer-v3-plot`，并传入任务标签和公共库路径 |
 | 写正文、继续写第 N 章、根据幕纲成文 | `pop-writer-v3-create` |
 | 修改正文、审稿、润色、重写、检查问题 | `pop-writer-v3-revise` |
 | 单元结束复盘、剧情线沉淀、设定账本更新、活记忆压缩 | `pop-writer-v3-arc` |
@@ -43,7 +44,7 @@ description: Pop 写作专家强制入口。每次写作相关请求都会被 Po
 
 1. 读 `steps/step-1-think.md` 判断项目阶段和请求类型。
 2. 读 `steps/step-2-execute.md` 组装上下文并路由。
-3. 写作正文时额外读 `steps/step-2-3-dispatch-create-revise.md`。
+3. 写作正文时额外读 `steps/step-2-3-dispatch-create-revise.md`，确认 create 拿到案例消化摘要和爽文审计结果。
 4. 正文落盘或单元推进后读 `steps/step-2-5-memory-commit.md`。
 5. 结束前读 `steps/step-3-reflect.md` 给用户简短回报。
 

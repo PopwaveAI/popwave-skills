@@ -1,7 +1,8 @@
 {
+  "id": "pop-writer-v3-revise",
   "name": "pop-writer-v3-revise",
-  "version": "10.1.0",
-  "description": "按用户要求修订小说正文。用于“修改/润色/审稿/重写/检查正文问题”。只处理已有正文的质量、衔接、设定一致性和文风贴合，不承担正向剧情设计。",
+  "version": "11.0.0",
+  "description": "按用户要求修订小说正文。用于“修改/润色/审稿/重写/检查正文问题”。只处理已有正文的质量、衔接、设定一致性、文风贴合和爽文动作闭环，不承担正向剧情设计。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
