@@ -17,6 +17,18 @@ seed 负责搭建可生长的写作底盘。它不写幕纲，不预设所有剧
 - 初始种子池：压力、资源、敌人、缺口、异常信号。
 - 文风DNA：语感、节奏、信息密度、视角和爽感表达。
 
+## 公共知识库
+
+路径：`$env:APPDATA\popwave\remote-skills\pop-trope-library`
+
+| 子库 | 用途 |
+|:-----|:-----|
+| `设定库/` | 同赛道书的 L1 六件套设定（世界蓝图/力量体系/历史/物种/势力/资源），设计世界观时先查再建 |
+| `金手指库/` | 按类型分类的金手指设计卡，设计金手指时先查再设计 |
+| `立项库/` | 同类域焊接经验，立项时参考 |
+
+查库方式：`Get-ChildItem "$env:APPDATA\popwave\remote-skills\pop-trope-library\设定库"` 列出可用书目，再按需读取。
+
 ## 执行步骤
 
 1. `steps/step-0-creative-co-creation.md`：和用户共创核心卖点。
