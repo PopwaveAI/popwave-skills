@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-volume",
-  "version": "3.0.0",
-  "displayName": "L2单元卡/L3剧情线/L4全书事件（Phase 2）",
-  "description": "Phase 2 L2单元卡/L3剧情线/L4全书事件。识别剧情单元/追踪剧情线/全书事件+Canvas 矩阵+契诃夫枪追踪。前N章/全书。",
+  "version": "4.0.0",
+  "displayName": "L2单元卡/卷纲（Phase 2）",
+  "description": "Phase 2 of deconstruction: 提取L2剧情单元卡 + 归纳卷纲（含溯源燃料台）。物理结构降级为参考坐标系。",
   "entry": "SKILL.md",
   "upstream": "pop-decon-design-pack",
   "downstream": "pop-decon-setting",
