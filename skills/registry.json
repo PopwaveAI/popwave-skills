@@ -101,7 +101,7 @@
     {
       "id": "pop-writer-v3-plot",
       "description": "正向生成卷纲和幕纲。用于设计剧情/写卷纲/写幕纲。从卷级战略到章级施工卡，产出可供 create 直接消费的幕纲。",
-      "latest": "14.0.0",
+      "latest": "14.2.0",
       "path": "skills/pop-writer-v3-plot"
     },
     {
