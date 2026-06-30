@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
   "name": "expert-writer",
-  "version": "11.0.0",
-  "description": "Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、组装上下文、路由到 seed/plot/create/revise/arc。只做轻量调度，并确保 plot/create 能接入公共 pop-trope-library 的任务索引、案例消化和爽文审计结果。",
+  "version": "11.1.0",
+  "description": "Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、组装上下文、路由到 seed/plot/create/revise/arc。只做轻量调度，并确保 plot 先做尺度/方向对齐、过程文件落盘、接入 pop-trope-library 任务索引和案例消化；create 接收案例消化与审计结果。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
