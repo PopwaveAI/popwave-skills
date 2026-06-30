@@ -1,7 +1,7 @@
 ---
 name: pop-decon-design-pack
-description: "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only."
-version: 4.2.0
+description: "Phase 1 of deconstruction: Step 0 source acquisition (auto-download via tool-download-webnovel) → ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only."
+version: 4.4.0
 author: Popwave
 license: MIT
 metadata:
@@ -24,7 +24,7 @@ metadata:
 
 | # | 红线 |
 |:-:|:-----|
-| ❌1 | **ETL前置缺失** — 未ETL/未按章拆分/中文TXT硬跑extract.py → 退回 |
+| ❌1 | **源文件+ETL前置缺失** — 未获取源文件/未ETL/未按章拆分/中文TXT硬跑extract.py → 退回 |
 | ❌2 | **凭空发明事件** — 事件链中出现原文不存在的事件 → 退回 |
 | ❌3 | **证据缺失或转录** — 每事件必须有原文证据指针(chXXX-¶YY或关键句首词)，禁止摘录完整段落，禁止末尾追加原文证据代码块 |
 | ❌4 | **设定信息蒸发** — 章内设定/物品/境界/势力数据必须进入设定/物品提取区 |
@@ -40,6 +40,7 @@ metadata:
 
 | 步骤 | 操作 | 读什么 | 产出 | 门禁 |
 |:-----|:-----|:-------|:-----|:-----|
+| 0 | **源文件获取** | 项目目录（检测 .txt）+ 用户输入 | 项目根 `{书名}.txt`（`$TXT_PATH`） | ❌ 无源文件且下载失败 → 终止 |
 | 1 | ETL + 拆分 | TXT → 手动 ETL | `_temp/chapters/ch001.txt ... chNNN.txt` | ❌ 章数不匹配退回 |
 | 2 | **逐章 v4 提取** | 单章 chXXX.txt | `写作资产/设计包v4/chXXX-设计包.md` | ❌ 3层+1区完整、每事件有精度锚点、设定区非空 |
 | 3 | 验证 | 设计包v4目录 | 验证报告 | ❌ 所有章全覆盖 |
@@ -51,6 +52,16 @@ metadata:
 ---
 
 ## 核心流程
+
+### Step 0: 源文件获取
+
+详见 `steps/step-0-source-acquire.md`
+
+**读什么：** 项目目录（检测 .txt）+ 用户输入（书名/URL）
+**做什么：** 检测项目目录是否已有源 TXT；若无，委派 `tool-download-webnovel` skill 自动下载（搜索→下载/爬取→付费墙校验），产出落位到当前项目根目录 `{书名}.txt`。
+**❌ 门禁：** 产出 TXT 不存在/大小为0/内容为 HTTP 错误页 → 退回 tool-download-webnovel 换源；全部来源失败 → 终止告知用户。
+
+> **委派而非自实现：** 本步不重复下载逻辑，加载 `tool-download-webnovel` skill 执行其完整三步流程。委派指令必须明确产出落位到当前拆书项目根目录（非该 skill 默认的 `downloads/`）。
 
 ### Step 1: ETL + 按章拆分
 
@@ -225,6 +236,7 @@ find "D:/workspace/{目标项目}" -path "*/设计包v4/ch*-设计包.md" -not -
 
 | 确认项 | 状态 |
 |:-------|:----:|
+| `$TXT_PATH`（源文件已落位项目根） | All |
 | `_temp/chapters/ch001.txt ~ chNNN.txt` | All |
 | `写作资产/设计包v4/chXXX-设计包.md` | All |
 | 每事件有原文证据 | All |
@@ -276,6 +288,8 @@ find "D:/workspace/{目标项目}" -path "*/设计包v4/ch*-设计包.md" -not -
 ---
 
 ## 版本
+
+v4.4.0 | 2026-06-30 | **新增 Step 0: 源文件获取**。Phase 1 自带获取能力：项目目录无源 TXT 时委派 tool-download-webnovel 自动下载（搜索→下载/爬取→付费墙校验）→落位项目根→交付 Step 1。新增 `steps/step-0-source-acquire.md`。速查表加 Step 0 行；红线❌1 扩展覆盖源文件获取；落盘检查点加 `$TXT_PATH`。版本号三处对齐（SKILL.md/skill.json/CHANGELOG 统一为 4.4.0）。
 
 v4.3.0 | 2026-06-25 | **Step 3.5 强化预防性扫描**：新增「预防性执行」时机（不等待 Step 3 失败，最后一轮 delegate_task 后主动扫描）。Step 3.5 做什么步骤第 2 项从 `扫描 D:/workspace/ 下所有含写作资产/设计包v4/ 的目录` 改为 `search_files 扫描全项目`（更准确）。新增批次间路径退化场景描述（orchestrator 前 8 批用绝对路径、第 9 批用相对路径的「规范退化」模式）。源自 74 章实测复盘。
 

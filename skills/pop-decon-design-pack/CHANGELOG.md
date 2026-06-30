@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v4.4.0 | 2026-06-30
+- **新增 Step 0: 源文件获取** — Phase 1 自带获取能力，项目目录无源 TXT 时委派 tool-download-webnovel 自动下载
+- 新增 `steps/step-0-source-acquire.md`：检测源文件→无则委派下载→落位校验→交付 Step 1
+- 速查表新增 Step 0 行；红线 ❌1 扩展覆盖源文件获取；落盘检查点新增 `$TXT_PATH`
+- 版本号三处对齐（SKILL.md/skill.json/CHANGELOG此前不一致，借本次统一为 4.4.0）
+
 ## v4.1.0 | 2026-06-24
 - 删除 Step 4（套路归档批量pass）和 Step 5（价值点分流批量pass）
 - 删除 `价值点采集-入库分流SOP.md`、`step-4-trope-pass.md`、`step-5-valuepoint-pass.md`

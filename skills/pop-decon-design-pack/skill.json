@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "4.1.0",
+  "version": "4.4.0",
   "displayName": "章节设计包",
-  "description": "Phase 1 of deconstruction: ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only.",
+  "description": "Phase 1 of deconstruction: Step 0 source acquisition (auto-download via tool-download-webnovel) → ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only.",
   "entry": "SKILL.md",
   "permissions": {
     "readProjectFiles": true,
