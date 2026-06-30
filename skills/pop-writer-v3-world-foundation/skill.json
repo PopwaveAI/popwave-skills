@@ -1,0 +1,8 @@
+{
+  "id": "pop-writer-v3-world-foundation",
+  "name": "pop-writer-v3-world-foundation",
+  "version": "1.0.0",
+  "description": "小说世界底盘与设定涌现 skill。用于“做世界观/L1世界包/力量体系/势力资源/主角引擎/金手指/开局契约/文风DNA/设定涌现追踪”。消费 seed 的新书PRD、研究档案和 seed-to-world 交接包，通过设定问题清单、候选规则池、碰撞矩阵、方案竞技、冻结日志和设定债务目录，全量追踪世界设定如何涌现，再输出 plot 可消费的世界底盘；不写卷纲幕纲正文。",
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

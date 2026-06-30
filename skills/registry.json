@@ -4,8 +4,8 @@
   "skills": [
     {
       "id": "expert-writer",
-      "description": "v3.5涌现式写作管线唯一调度引擎。种子设计→幕纲设计（v1.4导演指令集格式）→写作(expert-writer调度)↔弧线校准。幕纲替代种子文档，context manifest白盒注入，设定引用指针强制读取。网文铁律8条通用原则内联。管线/执行分层解耦。",
-      "latest": "9.10.0",
+      "description": "Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、初始化项目空间、真实加载并路由到 seed/world-foundation/plot/create/revise/arc。只做调度和质量门，不裸跑执行环节；确保 seed 只做“调研水下层→概念PK→PRD→seed-to-world交接”，world-foundation 再做设定涌现、L1世界包、金手指竞技、文风DNA和 plot 交接，plot 消费完整底盘后再做卷幕设计、候选竞技、章级导演包和爽文审计。",
+      "latest": "13.0.0",
       "path": "skills/expert-writer"
     },
     {
@@ -16,8 +16,8 @@
     },
     {
       "id": "pop-decon-design-pack",
-      "description": "Phase 1 of deconstruction: ETL + split + 5-ch batch LLM extracting full design packs (events+worldbuilding+items+characters+key info+beats+hooks).",
-      "latest": "1.3.0",
+      "description": "Phase 1 of deconstruction: Step 0 source acquisition (auto-download via tool-download-webnovel) → ETL → split → 5-ch batch LLM extracting full design packs (events+worldbuilding+items+characters+key info+beats+hooks).",
+      "latest": "4.4.0",
       "path": "skills/pop-decon-design-pack"
     },
     {
@@ -31,6 +31,12 @@
       "description": "Phase 2 of deconstruction: L2 unit cards/L3 plotlines/L4 saga events from chapter data and design packs. Identifies plot units, plotlines, saga events, and Chekhov's gun tracking.",
       "latest": "3.0.0",
       "path": "skills/pop-decon-volume"
+    },
+    {
+      "id": "pop-research",
+      "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/expert-writer三环节按需调用，产出存盘到写作参考/知识沉淀/并返回路径指针。",
+      "latest": "1.0.0",
+      "path": "skills/pop-research"
     },
     {
       "id": "pop-shared-book-promo",
@@ -81,12 +87,6 @@
       "path": "skills/pop-writer-html"
     },
     {
-      "id": "pop-writer-v3-seed",
-      "description": "v3.5初始设定设计。与用户共创六要素，产出写作参考/设定/下独立设定文件（主角引擎/金手指/压力矩阵/冲突轴/核心卖点）。调研委托pop-research。种子文档已取消，活记忆改自然语言。",
-      "latest": "1.8.0",
-      "path": "skills/pop-writer-v3-seed"
-    },
-    {
       "id": "pop-writer-v3-arc",
       "description": "v3.5弧线校准。每个L2单元结束时触发完整5步：宏观检查+设定修剪+幕纲更新(设计方案→实际记录)+L3卡提炼(剧情线追踪)+活记忆压缩(自然语言)。",
       "latest": "1.4.0",
@@ -94,9 +94,15 @@
     },
     {
       "id": "pop-writer-v3-create",
-      "description": "v3.5创作子skill。导演意图驱动涌现写作，在导演意图框架内自由创作。网文风格基准（直接易懂、世界观卖点前置）。不加载文风DNA。context receipt回执。仅可更新幕纲本章聚焦。",
-      "latest": "1.5.0",
+      "description": "根据已有幕纲、章级导演包、章节运行日志、状态快照、设定账本、案例消化摘要、爽文审计结果和文风DNA写小说正文。用于“写正文/继续写第N章/把导演包/运行日志写成章节”。强调网文爽点外显、主角主动操作、可数收益、敌人/旁人反应和章末追读；优先消费 plot 的章级导演包，不负责重新设计剧情单元，不默认修订。",
+      "latest": "12.0.0",
       "path": "skills/pop-writer-v3-create"
+    },
+    {
+      "id": "pop-writer-v3-plot",
+      "description": "正向生成高质量小说剧情单元卡/幕纲。用于“设计剧情/写幕纲/生成单元剧情卡/续接剧情单元”。必须先消费 world-foundation 的 world产物索引、设定涌现目录、新书PRD、L1世界包、起点快照、世界宪法、动态升级表、主角引擎、金手指和文风DNA，再做全书/卷级尺度契约、卷级设计意图、卷级战略锚、卷内幕序列、当前幕切片、案例证据绑定、外部类型母版主动扫描、事件源发散、故事引擎铸造、三套同等颗粒度互斥候选竞技、章级导演包和反证式爽文审计；缺上游宪法只能出草案/缺口报告。",
+      "latest": "13.0.0",
+      "path": "skills/pop-writer-v3-plot"
     },
     {
       "id": "pop-writer-v3-revise",
@@ -105,10 +111,16 @@
       "path": "skills/pop-writer-v3-revise"
     },
     {
-      "id": "pop-writer-v3-plot",
-      "description": "v3.5 幕纲设计。2步流程：卷方向锚+卷级故事大纲→幕纲设计（单元故事推演→创作节拍表提取）。核心：先推演故事再提取结构——卷级beat大纲+单元级场景推演，节拍表/子线/红线全从推演中读出。网文铁律9条前置为推演时创作约束。消除机械填表。",
-      "latest": "1.5.0",
-      "path": "skills/pop-writer-v3-plot"
+      "id": "pop-writer-v3-seed",
+      "description": "小说新书创意立项 skill。用于“开书/做种子/故事概念碰撞/新书PRD/题材方向/商业卖点/用户立项确认”。只负责调研水下层、种子展开、外部母版、2-3个故事概念PK、用户选择和全书立项PRD，并输出给 world-foundation 的交接包；不做L1世界包、不设计金手指、不写文风DNA、不进剧情幕纲。",
+      "latest": "13.0.0",
+      "path": "skills/pop-writer-v3-seed"
+    },
+    {
+      "id": "pop-writer-v3-world-foundation",
+      "description": "小说世界底盘与设定涌现 skill。用于“做世界观/L1世界包/力量体系/势力资源/主角引擎/金手指/开局契约/文风DNA/设定涌现追踪”。消费 seed 的新书PRD、研究档案和 seed-to-world 交接包，通过设定问题清单、候选规则池、碰撞矩阵、方案竞技、冻结日志和设定债务目录，全量追踪世界设定如何涌现，再输出 plot 可消费的世界底盘；不写卷纲幕纲正文。",
+      "latest": "1.0.0",
+      "path": "skills/pop-writer-v3-world-foundation"
     },
     {
       "id": "tool-book-to-skill",
@@ -175,12 +187,6 @@
       "description": "Build a personal website based on YouTube content with customizable layout, design, and features.",
       "latest": "4.2.0",
       "path": "skills/tool-youtube-webbuilder"
-    },
-    {
-      "id": "pop-research",
-      "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/expert-writer三环节按需调用，产出存盘到写作参考/知识沉淀/并返回路径指针。",
-      "latest": "1.0.0",
-      "path": "skills/pop-research"
     }
   ]
 }

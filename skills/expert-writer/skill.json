@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
   "name": "expert-writer",
-  "version": "11.2.0",
-  "description": "Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、组装上下文、路由到 seed/plot/create/revise/arc。只做轻量调度，并确保 plot 先做尺度/方向对齐、过程文件落盘、接入 pop-trope-library 任务索引和案例消化、完成三套互斥候选竞技；create 接收案例消化与审计结果。",
+  "version": "13.0.0",
+  "description": "Pop 写作专家强制入口。每次写作相关请求都会被 Pop 调起时使用：判断意图、初始化项目空间、真实加载并路由到 seed/world-foundation/plot/create/revise/arc。只做调度和质量门，不裸跑执行环节；确保 seed 只做“调研水下层→概念PK→PRD→seed-to-world交接”，world-foundation 再做设定涌现、L1世界包、金手指竞技、文风DNA和 plot 交接，plot 消费完整底盘后再做卷幕设计、候选竞技、章级导演包和爽文审计。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
