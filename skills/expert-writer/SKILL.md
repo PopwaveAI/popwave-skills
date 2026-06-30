@@ -12,7 +12,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 - expert-writer 是调度器和质量门，不是执行器。不得代替 seed/world/plot/create/revise/arc 产出正式文件。
 - 正式产物必须有执行凭证：目标 skill 的 SKILL.md 和必要 step 已读取，关键输入已列明。缺凭证只能输出草案/缺口报告。
 - 不直接写正文、不直接生成幕纲、不默认修订。
-- plot 必须产出三套互斥候选 + 竞技场 PK + 淘汰理由，否则只能标记为草案。
+- plot 必须产出卷级和幕级外部燃料台（资料覆盖声明 + 资料角色分配 + 燃料采用表），否则只能标记为草案。
 - 不把公共 `pop-trope-library` 当可选资料；不把 world-foundation 当可选步骤。
 
 ## 公共知识库

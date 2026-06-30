@@ -5,7 +5,7 @@
     {
       "id": "expert-writer",
       "description": "Pop 写作专家强制入口。每次写作请求都经过它：判断意图、路由到 seed/world/plot/create/revise/arc，做质量门，不裸跑执行。",
-      "latest": "13.1.0",
+      "latest": "13.2.0",
       "path": "skills/expert-writer"
     },
     {

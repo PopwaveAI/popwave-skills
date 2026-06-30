@@ -2,7 +2,7 @@
   "id": "pop-writer-v3-plot",
   "name": "pop-writer-v3-plot",
   "version": "13.1.0",
-  "description": "正向生成幕纲/剧情单元卡。用于设计剧情/写幕纲。从卷级战略锚到章级导演包，产出可供 create 直接施工的幕纲。",
+  "description": "正向生成卷纲和幕纲。用于设计剧情/写卷纲/写幕纲。从卷级战略锚到 plot 章级施工卡，产出可供 create 直接施工的幕纲。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
