@@ -35,7 +35,7 @@
 | library/设定账本/主角引擎.md |  | 决策驱动 |  |
 | library/设定账本/金手指.md |  | 反馈机制 |  |
 | library/设定账本/开局契约.md |  | 第一幕边界 |  |
-| library/文风DNA/文风DNA.md |  | 正文语感 |  |
+| library/文风DNA/文风DNA.md |  | 正文语感；必须记录文风库原件路径、复制范围、项目适配说明 |  |
 | library/设定账本/Library查询方向.md |  | plot 查库 |  |
 | library/设定账本/跨媒介母版雷达.md |  | plot 外部母版 |  |
 
@@ -43,5 +43,6 @@
 
 - plot 第一卷必须遵守：
 - plot 第一幕可用资源：
+- 文风DNA来源与复制范围：
 - create 正文必须外显：
 - 禁止事项：
