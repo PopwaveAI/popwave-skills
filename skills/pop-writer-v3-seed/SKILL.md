@@ -1,6 +1,6 @@
 ---
 name: pop-writer-v3-seed
-description: 小说新书创意立项 skill。用于“开书/做种子/故事概念碰撞/新书PRD/题材方向/商业卖点/用户立项确认”。只负责调研水下层、种子展开、外部母版、2-3个故事概念PK、用户选择和全书立项PRD，并输出给 world-foundation 的交接包；不做L1世界包、不设计金手指、不写文风DNA、不进剧情幕纲。
+description: 小说新书创意立项。用于"开书/做种子/新书PRD"。从调研到概念PK到立项PRD，输出给 world-foundation 的交接包。
 ---
 
 # Pop Writer V3 Seed
