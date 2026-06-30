@@ -23,6 +23,56 @@
 
 缺失材料能从项目文件补齐就补齐；不能补齐时，在正文中保守处理，不擅自发明硬设定。缺章级导演包时，只能标记为“降级草案”，不得声称完整按管线生成。缺 create skill/step/template 加载凭证时，只能标记为“试写”。
 
+## 文风DNA 切片读取
+
+文风DNA 文件含 8+ 张场景卡（每张 ≥500 字原文摘录），全文 15KB+。**禁止全文 Get-Content + Substring 截断**——截断会丢失场景卡原文摘录（v4 模板核心价值），导致 agent 拿到"目录"而非"正文"。
+
+### 切片协议
+
+1. 从导演包提取 `scene` 字段值列表（如 `[narration_suspense, dialogue_daily, description_environment]`）
+2. 按文风DNA.md 的 `###` 标题切分，匹配 scene 字段对应的场景卡
+3. 追加"通用维度"整段 + "全书稳定特征"整段（这些对每章都适用）
+4. 拼接为 `$DNA_SLICE`，写入创作记录 `execution.dna_slices`
+
+### PowerShell 切片脚本（复制执行，替换两个参数）
+
+```powershell
+# ===== 参数（替换为你项目的实际值）=====
+$dnaPath = "{填入文风DNA.md 完整路径}"
+$scenes  = @("scene1", "scene2")  # 从导演包 scene 字段提取
+# =====================================
+
+$c = Get-Content $dnaPath -Raw -Encoding UTF8
+$ms = [regex]::Matches($c, '(?m)^### ')
+$dict = @{}
+for ($i=0; $i -lt $ms.Count; $i++) {
+  $s = $ms[$i].Index
+  $e = if ($i -lt $ms.Count-1) {$ms[$i+1].Index} else {$c.Length}
+  $b = $c.Substring($s, $e-$s)
+  if ($b -match 'scene:\s*`?([^`\r\n]+)`?') { $dict[$Matches[1].Trim()] = $b }
+}
+$out = ""
+foreach ($sv in $scenes) { if ($dict.ContainsKey($sv)) { $out += $dict[$sv] + "`n`n" } }
+# 追加通用维度 + 全书稳定特征（H2 段）
+$h2s = [regex]::Matches($c, '(?m)^## ')
+for ($i=0; $i -lt $h2s.Count; $i++) {
+  $s = $h2s[$i].Index
+  $e = if ($i -lt $h2s.Count-1) {$h2s[$i+1].Index} else {$c.Length}
+  $title = ($c.Substring($s, 200) -split "`n")[0]
+  if ($title -match '通用维度|全书稳定特征') { $out += $c.Substring($s, $e-$s).TrimEnd() + "`n`n" }
+}
+Write-Output $out
+```
+
+> 脚本逻辑：按 `###` 切分 → 提取每块 `scene:` 值 → 按 $scenes 匹配 → 追加 H2 标题含"通用维度"/"全书稳定特征"的整段。输出约 3-5KB（vs 全文 15KB+），注意力聚焦在相关场景。
+
+### 校验
+
+- [ ] 切片输出 > 1000 字符（过小说明匹配失败）
+- [ ] 切片包含目标场景卡的原文摘录（非空引用块）
+- [ ] 切片包含通用维度段
+- 未通过 → 检查 scene 字段值拼写 / 文风DNA文件路径
+
 ## 写法
 
 - 开场承接上章最后一个动作、危险或疑问。
