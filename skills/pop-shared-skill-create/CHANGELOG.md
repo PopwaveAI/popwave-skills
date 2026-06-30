@@ -1,4 +1,31 @@
-﻿# CHANGELOG — pop-skill-create
+﻿# CHANGELOG — pop-shared-skill-create
+
+## v6.0.0 — 2026-07-01
+
+### 从四模式工具重构为纯规范文档
+
+**核心变化**：pop-shared-skill-create 从"四模式工具（设计/改造/评估/审计）"重构为"一份 skill 设计规范"。
+
+**根因**：四模式工具定位错误——这不是工具，是规范。规范的核心价值是格式规范/内容定位/路由指引/精简原则/强弱加载保障，不是分模式操作。
+
+**变更清单**：
+
+| 操作 | 文件 | 说明 |
+|:-----|:-----|:-----|
+| 重写 | `SKILL.md` | 四模式路由器 → 规范摘要（红线4条 + 强弱加载保障声明 + 速查表） |
+| 重写 | `steps/step-1-design.md` | 设计模式 step → 规范主体（格式/内容定位/路由/精简原则/强弱加载/检查清单） |
+| 删除 | `steps/step-2-refactor.md` | 改造模式 step，内容合并到 step-1 的"改造流程"段 |
+| 删除 | `steps/step-3-evaluate.md` | 评估模式 step，审计模式整体删除 |
+| 删除 | `steps/step-4-session-audit.md` | 审计模式 step，整体删除 |
+| 删除 | `references/session-data-guide.md` | 审计专属 |
+| 删除 | `references/toolcall-bloat-analysis.md` | 审计专属 |
+| 删除 | `references/prd-specification.md` | 审计报告专属 |
+
+**红线精简**：24条（D1-D20 + B1-B6 + C1-C5）→ 4条（读取协议/双文件/红线≤7条/版本三处一致）。格式细节降级为检查清单（4组）。
+
+**新增**：强弱加载保障认知（SKILL.md=强保障 host注入，step=弱保障 agent可能不读）、step 文件自传导（末尾加下一步指引）。
+
+---
 
 ## v5.5.0 — 2026-06-23
 

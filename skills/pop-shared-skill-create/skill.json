@@ -1,8 +1,8 @@
 {
   "id": "pop-shared-skill-create",
-  "version": "5.5.0",
-  "displayName": "技能创建向导",
-  "description": "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/评估skill/skill打分/skill质量检查/skill review/审计skill'时启用。四模式：A设计、B改造、C评估、D会话审计。",
+  "version": "6.0.0",
+  "displayName": "Skill 设计规范",
+  "description": "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/skill规范'时启用。Popwave Skill 设计规范——格式/内容定位/路由/精简原则/强弱加载保障。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -10,8 +10,7 @@
       "new-skill",
       "创建技能",
       "改造skill",
-      "评估skill",
-      "审计skill"
+      "skill规范"
     ]
   },
   "permissions": {

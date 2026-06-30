@@ -64,8 +64,8 @@
     },
     {
       "id": "pop-shared-skill-create",
-      "description": "Popwave Skill 编写规范、改造工具和评估框架。定义 Skill 的文件结构和抽象原则；提供 8 步改造流程；提供 8 维评分 rubrik。",
-      "latest": "4.0.0",
+      "description": "Popwave Skill 设计规范。格式/内容定位/路由/精简原则/强弱加载保障。",
+      "latest": "6.0.0",
       "path": "skills/pop-shared-skill-create"
     },
     {
