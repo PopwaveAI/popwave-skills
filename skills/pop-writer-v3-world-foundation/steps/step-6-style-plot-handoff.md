@@ -1,4 +1,4 @@
-# Step 4 - Style And Plot Handoff
+# Step 6 - Style And Plot Handoff
 
 目的：输出正文语感和 plot 查询方向，并用产物索引判断是否可进入 plot。
 
@@ -80,6 +80,7 @@ $env:APPDATA/popwave/remote-skills/pop-trope-library/文风库/
 读取 `templates/World产物索引-模板.md`。全部满足才标记可进入 plot：
 
 - 设定涌现目录完整。
+- Foundation 商业爽点金字塔、世界尺度金字塔、势力战力资源总表、卷级质变阶梯、主角穿透模型完整。
 - L1 世界包完整。
 - 起点快照、世界宪法、动态升级表可用。
 - 主角引擎、金手指、开局契约可用。
