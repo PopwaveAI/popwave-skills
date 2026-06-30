@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v4.5.0 (2026-06-30)
+
+### 🐛 修复：crawl_novel.py 逐章爬取静默失败（br 乱码根因）
+
+**根因：** `make_session()` 硬编码 `Accept-Encoding: gzip, deflate, br`，但运行环境未安装 brotli 解压库。支持 br 压缩的站点（如 blshuwu8.com）返回 Brotli 字节流，requests 无法解压，`resp.text` 变成乱码（大量 U+FFFD），BeautifulSoup 提取到 0 个章节链接，报 `ERROR: 无法从页面提取章节链接`。该失败为 HTTP 200 静默失败、无异常抛出，极易被误判为反爬/编码/Cloudflare 问题——实际是声明了无法解压的压缩编码。
+
+**修复（crawl_novel.py）：**
+1. `make_session()` 移除 `br`，仅声明 `gzip, deflate`（urllib3 内置支持，永不踩坑）
+2. `fetch_page()` 编码检测加固：始终优先 chardet 的 `apparent_encoding`；新增乱码预警——响应含 >50 个 U+FFFD 时明确告警并返回 None，而非返回乱码导致下游误导性"无法提取章节链接"
+3. `check_for_full_download()` 只对真直链（.txt/.zip/.epub/.rar）return；含"txt下载"文字的 .html 页面链接仅警告不中断（这些多为 JS 下载入口，download_text.py 无法消费），让流程回退到逐章爬取
+4. `extract_chapter_links()` 新增导航链接过滤（NAV_LABELS：开始阅读/下一页/尾页/小说简介等），避免把导航链接当章节爬取产生垃圾内容
+5. 新增 `collect_chapter_links()` 自动翻页：跟随"下一页"链接跨页收集全部章节（修复分页列表站只能拿到第1页的问题）
+
+**验证：** 以《知否知否应是绿肥红瘦》(blshuwu8.com，247 章分 5 页) 端到端测试——修复前报"无法提取章节链接"且 0 章下载；修复后成功提取 246 章链接、逐章爬取内容完整、0 失败。
+
 ## v4.1.0 (2026-06-23)
 
 ### 🔓 重大变更：解除全部限制

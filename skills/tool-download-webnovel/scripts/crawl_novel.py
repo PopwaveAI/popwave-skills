@@ -79,6 +79,15 @@ ANTI_SPIDER_MARKERS = [
     "您的请求过于频繁",
 ]
 
+# ── Non-chapter navigation labels to skip when collecting chapter links ──
+NAV_LABELS = (
+    "开始阅读", "下一页", "上一页", "下页", "上页", "尾页", "首页", "末页",
+    "返回书页", "查看全部", "全部章节", "章节目录", "全文阅读", "最新章节",
+    "txt下载", "加入书架", "书签", "上一章", "下一章", "back", "next",
+    "小说简介", "内容简介", "作品相关", "作品信息", "作者的话", "作者前言",
+    "公告", "敬告读者", "本书相关", "书籍简介",
+)
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -143,7 +152,12 @@ def make_session() -> requests.Session:
     session.headers.update({
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
+        # Only advertise encodings urllib3 can decode. Declaring `br` without
+        # the optional `brotli` package installed makes the server return
+        # Brotli-compressed bytes that requests cannot decompress, turning
+        # resp.text into silent garbage (mojibake) — BeautifulSoup then finds
+        # zero chapter links and the crawl fails with "无法从页面提取章节链接".
+        "Accept-Encoding": "gzip, deflate",
         "Referer": "https://www.google.com/",
         "Connection": "keep-alive",
     })
@@ -160,10 +174,26 @@ def fetch_page(session: requests.Session, url: str, timeout: int = 30) -> str | 
     try:
         resp = session.get(url, timeout=timeout)
         resp.raise_for_status()
-        # Detect encoding from Content-Type or HTML meta
-        if resp.encoding and resp.encoding.lower() != "utf-8":
-            resp.encoding = resp.apparent_encoding or resp.encoding
+        # Prefer chardet-detected encoding for CJK pages — the server-declared
+        # charset is sometimes wrong (e.g. declares utf-8 while serving GBK).
+        detected = resp.apparent_encoding
+        if detected and detected.lower() != "ascii":
+            resp.encoding = detected
         text = resp.text
+        # Detect silent decompression/decoding failure. A page full of U+FFFD
+        # replacement characters means the response body was not decoded
+        # correctly (classic symptom: advertised `br` but no brotli decoder).
+        # Surfacing this explicitly beats returning mojibake that downstream
+        # reports as a misleading "无法从页面提取章节链接".
+        replacement_count = text.count("\ufffd")
+        if replacement_count > 50:
+            ce = resp.headers.get("Content-Encoding", "none")
+            print(
+                f"WARN: 响应内容疑似乱码（{replacement_count} 个替换字符，"
+                f"Content-Encoding={ce}），可能声明了不支持的压缩编码。URL: {url}",
+                file=sys.stderr,
+            )
+            return None
         # Check for anti-spider pages
         for marker in ANTI_SPIDER_MARKERS:
             if marker in text[:2000]:
@@ -197,6 +227,9 @@ def extract_chapter_links(
                 # Skip non-chapter links
                 if len(text) < 2 or len(text) > 60:
                     continue
+                # Skip navigation labels (下一页/尾页/开始阅读/…)
+                if any(nav in text.lower() for nav in NAV_LABELS):
+                    continue
                 # Resolve relative URLs
                 full_url = urllib.parse.urljoin(base_url, href)
                 if full_url not in seen:
@@ -207,6 +240,23 @@ def extract_chapter_links(
                 break
 
     return links
+
+
+def _clean_chapter_text(text: str) -> str:
+    """Normalize whitespace and strip stray-punctuation lead lines.
+
+    Some chapter pages leave a lone punctuation mark (e.g. '、') as the first
+    line after nav buttons like 展开/收起 are stripped — remove such a leading
+    line so the chapter opens cleanly with real prose.
+    """
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = re.sub(r"[ \t]{2,}", " ", text)
+    lines = text.split("\n")
+    # Drop a leading line that contains no letter/digit/CJK char (pure
+    # punctuation/whitespace artifact), at most once.
+    if lines and not re.search(r"[\u4e00-\u9fffa-zA-Z0-9]", lines[0]):
+        lines.pop(0)
+    return "\n".join(lines).strip()
 
 
 def extract_chapter_content(html: str, selector_override: str | None = None) -> str:
@@ -223,46 +273,120 @@ def extract_chapter_content(html: str, selector_override: str | None = None) -> 
             best = max(elements, key=lambda e: len(e.get_text(strip=True)))
             text = best.get_text("\n", strip=True)
             if len(text) > 100:  # Must have meaningful text
-                # Clean up excessive whitespace
-                text = re.sub(r"\n{3,}", "\n\n", text)
-                text = re.sub(r"[ \t]{2,}", " ", text)
-                return text.strip()
+                return _clean_chapter_text(text)
 
     # Fallback: just get all visible text from body
     body = soup.find("body")
     if body:
         text = body.get_text("\n", strip=True)
-        text = re.sub(r"\n{3,}", "\n\n", text)
         if len(text) > 200:
             print("WARN: 未找到已知内容选择器，使用 body 全文提取", file=sys.stderr)
-            return text.strip()
+            return _clean_chapter_text(text)
 
     return ""
 
 
+def _is_direct_file_url(href: str) -> bool:
+    """Heuristic: does this URL point at a downloadable file, not a page?"""
+    path = href.lower().split("?")[0].split("#")[0]
+    return path.endswith((".txt", ".zip", ".epub", ".rar", ".azw3"))
+
+
 def check_for_full_download(session: requests.Session, list_html: str, base_url: str) -> str | None:
-    """Check if the list page has a '全本TXT下载' or similar direct download link."""
+    """Check if the list page has a *real* full-book direct download link.
+
+    Only returns links that point at an actual file (.txt/.zip/...). A link
+    labelled "txt下载" but ending in .html is an intermediate download portal
+    (often JS-gated) that download_text.py cannot consume — those are skipped
+    so the caller falls back to chapter-by-chapter crawling instead of dying
+    on a HTML download page.
+    """
     soup = BeautifulSoup(list_html, "lxml")
     download_keywords = ["txt下载", "全本下载", "全集下载", "下载txt", "全文下载", "本地下載"]
-    
+
+    page_candidates: list[tuple[str, str]] = []
     for a_tag in soup.find_all("a", href=True):
-        href = a_tag.get("href", "")
+        href = a_tag.get("href", "").strip()
         text = a_tag.get_text(strip=True)
+        if not href or href.startswith(("javascript:", "#")):
+            continue
+        full_url = urllib.parse.urljoin(base_url, href)
+        # Real direct file link — trust it immediately.
+        if _is_direct_file_url(href):
+            print(f"INFO: 发现直链下载: {full_url} (『{text}』)", file=sys.stderr)
+            return full_url
+        # "txt下载" label on a page URL — record but do NOT return; these are
+        # usually JS-gated download portals, not real file URLs.
         for kw in download_keywords:
             if kw in text.lower() or kw in href.lower():
-                full_url = urllib.parse.urljoin(base_url, href)
-                print(f"INFO: 发现全本下载链接: {full_url} (『{text}』)", file=sys.stderr)
-                return full_url
+                page_candidates.append((text, full_url))
+                break
 
-    # Check for direct download links (.txt or .zip end)
-    for a_tag in soup.find_all("a", href=True):
-        href = a_tag.get("href", "").lower()
-        if href.endswith(".txt") or href.endswith(".zip"):
-            full_url = urllib.parse.urljoin(base_url, a_tag.get("href", ""))
-            print(f"INFO: 发现直链下载: {full_url}", file=sys.stderr)
-            return full_url
-
+    if page_candidates:
+        text, url = page_candidates[0]
+        print(
+            f"WARN: 发现『{text}』-> {url}，但链接是页面而非直链"
+            f"（多为 JS 下载入口），跳过，改用逐章爬取",
+            file=sys.stderr,
+        )
     return None
+
+
+def find_next_page(html: str, base_url: str) -> str | None:
+    """Find a 'next page' link on a paginated chapter list."""
+    soup = BeautifulSoup(html, "lxml")
+    next_labels = ("下一页", "下页", "下一頁", "next")
+    for a in soup.find_all("a", href=True):
+        text = a.get_text(strip=True).lower()
+        href = a.get("href", "").strip()
+        if not href or href.startswith(("javascript:", "#")):
+            continue
+        if text in next_labels:
+            return urllib.parse.urljoin(base_url, href)
+    return None
+
+
+def collect_chapter_links(
+    session: requests.Session,
+    first_html: str,
+    list_url: str,
+    base_url: str,
+    selector: str | None,
+    limit: int,
+    timeout: int,
+    max_pages: int = 30,
+) -> tuple[list[dict], int]:
+    """Collect chapter links, following pagination across list pages.
+
+    Returns (links, pages_fetched). Reuses first_html for page 1 to avoid a
+    duplicate request, then follows "下一页" links until exhausted.
+    """
+    all_links: list[dict] = []
+    seen: set[str] = set()
+    pages = 0
+    current_html: str | None = first_html
+    current_url = list_url
+    while current_html and pages < max_pages:
+        pages += 1
+        page_links = extract_chapter_links(current_html, current_url, selector)
+        added = 0
+        for link in page_links:
+            if link["url"] not in seen:
+                seen.add(link["url"])
+                all_links.append(link)
+                added += 1
+        if limit > 0 and len(all_links) >= limit:
+            return all_links[:limit], pages
+        # No new links on a non-first page → pagination exhausted / dead end.
+        if added == 0 and pages > 1:
+            break
+        next_url = find_next_page(current_html, current_url)
+        if not next_url or next_url == current_url:
+            break
+        current_url = next_url
+        time.sleep(0.5)  # be gentle between list pages
+        current_html = fetch_page(session, current_url, timeout)
+    return all_links, pages
 
 
 def crawl_novel(args: argparse.Namespace) -> int:
@@ -286,15 +410,22 @@ def crawl_novel(args: argparse.Namespace) -> int:
         print(f"FULL_DOWNLOAD={download_url}")
         return 0  # Signal to caller: use download_text.py instead
 
-    # ── Step 3: Extract chapter links ──
-    links = extract_chapter_links(list_html, base_url, args.chapter_selector)
+    # ── Step 3: Extract chapter links (with pagination) ──
+    links, pages = collect_chapter_links(
+        session, list_html, args.list_url, base_url,
+        args.chapter_selector, args.limit, args.timeout,
+    )
     if not links:
         print("ERROR: 无法从页面提取章节链接", file=sys.stderr)
         return 1
 
+    if pages > 1:
+        print(f"INFO: 列表分页，共抓取 {pages} 页", file=sys.stderr)
+
     if args.reverse:
         links.reverse()
 
+    # limit already applied inside collect_chapter_links, but keep for safety
     if args.limit > 0:
         links = links[:args.limit]
 

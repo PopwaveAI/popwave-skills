@@ -1,6 +1,6 @@
 {
   "id": "tool-download-webnovel",
-  "version": "4.1.0",
+  "version": "4.5.0",
   "displayName": "网文搜索下载TXT",
   "description": "搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬取 → 校验。直链优先，逐章爬取兜底。支持绕过反爬、可粘贴全文。无付费绕过。",
   "pipeline": {

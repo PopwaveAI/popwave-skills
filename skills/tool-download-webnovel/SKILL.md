@@ -139,6 +139,7 @@ else:
 | 直链下载 404 | 退回到搜索阶段，找章节站爬取 |
 | Cloudflare Turnstile 验证 | **直接放弃该来源**，换幻言网(read.novel.qq.com)或笔趣阁系站点。不能绕过。 |
 | Python `requests`/`urllib` 请求挂死（无响应） | **换 `curl` 测试**——有些站点（如 read.novel.qq.com）对 Python UA 族挂死但 curl 正常返回 HTTP 200。先 `curl -A "Mozilla/5.0" --max-time 10 URL` 验证可达性。如果 curl 成功，用 `curl | python3 -c` 管道提取正文（见下方「curl+Python 管道模式」）。 |
+| `crawl_novel.py` 报"无法从页面提取章节链接"，但 curl/浏览器能看到章节列表 | **Brotli 静默失败（v4.5.0 已修复）**：旧版 `make_session()` 声明 `Accept-Encoding: br` 但环境无 brotli 库，服务器返回 br 压缩字节、requests 无法解压，`resp.text` 变乱码（大量 U+FFFD），BeautifulSoup 提取到 0 个链接。确认脚本 ≥ v4.5.0（make_session 只声明 `gzip, deflate`）。若仍遇，跑 `python3 -c "import brotli"` 检查。**判别特征**：HTTP 200、无异常、内容全是替换字符。 |
 | 章节列表页只能看到最近几章（JS 动态加载） | 换源——该站点章节列表通过 AJAX 加载，`crawl_novel.py` 无法提取 |
 | 反爬触发 | 加大 `--delay` 重试；换 User-Agent；换来源站 |
 | 章节页 → 幻言网（read.novel.qq.com）逐章爬取 | ✅ 无反爬 | 章节 URL 为数字序号，但付费墙截断 |
@@ -225,3 +226,4 @@ done
 ## 版本
 
 v4.4.0 | 2026-06-24 | Step 3 新增付费墙检测脚本、思兔阅读章节页作为备选源
+v4.5.0 | 2026-06-30 | 修复 crawl_novel.py br 压码致静默失败；check_for_full_download 只认真直链；新增导航过滤与自动翻页
