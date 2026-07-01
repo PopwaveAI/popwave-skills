@@ -14,7 +14,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 - 不直接写正文、不直接生成幕纲、不默认修订。
 - seed 必须产出长篇承诺书：商业爽点金字塔、世界规模假设、卷级质变草案，否则不得称 seed 完成。
 - world-foundation 必须先完成 Foundation 结构工程：世界尺度金字塔、势力战力资源总表、卷级质变阶梯、主角穿透模型，否则不得冻结 L1。
-- plot 必须消费 Foundation 产物，并产出卷级和幕级外部燃料台（资料覆盖声明 + 资料角色分配 + 燃料采用表），否则只能标记为草案。
+- plot 必须消费 Foundation 产物和角色储备池，并产出卷级/幕级外部燃料台、本卷选角表和可选剧情燃料池，否则只能标记为草案。
 - 不把公共 `pop-trope-library` 当可选资料；不把 world-foundation 当可选步骤。
 
 ## 公共知识库
@@ -43,7 +43,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 | 用户意图 | 路由 |
 | --- | --- |
 | 开书、题材方向、故事概念、商业卖点、新书PRD、长篇尺度规划、卷级质变草案 | `pop-writer-v3-seed` |
-| 世界观、Foundation、世界金字塔、L1世界包、力量体系、势力资源、主角引擎、金手指、文风DNA、设定涌现 | `pop-writer-v3-world-foundation` |
+| 世界观、Foundation、世界金字塔、L1世界包、角色储备池、力量体系、势力资源、主角引擎、金手指、文风DNA、设定涌现 | `pop-writer-v3-world-foundation` |
 | 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-writer-v3-plot`，并传入任务标签、公共库路径、章节尺度偏好 |
 | 写正文、继续写第 N 章、根据幕纲成文 | `pop-writer-v3-create` |
 | 修改正文、审稿、润色、重写、检查问题 | `pop-writer-v3-revise` |
