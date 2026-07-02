@@ -2,7 +2,7 @@
   "id": "pop-writer-v3-create",
   "name": "pop-writer-v3-create",
   "version": "12.2.0",
-  "description": "根据幕纲和 plot 章级施工卡写小说正文。用于写正文/继续写第N章。优先消费 plot 的章级施工卡，不重新设计剧情。文风DNA按 scene 字段切片读取，禁止全文截断。",
+  "description": "根据幕纲和 plot 章级施工卡写小说正文。用于写正文/继续写第N章。优先消费 plot 的章级施工卡、章卡边界、微beat施工表和读者表达偏好，不重新设计剧情，不合并下一章。文风DNA按 scene 字段切片读取，禁止全文截断。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

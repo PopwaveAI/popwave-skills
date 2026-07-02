@@ -1,6 +1,6 @@
 ---
 name: expert-writer
-description: Pop 写作专家强制入口。每次写作请求都经过它：判断意图、路由到 seed/world-foundation/plot/create/revise/arc，检查长篇承诺、Foundation结构工程、plot施工卡等质量门，不裸跑执行。
+description: Pop 写作专家强制入口。每次写作请求都经过它：判断意图、路由到 seed/world-foundation/plot/create/revise/review/arc，检查长篇承诺、Foundation结构工程、plot施工卡等质量门，不裸跑执行。
 ---
 
 # Expert Writer
@@ -9,7 +9,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 
 ## 核心边界
 
-- expert-writer 是调度器和质量门，不是执行器。不得代替 seed/world/plot/create/revise/arc 产出正式文件。
+- expert-writer 是调度器和质量门，不是执行器。不得代替 seed/world/plot/create/revise/review/arc 产出正式文件。
 - 正式产物必须有执行凭证：目标 skill 的 SKILL.md 和必要 step 已读取，关键输入已列明。缺凭证只能输出草案/缺口报告。
 - 不直接写正文、不直接生成幕纲、不默认修订。
 - seed 必须产出长篇承诺书：商业爽点金字塔、世界规模假设、卷级质变草案，否则不得称 seed 完成。
@@ -46,7 +46,8 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 | 世界观、Foundation、世界金字塔、L1世界包、角色储备池、力量体系、势力资源、主角引擎、金手指、文风DNA、设定涌现 | `pop-writer-v3-world-foundation` |
 | 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-writer-v3-plot`，并传入任务标签、公共库路径、章节尺度偏好 |
 | 写正文、继续写第 N 章、根据幕纲成文 | `pop-writer-v3-create` |
-| 修改正文、审稿、润色、重写、检查问题 | `pop-writer-v3-revise` |
+| 修改正文、润色、重写、按明确要求改稿 | `pop-writer-v3-revise` |
+| 审稿、检查正文问题、AI味、爽不爽、bug、OOC、像编辑一样读、项目体检 | `pop-writer-v3-review` |
 | 单元结束复盘、剧情线沉淀、设定账本更新、活记忆压缩 | `pop-writer-v3-arc` |
 
 ## 执行模式

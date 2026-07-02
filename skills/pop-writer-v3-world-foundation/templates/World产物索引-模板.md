@@ -51,8 +51,10 @@
 | library/设定账本/金手指.md |  | 反馈机制 |  |
 | library/设定账本/开局契约.md |  | 第一幕边界 |  |
 | library/文风DNA/文风DNA.md |  | 正文语感；必须记录文风库原件路径、复制范围、项目适配说明 |  |
+| library/写作配置/读者表达偏好.md |  | 直白度、旁白/心理许可、爽点外显强度；create 表达裁决器 |  |
 | library/设定账本/Library查询方向.md |  | plot 查库 |  |
 | library/设定账本/跨媒介母版雷达.md |  | plot 外部母版 |  |
+| library/项目资料总目录.md |  | seed/world/plot/create/review 资料路由；一级入口 |  |
 
 ## 下游提醒
 
@@ -63,5 +65,7 @@
 - plot 选角必须从角色储备池切片读取：
 - plot 第一幕可用资源：
 - 文风DNA来源与复制范围：
+- 读者表达偏好：
+- 项目资料总目录：
 - create 正文必须外显：
 - 禁止事项：

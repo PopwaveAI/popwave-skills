@@ -1,6 +1,6 @@
 ---
 name: pop-writer-v3-world-foundation
-description: 小说长篇结构工程、世界底盘与设定涌现。用于"做世界观/Foundation/世界金字塔/L1世界包/角色储备池/金手指/文风DNA"。消费 seed 的长篇承诺和交接包，先建立商业爽点、世界尺度、卷级质变、势力战力资源金字塔，再冻结 plot 可消费的世界底盘。
+description: 小说长篇结构工程、世界底盘与设定涌现。用于"做世界观/Foundation/世界金字塔/L1世界包/角色储备池/金手指/文风DNA/读者表达偏好/项目资料总目录"。消费 seed 的长篇承诺和交接包，先建立商业爽点、世界尺度、卷级质变、势力战力资源金字塔，再冻结 plot/create 可消费的世界底盘。
 ---
 
 # Pop Writer V3 World Foundation
@@ -67,6 +67,8 @@ library/设定账本/开局契约.md
 library/设定账本/Library查询方向.md
 library/设定账本/跨媒介母版雷达.md
 library/文风DNA/文风DNA.md
+library/写作配置/读者表达偏好.md
+library/项目资料总目录.md
 library/设定账本/world-产物索引.md
 ```
 
@@ -95,7 +97,7 @@ library/设定账本/设定涌现/10-金手指候选竞技.md
 4. 读 `steps/step-3-emergence-ledger.md`：基于 Foundation 建立设定涌现目录，生成设定问题清单和候选规则池。
 5. 读 `steps/step-4-l1-world-package.md`：通过碰撞矩阵和 L1 方案竞技，冻结 L1 世界包、起点快照、世界宪法、动态升级表。
 6. 读 `steps/step-5-protagonist-goldfinger.md`：基于世界金字塔和 L1 设计主角引擎、角色储备池、金手指候选竞技和开局契约。
-7. 读 `steps/step-6-style-plot-handoff.md`：从文风库选择并复制文风DNA原件，输出 Library 查询方向、跨媒介母版雷达、world 产物索引。
+7. 读 `steps/step-6-style-plot-handoff.md`：从文风库选择并复制文风DNA原件，输出读者表达偏好、Library 查询方向、跨媒介母版雷达、项目资料总目录、world 产物索引。
 
 ## 设定涌现规则
 
@@ -110,6 +112,8 @@ library/设定账本/设定涌现/10-金手指候选竞技.md
 - 不平均展开角色。S/A/B/C 必须按资源预算分层，S 级也只保留 120-200 字稳定锚点。
 - 不让质感覆盖机制。术语、命名、文风必须能追溯到世界规则或网文爽点。
 - 不原创文风DNA。文风DNA必须从公共 `pop-trope-library/文风库/` 或用户提供的 library 文风文件中选取合适原件复制下来；world 只能追加项目化适配说明，不得用抽象标签重写成自创风格总结。
+- 不让文风DNA独占正文表达。world 必须额外产出 `library/写作配置/读者表达偏好.md`，明确目标读者的直白度、旁白/心理/独白许可、环境描写长度、爽点外显频率和严肃文学偏移禁区；当它与文风DNA冲突时，create 以读者表达偏好裁决。
+- 不让资料散落。world 必须产出 `library/项目资料总目录.md`，按 seed/world/plot/create/review 场景列出“必读/按需读/禁止误读”，而不是只列文件清单。
 - 如存在 `04-复刻路由表.md`，world 只消费“复刻位置=world”的条目，例如世界观骨架、力量体系、势力资源、金手指基础规则；plot 和 create/revise 条目只作为下游提醒，不在 world 阶段展开。
 
 ## 红线
@@ -125,4 +129,6 @@ library/设定账本/设定涌现/10-金手指候选竞技.md
 - 没有角色储备池，不得交给 plot；只有主角引擎不足以支撑卷纲选角。
 - 没有起点快照、动态升级表、开局契约，不得交给 plot。
 - 没有文风库原件路径、复制范围和项目化适配说明，不得把 `library/文风DNA/文风DNA.md` 标记为正式可用；只能标记为“文风DNA缺口”。
+- 没有 `library/写作配置/读者表达偏好.md`，不得交给 create；只有文风DNA不足以约束小白文直白度和爽点外显。
+- 没有 `library/项目资料总目录.md`，不得交给 plot/create；只有 seed/world 产物索引不足以保证 agent 找到正确资料。
 - 没有 `execution.mode: formal` 或等价执行凭证时，不得称 world 底盘完成。
