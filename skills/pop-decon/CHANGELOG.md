@@ -1,5 +1,18 @@
 ﻿# CHANGELOG — 02-pop-novel-deconstructor
 
+## v17.0.0 | 2026-07-01
+
+### 按v6.0.0规范重构SKILL.md
+
+- SKILL.md 从358行精简到59行（≤60行规范）。frontmatter从7行精简到2行（只保留name+description）。
+- 红线从9条精简到4条（≤7条规范），第一条改为读取协议。
+- 新增强弱加载保障声明。
+- 速查表从量级路由改为全文件目录引导（11个文件）。
+- 操作细节下沉：新建 `steps/step-1-pipeline.md`（管线完整操作步骤）、`references/iceberg-theory.md`（冰山理论）、`references/naming-normalization.md`（命名归一化）、`references/format-consistency-audit.md`（跨卷格式审计）。
+- skill.json downstream 补充缺失的 pop-decon-prd。
+
+---
+
 ## v16.0.0 | 2026-07-01
 
 ### 删除Phase 4创意溯源 + L2+L3双轨改为L2卡+卷纲双轨

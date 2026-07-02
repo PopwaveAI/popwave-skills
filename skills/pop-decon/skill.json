@@ -1,8 +1,8 @@
 {
   "id": "pop-decon",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "displayName": "拆书管线调度",
-  "description": "拆书管线调度（orchestrator）。4 Phase管线：Phase 1 章节设计包→Phase 2 L2单元卡/卷纲→Phase 3 设定世界观→Phase 4 全书立项PRD。",
+  "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书管线orchestrator，调度Phase 1→4产出入库pop-trope-library。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -26,7 +26,8 @@
     "downstream": [
       "pop-decon-design-pack",
       "pop-decon-volume",
-      "pop-decon-setting"
+      "pop-decon-setting",
+      "pop-decon-prd"
     ],
     "expert": "expert-writer"
   }

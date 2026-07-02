@@ -1,5 +1,16 @@
 # CHANGELOG — pop-decon-volume
 
+## v5.0.0 | 2026-07-01
+
+### 删除套路聚合步骤 + 按v6.0.0规范重构
+
+- 删除 step-4-tropes.md（套路聚合步骤），原因：design-pack已删除套路字段，无数据来源。原 step-5-intake 重命名为 step-4-intake。
+- 修复 step-4（原step-5）中的 L3 残留引用。
+- SKILL.md 从283行精简到≤60行。frontmatter从8行精简到2行（删除pipeline metadata）。红线从15条精简到4条。
+- 新增强弱加载保障声明。速查表改为全文件目录引导。
+- 所有step文件末尾添加加载门禁+下一步指引（自传导）。
+- pipeline-context.md 修过时技能名引用。
+
 ## v4.0.0 | 2026-07-01
 
 ### 架构重构：L2+卷纲双轨产出

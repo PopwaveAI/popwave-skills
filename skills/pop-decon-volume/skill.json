@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-volume",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "displayName": "L2单元卡/卷纲（Phase 2）",
-  "description": "Phase 2 of deconstruction: 提取L2剧情单元卡 + 归纳卷纲（含溯源燃料台）。物理结构降级为参考坐标系。",
+  "description": "当用户说'聚类/卷幕/cluster'时启用。从设计包提取L2单元卡+卷纲（含溯源燃料台），产出供下游setting/prd消费。",
   "entry": "SKILL.md",
   "upstream": "pop-decon-design-pack",
   "downstream": "pop-decon-setting",

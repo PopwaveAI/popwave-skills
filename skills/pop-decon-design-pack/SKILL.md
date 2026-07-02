@@ -1,304 +1,55 @@
 ---
 name: pop-decon-design-pack
-description: "Phase 1 of deconstruction: Step 0 source acquisition (auto-download via tool-download-webnovel) → ETL → chapter splitting → per-chapter lean design pack (3-layer + setting zone: event-chain + payoff + character + setting/items). Chinese web novel only."
-version: 4.4.0
-author: Popwave
-license: MIT
-metadata:
-  hermes:
-    tags: [deconstruction, design-pack, etl, novel-analysis]
-    related_skills: [pop-decon, pop-decon-volume, pop-decon-setting]
+description: "当用户说'拆书/提取设计包/ETL拆分'时启用。逐章提取设计包(beat链+爽点+角色+设定区)，产出供下游volume/setting消费。"
 ---
 
-# pop-decon-design-pack · 章节设计包 v4.2.0
+# pop-decon-design-pack · 章节设计包
 
-> **定位：Phase 1 of deconstruction. 逐章单文件提取，v4 精简模式。**
-> - 每章独立 `chXXX-设计包.md`，3层结构（事件链+爽点+角色）+ 设定/物品提取区
-> - 一次 LLM 调用完成单章全量提取，不跨章聚合
-> - 中文网文「第X章」格式走手动 ETL（见 `references/chinese-novel-etl.md`）
-> - **产出目录只有 `设计包v4/`，不创建 `设计包v3/`。**
-
----
+> Phase 1 of 拆书管线。逐章提取3层+1区设计包，不跨章聚合。
 
 ## ❌ 质量红线
 
 | # | 红线 |
 |:-:|:-----|
-| ❌1 | **源文件+ETL前置缺失** — 未获取源文件/未ETL/未按章拆分/中文TXT硬跑extract.py → 退回 |
-| ❌2 | **凭空发明事件** — 事件链中出现原文不存在的事件 → 退回 |
-| ❌3 | **证据缺失或转录** — 每事件必须有原文证据指针(chXXX-¶YY或关键句首词)，禁止摘录完整段落，禁止末尾追加原文证据代码块 |
-| ❌4 | **设定信息蒸发** — 章内设定/物品/境界/势力数据必须进入设定/物品提取区 |
-| ❌5 | **精度锚点缺失** — 每事件必须有scene+POV+关键对白/数据(🔒)+感官锚点 |
-| ❌6 | **结构不完整** — 必须包含3层+1区全部小节，缺一退回；事件链必须用表格格式 |
-| ❌7 | **广告混入** — 设计包事件中混入非正文内容 → 退回 |
-| ❌8 | **多章合并或命名违规** — 每章独立文件chXXX-设计包.md |
-| ❌9 | **delegate_task预算违规** — 未预拆分就委派/批次超上限/格式规范未物理嵌入context |
+| ❌1 | **读取 skill 文件禁止用 Read 工具** — 用 `Get-Content -Encoding UTF8 -Raw`，Read 有行数限制会截断 |
+| ❌2 | **源文件+ETL前置缺失** — 未获取源文件/未ETL/未按章拆分/中文TXT硬跑extract.py → 退回 |
+| ❌3 | **凭空发明beat** — beat链中出现原文不存在的beat → 退回 |
+| ❌4 | **精度锚点缺失** — 每beat必须有scene+POV+关键对白/数据(🔒)+感官锚点 |
+| ❌5 | **结构不完整** — 必须包含3层+1区全部小节，beat链必须用表格格式 |
 
----
+## 强弱加载保障
+
+- **强保障**：本 SKILL.md 由 host 层每次 run 强制注入
+- **弱保障**：`steps/` + `references/` 需 agent 按 SKILL.md 指引主动 readFile
 
 ## 速查表
 
-| 步骤 | 操作 | 读什么 | 产出 | 门禁 |
-|:-----|:-----|:-------|:-----|:-----|
-| 0 | **源文件获取** | 项目目录（检测 .txt）+ 用户输入 | 项目根 `{书名}.txt`（`$TXT_PATH`） | ❌ 无源文件且下载失败 → 终止 |
-| 1 | ETL + 拆分 | TXT → 手动 ETL | `_temp/chapters/ch001.txt ... chNNN.txt` | ❌ 章数不匹配退回 |
-| 2 | **逐章 v4 提取** | 单章 chXXX.txt | `写作资产/设计包v4/chXXX-设计包.md` | ❌ 3层+1区完整、每事件有精度锚点、设定区非空 |
-| 3 | 验证 | 设计包v4目录 | 验证报告 | ❌ 所有章全覆盖 |
-
-> **⚠️ 核心警告：Step 2 是整条拆书管线的质量瓶颈。** 设计包质量决定 setting（Phase 3）和 creative trace（Phase 4）的全部产出。
->
-> **⚠️ 中文网文：** extract.py 不识别「第X章」。必须走手动 ETL，详见 `references/chinese-novel-etl.md`。
-
----
-
-## 核心流程
-
-### Step 0: 源文件获取
-
-详见 `steps/step-0-source-acquire.md`
-
-**读什么：** 项目目录（检测 .txt）+ 用户输入（书名/URL）
-**做什么：** 检测项目目录是否已有源 TXT；若无，委派 `tool-download-webnovel` skill 自动下载（搜索→下载/爬取→付费墙校验），产出落位到当前项目根目录 `{书名}.txt`。
-**❌ 门禁：** 产出 TXT 不存在/大小为0/内容为 HTTP 错误页 → 退回 tool-download-webnovel 换源；全部来源失败 → 终止告知用户。
-
-> **委派而非自实现：** 本步不重复下载逻辑，加载 `tool-download-webnovel` skill 执行其完整三步流程。委派指令必须明确产出落位到当前拆书项目根目录（非该 skill 默认的 `downloads/`）。
-
-### Step 1: ETL + 按章拆分
-
-详见 `steps/step-1-etl-split.md`
-
-**读什么：** TXT 原文文件
-**做什么：** 手动 ETL → 按章正则拆分到 `_temp/chapters/chXXX.txt`
-
-**产出：**
-- `_temp/metadata.json` + `_temp/full_text.txt` + `_temp/chapters/ch001.txt ~ chNNN.txt`
-
-**❌ ❌ ❌ 硬门禁（不可跳过）：**
-1. **预拆分是强前置条件** — `_temp/chapters/` 目录下必须存在独立章节文件（ch001.txt ~ chNNN.txt），每个文件只包含单章内容。
-2. **禁止将大文件传给 delegate_task** — 绝对不允许子 agent 从 32000 行的单一 TXT 中扫描定位章节。这会耗尽子 agent 的上下文预算，导致定位消耗 25K tokens 后产出严重缩水。
-3. **验证拆分完整性** — 拆分后的文件数与实际章节数不匹配 → 退回。用 `ls _temp/chapters/ch*.txt | wc -l` 确认数量。
-4. **未拆分 = 不得进入 Step 2（delegate_task 模式）** — 如果用户跳过拆分直接要求 delegate_task 提取，必须拒绝并解释：「必须先预拆分为独立章文件。子 agent 从单一大文件中定位章节会消耗大量上下文，导致前 2-3 章后输出质量断崖式下跌。」
-
-**产出命名：** ch{三位数}.txt，如 ch001.txt, ch037.txt。
-
-**中文 TXT 替代：** extract.py 不支持中文。参考 `references/chinese-novel-etl.md`
-
-### Step 2: 逐章 v4 设计包提取（唯一模式）
-
-详见 `steps/step-2-batch-process.md` + `references/v3-format-quick-reference.md`（v4版）
-
-**读什么：** 单章 chXXX.txt（必须已预拆分为独立文件）
-**做什么：** 一次 LLM 调用，产出单章 v4 格式设计包（3层结构 + 设定/物品提取区）。
-
-**⚠️ delegate_task 模式下的 Token 预算（关键）：**
-
-> 子 agent 的上下文不是无限的。每章原文（80-120行）+ 3层分析输出 = ~6-10K tokens/章。3章一批 = ~40-60K tokens 仅输出部分，加上格式规范指令后，总上下文消耗接近 80-120K。**如果使用 25章/批，上下文在 ch003 就爆了，后面全是干条。**
-
-| 批次大小 | 预估 token 消耗 | 可行性 |
-|:---------|:---------------|:-------|
-| **3章/批** | ~80-110K | ✅ 充裕，子 agent 有充足空间写完整3层+1区 |
-| 5章/批 | ~120-160K | ⚠️ 临界，后期章节可能缩水 |
-| 8章/批 | ~160-220K | ❌ 高风险，ch3+ 退化 |
-| 10章/批 | ~200-280K | ❌ 不可接受 |
-| 25章/批 | ~400K+ | ❌ ❌ ❌ 自杀 |
-
-**⚠️ 路径漂移陷阱（NEW — 源自 74章实测复盘）：**
-
-当 orchestrator 在 delegate context 中使用**相对路径**指定产出目录时，子 agent 的 `write_file` 会解析出不同的父目录——尤其是当 orchestrator 在后期批次压缩 context 大小时。典型退化路径：
-
-```
-批次1-6（ch001-054）：context 含绝对路径 → 正确写入「写作资产/设计包v4/」 ✅
-批次7-9（ch055-072）：context 被简化为「设计包v4/」→ 写入平级目录「设计包v4/」❌
-```
-
-**硬性约束：** 每个 delegate_task 的 context 中，产出路径必须使用**绝对路径**。禁止写 `设计包v4/` 或 `写作资产/设计包v4/`。必须写完整的 `D:/workspace/{项目名}/写作资产/设计包v4/`。参见 Step 2 的「产出路径」段。
-
-**验证方式（先于 delegate_task 执行前校验）：** 检查 context 中出现的所有产出目标路径是否以盘符开头。任何以 `写作资产/` 或裸目录名开头的相对路径都是定时炸弹。
-
-**⚠️ 格式规范注入陷阱（严重 — 源自海贼法典32章5种格式的复盘）：**
-
-当 orchestrator 在多批次并行提取中，token 压力会导致格式规范被悄悄从 context 中剪裁。典型退化路径：
-
-```
-批次1（ch001-003）：完整格式模板嵌入 context → 格式A（✅ 标准 7 列表格）
-批次2（ch004-006）：格式被替换为"参见 ch001-003 格式说明" → 格式B（场景#表）
-批次3（ch007-012）：同上，格式引用 → 格式C（维度表/信息单）
-补跑批次1（ch013-024）：context 压缩 50%，格式截断 → 格式D（简化裁剪表）
-补跑批次2（ch025+）：context 仅剩摘要，格式零注入 → 格式E（L1/L2/L3 自由发挥）
-```
-
-**硬性约束：** 从第一批到最后一批，`references/v3-format-quick-reference.md`（v4版）的全文必须 **100% 嵌入每个 delegate_task 的 context body**。禁止写「参见之前批次」「格式同 ch001」「详见 references/xxx.md」——子 agent 是独立上下文，这些引用是空话，子 agent 看不到其他批次 context。格式规范必须物理嵌入，不能靠引用传递。这是格式一致性的唯一保证。
-
-**每章输出的优先级（上下文不足时按此顺序裁剪）：**
-1. **L1 事件链层**（永不裁剪——这是下游 Phase 2-4 的唯一数据源）
-2. **L2 爽点层**（套路识别+钩子——优先保留）
-3. **L3 角色层**（关键对白+关系变化——可简化为要点）
-4. **S1 设定/物品提取区**（上下文不足时可精简为一行）
-
-> ⛔ **如果子 agent 上下文不足，裁剪顺序永远是 S1→L3→L2，绝对不允许裁剪 L1 事件链层的事件链和原文证据。** 事件链缺失 = 该章对下游完全无用。
-
-**v4 结构（3层+1区）：**
-1. **L1 事件链层** — 事件链（8-12事件，**每事件必须表格格式**，含 scene/POV/原文证据/不可替换标记 🔒）
-2. **L2 爽点层** — 套路识别+情绪弧线+钩子强度(L1-L5)+爽点机制
-3. **L3 角色层** — 人格特质触发+关键对白(语气+潜台词)+关系变化
-4. **S1 设定/物品提取区** — 章内设定/物品/境界/势力数据提取
-
-**⚠️ 格式锁——事件链只能用表格，禁止段落式事件描述。** 表格列名固定为（7列，删除字数估计）：
-```markdown
-| # | 事件 | 类型 | scene | POV | 参与角色 | 原文证据 |
-```
-
-**「原文证据」列不是原文转录！** 只写定位信息：`ch003-¶12` 或 `地窖对峙段·"阿金手指抹过喉咙"`。禁止摘录完整段落——原文证据是索引指针，不是引用块。详见红线 ❌3。
-
-每事件完成后标注不可替换标记 🔒 和感官锚点（与🔒并列，每事件下标注）：
-```markdown
-> 🔒 不可替换(事件2): 关键对白（"食物已经不多了。必须要留给哥哥吃。"）
-> 🎯 感官锚点(事件2): 听觉(雨声噼啪)+触觉(手指粗糙)+视觉(火光半明半暗)
-```
-
-**产出路径：**
-- 设计包：`写作资产/设计包v4/chXXX-设计包.md`
-
-**产出命名强制规则：** 文件名必须为 `ch{三位数}-设计包.md`（如 `ch001-设计包.md`, `ch020-设计包.md`）。严禁以下变体：
-- ❌ `chXXX_v4设计包.md`
-- ❌ `chXXX-v4设计包.md`
-- ❌ `v4_设计包_chXXX-chYYY.md`
-- ❌ `chXXX-设计包.md`（无三位数补零）
-
-**❌ 门禁：**
-- 3层+1区缺一 → 退回重写
-- 每事件至少有精度锚点字段（scene+POV+🔒+感官锚点） → 缺则退回
-- 设定/物品提取区非空（纯过渡章可标"本章无新设定"，但必须显式说明） → 缺则退回
-
-**格式规范：** 详见 `references/v3-format-quick-reference.md`（v4版）
-
-### Step 3: 验证
-
-详见 `steps/step-3-verify.md`
-
-**做什么：** 对比 `_temp/chapters/` 和 `写作资产/设计包v4/` 的文件数，确保全覆盖。
-
-**全量验证清单：**
-
-| # | 检查项 | 通过标准 | 失败处理 |
-|:-:|:-------|:---------|:---------|
-| 1 | **命名一致性** | 全部文件名为 `chXXX-设计包.md` | 统一重命名 |
-| 2 | **首行格式** | 全部文件首行匹配 `# 设计包 — chXXX「` | 标记差异文件，执行 post-hoc 归一化脚本修复 |
-| 3 | **3层+1区结构完整** | 全部文件包含 3 个层小节标题（事件链/爽点/角色）+ 1 个设定/物品提取区 | 标记缺层文件 |
-| 4 | **事件表字段完整** | 抽检后10%（至少3章），事件使用表格格式（7列），含 scene + POV + 原文证据 | 缺字段 → 退回 |
-| 5 | **🔒不可替换标记** | 抽检后10%，关键对白/数据标注 🔒 | 缺标记 → 警告 |
-| 6 | **事件数下限** | 每章事件数 ≥8（后30%章≥5） | 标注低密度警告 |
-| 7 | **覆盖率** | 设计包文件数 = 章节文件数 | 缺文件退回补充 |
-| 8 | **设定区非空** | 每章设定/物品提取区非空（纯过渡章可标注"本章无新设定"但必须显式说明） | 缺设定 → 退回 |
-
-**⚠️ 首行格式漂移是持续顽疾：** 实测 69/150 文件的格式在 batch 提取后偏离标准格式，尽管每个 delegate_task context 都明确了格式要求。子 agent 不受格式锁定充分约束——因此首行格式检查必须是全量扫描（不能仅抽检），修复策略必须是 post-hoc 脚本化归一化（`references/post-hoc-format-normalization.md`），不能指望子 agent 自修正。**tag: drifting-first-line-format**
-
-**验证通过后** 通知 orchestrator（pop-decon）Phase 1 设计包提取完成，可进入 Phase 2。
-
-### Step 3.5: 跨目录路径归并（delegate_task 并行提取后强制）
-
-**执行时机：**
-- **主要触发：** Step 3 发现文件数 < 章节数时强制执行
-- **💡 预防性执行（推荐）：** 即使 Step 3 覆盖率达 100%，最后一轮 delegate_task 完成后也建议执行一次全项目扫描。路径漂移可能只影响 1/9 批次（如本会话实测：8 批正常，第 9 批写入了平级目录），Step 3 的门禁虽然能通过覆盖率差（65/74=87.8%）捕获，但预防性扫描能在用户看到失败的质检报告前自愈，避免用户等待多一轮。
-
-**为什么需要：** 两种场景导致产出分散：
-1. **跨项目根目录路径不一致** — 不同子 agent 可能用不同项目根目录名（如 `让仙门再次伟大` vs `让魔门再次伟大`），导致产出分散
-2. **相对路径漂移** — context 中使用相对路径（如 `设计包v4/` 而非 `写作资产/设计包v4/`）导致子 agent 写入项目的平级目录而非目标子目录。最隐蔽的变体是：orchestrator 在前 8 批写绝对路径，第 9 批因 context 压缩写成 `设计包v4/` ——这种批次间路径规范退化比跨项目路径漂移更难诊断，因为它只出现在 Context 被压缩的后期批次
-
-**做什么：**
-1. 扫描项目目录下所有含 `设计包v4` 子串的目录（`写作资产/设计包v4/` 和裸 `设计包v4/` 都可能存在）
-2. 使用 `search_files(pattern="*-设计包.md", target="files", path="{项目根}")` 获取所有设计包文件的真实位置
-3. 用 `cp`（非 mv，保留源备份）将非标准路径下的文件复制到 `写作资产/设计包v4/`
-4. 删除已归并的空目录（`设计包v4/` 等）
-5. 重新执行 Step 3 验证
-
-```bash
-# 归并命令示例：扫描项目内所有非标准路径下的设计包文件并复制到正确位置
-find "D:/workspace/{目标项目}" -path "*/设计包v4/ch*-设计包.md" -not -path "*/写作资产/*" -exec cp {} "D:/workspace/{目标项目}/写作资产/设计包v4/" \;
-```
-
-**❌ 门禁：** 归并后设计包文件数仍 < 章节文件数 → 退回 Step 2。
-**验证：** 归并后 `ls | sort` 确认文件号从 ch001 到 chNNN 连续无缺失。
-
----
-
-## 边界条件（补充）
-
-| 条件 | 处理方式 |
-|:-----|:---------|
-| **中文 TXT 无换行（单行长文本）** | `read_file` 会显示 total_lines=0。子 agent 必须用 `cat` 或 `head -c` 读取全文，不要依赖 `read_file` 的行号判断 |
-| **子 agent 路径不一致** | 子 agent 可能将文件写到 `让仙门再次伟大` 而非 `让魔门再次伟大`。全部提取完成后强制执行 Step 3.5 路径归并 |
-| **子 agent 合并多章输出** | 子 agent 倾向将多章全部写入1个文件。必须在 delegate_task prompt 最顶部（格式规范之前）显式写明「每章必须产出 INDIVIDUAL 独立文件，文件名 chXXX-设计包.md，不得合并！」。详见 `references/batch-scaling.md` |
-
----
-
-## 落盘检查点
-
-| 确认项 | 状态 |
-|:-------|:----:|
-| `$TXT_PATH`（源文件已落位项目根） | All |
-| `_temp/chapters/ch001.txt ~ chNNN.txt` | All |
-| `写作资产/设计包v4/chXXX-设计包.md` | All |
-| 每事件有原文证据 | All |
-| 3层+1区结构完整 | All |
-| 设计包覆盖章数 = 章节文件数 | All |
-
----
-
-## 边界条件
-
-| 条件 | 处理方式 |
-|:-----|:---------|
-| 章节标题无法正则匹配（如无编号） | 用「chX-首句前20字」作为文件名 |
-| 某章只有寥寥几句 | 标注「本章过短」，仍然产出设计包 |
-| 广告与正文难以区分 | 保留疑似行，标注「⚠️ 可能为广告」|
-| 中文 TXT 编码不确定 | 依次尝试 GBK → GB18030 → UTF-8 |
-| **大规模并行提取（50+章）** | ⚠️ 事件衰减风险：子 agent 越往后越简化。每批 delegate_task 指令必须要求事件数≥8/章，完成后立即验证密度。后1/3批次的指令应比前1/3更详细（对抗惰性）。⚠️ 格式注入陷阱：token 压力下格式规范是第一个被砍的。必须从第1批到最后一批 100% 嵌入 `references/v3-format-quick-reference.md`（v4版）全文。见 `references/cn-novel-format-injection-failure.md` |
-| **多 batch 命名一致性** | 每个 delegate_task 指令第一行写明「产出文件名格式：ch{三位数}-设计包.md」，不得让子 agent 自行决定命名样式 |
-| **并行提取后归一化** | 不同子 agent 可能使用不同命名格式。全部完成后扫描目录，统一为 `chXXX-设计包.md` |
-
----
-
-## 参考文件
-
-| 文件 | 用途 |
-|:-----|:------|
-| `references/chinese-novel-etl.md` | 中文网文手动 ETL 流程（替代 extract.py） |
-| `references/v3-format-quick-reference.md` | **v4 格式快照** — 可嵌入 delegate_task context 的精简格式样板（3层+1区），用于锁定子agent产出格式。⚠️ `templates/fact-skeleton.md` 是旧版正向设计模板，仅供交叉参考，**不是**拆书设计包的格式标准 |
-| `references/precision-anchor-format.md` | 事件精度锚点格式——scene/POV/关键对白(🔒)/感官锚点 四个字段 |
-| `references/batch-scaling.md` | 200+ 章大规模拆解时 delegate_task 并行策略（含 token 预算硬约束） |
-| `references/token-budget-delegate.md` | **delegate_task 上下文预算指南** — 批次大小 vs token 消耗对照表、输出裁剪优先级、预拆分的强制要求、三层防护总结 |
-| `references/post-hoc-format-normalization.md` | **格式后处理归一化** — 并行提取后首行格式/3层结构命名的批量修复脚本。**高频漂移场景改用 `scripts/normalize-headlines-from-source.py`（从源文件提取标题，更可靠）** |
-| `scripts/normalize-headlines-from-source.py` | **从源文件提取标题的头行归一化脚本** — 比 regex 恢复更可靠。从 `_temp/chapters/chXXX.txt` 读取实际章节标题，修复设计包首行 |
-| `references/cn-novel-format-injection-failure.md` | **格式注入失败复盘** — 海贼法典 32 章 5 种格式的根因分析。多批次并行提取时格式规范被剪裁的退化路径 |
-
----
-
-## ❌ WRONG 示例
-
-| 场景 | 错误做法 | 正确做法 |
-|:-----|:---------|:---------|
-| ETL 未运行 | 跳过 extract.py 直接写设计包 | 先手动 ETL 得到按章拆分的文件 |
-| 不拆分逐章 | 直接读 full_text.txt 一次 LLM 跑全书 | 按章拆分后逐章处理 |
-| 中文 TXT 硬跑 extract.py | chapter_count=0 仍继续 | 走手动 ETL |
-| 广告混入 | 设计包事件包含「下载APP 查看更多」| LLM 调用时指示去掉非正文内容 |
-| 多章合并到同一文件 | 子 agent 将多章写到1个文件（如 `v4_设计包_ch111-ch115.md`） | 指令中明确「每章独立文件，文件名 chXXX-设计包.md」|
-| **产出路径用相对路径** | context 中写「设计包v4/」→ 子 agent 解析为平级目录「项目根/设计包v4/」而非目标目录「项目根/写作资产/设计包v4/」 | context 中始终用**绝对路径**指定产出目录，如 `D:/workspace/{项目名}/写作资产/设计包v4/`。被 Step 2.5 覆盖率门禁捕获后 cp 归并是备选方案，不应取代事前预防 |
-
----
+| 我要 | 读什么文件 | 什么时候读 |
+|:-----|:----------|:----------|
+| 查源文件获取流程 | `steps/step-0-source-acquire.md` | Step 0 源文件获取时 |
+| 查ETL+拆分流程 | `steps/step-1-etl-split.md` | Step 1 按章拆分时 |
+| 查逐章提取流程 | `steps/step-2-batch-process.md` | Step 2 提取设计包时 |
+| 查验证流程 | `steps/step-3-verify.md` | Step 3 验证产出时 |
+| 查v4格式规范 | `references/设计包v3-格式规范.md` | 理解设计包格式时 |
+| 查v4格式快照 | `references/v3-format-quick-reference.md` | 嵌入delegate_task context时 |
+| 查精度锚点格式 | `references/precision-anchor-format.md` | 理解scene/POV/🔒/感官锚点时 |
+| 查中文网文ETL | `references/chinese-novel-etl.md` | 中文TXT拆分时 |
+| 查批量提取策略 | `references/batch-scaling.md` | ≥50章并行提取时 |
+| 查token预算指南 | `references/token-budget-delegate.md` | delegate_task上下文预算时 |
+| 查格式归一化 | `references/post-hoc-format-normalization.md` | 首行格式漂移修复时 |
+| 查格式注入失败案例 | `references/cn-novel-format-injection-failure.md` | 多批次格式不一致时 |
+| 填设计包模板 | `templates/fact-skeleton.md` | 产出设计包时 |
+| 跑标题归一化脚本 | `scripts/normalize-headlines-from-source.py` | 首行格式修复时 |
+
+## 速查表（步骤）
+
+| 步骤 | 操作 | 产出 | 门禁 |
+|:-----|:-----|:-----|:-----|
+| 0 | 源文件获取 | `{书名}.txt` | 无源文件→退回 |
+| 1 | ETL+拆分 | `_temp/chapters/chXXX.txt` | 章数不匹配→退回 |
+| 2 | 逐章v4提取 | `设计包v4/chXXX-设计包.md` | 3层+1区完整 |
+| 3 | 验证 | 验证报告 | 全覆盖 |
 
 ## 版本
 
-v4.4.0 | 2026-06-30 | **新增 Step 0: 源文件获取**。Phase 1 自带获取能力：项目目录无源 TXT 时委派 tool-download-webnovel 自动下载（搜索→下载/爬取→付费墙校验）→落位项目根→交付 Step 1。新增 `steps/step-0-source-acquire.md`。速查表加 Step 0 行；红线❌1 扩展覆盖源文件获取；落盘检查点加 `$TXT_PATH`。版本号三处对齐（SKILL.md/skill.json/CHANGELOG 统一为 4.4.0）。
-
-v4.3.0 | 2026-06-25 | **Step 3.5 强化预防性扫描**：新增「预防性执行」时机（不等待 Step 3 失败，最后一轮 delegate_task 后主动扫描）。Step 3.5 做什么步骤第 2 项从 `扫描 D:/workspace/ 下所有含写作资产/设计包v4/ 的目录` 改为 `search_files 扫描全项目`（更准确）。新增批次间路径退化场景描述（orchestrator 前 8 批用绝对路径、第 9 批用相对路径的「规范退化」模式）。源自 74 章实测复盘。
-
-v4.2.0 | 2026-06-25 | **路径漂移陷阱防护**：新增 Step 2「⚠️ 路径漂移陷阱」段（relative-path-in-context → sibling-directory-drift 退化路径 + 硬性约束 + 验证方式）。Step 3.5 扩展两种场景（跨项目路径 + 相对路径漂移）。归并命令增加 `-not -path "*/写作资产/*"` 排除误拷。❌ WRONG 示例表新增「产出路径用相对路径」行。源自 74 章实测（ch064-072 因 context 中写相对路径导致写入平级目录）。
-
-v4.0.0 | 2026-06-23 | **3层+1区架构重构**：4层结构（骨架+爽点+角色+感官）→ 3层（事件链+爽点+角色）+ 设定/物品提取区。事件表8列→7列（删除字数估计）。感官锚点改为每事件下标注（与🔒并列）。套路归档/价值点分流从单章同步 → defer到Step 4/5批量pass。质量红线19条→9条。新增Step 4（套路归档批量pass）和Step 5（价值点分流批量pass）。产出目录设计包v3/→设计包v4/。删除节奏分布图、DNA对接映射表、价值点分流门禁
-
-v3.4.0 | 2026-06-23 | **格式注入防护**：新增 ❌19（格式规范必须物理嵌入子 agent context，禁止引用）。新增 Step 2 token 预算节后的「格式规范注入陷阱」警示段。新增 `references/cn-novel-format-injection-failure.md`。源自海贼法典 32 章 5 种格式的根因复盘
-
-v3.3.0 | 2026-06-22 | **❌ 三层失误链修复**：① Step 1 预拆分升级为硬门禁（4条不可跳过规则），禁止将大文件传给 delegate_task。② Step 2 新增 token 预算表（3/5/8/10/25章批次的可行性），输出裁剪优先级（L4→L3→L2，绝不裁剪 L1）。③ 新增 ❌16（未预拆分=自杀）、❌17（>3章/批=不可接受）。源自 32000 行单体文件 → 25章/批 → ch003 崩塌的根因复盘。
-
-v3.2.0 | 2026-06-19 | 新增 `references/post-hoc-format-normalization.md`
+v5.0.0 | 2026-07-01 | 删除本章套路字段+按v6.0.0规范重构 → [CHANGELOG.md](CHANGELOG.md)
