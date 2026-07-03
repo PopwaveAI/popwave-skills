@@ -13,7 +13,7 @@ description: Pop 涌现式小说调度入口。用于用户请求涌现式写作
 | --- | --- | --- |
 | seed | `skills/pop-emergent-seed/SKILL.md` | 碰撞 idea，形成全书/本轮种子文档 |
 | research | `skills/pop-emergent-research/SKILL.md` | 找能进场面的本书涌现燃料和外部写作燃料 |
-| write | `skills/pop-emergent-write/SKILL.md` | 读取 seed、research、正文锚定和项目状态，产出正文 |
+| write | `skills/pop-emergent-write/SKILL.md` | 读取 seed、research、正文锚定、文风DNA和项目状态，产出正文 |
 | review | `skills/pop-emergent-review/SKILL.md` | 审 seed 兑现、爽文兑现、AI味，并沉淀涌现资产 |
 
 ## 路由
@@ -24,6 +24,8 @@ description: Pop 涌现式小说调度入口。用于用户请求涌现式写作
 | 找燃料、查资料、外部事件怎么入戏、世界观怎么接现实 | 读取并执行 `pop-emergent-research` |
 | 写、续写、重写、把 X 写成 Y、开篇样章、单章爽文 | 读取并执行 `pop-emergent-write`；缺燃料时先执行 `pop-emergent-research` |
 | 审稿、AI味、爽不爽、质量复盘、沉淀新增设定 | 读取并执行 `pop-emergent-review` |
+| 提取文风、文风DNA、风格蒸馏、分析作者笔触 | 读取并执行 `pop-shared-dna/SKILL.md`；产出后部署到 library 文风库 |
+| 部署文风DNA到项目本地 | 执行文风DNA部署协议（见下方） |
 | 跑完整涌现式 | 顺序执行 seed -> research -> write -> review |
 
 ## 调度规则
@@ -46,6 +48,64 @@ description: Pop 涌现式小说调度入口。用于用户请求涌现式写作
 - 用户明确要求查资料。
 
 research 不需要长报告。目标是给 write 提供 3-5 条能进场面的燃料，每条有入戏方式、主角操作点、可外显爽点。
+
+### 文风DNA部署协议
+
+文风DNA是提升正式质量的最大杠杆。pop-shared-dna 产出的 DNA 文件落在项目目录的 `写作资产/文风库/{书名}.md`，但 emergent-write 的全文加载协议需要从 library 库加载。部署流程：
+
+1. **DNA产出后**：pop-shared-dna 把 DNA 文件写入项目目录 `写作资产/文风库/{书名}.md`（已有逻辑）。
+2. **部署到library库**：把 DNA 文件复制到 `$env:APPDATA\popwave\remote-skills\pop-trope-library\文风库\{书名}.md`，并更新 `文风库/00-索引.md` 添加条目。
+3. **部署到项目本地**：把 DNA 文件复制到项目目录 `涌现/文风锚定.md`（单一文件，emergent-write 全文加载协议会自动加载）。
+4. **write消费**：emergent-write 全文加载协议加载 `涌现/文风锚定.md`，涌现写作包的 `文风锚定` 字段要求 agent 定位到匹配场景卡。
+
+部署命令（PowerShell）：
+
+```powershell
+# ===== 参数 =====
+$projectDir = "{填入项目根目录路径}"
+$bookName = "{书名}"
+# ================
+
+# 1. 源 DNA 文件路径
+$srcDna = Join-Path $projectDir "写作资产\文风库\$bookName.md"
+if (-not (Test-Path $srcDna)) {
+    # 尝试 library 库路径
+    $libDna = Join-Path $env:APPDATA "popwave\remote-skills\pop-trope-library\文风库\$bookName.md"
+    if (Test-Path $libDna) { $srcDna = $libDna }
+    else { Write-Output "DNA 文件未找到"; exit }
+}
+
+# 2. 部署到项目本地（emergent-write 加载路径）
+$dstDir = Join-Path $projectDir "涌现"
+New-Item -Path $dstDir -ItemType Directory -Force | Out-Null
+Copy-Item $srcDna (Join-Path $dstDir "文风锚定.md") -Force
+
+# 3. 部署到 library 库（canonical 路径）
+$libDir = Join-Path $env:APPDATA "popwave\remote-skills\pop-trope-library\文风库"
+if (Test-Path $libDir) {
+    Copy-Item $srcDna (Join-Path $libDir "$bookName.md") -Force
+    Write-Output "已部署到 library 文风库"
+}
+
+# 4. 更新 library 索引
+$indexPath = Join-Path $libDir "00-索引.md"
+if (Test-Path $indexPath) {
+    $index = Get-Content $indexPath -Raw -Encoding UTF8
+    $entry = "| $bookName | 文风库/$bookName.md | ✅ |"
+    if ($index -notmatch [regex]::Escape($bookName)) {
+        $index = $index -replace '(\|:-----\|:---------\|:-----\|)', "`$1`n$entry"
+        Set-Content $indexPath $index -Encoding UTF8
+        Write-Output "已更新 library 索引"
+    }
+}
+
+Write-Output "文风DNA部署完成: $bookName -> 涌现/文风锚定.md"
+```
+
+**触发时机**：
+- pop-shared-dna 产出 DNA 文件后自动触发。
+- 用户明确要求"部署文风DNA"时触发。
+- 新项目首次写作前，如果 library 库有匹配的 DNA 文件，提示用户选择并部署。
 
 ### 涌现资产分类存储
 
