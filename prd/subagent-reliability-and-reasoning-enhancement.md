@@ -170,6 +170,8 @@ Step4 receipt 检查失败
 | workspace 文件路径混乱 | 主agent在错误路径查找子agent产出文件，被迫用 `Get-ChildItem -Recurse` 搜索 | P2 |
 | taskName 命名不统一 | 统一为 `ch{NNN}-{create\|revise\|qa}[-v{N}]` | P3 |
 | exec 轮询普遍化 | 14/22 个 run 使用 exec 轮询（最高 58 次），修复 RC-1/2/3 后 push-based 恢复可靠则自动消除 | P2（依赖 P0） |
+| **RC-6: Fallback 覆盖不全** | 海贼法典 100 章拆书中，~20+ 个 spawn-unmaterialized 仅 ~40% 触发了 fallback 补救，其余永久丢失。同一类型失败有的触发有的不触发 | P0 |
+| **RC-7: Orchestrator 无断点续跑** | pop-decon 在 Phase 1 断流后无"扫描已有产出→从缺口续跑"能力，每次重跑从零开始或随机位置，管线死亡后无法自恢复 | P0 |
 
 ## 根因关系图
 
@@ -203,6 +205,8 @@ Step4 receipt 检查失败
 | P0 | RC-1+RC-3: gateway断裂+无熔断 | yield 增加超时机制；gateway 增加 heartbeat 和自动重连 | OpenClaw 框架 | 高 |
 | P0 | RC-2: 虚假accepted | spawn 在 session 文件持久化成功后才返回 accepted | OpenClaw 框架 | 中 |
 | P0 | R-3: 思维链内容丢弃 | 设置 `PAOPAO_OPENCLAW_RAW_THINKING_STREAM=1` | 环境变量配置 | 低 |
+| P0 | RC-6: Fallback 覆盖不全 | 每个 spawn-unmaterialized 必须触发 fallback；fallback 后校验文件落盘 | OpenClaw 框架 | 中 |
+| P0 | RC-7: Orchestrator 无断点续跑 | Phase 1 启动前扫描已有产出→计算缺口→从缺失章节续跑；连续 spawn 失败时自动降级并行度 | pop-decon skill | 中 |
 | P1 | R-1: reasoning_effort 未配置 | task payload 新增 `reasoning_effort: "max"` | expert-writer skill | 低 |
 | P1 | RC-4: context漏传种子 | 全文注入铁律（v9.7.0已实施） | expert-writer skill | 已完成 |
 | P1 | RC-5: 无命名校验 | revise 增加"命名一致性检查"项 | expert-writer skill | 低 |

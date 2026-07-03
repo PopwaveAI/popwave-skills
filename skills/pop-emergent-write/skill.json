@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-write",
   "name": "pop-emergent-write",
-  "version": "1.2.0",
-  "description": "涌现式小说写正文skill。通常由pop-emergent路由调用，用于把点子、桥段、参考对象、设定母题或战斗场景直接写成短篇、开篇、单章或爽文场面。",
+  "version": "2.0.0",
+  "description": "涌现式write执行skill。用于写、续写、重写、把X写成Y、开篇样章、单章爽文、同人片段和战斗桥段；读取seed、research、正文锚定和项目状态，产出正文与创作记录，不调用正式create。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

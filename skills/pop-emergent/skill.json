@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent",
   "name": "pop-emergent",
-  "version": "1.0.0",
-  "description": "涌现式小说专家，作为后台路由级专家skill。用于把X写成Y、直出短文、开篇样章、爽文场面、同人片段和短文审稿，负责路由到pop-emergent-write或review，不走正式plot/create管线。",
+  "version": "1.4.0",
+  "description": "涌现式小说调度入口。用于涌现式写作、seed共创、research写作燃料、正文锚定写作、质量review、AI味审稿和复盘沉淀；按seed->research->write->review路由到四个执行skill，不进入正式world/plot/create管线。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

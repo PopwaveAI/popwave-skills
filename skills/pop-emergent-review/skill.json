@@ -1,0 +1,8 @@
+{
+  "id": "pop-emergent-review",
+  "name": "pop-emergent-review",
+  "version": "1.0.0",
+  "description": "涌现式review执行skill。用于审稿、检查爽不爽、AI味、种子兑现、燃料入戏、正文锚定漂移、bug/OOC，并沉淀涌现人物/设定/伏笔/活审美上下文；不直接重写正文。",
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
