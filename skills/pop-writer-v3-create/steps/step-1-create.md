@@ -51,55 +51,53 @@ formal 正文必须有微beat施工表：
 - 写作时按微beat顺序推进；可以合并相邻小动作，但不能跳过主角动作、阻力和反馈。
 - 如果微beat不足，先回 plot 补施工卡，不要靠正文阶段加环境描写补字。
 
-## 文风DNA 切片读取
+## 文风DNA 全文读取协议
 
-文风DNA 文件含 8+ 张场景卡（每张 ≥500 字原文摘录），全文 15KB+。**禁止全文 Get-Content + Substring 截断**——截断会丢失场景卡原文摘录（v4 模板核心价值），导致 agent 拿到"目录"而非"正文"。
+文风DNA 文件含 8+ 张场景卡（每张 ≥500 字原文摘录），全文 15KB+。**Read 工具对大文件有随机截断（实测保留率 9%-80%），会丢失场景卡原文摘录（v4 模板核心价值），导致 agent 拿到"目录"而非"正文"。**
 
-### 切片协议
+### 强制 exec 全文读取
 
-1. 从 plot 章级施工卡提取 `scene` 字段值列表（如 `[narration_suspense, dialogue_daily, description_environment]`）
-2. 按文风DNA.md 的 `###` 标题切分，匹配 scene 字段对应的场景卡
-3. 追加"通用维度"整段 + "全书稳定特征"整段（这些对每章都适用）
-4. 拼接为 `$DNA_SLICE`，写入创作记录 `execution.dna_slices`
-
-### PowerShell 切片脚本（复制执行，替换两个参数）
+写正文前必须用 PowerShell `Get-Content -Raw` 读取文风DNA全文，禁止使用 Read 工具读取：
 
 ```powershell
 # ===== 参数（替换为你项目的实际值）=====
 $dnaPath = "{填入文风DNA.md 完整路径}"
-$scenes  = @("scene1", "scene2")  # 从 plot 施工卡 scene 字段提取
 # =====================================
-
-$c = Get-Content $dnaPath -Raw -Encoding UTF8
-$ms = [regex]::Matches($c, '(?m)^### ')
-$dict = @{}
-for ($i=0; $i -lt $ms.Count; $i++) {
-  $s = $ms[$i].Index
-  $e = if ($i -lt $ms.Count-1) {$ms[$i+1].Index} else {$c.Length}
-  $b = $c.Substring($s, $e-$s)
-  if ($b -match 'scene:\s*`?([^`\r\n]+)`?') { $dict[$Matches[1].Trim()] = $b }
-}
-$out = ""
-foreach ($sv in $scenes) { if ($dict.ContainsKey($sv)) { $out += $dict[$sv] + "`n`n" } }
-# 追加通用维度 + 全书稳定特征（H2 段）
-$h2s = [regex]::Matches($c, '(?m)^## ')
-for ($i=0; $i -lt $h2s.Count; $i++) {
-  $s = $h2s[$i].Index
-  $e = if ($i -lt $h2s.Count-1) {$h2s[$i+1].Index} else {$c.Length}
-  $title = ($c.Substring($s, 200) -split "`n")[0]
-  if ($title -match '通用维度|全书稳定特征') { $out += $c.Substring($s, $e-$s).TrimEnd() + "`n`n" }
-}
-Write-Output $out
+$dna = Get-Content $dnaPath -Raw -Encoding UTF8
+Write-Output "文风DNA全文长度: $($dna.Length) chars"
+Write-Output $dna
 ```
 
-> 脚本逻辑：按 `###` 切分 → 提取每块 `scene:` 值 → 按 $scenes 匹配 → 追加 H2 标题含"通用维度"/"全书稳定特征"的整段。输出约 3-5KB（vs 全文 15KB+），注意力聚焦在相关场景。
+执行规则：
+- **每次写新章节前必须执行**。不允许"我上一轮已经读过了"作为跳过理由——对话历史里的摘要不等于全文。
+- 禁止用 Read 工具读取文风DNA文件——Read 工具会截断，返回内容只有原始文件的 9%-80%。
+- 禁止只读取文风DNA的目录、摘要或概述——必须读取包含所有场景卡原文摘录的完整文件。
+- 如果文风DNA文件不存在，先回 world-foundation 部署文风DNA，不得在没有文风DNA的情况下写正式正文。
+
+### 场景卡定位（可选，用于注意力聚焦）
+
+全文读取后，可从 plot 章级施工卡提取 `scene` 字段值列表（如 `[narration_suspense, dialogue_daily, description_environment]`），在全文中定位到匹配的场景卡重点参照——但其他场景卡也必须保留在上下文中，不得丢弃。
+
+### 笔触 vs 内容红线
+
+文风DNA传递的是**笔触**（句式怎么断、感官怎么排、叙事距离怎么站、段落怎么呼吸、对话怎么引导），不是**内容**（打谁、怎么打、打完想什么、战术怎么设计、角色怎么复盘）。
+
+| ✅ 从文风DNA学笔触 | ❌ 不从文风DNA学内容 |
+|:-------------------|:---------------------|
+| 战斗用短句链+拟声词推进节奏 | 战斗中要写战术思维/量化复盘 |
+| 情绪用身体动作外化不用直述 | 角色击杀后要有角色化余韵 |
+| 独句段用于情绪收束/时间跳跃 | boss战必须濒死再反击 |
+| 嗅觉→听觉→视觉的感官启动顺序 | 暗杀要按潜行→背刺→搜刮流程 |
+| 叙事者锁定角色肩膀后侧 | 主角要在脑中计算胜算百分比 |
+
+文风DNA的原文摘录是让 agent **感受作者怎么写**，不是让 agent **抄作者写了什么**。原文摘录里索伦的战术思维、战斗复盘、击杀余韵是深渊主宰的**剧情内容**，不是文风——agent 不该把这些提取为创作要求。
 
 ### 校验
 
-- [ ] 切片输出 > 1000 字符（过小说明匹配失败）
-- [ ] 切片包含目标场景卡的原文摘录（非空引用块）
-- [ ] 切片包含通用维度段
-- 未通过 → 检查 scene 字段值拼写 / 文风DNA文件路径
+- [ ] exec 返回的文风DNA长度 > 5000 字符（过小说明文件可能损坏或路径错误）
+- [ ] 返回内容包含 `###` 场景卡标题和原文摘录引用块
+- [ ] 返回内容包含"通用维度"和"全书稳定特征"段落
+- 未通过 → 检查文件路径 / 文风DNA文件完整性
 
 ## 写法
 

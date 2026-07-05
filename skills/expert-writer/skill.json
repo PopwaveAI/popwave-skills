@@ -1,8 +1,8 @@
 {
   "id": "expert-writer",
   "name": "expert-writer",
-  "version": "14.2.0",
-  "description": "Pop 写作专家强制入口。每次写作请求都经过它：判断意图、继承商业网文目标函数，路由到 seed/world-foundation/plot/create/revise/review/arc，检查长篇承诺、Foundation结构工程、角色储备池、本卷选角表、plot施工卡等质量门，不裸跑执行。",
+  "version": "14.4.0",
+  "description": "Pop 写作专家强制入口。每次写作请求都经过它：判断意图、继承商业网文目标函数，路由到 seed/world-foundation/plot/create/revise/review/arc，检查长篇承诺、Foundation结构工程、角色储备池、本卷选角表、plot施工卡等质量门，不裸跑执行。调度create/revise时文风DNA必须全文注入，禁止摘要压缩传递，禁止把文风DNA当内容素材库。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

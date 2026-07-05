@@ -1,6 +1,6 @@
 {
   "id": "pop-shared-dna",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "displayName": "文风DNA蒸馏引擎",
   "description": "从作者/书籍原文中提取写作风格DNA（叙事哲学+技法偏好+节奏模式），生成可复用的风格档案，配合 Thinking-Claude 式 Prompt 实现精准文风模仿。",
   "category": "writing",
