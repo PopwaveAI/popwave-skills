@@ -1,5 +1,15 @@
 ﻿# CHANGELOG — 02-pop-novel-deconstructor
 
+## v18.0.0 | 2026-07-06
+
+### 改为初始化+一次性路由入口
+
+- SKILL.md 从 orchestrator 瘦身为初始化入口；红线增至 7 条（含"不当常驻调度""无源文件先下载"）
+- step-1-pipeline.md 从 142 行调度 SOP 改为初始化（源文件检查+量级+语言）+ 一次性路由建议
+- skill.json expert 从 expert-writer 改为 pop-decon（拆书专家独立）
+- agents/openai.yaml 新建，含拆书专家 PE system_prompt
+- 管线地图增加 tool-download-webnovel 作为第一步
+
 ## v17.0.0 | 2026-07-01
 
 ### 按v6.0.0规范重构SKILL.md

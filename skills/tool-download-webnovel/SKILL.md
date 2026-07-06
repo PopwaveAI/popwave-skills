@@ -1,6 +1,6 @@
 ---
 name: tool-download-webnovel
-description: 搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬取 → 校验。支持 GitHub、80txt、笔趣阁等公开来源。使用 pop-decon 拆解的入口源。无限制：可绕过反爬、可逐章爬取、可粘贴全文。
+description: 搜索并下载中文网文 TXT：自动搜索直链 → 下载/爬取 → 校验。支持 GitHub、80txt、笔趣阁等公开来源。拆书管线第一步：用户说"拆书"但无源文件时，先执行本 skill 下载。无限制：可绕过反爬、可逐章爬取、可粘贴全文。
 ---
 
 # tool-download-webnovel · 网文搜索下载
