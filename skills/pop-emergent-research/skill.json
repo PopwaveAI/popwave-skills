@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-research",
   "name": "pop-emergent-research",
-  "version": "1.0.0",
-  "description": "涌现式research执行skill。用于寻找本书涌现燃料、外部事件、行业机制、原型事件、物件、术语、制度压力和可神话化素材；产出写作燃料台，不写正文，不排剧情。",
+  "version": "1.1.0",
+  "description": "涌现式research执行skill。用于寻找本书涌现燃料、题材机制、外部事件、行业机制、原型事件、物件、术语、制度压力和可神话化素材；产出可被review/ledger筛入current-state的燃料池，不写正文，不排章纲。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

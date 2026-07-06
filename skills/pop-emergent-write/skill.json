@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-write",
   "name": "pop-emergent-write",
-  "version": "2.2.0",
-  "description": "涌现式write执行skill。用于写、续写、重写、把X写成Y、开篇样章、单章爽文、同人片段和战斗桥段；读取seed、research、正文锚定、soul/文风锚定和项目状态，产出正文与创作记录，不调用正式create。soul必须短硬可执行，content-mechanics负责分流题材机制，禁止把文风当剧情来源。",
+  "version": "2.3.0",
+  "description": "涌现式write执行skill。用于写、续写、重写、把X写成Y、开篇样章、单章爽文、同人片段和战斗桥段；只读取current-state、soul、最近正文和用户本轮要求，产出正文与创作记录，不调用正式create，不全量扫描项目库。soul负责主卖点和表达魂，current-state负责剧情控制。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent",
   "name": "pop-emergent",
-  "version": "1.6.0",
-  "description": "涌现式小说调度入口。用于涌现式写作、seed共创、research写作燃料、正文锚定写作、质量review、AI味审稿和复盘沉淀；按seed->research->write->review路由到四个执行skill，不进入正式world/plot/create管线。使用soul/文风锚定/content-mechanics三层资产，禁止把文风当剧情机制或内容素材库。",
+  "version": "1.8.0",
+  "description": "涌现式小说项目初始化、修复和规范审计skill。用于新建或校准涌现式写作项目、创建/修复current-state.md与soul.md、补齐文档元数据、检查skill scope/版本、判断下一步应使用seed/research/write/review哪个执行skill；不作为每轮正文写作的常驻总控。",
   "author": "popwave",
   "license": "UNLICENSED"
 }

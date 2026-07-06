@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-seed",
   "name": "pop-emergent-seed",
-  "version": "1.0.0",
-  "description": "涌现式seed执行skill。用于碰撞idea、形成全书/本轮种子文档、核心快感、相似/相反/盲区、题材承诺和禁区；不写世界设定大全、卷纲、章纲或正文。",
+  "version": "1.1.0",
+  "description": "涌现式seed执行skill。用于碰撞idea、形成全书/本轮种子文档、核心快感、主卖点、相似/相反/盲区、题材承诺和禁区；产出轻量seed，并可初始化soul/current-state的上游内容；不写世界设定大全、卷纲、章纲或正文。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
