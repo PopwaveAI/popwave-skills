@@ -287,6 +287,78 @@ def _clean_chapter_text(text: str) -> str:
     return "\n".join(lines).strip()
 
 
+def _strip_page_suffix(path: str) -> str:
+    """Strip trailing _N / /N / _N.html suffix for intra-chapter prefix matching."""
+    path = re.sub(r"_\d+\.html?$", "", path)
+    path = re.sub(r"\.html?$", "", path)
+    path = re.sub(r"/\d+/?$", "", path)
+    return path
+
+
+def find_chapter_next_page(html: str, base_url: str, chapter_url: str) -> str | None:
+    """Find an intra-chapter 'next page' link, NOT a 'next chapter' link.
+
+    Many novel sites split one chapter across multiple pages. Without this
+    function the crawler only grabs page 1 and silently drops the rest.
+    """
+    soup = BeautifulSoup(html, "lxml")
+    next_labels = ("下一页", "下页", "下一頁", "next", "nextpage")
+    current_path = urllib.parse.urlparse(chapter_url).path.rstrip("/")
+    current_prefix = _strip_page_suffix(current_path)
+
+    for a in soup.find_all("a", href=True):
+        text = a.get_text(strip=True)
+        href = a.get("href", "").strip()
+        if not href or href.startswith(("javascript:", "#")):
+            continue
+        if "章" in text:
+            continue
+        text_lower = text.lower()
+        if not any(label in text_lower for label in next_labels):
+            continue
+        full_url = urllib.parse.urljoin(base_url, href)
+        if full_url == chapter_url:
+            continue
+        next_path = urllib.parse.urlparse(full_url).path.rstrip("/")
+        next_prefix = _strip_page_suffix(next_path)
+        if next_prefix and next_prefix == current_prefix:
+            return full_url
+        if next_path.startswith(current_path) or current_path.startswith(next_prefix):
+            return full_url
+    return None
+
+
+def fetch_chapter_content(
+    session: requests.Session, url: str, selector_override: str | None,
+    timeout: int, max_pages: int = 50,
+) -> str:
+    """Fetch a chapter, following intra-chapter pagination, return full text."""
+    parts: list[str] = []
+    current_url = url
+    seen: set[str] = {url}
+    pages = 0
+
+    while current_url and pages < max_pages:
+        html = fetch_page(session, current_url, timeout)
+        if not html:
+            break
+        text = extract_chapter_content(html, selector_override)
+        if text:
+            parts.append(text)
+        pages += 1
+
+        next_url = find_chapter_next_page(html, current_url, current_url)
+        if not next_url or next_url in seen:
+            break
+        seen.add(next_url)
+        current_url = next_url
+        time.sleep(0.3)
+
+    if pages > 1:
+        print(f"INFO: 章节分页，共抓取 {pages} 页", file=sys.stderr)
+    return "\n\n".join(parts) if parts else ""
+
+
 def extract_chapter_content(html: str, selector_override: str | None = None) -> str:
     """Extract the visible text content from a chapter page."""
     soup = BeautifulSoup(html, "lxml")
@@ -490,10 +562,7 @@ def crawl_novel(args: argparse.Namespace) -> int:
         """Worker: fetch & extract one chapter. Returns (index, content_or_None, title)."""
         i, link = idx_link
         sess = get_thread_session()
-        html = fetch_page(sess, link["url"], args.timeout)
-        if not html:
-            return (i, None, link["title"])
-        content = extract_chapter_content(html, args.content_selector)
+        content = fetch_chapter_content(sess, link["url"], args.content_selector, args.timeout)
         return (i, content, link["title"])
 
     if args.workers > 1 and len(todo) > 1:
@@ -515,12 +584,7 @@ def crawl_novel(args: argparse.Namespace) -> int:
         print(f"INFO: 串行爬取 — {len(todo)} 章", file=sys.stderr)
         for i, link in todo:
             print(f"INFO: [{i}/{len(links)}] {link['title']}", file=sys.stderr)
-            html = fetch_page(session, link["url"], args.timeout)
-            if not html:
-                failed += 1
-                results[i] = None
-                continue
-            content = extract_chapter_content(html, args.content_selector)
+            content = fetch_chapter_content(session, link["url"], args.content_selector, args.timeout)
             if content:
                 results[i] = content
                 crawled += 1
