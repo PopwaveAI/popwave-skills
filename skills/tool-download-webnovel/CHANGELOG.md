@@ -79,3 +79,20 @@
 ## v2.0.0 (2026-06-13)
 
 - Initial release. SOP with lookup table, red lines, WRONG examples, error handling.
+
+---
+
+## v4.6.0 (2026-07-05)
+
+### ? 策略优化：章节站优先找电脑版
+
+**经验来源：** 下载《武林半侠传》（647章，文抄公）。
+
+**问题：** 手机版章节站（m./wap.）每章分2-3页，逐章爬取需多次HTTP翻页。
+
+**发现：** 同站电脑版（www）每章一页整章，内容区常为div.book_content_text。
+
+**修改：**
+- step-1-search.md: Tier-2后新增「关键加速：优先找电脑版」
+- references/sources.md: 新增ishubao.org源、搜索原则增加PC版优先
+

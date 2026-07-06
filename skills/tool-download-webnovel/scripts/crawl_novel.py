@@ -11,8 +11,10 @@ Strategy:
 
 Usage:
   python crawl_novel.py --list-url <URL> --title "书名"
+  python crawl_novel.py --list-url <URL> --title "书名" --workers 16
   python crawl_novel.py --list-url <URL> --title "书名" --limit 50
   python crawl_novel.py --list-url <URL> --title "书名" --chapter-selector "#content" --delay 1.5
+  python crawl_novel.py --list-url <URL> --title "书名" --resume  # 断点续爬
 """
 
 from __future__ import annotations
@@ -22,8 +24,10 @@ import os
 import random
 import re
 import sys
+import threading
 import time
 import urllib.parse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import requests
@@ -49,6 +53,8 @@ CONTENT_SELECTORS = [
     "div#content",
     "div.content",
     "div#chaptercontent",
+    "div.book_content_text",
+    "div#nr1",
     "div#booktxt",
     "div.txtnav",
     "article",
@@ -56,7 +62,6 @@ CONTENT_SELECTORS = [
     "div.showtxt",
     "div.novel-content",
     "div#TextContent",
-    "div#chaptercontent",
 ]
 
 # ── Anti-crawl User-Agent rotation pool ──
@@ -139,6 +144,18 @@ def parse_args() -> argparse.Namespace:
         default=30,
         help="Request timeout in seconds.",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=10,
+        help="Concurrent download threads (default 10). Set 1 for serial mode.",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        default=False,
+        help="Resume: skip chapters already present in the output file and append new ones.",
+    )
     return parser.parse_args()
 
 
@@ -166,6 +183,17 @@ def make_session() -> requests.Session:
 
 def rotate_ua(session: requests.Session) -> None:
     session.headers["User-Agent"] = random.choice(USER_AGENTS)
+
+
+# ── Thread-local session pool — each worker thread gets its own connection pool ──
+_thread_local = threading.local()
+
+
+def get_thread_session() -> requests.Session:
+    """Return a thread-local requests.Session (one per worker thread)."""
+    if not hasattr(_thread_local, "session"):
+        _thread_local.session = make_session()
+    return _thread_local.session
 
 
 def fetch_page(session: requests.Session, url: str, timeout: int = 30) -> str | None:
@@ -431,49 +459,108 @@ def crawl_novel(args: argparse.Namespace) -> int:
 
     print(f"INFO: 共发现 {len(links)} 个章节，开始爬取…", file=sys.stderr)
 
-    # ── Step 4: Crawl each chapter ──
-    chapters_text: list[str] = []
-    crawled = 0
+    # ── Step 4: Crawl each chapter (concurrent or serial) ──
+    output_path = output_dir / f"{safe_filename(args.title)}.txt"
+
+    # Resume: detect already-downloaded chapters by title
+    done_titles: set[str] = set()
+    existing_count = 0
+    if args.resume and output_path.exists():
+        try:
+            old = output_path.read_text(encoding="utf-8")
+            for m in re.finditer(r"^# (.+)$", old, flags=re.M):
+                done_titles.add(m.group(1).strip())
+            existing_count = len(done_titles)
+            if done_titles:
+                print(f"INFO: 断点续爬 — 已有 {existing_count} 章，将跳过", file=sys.stderr)
+        except Exception:
+            pass
+
+    # Filter out already-downloaded chapters
+    todo = [(i, link) for i, link in enumerate(links, 1) if link["title"].strip() not in done_titles]
+    skipped = len(links) - len(todo)
+    if skipped:
+        print(f"INFO: 跳过已下载 {skipped} 章，剩余 {len(todo)} 章", file=sys.stderr)
+
+    results: dict[int, str | None] = {}  # 1-based index -> content (None = failed)
     failed = 0
+    crawled = 0
 
-    for i, link in enumerate(links, 1):
-        print(f"INFO: [{i}/{len(links)}] {link['title']}", file=sys.stderr)
-        html = fetch_page(session, link["url"], args.timeout)
+    def _fetch_one(idx_link):
+        """Worker: fetch & extract one chapter. Returns (index, content_or_None, title)."""
+        i, link = idx_link
+        sess = get_thread_session()
+        html = fetch_page(sess, link["url"], args.timeout)
         if not html:
-            failed += 1
-            continue
-
+            return (i, None, link["title"])
         content = extract_chapter_content(html, args.content_selector)
-        if content:
-            chapters_text.append(f"# {link['title']}\n\n{content}")
-        else:
-            print(f"WARN: 未能提取章节内容: {link['title']}", file=sys.stderr)
-            failed += 1
+        return (i, content, link["title"])
 
-        crawled += 1
+    if args.workers > 1 and len(todo) > 1:
+        print(f"INFO: 并发爬取 — {args.workers} 线程，{len(todo)} 章", file=sys.stderr)
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = {pool.submit(_fetch_one, item): item[0] for item in todo}
+            done_count = 0
+            for fut in as_completed(futures):
+                i, content, title = fut.result()
+                results[i] = content
+                done_count += 1
+                if content:
+                    crawled += 1
+                else:
+                    failed += 1
+                if done_count % 50 == 0 or done_count == len(todo):
+                    print(f"INFO: 进度 {done_count}/{len(todo)} (成功 {crawled}, 失败 {failed})", file=sys.stderr)
+    else:
+        print(f"INFO: 串行爬取 — {len(todo)} 章", file=sys.stderr)
+        for i, link in todo:
+            print(f"INFO: [{i}/{len(links)}] {link['title']}", file=sys.stderr)
+            html = fetch_page(session, link["url"], args.timeout)
+            if not html:
+                failed += 1
+                results[i] = None
+                continue
+            content = extract_chapter_content(html, args.content_selector)
+            if content:
+                results[i] = content
+                crawled += 1
+            else:
+                print(f"WARN: 未能提取章节内容: {link['title']}", file=sys.stderr)
+                failed += 1
+                results[i] = None
+            if i < len(links):
+                delay = args.delay + random.uniform(0, args.delay * 0.5)
+                time.sleep(delay)
 
-        # Rate limiting
-        if i < len(links):
-            delay = args.delay + random.uniform(0, args.delay * 0.5)
-            time.sleep(delay)
-
-    # ── Step 5: Assemble and save ──
-    if not chapters_text:
+    # ── Step 5: Assemble and save (in original chapter order) ──
+    if crawled == 0:
         print("ERROR: 未能成功爬取任何章节", file=sys.stderr)
         return 1
 
-    full_text = "\n\n".join(chapters_text)
-    output_path = output_dir / f"{safe_filename(args.title)}.txt"
-    output_path.write_text(full_text, encoding="utf-8", newline="\n")
+    new_chapters: list[str] = []
+    for i, link in enumerate(links, 1):
+        content = results.get(i)
+        if content:
+            new_chapters.append(f"# {link['title']}\n\n{content}")
+
+    # Resume mode: append; otherwise overwrite
+    write_mode = "a" if (args.resume and existing_count > 0) else "w"
+    with open(output_path, write_mode, encoding="utf-8", newline="\n") as f:
+        if write_mode == "a":
+            f.write("\n\n")
+        f.write("\n\n".join(new_chapters))
 
     file_size = output_path.stat().st_size
-    preview = re.sub(r"\s+", " ", full_text[:120]).strip()
+    preview_src = new_chapters[0] if new_chapters else ""
+    preview = re.sub(r"\s+", " ", preview_src[:120]).strip()
 
     print(f"output={output_path}")
     print(f"encoding=utf-8")
     print(f"bytes={file_size}")
     print(f"chapters_crawled={crawled}")
     print(f"chapters_failed={failed}")
+    print(f"chapters_skipped={skipped}")
+    print(f"workers={args.workers}")
     print(f"preview={preview}")
 
     if failed > 0 and failed > crawled * 0.3:
