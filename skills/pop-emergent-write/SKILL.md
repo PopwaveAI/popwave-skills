@@ -1,118 +1,38 @@
 ---
 name: pop-emergent-write
-description: Pop 涌现式 write 执行 skill。用于写、续写、重写、把X写成Y、开篇样章、单章爽文、同人片段和战斗桥段；只消费 current-state、soul、最近正文和用户本轮要求，产出正文与创作记录，不调用正式 create，不全量扫描项目库。
+description: "当用户说'写正文/续写/重写/把X写成Y/开篇样章/单章爽文/涌现式write'时启用。只负责成文，消费 current-state、soul、最近正文和用户本轮要求；正文落盘到 涌现/正文/；不调用正式 create，不全量扫描项目库。"
 ---
 
 # Pop Emergent Write
 
-write 只负责成文。不要在写作时重建世界观、整理人物库、全量读取 research、补长线剧情。长线控制来自 `current-state.md`，主卖点和气口来自 `soul.md`。
+write 只负责成文：消费 `current-state.md` + `soul.md` + 最近正文 + 用户本轮要求，产出正文与创作记录。骨架、owner、命名、execution.mode、回复格式统一引用 PRD §4（`../pop-emergent/references/v3.5-pipeline-prd.md`），本文件不自定义。
 
-## 必读输入
+版本：v3.5.0（PRD 契约层对齐）
 
-每次写正文只读四类输入：
+## execution.mode
 
-1. `涌现/current-state.md`：必须全量读。
-2. `涌现/soul.md`：必须全量读。
-3. 最近一章正文或用户指定锚定正文：必须全量读。
-4. 用户本轮要求：必须优先。
+引用 PRD §4.5。本 skill 的 formal 必读输入：current-state.md + soul.md + 最近正文 + 用户本轮要求 齐全且达标。缺 current-state 或 soul 不得标 formal。三档切换条件见 PRD §4.5，不在此重复。
 
-不得默认读取 `seed/research/设定库/人物库/剧情线/review-沉淀`。如果 current-state 明显缺关键事实，停止并要求先执行 review/ledger 更新；不要自己越权翻库补写。
+## 速查表
 
-## 执行模式
-
-| 模式 | 条件 |
+| 文件 | 读取时机 |
 | --- | --- |
-| `formal` | current-state、soul、最近正文、用户要求齐全，且 current-state 指定下一章硬推进 |
-| `draft` | current-state 或 soul 有轻微缺口，但用户要求继续试写 |
-| `trial` | 没有 current-state 或 soul，或用户明确要快速直出 |
+| steps/step-1-consume.md | 开始消费 4 类输入时 |
+| steps/step-2-write.md | 消费完成、开始写正文时 |
+| templates/chapter-record.tpl.md | 写完正文、准备回复时 |
 
-不得在缺 `current-state.md` 或 `soul.md` 时标 formal。
+强弱加载保障：SKILL.md 为强加载主文件，steps/ 与 templates/ 为弱加载按需读取；agent 必须在对应时机读取对应文件，不得跳过。
 
-## Current-State 消费
+## 回复格式
 
-读取后只抽取本章写作包，不扩展成章纲表：
-
-```markdown
-## 本章写作包
-execution.mode:
-- 把 X 写成 Y：
-- 当前章位：
-- 不可改事实：
-- 人物状态：
-- 设定状态：
-- 可用燃料：
-- 伏笔债务：
-- 下一章硬推进：
-- 禁止漂移：
-- 用户本轮新增要求：
-- soul 约束：
-```
-
-`下一章硬推进` 是硬约束，必须至少兑现 1 条；`禁止漂移` 不得违反。
-
-## Soul 消费
-
-soul 同时管主卖点和正文风格。写作包里必须列 3-5 条本章实际执行的 soul 约束，且正文里能看出来。
-
-| soul 项 | 在正文中的体现 |
-| --- | --- |
-| 主卖点/元爽点 | 本章的读者奖励，不是口号 |
-| 主角主动方式 | 主角必须做出选择或动作 |
-| 爽点外显方式 | 旁人反应、资源变化、局势翻转、敌人误判等 |
-| 叙事人格 | 旁白站位和判断顺序 |
-| 句子气口 | 长短句、独句段、信息先后 |
-| 信息释放 | 先给结果还是先给过程，哪些暂不解释 |
-
-禁止把 soul 当事实来源。soul 不能新增剧情事实、设定规则、数值、人物状态。
-
-## 正文规则
-
-- 开场 120 字内出现目标、异常、压力、反馈或主动动作之一。
-- 主角至少完成一次动作闭环：压力/诱因 -> 判断 -> 主动动作 -> 阻碍升级 -> 可见反馈 -> 收益/损失 -> 新压力。
-- 本章必须兑现 current-state 的硬推进，不能只铺氛围。
-- 可用燃料必须落到动作、物件、权限、组织反应、技术细节、钱、身份或信息差里。
-- 关键爽点必须外显，不能只由作者总结“他赢了/他变强了”。
-- 不提前吞并 current-state 标为中期/后期的事件。
-- 结尾必须留下主动钩子或威胁逼近，不用自然停顿收尾。
-
-## 正文落盘
-
-正文写入项目目录 txt 文件；对话只回摘要、钩子和创作记录。
-
-文件名：
-
-```text
-{书名}-第{N}章-{标题}.txt
-```
-
-回复格式：
-
-```markdown
-本次采用 skill：pop-emergent-write
-
-**第 N 章 - {标题}** 已写入 `{文件名}`
-
-**摘要**：
-- ...
-
-**章末钩子**：
-...
-
-## 创作记录
-- execution.mode:
-- 已读：current-state / soul / 最近正文 / 用户要求
-- 兑现的硬推进：
-- 使用的燃料：
-- 执行的 soul 约束：
-- 新增事实待 review：
-- 下一步：建议执行 pop-emergent-review 更新 current-state
-```
+引用 PRD §4.7 统一回复骨架，专属产出摘要见 templates/chapter-record.tpl.md。
 
 ## 红线
 
-- 不调用 `pop-writer-v3-create`。
-- 不把正文全文放进对话。
-- 不自称读了 seed/research/设定库，除非本轮确实因用户指定或缺口处理读取。
-- 不凭对话历史替代最近正文。
-- 不把 review 沉淀当下一章输入；下一章输入只能是 current-state。
-- 不在 write 内维护人物库/设定库/剧情线；写完只列“新增事实待 review”。
+1. 读取 skill 文件用 `Get-Content -Encoding UTF8 -Raw`，禁用 Read 工具。
+2. 创建必须双文件：SKILL.md + skill.json。
+3. 版本三处一致：SKILL.md + skill.json + CHANGELOG.md。
+4. 不调用 `pop-writer-v3-create`。
+5. 正文落盘到 `涌现/正文/`，不全文进对话。
+6. 不自称读库除非用户指定或缺口处理。
+7. 不在 write 内维护库文件；新增事实只列清单不落库，由 review 落库。

@@ -1,89 +1,45 @@
 ---
 name: pop-emergent-seed
-description: Pop 涌现式 seed 执行 skill。用于碰撞 idea、做全书种子、本轮种子、故事方向、核心快感、主卖点、相似/相反/盲区、题材承诺和禁区；产出轻量 seed，并可初始化 soul/current-state 的上游内容；不写世界设定大全、卷纲、章纲或正文。
+description: 当用户说"碰撞idea/做种子/定主卖点/定soul/涌现式seed"时启用。碰撞 idea、做全书种子、确定主卖点/叙事魂/题材承诺和禁区；产出 seed-种子文档.md 和 soul.md 首版。
 ---
 
 # Pop Emergent Seed
 
 seed 只回答：这个故事靠什么成立、靠什么长期爽、哪些判断不能丢。它不替作者锁死剧情。
 
-## 分层原则
+## 红线
 
-把输入拆成三层：
+1. 读取 skill 文件用 `Get-Content -Encoding UTF8 -Raw`，禁用 Read 工具。
+2. 创建 skill 必须双文件：SKILL.md + skill.json。
+3. 版本三处一致：SKILL.md + skill.json + CHANGELOG.md。
+4. 不写正文、不写章纲、不冻结世界设定。
+5. soul.md 首版必须落盘带元数据（owner=seed，见 PRD §4.2）。
+6. 主卖点必须一句话说清且说明主角如何主动。
+7. 不把世界压迫当主角主动。
 
-| 层 | 问题 | 下游 |
-| --- | --- | --- |
-| 主卖点/soul | 这本书最核心的读者承诺是什么？主角怎么主动？爽点怎么外显？正文气口是什么？ | `soul.md` |
-| 题材机制 | 世界、系统、武学、诡异、DND面板、组织运营等靠什么规则运转？ | research / content-mechanics / 设定库 |
-| 剧情承诺 | 长线期待、伏笔债务、主角阶段性推进是什么？ | current-state / 剧情线 |
+## 速查表
 
-## 执行模式
-
-| 模式 | 条件 |
+| 文件 | 读取时机 |
 | --- | --- |
-| `formal` | 核心承诺、主卖点、禁区、待 research 问题齐全 |
-| `draft` | 有方向但主角驱动、世界压迫、主卖点或禁区缺口仍在 |
-| `trial` | 快速脑暴，不落盘，不称 seed 完成 |
+| steps/step-1-collide.md | 碰撞 idea、候选 PK、推方案时读 |
+| steps/step-2-lock.md | 用户确认方案后，锁定种子并落盘时读 |
+| templates/seed-doc.tpl.md | step-2 落盘 seed-种子文档.md 前读 |
+| templates/soul.tpl.md | step-2 落盘 soul.md 首版前读 |
 
-## 输出
+骨架/owner/命名/execution.mode/回复格式统一引用 PRD §4：`../pop-emergent/references/v3.5-pipeline-prd.md`。
 
-优先写入 `涌现/seed-种子文档.md`，文件开头必须带元数据：
+## execution.mode
 
-```markdown
----
-doc_type: seed
-role: 故事长期承诺和判断宪法；供 seed/research/review 使用，不作为 write 直接输入
-read_policy: full-if-targeted
-compression: allow-into-current-state
-primary_consumer: review
-source_of_truth: true
-last_updated: YYYY-MM-DD
----
+三档切换条件引用 PRD §4.5。本 skill 的 formal 必读输入：核心承诺、主卖点、禁区、待 research 问题齐全。
 
-# 涌现种子文档
+## 强弱加载保障
 
-execution.mode: formal|draft|trial
+formal 必读输入齐全才正式落盘；有缺口降档补全后继续；快速脑暴不落盘。三档切换条件见 PRD §4.5。step-1 可不落盘，step-2 落盘必须达 formal 或 draft。
 
-## 一句话主卖点
+## 回复格式
 
-## 核心承诺
-- 元爽点：
-- 读者追读理由：
-- 主角主动方式：
-- 爽点外显方式：
-- 世界如何逼主角行动：
-- 题材承诺：
+引用 PRD §4.7 统一骨架；专属摘要为 seed 主卖点结论和 soul 落盘状态。
 
-## 候选PK
-| 候选 | 一句话卖点 | 核心快感 | 主角驱动 | 世界压迫 | 风险 |
-| --- | --- | --- | --- | --- | --- |
+## 版本
 
-## 推荐方案
-- 推荐：
-- 理由：
-- 吸收的败者强点：
-- 淘汰项：
-
-## Soul 草案
-- 主卖点：
-- 叙事人格：
-- 句子气口：
-- 信息释放：
-- 禁区：
-
-## 题材机制待 research
-
-## 伏笔/长线债务
-
-## 不可牺牲项
-
-## 禁区
-```
-
-## 质量门
-
-- 主卖点必须一句话说清。
-- 必须说明主角如何主动，不只写世界很压迫。
-- 必须输出待 research 的题材机制。
-- 混合参考必须分清“主卖点/soul、题材机制、剧情承诺”。
-- 不写正文、不写章纲、不冻结世界设定。
+v3.5.0

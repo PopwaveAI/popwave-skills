@@ -1,8 +1,11 @@
 {
   "id": "pop-emergent-review",
-  "name": "pop-emergent-review",
-  "version": "1.1.0",
-  "description": "涌现式review/ledger执行skill。用于审稿、检查爽不爽、AI味、种子兑现、燃料入戏、正文锚定漂移、bug/OOC，并把设定、人物、剧情线、燃料和伏笔压缩成下一次write必读的current-state.md；不直接重写正文。",
+  "version": "3.5.0",
+  "displayName": "涌现 Review",
+  "description": "当用户说'审稿/review/更新current-state/涌现式review/ledger'时启用。审稿、检查爽不爽/AI味/种子兑现/燃料入戏/正文漂移，把设定/人物/剧情线/燃料/伏笔压缩成下一次 write 必读的 current-state.md。",
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-emergent-review", "审稿", "更新current-state"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
 }

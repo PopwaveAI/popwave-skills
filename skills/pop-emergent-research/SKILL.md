@@ -1,79 +1,48 @@
 ---
 name: pop-emergent-research
-description: Pop 涌现式 research 执行 skill。用于为涌现式小说找写作燃料、题材机制、外部事件、行业机制、原型事件、物件、术语、制度压力和可神话化素材；产出可被 review/ledger 筛入 current-state 的燃料池，不写正文，不排章纲。
+description: "当用户说'找燃料/补燃料/题材机制/涌现式research'时启用。找能入场面的燃料和题材机制，产出 research-写作燃料.md 和 content-mechanics.md，不写正文不排章纲。"
 ---
 
-# Pop Emergent Research
+# pop-emergent-research
 
-research 只找能进场面的燃料。它不是百科，不是长调研报告，也不直接喂给 write；write 只消费 review 压进 `current-state.md` 的燃料。
+> 找能入场面的燃料和题材机制，不写正文不排章纲。
 
-## 执行模式
+## ❌ 质量红线
 
-| 模式 | 条件 |
-| --- | --- |
-| `formal` | 已读 seed/临时 seed，燃料不少于 3 条，主燃料有事件形状、主角操作点、可外显爽点 |
-| `draft` | 有燃料但来源、入戏方式或主角操作点不足 |
-| `trial` | 快速补燃料，只能供试写或人工判断 |
+| # | 红线 |
+|:-:|:-----|
+| ❌1 | 读取 skill 文件用 `Get-Content -Encoding UTF8 -Raw`，禁用 Read 工具（有行数限制会截断） |
+| ❌2 | 创建必须双文件 SKILL.md + skill.json |
+| ❌3 | 版本三处一致（SKILL.md + skill.json + CHANGELOG） |
+| ❌4 | 不写正文、不排章纲 |
+| ❌5 | 燃料必须落到事件形状 + 主角操作点 + 可外显爽点 |
+| ❌6 | content-mechanics.md 必须落盘带元数据（owner=research，见 PRD §4.2） |
+| ❌7 | 不把内容机制伪装成文风特征交给 soul/write |
 
-## 题材机制边界
+## 速查表
 
-参考书里的武学招式、系统面板、诡异规则、职业数值、战斗升级路径、组织运营模型，先当“内容机制”处理：
+| 我要 | 读什么文件 | 什么时候读 |
+|:-----|:----------|:----------|
+| 找燃料 + 题材机制分流 | `steps/step-1-find.md` | 进入本 skill 第一步 |
+| 落盘燃料 + 机制文档 | `steps/step-2-output.md` | step-1 门禁通过后 |
+| 填燃料文档 | `templates/fuel-doc.tpl.md` | step-2 落盘前 |
+| 填机制文档 | `templates/mechanics-doc.tpl.md` | step-2 落盘前 |
+| 查契约层（骨架/owner/命名/mode/回复格式） | `../pop-emergent/references/v3.5-pipeline-prd.md` | 对齐 PRD §4 时 |
 
-- 能进入本书的，转成可触发事件、主角操作点、可外显爽点。
-- 不能直接迁移的，写入禁用燃料或 content-mechanics。
-- 不得把内容机制伪装成文风特征交给 soul/write。
+## execution.mode
 
-## 输出
+引用 PRD §4.5，不在此重复定义三档表。本 skill 的 formal 必读输入：已读 seed/临时 seed；燃料不少于 3 条；主燃料有事件形状/主角操作点/可外显爽点。三档切换条件见 PRD §4.5。
 
-优先写入 `涌现/research-写作燃料.md`，文件开头必须带元数据：
+## 回复格式
 
-```markdown
----
-doc_type: research
-role: 可入场燃料池和题材机制来源；供 review/ledger 筛选进 current-state，不作为 write 直接输入
-read_policy: full-if-targeted
-compression: allow-into-current-state
-primary_consumer: review
-source_of_truth: true
-last_updated: YYYY-MM-DD
----
+采用 PRD §4.7 统一回复格式（本次采用 skill / execution.mode / 专属产出摘要 / 下一步）。
 
-# 涌现写作燃料
+## 强弱加载保障
 
-execution.mode: formal|draft|trial
+- 强保障：本 SKILL.md 由 host 层每次 run 强制注入，100% 到达
+- 弱保障：steps/templates 需 agent 按速查表主动 readFile，天然弱保障
+- 关键约束已在红线中自包含，不依赖"agent 会去读 step 文件"
 
-## 资料覆盖声明
-- 已读：
-- 用户描述：
-- 模型推断：
-- 禁止外推：
+## 版本
 
-## 本书涌现燃料
-| 燃料 | 来源 | 可触发事件 | 主角操作点 | 可外显爽点 | 风险 |
-| --- | --- | --- | --- | --- | --- |
-
-## 外部燃料
-| 燃料 | 已读范围/来源 | 短复述 | 本项目转译 | 不照搬 |
-| --- | --- | --- | --- | --- |
-
-## 可筛入 current-state 的近期燃料
--
-
-## 中期保留燃料
--
-
-## 禁用燃料
--
-
-## Content Mechanics 分流建议
-| 机制 | 来源 | 能否迁移 | 正确路由 | 禁止误用 |
-| --- | --- | --- | --- | --- |
-```
-
-## 质量门
-
-- 至少 3 条可写燃料。
-- 每条主燃料有事件形状、主角操作点和可外显爽点。
-- 明确哪些燃料近期可用，哪些中期保留，哪些禁用。
-- 内容机制已分流，不进入 soul。
-- research 不排剧情，不写正文。
+v3.5.0 | 2026-07-06 | 四层架构对齐 + content-mechanics 正式落盘 → [CHANGELOG.md](CHANGELOG.md)
