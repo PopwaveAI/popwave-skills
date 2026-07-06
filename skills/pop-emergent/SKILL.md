@@ -13,7 +13,7 @@ description: Pop 涌现式小说调度入口。用于用户请求涌现式写作
 | --- | --- | --- |
 | seed | `skills/pop-emergent-seed/SKILL.md` | 碰撞 idea，形成全书/本轮种子文档 |
 | research | `skills/pop-emergent-research/SKILL.md` | 找能进场面的本书涌现燃料和外部写作燃料 |
-| write | `skills/pop-emergent-write/SKILL.md` | 读取 seed、research、正文锚定、文风DNA和项目状态，产出正文 |
+| write | `skills/pop-emergent-write/SKILL.md` | 读取 seed、research、正文锚定、soul/文风锚定和项目状态，产出正文 |
 | review | `skills/pop-emergent-review/SKILL.md` | 审 seed 兑现、爽文兑现、AI味，并沉淀涌现资产 |
 
 ## 路由
@@ -49,14 +49,26 @@ description: Pop 涌现式小说调度入口。用于用户请求涌现式写作
 
 research 不需要长报告。目标是给 write 提供 3-5 条能进场面的燃料，每条有入戏方式、主角操作点、可外显爽点。
 
-### 文风DNA部署协议
+### Soul / 文风锚定部署协议
 
-文风DNA是提升正式质量的最大杠杆。pop-shared-dna 产出的 DNA 文件落在项目目录的 `写作资产/文风库/{书名}.md`，但 emergent-write 的全文加载协议需要从 library 库加载。部署流程：
+涌现式写作不把文风DNA当剧情设计器。文风资产分三层：
+
+| 文件 | 定位 | 消费者 |
+| --- | --- | --- |
+| `涌现/soul.md` | 短、硬、可执行的叙事魂：叙事人格、句子气口、段落呼吸、对白方式、信息释放、情绪外化、禁区 | write 每次必读 |
+| `涌现/文风锚定.md` | 完整DNA或原文样例锚定：让 agent 感受笔触密度，不当剧情素材库 | write formal 优先读；太大时可只读匹配片段+保留 soul |
+| `涌现/content-mechanics.md` | 从参考书剥离出的内容机制：武学招式、系统面板、诡异规则、职业数值、战斗升级结构等，明确路由到 seed/research/设定库，不属于文风 | seed/research/review |
+
+第一性原则：**剧情血肉来自 seed/research/正文锚定；题材机制来自 seed/research/设定库；文风只通过 soul/文风锚定影响“怎么说”。**
+
+pop-shared-dna 产出的 DNA 文件落在项目目录的 `写作资产/文风库/{书名}.md`，但 emergent-write 需要本地涌现资产。部署流程：
 
 1. **DNA产出后**：pop-shared-dna 把 DNA 文件写入项目目录 `写作资产/文风库/{书名}.md`（已有逻辑）。
 2. **部署到library库**：把 DNA 文件复制到 `$env:APPDATA\popwave\remote-skills\pop-trope-library\文风库\{书名}.md`，并更新 `文风库/00-索引.md` 添加条目。
-3. **部署到项目本地**：把 DNA 文件复制到项目目录 `涌现/文风锚定.md`（单一文件，emergent-write 全文加载协议会自动加载）。
-4. **write消费**：emergent-write 全文加载协议加载 `涌现/文风锚定.md`，涌现写作包的 `文风锚定` 字段要求 agent 定位到匹配场景卡。
+3. **部署到项目本地**：把 DNA 文件复制到项目目录 `涌现/文风锚定.md`。
+4. **生成/更新 soul**：从 DNA 和用户目标中提炼 `涌现/soul.md`。soul 不是摘要，不得写“冷峻/史诗/克制”等空标签；每条都必须能改写句子或段落。
+5. **生成/更新 content-mechanics**：把参考书里不可直接当文风迁移的内容机制写入 `涌现/content-mechanics.md`，标明应路由到 seed/research/设定库。
+6. **write消费**：emergent-write 每次必读 `soul.md`；formal 写作优先读 `文风锚定.md`，但不得把其中剧情内容当创作要求。
 
 部署命令（PowerShell）：
 
@@ -79,6 +91,42 @@ if (-not (Test-Path $srcDna)) {
 $dstDir = Join-Path $projectDir "涌现"
 New-Item -Path $dstDir -ItemType Directory -Force | Out-Null
 Copy-Item $srcDna (Join-Path $dstDir "文风锚定.md") -Force
+
+# 2a. 初始化 soul / content-mechanics 占位（需由 agent 根据DNA和项目目标补写）
+$soulPath = Join-Path $dstDir "soul.md"
+if (-not (Test-Path $soulPath)) {
+@"
+# Soul
+
+> 待从文风DNA与本项目目标中提炼。每条必须能落到句子、段落、对白或信息释放；禁止空泛风格标签。
+
+## 叙事人格
+
+## 句子气口
+
+## 段落呼吸
+
+## 对白方式
+
+## 信息释放
+
+## 情绪外化
+
+## 禁区
+"@ | Set-Content $soulPath -Encoding UTF8
+}
+
+$mechanicsPath = Join-Path $dstDir "content-mechanics.md"
+if (-not (Test-Path $mechanicsPath)) {
+@"
+# Content Mechanics
+
+> 这里记录参考书中不属于文风的内容机制。它们不能由文风迁移到正文；需要时必须进入 seed / research / 设定库。
+
+| 机制 | 来源 | 属于哪一层 | 是否允许迁移 | 正确路由 |
+| --- | --- | --- | --- | --- |
+"@ | Set-Content $mechanicsPath -Encoding UTF8
+}
 
 # 3. 部署到 library 库（canonical 路径）
 $libDir = Join-Path $env:APPDATA "popwave\remote-skills\pop-trope-library\文风库"
@@ -115,6 +163,9 @@ Write-Output "文风DNA部署完成: $bookName -> 涌现/文风锚定.md"
 涌现/
   seed-种子文档.md          # 种子（pop-emergent-seed 产出）
   research-写作燃料.md      # 燃料（pop-emergent-research 产出）
+  soul.md                    # 叙事魂/表达约束（短、硬、可执行）
+  文风锚定.md                # 完整文风DNA或原文样例锚定
+  content-mechanics.md        # 参考书内容机制分流表，不属于文风
   review-沉淀.md             # 审稿沉淀（pop-emergent-review 产出）
   设定库.md                  # 冻结的设定（从 review 沉淀中确认纳入的）
   人物库.md                  # 冻结的人物状态
@@ -127,7 +178,7 @@ Write-Output "文风DNA部署完成: $bookName -> 涌现/文风锚定.md"
 - 只压缩每章的详细新增设定、角色状态变化记录、剧情线推进记录
 - 章末状态只保留最近一章的
 
-全文加载协议加载优先级：设定库 > 人物库 > 剧情线 > 最近10章涌现日志 > 压缩归档摘要 > seed/燃料文件
+全文加载协议加载优先级：soul > 设定库 > 人物库 > 剧情线 > 最近10章涌现日志 > 压缩归档摘要 > seed/燃料文件 > 文风锚定/样例
 
 ## 红线
 
@@ -137,5 +188,5 @@ Write-Output "文风DNA部署完成: $bookName -> 涌现/文风锚定.md"
 - **禁止凭记忆写作**：write 执行前必须执行项目文件全文加载协议（见 pop-emergent-write SKILL.md），确保世界观/时间线/前序章节全文进入上下文。不允许"我之前读过"作为跳过理由。
 - **禁止正文进对话历史**：正文写入 txt 文件，对话回复只给摘要+钩子。违反此条会导致上下文窗口被正文吃满，后续章节质量断崖。
 - **禁止单章无限重写**：同一章重写超过 2 次后，降级为"试写-独立"处理，不得阻塞章节递进。
-- **禁止摘要/压缩文风DNA传递**：调度 write 执行时，文风锚定（`涌现/文风锚定.md`）必须全文注入到写正文 agent 的上下文。禁止主 agent 读取文风锚定全文后压缩成抽象要点传给子 agent——实测发现压缩成 6 条 bullet points 后，子 agent 知道规则但看不到原文摘录，文风对齐失效。文风锚定全文必须用 exec（Get-Content -Raw）读取，禁止用 Read 工具读取（Read 工具有随机截断，实测保留率 9%-80%）。
-- **禁止把文风DNA当内容素材库**：文风DNA传递的是笔触（句式节奏/感官顺序/叙事距离/段落呼吸/对话引导），不是内容（战术思维/战斗复盘/击杀余韵/剧情模板）。禁止从文风DNA原文摘录里提取剧情设计作为创作要求——原文摘录是让 agent 感受"作者怎么写"，不是让 agent 抄"作者写了什么"。
+- **禁止空泛 soul**：`soul.md` 不能只有“冷峻、克制、史诗、爽、诡异”等形容词。每条必须说明如何影响句子、段落、对白、信息释放或情绪外化。
+- **禁止把文风DNA当内容素材库**：文风锚定传递的是笔触（句式节奏/感官顺序/叙事距离/段落呼吸/对话引导），不是内容（武学招式、系统面板、战术复盘、剧情模板）。内容机制必须进入 `content-mechanics.md` 并路由到 seed/research/设定库。

@@ -2,7 +2,7 @@
   "id": "pop-emergent",
   "name": "pop-emergent",
   "version": "1.6.0",
-  "description": "涌现式小说调度入口。用于涌现式写作、seed共创、research写作燃料、正文锚定写作、质量review、AI味审稿和复盘沉淀；按seed->research->write->review路由到四个执行skill，不进入正式world/plot/create管线。禁止摘要/压缩文风DNA传递给子agent，禁止把文风DNA当内容素材库。",
+  "description": "涌现式小说调度入口。用于涌现式写作、seed共创、research写作燃料、正文锚定写作、质量review、AI味审稿和复盘沉淀；按seed->research->write->review路由到四个执行skill，不进入正式world/plot/create管线。使用soul/文风锚定/content-mechanics三层资产，禁止把文风当剧情机制或内容素材库。",
   "author": "popwave",
   "license": "UNLICENSED"
 }
