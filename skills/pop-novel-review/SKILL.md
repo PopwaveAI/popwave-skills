@@ -1,5 +1,5 @@
----
-name: pop-writer-v3-review
+﻿---
+name: pop-novel-review
 description: Pop Writer V3 用户主动唤起的编辑审稿与项目检修 skill。用于用户要求“审稿/看看正文爽不爽/有没有AI味/有没有bug/OOC/像编辑一样读/项目体检/剧情质量review/正文问题诊断”时。以爽文兑现和AI味为最高优先级，用固定SOP审读原文、运行日志和必要上游资料，输出分级诊断与处理建议，不直接重写正文，不替 plot 设计新剧情。
 ---
 

@@ -1,4 +1,4 @@
-# pop-state-engine（搁置）
+﻿# pop-state-engine（搁置）
 
 > **状态：方案搁置。** 代码保留作为可选诊断工具，不作为主线状态管理。
 > 评估后判定 SQLite 对 LLM agent 管线过重：回滚复杂、数据不透明、agent 擅长读文本不擅长写 SQL。
@@ -26,7 +26,7 @@
 - 不做连续性检查（continuity_checker 未迁移）
 - 不做风格学习（style_learner 未迁移）
 - 不做情节分支（plot_brancher 未迁移）
-- 不写总控文件（expert-writer step-3-reflect 的职责）
+- 不写总控文件（pop-novel step-3-reflect 的职责）
 
 ## CLI 调用方式
 
@@ -106,7 +106,7 @@ python scripts/command_executor.py -p {项目} -a list-hooks
 | 每章设计时 | pop-writer-chapter | `for-creation` | 替代全量加载 |
 | 每章写完后 | pop-writer-prose | `store-chapter` + `add-node` + `set-fact` + `resolve-hook` | 章末5步登记 |
 | 储备卡产出后 | pop-writer-creative | `add-node` + `set-fact` | 储备卡注册 |
-| 每次 skill 执行后 | expert-writer | `project-status` | 总控进度锚点同步 |
+| 每次 skill 执行后 | pop-novel | `project-status` | 总控进度锚点同步 |
 
 ## 数据库结构
 

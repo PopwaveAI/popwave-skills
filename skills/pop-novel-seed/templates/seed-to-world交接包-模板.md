@@ -1,11 +1,11 @@
-# Seed To World 交接包
+﻿# Seed To World 交接包
 
 ## 执行凭证
 
 | 项 | 内容 |
 | --- | --- |
 | execution.mode | formal / draft / trial |
-| skill | pop-writer-v3-seed |
+| skill | pop-novel-seed |
 | 已读取步骤 | step-0 / step-1 / step-2 / step-3 / step-4 |
 | 用户确认 |  |
 | 阻断项 |  |

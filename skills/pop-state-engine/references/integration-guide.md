@@ -1,4 +1,4 @@
-# pop-state-engine 集成指南
+﻿# pop-state-engine 集成指南
 
 > 将 Popwave writer skills 接入 pop-state-engine 的实操指南。覆盖 5 个 skill 的接入模式、双写双读过渡策略、agent 标注验证流程和集成顺序。
 
@@ -22,7 +22,7 @@ python scripts/command_executor.py -p {项目路径} -a {动作} -j '{JSON参数
 3. pop-writer-plot       ← 卷级状态，依赖 chapter 已能正常读引擎
 4. pop-writer-world      ← 引擎初始化，L1 设定入库
 5. pop-writer-creative  ← 储备卡注册
-6. expert-writer         ← 总控 project-status 锚点同步（最后接入）
+6. pop-novel         ← 总控 project-status 锚点同步（最后接入）
 ```
 
 **为什么 prose 先行**：章末登记是纯写入操作（store-chapter / add-node / set-fact / resolve-hook），不改变 chapter 的读取逻辑，即使引擎数据不全也不影响现有写作流程。而 chapter 的 `for-creation` 依赖引擎里已有数据，必须等 prose 跑通后才有意义。

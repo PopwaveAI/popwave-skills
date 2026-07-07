@@ -1,12 +1,12 @@
-{
+﻿{
   "schemaVersion": 1,
   "updatedAt": "2026-06-29T18:00:00.000Z",
   "skills": [
     {
-      "id": "expert-writer",
+      "id": "pop-novel",
       "description": "Pop 写作专家强制入口。每次写作请求都经过它：判断意图、路由到 seed/world/plot/create/revise/arc，做质量门，不裸跑执行。",
       "latest": "13.2.0",
-      "path": "skills/expert-writer"
+      "path": "skills/pop-novel"
     },
     {
       "id": "pop-decon",
@@ -34,7 +34,7 @@
     },
     {
       "id": "pop-research",
-      "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/expert-writer三环节按需调用，产出存盘到写作参考/知识沉淀/并返回路径指针。",
+      "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/pop-novel三环节按需调用，产出存盘到写作参考/知识沉淀/并返回路径指针。",
       "latest": "1.0.0",
       "path": "skills/pop-research"
     },
@@ -87,40 +87,40 @@
       "path": "skills/pop-writer-html"
     },
     {
-      "id": "pop-writer-v3-arc",
+      "id": "pop-novel-arc",
       "description": "v3.5弧线校准。每个L2单元结束时触发完整5步：宏观检查+设定修剪+幕纲更新(设计方案→实际记录)+L3卡提炼(剧情线追踪)+活记忆压缩(自然语言)。",
       "latest": "1.4.0",
-      "path": "skills/pop-writer-v3-arc"
+      "path": "skills/pop-novel-arc"
     },
     {
-      "id": "pop-writer-v3-create",
+      "id": "pop-novel-create",
       "description": "根据幕纲和导演包写小说正文。用于写正文/继续写第N章。优先消费 plot 的章级导演包，不重新设计剧情。文风DNA按导演包scene字段切片读取，禁止全文截断。",
       "latest": "12.2.0",
-      "path": "skills/pop-writer-v3-create"
+      "path": "skills/pop-novel-create"
     },
     {
-      "id": "pop-writer-v3-plot",
+      "id": "pop-novel-plot",
       "description": "正向生成卷纲和幕纲。用于设计剧情/写卷纲/写幕纲。从卷级战略到章级施工卡，产出可供 create 直接消费的幕纲。",
       "latest": "14.2.0",
-      "path": "skills/pop-writer-v3-plot"
+      "path": "skills/pop-novel-plot"
     },
     {
-      "id": "pop-writer-v3-revise",
+      "id": "pop-novel-revise",
       "description": "v3.5修订子skill。完全重写+文风DNA终验+导演意图验证(6项，含世界观传递)+事实一致性+字数终检。context receipt回执。",
       "latest": "1.3.0",
-      "path": "skills/pop-writer-v3-revise"
+      "path": "skills/pop-novel-revise"
     },
     {
-      "id": "pop-writer-v3-seed",
+      "id": "pop-novel-seed",
       "description": "小说新书创意立项。用于开书/做种子/新书PRD。从调研到概念PK到立项PRD，输出给 world-foundation 的交接包。",
       "latest": "13.1.0",
-      "path": "skills/pop-writer-v3-seed"
+      "path": "skills/pop-novel-seed"
     },
     {
-      "id": "pop-writer-v3-world-foundation",
+      "id": "pop-novel-world",
       "description": "小说世界底盘与设定涌现。用于做世界观/L1世界包/金手指/文风DNA。消费 seed 交接包，产出 plot 可消费的世界底盘。",
       "latest": "1.1.0",
-      "path": "skills/pop-writer-v3-world-foundation"
+      "path": "skills/pop-novel-world"
     },
     {
       "id": "tool-book-to-skill",

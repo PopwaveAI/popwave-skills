@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "pop-state-engine",
   "name": "pop-state-engine",
   "version": "0.1.0",
@@ -31,6 +31,6 @@
     "pop-writer-plot",
     "pop-writer-world",
     "pop-writer-creative",
-    "expert-writer"
+    "pop-novel"
   ]
 }

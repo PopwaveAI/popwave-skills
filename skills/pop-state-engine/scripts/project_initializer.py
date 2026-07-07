@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 项目初始化器 - 为 Popwave 项目创建引擎数据目录和 SQLite 数据库
 
 改编自 OnKos 项目，删除 OnKos 特有目录结构（outline/drafts/revisions），
 只创建 data/ 目录存放 novel_memory.db + project_config.json。
-Popwave 的项目目录结构由 expert-writer step-0-init 创建，引擎不重复创建。
+Popwave 的项目目录结构由 pop-novel step-0-init 创建，引擎不重复创建。
 """
 
 import json

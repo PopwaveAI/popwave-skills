@@ -1,4 +1,4 @@
----
+﻿---
 name: "pop-shared-reader"
 version: "0.15.0"
 description: "当用户说'拆书 / 拆解小说 / 分析长篇 / 做读书笔记 / 结构化标注 / 做角色统计 / 提取名场面 / 这本书的叙事笔记'时启用。拆解长篇小说为结构化参考文件。Phase A 产出双格式：叙事笔记(MD) + 结构化数据(YAML含章节标注/实体共现/卷统计/角色image_prompt/名场面image_prompt)，供 pop-shared-html 直接消费渲染。"
@@ -30,7 +30,7 @@ pipeline:
 >
 > **分工：**
 > - pop-shared-reader -> 消费方：读者 / pop-shared-html -> 产出：叙事笔记.md + 结构化YAML（含 image_prompt）
-> - book-deconstructor（pop-shared-reader 内部）-> 面向"拆书为写"-> 产出供给 expert-writer 的 14 项输入包
+> - book-deconstructor（pop-shared-reader 内部）-> 面向"拆书为写"-> 产出供给 pop-novel 的 14 项输入包
 
 ---
 

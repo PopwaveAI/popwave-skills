@@ -1,6 +1,6 @@
-{
-  "id": "pop-writer-v3-review",
-  "name": "pop-writer-v3-review",
+﻿{
+  "id": "pop-novel-review",
+  "name": "pop-novel-review",
   "version": "11.1.0",
   "description": "用户主动唤起的编辑审稿与项目检修。以爽文兑现和AI味为最高优先级，用固定SOP审正文是否爽、是否有AI味、有没有bug/OOC、剧情是否好看，并输出问题分级和处理建议，不直接重写正文。",
   "author": "popwave",

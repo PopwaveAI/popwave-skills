@@ -6,7 +6,7 @@
 
 - SKILL.md 从 orchestrator 瘦身为初始化入口；红线增至 7 条（含"不当常驻调度""无源文件先下载"）
 - step-1-pipeline.md 从 142 行调度 SOP 改为初始化（源文件检查+量级+语言）+ 一次性路由建议
-- skill.json expert 从 expert-writer 改为 pop-decon（拆书专家独立）
+- skill.json expert 从 pop-novel 改为 pop-decon（拆书专家独立）
 - agents/openai.yaml 新建，含拆书专家 PE system_prompt
 - 管线地图增加 tool-download-webnovel 作为第一步
 

@@ -1,5 +1,5 @@
----
-name: pop-writer-v3-plot
+﻿---
+name: pop-novel-plot
 description: 正向生成卷纲和幕纲。用于"设计剧情/写卷纲/写幕纲"。卷纲只做战略约束和剧情燃料池，不写分幕剧情；幕纲必须展开章卡边界、宏观剧情骨架和微beat施工表，产出可供 create 直接消费的幕纲。
 ---
 
@@ -68,7 +68,7 @@ Step 1 一次性产出整卷卷纲。Step 2 逐幕循环，每幕产出一个幕
 
 | 文件 | 绝对路径 | 用途 |
 |:-----|:---------|:-----|
-| 复刻协议 | `$env:APPDATA\popwave\remote-skills\expert-writer\references\复刻协议.md` | Step 2 用户指定复刻/嫁接时 |
+| 复刻协议 | `$env:APPDATA\popwave\remote-skills\pop-novel\references\复刻协议.md` | Step 2 用户指定复刻/嫁接时 |
 
 ## 幕纲质量门
 

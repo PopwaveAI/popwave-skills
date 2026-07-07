@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "pop-shared-dna",
   "version": "4.2.0",
   "displayName": "文风DNA蒸馏引擎",
@@ -47,8 +47,8 @@
     ],
     "downstream": [
       "pop-writer-prose",
-      "pop-writer-v3-seed",
-      "pop-writer-v3-revise"
+      "pop-novel-seed",
+      "pop-novel-revise"
     ]
   }
 }

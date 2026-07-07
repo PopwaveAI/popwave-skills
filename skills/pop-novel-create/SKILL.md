@@ -1,5 +1,5 @@
----
-name: pop-writer-v3-create
+﻿---
+name: pop-novel-create
 description: 根据幕纲和 plot 章级施工卡写小说正文。用于"写正文/继续写第N章"。优先消费 plot 的章级施工卡、章卡边界、微beat施工表和读者表达偏好，不重新设计剧情，不合并下一章，强制 exec 读取文风DNA全文。
 ---
 
@@ -60,6 +60,6 @@ plot 章级施工卡优先于运行日志。运行日志回答“发生了什么
 - 没有 plot 章级施工卡时，不得声称正文已按完整管线生成，只能标注“降级草案”。
 - 没有章卡边界或微beat施工表时，不得声称正式正文；只能返回施工卡缺口，或在用户确认降级后试写。
 - 没有 `execution.mode: formal` 时，不得把产物称为正式 create 正文。
-- 不默认调用 revise；修订由用户或 expert-writer 明确触发。
+- 不默认调用 revise；修订由用户或 pop-novel 明确触发。
 - 禁止用 Read 工具读取文风DNA——必须用 exec（Get-Content -Raw）读取文风DNA全文。Read 工具对大文件有随机截断（实测保留率 9%-80%），会丢失场景卡原文摘录。
 - 禁止摘要/压缩文风DNA后传递——无论是主 agent 自己写还是调度子 agent，文风DNA必须全文存在于上下文中，不得压缩成抽象要点。

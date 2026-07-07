@@ -1,10 +1,10 @@
----
+﻿---
 name: pop-shared-dna
 description: 当用户说"提取文风/文风DNA/风格蒸馏/分析作者笔触/文风拆解/写作文风参考/styles文件/场景卡文风"时启用。从原文中按场景类型提取作者笔触，产出 prose-render 可直接对照的场景参考文件。**给 prose-render 的不是指令——是原文。**
 version: 4.1.0
 pipeline:
   upstream: [pop-decon]
-  downstream: [pop-writer-prose, pop-writer-v3-seed, pop-writer-v3-revise]
+  downstream: [pop-writer-prose, pop-novel-seed, pop-novel-revise]
 ---
 
 # pop-shared-dna · 文风DNA蒸馏引擎 v4.1.0
@@ -13,7 +13,7 @@ pipeline:
 >
 > **5级结构定位**：在5级叙事结构（L0-L5）中，文风DNA是横切辅助层，不参与纵向层级，为L1设计包的 scene 字段提供笔触参考。
 >
-> **v4.1.0 新增**：v3 管线消费——文风DNA 降为项目资产（非种子要素，种子为六要素），由 pop-writer-v3-revise 子skill 硬阻塞消费（缺失=终止）。v2 管线的 pop-writer-prose 消费方式不变。
+> **v4.1.0 新增**：v3 管线消费——文风DNA 降为项目资产（非种子要素，种子为六要素），由 pop-novel-revise 子skill 硬阻塞消费（缺失=终止）。v2 管线的 pop-writer-prose 消费方式不变。
 
 ---
 

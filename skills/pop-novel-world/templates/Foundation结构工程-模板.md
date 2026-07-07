@@ -1,11 +1,11 @@
-# Foundation 结构工程
+﻿# Foundation 结构工程
 
 ## 执行凭证
 
 | 项 | 内容 |
 | --- | --- |
 | execution.mode | formal / draft / trial |
-| skill | pop-writer-v3-world-foundation |
+| skill | pop-novel-world |
 | 已读取步骤 | step-0 / step-1 / step-2 |
 | 输入覆盖率 | 充分 / 局部样本 / 严重不足 |
 | 阻断项 |  |

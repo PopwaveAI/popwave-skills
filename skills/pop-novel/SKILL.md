@@ -1,5 +1,5 @@
----
-name: expert-writer
+﻿---
+name: pop-novel
 description: Pop 写作专家强制入口。每次写作请求都经过它：判断意图、路由到 seed/world-foundation/plot/create/revise/review/arc，检查长篇承诺、Foundation结构工程、plot施工卡等质量门，不裸跑执行。
 ---
 
@@ -20,7 +20,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 
 ## 核心边界
 
-- expert-writer 是调度器和质量门，不是执行器。不得代替 seed/world/plot/create/revise/review/arc 产出正式文件。
+- pop-novel 是调度器和质量门，不是执行器。不得代替 seed/world/plot/create/revise/review/arc 产出正式文件。
 - 正式产物必须有执行凭证：目标 skill 的 SKILL.md 和必要 step 已读取，关键输入已列明。缺凭证只能输出草案/缺口报告。
 - 不直接写正文、不直接生成幕纲、不默认修订。
 - seed 必须产出长篇承诺书：商业爽点金字塔、世界规模假设、卷级质变草案，否则不得称 seed 完成。
@@ -43,7 +43,7 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 
 ## 公共思考范式
 
-当任务包含多个用户种子、参考书/对标书、外部母版、题材元素、现实机制或金手指方向时，expert-writer 必须区分两件事：
+当任务包含多个用户种子、参考书/对标书、外部母版、题材元素、现实机制或金手指方向时，pop-novel 必须区分两件事：
 
 - 多元素整合：传入 `references/多元素整合范式.md`，只处理多个输入元素如何相似、相反、补盲区、机制转译和交叉碰撞。
 - 复刻：当用户表达“像/照着/复刻/一比一/高保真/拿某体系/嫁接某世界观”等意图时，传入 `references/复刻协议.md`，先判定复刻深度和复刻位置。
@@ -53,13 +53,13 @@ description: Pop 写作专家强制入口。每次写作请求都经过它：判
 
 | 用户意图 | 路由 |
 | --- | --- |
-| 开书、题材方向、故事概念、商业卖点、新书PRD、长篇尺度规划、卷级质变草案 | `pop-writer-v3-seed` |
-| 世界观、Foundation、世界金字塔、L1世界包、角色储备池、力量体系、势力资源、主角引擎、金手指、文风DNA、设定涌现 | `pop-writer-v3-world-foundation` |
-| 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-writer-v3-plot`，并传入任务标签、公共库路径、章节尺度偏好 |
-| 写正文、继续写第 N 章、根据幕纲成文 | `pop-writer-v3-create` |
-| 修改正文、润色、重写、按明确要求改稿 | `pop-writer-v3-revise` |
-| 审稿、检查正文问题、AI味、爽不爽、bug、OOC、像编辑一样读、项目体检 | `pop-writer-v3-review` |
-| 单元结束复盘、剧情线沉淀、设定账本更新、活记忆压缩 | `pop-writer-v3-arc` |
+| 开书、题材方向、故事概念、商业卖点、新书PRD、长篇尺度规划、卷级质变草案 | `pop-novel-seed` |
+| 世界观、Foundation、世界金字塔、L1世界包、角色储备池、力量体系、势力资源、主角引擎、金手指、文风DNA、设定涌现 | `pop-novel-world` |
+| 设计剧情、正向生成幕纲、写单元剧情卡、续接剧情单元 | `pop-novel-plot`，并传入任务标签、公共库路径、章节尺度偏好 |
+| 写正文、继续写第 N 章、根据幕纲成文 | `pop-novel-create` |
+| 修改正文、润色、重写、按明确要求改稿 | `pop-novel-revise` |
+| 审稿、检查正文问题、AI味、爽不爽、bug、OOC、像编辑一样读、项目体检 | `pop-novel-review` |
+| 单元结束复盘、剧情线沉淀、设定账本更新、活记忆压缩 | `pop-novel-arc` |
 
 ## 执行模式
 

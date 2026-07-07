@@ -1,5 +1,5 @@
----
-name: pop-writer-v3-world-foundation
+﻿---
+name: pop-novel-world
 description: 小说长篇结构工程、世界底盘与设定涌现。用于"做世界观/Foundation/世界金字塔/L1世界包/角色储备池/金手指/文风DNA/读者表达偏好/项目资料总目录"。消费 seed 的长篇承诺和交接包，先建立商业爽点、世界尺度、卷级质变、势力战力资源金字塔，再冻结 plot/create 可消费的世界底盘。
 ---
 
