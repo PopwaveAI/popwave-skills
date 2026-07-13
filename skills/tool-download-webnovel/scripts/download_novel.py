@@ -28,6 +28,9 @@ from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ── Anti-crawl User-Agent rotation pool ──
 USER_AGENTS = [
@@ -44,6 +47,51 @@ ANTI_SPIDER_MARKERS = ["验证码", "请输入验证码", "captcha", "人机验�
 # ── Paywall markers (chapter content truncated) ──
 PAYWALL_MARKERS = ["本章未完", "上QQ阅读APP", "登录订阅本章", "后续精彩内容", "本章想法", "打开APP阅读"]
 
+# ── Paywalled official site domains — never search/crawl by default ──
+# These sites require login/payment to read full chapters. Crawling them yields
+# truncated content (paywall markers), wasting time and producing broken output.
+PAYWALL_DOMAINS = [
+    "qidian.com",        # 起点中文网
+    "jjwxc.net",         # 晋江文学城
+    "zongheng.com",      # 纵横中文网
+    "17k.com",           # 17K小说网
+    "kanshu.com",        # 看书网
+    "zhulang.com",       # 逐浪小说网
+    "motie.com",         # 磨铁中文网
+    "tadu.com",          # 塔读文学
+    "hongxiu.com",       # 红袖添香
+    "xxsy.net",          # 潇湘书院
+    "readnovel.com",     # 小说阅读网
+    "qimao.com",         # 七猫小说
+    "fanqienovel.com",   # 番茄小说
+    "xianging.com",      # 香网
+    "faloo.com",         # 飞卢小说网
+    "ruochu.com",        # 若初文学网
+    "wangyuewen.com",    # 网易云阅读
+    "chuangshi.com",     # 创世中文网
+    "cloudary.com.cn",   # 盛大文学
+]
+
+
+def is_paywall_site(url: str) -> str | None:
+    """Check if URL belongs to a paywalled official site.
+
+    Returns the matched domain if paywalled, None otherwise.
+    Strips common subdomain prefixes (www. m. wap. book.) before matching.
+    """
+    try:
+        host = urllib.parse.urlparse(url).hostname or ""
+    except Exception:
+        return None
+    host = host.lower()
+    for prefix in ("www.", "m.", "wap.", "book.", "read."):
+        if host.startswith(prefix):
+            host = host[len(prefix):]
+    for domain in PAYWALL_DOMAINS:
+        if host == domain or host.endswith("." + domain):
+            return domain
+    return None
+
 # ── Non-chapter navigation labels ──
 NAV_LABELS = (
     "开始阅读", "下一页", "上一页", "下页", "上页", "尾页", "首页", "末页",
@@ -51,6 +99,14 @@ NAV_LABELS = (
     "txt下载", "加入书架", "书签", "上一章", "下一章", "back", "next",
     "小说简介", "内容简介", "作品相关", "作品信息", "作者的话", "作者前言",
     "公告", "敬告读者", "本书相关", "书籍简介",
+    "直达页面底部", "阅读历史", "永久书架", "回首页", "设为首页",
+    "收藏", "登录", "注册", "退出", "记住了",
+)
+# ── URL fragments that indicate non-chapter links ──
+NAV_URL_PATTERNS = (
+    "logout", "login", "/search", "/home", "/sort", "/top", "/rank",
+    "javascript:", "bookcase", "history", "/bookcase", "/history",
+    "/register", "/sitemap", "/feedback", "/about", "/help",
 )
 
 # ── Known source configurations (replaces sources.md + step-1-search.md) ──
@@ -69,13 +125,16 @@ class SourceConfig:
 
 
 SOURCES: list[SourceConfig] = [
+    # 80ge.info: primary source for direct TXT download (Jieqi CMS)
+    # Anti-leech: direct_download() visits book page first to get session cookies
+    # Encoding: UTF-8 (NOT GB2312 — GB2312 returns empty results)
     SourceConfig(
-        name="boquku",
-        search_url="",  # search disabled (404); use --source-url with book page URL
-        list_selectors=["ul#chapters-list li a", "div#list a", "dd a"],
-        content_selectors=["div#content", "div.content", "div#chaptercontent", "div.book_content_text", "div#nr1"],
-        encoding=None,
-        book_url_pattern=r"/book/\d+",
+        name="80ge",
+        search_url="http://www.80ge.info/modules/article/search.php?searchkey={title}",
+        list_selectors=["dd a", "li a", "div#content a"],
+        content_selectors=["div#content", "div.content"],
+        encoding="utf-8",
+        book_url_pattern=r"txtxz/\d+",
     ),
     SourceConfig(
         name="miaobige",
@@ -86,6 +145,14 @@ SOURCES: list[SourceConfig] = [
         book_url_pattern=r"/shu/\d+",
     ),
     SourceConfig(
+        name="boquku",
+        search_url="",  # search disabled (404); use --source-url with book page URL
+        list_selectors=["ul#chapters-list li a", "div#list a", "dd a"],
+        content_selectors=["div#content", "div.content", "div#chaptercontent", "div.book_content_text", "div#nr1"],
+        encoding=None,
+        book_url_pattern=r"/book/\d+",
+    ),
+    SourceConfig(
         name="ishubao",
         search_url="",  # site often times out; use --source-url if found via search
         list_selectors=["div.book-list a", "div#list a", "dd a"],
@@ -93,6 +160,22 @@ SOURCES: list[SourceConfig] = [
         encoding=None,
         needs_pc=True,
         book_url_pattern=r"/book/\d+",
+    ),
+    SourceConfig(
+        name="9iecxs",
+        search_url="",  # use --source-url with book list page URL
+        list_selectors=["dd a", "li a", "div.booklist a", "ul.list a"],
+        content_selectors=["div#chaptercontent", "div#content", "div.content", "div.Readarea"],
+        encoding=None,
+        book_url_pattern=r"/booklist/shu/",
+    ),
+    SourceConfig(
+        name="neiyexs",
+        search_url="",  # use --source-url with book page URL
+        list_selectors=["ul.detail-list a", "div.chapter-list a", "dd a", "li a"],
+        content_selectors=["div#content", "div.content", "div#chaptercontent", "div.book_content_text"],
+        encoding=None,
+        book_url_pattern=r"/\d+/",
     ),
 ]
 
@@ -116,6 +199,8 @@ FALLBACK_LIST_SELECTORS = [
 
 def make_session() -> requests.Session:
     session = requests.Session()
+    session.verify = False  # Ignore SSL errors (many mirror sites have bad certs)
+    session.trust_env = False  # Ignore system proxy (127.0.0.1:7890 causes timeouts)
     session.headers.update({
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
@@ -139,28 +224,35 @@ def rotate_ua(session: requests.Session) -> None:
     session.headers["User-Agent"] = random.choice(USER_AGENTS)
 
 
-def fetch_page(session: requests.Session, url: str, timeout: int = 30) -> str | None:
-    """Fetch a page with encoding detection and anti-spider checks."""
-    rotate_ua(session)
-    try:
-        resp = session.get(url, timeout=timeout)
-        resp.raise_for_status()
-        detected = resp.apparent_encoding
-        if detected and detected.lower() != "ascii":
-            resp.encoding = detected
-        text = resp.text
-        replacement_count = text.count("\ufffd")
-        if replacement_count > 50:
-            print(f"WARN: 响应疑似乱码（{replacement_count} 个替换字符），URL: {url}", file=sys.stderr)
-            return None
-        for marker in ANTI_SPIDER_MARKERS:
-            if marker in text[:2000]:
-                print(f"WARN: 可能触发反爬（'{marker}'），URL: {url}", file=sys.stderr)
+def fetch_page(session: requests.Session, url: str, timeout: int = 30, retries: int = 2) -> str | None:
+    """Fetch a page with encoding detection, anti-spider checks, and retry."""
+    for attempt in range(retries + 1):
+        rotate_ua(session)
+        try:
+            resp = session.get(url, timeout=timeout)
+            resp.raise_for_status()
+            detected = resp.apparent_encoding
+            if detected and detected.lower() != "ascii":
+                resp.encoding = detected
+            text = resp.text
+            replacement_count = text.count("\ufffd")
+            if replacement_count > 50:
+                print(f"WARN: 响应疑似乱码（{replacement_count} 个替换字符），URL: {url}", file=sys.stderr)
                 return None
-        return text
-    except requests.RequestException as exc:
-        print(f"WARN: 请求失败 {url}: {exc}", file=sys.stderr)
-        return None
+            for marker in ANTI_SPIDER_MARKERS:
+                if marker in text[:2000]:
+                    print(f"WARN: 可能触发反爬（'{marker}'），URL: {url}", file=sys.stderr)
+                    return None
+            return text
+        except requests.RequestException as exc:
+            if attempt < retries:
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"WARN: 请求失败 (attempt {attempt+1}/{retries+1}) {url}: {exc}, {wait}s后重试", file=sys.stderr)
+                time.sleep(wait)
+            else:
+                print(f"WARN: 请求失败 {url}: {exc}", file=sys.stderr)
+                return None
+    return None
 
 
 def safe_filename(title: str) -> str:
@@ -173,29 +265,53 @@ def safe_filename(title: str) -> str:
 # ═══════════════════════════════════════════════════════════════════════════
 
 def parse_search_results(html: str, base_url: str, title: str, book_pattern: str) -> str | None:
-    """Find a book page URL from search results page."""
+    """Find a book page URL from search results page. Skips paywalled sites."""
     soup = BeautifulSoup(html, "lxml")
     title_lower = title.lower()
     pattern_re = re.compile(book_pattern) if book_pattern else None
 
-    # Strategy 1: find links whose text contains the title
+    # Strategy 1: find links whose text contains the title (strict: full title substring match only)
+    # NOTE: Previous version had a ≥4 char prefix match that caused wrong-book downloads
+    # (e.g. "海贼王之黑暗大将" matched "海贼王之黑暗召唤师" via shared prefix "海贼王之").
+    # Removed prefix match — title must appear in result text (or vice versa) as a full substring.
+    title_clean = re.sub(r"[?？：:！!]", "", title).strip().lower()
+    best_match = None
+    best_score = 0
+    best_text = ""
+
     for a in soup.find_all("a", href=True):
         text = a.get_text(strip=True)
         href = a.get("href", "").strip()
         if not href or href.startswith(("javascript:", "#")):
             continue
-        if title_lower in text.lower() and len(text) < 60:
+        if len(text) > 80:
+            continue
+        text_clean = re.sub(r"[?？：:！!]", "", text).strip().lower()
+        if is_paywall_site(urllib.parse.urljoin(base_url, href)):
+            continue
+        if not pattern_re or pattern_re.search(urllib.parse.urljoin(base_url, href)):
             full_url = urllib.parse.urljoin(base_url, href)
-            if not pattern_re or pattern_re.search(full_url):
-                return full_url
+            # Full substring match: title in result text, or result text in title
+            if title_clean and (title_clean in text_clean or text_clean in title_clean):
+                score = len(text_clean)  # Prefer longer (more specific) matches
+                if score > best_score:
+                    best_score = score
+                    best_match = full_url
+                    best_text = text
 
-    # Strategy 2: find any link matching the book URL pattern
+    if best_match:
+        print(f"INFO: 搜索匹配: '{best_text}'", file=sys.stderr)
+        return best_match
+
+    # Strategy 2: find any link matching the book URL pattern (loose fallback)
     if pattern_re:
         for a in soup.find_all("a", href=True):
             href = a.get("href", "").strip()
             if not href or href.startswith(("javascript:", "#")):
                 continue
             full_url = urllib.parse.urljoin(base_url, href)
+            if is_paywall_site(full_url):
+                continue
             if pattern_re.search(full_url):
                 return full_url
 
@@ -245,9 +361,13 @@ def _match_source_by_url(url: str) -> SourceConfig | None:
         # Fallback: derive domain from source.name (e.g. "boquku" → "boquku.com")
         if not src_host:
             name_domains = {
+                "80ge": "80ge.info",
                 "boquku": "boquku.com",
                 "miaobige": "miaobige.com",
                 "ishubao": "ishubao.org",
+                "9iecxs": "9iecxs.com",
+                "9iec": "9iec.cc",
+                "neiyexs": "neiyexs.com",
             }
             src_host = name_domains.get(source.name, "")
         if src_host and src_host.replace("www.", "") in host.replace("www.", ""):
@@ -277,8 +397,12 @@ def extract_chapter_links(html: str, base_url: str, selectors: list[str]) -> lis
                 continue
             if any(nav in text.lower() for nav in NAV_LABELS):
                 continue
-            # Skip non-chapter URLs (homepage, login, logout, search, category)
-            if any(skip in href.lower() for skip in ("logout", "login", "/search", "/home", "/sort", "/top", "javascript:")):
+            # Skip non-chapter URLs (homepage, login, logout, search, category, etc.)
+            if any(skip in href.lower() for skip in NAV_URL_PATTERNS):
+                continue
+            # Skip links that are just the site root (likely navigation)
+            parsed_href = urllib.parse.urlparse(href)
+            if parsed_href.path in ("", "/", "/index.html", "/index.php", "/default.html"):
                 continue
             full_url = urllib.parse.urljoin(base_url, href)
             if full_url not in seen:
@@ -304,7 +428,7 @@ def find_next_page(html: str, base_url: str) -> str | None:
 
 def collect_chapter_links(
     session: requests.Session, first_html: str, list_url: str, base_url: str,
-    selectors: list[str], limit: int, timeout: int, max_pages: int = 30,
+    selectors: list[str], limit: int, timeout: int, max_pages: int = 200,
 ) -> list[dict]:
     """Collect chapter links, following pagination."""
     all_links: list[dict] = []
@@ -335,40 +459,35 @@ def collect_chapter_links(
 
 
 def detect_content_selector(session: requests.Session, links: list[dict], timeout: int) -> str | None:
-    """Fetch a real chapter page, try selectors, return the best one."""
+    """Fetch real chapter pages, try selectors, return the best one."""
     if not links:
         return None
-    # Skip non-chapter links (navigation, homepage) — real chapter URLs
-    # typically contain a numeric ID or end with .html
-    test_link = None
+    # Filter to likely-real chapter links (numeric ID or .html in URL)
+    test_links = []
     for link in links:
         url = link["url"]
-        if re.search(r"/\d{4,}|\.html", url) and "logout" not in url and "login" not in url:
-            test_link = link
-            break
-    if not test_link:
-        test_link = links[0]
-
-    html = fetch_page(session, test_link["url"], timeout)
-    if not html:
-        return None
-
-    soup = BeautifulSoup(html, "lxml")
-    best_selector = None
-    best_len = 0
-
-    for selector in FALLBACK_CONTENT_SELECTORS:
-        elements = soup.select(selector)
-        if elements:
-            text_len = len(max(elements, key=lambda e: len(e.get_text(strip=True))).get_text(strip=True))
-            if text_len > best_len:
-                best_len = text_len
-                best_selector = selector
-
-    if best_selector and best_len > 100:
-        print(f"INFO: 内容选择器确定: '{best_selector}' (测试章 {best_len} 字)", file=sys.stderr)
-        return best_selector
-
+        if re.search(r"/\d{4,}|\.html|/\d+/", url) and not any(skip in url.lower() for skip in NAV_URL_PATTERNS):
+            test_links.append(link)
+    if not test_links:
+        test_links = links[:3]
+    # Try up to 3 chapter pages to find a working selector
+    for test_link in test_links[:3]:
+        html = fetch_page(session, test_link["url"], timeout)
+        if not html:
+            continue
+        soup = BeautifulSoup(html, "lxml")
+        best_selector = None
+        best_len = 0
+        for selector in FALLBACK_CONTENT_SELECTORS:
+            elements = soup.select(selector)
+            if elements:
+                text_len = len(max(elements, key=lambda e: len(e.get_text(strip=True))).get_text(strip=True))
+                if text_len > best_len:
+                    best_len = text_len
+                    best_selector = selector
+        if best_selector and best_len > 100:
+            print(f"INFO: 内容选择器确定: '{best_selector}' (测试章 {best_len} 字)", file=sys.stderr)
+            return best_selector
     print("WARN: 无法确定内容选择器，将使用 body 全文提取", file=sys.stderr)
     return None
 
@@ -639,13 +758,56 @@ def assemble_and_save(
 def direct_download(session: requests.Session, url: str, output_path: Path, timeout: int = 60) -> bool:
     """Download a direct TXT/ZIP URL and save as UTF-8."""
     rotate_ua(session)
-    try:
-        resp = session.get(url, timeout=timeout, stream=True)
-        resp.raise_for_status()
-        raw = resp.content
-    except requests.RequestException as exc:
-        print(f"ERROR: 直链下载失败: {exc}", file=sys.stderr)
-        return False
+    parsed = urllib.parse.urlparse(url)
+
+    # For 80ge.info: visit book page first to get anti-leech cookies
+    if "80ge.info" in (parsed.hostname or ""):
+        # Extract book_id from URL path: /{book_id}/{title}.txt
+        path_parts = parsed.path.strip("/").split("/")
+        book_id = path_parts[0] if path_parts else ""
+        if book_id:
+            book_page_url = f"http://www.80ge.info/txtxz/{book_id}.html"
+            session.headers["Referer"] = "http://www.80ge.info/"
+            try:
+                page_resp = session.get(book_page_url, timeout=15)
+                # Try to extract the actual download URL from the page
+                for enc in ("utf-8", "gbk", "gb2312"):
+                    try:
+                        page_resp.encoding = enc
+                        page_html = page_resp.text
+                        if "\ufffd" not in page_html[:500]:
+                            break
+                    except:
+                        continue
+                import re as _re
+                direct_match = _re.search(r'(?:https?://)?txt\.80ge\.info/\d+/[^"\'<>\s]+\.txt', page_html)
+                if direct_match:
+                    new_url = direct_match.group(0)
+                    if not new_url.startswith("http"):
+                        new_url = "http://" + new_url
+                    url = new_url
+            except Exception:
+                pass  # Continue with original URL even if page visit fails
+        session.headers["Referer"] = f"http://www.80ge.info/"
+    else:
+        session.headers["Referer"] = f"{parsed.scheme}://{parsed.hostname}/"
+
+    # Retry logic for direct download
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            resp = session.get(url, timeout=timeout, stream=True)
+            resp.raise_for_status()
+            raw = resp.content
+            break
+        except requests.RequestException as exc:
+            if attempt < max_retries - 1:
+                wait = (attempt + 1) * 3
+                print(f"WARN: 直链下载重试 ({attempt+1}/{max_retries}) {wait}s后: {exc}", file=sys.stderr)
+                time.sleep(wait)
+            else:
+                print(f"ERROR: 直链下载失败: {exc}", file=sys.stderr)
+                return False
 
     # Handle ZIP
     if url.lower().split("?")[0].endswith(".zip"):
@@ -688,7 +850,9 @@ def parse_args() -> argparse.Namespace:
         description="Unified webnovel downloader: search → test → crawl → verify → deliver."
     )
     parser.add_argument("title", help="Book title to search and download.")
+    parser.add_argument("--author", default=None, help="Author name (for output filename).")
     parser.add_argument("--output-dir", default=r"D:\popwave-skills\downloads", help="Output directory.")
+    parser.add_argument("--output-subdir", default=None, help="Subdirectory under output-dir (e.g. 番茄top20).")
     parser.add_argument("--workers", type=int, default=10, help="Concurrent threads (default 10).")
     parser.add_argument("--source-url", default=None, help="Skip search, use this URL directly.")
     parser.add_argument("--direct", action="store_true", help="Source URL is a direct TXT/ZIP link.")
@@ -698,6 +862,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--resume", action="store_true", help="Resume: skip already-downloaded chapters.")
     parser.add_argument("--timeout", type=int, default=30, help="Request timeout in seconds.")
     parser.add_argument("--delay", type=float, default=0, help="Delay between requests (serial mode only).")
+    parser.add_argument("--include-paywall", action="store_true", help="Allow crawling paywalled official sites (excluded by default).")
     return parser.parse_args()
 
 
@@ -705,10 +870,31 @@ def main() -> int:
     args = parse_args()
     session = make_session()
     output_dir = Path(args.output_dir)
+    if args.output_subdir:
+        output_dir = output_dir / args.output_subdir
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"{safe_filename(args.title)}.txt"
+    # Filename: title-author.txt or title.txt
+    if args.author:
+        filename = f"{safe_filename(args.title)}-{safe_filename(args.author)}.txt"
+    else:
+        filename = f"{safe_filename(args.title)}.txt"
+    output_path = output_dir / filename
 
     start_time = time.time()
+
+    # ── Paywall site guard: reject paywalled official sites by default ──
+    if args.source_url and not args.include_paywall:
+        paywall_domain = is_paywall_site(args.source_url)
+        if paywall_domain:
+            msg = f"URL 属于付费墙正版网站 ({paywall_domain})，默认排除"
+            print(f"ERROR: {msg}", file=sys.stderr)
+            print(json.dumps({
+                "status": "error",
+                "reason": msg,
+                "matched_domain": paywall_domain,
+                "suggestion": "请搜索免费来源（笔趣阁/80txt等），或加 --include-paywall 强制",
+            }, ensure_ascii=False))
+            return 1
 
     # ── Mode 1: Direct download ──
     if args.source_url and args.direct:
