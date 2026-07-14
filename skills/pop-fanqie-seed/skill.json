@@ -1,0 +1,14 @@
+{
+  "id": "pop-fanqie-seed",
+  "version": "2.0.0",
+  "displayName": "番茄 Seed",
+  "description": "番茄概念种子构建器。以概念为轴心构建番茄小说项目种子——验证概念的100章场景生成能力，建立最小世界和兑现者设计。概念驱动故事，不是故事驱动概念。v2.0.0：新增用户输入收集+燃料条件触发+11种爽感公式+4种节奏模型+开篇分级",
+  "tags": [
+    "创意与研究"
+  ],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

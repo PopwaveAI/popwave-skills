@@ -1,0 +1,14 @@
+{
+  "id": "pop-fanqie-review",
+  "version": "2.0.0",
+  "displayName": "番茄 Review",
+  "description": "番茄概念审核器。审核正文是否兑现概念承诺、是否符合番茄节奏。核心产出是概念兑现度评分+钩子强度评分+快照更新+下章建议。v2.0.0：新增钩子强度检查+节奏按流派分层+概念交互流派适配+钩子追踪",
+  "tags": [
+    "审稿与质检"
+  ],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-review", "审稿", "审核"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "pop-fanqie-plot",
+  "version": "2.0.0",
+  "displayName": "番茄 Plot",
+  "description": "番茄场景推导引擎。从概念种子推导每章场景卡，极轻量——不建幕纲、不建施工卡，只产出1页场景卡驱动正文写作。v2.0.0：13种章型+11种爽感+4种节奏模型分层",
+  "tags": [
+    "剧情与结构"
+  ],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-plot", "做场景卡", "推场景"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
