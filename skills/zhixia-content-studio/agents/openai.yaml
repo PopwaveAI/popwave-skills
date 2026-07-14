@@ -1,4 +1,0 @@
-interface:
-  display_name: "知夏内容工作室"
-  short_description: "检索、策划、SEO文案、HTML组图与可选沉淀"
-  default_prompt: "使用 $zhixia-content-studio 按输入路由完成研究、策划、文案SEO、HTML视觉化与可选资产沉淀。"

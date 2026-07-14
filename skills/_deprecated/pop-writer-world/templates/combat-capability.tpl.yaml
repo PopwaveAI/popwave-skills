@@ -1,8 +1,0 @@
-ranks:
-  - name: "炼气"           # 段位名
-    min_attack: 100        # 攻击范围下限
-    max_attack: 500        # 攻击范围上限
-    breakthrough: "灵力积累到一定程度 → 筑基"  # 突破条件
-    combat_role: "群战辅"   # 单挑/群战/辅助
-    weakness: "灵力不足，持久战劣势"
-    iconic_scene: "一拳打碎青石"  # 标志性画面锚点
