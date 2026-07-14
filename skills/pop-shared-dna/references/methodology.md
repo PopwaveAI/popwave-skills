@@ -73,7 +73,9 @@ brief（用户需求）
 
 pop-shared-dna 集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
 
-### 1.4 三层文风DNA框架（pop-writer-chapter → pop-writer-prose）
+### 1.4 历史框架：三层文风DNA（pop-writer-chapter → pop-writer-prose）
+
+> 注：本节保留 v4/v5.0 的历史方法论背景。v5.1 起，pop-shared-dna 的正式产出协议已收束为“章内文风DNA”：文笔笔触 + 单章剧情套路；不再把全书架构、卷级节奏或商业体验层写入 DNA 主体。
 
 **核心洞察**：风格由三个独立层次构成，而非单一的"好不好读"维度：
 

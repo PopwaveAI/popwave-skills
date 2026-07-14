@@ -1,5 +1,23 @@
 ﻿# CHANGELOG — pop-shared-skill-create
 
+## v6.1.0 — 2026-07-09
+
+### 对齐 Skill 知识工程 PRD：SKILL.md 骨架化 + scripts 一级代码目录
+
+**核心变化**：将 v6.0.0 的"SKILL.md 只做路由"口径修正为"SKILL.md 必须自带完整 SOP 骨架"。因为 SKILL.md 是强保障文件，必须让 agent 在不读取弱保障资源时也能理解完整流程。
+
+**新增一级目录规范**：补充 `scripts/` 作为代码层，用于存放可执行脚本、工具代码、批处理逻辑。代码不再散落在 `references/`、`templates/` 或 skill 根目录中。
+
+**变更清单**：
+
+| 操作 | 文件 | 说明 |
+|:-----|:-----|:-----|
+| 更新 | `SKILL.md` | 增加"这个 Skill 做什么"和"怎么运作"两段；新增 SOP 骨架红线与 `scripts/` 红线 |
+| 更新 | `steps/step-1-design.md` | 四层架构升级为"骨架层 + 五类资源"；补充 `scripts/` 定位、拆分原则、创建流程、检查清单 |
+| 更新 | `skill.json` | 版本号更新为 v6.1.0；description 增加 SOP 骨架与 scripts 代码目录触发信息 |
+
+---
+
 ## v6.0.0 — 2026-07-01
 
 ### 从四模式工具重构为纯规范文档

@@ -1,0 +1,11 @@
+{
+  "id": "pop-qidian-seed",
+  "version": "5.0.0",
+  "displayName": "起点 Seed",
+  "description": "起点小说故事基底构建器。从零构建一个番茄小说项目——种子（世界观/角色/金手指）+ 世界展开（主角引擎/角色储备池/世界圣经）。一个skill完成从创意到可操作设定全链路。",
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-qidian-seed", "做种子", "定soul"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
