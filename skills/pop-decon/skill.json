@@ -1,10 +1,10 @@
 {
   "id": "pop-decon",
-  "version": "18.0.0",
+  "version": "18.0.1",
   "displayName": "拆书专家入口",
   "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书专家入口：初始化项目（量级+语言+源文件检查）、一次性路由建议（Phase 1→4），不常驻调度。",
   "tags": [
-    "拆书与知识提炼"
+    "拆书与分析"
   ],
   "entry": "SKILL.md",
   "activation": {

@@ -1,10 +1,10 @@
 {
   "id": "pop-writer-character",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "displayName": "角色分级模板",
   "description": "当用户说'设计角色/创建角色卡/写人设/设计配角/角色分级/角色模板/角色储备'时启用。从 PRD、世界设定、研究档案和 trope-library，产出带'剧情驱动接口'的分级角色卡（Lv1~Lv4），供 pop-writer-creative、pop-writer-plot、pop-writer-chapter 及独立角色储备设计消费。",
   "tags": [
-    "创意与世界构建"
+    "创意与研究"
   ],
   "entry": "SKILL.md",
   "activation": {

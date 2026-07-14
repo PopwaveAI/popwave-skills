@@ -1,6 +1,6 @@
 {
   "id": "pop-writer-qa",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "项目审计",
   "description": "项目审计 / 全量对齐检查 触发：四维工程级扫描（文件树/文档质量/管线阶段/分类正确性），输出 Gap Report。",
   "entry": "SKILL.md",
@@ -9,7 +9,7 @@
   "mode": "report",
   "recommended": 8,
   "tags": [
-    "修订与质量保障"
+    "审核与质量"
   ],
   "fidelity": "production",
   "novelAgentVersion": "v3.3",

@@ -1,10 +1,10 @@
 {
   "id": "pop-decon-setting",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "设定世界观（Phase 3）",
   "description": "Phase 3 归纳世界观。L1六件套（含人物动机分析+关系图谱+剧情冲突表）+宪法+战力数值+起点/终点快照。前N章/全书。",
   "tags": [
-    "拆书与知识提炼"
+    "拆书与分析"
   ],
   "entry": "SKILL.md",
   "activation": {

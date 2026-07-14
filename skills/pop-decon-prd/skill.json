@@ -1,10 +1,10 @@
 {
   "id": "pop-decon-prd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "全书立项PRD（Phase 5）",
   "description": "Phase 5 of deconstruction: 全书立项PRD逆向破解",
   "tags": [
-    "拆书与知识提炼"
+    "拆书与分析"
   ],
   "entry": "SKILL.md",
   "activation": {
