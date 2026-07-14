@@ -3,6 +3,9 @@
   "version": "2.0.2",
   "displayName": "文游化",
   "description": "将写书过程中沉淀的世界观、人设、剧情设定等资料，转化为由AI驱动的互动文字游戏（AI文游）。Invoke when user wants to turn their novel's world-building materials into an interactive text-based game experience.",
+  "tags": [
+    "发布与互动呈现"
+  ],
   "entry": "SKILL.md",
   "pipeline": {
     "upstream": [

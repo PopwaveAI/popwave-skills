@@ -2,6 +2,9 @@
   "id": "tool-web-access",
   "version": "2.4.4",
   "description": "提供网络访问能力，允许技能通过 HTTP 请求获取实时信息或与在线服务交互，扩展技能的功能和应用场景。",
+  "tags": [
+    "平台与生产力工具"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

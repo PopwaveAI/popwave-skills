@@ -2,6 +2,9 @@
   "id": "tool-prd-builder",
   "version": "1.1.0",
   "description": "从产品想法到 PRD 到飞书文档到交互 Demo 的全流程自动化",
+  "tags": [
+    "平台与生产力工具"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "triggers": [

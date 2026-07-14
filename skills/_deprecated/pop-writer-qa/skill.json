@@ -9,10 +9,7 @@
   "mode": "report",
   "recommended": 8,
   "tags": [
-    "审计",
-    "对齐检查",
-    "文件体检",
-    "Gap Report"
+    "修订与质量保障"
   ],
   "fidelity": "production",
   "novelAgentVersion": "v3.3",

@@ -3,6 +3,9 @@
   "version": "4.0.0",
   "displayName": "L2单元卡/卷纲（Phase 2）",
   "description": "Phase 2 of deconstruction: 提取L2剧情单元卡 + 归纳卷纲（含溯源燃料台）。物理结构降级为参考坐标系。",
+  "tags": [
+    "拆书与知识提炼"
+  ],
   "entry": "SKILL.md",
   "upstream": "pop-decon-design-pack",
   "downstream": "pop-decon-setting",

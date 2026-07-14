@@ -2,6 +2,9 @@
   "id": "pop-writer-v3-emerge",
   "displayName": "涌现写作环",
   "description": "涌现写作环调度器。本章规划→信息获取(强制化+设定库按需读取)→调度3子skill(create/revise/qa)→记忆更新+种子生长→方向提示。调度架构，context隔离，文风从创作端拆到修订层，信息获取强制化，种子文件夹六要素，设定库可选参考层。",
+  "tags": [
+    "工作流与技能基础设施"
+  ],
   "entry": "SKILL.md",
   "activation": "当v3项目进入涌现写作阶段时启用",
   "version": "2.1.0"

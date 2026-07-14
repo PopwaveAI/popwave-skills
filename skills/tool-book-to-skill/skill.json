@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "displayName": "书籍转Skill",
   "description": "将书籍和文档（PDF/EPUB/DOCX/HTML/Markdown/TXT/RTF/MOBI/AZW）转化为结构化Agent Skill，提取框架、心智模型、原则、技法和反模式。当用户想把一本书、文档文件夹或资料集合变成可复用的知识库Skill时触发。",
+  "tags": [
+    "拆书与知识提炼"
+  ],
   "entry": "SKILL.md",
   "pipeline": {
     "upstream": [],

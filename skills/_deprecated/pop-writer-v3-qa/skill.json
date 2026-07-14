@@ -2,6 +2,9 @@
   "id": "pop-writer-v3-qa",
   "displayName": "质检子skill",
   "description": "涌现写作质检子skill。context隔离，五问反思引用正文证据+种子生长判断+爽点终验+主角行为一致性终验。",
+  "tags": [
+    "修订与质量保障"
+  ],
   "entry": "SKILL.md",
   "activation": "由pop-writer-v3-emerge Step 4调度时启用",
   "version": "1.0.0"

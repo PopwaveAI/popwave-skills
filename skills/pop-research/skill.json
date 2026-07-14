@@ -3,6 +3,9 @@
   "name": "pop-research",
   "displayName": "调研",
   "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/expert-writer三环节按需调用：接收调研需求→三界框架定界→分界调研→压力源转化→交叉困境识别→多元素整合→质量检查→存盘+索引更新→返回路径指针。",
+  "tags": [
+    "调研与内容采集"
+  ],
   "entry": "SKILL.md",
   "activation": "seed/plot/expert-writer按需调用，传入领域+具体问题+期望深度",
   "version": "1.1.0",

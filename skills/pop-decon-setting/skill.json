@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "displayName": "设定世界观（Phase 4）",
   "description": "Phase 4 归纳世界观。L1六件套+宪法+战力数值+起点/终点快照。前N章/全书。",
+  "tags": [
+    "拆书与知识提炼"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

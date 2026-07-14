@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "displayName": "状态引擎（搁置）",
   "description": "Popwave 写作管线的运行时状态引擎 — SQLite 驱动的叙事状态管理（方案搁置，代码保留为可选诊断工具）",
+  "tags": [
+    "工作流与技能基础设施"
+  ],
   "entry": "SKILL.md",
   "status": "shelved",
   "type": "engine",

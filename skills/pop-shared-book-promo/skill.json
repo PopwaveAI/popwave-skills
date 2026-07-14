@@ -3,6 +3,9 @@
   "version": "3.1.1",
   "displayName": "pop-shared-book-promo",
   "description": "从拆书数据（角色/场景/金句）出发，PRD 先行 → 设计哲学驱动 → 生图 + 定制 HTML。",
+  "tags": [
+    "发布与互动呈现"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

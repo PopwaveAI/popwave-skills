@@ -6,10 +6,7 @@
   "version": "1.3.2",
   "category": "publish",
   "tags": [
-    "HTML",
-    "发布",
-    "可视化",
-    "渲染"
+    "发布与互动呈现"
   ],
   "fidelity": "production",
   "entry": "SKILL.md",

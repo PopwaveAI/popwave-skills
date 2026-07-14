@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "displayName": "全书立项PRD（Phase 5）",
   "description": "Phase 5 of deconstruction: 全书立项PRD逆向破解",
+  "tags": [
+    "拆书与知识提炼"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

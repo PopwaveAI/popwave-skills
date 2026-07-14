@@ -3,6 +3,9 @@
   "version": "16.0.0",
   "displayName": "拆书管线调度",
   "description": "拆书管线调度（orchestrator）。4 Phase管线：Phase 1 章节设计包→Phase 2 L2单元卡/卷纲→Phase 3 设定世界观→Phase 4 全书立项PRD。",
+  "tags": [
+    "拆书与知识提炼"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

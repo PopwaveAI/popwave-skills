@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "displayName": "Knowledge Downloader",
   "description": "A skill to download knowledge from the web and save it as project files",
+  "tags": [
+    "调研与内容采集"
+  ],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
