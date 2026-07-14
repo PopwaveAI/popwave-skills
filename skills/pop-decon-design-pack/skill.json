@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "displayName": "章节设计包",
-  "description": "当用户说'拆书/提取设计包/ETL拆分'时启用。逐章提取设计包(beat链+爽点+角色+设定区)，产出供下游volume/setting消费。",
+  "description": "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用。双模式：precision(v4设计包3层+1区) / fast(瘦身白描卡4段式，DS API并发)。产出供下游volume/setting消费。",
   "entry": "SKILL.md",
   "permissions": {
     "readProjectFiles": true,

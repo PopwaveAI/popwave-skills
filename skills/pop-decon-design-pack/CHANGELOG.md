@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v6.0.0 | 2026-07-14
+- **新增 fast mode（瘦身白描卡）** — 双模式架构：precision（v4设计包）+ fast（瘦身白描卡4段式）
+- 新增 `references/slim-card-format-spec.md`：瘦身白描卡格式规范，含4段式结构、字数规则、质量卡尺5项、v4对比表、下游消费说明
+- 新增 `templates/slim-card-template.md`：瘦身白描卡模板
+- 新增 `scripts/slim_card_batch.py`：DS API并发处理脚本，支持 --volume/--workers/--max-chapters/--encoding 参数，自动编码检测
+- 更新 SKILL.md：双模式速查表、模式选择规则、红线适配双模式
+- 更新 step-2：增加 fast mode 分支（DS API并发处理流程）
+- 更新 step-3：增加 fast mode 验证规则（5项卡尺）
+- 更新 batch-scaling.md：增加 DS API 并发实测数据（187章/3分钟/10并发/压缩比11.3%）
+- **实测数据**：深渊主宰第一卷187章，原文623K→产出71K，压缩比11.3%，平均377字/章，3分钟/10并发
+
 ## v5.0.0 | 2026-07-01
 - **删除"本章套路"字段** — 下游不再消费套路类型，从模板/格式规范/快查参考/step文件中全面移除
 - **按 pop-shared-skill-create v6.0.0 规范重构 SKILL.md** — 从304行重写为≤60行纯路由层
