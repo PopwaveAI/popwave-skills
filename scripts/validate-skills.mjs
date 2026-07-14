@@ -17,7 +17,7 @@ async function validateSkill(directoryName) {
 
 async function main() {
   const entries = await readdir(skillsRoot, { withFileTypes: true }).catch(() => []);
-  const directories = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name);
+  const directories = entries.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.' ) && !entry.name.startsWith('_')).map((entry) => entry.name);
   if (!directories.length) {
     fail("No skills found under skills/");
   }

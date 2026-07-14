@@ -53,7 +53,7 @@ async function main() {
   const entries = await readdir(skillsRoot, { withFileTypes: true });
   const skills = [];
 
-  for (const entry of entries.filter((item) => item.isDirectory())) {
+  for (const entry of entries.filter((item) => item.isDirectory() && !item.name.startsWith('.' ) && !item.name.startsWith('_'))) {
     const skillRoot = path.join(skillsRoot, entry.name);
     const resolved = await readSkillManifest(skillRoot, entry.name);
     const manifest = await validateSkillManifest({ directoryName: entry.name, skillRoot, ...resolved });

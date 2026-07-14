@@ -58,10 +58,11 @@ export function parseSkillFrontmatter(content) {
 
 async function readSkillJson(filePath, skillId) {
   const content = await readFile(filePath, "utf8");
+  const stripped = content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
   try {
-    return JSON.parse(content);
+    return JSON.parse(stripped);
   } catch (error) {
-    fail(formatSkillJsonError({ skillId, filePath, content, error }));
+    fail(formatSkillJsonError({ skillId, filePath, content: stripped, error }));
   }
 }
 

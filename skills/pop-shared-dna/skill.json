@@ -1,8 +1,8 @@
-﻿{
+{
   "id": "pop-shared-dna",
-  "version": "4.2.0",
+  "version": "5.1.0",
   "displayName": "文风DNA蒸馏引擎",
-  "description": "从作者/书籍原文中提取写作风格DNA（叙事哲学+技法偏好+节奏模式），生成可复用的风格档案，配合 Thinking-Claude 式 Prompt 实现精准文风模仿。",
+  "description": "从作者/书籍原文中提取章内文风DNA（文笔笔触+单章剧情套路），生成可供 prose-render 对照、也可供涌现式写作 current-state/soul/write/review 消费的执行契约。",
   "category": "writing",
   "scenario": "production",
   "mode": "style",
@@ -23,7 +23,9 @@
       "DNA",
       "文风蒸馏",
       "风格模仿",
-      "style-mimic"
+      "style-mimic",
+      "章内文风DNA",
+      "单章套路DNA"
     ],
     "default": false
   },
@@ -38,7 +40,7 @@
     "inject_context": []
   },
   "produces": [
-    "文风DNA档案（写作资产/文风库/作者名-书名.md, 分析+写前指令合一）",
+    "章内文风DNA档案（写作资产/文风库/作者名-书名.md, 分析+写前指令合一）",
     "示例产出（试写片段）"
   ],
   "pipeline": {
@@ -48,7 +50,9 @@
     "downstream": [
       "pop-writer-prose",
       "pop-novel-seed",
-      "pop-novel-revise"
+      "pop-novel-revise",
+      "pop-emergent-write",
+      "pop-emergent-review"
     ]
   }
 }
