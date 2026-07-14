@@ -10,7 +10,7 @@ and rewrites design pack first lines to the canonical format:
 
 Usage:
     python normalize-headlines-from-source.py \\
-        --design-dir 写作资产/设计包v3 \\
+        --design-dir 写作资产/设计包v4 \
         --source-dir _temp/chapters
 
 Strategy:
@@ -29,8 +29,8 @@ import os, re, sys, argparse
 
 def parse_args():
     p = argparse.ArgumentParser(description='Normalize design-pack headings from source chapter files.')
-    p.add_argument('--design-dir', default='写作资产/设计包v3',
-                   help='Design pack directory (default: 写作资产/设计包v3)')
+    p.add_argument('--design-dir', default='写作资产/设计包v4',
+                   help='Design pack directory (default: 写作资产/设计包v4)')
     p.add_argument('--source-dir', default='_temp/chapters',
                    help='Source chapter files directory (default: _temp/chapters)')
     p.add_argument('--dry-run', action='store_true',

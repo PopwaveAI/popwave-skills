@@ -74,3 +74,13 @@ $TXT_PATH = {项目根}/{书名}.txt
 |:-:|:-----|
 | ❌0a | 源文件缺失仍硬跑 Step 1 — Step 1 依赖 $TXT_PATH，未获取不得进入 |
 | ❌0b | 下载失败静默继续 — 换源失败/报错 → 终止告知用户，不得用空文件进 ETL |
+
+---
+
+## ⛔ 加载门禁 + 下一步指引
+
+> 在加载下一 step 文件前，禁止产出任何文件。
+>
+> 下一 step：`steps/step-1-etl-split.md`
+> 加载指令：`Get-Content -Encoding UTF8 -Raw steps/step-1-etl-split.md`
+> 什么时候进入下一步：源 TXT 已落位项目根目录

@@ -1,4 +1,4 @@
----
+﻿---
 name: pop-decon-setting
 description: "Phase 3 of deconstruction. Induce L1 worldbuilding (6 elements + world constitution + combat capabilities) from design pack data and L2/L3 narrative structure."
 pipeline:
@@ -8,7 +8,7 @@ pipeline:
 tags: [deconstruction, worldbuilding, phase3]
 ---
 
-# pop-decon-setting · 设定世界观 v1.3.0
+# pop-decon-setting · 设定世界观 v2.0.0
 
 > **定位**：Phase 3 of deconstruction. 从全部分析数据中归纳 L1 六件套 + 世界宪法 + 数值体系。
 > **管线位置**：Phase 1 (设计包) → Phase 2 (L2单元卡/L3剧情线) → **Phase 3 (设定世界观)** → Phase 4 (创意溯源)
@@ -99,6 +99,6 @@ tags: [deconstruction, worldbuilding, phase3]
 全书: + 终点快照 + L1 全书版
 ```
 
-> v1.3.0 | 2026-06-23 | **5级结构对齐**：所有"卷/幕"引用改为"L2/L3"。管线位置从"卷幕聚类"改为"L2/L3叙事结构"。前置条件从"卷1-架构.md + 幕文件"改为"L2单元卡 + L3剧情线"。配合 pop-decon v15.0.0 + pop-decon-volume v3.0.0。
+> v2.0.0 | 2026-06-23 | **5级结构对齐**：所有"卷/幕"引用改为"L2/L3"。管线位置从"卷幕聚类"改为"L2/L3叙事结构"。前置条件从"卷1-架构.md + 幕文件"改为"L2单元卡 + L3剧情线"。配合 pop-decon v15.0.0 + pop-decon-volume v3.0.0。
 > v1.2.0 | 2026-06-22 | **Wiki 骨架集成**：新增 `wiki-skeleton` 可选上游。前置条件增加 `_temp/wiki-skeleton.md`。Step 2 力量体系数据源增加 Wiki 骨架。新增红线❌6（Wiki 数据必须标注置信度）。配合 pop-decon v14.0.0 Step 2.7。
 > v1.1.0 | 2026-06-18 | 修正Phase编号（Phase 4→Phase 3）。新增并行策略说明。更新管线位置。修正上游依赖检查（移除对不存在的 world-data.json 的引用）。

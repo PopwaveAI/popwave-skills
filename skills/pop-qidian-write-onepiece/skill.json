@@ -1,0 +1,11 @@
+{
+  "id": "pop-qidian-write-onepiece",
+  "version": "1.0.0",
+  "displayName": "涌现 Write - 海贼王世界冒险流",
+  "description": "海贼王世界冒险流写作引擎。将剧情锚点渲染为番茄小说平台可消费的章节正文。三层架构/SOP/赛道定义/战斗模式/API管道注入规范。消费 current-state.md 获取下一章硬推进。正文落盘到 涌现/正文/。",
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-qidian-write-onepiece"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

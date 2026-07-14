@@ -63,3 +63,13 @@ _temp/
     ├── ch002.txt
     └── ...
 ```
+
+---
+
+## ⛔ 加载门禁 + 下一步指引
+
+> 在加载下一 step 文件前，禁止产出任何文件。
+>
+> 下一 step：`steps/step-2-batch-process.md`
+> 加载指令：`Get-Content -Encoding UTF8 -Raw steps/step-2-batch-process.md`
+> 什么时候进入下一步：_temp/chapters/ 下有按章拆分的独立文件

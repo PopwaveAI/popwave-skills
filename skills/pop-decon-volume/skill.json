@@ -1,25 +1,25 @@
 {
-  "id": "pop-decon-volume",
-  "version": "4.0.0",
-  "displayName": "L2单元卡/卷纲（Phase 2）",
-  "description": "Phase 2 of deconstruction: 提取L2剧情单元卡 + 归纳卷纲（含溯源燃料台）。物理结构降级为参考坐标系。",
-  "tags": [
-    "拆书与知识提炼"
-  ],
-  "entry": "SKILL.md",
-  "upstream": "pop-decon-design-pack",
-  "downstream": "pop-decon-setting",
-  "expert": "pop-decon",
-  "activation": {
-    "slashCommands": [
-      "聚类",
-      "cluster",
-      "卷幕",
-      "clustering"
-    ]
-  },
-  "permissions": {
-    "readProjectFiles": true,
-    "writeProjectFiles": true
-  }
+    "id":  "pop-decon-volume",
+    "version":  "7.0.0",
+    "displayName":  "L2单元卡/卷纲（Phase 2）",
+    "description":  "当用户说\u0027聚类/卷幕/cluster\u0027时启用。从白描卡产出叙事白描→L2单元卡+卷纲（含溯源燃料台+叙事技法分析），产出供下游setting/prd消费。",
+    "tags": [
+      "拆书与知识提炼"
+    ],
+    "entry":  "SKILL.md",
+    "upstream":  "pop-decon-design-pack",
+    "downstream":  "pop-decon-setting",
+    "expert":  "pop-decon",
+    "activation":  {
+                       "slashCommands":  [
+                                             "聚类",
+                                             "cluster",
+                                             "卷幕",
+                                             "clustering"
+                                         ]
+                   },
+    "permissions":  {
+                        "readProjectFiles":  true,
+                        "writeProjectFiles":  true
+                    }
 }
