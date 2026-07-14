@@ -1,8 +1,8 @@
-{
+﻿{
   "id": "pop-qidian-write",
   "version": "2.0.0",
   "displayName": "涌现 Write",
-  "description": "番茄 prose-render 覆盖版。当用户说'写正文/续写/重写/把X写成Y/开篇样章/单章爽文/涌现式write'时启用。消费 current-state.md（含下一章硬推进+人物状态+燃料队列+伏笔债务）+ dna/ 笔触DNA文件 + 用户本轮要求。6章型骨架 + 17微观技法 + 五层指导 + 章意图思考 + 微观技法选择 + 验收表。正文落盘到 涌现/正文/。",
+  "description": "番茄 prose-render 覆盖版。当用户说'写正文/续写/重写/把X写成Y/开篇样章/单章爽文/涌现式write'时启用。消费 current-state.md（含下一章硬推进+人物状态+燃料队列+伏笔债务）+ dna/ 笔触DNA文件 + 用户本轮要求。6章型骨架 + 17微观技法 + 五层指导 + 章意图思考 + 微观技法选择 + 验收表。正文落盘到 涌现/正文/。v2.0.0：三层世界上下文加载",
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-write", "写正文", "续写"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
