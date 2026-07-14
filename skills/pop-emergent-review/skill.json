@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-review",
-  "version": "3.5.0",
-  "displayName": "涌现 Review",
-  "description": "当用户说'审稿/review/更新current-state/涌现式review/ledger'时启用。审稿、检查爽不爽/AI味/种子兑现/燃料入戏/正文漂移，把设定/人物/剧情线/燃料/伏笔压缩成下一次 write 必读的 current-state.md。",
+  "version": "2.0.0",
+  "displayName": "涌现 Review（番茄覆盖）",
+  "description": "番茄review覆盖。正文渲染完成后的编辑审核层：逐beat对比正文与施工卡、gap分类与质量判断、红线检查、笔触质量审核8维度、状态快照输出，并更新 current-state.md（吸收 pop-emergent 架构资产：历史层归档+沉淀分流）。当用户说'审稿/review/更新current-state'时启用。",
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-emergent-review", "审稿", "更新current-state"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

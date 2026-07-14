@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v4.0.0 - 2026-07-14
+
+### 番茄覆盖替换
+- SKILL.md 替换为番茄小说创作 skill 群的 seed 内容：故事基底构建器（种子阶段+世界展开阶段双链路）。
+- 新增 frontmatter（name: pop-emergent-seed）。
+- SOP 部分新增 execution.mode 三档说明（formal/draft/trial）。
+- templates/ 新增世界圣经-模板.md、主角引擎-模板.md、角色储备池-模板.md（番茄 seed 原始模板）。
+- 保留 steps/ 目录（step-1-collide.md, step-2-lock.md）。
+- skill.json 版本升至 4.0.0，description 更新为番茄 seed 描述。
+
 ## v3.5.0 - 2026-07-06
 
 ### 重构：四层架构对齐

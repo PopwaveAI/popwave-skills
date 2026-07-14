@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent-seed",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "displayName": "涌现 Seed",
-  "description": "当用户说'碰撞idea/做种子/定主卖点/定soul/涌现式seed'时启用。碰撞 idea、做全书种子、确定主卖点/叙事魂/题材承诺和禁区；产出 seed-种子文档.md 和 soul.md 首版。",
+  "description": "番茄小说故事基底构建器。从零构建一个番茄小说项目——种子（世界观/角色/金手指）+ 世界展开（主角引擎/角色储备池/世界圣经）。一个skill完成从创意到可操作设定全链路。",
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-emergent-seed", "做种子", "定soul"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

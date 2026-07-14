@@ -1,8 +1,8 @@
 {
   "id": "pop-emergent",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "displayName": "涌现式小说专家",
-  "description": "当用户说'新建涌现项目/项目跑偏/审计涌现规范/涌现式骨架'时启用。初始化或修复涌现式写作项目骨架，审计 skill scope/版本/current-state/soul/review 闭环，给出一次性路由建议。",
+  "description": "当用户说'新建涌现项目/项目跑偏/审计涌现规范/涌现式骨架'时启用。初始化或修复涌现式写作项目骨架，审计 skill scope/版本/current-state/soul/review/DNA执行包闭环，给出一次性路由建议。番茄小说创作 skill 群覆盖替换 pop-emergent 系列，骨架扩展为 7 skill。",
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-emergent", "新建涌现项目", "审计涌现规范"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

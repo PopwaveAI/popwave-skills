@@ -18,6 +18,7 @@ emergent 只补骨架与元数据，不填写正文内容。
 - 可用燃料队列
 - 伏笔债务
 - 下一章硬推进
+- 本章DNA执行包（未启用时填"未启用"）
 - 禁止漂移
 
 ### soul.md 空壳
@@ -32,6 +33,7 @@ emergent 只补骨架与元数据，不填写正文内容。
 - 句子气口和段落呼吸
 - 对白方式
 - 信息释放
+- 文风DNA融合策略（未启用时填"未启用"）
 - 禁区
 
 soul 不记录可变事实、具体剧情节点、人物当前状态、数值、招式名、系统规则。
@@ -48,6 +50,8 @@ soul 不记录可变事实、具体剧情节点、人物当前状态、数值、
 | 缺现实/题材/机制燃料 | `pop-emergent-research` |
 | 缺 current-state 或 current-state 过期 | `pop-emergent-review` 初始化或修复 |
 | 缺 soul 或 soul 空泛 | `pop-emergent-review` 提出 soul 修复，用户确认后更新 |
+| 启用文风DNA但缺执行包 | `pop-emergent-review` 把下一章DNA执行包压入 current-state |
+| 缺章内文风DNA源 | `pop-shared-dna` 从参考小说产出章内DNA |
 | 入口文件齐全且要写正文 | `pop-emergent-write` |
 | 写完一章 | `pop-emergent-review` 更新 current-state |
 

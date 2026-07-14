@@ -8,7 +8,7 @@
 ```text
 涌现/
   current-state.md          # 入口层：下一章写作唯一入口包（full-required）
-  soul.md                   # 入口层：主卖点+叙事魂+正文气口（full-required）
+  soul.md                   # 入口层：主卖点+叙事魂+正文气口；可含DNA长期融合策略（full-required）
   seed-种子文档.md          # 库层：长期承诺和故事宪法
   research-写作燃料.md      # 库层：燃料池（唯一名称，禁用"燃料库.md"）
   content-mechanics.md      # 库层：题材机制和参考机制分流
@@ -20,6 +20,9 @@
     current-state-{YYYYMMDD}-{章位}.md
   正文/                     # 产出层：章节正文
     {书名}-第{N}章-{标题}.txt
+写作资产/
+  文风库/                   # 章内文风DNA源，由 pop-shared-dna 产出
+    {作品}.md
 ```
 
 ## 空壳文件元数据块模板
@@ -40,6 +43,9 @@ last_updated: YYYY-MM-DD
 # Current State
 
 （正文待 review 填充）
+
+## 本章DNA执行包
+未启用
 ```
 
 ### soul.md
@@ -58,6 +64,9 @@ last_updated: YYYY-MM-DD
 # Soul
 
 （正文待 seed 填充）
+
+## 文风DNA融合策略
+未启用
 ```
 
 ### seed-种子文档.md
