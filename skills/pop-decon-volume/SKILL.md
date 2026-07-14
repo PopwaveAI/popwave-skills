@@ -1,11 +1,11 @@
----
+﻿---
 name: pop-decon-volume
-description: "当用户说'聚类/卷幕/cluster'时启用。从设计包提取L2单元卡+卷纲（含溯源燃料台），产出供下游setting/prd消费。"
+description: "当用户说'聚类/卷幕/cluster'时启用。从设计包提取L2单元卡+卷纲（含溯源燃料台+叙事技法分析），产出供下游setting/prd消费。"
 ---
 
 # pop-decon-volume · 叙事结构提取
 
-> Phase 2 of 拆书管线。从设计包提取L2剧情单元卡+卷纲（含溯源燃料台），不直接产出文件。
+> Phase 2 of 拆书管线。从设计包提取L2剧情单元卡+卷纲（含溯源燃料台+叙事技法分析），不直接产出文件。
 
 ## ❌ 质量红线
 
