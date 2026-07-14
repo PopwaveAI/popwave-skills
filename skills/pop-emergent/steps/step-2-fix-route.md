@@ -46,7 +46,7 @@ soul 不记录可变事实、具体剧情节点、人物当前状态、数值、
 
 | 情况 | 下一步 |
 | --- | --- |
-| 没有 seed 或主卖点不清 | `pop-emergent-seed` |
+| 没有 seed 或主卖点不清 | `qidian-seed` |
 | 缺现实/题材/机制燃料 | `pop-emergent-research` |
 | 缺 current-state 或 current-state 过期 | `pop-emergent-review` 初始化或修复 |
 | 缺 soul 或 soul 空泛 | `pop-emergent-review` 提出 soul 修复，用户确认后更新 |

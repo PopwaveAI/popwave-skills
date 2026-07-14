@@ -70,7 +70,7 @@ soul 不记录主卖点、元爽点、读者追读承诺、主角主动方式、
 回复采用 PRD §4.7 统一格式。示例：
 
 ```markdown
-本次采用 skill：pop-emergent-seed
+本次采用 skill：qidian-seed
 execution.mode：{formal|draft|trial}
 
 {主卖点结论一句话}；soul.md 首版已落盘（6 项必填字段齐全）。
