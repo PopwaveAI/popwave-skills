@@ -1,13 +1,13 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "displayName": "番茄 Plot",
-  "description": "番茄故事推导引擎。全局危机阶梯→燃料注入→四象限散弹枪→用户选定。先有全局结构再逐章生成故事，不是先定标签再编故事。v3.1.0：新增Step 0全局危机阶梯，接管seed移交的100章推导职责",
+  "description": "番茄剧情辅助。按需触发——搜素材、建议下一章。不建结构，不写场景卡，不做四象限，不产出中间文件。v4.0.0：从故事推导引擎大幅简化为按需辅助",
   "tags": [
     "剧情与结构"
   ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-plot", "做场景卡", "推场景"] },
+  "activation": { "slashCommands": ["pop-fanqie-plot", "推场景"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
