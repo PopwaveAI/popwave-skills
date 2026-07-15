@@ -1,13 +1,13 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "displayName": "番茄 Seed",
-  "description": "番茄概念种子构建器。以概念为轴心构建番茄小说项目种子——判断概念是否成立+落盘种子文档。概念驱动故事，不是故事驱动概念。v3.0.0：砍掉100章推导（移交plot），回归极简概念判断",
+  "description": "番茄概念种子构建器。搜梗→融合标签→脑洞成型→三眼法验证。核心能力是搜梗——从全网找正在传播的梗，融合标签形成完整脑洞。v3.1.0：从'概念判断器'升级为'梗搜索引擎'",
   "tags": [
     "创意与研究"
   ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念"] },
+  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜梗"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
