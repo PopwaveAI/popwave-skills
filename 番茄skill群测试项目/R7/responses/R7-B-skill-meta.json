@@ -1,0 +1,18 @@
+{
+  "task": "R7-B-skill",
+  "content_length": 2416,
+  "usage": {
+    "prompt_tokens": 3547,
+    "completion_tokens": 2299,
+    "total_tokens": 5846,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 796
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3547
+  },
+  "elapsed": 33.1
+}
