@@ -1,0 +1,18 @@
+{
+  "task": "R8-D-noskill",
+  "content_length": 1601,
+  "usage": {
+    "prompt_tokens": 628,
+    "completion_tokens": 1249,
+    "total_tokens": 1877,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 224
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 628
+  },
+  "elapsed": 19.3
+}
