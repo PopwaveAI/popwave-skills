@@ -1,0 +1,18 @@
+{
+  "task": "R9-6-free",
+  "content_length": 2956,
+  "usage": {
+    "prompt_tokens": 27,
+    "completion_tokens": 2161,
+    "total_tokens": 2188,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 240
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 27
+  },
+  "elapsed": 41.1
+}
