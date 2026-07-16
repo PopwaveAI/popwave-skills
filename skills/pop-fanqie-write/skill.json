@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "displayName": "番茄 Write",
-  "description": "番茄正文渲染。燃料驱动+心法引导+人机共创。v6.0.0：新增Step 4交付面板(伏笔清单+剧情方向选择)、落盘路径改为2-正文/文件夹结构",
+  "description": "番茄正文渲染。燃料驱动+心法引导+人机共创。v6.1.0：心法改为通用底座+题材分支(系统流/情感流/玄幻流)，解决单一心法对不同题材爽感来源覆盖不足的问题",
   "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },
