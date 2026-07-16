@@ -18,7 +18,9 @@ python3 /d/popwave-skills/skills/tool-download-webnovel/scripts/download_novel.p
   --output-dir /d/popwave-skills/downloads
 ```
 
-脚本自动完成：搜索已知源 → 测单章确定选择器 → 10 线程并发爬取 → 付费墙检测 → 输出 JSON 结果。
+脚本自动完成：搜索已知源 → **作者验证** → 测单章确定选择器 → 10 线程并发爬取 → 付费墙检测 → **内容校验** → 输出 JSON 结果。
+
+> **作者验证（v6.1.0 新增）：** 提供 `--author` 时，脚本会对每个搜索候选结果抓取页面并验证作者名是否出现。不匹配的候选自动跳过，避免下错书。
 
 ### 批量下载（从 JSON 书单）
 
@@ -42,7 +44,7 @@ python3 .../download_novel.py "书名" --source-url "https://example.com/book.tx
 
 | 参数 | 默认 | 说明 |
 |:-----|:-----|:-----|
-| `--author NAME` | None | 作者名（用于输出文件名 + 匹配验证） |
+| `--author NAME` | None | 作者名（用于输出文件名 + **搜索结果作者验证**） |
 | `--output-subdir DIR` | None | 输出子目录（如 `番茄top20`） |
 | `--workers N` | 10 | 并发线程数（无反爬站推荐 16） |
 | `--resume` | off | 断点续爬，跳过已下载章节 |
@@ -57,6 +59,8 @@ python3 .../download_novel.py "书名" --source-url "https://example.com/book.tx
 脚本内置源的搜索功能可能失效（站点改版/下线）。此时 agent 用 popwave-search 搜索 `{书名} txt 下载` / `{书名} 笔趣阁`，找到章节列表页 URL 后用 `--source-url` 传入。脚本会自动按域名匹配已知选择器配置。
 
 > **付费墙正版网站默认排除：** 起点(qidian.com)、晋江(jjwxc.net)、纵横(zongheng.com)、17K(17k.com)、番茄(fanqienovel.com)、七猫(qimao.com)、飞卢(faloo.com) 等正版站点需登录/付费才能读全章，爬取只会得到截断内容。搜索时**禁止**选这些站作为来源；`--source-url` 传入这些域名会被脚本自动拒绝。确需爬免费试读章节时加 `--include-paywall`。
+
+> **作者作品集页面自动检测（v6.1.0 新增）：** 部分站的搜索结果会返回作者作品集页面（如"XX作品集"），而非具体书籍的章节列表。脚本会自动检测此类页面（检查"作品集"标记或多个"TXT下载"链接）并拒绝，避免把作品集里的其他书当章节爬取。
 
 ---
 
@@ -92,6 +96,8 @@ python3 .../download_novel.py "书名" --source-url "https://example.com/book.tx
 
 status=error 时读 `reason` 和 `suggestion`。
 
+> **内容校验告警（v6.1.0 新增）：** 下载完成后，脚本会检查文件前 2000 字中是否包含用户指定的书名和作者名。如果不匹配，JSON 的 `warnings` 字段会输出 `"内容校验: 文件中未找到作者 'XX'，可能下错了书"`。agent 看到 this warning 时应删除文件重新搜索。
+
 ---
 
 ## 异常处理
@@ -99,6 +105,9 @@ status=error 时读 `reason` 和 `suggestion`。
 | 情况 | 动作 |
 |:-----|:-----|
 | 脚本自动搜索全部失败 | agent 用 popwave-search 找 URL，`--source-url` 传入 |
+| 作者验证未通过 | 换源或换书名（原名/别名）重试 |
+| 作者作品集页面被拒绝 | 搜索具体书籍页 URL，而非作者页 |
+| 内容校验告警 | 删除文件，换源/换书名重下 |
 | Cloudflare Turnstile 验证 | 无法绕过，换源 |
 | CDN 直链 522/403 | **禁止重试**，换章节站爬取 |
 | 反爬触发（429/503） | `--workers 1 --delay 2.5` 降速重试；80ge.info 批量下载间隔 ≥3s |
@@ -116,7 +125,7 @@ status=error 时读 `reason` 和 `suggestion`。
 
 | 文件 | 用途 |
 |:-----|:-----|
-| `scripts/download_novel.py` | **统一入口**：搜索→爬取→验证→交付。支持 `--direct` 直链模式、`--author`/`--output-subdir` 参数、80ge.info 反盗链 |
+| `scripts/download_novel.py` | **统一入口**：搜索→作者验证→爬取→验证→内容校验→交付。支持 `--direct` 直链模式、`--author`/`--output-subdir` 参数、80ge.info 反盗链、作者作品集页检测 |
 | `scripts/batch_download.py` | **批量下载**：从 JSON 书单批量下载，支持 `--resume`/`--retry-failed`/`--platform-filter` |
 | `scripts/crawl_novel.py` | 逐章爬取（保留兼容） |
 | `scripts/download_text.py` | 直链下载/本地导入（保留兼容） |
@@ -125,9 +134,7 @@ status=error 时读 `reason` 和 `suggestion`。
 
 ## 版本
 
-v6.0.0 | 2026-07-13 | 新增 80ge.info 为首要源（UTF-8 搜索 + 反盗链直链下载）；新增 `--author`/`--output-subdir`/`--direct` 参数；新增 `batch_download.py` 批量下载脚本；搜索匹配改为严格模式（完整标题或≥4字符前缀匹配，替代旧的2字符宽松匹配）；`make_session()` 添加 `trust_env=False` 绕过系统代理；`direct_download()` 重写为反盗链模式（先访问书籍页面获取 cookie → 提取真实 URL → 3 次重试）；`batch_download.py` 修复多行 JSON 解析
+v6.1.0 | 2026-07-16 | 新增三层防下错书机制：①作者验证（`--author` 提供时抓取候选页面验证作者名，不匹配自动跳过）；②作者作品集页面检测（检测"作品集"标记/多个"TXT下载"链接，自动拒绝非章节列表页）；③内容校验（下载后检查文件前2000字是否包含书名/作者名，不匹配输出告警）。搜索结果改为返回候选列表（按匹配度排序），支持逐个验证
+v6.0.0 | 2026-07-13 | 新增 80ge.info 为首要源（UTF-8 搜索 + 反盗链直链下载）；新增 `--author`/`--output-subdir`/`--direct` 参数；新增 `batch_download.py` 批量下载脚本；搜索匹配改为严格模式；`make_session()` 添加 `trust_env=False` 绕过系统代理；`direct_download()` 重写为反盗链模式
 v5.1.0 | 2026-07-08 | 新增付费墙正版网站默认排除（起点/晋江/纵横等19个域名），搜索结果自动过滤付费墙链接，`--source-url` 传入付费墙域名时拒绝并提示换源，新增 `--include-paywall` 参数可强制覆盖
-v5.0.0 | 2026-07-06 | 重构：统一入口 download_novel.py 吃下全链路（搜索+测源+并发爬取+付费墙检测+交付），删除 step-1/2/3 + sources.md，SKILL.md 从 230 行砍至极简
-v4.6.0 | 2026-07-06 | crawl_novel.py 新增 ThreadPoolExecutor 并发 + 断点续爬
-v4.5.0 | 2026-06-30 | 修复 crawl_novel.py br 压码致静默失败
-v4.4.0 | 2026-06-24 | Step 3 新增付费墙检测
+v5.0.0 | 2026-07-06 | 重构：统一入口 download_novel.py 吃下全链路，删除 step-1/2/3 + sources.md

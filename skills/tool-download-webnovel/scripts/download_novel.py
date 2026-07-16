@@ -109,6 +109,12 @@ NAV_URL_PATTERNS = (
     "/register", "/sitemap", "/feedback", "/about", "/help",
 )
 
+# ── Author index page markers — detect author works page vs book chapter list ──
+# When a search returns an author's works index page (作品集) instead of a
+# specific book page, the script used to treat book entries as chapter links
+# and crawl the wrong book. These markers help detect and reject such pages.
+AUTHOR_INDEX_MARKERS = ["作品集", "的文章列表", "全部小说", "全部作品"]
+
 # ── Known source configurations (replaces sources.md + step-1-search.md) ──
 # Each source: auto-search → find book → test chapter → crawl.
 # Priority order: most reliable first.
@@ -264,20 +270,51 @@ def safe_filename(title: str) -> str:
 # Phase 1: Source Discovery (replaces step-1-search.md)
 # ═══════════════════════════════════════════════════════════════════════════
 
-def parse_search_results(html: str, base_url: str, title: str, book_pattern: str) -> str | None:
-    """Find a book page URL from search results page. Skips paywalled sites."""
-    soup = BeautifulSoup(html, "lxml")
-    title_lower = title.lower()
-    pattern_re = re.compile(book_pattern) if book_pattern else None
+def is_author_index_page(html: str) -> bool:
+    """Detect if a page is an author's works index page rather than a book chapter list.
 
-    # Strategy 1: find links whose text contains the title (strict: full title substring match only)
-    # NOTE: Previous version had a ≥4 char prefix match that caused wrong-book downloads
-    # (e.g. "海贼王之黑暗大将" matched "海贼王之黑暗召唤师" via shared prefix "海贼王之").
-    # Removed prefix match — title must appear in result text (or vice versa) as a full substring.
+    Author index pages list multiple books by one author, each with "TXT下载"
+    links. If we treat these as chapter links, we crawl the wrong book.
+
+    Detection signals:
+    - Page contains "作品集" / "的文章列表" / "全部小说" / "全部作品"
+    - Multiple "TXT下载" links (real chapter lists never have these)
+    """
+    # Check for author index markers in the first 3000 chars
+    head = html[:3000]
+    for marker in AUTHOR_INDEX_MARKERS:
+        if marker in head:
+            return True
+    # Check for multiple "TXT下载" links (strong signal of author page)
+    txt_download_count = html.count("TXT下载") + html.count("txt下载")
+    if txt_download_count >= 2:
+        return True
+    return False
+
+
+def verify_author_on_page(html: str, author: str) -> bool:
+    """Check if the author name appears in the page content.
+
+    Used to verify that a search result actually matches the requested author.
+    Checks the first 5000 chars of the page for the author name.
+    """
+    if not author:
+        return True  # No author specified, skip verification
+    author_clean = author.strip()
+    # Check in page content (case-insensitive for Latin, exact for CJK)
+    head = html[:5000]
+    return author_clean in head
+
+
+def parse_search_results(html: str, base_url: str, title: str, book_pattern: str) -> list[str]:
+    """Find book page URLs from search results page. Skips paywalled sites.
+
+    Returns a list of candidate URLs (best match first), not just the first match.
+    This allows author verification to try the next candidate if the first fails.
+    """
+    soup = BeautifulSoup(html, "lxml")
     title_clean = re.sub(r"[?？：:！!]", "", title).strip().lower()
-    best_match = None
-    best_score = 0
-    best_text = ""
+    candidates: list[tuple[int, str, str]] = []  # (score, url, text)
 
     for a in soup.find_all("a", href=True):
         text = a.get_text(strip=True)
@@ -287,24 +324,34 @@ def parse_search_results(html: str, base_url: str, title: str, book_pattern: str
         if len(text) > 80:
             continue
         text_clean = re.sub(r"[?？：:！!]", "", text).strip().lower()
-        if is_paywall_site(urllib.parse.urljoin(base_url, href)):
+        full_url = urllib.parse.urljoin(base_url, href)
+        if is_paywall_site(full_url):
             continue
-        if not pattern_re or pattern_re.search(urllib.parse.urljoin(base_url, href)):
-            full_url = urllib.parse.urljoin(base_url, href)
-            # Full substring match: title in result text, or result text in title
-            if title_clean and (title_clean in text_clean or text_clean in title_clean):
-                score = len(text_clean)  # Prefer longer (more specific) matches
-                if score > best_score:
-                    best_score = score
-                    best_match = full_url
-                    best_text = text
+        pattern_re = re.compile(book_pattern) if book_pattern else None
+        if pattern_re and not pattern_re.search(full_url):
+            continue
+        # Full substring match: title in result text, or result text in title
+        if title_clean and (title_clean in text_clean or text_clean in title_clean):
+            score = len(text_clean)  # Prefer longer (more specific) matches
+            candidates.append((score, full_url, text))
 
-    if best_match:
-        print(f"INFO: 搜索匹配: '{best_text}'", file=sys.stderr)
-        return best_match
+    # Sort by score descending (most specific match first)
+    candidates.sort(key=lambda x: -x[0])
 
-    # Strategy 2: find any link matching the book URL pattern (loose fallback)
-    if pattern_re:
+    # Deduplicate URLs while preserving order
+    seen = set()
+    result = []
+    for _, url, text in candidates:
+        if url not in seen:
+            seen.add(url)
+            result.append(url)
+
+    if result:
+        print(f"INFO: 搜索匹配到 {len(result)} 个候选结果", file=sys.stderr)
+
+    # Fallback: find any link matching the book URL pattern (loose fallback)
+    if not result and book_pattern:
+        pattern_re = re.compile(book_pattern)
         for a in soup.find_all("a", href=True):
             href = a.get("href", "").strip()
             if not href or href.startswith(("javascript:", "#")):
@@ -313,13 +360,21 @@ def parse_search_results(html: str, base_url: str, title: str, book_pattern: str
             if is_paywall_site(full_url):
                 continue
             if pattern_re.search(full_url):
-                return full_url
+                result.append(full_url)
 
-    return None
+    return result
 
 
-def try_source(session: requests.Session, source: SourceConfig, title: str, timeout: int) -> tuple[str, SourceConfig] | None:
-    """Try one source: search → find book URL. Returns (book_url, source) or None."""
+def try_source(
+    session: requests.Session, source: SourceConfig, title: str, timeout: int,
+    author: str | None = None,
+) -> tuple[str, SourceConfig] | None:
+    """Try one source: search → find book URL → verify author (if provided).
+
+    Returns (book_url, source) or None.
+    When author is provided, fetches each candidate page and verifies the
+    author name appears on it. Skips candidates that don't match.
+    """
     if not source.search_url:
         print(f"INFO: [{source.name}] 搜索不可用，跳过（用 --source-url 手动传入）", file=sys.stderr)
         return None
@@ -329,23 +384,50 @@ def try_source(session: requests.Session, source: SourceConfig, title: str, time
     if not html:
         return None
 
-    book_url = parse_search_results(html, search_url, title, source.book_url_pattern)
-    if not book_url:
+    candidate_urls = parse_search_results(html, search_url, title, source.book_url_pattern)
+    if not candidate_urls:
         print(f"INFO: [{source.name}] 搜索结果中未找到《{title}》", file=sys.stderr)
         return None
 
-    # Convert to PC version if needed
-    if source.needs_pc:
-        book_url = re.sub(r"https?://(m\.|wap\.)", "https://www.", book_url)
+    # If author is provided, verify each candidate
+    for i, book_url in enumerate(candidate_urls):
+        # Convert to PC version if needed
+        if source.needs_pc:
+            book_url = re.sub(r"https?://(m\.|wap\.)", "https://www.", book_url)
 
-    print(f"INFO: [{source.name}] 找到: {book_url}", file=sys.stderr)
-    return (book_url, source)
+        if author:
+            print(f"INFO: [{source.name}] 验证候选 {i+1}/{len(candidate_urls)}: {book_url}", file=sys.stderr)
+            page_html = fetch_page(session, book_url, timeout)
+            if not page_html:
+                continue
+            if is_author_index_page(page_html):
+                print(f"WARN: [{source.name}] 候选 {i+1} 是作者作品集页面，跳过", file=sys.stderr)
+                continue
+            if not verify_author_on_page(page_html, author):
+                print(f"WARN: [{source.name}] 候选 {i+1} 页面未找到作者 '{author}'，跳过", file=sys.stderr)
+                continue
+            print(f"INFO: [{source.name}] 作者验证通过: {book_url}", file=sys.stderr)
+            return (book_url, source)
+        else:
+            # No author to verify, but still check for author index page
+            page_html = fetch_page(session, book_url, timeout)
+            if page_html and is_author_index_page(page_html):
+                print(f"WARN: [{source.name}] 候选 {i+1} 是作者作品集页面，跳过", file=sys.stderr)
+                continue
+            print(f"INFO: [{source.name}] 找到: {book_url}", file=sys.stderr)
+            return (book_url, source)
+
+    print(f"INFO: [{source.name}] 所有候选结果均未通过验证", file=sys.stderr)
+    return None
 
 
-def discover_source(session: requests.Session, title: str, timeout: int) -> tuple[str, SourceConfig] | None:
-    """Try all known sources in priority order."""
+def discover_source(
+    session: requests.Session, title: str, timeout: int,
+    author: str | None = None,
+) -> tuple[str, SourceConfig] | None:
+    """Try all known sources in priority order. Passes author for verification."""
     for source in SOURCES:
-        result = try_source(session, source, title, timeout)
+        result = try_source(session, source, title, timeout, author)
         if result:
             return result
     return None
@@ -723,6 +805,30 @@ def verify_output(file_path: Path, min_bytes: int = 102400) -> dict:
     return result
 
 
+def validate_content_match(file_path: Path, expected_title: str, expected_author: str | None) -> list[str]:
+    """Check if downloaded content matches the expected title and author.
+
+    Reads the first 2000 chars of the file and checks for title/author presence.
+    Returns a list of warning messages (empty if all good).
+    """
+    warnings = []
+    try:
+        text = file_path.read_text(encoding="utf-8")[:2000]
+    except Exception:
+        return warnings
+
+    if expected_title:
+        title_clean = re.sub(r"[?？：:！!]", "", expected_title).strip()
+        if title_clean and title_clean not in text:
+            warnings.append(f"内容校验: 文件中未找到书名 '{expected_title}'，可能下错了书")
+
+    if expected_author:
+        if expected_author not in text:
+            warnings.append(f"内容校验: 文件中未找到作者 '{expected_author}'，可能下错了书")
+
+    return warnings
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 # Phase 5: Assembly & Delivery
 # ═══════════════════════════════════════════════════════════════════════════
@@ -850,7 +956,7 @@ def parse_args() -> argparse.Namespace:
         description="Unified webnovel downloader: search → test → crawl → verify → deliver."
     )
     parser.add_argument("title", help="Book title to search and download.")
-    parser.add_argument("--author", default=None, help="Author name (for output filename).")
+    parser.add_argument("--author", default=None, help="Author name (for output filename + search verification).")
     parser.add_argument("--output-dir", default=r"D:\popwave-skills\downloads", help="Output directory.")
     parser.add_argument("--output-subdir", default=None, help="Subdirectory under output-dir (e.g. 番茄top20).")
     parser.add_argument("--workers", type=int, default=10, help="Concurrent threads (default 10).")
@@ -904,6 +1010,9 @@ def main() -> int:
             return 1
         verify = verify_output(output_path)
         preview = re.sub(r"\s+", " ", output_path.read_text(encoding="utf-8")[:120]).strip()
+        # Content validation for direct downloads too
+        content_warnings = validate_content_match(output_path, args.title, args.author)
+        verify["warnings"].extend(content_warnings)
         _print_result(output_path, preview, 0, 0, 0, args.workers, args.source_url, "direct", verify, start_time)
         return 0
 
@@ -930,13 +1039,16 @@ def main() -> int:
     else:
         # ── Mode 3: Auto-discover source ──
         print(f"INFO: 自动搜索《{args.title}》…", file=sys.stderr)
-        discovered = discover_source(session, args.title, args.timeout)
+        discovered = discover_source(session, args.title, args.timeout, args.author)
         if not discovered:
             print(f"ERROR: 所有已知源均未找到《{args.title}》", file=sys.stderr)
+            suggestion = "请用 popwave-search 搜索其他来源，然后用 --source-url 传入"
+            if args.author:
+                suggestion += f"。已提供作者 '{args.author}' 但所有源的搜索结果均未通过作者验证"
             print(json.dumps({
                 "status": "error",
-                "reason": "所有已知源均未找到此书",
-                "suggestion": "请用 popwave-search 搜索其他来源，然后用 --source-url 传入",
+                "reason": "所有已知源均未找到此书" + (f"（作者验证未通过: {args.author}）" if args.author else ""),
+                "suggestion": suggestion,
             }, ensure_ascii=False))
             return 1
         list_url, source = discovered
@@ -947,6 +1059,17 @@ def main() -> int:
     list_html = fetch_page(session, list_url, args.timeout)
     if not list_html:
         print(json.dumps({"status": "error", "reason": f"无法获取章节列表页: {list_url}"}, ensure_ascii=False))
+        return 1
+
+    # ── Author index page detection ──
+    if is_author_index_page(list_html):
+        msg = f"页面是作者作品集页面，非书籍章节列表: {list_url}"
+        print(f"ERROR: {msg}", file=sys.stderr)
+        print(json.dumps({
+            "status": "error",
+            "reason": msg,
+            "suggestion": "请搜索具体的书籍章节页 URL，而非作者作品集页面",
+        }, ensure_ascii=False))
         return 1
 
     # ── Extract chapter links ──
@@ -995,6 +1118,10 @@ def main() -> int:
 
     # ── Verify ──
     verify = verify_output(output_path)
+
+    # ── Content validation: check if downloaded content matches expected title/author ──
+    content_warnings = validate_content_match(output_path, args.title, args.author)
+    verify["warnings"].extend(content_warnings)
 
     # ── Print structured result ──
     _print_result(output_path, preview, crawled, failed, skipped, args.workers, list_url, source_name, verify, start_time)
