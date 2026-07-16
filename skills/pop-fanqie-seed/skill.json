@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "displayName": "番茄 Seed",
-  "description": "番茄立项引擎。标签精准搜索→创意融合→完整立项包→世界自洽验证。v10.0.0：金手指限制取代价(男频铁律)+1e推导SOP(每个产出有逻辑)+标签三层搜索+世界自洽四问检查+金手指代价检查+换元法创意发散",
+  "description": "番茄立项引擎。标签精准搜索→创意融合→完整立项包→世界自洽验证。v10.1.0：SKILL.md瘦身拆分4个step文件，新增reference/design-guide.md推导方法参考",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
