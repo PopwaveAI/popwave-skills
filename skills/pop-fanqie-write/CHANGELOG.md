@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## v6.3.0 (2026-07-16)
+
+### 修复：每章全文加载创意.md+骨架.md
+
+**根因**：项目C诊断发现，v6.2.0的step1.md规定"后续章节只读current-state.md，不重新提取立项包全文"。导致从ch002开始，agent看不到金手指详细限制、主角设定卡、世界观规则、骨架幕序列——只凭39行摘要写正文。DNA约束、设计意图、章型7节拍骨架全部丢失，写文质量严重下滑。
+
+**改动**：
+- step1.md 1a：从"后续章节只读current-state.md"改为"每章全文加载创意.md+骨架.md+current-state.md"
+- step1.md 1a：新增DNA约束加载——如果项目空间存在`0-立项/参考DNA约束.md`，一并全文加载
+- step1.md 1a：新增禁止条款——禁止用current-state.md替代立项包
+- step1.md 1d：新增章型确认——从骨架.md幕序列确认当前章型，按7节拍骨架组织结构
+- SKILL.md：SOP骨架表Step 1更新为"全文加载创意.md+骨架.md+current-state.md"
+- SKILL.md：红线新增第1条"每章必须全文加载创意.md+骨架.md+current-state.md——禁止用current-state.md替代立项包"
+- SKILL.md：红线从7条增至8条
+
+## v6.2.0 (2026-07-16)
+
+### 上下文瘦身
+
+- technique.md降为卡壳时翻阅不在写作前加载
+- 后续章节读current-state不重提取立项包
+- 心法只加载对应分支
+- step2极简化(6条约束+写)
+- technique.md去除与step1重复内容
+
 ## v5.3.0 (2026-07-16)
 
 ### SKILL.md瘦身+拆分step文件

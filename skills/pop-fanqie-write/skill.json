@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "displayName": "番茄 Write",
-  "description": "番茄正文渲染。心法引导+状态驱动+人机共创。v6.2.0：上下文瘦身——technique.md降为卡壳时翻阅不在写作前加载、后续章节读current-state不重提取立项包、心法只加载对应分支、step2极简化(6条约束+写)、technique.md去除与step1重复内容",
+  "description": "番茄正文渲染。心法引导+状态驱动+人机共创。v6.3.0：每章全文加载创意.md+骨架.md+current-state.md，修复后续章节设计约束丢失问题",
   "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },
