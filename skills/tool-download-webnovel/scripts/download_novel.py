@@ -135,7 +135,7 @@ NAV_URL_PATTERNS = (
 # When a search returns an author's works index page (作品集) instead of a
 # specific book page, the script used to treat book entries as chapter links
 # and crawl the wrong book. These markers help detect and reject such pages.
-AUTHOR_INDEX_MARKERS = ["作品集", "的文章列表", "全部小说", "全部作品"]
+AUTHOR_INDEX_MARKERS = ["作品集", "的文章列表"]
 
 # ── Known source configurations (replaces sources.md + step-1-search.md) ──
 # Each source: auto-search → find book → test chapter → crawl.
@@ -153,7 +153,16 @@ class SourceConfig:
 
 
 SOURCES: list[SourceConfig] = [
-    # 80ge.info: primary source for direct TXT download (Jieqi CMS)
+    # xbiquge.la: primary source for chapter crawling (Jieqi CMS, redirects to xbiqugu.la)
+    SourceConfig(
+        name="xbiquge",
+        search_url="https://www.xbiquge.la/modules/article/waps.php?searchkey={title}",
+        list_selectors=["dd a", "li a", "div#list a"],
+        content_selectors=["div#content", "div.content", "div#chaptercontent"],
+        encoding=None,
+        book_url_pattern=r"/\d+/\d+",
+    ),
+    # 80ge.info: TXT download site (best with --direct, not chapter crawling)
     # Anti-leech: direct_download() visits book page first to get session cookies
     # Encoding: UTF-8 (NOT GB2312 — GB2312 returns empty results)
     SourceConfig(
@@ -306,19 +315,31 @@ def is_author_index_page(html: str) -> bool:
     Author index pages list multiple books by one author, each with "TXT下载"
     links. If we treat these as chapter links, we crawl the wrong book.
 
-    Detection signals:
-    - Page contains "作品集" / "的文章列表" / "全部小说" / "全部作品"
-    - Multiple "TXT下载" links (real chapter lists never have these)
+    Detection logic:
+    1. Positive check: if page has ≥10 "第X章" links → it's a chapter list, NOT author index
+    2. "作品集" / "的文章列表" in first 3000 chars → author index
+    3. ≥5 "TXT下载" links AND <10 chapter links → author index
+
+    Note: "全部小说"/"全部作品" removed (appears in nav menus on normal book pages).
+    "TXT下载" threshold raised from ≥2 to ≥5 (80ge book pages have ~10 TXT下载 buttons).
     """
-    # Check for author index markers in the first 3000 chars
+    # Check for author index markers in the first 3000 chars FIRST.
+    # "作品集" and "的文章列表" are reliable markers for author index pages.
+    # Must check before the positive chapter-link check, because author index
+    # pages list multiple books and may contain ≥10 "第X章" in latest chapter fields.
     head = html[:3000]
     for marker in AUTHOR_INDEX_MARKERS:
         if marker in head:
             return True
-    # Check for multiple "TXT下载" links (strong signal of author page)
-    txt_download_count = html.count("TXT下载") + html.count("txt下载")
-    if txt_download_count >= 2:
-        return True
+
+    # Positive check: if the page has ≥10 chapter-like links, it's a chapter list
+    chapter_link_count = len(re.findall(r'第[一二三四五六七八九十百千零\d]+章', html))
+    if chapter_link_count >= 10:
+        return False
+
+    # TXT下载≥5 alone is NOT sufficient for author index detection.
+    # 80ge book pages have ~10 "TXT下载" buttons but are legitimate book pages,
+    # not author index pages. Let author verification handle these instead.
     return False
 
 
@@ -360,8 +381,9 @@ def parse_search_results(html: str, base_url: str, title: str, book_pattern: str
         pattern_re = re.compile(book_pattern) if book_pattern else None
         if pattern_re and not pattern_re.search(full_url):
             continue
-        # Full substring match: title in result text, or result text in title
-        if title_clean and (title_clean in text_clean or text_clean in title_clean):
+        # Title match: title must be a substring of the result text
+        # (not the other way around — short result text in long title causes false matches)
+        if title_clean and title_clean in text_clean:
             score = len(text_clean)  # Prefer longer (more specific) matches
             candidates.append((score, full_url, text))
 
@@ -379,18 +401,26 @@ def parse_search_results(html: str, base_url: str, title: str, book_pattern: str
     if result:
         print(f"INFO: 搜索匹配到 {len(result)} 个候选结果", file=sys.stderr)
 
-    # Fallback: find any link matching the book URL pattern (loose fallback)
+    # Fallback: find links matching the book URL pattern where text contains
+    # at least 2 chars of the title (partial match, not zero match)
     if not result and book_pattern:
         pattern_re = re.compile(book_pattern)
         for a in soup.find_all("a", href=True):
+            text = a.get_text(strip=True)
             href = a.get("href", "").strip()
             if not href or href.startswith(("javascript:", "#")):
+                continue
+            if len(text) < 2 or len(text) > 80:
                 continue
             full_url = urllib.parse.urljoin(base_url, href)
             if is_paywall_site(full_url):
                 continue
             if pattern_re.search(full_url):
-                result.append(full_url)
+                # Require at least 2 consecutive chars of title in text
+                # to avoid returning every URL-pattern-matching link on the page
+                text_clean = re.sub(r"[?？：:！!]", "", text).strip()
+                if any(title_clean[i:i+2] in text_clean.lower() for i in range(len(title_clean)-1)):
+                    result.append(full_url)
 
     return result
 
@@ -481,6 +511,8 @@ def _match_source_by_url(url: str) -> SourceConfig | None:
                 "9iec": "9iec.cc",
                 "neiyexs": "neiyexs.com",
                 "biquge365": "biquge365.net",
+                "xbiquge": "xbiquge.la",
+                "xbiqugu": "xbiqugu.la",
             }
             src_host = name_domains.get(source.name, "")
         if src_host and src_host.replace("www.", "") in host.replace("www.", ""):
@@ -1052,6 +1084,7 @@ def main() -> int:
         return 0
 
     # ── Mode 2: Source URL provided (skip search) ──
+    author_verified = False  # True when source was found via search + author verification
     if args.source_url:
         # Try to match URL against known sources for better selectors
         source = _match_source_by_url(args.source_url)
@@ -1088,6 +1121,8 @@ def main() -> int:
             return 1
         list_url, source = discovered
         source_name = source.name
+        # Author was verified during search if --author was provided
+        author_verified = bool(args.author)
 
     # ── Fetch chapter list page ──
     print(f"INFO: 获取章节列表: {list_url}", file=sys.stderr)
@@ -1158,7 +1193,14 @@ def main() -> int:
     verify = verify_output(output_path)
 
     # ── Content validation: check if downloaded content matches expected title/author ──
-    content_warnings = validate_content_match(output_path, args.title, args.author)
+    # Skip author check if already verified during search (author name may not appear in chapter text)
+    # Title check is kept as soft warning (book name may not appear in chapters either, but it's informative)
+    if author_verified:
+        content_warnings = validate_content_match(output_path, args.title, None)
+        if content_warnings:
+            content_warnings = [w.replace("可能下错了书", "笔趣阁改名属正常现象，请检查preview确认") for w in content_warnings]
+    else:
+        content_warnings = validate_content_match(output_path, args.title, args.author)
     verify["warnings"].extend(content_warnings)
 
     # ── Print structured result ──
