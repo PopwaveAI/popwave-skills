@@ -1,11 +1,9 @@
 {
   "id": "pop-fanqie-write",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "displayName": "番茄 Write",
-  "description": "番茄正文渲染。燃料驱动+心法引导。心法是核心引擎(R17+R18双验证跨题材有效)，外部PE技法降为可选参考。v5.1.0：适配seed v9.0.0立项包格式(主角设定卡+世界观骨架)，外部PE技法从硬性规则降为卡壳时翻阅的reference参考",
-  "tags": [
-    "正文写作"
-  ],
+  "description": "番茄正文渲染。燃料驱动+心法引导。v5.2.0：适配seed v10.0.0金手指格式(功能/触发条件/限制边界/进化方向)+世界观自洽四问",
+  "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

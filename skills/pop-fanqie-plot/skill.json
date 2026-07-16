@@ -1,11 +1,9 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "displayName": "番茄 Plot",
-  "description": "番茄长篇骨架设计器。消费seed立项包，产出第一卷执行骨架——配角设计+幕序列(含黄金三章)+悬念分层(核心/场景/段落)+高潮三段式(低谷→高潮→变化)+分层反派。v7.0.0：适配seed v9.0.0立项包格式，主角从seed继承只设计配角，信息差升级为悬念分层，高潮点升级为三段式",
-  "tags": [
-    "剧情与结构"
-  ],
+  "description": "番茄长篇骨架设计器。消费seed立项包，产出第一卷执行骨架。v7.1.0：适配seed v10.0.0金手指格式(功能/触发条件/限制边界/进化方向)+世界观自洽四问",
+  "tags": ["剧情与结构"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "推骨架", "做骨架"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

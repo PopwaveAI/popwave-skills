@@ -1,11 +1,9 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "displayName": "番茄 Seed",
-  "description": "番茄立项引擎。线上搜索番茄top小说反推追读驱动→创意融合→完整立项包（金手指含衍生性+主角设定卡+世界观骨架+长线线索+番茄简介）。v9.0.0：从创意搜索引擎升级为立项引擎，吸收方法论PRD立项环节，搜索改线上，新增金手指衍生性检查/主角设定卡/世界观骨架/长线线索",
-  "tags": [
-    "创意与研究"
-  ],
+  "description": "番茄立项引擎。标签精准搜索→创意融合→完整立项包→世界自洽验证。v10.0.0：金手指限制取代价(男频铁律)+1e推导SOP(每个产出有逻辑)+标签三层搜索+世界自洽四问检查+金手指代价检查+换元法创意发散",
+  "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
