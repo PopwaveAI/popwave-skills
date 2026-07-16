@@ -101,7 +101,29 @@ NAV_LABELS = (
     "公告", "敬告读者", "本书相关", "书籍简介",
     "直达页面底部", "阅读历史", "永久书架", "回首页", "设为首页",
     "收藏", "登录", "注册", "退出", "记住了",
+    "返回", "关灯", "护眼", "字号", "章节报错", "存书签",
+    "免登陆", "一秒记住",
 )
+
+# ── Content noise patterns — text snippets to strip from chapter content ──
+# These are navigation/ad elements that CSS selectors sometimes include.
+# Applied after extraction, before saving.
+CONTENT_NOISE_PATTERNS = [
+    re.compile(r'^首页$\s*', re.M),
+    re.compile(r'^返回$\s*', re.M),
+    re.compile(r'^关灯$\s*', re.M),
+    re.compile(r'^护眼：[关开]$\s*', re.M),
+    re.compile(r'^字号：[大小]$\s*', re.M),
+    re.compile(r'^章节报错.*$\s*', re.M),
+    re.compile(r'^上一章$\s*', re.M),
+    re.compile(r'^目录$\s*', re.M),
+    re.compile(r'^存书签$\s*', re.M),
+    re.compile(r'^下一章$\s*', re.M),
+    re.compile(r'^一秒记住.*$\s*', re.M),
+    re.compile(r'^biquge\d+\.net.*$\s*', re.M),
+    re.compile(r'（本章未完，请点击下一页继续阅读）\s*'),
+    re.compile(r'^第.+章.+\(第\d+/\d+页\)\s*$', re.M),  # Page indicator within chapter
+]
 # ── URL fragments that indicate non-chapter links ──
 NAV_URL_PATTERNS = (
     "logout", "login", "/search", "/home", "/sort", "/top", "/rank",
@@ -183,13 +205,21 @@ SOURCES: list[SourceConfig] = [
         encoding=None,
         book_url_pattern=r"/\d+/",
     ),
+    SourceConfig(
+        name="biquge365",
+        search_url="",  # use --source-url with mobile book page URL (m.biquge365.net/shu/{id}/)
+        list_selectors=["li a", "dd a"],
+        content_selectors=["div.txt", "div#content", "div.content", "div#chaptercontent"],
+        encoding=None,
+        book_url_pattern=r"/shu/\d+",
+    ),
 ]
 
 # ── Fallback content selectors (tried in order when site-specific ones fail) ──
 FALLBACK_CONTENT_SELECTORS = [
     "div#content", "div.content", "div#chaptercontent", "div.book_content_text",
     "div#nr1", "div#booktxt", "div.txtnav", "article", "div.read-content",
-    "div.showtxt", "div.novel-content", "div#TextContent",
+    "div.showtxt", "div.novel-content", "div#TextContent", "div.txt",
 ]
 
 FALLBACK_LIST_SELECTORS = [
@@ -450,6 +480,7 @@ def _match_source_by_url(url: str) -> SourceConfig | None:
                 "9iecxs": "9iecxs.com",
                 "9iec": "9iec.cc",
                 "neiyexs": "neiyexs.com",
+                "biquge365": "biquge365.net",
             }
             src_host = name_domains.get(source.name, "")
         if src_host and src_host.replace("www.", "") in host.replace("www.", ""):
@@ -579,6 +610,9 @@ def detect_content_selector(session: requests.Session, links: list[dict], timeou
 # ═══════════════════════════════════════════════════════════════════════════
 
 def _clean_chapter_text(text: str) -> str:
+    # Strip content noise (navigation/ad elements from CSS selector leakage)
+    for pattern in CONTENT_NOISE_PATTERNS:
+        text = pattern.sub('', text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     text = re.sub(r"[ \t]{2,}", " ", text)
     lines = text.split("\n")
@@ -969,6 +1003,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--timeout", type=int, default=30, help="Request timeout in seconds.")
     parser.add_argument("--delay", type=float, default=0, help="Delay between requests (serial mode only).")
     parser.add_argument("--include-paywall", action="store_true", help="Allow crawling paywalled official sites (excluded by default).")
+    parser.add_argument("--reverse", action="store_true", help="Reverse chapter order (some sites list latest first).")
     return parser.parse_args()
 
 
@@ -1084,6 +1119,9 @@ def main() -> int:
 
     if args.limit > 0:
         links = links[:args.limit]
+    if args.reverse:
+        links.reverse()
+        print(f"INFO: 章节顺序已反转（最新章在后）", file=sys.stderr)
     print(f"INFO: 共 {len(links)} 章", file=sys.stderr)
 
     # ── Auto-detect content selector ──
