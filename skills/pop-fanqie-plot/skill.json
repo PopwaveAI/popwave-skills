@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "displayName": "番茄 Plot",
-  "description": "番茄长篇骨架设计器。消费seed立项包，产出第一卷执行骨架。v7.1.0：适配seed v10.0.0金手指格式(功能/触发条件/限制边界/进化方向)+世界观自洽四问",
+  "description": "番茄长篇骨架设计器。消费seed立项包，产出第一卷执行骨架。v7.2.0：SKILL.md瘦身(109→25行)+拆分3个step文件",
   "tags": ["剧情与结构"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "推骨架", "做骨架"] },
