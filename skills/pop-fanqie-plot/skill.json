@@ -1,13 +1,13 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "displayName": "番茄 Plot",
-  "description": "番茄单元剧蓝图设计器。设计可复用模具：单元模板+长线种子+变体池。一次设计，反复使用。v5.0.0：从按需辅助重构为单元剧蓝图设计器",
+  "description": "番茄长篇骨架设计器。从创意.md读取种子，产出骨架.md——全书3段走向+第一卷终点boss+角色人设+幕序列+信息差。给方向不给细节。v6.0.0：从单元剧蓝图重构为长篇骨架",
   "tags": [
     "剧情与结构"
   ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-plot", "推场景"] },
+  "activation": { "slashCommands": ["pop-fanqie-plot", "推骨架", "做骨架"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

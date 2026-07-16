@@ -1,13 +1,13 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "6.1.0",
+  "version": "8.0.0",
   "displayName": "番茄 Seed",
-  "description": "番茄梗搜索引擎。两阶段：Phase 1纯自由发散→用户选→Phase 2结构化打磨（行为引擎+金手指+四眼法+单元剧结构+散文体落盘）。v6.1.0：新增单元剧结构检查",
+  "description": "番茄创意搜索引擎。三阶段：Phase 1真实top20文本反推追读驱动→10创意选3融合1→展开金手指+番茄简介；Phase 2四眼法验证；Phase 3落盘创意.md。v8.0.0：梗→创意命名修正，砍行为引擎/单元剧结构(移交plot)，reference/解耦",
   "tags": [
     "创意与研究"
   ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜梗"] },
+  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
