@@ -1,0 +1,18 @@
+{
+  "task": "R10-T3-PC",
+  "content_length": 1456,
+  "usage": {
+    "prompt_tokens": 202,
+    "completion_tokens": 1379,
+    "total_tokens": 1581,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 488
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 202
+  },
+  "elapsed": 24.7
+}

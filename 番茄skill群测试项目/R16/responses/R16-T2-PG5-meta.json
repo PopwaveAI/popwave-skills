@@ -1,0 +1,18 @@
+{
+  "task": "R16-T2-PG5",
+  "content_length": 3667,
+  "usage": {
+    "prompt_tokens": 265,
+    "completion_tokens": 2945,
+    "total_tokens": 3210,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 748
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 265
+  },
+  "elapsed": 37.0
+}

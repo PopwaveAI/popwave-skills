@@ -1,0 +1,18 @@
+{
+  "task": "R10-T3-PA",
+  "content_length": 817,
+  "usage": {
+    "prompt_tokens": 29,
+    "completion_tokens": 636,
+    "total_tokens": 665,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 109
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 29
+  },
+  "elapsed": 12.4
+}

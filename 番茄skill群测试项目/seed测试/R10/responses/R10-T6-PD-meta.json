@@ -1,0 +1,18 @@
+{
+  "task": "R10-T6-PD",
+  "content_length": 1411,
+  "usage": {
+    "prompt_tokens": 203,
+    "completion_tokens": 1908,
+    "total_tokens": 2111,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1054
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 203
+  },
+  "elapsed": 32.3
+}

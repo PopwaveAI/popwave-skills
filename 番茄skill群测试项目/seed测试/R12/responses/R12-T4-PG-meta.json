@@ -1,0 +1,18 @@
+{
+  "task": "R12-T4-PG",
+  "content_length": 1836,
+  "usage": {
+    "prompt_tokens": 210,
+    "completion_tokens": 1886,
+    "total_tokens": 2096,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 758
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 82
+  },
+  "elapsed": 26.7
+}

@@ -1,0 +1,18 @@
+{
+  "task": "R11-T5-PF",
+  "content_length": 1546,
+  "usage": {
+    "prompt_tokens": 154,
+    "completion_tokens": 2052,
+    "total_tokens": 2206,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1071
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 26
+  },
+  "elapsed": 37.7
+}

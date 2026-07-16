@@ -1,0 +1,18 @@
+{
+  "task": "R10-T5-PD",
+  "content_length": 846,
+  "usage": {
+    "prompt_tokens": 202,
+    "completion_tokens": 762,
+    "total_tokens": 964,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 234
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 202
+  },
+  "elapsed": 14.2
+}

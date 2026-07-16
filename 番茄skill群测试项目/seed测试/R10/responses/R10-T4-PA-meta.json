@@ -1,0 +1,18 @@
+{
+  "task": "R10-T4-PA",
+  "content_length": 2225,
+  "usage": {
+    "prompt_tokens": 28,
+    "completion_tokens": 1663,
+    "total_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 255
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 28
+  },
+  "elapsed": 30.0
+}

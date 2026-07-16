@@ -1,0 +1,44 @@
+{
+  "task": "api_test",
+  "timestamp": "2026-07-16 17:43:30",
+  "temperature": 0.7,
+  "max_tokens": 16000,
+  "system_prompt_length": 8,
+  "user_prompt_length": 17,
+  "deepseek": {
+    "model": "deepseek-v4-flash",
+    "content_length": 72,
+    "elapsed": 3.8,
+    "usage": {
+      "prompt_tokens": 20,
+      "completion_tokens": 205,
+      "total_tokens": 225,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 156
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 20
+    },
+    "error": null
+  },
+  "doubao": {
+    "model": "doubao-seed-2-1-turbo-260628",
+    "content_length": 119,
+    "elapsed": 27.1,
+    "usage": {
+      "completion_tokens": 898,
+      "prompt_tokens": 49,
+      "total_tokens": 947,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 821
+      }
+    },
+    "error": null
+  }
+}
