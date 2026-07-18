@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-prd",
-  "version": "1.0.1",
-  "displayName": "全书立项PRD（Phase 5）",
-  "description": "Phase 5 of deconstruction: 全书立项PRD逆向破解",
+  "version": "1.1.0",
+  "displayName": "全书立项设计（Phase 4）",
+  "description": "Phase 4 of deconstruction: 全书立项设计（逆向破解+商业分析+连载规划+风险预警+启动检查清单）",
   "tags": [
     "拆书与分析"
   ],

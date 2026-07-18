@@ -50,11 +50,12 @@ pop-decon (初始化 + 一次性路由)
 
 Phase 1: pop-decon-design-pack → 设计包v4
 Phase 2: pop-decon-volume → L2单元卡 + 卷纲
-Phase 3: pop-decon-setting → L1六件套 + 宪法 + 数值
-Phase 4: pop-decon-prd → 全书立项PRD
+Phase 3: pop-decon-setting → L1六件套 + L1-07金手指 + 人物卡 + 宪法 + 数值
+Phase 4: pop-decon-prd → 全书立项设计（含商业分析+连载规划+风险预警）
 入库: pop-trope-library 四库
 ```
 
 ## 版本
 
+v19.0.0 | 2026-07-18 | 管线地图更新：Phase 3 新增 L1-07金手指设计 + 主要角色人物卡；Phase 4 从"全书立项PRD"升级为"全书立项设计"（含商业分析+连载规划+风险预警+启动检查清单）
 v18.0.0 | 2026-07-06 | 改为初始化+一次性路由入口，补 PE 区块 → [CHANGELOG.md](CHANGELOG.md)

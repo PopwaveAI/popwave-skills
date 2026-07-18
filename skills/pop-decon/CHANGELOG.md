@@ -1,4 +1,11 @@
-﻿# CHANGELOG — 02-pop-novel-deconstructor
+# CHANGELOG — 02-pop-novel-deconstructor
+
+## v19.0.0 | 2026-07-18
+
+### 管线地图更新：金手指+人物卡+立项设计
+
+- Phase 3 新增 `L1-07-金手指设计` + `主要角色人物卡`（含敌人卡）
+- Phase 4 从"全书立项PRD"升级为"全书立项设计"（含商业分析+连载规划+风险预警+启动检查清单）
 
 ## v18.0.0 | 2026-07-06
 
