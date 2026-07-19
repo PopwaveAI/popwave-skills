@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "6.3.0",
+  "version": "7.3.0",
   "displayName": "番茄 Write",
-  "description": "番茄正文渲染。心法引导+状态驱动+人机共创。v6.3.0：每章全文加载创意.md+骨架.md+current-state.md，修复后续章节设计约束丢失问题",
+  "description": "番茄正文渲染。定位：从ch002开始写正文（ch001由seed黄金首章产出）。心法引导+笔触DNA驱动笔触+章型骨架驱动结构+状态驱动连续性。v7.3.0：适配新三层架构——write从ch002开始，ch002回收seed黄金首章(ch001)的章末钩子",
   "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },

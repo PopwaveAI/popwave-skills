@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "displayName": "番茄 Plot",
-  "description": "番茄长篇骨架设计器。消费seed立项包，产出第一卷执行骨架。v8.0.0：新增势力格局+世界危机映射、落盘路径改为1-骨架/文件夹结构、终点必须与世界危机挂钩",
+  "description": "番茄骨架引擎。定位：把创意从idea变成完整故事世界。加载创意文档+黄金首章→世界构筑(四张地图+人物包+敌人4层梯度)→第一卷详规→四图叠加推演剧情白描→落盘。v9.0.0：架构重构——新增Step 2世界构筑(从seed移入四张地图+敌人梯度)，新增Step 4四图叠加推演法(API推演)，ch01由seed产出从ch02开始详规",
   "tags": ["剧情与结构"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "推骨架", "做骨架"] },
