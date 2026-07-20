@@ -1,11 +1,11 @@
 {
   "id": "pop-fanqie-write",
-  "version": "8.1.0",
-  "displayName": "番茄 Write",
-  "description": "番茄正文渲染。定位：从ch002开始写正文（ch001由seed黄金首章产出）。章型骨架驱动结构+状态驱动连续性+笔触DNA驱动笔触。v8.1.0：DNA加载从全文注入改为按需加载（通用维度全读+本章场景卡1-3张，无关场景卡跳过），新增场景卡加载对照表+禁止limit截断",
-  "tags": ["正文写作"],
+  "version": "8.2.0",
+  "displayName": "番茄正文渲染",
+  "description": "章型骨架驱动结构，状态驱动连续性，笔触DNA驱动笔触。精选注入设定库(≤1000字)+DNA三态协议按需加载+三层指导写正文+硬篇幅控制(2000-2500字)。SKILL.md内化Step1精选注入+DNA三态+Step3三层指导",
+  "tags": ["番茄", "正文", "渲染", "AI写作"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },
+  "activation": { "slashCommands": ["pop-fanqie-write", "番茄write", "番茄写作"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

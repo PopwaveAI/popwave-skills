@@ -72,4 +72,4 @@ python skills/pop-fanqie-write/scripts/wordcount_check.py <章节文件.md> --au
 
 ## 下一步
 
-> Step 5: 交付面板+人机共创
+> **读取 `steps/step5.md` 并执行 Step 5 交付面板。**

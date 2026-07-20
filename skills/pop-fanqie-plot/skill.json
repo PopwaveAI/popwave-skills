@@ -1,11 +1,11 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "9.1.0",
-  "displayName": "番茄 Plot",
-  "description": "番茄骨架引擎。定位：把创意从idea变成完整故事世界。加载创意文档+黄金首章→世界构筑(四张地图+人物包+敌人4层梯度)→第一卷详规→四图叠加推演剧情白描→落盘。v9.1.0：Step 1对齐seed v13创意.md字段(梗/金手指/行为引擎/轻量主角轮廓)，明确plot补全四图/人物包/敌人梯度/世界观骨架",
-  "tags": ["剧情与结构"],
+  "version": "2.1.0",
+  "displayName": "番茄骨架引擎",
+  "description": "加载三件底牌（参考书DNA/创意+首章/市场校准）→三源合流设计力量体系→力量体系驱动地图/势力/危机→第一卷弧线→叙事流剧情白描→落盘。SKILL.md内化Step1-2核心方法论",
+  "tags": ["番茄", "骨架", "世界构筑", "剧情白描"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-fanqie-plot", "推骨架", "做骨架"] },
+  "activation": { "slashCommands": ["pop-fanqie-plot", "番茄plot", "番茄骨架"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

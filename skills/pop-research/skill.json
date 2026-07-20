@@ -1,13 +1,12 @@
 {
   "id": "pop-research",
-  "name": "pop-research",
-  "displayName": "调研",
-  "description": "v3.5独立调研skill，三界框架深度调研+采风级质感调研。被seed/plot/pop-novel/write四环节按需调用：接收调研需求（期望深度：种子级/场景级/缺口级/采风级）→三界框架档位走定界+分界调研+压力源+交叉困境；采风级走真实质感采集（一手资料+感官细节+职业黑话+场景布局）→存盘+索引更新→返回路径指针。",
-  "tags": [
-    "创意与研究"
-  ],
+  "version": "1.3.0",
+  "displayName": "独立调研",
+  "description": "三界框架深度调研+采风级质感采集。被seed/plot/pop-novel/write四环节按需调用。9步调研流程（三界定界→17维度分界调研→压力源6字段→交叉困境6类型→质量门禁）+采风级流程。SKILL.md全量内化",
+  "tags": ["创意与研究", "调研"],
   "entry": "SKILL.md",
-  "activation": "seed/plot/pop-novel/write按需调用，传入领域+具体问题+期望深度",
-  "version": "1.2.0",
-  "pipeline": ["seed", "plot", "pop-novel", "write"]
+  "activation": { "slashCommands": ["pop-research", "调研", "research"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
 }
