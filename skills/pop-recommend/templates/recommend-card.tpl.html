@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -235,12 +235,11 @@ body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaH
 .page-backcover .back-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
 
 /* ============================================================
-   BRAND WATERMARK — 每页弱引流 popwave.cn
+   BRAND SIGNATURE — popwave 页码印记
    ============================================================ */
-.page:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(128,128,128,.18);letter-spacing:.08em;pointer-events:none;z-index:0}
-.page-cover:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(255,255,255,.12);letter-spacing:.08em;pointer-events:none;z-index:0;width:auto;height:auto;background:none;border:none;border-radius:0;inset:auto}
-.page-cover .cover-overlay{z-index:0}
-.page-backcover:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(255,255,255,.12);letter-spacing:.08em;pointer-events:none;z-index:0;width:auto;height:auto;background:none;border:none;border-radius:0;inset:auto}
+.brand{font-weight:400;color:var(--grey4);margin-left:3px;letter-spacing:.04em}
+.page-cover .brand{color:rgba(255,255,255,.35)}
+.page-backcover .brand{color:rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
@@ -276,7 +275,7 @@ function init(D){
       (q?'<div class="cover-quote">'+E(q.text)+'</div>':'')+
       (l?'<div class="cover-lede">'+E(l.text)+'</div>':'')+
       '</div>'+
-      '<div class="cover-footer"><div class="cover-tags">'+tags.map(function(t){return '<span>'+E(SV(t))+'</span>';}).join('')+'</div><span class="cover-num">1 / '+T+'</span></div>'+
+      '<div class="cover-footer"><div class="cover-tags">'+tags.map(function(t){return '<span>'+E(SV(t))+'</span>';}).join('')+'</div><span class="cover-num">1 / '+T+'<span class="brand">popwave</span></span></div>'+
       '<div class="cover-overlay"></div></div>';
   }
 
@@ -288,7 +287,7 @@ function init(D){
       '<div class="swiss-header"><div class="swiss-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
       '<div class="swiss-grid">'+cells+'</div>'+
       (panel?'<div class="swiss-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="swiss-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="swiss-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P3(p){
@@ -299,7 +298,7 @@ function init(D){
       '<div class="mag-left"><div class="mag-eyebrow">'+E(p.eyebrow||'')+'</div><div class="mag-section">'+('0'+p.page_no).slice(-2)+'</div></div>'+
       '<div class="mag-right"><h2>'+MT(p)+'</h2><div class="mag-steps">'+stepsHtml+'</div>'+
       (panel?'<div class="mag-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="mag-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div></div>';
+      '<div class="mag-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
   }
 
   function P4(p){
@@ -314,7 +313,7 @@ function init(D){
       '<div class="prof-header"><div><div class="prof-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div></div>'+
       '<div class="prof-grid">'+cardsHtml+'</div>'+
       (panel?'<div class="prof-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="prof-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="prof-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P5(p){
@@ -328,7 +327,7 @@ function init(D){
       '<div class="info-diagram"><div class="info-center">'+(fHtml?'<div class="info-formula">'+fHtml+'</div>':'')+'</div></div>'+
       (cards.length?'<div class="info-cards">'+cards.map(function(c){return '<div class="info-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>':'')+
       (panel?'<div class="info-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="info-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="info-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P6(p){
@@ -339,7 +338,7 @@ function init(D){
       '<div class="tl-header"><div class="tl-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
       '<div class="tl-track"><div class="tl-cards">'+cards.map(function(c){return '<div class="tl-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div></div>'+
       (r.length?'<div class="tl-route">'+r.map(function(x,i){return (i?'<i>→</i>':'')+'<span>'+E(SV(x))+'</span>';}).join('')+'</div>':'')+
-      '<div class="tl-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="tl-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P7(p){
@@ -349,7 +348,7 @@ function init(D){
       '<div class="show-header"><div class="show-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
       '<div class="show-grid">'+cards.map(function(c,i){return '<div class="show-card"><div class="show-num">'+('0'+(i+1)).slice(-2)+'</div><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>'+
       (panel?'<div class="show-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="show-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="show-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P8(p){
@@ -363,7 +362,7 @@ function init(D){
       '<div class="dash-body"><div class="dash-radar">'+ri.map(function(x){var v=Math.max(0,Math.min(10,Number(x.value)||0));return '<div class="dash-radar-row"><span class="dash-label">'+E(x.label)+'</span><div class="dash-track"><div class="dash-fill" style="width:'+(v*10)+'%"></div></div><span class="dash-val">'+v+'</span></div>';}).join('')+'</div>'+
       '<div class="dash-right"><div class="dash-warning"><h3>⚠ 明确阅读门槛</h3><ul>'+wi.map(function(x){return '<li>'+E(SV(x))+'</li>';}).join('')+'</ul></div>'+
       (panel?'<div class="dash-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+'</div></div>'+
-      '<div class="dash-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div>';
+      '<div class="dash-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
   }
 
   function P9(p){
@@ -380,7 +379,7 @@ function init(D){
       '<div class="back-verdict">'+(scoreMatch?'<div class="back-score">'+scoreMatch.join('–')+'</div>':'')+'<div class="back-grade">'+E(p.footer||'')+'</div><div class="back-text">'+E(vText)+'</div></div>'+
       '<div class="back-audience"><div><h3>✓ 推荐给</h3><ul>'+rec.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div><div><h3>✗ 不推荐给</h3><ul>'+avo.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div></div>'+
       (panel?'<div class="back-why"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
-      '<div class="back-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'</span></div></div></div>';
+      '<div class="back-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
   }
 
   var renderers = {cover:P1, hook:P2, synopsis:P3, characters:P4, chemistry:P5, structure:P6, selling_points:P7, risks:P8, verdict:P9};
