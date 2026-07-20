@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "",
+    "author": ""
+  },
+  "anchors": [
+    {
+      "anchor_id": "anc-001",
+      "type": "strength",
+      "title": "卖点标题（6-12字）",
+      "judgement": "判断（1-2句，为什么这是卖点）",
+      "mechanism": "机制（1-2句，具体怎么实现的）",
+      "boundary": "边界（1句，什么读者不买账）",
+      "chapter_id": "ch-0056",
+      "spoiler_level": "safe",
+      "evidence_ids": ["ev-0008"]
+    },
+    {
+      "anchor_id": "anc-002",
+      "type": "controversy",
+      "title": "争议标题",
+      "judgement": "判断",
+      "mechanism": "机制",
+      "boundary": "影响范围",
+      "chapter_id": "ch-0079",
+      "spoiler_level": "mild",
+      "evidence_ids": ["ev-0012"]
+    },
+    {
+      "anchor_id": "anc-003",
+      "type": "character",
+      "title": "角色名",
+      "identity": "身份",
+      "surface_traits": [],
+      "inner_drive": "内在驱动力",
+      "relationship_function": "在故事中的功能",
+      "chapter_id": "ch-0001",
+      "spoiler_level": "safe",
+      "evidence_ids": ["ev-0001"]
+    },
+    {
+      "anchor_id": "anc-004",
+      "type": "relationship",
+      "title": "关系标题",
+      "formula": ["A的驱动力", "B的驱动力"],
+      "dynamic": "关系动态描述",
+      "progression_signal": "关系向前的标志",
+      "chapter_id": "ch-0045",
+      "spoiler_level": "mild",
+      "evidence_ids": ["ev-0008", "ev-0012"]
+    }
+  ]
+}

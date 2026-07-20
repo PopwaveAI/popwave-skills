@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "",
+    "author": ""
+  },
+  "sampled_chapters": [],
+  "dimensions": {
+    "characters": 0,
+    "plot": 0,
+    "prose": 0,
+    "relationships": 0,
+    "world": 0,
+    "pacing": 0
+  },
+  "reading_experience": {
+    "style": "",
+    "pacing_note": "",
+    "emotional_tone": "",
+    "readability": "",
+    "plot_density_note": ""
+  },
+  "warnings": []
+}

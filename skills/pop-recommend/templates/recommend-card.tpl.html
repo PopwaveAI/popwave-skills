@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{TITLE}}｜读者推书卡</title>
+  <style>
+    :root{--ink:#211d1c;--soft:#625650;--paper:#f4eddf;--accent:#8c3039;--accent2:#ba9858;--line:rgba(77,55,46,.22);--wash:rgba(140,48,57,.09);--cover1:#1d1919;--cover2:#4b1d24}
+    body[data-theme="ink-blue"]{--ink:#17242c;--soft:#52636b;--paper:#edf2f0;--accent:#295c72;--accent2:#7899a5;--line:rgba(31,67,81,.2);--wash:rgba(41,92,114,.1);--cover1:#15252d;--cover2:#244d5c}
+    body[data-theme="warm-paper"]{--ink:#2d231d;--soft:#6d5d50;--paper:#f5ead6;--accent:#9d5937;--accent2:#c49b62;--line:rgba(103,73,48,.2);--wash:rgba(184,117,68,.1);--cover1:#33251d;--cover2:#75513a}
+    body[data-theme="dark-modern"]{--ink:#f0eee9;--soft:#b8b4ad;--paper:#1c1f22;--accent:#df6f60;--accent2:#d5b66d;--line:rgba(255,255,255,.16);--wash:rgba(223,111,96,.1);--cover1:#111214;--cover2:#34383d}
+    body[data-theme="diary-orange"]{--ink:#24313a;--soft:#667179;--paper:#f4efe4;--accent:#c26837;--accent2:#6f8c91;--line:rgba(62,82,88,.2);--wash:rgba(194,104,55,.1);--cover1:#203039;--cover2:#9a5634}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%}body{background:#262323;color:var(--ink);font-family:"Songti SC","STSong",serif;display:flex;flex-direction:column;align-items:center;gap:28px;padding:28px 0}
+    .page{position:relative;width:720px;height:960px;overflow:hidden;padding:58px 64px 58px;background:radial-gradient(circle at 92% 6%,var(--wash),transparent 27%),repeating-linear-gradient(0deg,rgba(70,60,50,.018) 0,rgba(70,60,50,.018) 1px,transparent 1px,transparent 5px),var(--paper);box-shadow:0 22px 70px rgba(0,0,0,.38)}
+    .page:before{content:"";position:absolute;inset:18px;border:1px solid var(--line);pointer-events:none}.page:after{content:"";position:absolute;right:34px;top:150px;width:5px;height:92px;background:var(--accent);opacity:.45}
+    body[data-theme="diary-orange"] .page{background:linear-gradient(90deg,transparent 0 52px,rgba(194,104,55,.15) 52px 54px,transparent 54px),repeating-linear-gradient(0deg,transparent 0 31px,rgba(70,96,106,.075) 31px 32px),var(--paper)}
+    body[data-theme="diary-orange"] .page:after{border-radius:50%;width:92px;height:92px;right:42px;top:124px;background:transparent;border:1px solid rgba(194,104,55,.23)}
+    .top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;color:var(--accent);font:650 13px/1.2 -apple-system,"PingFang SC",sans-serif;letter-spacing:.16em;margin-bottom:27px}.num{width:38px;height:38px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:50%;letter-spacing:0}
+    h1,h2,h3,p{margin:0}h1{position:relative;z-index:1;font-size:61px;line-height:1.12;letter-spacing:-.04em}h2{position:relative;z-index:1;max-width:560px;font-size:38px;line-height:1.22;letter-spacing:-.025em}h1 em,h2 em{color:var(--accent);font-style:normal}.subtitle{position:relative;z-index:1;margin-top:13px;color:var(--soft);font-size:17px;line-height:1.65}
+    .blocks{position:relative;z-index:1;display:grid;gap:14px;margin-top:24px}.block{position:relative}
+    .quote{padding:17px 0 17px 22px;border-left:5px solid var(--accent);font-size:24px;font-weight:700;line-height:1.52}.lede{font-size:17px;line-height:1.72;color:var(--soft);padding:2px 0}.paragraph{font-size:17px;line-height:1.72;color:var(--soft)}
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card,.panel{padding:18px 19px;border:1px solid var(--line);background:color-mix(in srgb,var(--paper) 72%,white 28%)}.card{min-height:138px}.card h3,.panel h3{color:var(--accent);font-size:18px;line-height:1.3;margin-bottom:8px}.card p,.panel p{font-size:14.5px;line-height:1.62;color:var(--soft)}
+    .layout-editorial .panel{border-left:4px solid var(--accent)}.layout-grid .blocks{gap:16px}.layout-grid .cards{gap:15px}.layout-grid .card{min-height:158px}.layout-relationship .blocks,.layout-warning .blocks,.layout-verdict .blocks{gap:17px}.layout-relationship .paragraph{font-size:17px;line-height:1.68}.layout-relationship .card{min-height:150px}.layout-warning .panel{background:var(--wash)}
+    .steps{display:grid;gap:15px}.step{display:grid;grid-template-columns:39px 1fr;gap:13px;align-items:start}.step b{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#fff;font-family:sans-serif}.step h3{font-size:18px;margin-bottom:4px}.step p{font-size:14.5px;line-height:1.57;color:var(--soft)}.layout-timeline .steps:before{content:"";position:absolute;left:17px;top:12px;bottom:12px;width:1px;background:var(--line)}
+    .tags,.route,.formula{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.tag,.route span{padding:8px 11px;border:1px solid var(--line);background:color-mix(in srgb,var(--paper) 72%,white 28%);font:650 13px/1 -apple-system,"PingFang SC",sans-serif;color:var(--accent)}.route i{font-style:normal;color:var(--accent)}
+    .formula{justify-content:center;padding:20px 10px}.formula span{font-size:23px;font-weight:700;padding:13px 17px;border-bottom:2px solid var(--accent)}.formula i{font-style:normal;font-size:28px;color:var(--accent2)}
+    ul{margin:0;padding-left:21px;columns:2;column-gap:28px}li{margin-bottom:9px;color:var(--soft);font-size:14px;line-height:1.48;break-inside:avoid}.warning{padding:18px 20px;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);background:var(--wash)}.warning h3{font-size:18px;color:var(--accent);margin-bottom:10px}.warning ul{columns:1}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.metric{text-align:center;border:1px solid var(--line);padding:14px 8px;background:color-mix(in srgb,var(--paper) 72%,white 28%)}.metric b{display:block;color:var(--accent);font-size:23px;margin-bottom:5px}.metric span{color:var(--soft);font:550 12px/1.3 -apple-system,"PingFang SC",sans-serif}
+    .radar{display:grid;gap:11px}.radar-row{display:grid;grid-template-columns:86px 1fr 33px;gap:10px;align-items:center;font:600 13px/1.2 -apple-system,"PingFang SC",sans-serif}.radar-row span{color:var(--soft)}.radar-track{height:8px;background:var(--line);overflow:hidden;border-radius:8px}.radar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:8px}.radar-row b{color:var(--accent);text-align:right}
+    .audience{display:grid;grid-template-columns:1fr 1fr;gap:14px}.audience>div{padding:17px 18px;border:1px solid var(--line);background:color-mix(in srgb,var(--paper) 72%,white 28%)}.audience h3{font-size:18px;color:var(--accent);margin-bottom:9px}.audience ul{columns:1}.verdict{padding:21px 23px;background:var(--ink);color:var(--paper)}.verdict h3{color:var(--accent2);font-size:24px;margin-bottom:9px}.verdict p{font-size:16px;line-height:1.58;color:color-mix(in srgb,var(--paper) 88%,white 12%)}
+    .footer{position:absolute;z-index:2;left:64px;right:64px;bottom:37px;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:11px;color:var(--soft);font:550 11px/1.2 -apple-system,"PingFang SC",sans-serif}.cover{background:linear-gradient(145deg,var(--cover1),var(--cover2));color:#f5eee3}.cover:after{opacity:.22}.cover .top{color:#ead39e}.cover h1{margin-top:76px;max-width:575px}.cover .subtitle{color:#ead39e;font-size:20px;margin-top:24px}.cover .blocks{margin-top:50px;gap:18px}.cover .quote{border-color:#ead39e}.cover .lede{max-width:550px;color:#d8cfc4;font-size:17px;line-height:1.78}.cover .footer{border-color:rgba(255,255,255,.18);color:#c6b9aa}
+    .page[data-overflow="true"]{outline:7px solid #e00000;outline-offset:-7px}
+  </style>
+</head>
+<body>
+  <!-- 数据通过外部 review.js 加载：window.__BOOK_DATA__ = {...} -->
+  <script src="review.js"></script>
+  <script>
+    (function(){
+      const data = window.__BOOK_DATA__;
+      if(!data){ document.body.innerHTML = '<p style="color:#fff;padding:40px">错误：review.js 未加载或 window.__BOOK_DATA__ 未定义</p>'; return; }
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      const theme = data.theme || 'literary-red';
+      document.body.dataset.theme = theme;
+
+      function markedTitle(p){
+        const raw = String(p.title || ''), mark = String(p.highlight || '');
+        if(!mark || !raw.includes(mark)) return esc(raw);
+        return raw.split(mark).map(esc).join(`<em>${esc(mark)}</em>`);
+      }
+      function itemCard(x){ return `<div class="card"><h3>${esc(x.title||x.label||'')}</h3><p>${esc(x.text||'')}</p></div>`; }
+      function stringValue(x){ return typeof x==='string'?x:(x.label||x.title||x.text||x.value||''); }
+
+      function block(b){
+        if(b.kind==='quote') return `<div class="block quote">${esc(b.text)}</div>`;
+        if(b.kind==='lede') return `<div class="block lede">${esc(b.text)}</div>`;
+        if(b.kind==='paragraph') return `<div class="block paragraph">${esc(b.text)}</div>`;
+        if(b.kind==='panel') return `<div class="block panel"><h3>${esc(b.title)}</h3><p>${esc(b.text)}</p></div>`;
+        if(b.kind==='cards'||b.kind==='card') return `<div class="block cards">${(b.items||[b]).map(itemCard).join('')}</div>`;
+        if(b.kind==='steps'||b.kind==='step') return `<div class="block steps">${(b.items||[]).map((x,i)=>`<div class="step"><b>${i+1}</b><div><h3>${esc(x.title)}</h3><p>${esc(x.text||'')}</p></div></div>`).join('')}</div>`;
+        if(b.kind==='tags') return `<div class="block tags">${(b.items||[]).map(x=>`<span class="tag">${esc(stringValue(x))}</span>`).join('')}</div>`;
+        if(b.kind==='route') return `<div class="block route">${(b.items||[]).map((x,i)=>`${i?'<i>→</i>':''}<span>${esc(stringValue(x))}</span>`).join('')}</div>`;
+        if(b.kind==='formula') return `<div class="block formula">${(b.items||[]).map((x,i)=>`${i?'<i>×</i>':''}<span>${esc(stringValue(x))}</span>`).join('')}</div>`;
+        if(b.kind==='bullets') return `<div class="block"><ul>${(b.items||[]).map(x=>`<li>${esc(stringValue(x))}</li>`).join('')}</ul></div>`;
+        if(b.kind==='warning') return `<div class="block warning"><h3>${esc(b.title||'阅读门槛')}</h3><ul>${(b.items||[]).map(x=>`<li>${esc(stringValue(x))}</li>`).join('')}</ul></div>`;
+        if(b.kind==='metrics') return `<div class="block metrics">${(b.items||[]).map(x=>`<div class="metric"><b>${esc(x.value)}</b><span>${esc(x.label)}</span></div>`).join('')}</div>`;
+        if(b.kind==='radar') return `<div class="block radar">${(b.items||[]).map(x=>{const v=Math.max(0,Math.min(10,Number(x.value)||0));return `<div class="radar-row"><span>${esc(x.label)}</span><div class="radar-track"><div class="radar-fill" style="width:${v*10}%"></div></div><b>${v}</b></div>`}).join('')}</div>`;
+        if(b.kind==='audience'){const x=b.items||{};return `<div class="block audience"><div><h3>✓ 推荐给</h3><ul>${(x.recommended||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div><div><h3>× 不推荐给</h3><ul>${(x.avoid||[]).map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div></div>`}
+        if(b.kind==='verdict') return `<div class="block verdict"><h3>${esc(b.title)}</h3><p>${esc(b.text)}</p></div>`;
+        return '';
+      }
+
+      function renderPage(p){
+        const cls = ['page', p.layout||'layout-editorial', p.type==='cover'?'cover':''].filter(Boolean).join(' ');
+        const blocks = (p.blocks||[]).map(block).join('');
+        return `<div class="${cls}" data-page="${p.page_no}">
+          <div class="top"><span>${esc(p.eyebrow||'')}</span><span class="num">${p.page_no}</span></div>
+          ${p.title?`<h2>${markedTitle(p)}</h2>`:''}
+          ${p.subtitle?`<div class="subtitle">${esc(p.subtitle)}</div>`:''}
+          <div class="blocks">${blocks}</div>
+          <div class="footer"><span>${esc(p.footer||'')}</span><span>${p.page_no} / ${data.pages.length}</span></div>
+        </div>`;
+      }
+
+      // cover 页用 h1
+      function renderCover(p){
+        const blocks = (p.blocks||[]).map(block).join('');
+        return `<div class="page cover" data-page="1">
+          <div class="top"><span>${esc(p.eyebrow||'')}</span><span class="num">1</span></div>
+          <h1>${markedTitle(p)}</h1>
+          ${p.subtitle?`<div class="subtitle">${esc(p.subtitle)}</div>`:''}
+          <div class="blocks">${blocks}</div>
+          <div class="footer"><span>${esc(p.footer||'')}</span><span>1 / ${data.pages.length}</span></div>
+        </div>`;
+      }
+
+      const html = data.pages.map(p => p.type==='cover' ? renderCover(p) : renderPage(p)).join('');
+      document.body.insertAdjacentHTML('beforeend', html);
+    })();
+  </script>
+</body>
+</html>

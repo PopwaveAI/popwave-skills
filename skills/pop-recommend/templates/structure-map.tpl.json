@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "",
+    "author": "",
+    "platform": "",
+    "word_count": null,
+    "status": ""
+  },
+  "positioning": {
+    "one_liner": "一句话定位（≤30字）",
+    "core_hook": "核心钩子：与同类书的不同之处（1-2句）",
+    "tags": []
+  },
+  "structure": [
+    {
+      "segment_id": "seg-01",
+      "title": "第一卷/第一阶段名称",
+      "chapter_range": "ch-0001~ch-0026",
+      "summary_safe": "无剧透的一句话阶段描述",
+      "function": "开局/升级/转折/高潮/收尾"
+    }
+  ],
+  "deep_read_candidates": [
+    {
+      "chapter_id": "ch-0001",
+      "reason": "首章·建立世界观和主角",
+      "scan_type": "character_intro"
+    }
+  ]
+}

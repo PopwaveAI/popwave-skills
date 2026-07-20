@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "",
+    "author": "",
+    "platform": "",
+    "word_count": null,
+    "status": ""
+  },
+  "positioning": {
+    "one_liner": "",
+    "core_hook": "",
+    "tags": []
+  },
+  "synopsis": "",
+  "strengths": [
+    {
+      "title": "",
+      "judgement": "",
+      "mechanism": "",
+      "boundary": "",
+      "evidence_ids": []
+    }
+  ],
+  "characters": [
+    {
+      "name": "",
+      "identity": "",
+      "surface_traits": [],
+      "inner_drive": "",
+      "relationship_function": "",
+      "evidence_ids": []
+    }
+  ],
+  "world": {
+    "complexity": "medium",
+    "rules": [],
+    "structure": []
+  },
+  "reading_experience": {
+    "style": "",
+    "pacing_note": "",
+    "emotional_tone": "",
+    "readability": "",
+    "plot_density_note": ""
+  },
+  "controversies": [
+    {
+      "title": "",
+      "judgement": "",
+      "mechanism": "",
+      "boundary": "",
+      "evidence_ids": []
+    }
+  ],
+  "audience": {
+    "recommended": [],
+    "avoid": []
+  },
+  "scoring": {
+    "dimensions": {
+      "characters": 0,
+      "plot": 0,
+      "prose": 0,
+      "relationships": 0,
+      "world": 0,
+      "pacing": 0
+    },
+    "base_score": 0,
+    "audience_bonus": 0
+  },
+  "recommendation": {
+    "score_low": 0,
+    "score_high": 0,
+    "stars_low": 0,
+    "stars_high": 0,
+    "grade": "",
+    "verdict": "",
+    "why_try": ""
+  },
+  "completion_note": ""
+}

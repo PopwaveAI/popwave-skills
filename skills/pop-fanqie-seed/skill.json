@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "13.2.0",
+  "version": "13.3.0",
   "displayName": "番茄 Seed",
-  "description": "番茄创意引擎。三阶段：Phase 1参考书摸底+市场调研+纯自由发散+市场校准→用户选→Phase 2结构化打磨→Phase 3黄金首章。v13.2.0：1a新增参考书摸底(必问)+1b参考书闸门(pipeline Phase 0出口),参考书从被动识别改为主动引导",
+  "description": "番茄创意引擎。三阶段：Phase 1参考书摸底+市场调研+纯自由发散+市场校准→用户选→Phase 2结构化打磨→Phase 3黄金首章。v13.3.0：step3首章DNA从0写，启用态下从第1句用DNA笔触写禁止先写后改，3a增加DNA检测+按需加载",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
