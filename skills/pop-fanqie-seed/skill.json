@@ -2,7 +2,7 @@
   "id": "pop-fanqie-seed",
   "version": "13.2.0",
   "displayName": "番茄 Seed",
-  "description": "番茄创意引擎。三阶段：Phase 1市场调研(WebSearch+借鉴点/避雷点)+纯自由发散5-6个方向+市场校准→用户选→Phase 2结构化打磨（行为引擎+金手指+四眼法+散文体创意.md）→Phase 3黄金首章试读。v13.2.0：1a增加参考书路由（用户提到参考书→路由前置供给），step3同步write v8.0.0减法版（移除v7.2.0笔触技法，改三态协议）",
+  "description": "番茄创意引擎。三阶段：Phase 1参考书摸底+市场调研+纯自由发散+市场校准→用户选→Phase 2结构化打磨→Phase 3黄金首章。v13.2.0：1a新增参考书摸底(必问)+1b参考书闸门(pipeline Phase 0出口),参考书从被动识别改为主动引导",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },

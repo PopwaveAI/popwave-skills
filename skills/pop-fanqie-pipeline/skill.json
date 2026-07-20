@@ -1,0 +1,12 @@
+{
+  "id": "pop-fanqie-pipeline",
+  "version": "1.0.0",
+  "displayName": "番茄 Pipeline",
+  "description": "番茄管线总控。项目初始化+project-state.md状态追踪+5个phase路由（Phase 0参考书闸门→Phase 1 Seed→Phase 2 Plot→Phase 3 Write→Phase 4 Review循环）。不重复下游skill SLP，只做地图。v1.0.0：新建",
+  "tags": ["管线与总控"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

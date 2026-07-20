@@ -1,23 +1,24 @@
 # 番茄 skill 群管线运行流程 PRD
 
-> 版本：v1.0 | 日期：2026-07-20
-> 对应 skill 版本快照：seed v13.1.0 / plot v1.2.0 / write v8.0.0 / review v4.1.0 / dna-style v1.0.0 / research v1.2.0 / decon v20.1.0 / shared-dna v4.1.0 / download v7.0.0
+> 版本：v1.1 | 日期：2026-07-20
+> 对应 skill 版本快照：pipeline v1.0.0 / seed v13.2.0 / plot v9.1.0 / write v8.0.0 / review v4.1.0 / dna-style v1.0.0 / research v1.2.0 / decon v20.1.0 / shared-dna v4.1.0 / download v7.0.0
 
 ---
 
 ## 1. 管线全貌
 
-番茄 skill 群是一条从"用户一句话方向"到"可连载正文"的创作管线，由 9 个 skill 协作完成。主线是 seed → plot → write → review 的四章循环。前置供给环节（参考书下载/文风 DNA 提取/拆书）的入口是**用户在方向中提到参考书**或**用户主动要求准备参考书**，由 seed 的 1a 问需求环节识别并路由，完成后回到 seed 继续创意流程。
+番茄 skill 群是一条从"用户一句话方向"到"可连载正文"的创作管线，由 10 个 skill 协作完成。总控是 **pop-fanqie-pipeline**（项目初始化 + project-state.md 状态追踪 + 5 个 phase 路由），主线是 seed → plot → write → review 的四章循环。前置供给环节（参考书下载/文风 DNA 提取/拆书）由 pipeline 的 Phase 0 作为**必选闸门**强制执行——用户给方向后，agent 必须主动引导参考书（要么用户给书名，要么 agent 帮找同赛道热门推荐），参考书就绪后才进入 seed 主流程。
 
 ```mermaid
 flowchart TD
     User([用户一句话方向])
 
-    subgraph seed入口路由
-        SEED1A{seed 1a 识别需求类型}
+    subgraph 总控
+        PIPE[pop-fanqie-pipeline<br/>初始化+状态追踪+phase路由]
+        PIPE0[Phase 0: 参考书闸门<br/>必选·用户给书或agent推荐]
     end
 
-    subgraph 前置供给·用户触发
+    subgraph 前置供给
         DL[tool-download-webnovel<br/>下载参考书]
         DECON[pop-decon<br/>拆书精拆·可选]
         DNA[pop-dna-style<br/>文风DNA提取]
@@ -34,10 +35,11 @@ flowchart TD
         RESEARCH[pop-research<br/>调研·按需]
     end
 
-    User --> SEED1A
-    SEED1A -->|提到参考书/想参考某书| DL
-    SEED1A -->|无参考书| SEED
-    SEED1A -->|想精拆做立项圣经| DECON
+    User --> PIPE
+    PIPE --> PIPE0
+    PIPE0 -->|用户给书名/agent推荐| DL
+    PIPE0 -->|想精拆做立项圣经| DECON
+    PIPE0 -->|用户拒绝·标注风险| SEED
     DL -->|参考书txt| DNA
     DL -->|参考书txt| DECON
     DNA -->|涌现/文风锚定.md| WRITE
@@ -48,6 +50,7 @@ flowchart TD
     RESEARCH -.->|知识沉淀| PLOT
     RESEARCH -.->|采风| WRITE
 
+    PIPE0 -->|参考书就绪| SEED
     SEED -->|创意.md+ch001| PLOT
     PLOT -->|骨架+剧情白描+章锚点表| WRITE
     WRITE -->|chNNN正文+交付面板| REVIEW
@@ -56,7 +59,7 @@ flowchart TD
     NEXT --> WRITE
 ```
 
-前置供给的触发入口在 seed 的 1a 问需求环节：当用户的回答包含参考书信息（如"参考《深渊主宰》的笔触写一本 XXX"）或明确要求准备参考书时，seed 路由到对应供给环节（tool-download-webnovel 下载 → pop-dna-style 提取 DNA；或 pop-decon 精拆），完成后回到 seed 继续 1b 市场调研。没有参考书需求时直接进入 seed 主流程。
+前置供给的触发入口已从 seed 1a 的"被动识别"改为 pipeline Phase 0 的"必选闸门"。用户给方向后，pipeline 强制执行参考书摸底：用户给书名则下载+提取 DNA；用户没想好则调用 pop-research 调研同赛道热门推荐书单，用户选书后再下载+提取 DNA；用户明确拒绝才标注风险放行。参考书就绪后 pipeline 路由到 seed 的 Phase 1 继续 1c 市场调研。
 
 横切环节（图中虚线）的特点是"被调用方"：pop-research 不主动触发，由 seed / plot / write 在遇到信息缺口时按需调用，传入领域+具体问题+期望深度，执行完返回路径指针。
 
@@ -64,7 +67,13 @@ flowchart TD
 
 ## 2. 各 skill 定位与边界
 
-### 2.1 主线四章循环
+### 2.1 总控
+
+| skill | 版本 | 定位 | 输入 | 产出 |
+|:--|:--|:--|:--|:--|
+| pop-fanqie-pipeline | v1.0.0 | 项目初始化+状态追踪+phase路由 | 项目名/当前目录 | `project-state.md`（管线地图） |
+
+### 2.2 主线四章循环
 
 | skill | 版本 | 定位 | 输入 | 产出 |
 |:--|:--|:--|:--|:--|
@@ -75,7 +84,7 @@ flowchart TD
 
 **边界纪律**：seed 只产创意+首章，不碰世界构筑；plot 只产骨架+白描，不写正文；write 只渲染不审稿；review 只审核不重写。每个 skill 的产出是下游的输入，不得越界。
 
-### 2.2 前置供给环节
+### 2.3 前置供给环节
 
 | skill | 版本 | 定位 | 何时调用 | 产出 |
 |:--|:--|:--|:--|:--|
