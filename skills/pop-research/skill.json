@@ -1,8 +1,8 @@
 {
   "id": "pop-research",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "displayName": "独立调研",
-  "description": "三界框架深度调研+采风级质感采集。被seed/plot/pop-novel/write四环节按需调用。9步调研流程（三界定界→17维度分界调研→压力源6字段→交叉困境6类型→质量门禁）+采风级流程。SKILL.md全量内化",
+  "description": "三界框架深度调研+采风级质感采集+decon-lite轻量拆书。v1.4.0：新增decon-lite档位（只拆力量体系结构+剧情节奏两表供plot三源合流）。seed 1a五维摸底→用户选力量体系参考书→自动路由decon-lite",
   "tags": ["创意与研究", "调研"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-research", "调研", "research"] },

@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "13.4.0",
+  "version": "13.7.0",
   "displayName": "番茄 Seed",
-  "description": "番茄创意引擎。三阶段：Phase 1参考书摸底+市场调研+双轨发散(王道x猎奇各5个=10个立项)→用户选→Phase 2结构化打磨→Phase 3黄金首章。v13.4.0：1d发散从纯自由单轨改双轨，A轨王道赛道扫榜融合微调5个+B轨猎奇赛道纯自由发散5个",
+  "description": "番茄创意引擎。三阶段：Phase 1五维底牌摸底+市场调研+双轨发散→用户选→Phase 2结构化打磨→Phase 3黄金首章。v13.7.0：1a从单一参考书摸底升级为五维底牌摸底表，1b扩展为五维闸门，新增力量体系参考书→decon-lite路由",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
