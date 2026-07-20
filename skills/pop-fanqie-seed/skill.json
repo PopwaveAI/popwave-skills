@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "13.8.1",
+  "version": "13.12.0",
   "displayName": "番茄 Seed",
-  "description": "番茄创意引擎。v13.8.1：1a增加pipeline Phase 0调起识别——如用户意图已由pipeline深问完成则跳过五维摸底，消费写作参考/用户意图.md直接进1b",
+  "description": "番茄创意引擎。v13.12.0：修复创意类型单一化——10个创意强制覆盖≥3种创意类型（反转型/阶级攀爬型/生存竞技型/重建型/身份揭秘型），好创意标准有反差改为有张力，反面教材不再ban阶级攀爬型",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
