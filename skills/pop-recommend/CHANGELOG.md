@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.1.0 — 2026-07-20
+
+### 重构：串联SOP链式加载架构
+- **SKILL.md 内化 Step 1 完整方法论**：解决 Pop 平台仅注入 SKILL.md 导致 step 文件缺失的加载问题
+- **steps/ 从 step2 开始**：step1.md 删除，方法论并入 SKILL.md
+- **链式加载钩子**：SKILL.md 末尾 → "读取 steps/step2.md" ； step2.md 末尾 → "读取 steps/step3.md" ； step3.md 末尾 → "链式管线结束"
+- **红线第4条更新**：Step 文件链式加载替代"HTML模板数据分离"（已改为内联方案）
+
+### 架构原理
+串联式 SOP skill 的加载保障：SKILL.md(Step1内化→自执行) → steps/step2.md(按需读取) → steps/step3.md(按需读取)。每步只依赖一个文件加载，无跨文件跳转风险
+
 ## v1.0.0 — 2026-07-20
 
 ### 新建

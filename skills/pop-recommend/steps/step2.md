@@ -201,4 +201,4 @@
 
 ## 完成检查
 
-`review.json` 落盘后，进入 Step 3 HTML渲染。
+`review.json` 落盘后 → **读取 `steps/step3.md` 并执行 Step 3 HTML渲染。**
