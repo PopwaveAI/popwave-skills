@@ -233,14 +233,33 @@ body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaH
 .page-backcover .back-why h3{font:600 12px/1 -apple-system,sans-serif;color:var(--gold);letter-spacing:.1em;margin-bottom:8px}
 .page-backcover .back-why p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.45)}
 .page-backcover .back-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
+
+/* ============================================================
+   BRAND WATERMARK — 每页弱引流 popwave.cn
+   ============================================================ */
+.page:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(128,128,128,.18);letter-spacing:.08em;pointer-events:none;z-index:0}
+.page-cover:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(255,255,255,.12);letter-spacing:.08em;pointer-events:none;z-index:0;width:auto;height:auto;background:none;border:none;border-radius:0;inset:auto}
+.page-cover .cover-overlay{z-index:0}
+.page-backcover:after{content:"popwave.cn";position:absolute;right:50px;bottom:42px;font:500 9px/1 -apple-system,sans-serif;color:rgba(255,255,255,.12);letter-spacing:.08em;pointer-events:none;z-index:0;width:auto;height:auto;background:none;border:none;border-radius:0;inset:auto}
 </style>
 </head>
 <body>
-<script src="review.js"></script>
+<!-- DATA-INJECT: 部署时替换为 window.__BOOK_DATA__ = {...};  -->
+<script>{{REVIEW_DATA}}</script>
 <script>
 (function(){
   var D = window.__BOOK_DATA__;
-  if(!D){document.body.innerHTML='<p style="color:#fff;padding:40px">错误：review.js 未加载</p>';return;}
+  if(!D){
+    // fallback: 尝试外部加载 review.js（file:// 协议可能失败）
+    var s = document.createElement('script'); s.src='review.js';
+    s.onload=function(){ if(window.__BOOK_DATA__) init(window.__BOOK_DATA__); };
+    s.onerror=function(){ document.body.innerHTML='<p style="color:#fff;padding:40px;font-family:sans-serif">review.js 未加载。<br>请将 review.js 与此 HTML 放在同一目录后刷新。</p>'; };
+    document.head.appendChild(s);
+    return;
+  }
+  init(D);
+})();
+function init(D){
   document.body.dataset.theme = D.theme||'literary-red';
   var E = function(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
   var MT = function(p){var r=String(p.title||''),m=String(p.highlight||'');if(!m||r.indexOf(m)<0)return E(r);return r.split(m).map(E).join('<em>'+E(m)+'</em>');};
@@ -367,7 +386,7 @@ body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaH
   var renderers = {cover:P1, hook:P2, synopsis:P3, characters:P4, chemistry:P5, structure:P6, selling_points:P7, risks:P8, verdict:P9};
   var html = D.pages.map(function(p){var fn=renderers[p.type];return fn?fn(p):P2(p);}).join('');
   document.body.insertAdjacentHTML('beforeend', html);
-})();
+}
 </script>
 </body>
 </html>

@@ -13,14 +13,15 @@
 
 ## 渲染策略
 
-**模板与数据分离**：HTML 文件中通过 `<script src="review.js">` 加载外部数据文件，而非内联到 `<script type="application/json">` 标签中。
+**数据内联**：将 review.json 转为 JS 变量后直接嵌入 HTML，不依赖外部文件。
 
 实际操作：
-1. 将 `review.json` 转为 `review.js`，内容为 `window.__BOOK_DATA__ = {...};`
-2. HTML 文件通过 `<script src="review.js"></script>` 加载
-3. 渲染脚本从 `window.__BOOK_DATA__` 读取数据
+1. 读取模板 `templates/recommend-card.tpl.html`
+2. 将 `{{TITLE}}` 替换为书名
+3. 将 `{{REVIEW_DATA}}` 替换为 `window.__BOOK_DATA__ = {...};`（review.json 的 JS 版）
+4. 最终 HTML 是自包含的，可双击直接在浏览器打开，无 `file://` 协议限制
 
-这样模板可跨书复用——换一本书只需替换 `review.js`，HTML 模板完全不动。
+**弱水印**：模板 CSS 已内置 `popwave.cn` 水印（每页右下角，9px/18%透明度），无需额外操作。
 
 ---
 
@@ -124,18 +125,16 @@
 
 ## 产出
 
-`{书名}-读者推书-v1.html` + `review.js`（数据文件）
-
-两个文件放在同一目录，HTML通过相对路径引用 `review.js`。
+`{书名}-读者推书-v1.html` + `review.js`（备用，供外部调试加载）
 
 ---
 
 ## 质量门控
 
-- ❌ 禁止将 review.json 内容内联到 HTML 的 `<script type="application/json">` 标签
+- ❌ 禁止 {{REVIEW_DATA}} 占位符未被替换为空数据 HTML
 - ❌ 禁止超过9页
 - ❌ 禁止空页面（每页至少2个block）
-- ✓ review.js 必须与 HTML 同目录
+- ✓ HTML 内联 review.json 数据，可双击直接打开
 - ✓ 每页必须有 footer（页脚标注页码+页面类型）
 - ✓ 雷达图6个维度必须全部有值
 
