@@ -26,19 +26,19 @@
 
 ## 9页结构
 
-推书卡固定9页，每页720×960px。每页通过 `type` 字段映射独立的 CSS 视觉人格：
+推书卡固定9页，720×960px。每页通过 `type` 映射独立的排版语言：
 
-| type | CSS class | 视觉特征 |
-|:--|:--|:--|
-| cover | page-cover | 暗色渐变封面，右下光晕 |
-| hook | page-hook | 纸底+右顶角L形几何+首卡左加粗 |
-| synopsis | page-synopsis | 纸底+左侧时间线竖线+步骤圆点 |
-| characters | page-characters | 纸底+右顶角圆环+四色左竖线 |
-| chemistry | page-chemistry | 纸底+顶部wash渐变+公式边框 |
-| structure | page-structure | 纸底+标题下横线+route加框 |
-| selling_points | page-selling | 纸底+底部三色渐变条+奇偶卡 |
-| risks | page-risks | 纸底+加粗内框+雷达加框 |
-| verdict | page-verdict | 深色封底+左上光晕 |
+| type | 设计范式 | CSS class | 核心特征 |
+|:--|:--|:--|:--|
+| cover | **Cinematic Poster** | page-cover | 暗色渐变+超大衬线书名+金线引言 |
+| hook | **Swiss Grid** | page-swiss | 纯白+左黑边+2×2十字分割+01-04数字 |
+| synopsis | **Magazine Editorial** | page-magazine | 左深色边栏(竖排眉标)+右内容+时间线圆点 |
+| characters | **Profile Spread** | page-profiles | 上眉线+2×2人物卡+名字下划线+驱动力正文 |
+| chemistry | **Infographic** | page-infographic | 居中A×B公式框+2解释卡 |
+| structure | **Horizontal Timeline** | page-timeline | 横向黑线+圆点节点+底部路线框 |
+| selling_points | **Feature Showcase** | page-showcase | 全黑底+金字+1px分割网格+编号 |
+| risks | **Dashboard** | page-dashboard | 左6维条形图+右红框警告+红标签 |
+| verdict | **Back Cover** | page-backcover | 深色渐变+居中大评分+双栏推荐 |
 
 ### Page 1 · cover（封面）
 - **数据来源**：`metadata` + `positioning` + `tags`
