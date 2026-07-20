@@ -1,8 +1,8 @@
 {
   "id": "pop-research",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "displayName": "独立调研",
-  "description": "三界框架深度调研+采风级质感采集+decon-lite轻量拆书。v1.4.0：新增decon-lite档位（只拆力量体系结构+剧情节奏两表供plot三源合流）。seed 1a五维摸底→用户选力量体系参考书→自动路由decon-lite",
+  "description": "独立调研skill。v2.0.0全量重构：聚焦管线真实场景——赛道定位调研(4轮搜索，pipeline Phase 0自动触发)+decon-lite增强(5表：力量/节奏/情绪/视角/开篇)+采风。三界框架降为可选深层调研",
   "tags": ["创意与研究", "调研"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-research", "调研", "research"] },
