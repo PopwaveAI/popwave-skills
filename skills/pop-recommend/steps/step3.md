@@ -26,53 +26,56 @@
 
 ## 9页结构
 
-推书卡固定9页，每页720×960px，对应 review.json 的不同字段：
+推书卡固定9页，每页720×960px。每页通过 `type` 字段映射独立的 CSS 视觉人格：
+
+| type | CSS class | 视觉特征 |
+|:--|:--|:--|
+| cover | page-cover | 暗色渐变封面，右下光晕 |
+| hook | page-hook | 纸底+右顶角L形几何+首卡左加粗 |
+| synopsis | page-synopsis | 纸底+左侧时间线竖线+步骤圆点 |
+| characters | page-characters | 纸底+右顶角圆环+四色左竖线 |
+| chemistry | page-chemistry | 纸底+顶部wash渐变+公式边框 |
+| structure | page-structure | 纸底+标题下横线+route加框 |
+| selling_points | page-selling | 纸底+底部三色渐变条+奇偶卡 |
+| risks | page-risks | 纸底+加粗内框+雷达加框 |
+| verdict | page-verdict | 深色封底+左上光晕 |
 
 ### Page 1 · cover（封面）
-- **数据来源**：`metadata` + `positioning` + `recommendation.score_range`
+- **数据来源**：`metadata` + `positioning` + `tags`
 - **block组成**：quote（一句话定位）+ lede（核心钩子）+ tags（标签）
-- **主题**：暗色封面，书名大字
 
 ### Page 2 · hook（核心梗）
-- **数据来源**：`positioning.core_hook` + `strengths[0]`
+- **数据来源**：`positioning.core_hook` + strengths
 - **block组成**：cards（4张差异卡）+ panel（真正的故事问题）
-- **目的**：说清"这本书和同类书有什么不同"
 
 ### Page 3 · synopsis（无剧透梗概）
 - **数据来源**：`synopsis` + `world.structure`
 - **block组成**：steps（4步故事方向）+ panel（故事推进的轴心）
-- **目的**：无剧透讲清故事方向
 
 ### Page 4 · characters（人物角色卡）
 - **数据来源**：`characters`（取前4个）
 - **block组成**：cards（4张人物卡）+ panel（群像功能）
-- **目的**：说清"谁值得关注"
 
 ### Page 5 · chemistry（关系化学）
-- **数据来源**：`anchor-pool` 中 `type: "relationship"` 的锚点（通过 review.json 的 characters 关联）
+- **数据来源**：anchor-pool 中 type: "relationship" 的锚点
 - **block组成**：formula（双方驱动力）+ cards（2张关系动态卡）+ panel（关系向前的标志）
-- **目的**：说清"关系为什么好看"
-- **注意**：如果无关系锚点，此页可省略，改为 selling_points 的延伸页
+- **省略条件**：无关系锚点时可跳过，9页变8页
 
 ### Page 6 · structure（故事结构）
 - **数据来源**：`world.structure` + `reading_experience`
 - **block组成**：cards（4张结构卡）+ route（故事路线）
-- **目的**：读者需知道的结构信息
 
 ### Page 7 · selling_points（具体卖点）
 - **数据来源**：`strengths`（全部）
-- **block组成**：cards（4张卖点卡）+ panel（强项边界）
-- **目的**：说清"好看具体发生在哪里"
+- **block组成**：cards（卖点卡）+ panel（强项边界）
 
 ### Page 8 · risks（阅感与避雷）
 - **数据来源**：`reading_experience` + `scoring.dimensions` + `controversies`
 - **block组成**：radar（6维雷达图）+ warning（避雷项）+ panel（争议如何理解）
-- **目的**：说清"哪些人可能弃书"
 
 ### Page 9 · verdict（最终结论）
 - **数据来源**：`audience` + `recommendation`
 - **block组成**：audience（推荐/不推荐）+ verdict（评分+结论）+ panel（为什么值得试读）
-- **目的**：最终推荐
 
 ---
 
