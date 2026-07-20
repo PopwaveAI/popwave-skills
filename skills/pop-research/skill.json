@@ -2,12 +2,12 @@
   "id": "pop-research",
   "name": "pop-research",
   "displayName": "调研",
-  "description": "v3.5独立调研skill，三界框架深度调研。被seed/plot/pop-novel三环节按需调用：接收调研需求→三界框架定界→分界调研→压力源转化→交叉困境识别→多元素整合→质量检查→存盘+索引更新→返回路径指针。",
+  "description": "v3.5独立调研skill，三界框架深度调研+采风级质感调研。被seed/plot/pop-novel/write四环节按需调用：接收调研需求（期望深度：种子级/场景级/缺口级/采风级）→三界框架档位走定界+分界调研+压力源+交叉困境；采风级走真实质感采集（一手资料+感官细节+职业黑话+场景布局）→存盘+索引更新→返回路径指针。",
   "tags": [
     "创意与研究"
   ],
   "entry": "SKILL.md",
-  "activation": "seed/plot/pop-novel按需调用，传入领域+具体问题+期望深度",
-  "version": "1.1.1",
-  "pipeline": ["seed", "plot", "pop-novel"]
+  "activation": "seed/plot/pop-novel/write按需调用，传入领域+具体问题+期望深度",
+  "version": "1.2.0",
+  "pipeline": ["seed", "plot", "pop-novel", "write"]
 }

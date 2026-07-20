@@ -1,0 +1,54 @@
+{
+  "id": "pop-shared-dna",
+  "version": "4.1.0",
+  "displayName": "文风DNA蒸馏引擎",
+  "description": "从作者/书籍原文中提取写作风格DNA（叙事哲学+技法偏好+节奏模式），生成可复用的风格档案，配合 Thinking-Claude 式 Prompt 实现精准文风模仿。",
+  "category": "writing",
+  "scenario": "production",
+  "mode": "style",
+  "recommended": 3,
+  "tags": [
+    "文风",
+    "DNA",
+    "风格蒸馏",
+    "模仿",
+    "写作",
+    "提示词"
+  ],
+  "fidelity": "production",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "pop-shared-dna",
+      "DNA",
+      "文风蒸馏",
+      "风格模仿",
+      "style-mimic"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false
+  },
+  "orchestration": {
+    "preflight": [],
+    "dependencies": [],
+    "inject_context": []
+  },
+  "produces": [
+    "文风DNA档案（写作资产/文风库/作者名-书名.md, 分析+写前指令合一）",
+    "示例产出（试写片段）"
+  ],
+  "pipeline": {
+    "upstream": [
+      "pop-decon"
+    ],
+    "downstream": [
+      "pop-writer-prose",
+      "pop-writer-v3-seed",
+      "pop-writer-v3-revise"
+    ]
+  }
+}

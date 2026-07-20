@@ -1,0 +1,12 @@
+{
+  "id": "pop-dna-style",
+  "version": "1.0.0",
+  "displayName": "文风DNA提取",
+  "description": "从参考书采样→按pop-shared-dna v4模板提取笔触DNA→部署到项目本地涌现/文风锚定.md。双档位设计：A笔触DNA必做（句式/感官/叙事距离/对话/情绪外化）+B剧情DNA brief可选（爽点节奏/Boss梯度/主角成长曲线）。场景定向采样9种场景类型×2-3章=25-30章。是write skill笔触DNA标准插槽的供给方",
+  "tags": ["创意与研究"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-dna-style", "提取文风DNA", "文风DNA"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

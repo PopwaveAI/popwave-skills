@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "7.3.0",
+  "version": "8.0.0",
   "displayName": "番茄 Write",
-  "description": "番茄正文渲染。定位：从ch002开始写正文（ch001由seed黄金首章产出）。心法引导+笔触DNA驱动笔触+章型骨架驱动结构+状态驱动连续性。v7.3.0：适配新三层架构——write从ch002开始，ch002回收seed黄金首章(ch001)的章末钩子",
+  "description": "番茄正文渲染。定位：从ch002开始写正文（ch001由seed黄金首章产出）。章型骨架驱动结构+状态驱动连续性+笔触DNA驱动笔触。v8.0.0：write skill做减法——移除内置风格倾向（短句/道引导词/【】面板/动作链必选/多感官必选/感官优先级表/情绪外化/碎片化思考），只留结构约束（章型骨架+字数+节奏物理量+爽感引擎），风格层全部移交DNA",
   "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "写正文", "写章节"] },

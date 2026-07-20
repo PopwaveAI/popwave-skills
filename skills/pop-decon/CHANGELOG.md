@@ -1,5 +1,18 @@
 # CHANGELOG — 02-pop-novel-deconstructor
 
+## v20.1.0 | 2026-07-20
+
+### 移除pop-trope-library入库，改为沉淀本地文件夹
+
+**根因**：library库已优化掉（不再建立pop-trope-library），decon拆解产出应直接沉淀到项目本地文件夹，而非入库到library库。
+
+**改动**：
+- SKILL.md红线6：从"全管线完成不执行入库确认"改为"产出沉淀到项目本地文件夹，不入库pop-trope-library"
+- SKILL.md管线地图：从"入库: pop-trope-library 四库"改为"沉淀: 项目本地文件夹（不入库pop-trope-library）"
+- step-1-pipeline.md路由建议第5条：从"入库确认"改为"沉淀确认"
+- step-1-pipeline.md入库确认章节：改为"沉淀到项目本地文件夹"，沉淀路径从`剧情库/{标签}/`改为`项目本地/剧情库/{标签}/`，删除入库速查引用，完成提示语改为"产出已沉淀到项目本地文件夹"
+- step-1-pipeline.md管线完成确认：从"入库状态"改为"沉淀状态"
+
 ## v20.0.0 | 2026-07-18
 
 ### Phase 3 以"服务续写/同人"为原目的重构
