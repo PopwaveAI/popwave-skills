@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "displayName": "番茄叙事引擎",
-  "description": "v3.3.0：统一幕/卷格式（幕8~12章/卷40~60章），重构step2为四层：本卷设定快照→分支剧情线≥6条→分幕设计→叙事流白描",
+  "description": "v3.4.0：白描改为按幕白描（五段式叙事梗概+场景表+幕末钩子），参考假面僧匪幕纲格式。推演按幕（8~12章）保证密度，不按卷一口气写",
   "tags": ["番茄", "叙事", "剧情白描", "章锚点表"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "番茄plot", "番茄叙事"] },
