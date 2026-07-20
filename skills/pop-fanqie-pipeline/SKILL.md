@@ -1,6 +1,7 @@
 # pop-fanqie-pipeline · 番茄管线总控
 
 > 项目初始化 + 用户意图深问 + 子agent并发推进 + 状态追踪 + 阶段路由。
+> v2.1.0：Phase 2拆分为Phase 2(World)+Phase 3(Plot)，设定设计与叙事创作分离。后续phase重编号。
 > v2.0.0：Phase 0全量重构——从"问一本参考书"改为"深问赛道方向+标签+参考书群"，然后子agent并发推进。
 > 每次对话开始，agent读project-state.md就知道"我在哪、该进哪个phase"。
 
@@ -43,7 +44,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 > "你想写什么类型/题材？都市异能 / 玄幻修仙 / 无限流 / 历史架空 / 西幻 / 灵异悬疑 / 其他？说个模糊的感觉也行。"
 
 锚定一个方向后，追问：
-- 有没有已经想好的梗或画面？（有 → 记录，跳过市场调研的扫榜定方向步骤）
+- 有没有已经想好的创意或画面？（有 → 记录，跳过市场调研的扫榜定方向步骤）
 - 完全没有 → "没关系，后面我会帮你从排行榜找灵感"
 
 **第2问：标签/元素（可不回答，跳过不阻塞）**
@@ -70,7 +71,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 ## 赛道
 - 方向：{用户回答}
-- 已有梗/画面：{有/无，有则记录}
+- 已有创意/画面：{有/无，有则记录}
 
 ## 标签/元素
 - 倾向：{回答 or "未指定"}
@@ -134,7 +135,7 @@ phase: phase1
 1. 调pop-fanqie-seed，按最新SOP执行：跳过五维摸底（已在Phase 0完成）→ 直接进1c市场调研（如有子agent产出则消费落盘文件）→ 1d双轨发散 → 1e用户选 → Step 2结构化打磨 → Step 3黄金首章
 2. Seed产出落盘后，更新project-state.md：`phase=phase2`
 
-### Phase 2: Plot（世界构筑+剧情白描）
+### Phase 2: World（世界构筑→骨架.md）
 
 ```
 触发条件：state.phase = phase2
@@ -142,31 +143,42 @@ phase: phase1
 ```
 
 **执行流程**：
-1. 调pop-fanqie-plot，按最新SOP执行（加载三件底牌→三源合流→叙事流剧情白描→落盘）
-2. 产出落盘后更新project-state.md：`phase=phase3`，`current_chapter=ch002`
+1. 调pop-fanqie-world，按最新SOP执行（加载底牌→从创意生长世界→第一卷弧线→落盘骨架.md）
+2. 产出落盘后更新project-state.md：`phase=phase3`
 
-### Phase 3: Write（正文渲染 ch002+）
+### Phase 3: Plot（叙事流剧情白描）
 
 ```
 触发条件：state.phase = phase3
+前置检查：1-骨架/骨架.md 存在
+```
+
+**执行流程**：
+1. 调pop-fanqie-plot，按最新SOP执行（加载骨架.md→叙事流剧情白描→章锚点表→落盘）
+2. 产出落盘后更新project-state.md：`phase=phase4`，`current_chapter=ch002`
+
+### Phase 4: Write（正文渲染 ch002+）
+
+```
+触发条件：state.phase = phase4
 前置检查：剧情白描 + 章锚点表 + current-state 存在
 ```
 
 **执行流程**：
 1. 调pop-fanqie-write，按最新SOP执行（DNA按需加载→选章型→写正文→落盘）
-2. 更新project-state.md：`phase=phase4`，`current_chapter=chNNN`
+2. 更新project-state.md：`phase=phase5`，`current_chapter=chNNN`
 
-### Phase 4: Review（审核+沉淀）
+### Phase 5: Review（审核+沉淀）
 
 ```
-触发条件：state.phase = phase4
+触发条件：state.phase = phase5
 前置检查：chNNN正文存在
 ```
 
 **执行流程**：
 1. 调pop-fanqie-review，按SOP执行
-2. 通过 → `phase=phase3`，`current_chapter=chNNN+1`（回到write写下一章）
-3. 打回 → `phase=phase3`（回到write重写本章）
+2. 通过 → `phase=phase4`，`current_chapter=chNNN+1`（回到write写下一章）
+3. 打回 → `phase=phase4`（回到write重写本章）
 
 ---
 
@@ -178,15 +190,16 @@ phase: phase1
 > 管线：番茄skill群 | 创建：{timestamp} | 更新：{timestamp}
 
 ## 当前阶段
-phase: {init | phase0 | phase1 | phase2 | phase3 | phase4}
+phase: {init | phase0 | phase1 | phase2 | phase3 | phase4 | phase5}
 current_chapter: {ch000 | ch001 | ch002 | ...}
 
 ## 阶段完成情况
 - [ ] Phase 0: 用户意图 + 并发前置准备
 - [ ] Phase 1: Seed → 创意.md + ch001
-- [ ] Phase 2: Plot → 世界构筑 + 剧情白描 + 章锚点表
-- [ ] Phase 3: Write → 逐章渲染 (当前: chNNN)
-- [ ] Phase 4: Review → 审核-chNNN.md
+- [ ] Phase 2: World → 骨架.md
+- [ ] Phase 3: Plot → 剧情白描 + 章锚点表
+- [ ] Phase 4: Write → 逐章渲染 (当前: chNNN)
+- [ ] Phase 5: Review → 审核-chNNN.md
 
 ## 底牌就绪
 - 用户意图：写作参考/用户意图.md {✅/❌}
@@ -226,9 +239,10 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 | 不存在 | — | Step 1 初始化 → 进 Phase 0 Stage 1 |
 | 存在 | init / phase0 | Phase 0 Stage 1 深问（如已完成则 Stage 2） |
 | 存在 | phase1 | Phase 1 Seed |
-| 存在 | phase2 | Phase 2 Plot |
-| 存在 | phase3 | Phase 3 Write (current_chapter) |
-| 存在 | phase4 | Phase 4 Review |
+| 存在 | phase2 | Phase 2 World |
+| 存在 | phase3 | Phase 3 Plot |
+| 存在 | phase4 | Phase 4 Write (current_chapter) |
+| 存在 | phase5 | Phase 5 Review |
 
 ### Skill调度表
 
@@ -239,13 +253,15 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 | Phase 0 Stage 2 | pop-research（decon-lite） | 用户给了力量体系参考书+已下载 |
 | Phase 0 Stage 2 | pop-research（赛道定位调研） | 赛道方向已知 |
 | Phase 1 | pop-fanqie-seed | Phase 0 底牌就绪 |
-| Phase 2 | pop-fanqie-plot | 创意.md + ch001 存在 |
-| Phase 3 | pop-fanqie-write | 剧情白描 + 章锚点表 存在 |
-| Phase 4 | pop-fanqie-review | chNNN正文存在 |
+| Phase 2 | pop-fanqie-world | 创意.md + ch001 存在 |
+| Phase 3 | pop-fanqie-plot | 骨架.md 存在 |
+| Phase 4 | pop-fanqie-write | 剧情白描 + 章锚点表 存在 |
+| Phase 5 | pop-fanqie-review | chNNN正文存在 |
 
 ---
 
 ## 版本
 
+v2.1.0 | 2026-07-21 | Phase 2拆为Phase 2(World)+Phase 3(Plot)，设定设计与叙事创作分离。后续phase重编号（Write→Phase4, Review→Phase5）。project-state.md模板/速查表/Skill调度表同步更新。 → CHANGELOG.md
 v2.0.0 | 2026-07-20 | Phase 0全量重构：从"问一本参考书"改为"用户意图深问(赛道+标签+参考书群+现有设定)→子agent并发推进(下载/DNA/decon-lite/赛道定位调研)→seed"。项目state模板扩展底牌就绪表。去参考书闸门(seed已内置) → CHANGELOG.md
 v1.0.0 | 2026-07-20 | 新建skill。项目初始化+project-state.md状态追踪 → CHANGELOG.md

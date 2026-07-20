@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v3.0.0 (2026-07-21)
+
+### 架构拆分：从plot拆出world skill，plot瘦身为专注叙事创作
+
+**根因**：plot聚合了两个能力域——设定设计（理性推导：力量体系→地图→势力→危机→弧线）和叙事创作（感性创作：剧情白描+章锚点表）。两个能力域混在一个skill里压力太大，设定设计的质量瓶颈会拖累叙事创作。
+
+**改动**：
+- **拆分**：设定设计（Step 1-4）移至新skill pop-fanqie-world v1.0.0，产出骨架.md
+- **plot瘦身**：从5步缩减为3步
+  - Step 1（内化）：加载骨架.md（world产出）+创意+首章+参考书DNA
+  - Step 2：叙事流剧情白描（原Step 4）
+  - Step 3：落盘+章锚点表（原Step 5）
+- **删除**：原Step 2（从梗生长世界）、原Step 3（第一卷弧线设计）→移至world
+- **红线精简**：从7条减至4条
+- **skill.json**：版本号v2.1.1→v3.0.0，description改为"加载骨架.md→叙事流剧情白描→章锚点表→落盘"
+
+**关联改动**：
+- 新建 pop-fanqie-world v1.0.0
+- pop-fanqie-pipeline v2.1.0：Phase 2拆为Phase 2(world)+Phase 3(plot)，后续phase重编号
+
 ## v2.0.2 (2026-07-20)
 
 ### step1种子条款表新增故事纲领加载

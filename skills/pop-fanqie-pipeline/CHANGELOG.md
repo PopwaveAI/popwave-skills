@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## v2.1.0 (2026-07-21)
+
+### Phase 2拆分为World+Plot，设定设计与叙事创作分离
+
+**根因**：原Phase 2=Plot聚合了设定设计（力量体系→地图→势力→危机→弧线）和叙事创作（剧情白描+章锚点表）两个能力域。混在一个skill里压力太大，设定设计的质量瓶颈会拖累叙事创作。
+
+**改动**：
+- **Phase拆分**：原Phase 2(Plot)拆为Phase 2(World)+Phase 3(Plot)
+  - Phase 2: World → 调pop-fanqie-world，产出骨架.md
+  - Phase 3: Plot → 调pop-fanqie-plot，消费骨架.md，产出剧情白描.md+章锚点表.md
+- **后续phase重编号**：原Phase 3(Write)→Phase 4，原Phase 4(Review)→Phase 5
+- **project-state.md模板**：phase枚举增加phase5，阶段完成情况拆分为6项
+- **速查表**：启动判断表+Skill调度表同步更新
+- **skill.json**：v2.0.0→v2.1.0
+
+**关联改动**：
+- 新建 pop-fanqie-world v1.0.0
+- pop-fanqie-plot v2.1.1→v3.0.0（瘦身）
+
 ## v1.0.0 (2026-07-20)
 
 ### 新建pop-fanqie-pipeline skill

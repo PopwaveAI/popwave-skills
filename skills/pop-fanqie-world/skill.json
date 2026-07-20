@@ -1,0 +1,12 @@
+{
+  "id": "pop-fanqie-world",
+  "version": "1.0.0",
+  "displayName": "番茄世界构筑引擎",
+  "description": "从创意生长力量体系→地图→势力→危机→第一卷弧线→骨架.md。设定设计与叙事创作分离。",
+  "tags": ["番茄", "世界构筑", "骨架", "力量体系"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-world", "番茄world", "番茄世界构筑"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
