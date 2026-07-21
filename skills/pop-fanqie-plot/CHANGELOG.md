@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v3.5.1 (2026-07-21)
+
+### SKILL.md减负+消除故事纲领五维旧格式引用
+
+**根因**：7-21项目B测试发现创意.md产出"故事纲领六维"旧格式。三层根因之一是plot SKILL.md版本历史块line 113还留着"v2.1.1 | step1种子条款表新增seed故事纲领五维加载"——agent从SKILL.md概览层读到"五维"被带偏。同时plot SKILL.md版本历史块未按world减负原则移到CHANGELOG。
+
+**改动**：
+- SKILL.md版本历史块（v3.4.0~v2.0.0共9行）移到CHANGELOG，SKILL.md留单行指针"→ CHANGELOG.md"（和world v1.3.1减负方式一致）
+- 顶部加v3.5.1说明
+- SKILL.md版本号v3.4.0→v3.5.1（对齐skill.json v3.5.0+本次改动）
+- skill.json v3.5.0→v3.5.1
+
 ## v3.5.0 (2026-07-21)
 
 ### 分幕设计新增战斗配额+出场角色 + 白描新增力量成长线

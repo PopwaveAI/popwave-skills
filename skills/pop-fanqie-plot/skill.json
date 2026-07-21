@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "displayName": "番茄叙事引擎",
-  "description": "v3.5.0：2c分幕设计新增战斗场景配额(每幕≥3场)+出场角色字段，2d按幕白描新增主角力量成长线字段+每幕必须产出场景表。v3.4.0：白描改为按幕白描",
+  "description": "v3.5.1：SKILL.md减负——版本历史移到CHANGELOG，消除故事纲领五维旧格式引用。v3.5.0：2c分幕设计新增战斗场景配额(每幕≥3场)+出场角色字段，2d按幕白描新增主角力量成长线字段+每幕必须产出场景表",
   "tags": ["番茄", "叙事", "剧情白描"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "番茄plot", "番茄叙事"] },
