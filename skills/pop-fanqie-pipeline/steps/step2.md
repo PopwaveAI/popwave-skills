@@ -82,6 +82,20 @@
   → 调pop-fanqie-plot
   → 产出：设计/剧情白描.md
   → 更新state.md + state.html：
+     phase = phase3.5
+```
+
+### Phase: phase3.5（Character角色库建设）
+
+```
+前置检查：
+  ✅ 设计/剧情白描.md 存在（含分幕设计的出场角色清单）
+
+执行：
+  → 调pop-fanqie-character
+  → 消费分幕设计出场角色清单+骨架敌人梯度+创意主角轮廓
+  → 产出：设计/角色库.md
+  → 更新state.md + state.html：
      phase = phase4
      current_chapter = ch002
 ```
@@ -91,9 +105,11 @@
 ```
 前置检查：
   ✅ 设计/剧情白描.md 存在
+  ✅ 设计/角色库.md 存在
 
 执行：
-  → 调pop-fanqie-write
+  → 必须用子agent调pop-fanqie-write（主agent只做路由）
+  → 子agent指令：你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载角色库.md，战斗/升级场景必须使用DNA面板格式。
   → 写current_chapter指定的章节 → 正文/chXXX.txt
   → 更新state.md + state.html：
      phase = phase5

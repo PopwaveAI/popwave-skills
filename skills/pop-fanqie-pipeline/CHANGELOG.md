@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v3.1.0 (2026-07-21)
+
+### 新增Phase 3.5 Character + Phase 4子agent红线
+
+- 新增Phase 3.5 Character：plot完成后、write之前，调pop-fanqie-character建角色库。消费分幕设计出场角色清单+骨架敌人梯度+创意主角轮廓，产出设计/角色库.md
+- Phase 4 Write改为必须子agent执行：主agent只做路由，子agent指令模板含"必须加载角色库.md，战斗/升级场景必须使用DNA面板格式"
+- 红线新增第5条"Phase 4必须用子agent调write"+第7条"Phase 3.5 Character必须执行"
+- state模板/调度表/路由表/step2.md全部对齐Phase 3.5
+- Skill调度表Phase 4标注"子agent"，Phase 3.5新增行
+
 ## v3.0.0 (2026-07-21)
 
 ### 项目空间重构 + project-state.html可视化

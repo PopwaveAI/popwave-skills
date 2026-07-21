@@ -152,19 +152,32 @@ phase: phase1
 ```
 
 **执行流程**：
-1. 调pop-fanqie-plot，产出`设计/剧情白描.md`
-2. 更新state：`phase=phase4`，`current_chapter=ch002`
+1. 调pop-fanqie-plot，产出`设计/剧情白描.md`（含2c分幕设计：每幕出场角色清单）
+2. 更新state：`phase=phase3.5`
+
+### Phase 3.5: Character（角色库建设）
+
+```
+触发条件：state.phase = phase3.5
+前置检查：设计/剧情白描.md 存在（含分幕设计的出场角色清单）
+```
+
+**执行流程**：
+1. 调pop-fanqie-character，消费分幕设计的出场角色清单+骨架.md敌人梯度/势力格局+创意.md主角轮廓，产出`设计/角色库.md`
+2. 更新state.md + state.html：`phase=phase4`，`current_chapter=ch002`
 
 ### Phase 4: Write（正文渲染 ch002+）
 
 ```
 触发条件：state.phase = phase4
-前置检查：设计/剧情白描.md + current_chapter 存在
+前置检查：设计/剧情白描.md + 设计/角色库.md + current_chapter 存在
 ```
 
 **执行流程**：
-1. 调pop-fanqie-write，写`正文/chXXX.txt`
-2. 更新state：`phase=phase5`
+1. **必须用子agent调pop-fanqie-write**——主agent只做路由，不直接执行write
+2. 子agent指令模板：`你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载角色库.md，战斗/升级场景必须使用DNA面板格式。`
+3. 子agent产出`正文/chXXX.txt`
+4. 更新state：`phase=phase5`
 
 ### Phase 5: Review（审核+沉淀）
 
@@ -188,7 +201,7 @@ phase: phase1
 > 管线：番茄skill群 | 创建：{timestamp} | 更新：{timestamp}
 
 ## 当前阶段
-phase: {init | phase0 | phase1 | phase2 | phase3 | phase4 | phase5}
+phase: {init | phase0 | phase1 | phase2 | phase3 | phase3.5 | phase4 | phase5}
 current_chapter: {ch000 | ch001 | ch002 | ...}
 
 ## 阶段完成情况
@@ -196,6 +209,7 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 - [ ] Phase 1: Seed → 设计/创意.md + 正文/ch001.txt
 - [ ] Phase 2: World → 设计/骨架.md
 - [ ] Phase 3: Plot → 设计/剧情白描.md
+- [ ] Phase 3.5: Character → 设计/角色库.md
 - [ ] Phase 4: Write → 正文/chXXX.txt (当前: chNNN)
 - [ ] Phase 5: Review → 审核/review-chXXX.md
 
@@ -258,8 +272,10 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 2. **每次更新state.md必须同步生成state.html**——保持人读和机器读一致
 3. **Phase 0必须先深问再并发**——不完成Stage 1用户意图深问，不进入Stage 2
 4. **pipeline只做路由不干活**——不写正文、不创意、不审核、不提取DNA
-5. **每phase完成后必须更新project-state.md + project-state.html**
-6. **agent每次对话第一件事是读project-state.md**
+5. **Phase 4必须用子agent调write**——主agent只做路由，不直接执行write。主agent执行write会导致skill读取不全+正文质量退化+字数越来越短
+6. **每phase完成后必须更新project-state.md + project-state.html**
+7. **Phase 3.5 Character必须执行**——plot完成后必须经过character建角色库，write才能消费角色库写正文。跳过character=角色设计丢失
+8. **agent每次对话第一件事是读project-state.md**
 
 ---
 
@@ -274,6 +290,7 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 | 存在 | phase1 | Phase 1 Seed |
 | 存在 | phase2 | Phase 2 World |
 | 存在 | phase3 | Phase 3 Plot |
+| 存在 | phase3.5 | Phase 3.5 Character |
 | 存在 | phase4 | Phase 4 Write |
 | 存在 | phase5 | Phase 5 Review |
 
@@ -288,7 +305,8 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 | Phase 1 | pop-fanqie-seed | Phase 0 底牌就绪 | 设计/创意.md + 正文/ch001.txt |
 | Phase 2 | pop-fanqie-world | 设计/创意.md + 正文/ch001.txt | 设计/骨架.md |
 | Phase 3 | pop-fanqie-plot | 设计/骨架.md | 设计/剧情白描.md |
-| Phase 4 | pop-fanqie-write | 设计/剧情白描.md | 正文/chXXX.txt |
+| Phase 3.5 | pop-fanqie-character | 设计/剧情白描.md（含分幕设计出场角色） | 设计/角色库.md |
+| Phase 4 | pop-fanqie-write (**子agent**) | 设计/剧情白描.md + 设计/角色库.md | 正文/chXXX.txt |
 | Phase 5 | pop-fanqie-review | 正文/chXXX.txt | 审核/review-chXXX.md |
 
 ---
