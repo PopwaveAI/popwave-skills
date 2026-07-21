@@ -60,7 +60,7 @@ python skills/pop-fanqie-write/scripts/wordcount_check.py <章节文件.md> --au
 
 ## 4c. 落盘
 
-将正文写入 `2-正文/chXXX.txt`。
+将正文写入 `正文/chXXX.txt`。
 
 **落盘格式**：
 - 纯正文，不含思考过程/检查表

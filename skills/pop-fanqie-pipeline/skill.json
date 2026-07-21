@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-pipeline",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "displayName": "番茄 Pipeline",
-  "description": "管线总控。v2.1.0：Phase 2拆为Phase 2(World)+Phase 3(Plot)，设定设计与叙事创作分离，后续phase重编号",
+  "description": "管线总控。v3.0.0：项目空间重构（四文件夹：素材/设计/正文/审核）+ project-state.html可视化。Phase 0→5进度、底牌状态、产出文件、下一步操作可视化查看",
   "tags": ["管线与总控"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },

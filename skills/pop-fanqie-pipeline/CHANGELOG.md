@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## v3.0.0 (2026-07-21)
+
+### 项目空间重构 + project-state.html可视化
+
+**根因**：老板在agent环境测试后发现项目空间文件夹分级不合理——0/1/2数字编号和downloads/写作参考/涌现功能名混用，1-骨架文件夹混了骨架+剧情白描两个phase的产出，Phase 0产出散落三处。同时project-state.md只有agent能读，人看进度不直观。
+
+**改动**：
+
+- **项目空间重构为四文件夹**：
+  - 素材/ = Phase 0产出（调研+DNA+拆书+原书，合并旧写作参考/+涌现/+downloads/）
+  - 设计/ = Phase 1-3产出（创意+骨架+剧情白描，合并旧0-立项/+1-骨架/）
+  - 正文/ = Phase 4产出（逐章渲染，旧2-正文/改名）
+  - 审核/ = Phase 5产出（审核记录，保持不变）
+- **project-state.html可视化**（v3.0.0新增）：
+  - 每次更新project-state.md时同步生成project-state.html
+  - 自包含单文件（内联CSS+JS），浏览器直接打开
+  - 内容板块：项目名+时间戳 → Phase进度条(6个phase可视化) → 下一步操作 → 底牌就绪卡片 → 创意摘要卡片 → 最近产出表格
+  - 模板文件：templates/project-state.html.tpl（占位符替换方式生成）
+- **路径映射表**：SKILL.md新增旧→新路径映射表，所有路径引用统一更新
+- **step1.md**：初始化目录改为四文件夹（素材/素材/downloads + 素材/知识沉淀 + 设计 + 正文 + 审核）+ 1d新增生成project-state.html
+- **step2.md**：路由分流对齐6 phase结构 + 新路径 + 每次更新state.md后同步生成state.html的规则
+- **SKILL.md红线**：新增红线2"每次更新state.md必须同步生成state.html"
+- **批量路径替换**：番茄skill群15个文件共89处路径引用统一更新（seed/world/plot/write/review/research/dna-style）
+- **Skill调度表**：新增"产出路径"列，每个phase的产出文件路径一目了然
+
 ## v2.1.0 (2026-07-21)
 
 ### Phase 2拆分为World+Plot，设定设计与叙事创作分离

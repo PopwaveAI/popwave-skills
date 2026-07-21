@@ -95,4 +95,4 @@
 ## 产出
 
 - **剧情DNA-brief.md**（3维度，每维度1段观察+1-2条迁移）
-- 传递给 Step 4 部署到 `涌现/剧情DNA-brief.md`
+- 传递给 Step 4 部署到 `素材/剧情DNA-brief.md`
