@@ -12,13 +12,16 @@
 
 ---
 
-## 1b. 创建标准目录结构（v3.0.0四文件夹）
+## 1b. 创建标准目录结构（v3.2.0四文件夹+设计子目录）
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$projectDir/素材" | Out-Null
 New-Item -ItemType Directory -Force -Path "$projectDir/素材/downloads" | Out-Null
 New-Item -ItemType Directory -Force -Path "$projectDir/素材/知识沉淀" | Out-Null
 New-Item -ItemType Directory -Force -Path "$projectDir/设计" | Out-Null
+New-Item -ItemType Directory -Force -Path "$projectDir/设计/全书设定" | Out-Null
+New-Item -ItemType Directory -Force -Path "$projectDir/设计/角色库" | Out-Null
+New-Item -ItemType Directory -Force -Path "$projectDir/设计/第一卷剧情" | Out-Null
 New-Item -ItemType Directory -Force -Path "$projectDir/正文" | Out-Null
 New-Item -ItemType Directory -Force -Path "$projectDir/审核" | Out-Null
 ```
@@ -27,7 +30,7 @@ New-Item -ItemType Directory -Force -Path "$projectDir/审核" | Out-Null
 | 文件夹 | 存什么 | 对应Phase |
 |:--|:--|:--|
 | 素材/ | 调研+DNA+拆书+原书 | Phase 0产出 |
-| 设计/ | 创意+骨架+剧情白描 | Phase 1-3产出 |
+| 设计/ | 创意（根目录）+全书设定+角色库+第一卷剧情 | Phase 1-3.5产出 |
 | 正文/ | 逐章渲染 | Phase 4产出 |
 | 审核/ | 审核记录 | Phase 5产出 |
 
@@ -47,8 +50,9 @@ current_chapter: ch000
 ## 阶段完成情况
 - [ ] Phase 0: 用户意图 + 并发前置准备
 - [ ] Phase 1: Seed → 设计/创意.md + 正文/ch001.txt
-- [ ] Phase 2: World → 设计/骨架.md
-- [ ] Phase 3: Plot → 设计/剧情白描.md
+- [ ] Phase 2: World → 设计/全书设定/（多文件）
+- [ ] Phase 3: Plot → 设计/第一卷剧情/剧情白描.md
+- [ ] Phase 3.5: Character → 设计/角色库/角色库.md
 - [ ] Phase 4: Write → 正文/chXXX.txt (当前: ch000)
 - [ ] Phase 5: Review → 审核/review-chXXX.md
 

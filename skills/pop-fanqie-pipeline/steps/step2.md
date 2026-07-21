@@ -67,7 +67,7 @@
 
 执行：
   → 调pop-fanqie-world
-  → 产出：设计/骨架.md
+  → 产出：设计/全书设定/（多文件：力量体系.md+地图.md+势力.md+危机.md+各卷切片.md+全书配角.md）
   → 更新state.md + state.html：
      phase = phase3
 ```
@@ -76,11 +76,11 @@
 
 ```
 前置检查：
-  ✅ 设计/骨架.md 存在
+  ✅ 设计/全书设定/ 存在
 
 执行：
   → 调pop-fanqie-plot
-  → 产出：设计/剧情白描.md
+  → 产出：设计/第一卷剧情/剧情白描.md
   → 更新state.md + state.html：
      phase = phase3.5
 ```
@@ -89,12 +89,12 @@
 
 ```
 前置检查：
-  ✅ 设计/剧情白描.md 存在（含分幕设计的出场角色清单）
+  ✅ 设计/第一卷剧情/剧情白描.md 存在（含分幕设计的出场角色清单）
 
 执行：
   → 调pop-fanqie-character
-  → 消费分幕设计出场角色清单+骨架敌人梯度+创意主角轮廓
-  → 产出：设计/角色库.md
+  → 消费分幕设计出场角色清单+全书设定/势力.md敌人梯度+创意主角轮廓
+  → 产出：设计/角色库/角色库.md
   → 更新state.md + state.html：
      phase = phase4
      current_chapter = ch002
@@ -104,12 +104,12 @@
 
 ```
 前置检查：
-  ✅ 设计/剧情白描.md 存在
-  ✅ 设计/角色库.md 存在
+  ✅ 设计/第一卷剧情/剧情白描.md 存在
+  ✅ 设计/角色库/角色库.md 存在
 
 执行：
   → 必须用子agent调pop-fanqie-write（主agent只做路由）
-  → 子agent指令：你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载角色库.md，战斗/升级场景必须使用DNA面板格式。
+  → 子agent指令：你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md，战斗/升级场景必须使用DNA面板格式。
   → 写current_chapter指定的章节 → 正文/chXXX.txt
   → 更新state.md + state.html：
      phase = phase5

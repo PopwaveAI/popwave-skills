@@ -1,5 +1,6 @@
 # pop-fanqie-pipeline · 番茄管线总控
 
+> v3.2.0：设计文件夹拆为3个子文件夹（全书设定/角色库/第一卷剧情），骨架.md拆为多文件（力量体系.md/地图.md/势力.md/危机.md/各卷切片.md/全书配角.md），全链路路径同步更新。
 > v3.0.0：项目空间重构（四文件夹：素材/设计/正文/审核）+ project-state.html可视化。Phase 0→5的进度、底牌状态、产出文件、下一步操作可视化查看。
 > v2.1.0：Phase 2拆分为Phase 2(World)+Phase 3(Plot)，设定设计与叙事创作分离。
 > 每次对话开始，agent读project-state.md就知道"我在哪、该进哪个phase"。人读project-state.html看进度。
@@ -15,28 +16,39 @@
 
 ---
 
-## 项目空间结构（v3.0.0重构）
+## 项目空间结构（v3.2.0重构）
 
 ```
 {项目名}/
-├── project-state.html     # 可视化状态（人看，每次更新state时同步生成）
-├── project-state.md       # 机器状态（agent读，唯一状态源）
+├── project-state.html
+├── project-state.md
 ├── README.md
-├── 素材/                   # Phase 0产出（调研+DNA+拆书+原书）
+├── 素材/                           # Phase 0产出
 │   ├── 用户意图.md
 │   ├── 赛道调研.md
 │   ├── 市场校准.md
+│   ├── 题材深度调研.md              # seed v13.17.0新增
 │   ├── decon-lite-{书名}.md
 │   ├── 文风锚定.md
 │   └── downloads/
 │       └── {书名}.txt
-├── 设计/                   # Phase 1-3产出（创意+骨架+剧情白描）
-│   ├── 创意.md
-│   ├── 骨架.md
-│   └── 剧情白描.md
-├── 正文/                   # Phase 4产出（逐章渲染）
+├── 设计/                           # Phase 1-3.5产出
+│   ├── 创意.md                     # Phase 1 seed产出（根目录）
+│   ├── 全书设定/                   # Phase 2 world产出
+│   │   ├── 力量体系.md
+│   │   ├── 地图.md
+│   │   ├── 势力.md
+│   │   ├── 危机.md
+│   │   ├── 各卷切片.md
+│   │   └── 全书配角.md
+│   ├── 角色库/                     # Phase 3.5 character产出
+│   │   └── 角色库.md
+│   └── 第一卷剧情/                 # Phase 3 plot产出
+│       ├── 剧情白描.md
+│       └── 章锚点表.md
+├── 正文/                           # Phase 4产出
 │   └── chXXX.txt
-└── 审核/                   # Phase 5产出（审核记录）
+└── 审核/                           # Phase 5产出
     └── review-chXXX.md
 ```
 
@@ -53,6 +65,9 @@
 | 写作参考/decon-lite-*.md | 素材/decon-lite-*.md | 拆书归素材 |
 | 涌现/文风锚定.md | 素材/文风锚定.md | DNA归素材 |
 | downloads/*.txt | 素材/downloads/*.txt | 原书归素材子目录 |
+| 设计/骨架.md | 设计/全书设定/（力量体系.md+地图.md+势力.md+危机.md+各卷切片.md+全书配角.md） | 骨架拆为多文件 |
+| 设计/剧情白描.md | 设计/第一卷剧情/剧情白描.md | 剧情白描归第一卷剧情子目录 |
+| 设计/角色库.md | 设计/角色库/角色库.md | 角色库归角色库子目录 |
 
 ---
 
@@ -133,7 +148,7 @@ phase: phase1
 1. 调pop-fanqie-seed，按最新SOP执行
 2. Seed产出落盘后（`设计/创意.md` + `正文/ch001.txt`），更新project-state.md + html：`phase=phase2`
 
-### Phase 2: World（世界构筑→骨架.md）
+### Phase 2: World（世界构筑→全书设定/）
 
 ```
 触发条件：state.phase = phase2
@@ -141,41 +156,41 @@ phase: phase1
 ```
 
 **执行流程**：
-1. 调pop-fanqie-world，产出`设计/骨架.md`
+1. 调pop-fanqie-world，产出`设计/全书设定/`（多文件：力量体系.md+地图.md+势力.md+危机.md+各卷切片.md+全书配角.md）
 2. 更新state：`phase=phase3`
 
 ### Phase 3: Plot（叙事流剧情白描）
 
 ```
 触发条件：state.phase = phase3
-前置检查：设计/骨架.md 存在
+前置检查：设计/全书设定/ 存在
 ```
 
 **执行流程**：
-1. 调pop-fanqie-plot，产出`设计/剧情白描.md`（含2c分幕设计：每幕出场角色清单）
+1. 调pop-fanqie-plot，产出`设计/第一卷剧情/剧情白描.md`（含2c分幕设计：每幕出场角色清单）
 2. 更新state：`phase=phase3.5`
 
 ### Phase 3.5: Character（角色库建设）
 
 ```
 触发条件：state.phase = phase3.5
-前置检查：设计/剧情白描.md 存在（含分幕设计的出场角色清单）
+前置检查：设计/第一卷剧情/剧情白描.md 存在（含分幕设计的出场角色清单）
 ```
 
 **执行流程**：
-1. 调pop-fanqie-character，消费分幕设计的出场角色清单+骨架.md敌人梯度/势力格局+创意.md主角轮廓，产出`设计/角色库.md`
+1. 调pop-fanqie-character，消费分幕设计的出场角色清单+全书设定/势力.md敌人梯度/势力格局+创意.md主角轮廓，产出`设计/角色库/角色库.md`
 2. 更新state.md + state.html：`phase=phase4`，`current_chapter=ch002`
 
 ### Phase 4: Write（正文渲染 ch002+）
 
 ```
 触发条件：state.phase = phase4
-前置检查：设计/剧情白描.md + 设计/角色库.md + current_chapter 存在
+前置检查：设计/第一卷剧情/剧情白描.md + 设计/角色库/角色库.md + current_chapter 存在
 ```
 
 **执行流程**：
 1. **必须用子agent调pop-fanqie-write**——主agent只做路由，不直接执行write
-2. 子agent指令模板：`你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载角色库.md，战斗/升级场景必须使用DNA面板格式。`
+2. 子agent指令模板：`你扮演 pop-fanqie-write，读取 skills/pop-fanqie-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md，战斗/升级场景必须使用DNA面板格式。`
 3. 子agent产出`正文/chXXX.txt`
 4. 更新state：`phase=phase5`
 
@@ -207,9 +222,9 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 ## 阶段完成情况
 - [ ] Phase 0: 用户意图 + 并发前置准备
 - [ ] Phase 1: Seed → 设计/创意.md + 正文/ch001.txt
-- [ ] Phase 2: World → 设计/骨架.md
-- [ ] Phase 3: Plot → 设计/剧情白描.md
-- [ ] Phase 3.5: Character → 设计/角色库.md
+- [ ] Phase 2: World → 设计/全书设定/（多文件）
+- [ ] Phase 3: Plot → 设计/第一卷剧情/剧情白描.md
+- [ ] Phase 3.5: Character → 设计/角色库/角色库.md
 - [ ] Phase 4: Write → 正文/chXXX.txt (当前: chNNN)
 - [ ] Phase 5: Review → 审核/review-chXXX.md
 
@@ -295,16 +310,19 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {项目目录}/
 | Phase 0 Stage 2 | pop-research（decon-lite） | 力量体系参考书+已下载 | 素材/decon-lite-{书名}.md |
 | Phase 0 Stage 2 | pop-research（赛道定位调研） | 赛道方向已知 | 素材/赛道调研.md |
 | Phase 1 | pop-fanqie-seed | Phase 0 底牌就绪 | 设计/创意.md + 正文/ch001.txt |
-| Phase 2 | pop-fanqie-world | 设计/创意.md + 正文/ch001.txt | 设计/骨架.md |
-| Phase 3 | pop-fanqie-plot | 设计/骨架.md | 设计/剧情白描.md |
-| Phase 3.5 | pop-fanqie-character | 设计/剧情白描.md（含分幕设计出场角色） | 设计/角色库.md |
-| Phase 4 | pop-fanqie-write (**子agent**) | 设计/剧情白描.md + 设计/角色库.md | 正文/chXXX.txt |
+| Phase 2 | pop-fanqie-world | 设计/创意.md + 正文/ch001.txt | 设计/全书设定/（多文件） |
+| Phase 3 | pop-fanqie-plot | 设计/全书设定/ | 设计/第一卷剧情/剧情白描.md |
+| Phase 3.5 | pop-fanqie-character | 设计/第一卷剧情/剧情白描.md（含分幕设计出场角色） | 设计/角色库/角色库.md |
+| Phase 4 | pop-fanqie-write (**子agent**) | 设计/第一卷剧情/剧情白描.md + 设计/角色库/角色库.md | 正文/chXXX.txt |
 | Phase 5 | pop-fanqie-review | 正文/chXXX.txt | 审核/review-chXXX.md |
 
 ---
 
 ## 版本
 
+v3.2.0 | 2026-07-21 | 设计文件夹拆为3个子文件夹（全书设定/角色库/第一卷剧情），骨架.md拆为多文件，全链路路径同步更新。 → CHANGELOG.md
+v3.1.1 | 2026-07-21 | HTML可视化改为脚本生成。 → CHANGELOG.md
+v3.1.0 | 2026-07-21 | Phase 3.5 Character+子agent红线。 → CHANGELOG.md
 v3.0.0 | 2026-07-21 | 项目空间重构：四文件夹（素材/设计/正文/审核）+ project-state.html可视化。所有路径引用统一更新。 → CHANGELOG.md
 v2.1.0 | 2026-07-21 | Phase 2拆为Phase 2(World)+Phase 3(Plot)，设定设计与叙事创作分离。 → CHANGELOG.md
 v2.0.0 | 2026-07-20 | Phase 0全量重构。 → CHANGELOG.md

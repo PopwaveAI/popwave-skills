@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "displayName": "番茄正文渲染",
-  "description": "v8.3.0：设定库精选注入加角色维度（消费角色库.md），战斗/升级场景必须使用DNA面板格式（面板是力量体系可视化反馈，不是可选笔触风格）。章型骨架驱动结构，状态驱动连续性，笔触DNA驱动笔触",
+  "description": "v8.3.1：路径更新对齐pipeline v3.2.0——骨架.md→设计/全书设定/，剧情白描.md→设计/第一卷剧情/剧情白描.md，角色库.md→设计/角色库/角色库.md。设定库精选注入加角色维度，战斗/升级场景必须使用DNA面板格式。章型骨架驱动结构，状态驱动连续性，笔触DNA驱动笔触",
   "tags": ["番茄", "正文", "渲染", "AI写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "番茄write", "番茄写作"] },
