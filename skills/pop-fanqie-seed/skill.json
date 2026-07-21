@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-seed",
-  "version": "13.14.0",
+  "version": "13.15.0",
   "displayName": "番茄 Seed",
-  "description": "番茄创意引擎。v13.14.0：修复三个skill边界——seed补前期成长路线+金手指限制≥3条",
+  "description": "番茄创意引擎。v13.15.0：新增1d-0改编策略分析层——5+5发散前先用参考书DNA+赛道调研+用户元素+情绪+爽点类型组装3-5个改编策略，用户选策略后再发散。五维底牌升级为六维（加情绪基调）。decon-lite消费从5表升级到8表",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子", "定概念", "搜创意", "立项"] },
