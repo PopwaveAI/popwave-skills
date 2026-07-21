@@ -151,30 +151,22 @@
 
 **2. 生成project-state.html**（每次更新state.md后必须同步）：
 
-读取 `skills/pop-fanqie-pipeline/templates/project-state.html.tpl`，根据更新后的project-state.md内容替换占位符，落盘到 `{projectDir}/project-state.html`。
+运行脚本：
+```bash
+python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/project-state.md
+```
 
-**占位符→state.md字段映射**：
-| 占位符 | 从state.md哪里解析 |
-|:--|:--|
-| `{{PROJECT_NAME}}` | 第1行 `# 项目：{项目名}` |
-| `{{CREATED_AT}}` | `> 管线：...创建：{timestamp}` |
-| `{{UPDATED_AT}}` | `> 管线：...更新：{timestamp}` |
-| `{{PHASE}}` | `phase:` 行 |
-| `{{CURRENT_CHAPTER}}` | `current_chapter:` 行 |
-| `{{PHASE_CHECKLIST}}` | 阶段完成情况的`[x]`/`[ ]` |
-| `{{DECK_CARDS}}` | 底牌就绪区块的`✅`/`❌`/`skipped` |
-| `{{CREATIVE_SUMMARY}}` | 创意摘要区块 |
-| `{{RECENT_OUTPUTS}}` | 最近产出表格 |
-| `{{NEXT_STEP}}` | 根据当前phase查路由表生成 |
+脚本自动解析state.md字段→替换模板占位符→同目录生成state.html。**禁止手动写HTML**。
 
-**Phase→下一步操作映射**：
+**Phase→下一步操作映射**（脚本内置）：
 | Phase | 下一步操作 |
 |:--|:--|
 | init | Phase 0: 用户意图深问 |
 | phase0 | Phase 1: Seed创意+首章 |
 | phase1 | Phase 2: World世界构筑 |
 | phase2 | Phase 3: Plot剧情白描 |
-| phase3 | Phase 4: Write正文渲染 (ch002) |
+| phase3 | Phase 3.5: Character角色库建设 |
+| phase3.5 | Phase 4: Write正文渲染 (ch002) |
 | phase4 | Phase 5: Review审核 (chXXX) |
 | phase5 | Phase 4: Write下一章 / 重写本章 |
 

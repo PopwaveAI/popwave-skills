@@ -234,35 +234,27 @@ current_chapter: {ch000 | ch001 | ch002 | ...}
 
 ## project-state.html 可视化（v3.0.0新增）
 
-> 每次更新project-state.md时，同步生成project-state.html。人用浏览器打开即可查看项目进度。
+> 每次更新project-state.md后，**必须运行脚本**生成project-state.html。人用浏览器打开即可查看项目进度。
+
+**生成方式**：
+```bash
+python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {项目目录}/project-state.md
+```
+脚本自动：读取project-state.md → 解析字段 → 替换模板占位符 → 同目录生成project-state.html
+
+**禁止手动写HTML**——必须用脚本生成，确保和state.md一致。
 
 **HTML内容板块**：
 1. **顶部**：项目名 + 管线名 + 创建/更新时间
 2. **Phase进度条**：Phase 0→5的可视化进度条（✅完成/🔄进行中/⬜未开始）
-3. **底牌就绪卡片**：5张底牌的就绪状态（✅/❌/skipped）
-4. **创意摘要卡片**：书名 + 一句话 + 主角
-5. **最近产出表格**：阶段 + 文件名 + 落盘时间
-6. **下一步操作**：当前phase该做什么 + 前置检查
+3. **下一步操作**：当前phase该做什么
+4. **底牌就绪卡片**：5张底牌的就绪状态（✅/❌/skipped）
+5. **创意摘要卡片**：书名 + 一句话
+6. **最近产出表格**：阶段 + 文件名 + 落盘时间
 
-**HTML生成规则**：
-- 自包含单文件：内联CSS+JS，不依赖外部资源
-- 从project-state.md解析字段填充HTML
-- 模板文件：`skills/pop-fanqie-pipeline/templates/project-state.html.tpl`
-- 生成方式：pipeline读取project-state.md → 解析字段 → 替换模板占位符 → 落盘project-state.html
-
-**模板占位符**：
-| 占位符 | 替换内容 | 来源 |
-|:--|:--|:--|
-| `{{PROJECT_NAME}}` | 项目名 | project-state.md 第1行 |
-| `{{CREATED_AT}}` | 创建时间 | project-state.md |
-| `{{UPDATED_AT}}` | 更新时间 | project-state.md |
-| `{{PHASE}}` | 当前phase | phase字段 |
-| `{{CURRENT_CHAPTER}}` | 当前章节 | current_chapter字段 |
-| `{{PHASE_CHECKLIST}}` | Phase完成情况HTML | 阶段完成情况 |
-| `{{DECK_CARDS}}` | 底牌就绪HTML | 底牌就绪区块 |
-| `{{CREATIVE_SUMMARY}}` | 创意摘要HTML | 创意摘要区块 |
-| `{{RECENT_OUTPUTS}}` | 最近产出表格HTML | 最近产出表 |
-| `{{NEXT_STEP}}` | 下一步操作HTML | 当前phase路由 |
+**相关文件**：
+- 脚本：`skills/pop-fanqie-pipeline/scripts/generate-state-html.py`
+- 模板：`skills/pop-fanqie-pipeline/templates/project-state.html.tpl`
 
 ---
 

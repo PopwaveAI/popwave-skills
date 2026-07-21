@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v3.1.1 (2026-07-21)
+
+### HTML可视化改为脚本生成
+
+**根因**：v3.0.0的HTML可视化只写了占位符映射规则，没给agent可执行指令。agent不会自己去读模板文件、解析md字段、替换占位符——这是代码逻辑不是agent能自然执行的。项目b测试发现project-state.html从未被生成。
+
+**改动**：
+- 新增脚本 `scripts/generate-state-html.py`：读取project-state.md→解析字段→替换模板占位符→同目录生成project-state.html
+- SKILL.md HTML可视化部分改为"运行脚本"的可执行指令，删除占位符映射表
+- step1.md 1d改为运行脚本
+- step2.md 更新state.md后改为运行脚本
+- 红线2保持"每次更新state.md必须同步生成state.html"，执行方式改为脚本
+- 已用项目b测试验证脚本可正确生成HTML
+
 ## v3.1.0 (2026-07-21)
 
 ### 新增Phase 3.5 Character + Phase 4子agent红线

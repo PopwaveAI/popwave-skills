@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-pipeline",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "displayName": "番茄 Pipeline",
-  "description": "v3.1.0：新增Phase 3.5 Character（角色库建设）+ Phase 4必须子agent调write（主agent只路由）。v3.0.0：项目空间重构+HTML可视化",
+  "description": "v3.1.1：HTML可视化改为脚本生成（generate-state-html.py），解决agent不执行HTML生成的问题。v3.1.0：Phase 3.5 Character+子agent红线。v3.0.0：项目空间重构+HTML可视化",
   "tags": ["管线与总控"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },

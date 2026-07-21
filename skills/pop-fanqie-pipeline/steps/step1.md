@@ -73,21 +73,15 @@ current_chapter: ch000
 
 ## 1d. 生成project-state.html
 
-读取 `skills/pop-fanqie-pipeline/templates/project-state.html.tpl`，替换占位符后落盘到 `{projectDir}/project-state.html`。
+运行脚本生成HTML：
 
-**占位符替换**：
-| 占位符 | 替换内容 |
-|:--|:--|
-| `{{PROJECT_NAME}}` | {项目名} |
-| `{{CREATED_AT}}` | {timestamp} |
-| `{{UPDATED_AT}}` | {timestamp} |
-| `{{PHASE}}` | init |
-| `{{CURRENT_CHAPTER}}` | ch000 |
-| `{{PHASE_CHECKLIST}}` | 6个Phase全部⬜未开始 |
-| `{{DECK_CARDS}}` | 5张底牌全部❌ |
-| `{{CREATIVE_SUMMARY}}` | 待seed产出 |
-| `{{RECENT_OUTPUTS}}` | pipeline行 |
-| `{{NEXT_STEP}}` | Phase 0: 用户意图深问 |
+```bash
+python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/project-state.md
+```
+
+脚本自动读取project-state.md → 解析字段 → 替换模板占位符 → 同目录生成project-state.html。
+
+**禁止手动写HTML**——必须用脚本生成。
 
 ---
 
