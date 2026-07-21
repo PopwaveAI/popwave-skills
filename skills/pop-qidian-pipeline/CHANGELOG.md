@@ -1,0 +1,40 @@
+# CHANGELOG
+
+## v1.1.0 | 2026-07-21
+
+### 全链路联调
+- 版本快照表更新，对齐所有已升级skill新版本号：
+  - pop-qidian-research: v3.5.1 → v4.0.0（新增decon-lite 9表）
+  - pop-qidian-seed: v7.0.0 → v8.1.0（骨架层+主角层）
+  - pop-qidian-world: v1.0.0 → v2.0.0（收缩消费骨架）
+  - pop-qidian-plot: v3.0.0 → v4.0.0（四层结构+困难三层面）
+  - pop-qidian-write: v2.0.1 → v3.0.0（DNA三态+精选注入+角色库消费）
+  - pop-qidian-review: v2.0.1 → v3.0.0（四维审核+骨架维度检查）
+  - pop-qidian-character: 新建 v1.0.0
+  - pop-qidian-write-dndlike: v1.0.1（保持不变，本次只微调）
+  - pop-qidian-write-onepiece: v1.0.1（保持不变，本次只微调）
+
+### Phase路由微调
+- Phase路由各阶段标注下游skill版本号（research v4.0.0 / seed v8.1.0 / world v2.0.0 / plot v4.0.0 / write v3.0.0 / review v3.0.0 / character v1.0.0）
+- Phase 0 Stage 2 子agent指令标注 research v4.0.0
+- Phase 4 描述更新为"四层结构+困难三层面"（原2c分幕设计）
+- Phase 5 流派write选择标注版本号（write v3.0.0 / write-dndlike v1.0.1 / write-onepiece v1.0.1）
+
+### Skill调度表更新
+- 新增"版本"列，标注所有skill版本号
+
+### Bug修复
+- 修正顶部版本说明"Phase 0→5路由"为"Phase 0→6路由"（v1.0.0遗漏Phase 6）
+
+### 版本对齐
+- SKILL.md / skill.json / CHANGELOG.md 版本三处一致
+
+## v1.0.0 | 2026-07-21
+
+### 新建
+- 新建skill。起点管线总控，补齐起点skill群组缺失的pipeline总控。
+- Phase 0→6路由：Phase 0素材准备 → Phase 1 seed骨架层 → Phase 2 seed主角层 → Phase 3 world → Phase 3.5 character → Phase 4 plot → Phase 5 write → Phase 6 review
+- project-state.md状态追踪：三层就绪状态（骨架/主角/血肉）+ 底牌就绪 + 创意摘要 + 最近产出
+- 三层骨架依赖链硬约束：骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作
+- 流派write选择路由：dndlike / onepiece / 兜底模板
+- 基于番茄pipeline v3.2.0适配起点架构（三层骨架前移到seed + 流派write分离 + character在plot之前）

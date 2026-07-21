@@ -1,0 +1,8 @@
+{
+  "id": "pop-qidian-pipeline",
+  "name": "pop-qidian-pipeline",
+  "version": "1.1.0",
+  "description": "起点管线总控。项目初始化+project-state.md状态追踪+Phase 0→6路由（三层骨架依赖链：骨架→主角→血肉→写作→审核）。基于番茄pipeline适配起点架构。v1.1.0全链路联调，版本快照表对齐所有已升级skill。",
+  "entry": "SKILL.md",
+  "skills": ["SKILL.md"]
+}
