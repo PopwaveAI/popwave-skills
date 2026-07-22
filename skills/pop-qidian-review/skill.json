@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "displayName": "涌现 Review（番茄覆盖）",
   "description": "番茄review覆盖。正文渲染完成后的编辑审核层：四维审核框架（符合性/笔触/好看度/沉淀）。符合性检查含gap逐beat对比+骨架一致性+天赋约束+剧情映射+角色一致性+爽感闭环；笔触检查含AI味7项+笔触DNA 8维度；好看度定性4问；剧情沉淀含current-state.md更新+主角变化五项+钩子追踪。审核优先级：符合性>笔触>好看度>沉淀。当用户说'审稿/review/更新current-state'时启用。v3.0.0：引入四维审核框架+好看度4问+骨架维度检查，保留v2.0.1的gap分析和current-state更新机制",
-  "tags": ["审核与质量", "起点"],
+  "tags": ["审核与质量"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-review", "审稿"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

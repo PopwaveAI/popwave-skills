@@ -3,7 +3,7 @@
   "version": "13.17.0",
   "displayName": "番茄 Seed",
   "description": "v13.17.0：六维底牌升级为七维（加全书最大卖点），新增1c-5题材深度调研（处置驱动型/设定驱动型触发），2e力量体系层加厚（类型+≥3级阶位名+核心成长机制），红线13强制卖点收集。v13.16.0：修复故事纲领在概览层缺失。v13.15.0：新增1d-0改编策略分析层，五维底牌升级为六维，decon-lite消费从5表升级到8表",
-  "tags": ["创意与研究", "番茄"],
+  "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-seed", "做种子"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

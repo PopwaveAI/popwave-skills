@@ -7,7 +7,7 @@
   "scenario": "production",
   "mode": "style",
   "recommended": 3,
-  "tags": ["文风与DNA"],
+  "tags": ["创意与研究"],
   "fidelity": "production",
   "entry": "SKILL.md",
   "activation": {
