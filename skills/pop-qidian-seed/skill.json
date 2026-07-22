@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-seed",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "displayName": "起点 Seed",
-  "description": "起点立项引擎。v8.4.0：新增Step 0交互式立项决策（S1-S5，5轮），产出立项决策表.md。v8.3.0：42本decon-power验证的方法论沉淀。",
+  "description": "起点立项引擎。v8.5.0：故事先行——S1故事创意对齐先行，S2力量体系配套。v8.4.0：Step 0交互式决策。v8.3.0：42本decon-power方法论沉淀。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-seed", "做种子"] },

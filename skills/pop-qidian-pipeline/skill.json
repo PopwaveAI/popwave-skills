@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "1.7.0",
-  "description": "起点管线总控。当用户说'管线''pipeline''继续写''下一步'时启用。读项目总控.html→按Phase 0-6路由调度各子skill（seed/world/character/plot/write/review）。Phase 1-4先交互式决策再自动生成。",
+  "version": "1.8.0",
+  "description": "起点管线总控。v1.8.0：Phase 0-1并行（拆书+seed Step 0同时）+seed故事先行。v1.7.0：Phase 1-4先交互再生成。v1.5.0：plot v4.1.0调优。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
