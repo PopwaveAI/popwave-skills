@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-review",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "displayName": "涌现 Review（番茄覆盖）",
-  "description": "起点审核层。四维审核框架（符合性/笔触/好看度/沉淀）。v3.1.0：新增Step 4c小说快照（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）+红线11。v3.0.0：四维审核+骨架维度检查+好看度4问+主角变化五项+钩子追踪。",
+  "description": "起点章节审核引擎。当用户说\"审稿\"\"审核\"\"review\"时启用。四维审核：符合性→笔触→好看度→沉淀，产出审核报告+状态快照+current-state更新+小说快照。",
   "tags": ["审核与质量"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-review", "审稿"] },

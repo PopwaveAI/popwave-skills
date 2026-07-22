@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-seed",
-  "version": "8.2.0",
+  "version": "8.4.0",
   "displayName": "起点 Seed",
-  "description": "起点立项引擎。骨架（力量体系+动力引擎）→主角（众生之一+天赋+爽感矛盾）→创意→首章。v8.2.0：新增子养成线境界涌现设计（第三层B），每个大境界突破涌现≥2条新子养成系。来自没钱修什么仙938章/6境界/41条子养成线拆解验证。v8.1.0：Phase 2主角层完整实现。",
+  "description": "起点立项引擎。v8.4.0：新增Step 0交互式立项决策（S1-S5，5轮），产出立项决策表.md。v8.3.0：42本decon-power验证的方法论沉淀。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-seed", "做种子"] },

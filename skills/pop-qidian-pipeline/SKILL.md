@@ -1,281 +1,128 @@
-# pop-qidian-pipeline · 起点管线总控
+---
+name: pop-qidian-pipeline
+description: 起点管线总控。当用户说"管线""pipeline""继续写""下一步"时启用。读项目总控.html→按Phase 0-6路由调度各子skill（seed/world/character/plot/write/review）。
+---
 
-> v1.2.0：删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html中的`<!--STATE:xxx -->`标记字段。初始化强制创建全部目录（含审核/）+自检。write DNA改为100%项目空间读取（删除skill内部dna/目录）。
-> v1.1.0：全链路联调完成，版本快照表更新对齐所有已升级skill。Phase 0→6路由+三层骨架依赖链（骨架→主角→血肉→写作→审核）。基于番茄pipeline v3.2.0适配起点架构。
-> 每次对话开始，agent读项目总控.html就知道"我在哪、该进哪个phase"。人读同一个html看进度。
+# pipeline
+
+> 起点管线总控。Phase 0→6路由调度。v1.7.0：Phase 1-4改为先交互→再生成模式。
 
 ---
 
 ## 做什么
 
 输入：项目名（用户给）或当前项目目录
-输出：标准化目录结构 + `项目总控.html`（agent读+人看，唯一状态文件）
+输出：标准化目录结构（素材/设计/正文/审核）+ `项目总控.html`（唯一状态文件）
 
-**定位**：pipeline不写正文、不创意、不审核——它只负责"把agent指向正确的phase和skill"。所有下游skill（seed/world/character/plot/write/review/research/dna-style）由pipeline按phase调度，不自行启动。
-
-**与pop-qidian v4.0.1的关系**：pop-qidian保留为初始化审计入口（项目创建时一次性调用），pop-qidian-pipeline是每轮对话的总控（每次对话先读state再路由）。
+**定位**：pipeline只做路由不干活——不写正文、不创意、不审核、不提取DNA。按phase调度下游skill（seed/world/character/plot/write/review/research/dna-style），下游skill不自行启动。每次对话第一件事：读项目总控.html判断phase→路由→执行→SearchReplace更新html。
 
 ---
 
-## 项目空间结构
+## 怎么操作（SOP骨架）
+
+> execution.mode: 每次对话先读项目总控.html→按phase路由→执行→SearchReplace更新html。
+> 强弱加载：SKILL.md=完整骨架（必读），steps/step文件=详细操作（强加载全文），项目总控.html=状态源（每次必读），Phase路由表=弱加载参考。
+
+### Step 1：初始化 → `steps/step1.md`
+创建项目目录（8个子目录含审核/）+读模板生成项目总控.html+自检11项。
+
+### Step 2：路由循环 → `steps/step2.md`
+读html提取phase→按Phase路由表调度对应skill→完成后SearchReplace更新html。
+
+### Phase路由表
+
+| Phase | 调用Skill | 前置检查 | 产出 |
+|:--|:--|:--|:--|
+| 0-Stage1 | 深问四层（赛道/标签/参考书/现有设定） | state=init/phase0 | 素材/用户意图.md |
+| 0-Stage2 | 并发4子agent（download/dna-style/research×2） | Stage1完成 | 素材/（调研+文风锚定+decon-lite） |
+| 1 | pop-qidian-seed v8.1.0（Step 0交互→骨架层+创意+首章） | 底牌就绪 | 设计/立项决策表.md+骨架.md+创意.md+正文/ch001.txt |
+| 2 | pop-qidian-seed v8.1.0（主角层） | 骨架自洽通过 | 设计/主角设计.md |
+| 3 | pop-qidian-world v2.0.0（Step 0交互→世界圣经） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+全书设定/（多文件） |
+| 3.5 | pop-qidian-character v1.1.0（Step 0交互→角色库） | 全书设定就绪 | 设计/角色库/角色库决策表.md+角色库.md |
+| 4 | pop-qidian-plot v4.1.0（Step 0交互→卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md |
+| 5 | pop-qidian-write v3.3.0（**子agent**） | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
+| 6 | pop-qidian-review v3.1.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md |
+
+> Phase 0并发规则：下载先返回→再同时派发dna-style+decon-lite；赛道调研独立第一优先级启动。
+> Phase 5→6→5循环：write完成必进review，review通过回Phase 5写下一章，打回重写本章。
+> Phase 3.5 Character必须执行，world→character→plot是血肉层依赖链。
+
+### Phase 1-4执行模式：先交互→再生成
+
+> Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后才进入下游skill自动生成。可选轮用户可跳过。
+
+| Phase | Step 0交互轮次 | 核心必答/可选 | 决策表产出 | 完成后执行 |
+|:--|:--|:--|:--|:--|
+| 1 seed | S1-S5（5轮） | 前4轮核心必答+S5可选 | 设计/立项决策表.md | 再执行骨架生成 |
+| 3 world | W1-W2（2轮） | W1核心必答+W2可选 | 设计/世界决策表.md | 再执行世界圣经生成 |
+| 3.5 character | C1-C2（2轮） | C1核心必答+C2可选 | 设计/角色库/角色库决策表.md | 再执行角色库生成 |
+| 4 plot | R1-R5（5轮） | 前3轮核心必答+后2轮可选 | 设计/第一卷剧情/卷纲决策表.md | 再执行Step 1-3自动生成 |
+
+### 项目空间结构树
 
 ```
-{项目名}/
-├── 项目总控.html                   # 唯一状态文件（agent读+人看）
-├── README.md
-├── 素材/                           # Phase 0产出
+项目根/
+├── 素材/                    Phase 0 产出（调研+DNA+拆书+原书）
 │   ├── 用户意图.md
 │   ├── 赛道调研.md
-│   ├── 市场校准.md
-│   ├── decon-lite-{书名}.md
-│   ├── 文风锚定.md                 # pop-dna-style提取的笔触DNA（write的唯一DNA源）
-│   └── downloads/
-│       └── {书名}.txt
-├── 设计/                           # Phase 1-3.5产出
-│   ├── 创意.md                     # Phase 1 seed产出
-│   ├── 骨架.md                     # Phase 1 seed产出（力量体系+动力引擎）
-│   ├── 主角设计.md                 # Phase 2 seed产出（主角+金手指+爽感矛盾）
-│   ├── 全书设定/                   # Phase 3 world产出
-│   │   ├── 力量体系.md
-│   │   ├── 地图.md
-│   │   ├── 势力.md
-│   │   ├── 危机.md
-│   │   ├── 各卷切片.md
-│   │   └── 全书配角.md
-│   ├── 角色库/                     # Phase 3.5 character产出
+│   ├── 文风锚定.md           pop-dna-style 提取的笔触DNA
+│   └── decon-lite-{书名}.md  research 拆书9表
+├── 设计/                    Phase 1-4 产出
+│   ├── 立项决策表.md         Phase 1 Step 0 交互决策产出
+│   ├── 骨架.md              Phase 1 seed（力量体系+动力引擎）
+│   ├── 创意.md              Phase 1 seed（故事纲领）
+│   ├── 主角设计.md           Phase 2 seed（主角+金手指+爽感矛盾）
+│   ├── 世界决策表.md         Phase 3 Step 0 交互决策产出
+│   ├── 全书设定/            Phase 3 world
+│   ├── 角色库/              Phase 3.5 character
+│   │   ├── 角色库决策表.md   Phase 3.5 Step 0 交互决策产出
 │   │   └── 角色库.md
-│   └── 第一卷剧情/                 # Phase 4 plot产出
-│       ├── 卷纲.md                 # 四层结构（设定快照+剧情线+分幕起承转合+白描+精彩度自检）
-│       └── 章锚点表.md              # 4硬锚点+3软指导（v4.1.0简化）
-├── 正文/                           # Phase 5产出
-│   └── chXXX.txt
-└── 审核/                           # Phase 6产出
-    ├── review-chXXX.md             # 单章审核报告
-    └── 小说快照.md                  # 全书累计视图（每章review后更新）
+│   └── 第一卷剧情/          Phase 4 plot
+│       ├── 卷纲决策表.md     Phase 4 Step 0 交互决策产出
+│       ├── 卷纲.md
+│       └── 章锚点表.md
+├── 正文/                    Phase 5 write
+│   ├── ch001.md
+│   └── ch002.md ...
+└── 审核/                    Phase 6 review
+    └── review-chXXX.md
 ```
-
----
-
-## SOP骨架
-
-| 步骤 | 做什么 | 产出 | 详细方法 |
-|------|--------|------|---------|
-| Step 1 | 初始化项目目录 + 项目总控.html | 目录就绪 + state=init | steps/step1.md |
-| Step 2 | 读项目总控.html → 按phase路由 → 完成后SearchReplace更新html | 进入对应phase | steps/step2.md |
-
----
-
-## Phase 路由规则
-
-### Phase 0: 用户意图深问 + 子agent并发前置准备
-
-```
-触发条件：state.phase in [init, phase0]
-```
-
-**目标**：在创意发散之前把战场准备好——赛道方向、参考书群、力量体系参考全部就位。
-
-#### Phase 0: Stage 1 · 用户意图深问
-
-pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。四层递进：
-
-**第1问：赛道方向（必须回答）**
-> "你想写什么类型/题材？都市异能 / 玄幻修仙 / 无限流 / 历史架空 / 西幻 / 灵异悬疑 / 其他？说个模糊的感觉也行。"
-
-**第2问：标签/元素（可不回答，跳过不阻塞）**
-> "想往哪个方向做？爽文向：打脸/升级/越级碾压。烧脑向：智斗/规则博弈/信息差。生活向：种田/经营/日常。"
-
-**第3问：参考书群（可不回答，跳过不阻塞）**
-> "有没有2-3本你觉得写得好的书？不一定是同赛道，只要觉得笔触、节奏、设定有参考价值。"
-
-**第4问：现有设定（可不回答，跳过不阻塞）**
-> "你心里有没有已经想好的力量体系/世界规则/主角身份设定？"
-
-**深问完成后**，落盘 `素材/用户意图.md`。
-
-#### Phase 0: Stage 2 · 子agent并发推进
-
-| 任务 | 触发条件 | 子agent指令 |
-|:--|:--|:--|
-| **下载参考书** | 用户给了参考书+无本地文件 | `你扮演 tool-download-webnovel v7.0.0，读取 skills/tool-download-webnovel/SKILL.md。下载{书名}到素材/downloads/。返回：落盘路径+文件大小。` |
-| **笔触DNA提取** | 下载完成/已有本地文件 | `你扮演 pop-dna-style v1.1.0，读取 skills/pop-dna-style/SKILL.md。参考书：{书名}，txt路径：素材/downloads/{书名}.txt。提取笔触DNA→落盘素材/文风锚定.md。返回：落盘路径+采样章数+覆盖场景类型。` |
-| **decon-lite拆书** | 用户给了力量体系参考书+下载完成 | `你扮演 pop-qidian-research v4.0.0 decon-lite档位，读取 skills/pop-qidian-research/SKILL.md 了解decon-lite SOP（v4.0.0九表拆解）。参考书：{书名}，txt路径：素材/downloads/{书名}.txt。拆九表→落盘素材/decon-lite-{书名}.md。返回：落盘路径+九表摘要。` |
-| **赛道定位调研** | 必有（所有项目） | `你扮演 pop-qidian-research v4.0.0 赛道定位调研档位，读取 skills/pop-qidian-research/SKILL.md。赛道：{用户方向}。做4轮搜索→产出素材/赛道调研.md。返回：落盘路径+借鉴点/避雷点/爽点类型清单摘要。` |
-
-**并发规则**：
-- 下载依赖：先等下载子agent返回 → 再同时派发笔触DNA + decon-lite
-- 赛道定位调研：和其他任务完全独立，第一优先级启动
-- 全部子agent返回后 → 更新项目总控.html → `phase=phase1`
-
----
-
-### Phase 1: Seed 骨架层+创意+首章
-
-```
-触发条件：state.phase = phase1
-前置底牌：用户意图已落盘 + 赛道调研已落盘（如有）
-```
-
-**执行流程**：
-1. 调pop-qidian-seed v8.1.0，执行Phase 0七维底牌+Phase 1骨架层（1d力量体系设计+1e动力引擎设计+1f骨架自洽）→1g双轨发散→1h故事纲领→1i黄金首章
-2. Seed产出落盘后（`设计/骨架.md` + `设计/创意.md` + `正文/ch001.txt`），更新项目总控.html
-3. 骨架就绪状态检查：力量体系✅ + 动力引擎✅ + 骨架自洽✅ → `phase=phase2`
-
-**关键依赖**：骨架.md必须在创意发散前定稿。骨架自洽检查（1f）不通过不进Phase 2。
-
-### Phase 2: Seed 主角层
-
-```
-触发条件：state.phase = phase2
-前置检查：设计/骨架.md 存在 + 骨架自洽通过
-```
-
-**执行流程**：
-1. 调pop-qidian-seed v8.1.0 继续执行Phase 2主角层（2a主角设计+2b金手指设计+2c爽感矛盾设计）
-2. 产出`设计/主角设计.md`，更新项目总控.html
-3. 主角就绪状态检查：主角设计✅ + 金手指设计✅ + 爽感矛盾✅ → `phase=phase3`
-
-### Phase 3: World（世界构筑→全书设定/）
-
-```
-触发条件：state.phase = phase3
-前置检查：设计/骨架.md + 设计/主角设计.md + 正文/ch001.txt 存在
-```
-
-**执行流程**：
-1. 调pop-qidian-world v2.0.0，消费骨架.md（第一优先）+主角设计.md，产出`设计/全书设定/`（多文件：力量体系.md+地图.md+势力.md+危机.md+各卷切片.md+全书配角.md）
-2. world禁止自行发明力量体系和动力引擎，必须消费骨架.md
-3. 更新state：`phase=phase3.5`
-
-### Phase 3.5: Character（角色库建设）
-
-```
-触发条件：state.phase = phase3.5
-前置检查：设计/全书设定/ 存在
-```
-
-**执行流程**：
-1. 调pop-qidian-character v1.0.0，消费骨架.md（众生攀登方式分层）+全书设定/势力.md，产出`设计/角色库/角色库.md`
-2. 每个角色标注攀登方式类型+等级坐标
-3. 更新项目总控.html：`phase=phase4`
-
-### Phase 4: Plot（卷纲设计+章锚点表）
-
-```
-触发条件：state.phase = phase4
-前置检查：设计/全书设定/ + 设计/角色库/角色库.md 存在
-```
-
-**执行流程**：
-1. 调pop-qidian-plot v4.1.0，消费骨架.md+主角设计.md+全书设定+角色库，产出`设计/第一卷剧情/卷纲.md`（含四层结构+起承转合四段式+精彩度五问自检）+ `章锚点表.md`（4硬锚点+3软指导）
-2. 更新项目总控.html：`phase=phase5`，`current_chapter=ch002`
-
-> **注**：起点架构中plot在character之后（与番茄pipeline的plot→character顺序不同），因为character需要骨架.md的众生攀登方式分层作为输入，而plot需要角色库作为输入。world→character→plot是血肉层的依赖链。
-
-### Phase 5: Write（正文渲染 ch002+）
-
-```
-触发条件：state.phase = phase5
-前置检查：设计/第一卷剧情/卷纲.md + 设计/第一卷剧情/章锚点表.md + 设计/角色库/角色库.md + current_chapter 存在
-```
-
-**执行流程**：
-1. **必须用子agent调write**——主agent只做路由，不直接执行write
-2. 流派选择（v1.3.0简化）：
-   - **永远调pop-qidian-write**（唯一write skill）
-   - 用户声明流派后，将流派名称传给子agent，子agent在write的Step 4自动加载`references/流派专属/{流派名}/`技法包
-   - 支持的流派：D&D数据面板流（dndlike）/ 海贼王世界冒险流（onepiece）/ 无流派（默认通用）
-   - 子agent指令需包含：`用户声明流派={流派名}，请在Step 4加载references/流派专属/{流派名}/技法文件`
-3. 子agent指令模板：`你扮演 pop-qidian-write，读取 skills/pop-qidian-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md和设计/主角设计.md（爽感矛盾公式），战斗/升级场景必须使用DNA面板格式。`
-4. 子agent产出`正文/chXXX.txt`
-5. 更新项目总控.html：`phase=phase6`
-6. **write完成后必须进入Phase 6 review**——不得连续写两章不review（v1.4.0红线）
-
-### Phase 6: Review（审核+沉淀+小说快照）
-
-```
-触发条件：state.phase = phase6
-前置检查：正文/chXXX.txt 存在
-```
-
-**执行流程**：
-1. 调pop-qidian-review v3.1.0，产出`审核/review-chXXX.md`（四维审核+骨架维度检查）
-2. review Step 4沉淀产出：`current-state.md`更新 + `审核/小说快照.md`更新（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）
-3. 通过 → 更新项目总控.html：`phase=phase5`，`chapter=chNNN+1`
-4. 打回 → 更新项目总控.html：`phase=phase5`（重写本章）
-
----
-
-## 项目总控.html
-
-项目总控.html是**唯一状态文件**——agent读它判断phase+路由，人读它看进度。没有project-state.md。
-
-- **模板文件**：`skills/pop-qidian-pipeline/templates/项目总控.html`
-- **初始化**：step1.md负责创建（读模板→写入项目根目录→SearchReplace更新project_name和timestamp）
-- **更新**：step2.md负责每次phase完成后用SearchReplace更新html中的`<!--STATE:xxx -->`标记字段
-- **字段说明**：所有可变字段用`<!--STATE:field -->值<!--/STATE:field -->`注释标记包裹，agent用SearchReplace精确替换
-- **phase circle**：用CSS class控制状态（pending→done/current），agent用SearchReplace改class属性
-
-**不要手动写HTML标签**——只通过SearchReplace更新已有标记字段的值。
 
 ---
 
 ## 红线
 
-1. **项目总控.html是唯一状态文件**——没有project-state.md。agent读html判断phase+路由，人读html看进度。用SearchReplace更新`<!--STATE:xxx -->`标记字段
-2. **每phase完成后必须SearchReplace更新项目总控.html**——至少更新phase+timestamp+next_step+phase circle。不更新html=phase没完成
-3. **Phase 0必须先深问再并发**——不完成Stage 1用户意图深问，不进入Stage 2
-4. **pipeline只做路由不干活**——不写正文、不创意、不审核、不提取DNA
-5. **Phase 5必须用子agent调write**——主agent只做路由，不直接执行write。主agent执行write会导致skill读取不全+正文质量退化+字数越来越短
-6. **初始化必须创建全部8个目录（含审核/）+自检通过**——任何目录缺失=初始化失败
-7. **write完成后必须进入review**——Phase 5产出后必须路由到Phase 6，不得连续写两章不review。未review的正文不得作为下一章的前置输入
-8. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作
-9. **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库
-10. **agent每次对话第一件事是读项目总控.html**——从`<!--STATE:phase -->`标记提取当前phase值，按速查表路由
-11. **Phase 6 review必须更新小说快照**——review完成后必须更新`审核/小说快照.md`（全书累计视图），不更新=沉淀未完成
+1. **读取协议**：每次对话第一件事读项目总控.html获取当前phase→按速查表路由。SKILL.md=完整骨架（必读），steps/step文件=详细操作（强加载全文），项目总控.html=状态源（每次必读）。禁止跳过读html直接干活。
+2. **项目总控.html是唯一状态文件**——每phase完成后必须SearchReplace更新（phase+timestamp+next_step+phase circle）。不更新=phase没完成。
+3. **Phase 0必须先深问再并发**——不完成Stage 1用户意图深问，不进入Stage 2子agent并发。
+4. **pipeline只做路由不干活**——不写正文、不创意、不审核、不提取DNA。所有产出由下游skill生成。
+5. **Phase 5必须用子agent调write**——主agent只做路由，不直接执行write。
+6. **write完成后必须进入review**——不得连续写两章不review。未review的正文不得作为下一章前置输入。
+7. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作。
+8. **Phase 1-4的Step 0交互决策不可跳过**——核心轮必须用户确认后才进入自动生成。
 
 ---
 
 ## 速查表
 
-### 启动时判断
-
-| 项目总控.html 存在？ | phase 值 | 执行 |
-|------------------------|---------|------|
-| 不存在 | — | Step 1 初始化 → 进 Phase 0 Stage 1 |
-| 存在 | init / phase0 | Phase 0 Stage 1 深问 |
-| 存在 | phase1 | Phase 1 Seed骨架层+创意+首章 |
-| 存在 | phase2 | Phase 2 Seed主角层 |
-| 存在 | phase3 | Phase 3 World |
-| 存在 | phase3.5 | Phase 3.5 Character |
-| 存在 | phase4 | Phase 4 Plot |
-| 存在 | phase5 | Phase 5 Write |
-| 存在 | phase6 | Phase 6 Review |
-
-### Skill调度表
-
-| 阶段 | 调用Skill | 版本 | 前置 | 产出路径 |
-|-------|----------|------|------|---------|
-| Phase 0 Stage 2 | tool-download-webnovel | v7.0.0 | 用户给了书名 | 素材/downloads/ |
-| Phase 0 Stage 2 | pop-dna-style | v1.1.0 | 参考书已下载 | 素材/文风锚定.md |
-| Phase 0 Stage 2 | pop-qidian-research（decon-lite） | v4.0.0 | 力量体系参考书+已下载 | 素材/decon-lite-{书名}.md |
-| Phase 0 Stage 2 | pop-qidian-research（赛道定位调研） | v4.0.0 | 赛道方向已知 | 素材/赛道调研.md |
-| Phase 1 | pop-qidian-seed | v8.1.0 | Phase 0 底牌就绪 | 设计/骨架.md + 设计/创意.md + 正文/ch001.txt |
-| Phase 2 | pop-qidian-seed | v8.1.0 | 设计/骨架.md | 设计/主角设计.md |
-| Phase 3 | pop-qidian-world | v2.0.0 | 设计/骨架.md + 设计/主角设计.md | 设计/全书设定/（多文件） |
-| Phase 3.5 | pop-qidian-character | v1.0.0 | 设计/全书设定/ + 设计/骨架.md | 设计/角色库/角色库.md |
-| Phase 4 | pop-qidian-plot | v4.1.0 | 设计/全书设定/ + 设计/角色库/ + 设计/骨架.md + 设计/主角设计.md | 设计/第一卷剧情/卷纲.md + 章锚点表.md |
-| Phase 5 | pop-qidian-write (**子agent**) | v3.3.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md + 用户声明流派 | 正文/chXXX.txt |
-| Phase 6 | pop-qidian-review | v3.1.0 | 正文/chXXX.txt | 审核/review-chXXX.md + current-state.md + 小说快照.md |
+| 文件 | 读取时机 | 核心内容 |
+|:--|:--|:--|
+| `SKILL.md` | 每次对话必读 | 管线骨架+Phase路由表+红线 |
+| `steps/step1.md` | 初始化时（state=init） | 目录创建+项目总控.html生成+自检11项 |
+| `steps/step2.md` | 每次路由时 | 读html状态→按phase路由→SearchReplace更新html |
+| `templates/项目总控.html` | 初始化时读模板 | 状态文件模板（phase circle+就绪卡片+产出表） |
+| `项目总控.html`（项目空间） | 每次对话第一件事 | 唯一状态源（phase+next_step+就绪状态+产出表） |
 
 ---
 
 ## 版本
 
-v1.1.0 | 2026-07-21 | 全链路联调完成。版本快照表对齐所有已升级skill。Phase路由微调+Skill调度表标注版本号。 → CHANGELOG.md
-
-v1.5.0 | 2026-07-22 | plot v4.1.0调优——剧情白描→卷纲改名+起承转合四段式+章锚点表简化(4硬+3软)+精彩度五问自检。Phase 4产出更新。
-v1.4.0 | 2026-07-22 | review新增小说快照（全书累计视图）。write→review链路改硬约束。Phase 6产出新增小说快照.md。
-v1.3.0 | 2026-07-22 | 合并dndlike/onepiece到兜底write为流派技法包。Phase 5路由简化为永远调pop-qidian-write。删除两个独立流派skill。
-v1.2.0 | 2026-07-22 | 删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html标记字段。初始化强制创建全部8目录+自检。write DNA改为100%项目空间读取。
-v1.0.0 | 2026-07-21 | 新建skill。Phase 0→6路由+三层骨架依赖链。基于番茄pipeline v3.2.0适配起点架构。 → CHANGELOG.md
+v1.7.0 | 2026-07-22 → CHANGELOG.md
+- Phase 1-4改为"先交互→再生成"模式：新增Step 0交互式决策
+- Phase 1 seed：Step 0（S1-S5，5轮，前4轮核心必答+S5可选）→立项决策表.md
+- Phase 3 world：Step 0（W1-W2，2轮，W1核心必答+W2可选）→世界决策表.md
+- Phase 3.5 character：Step 0（C1-C2，2轮，C1核心必答+C2可选）→角色库决策表.md
+- Phase 4 plot：Step 0（R1-R5，5轮，前3轮核心必答+后2轮可选）→卷纲决策表.md
+- 新增项目空间结构树（含4个决策表文件路径）
+- 红线新增第8条：Step 0交互决策不可跳过
+- Phase路由表产出列更新（Phase 1/3/3.5/4新增决策表产出）

@@ -1,5 +1,64 @@
 # CHANGELOG — pop-qidian-research
 
+## v4.3.0 — 2026-07-22
+
+### 新增 decon-plot 剧情拆解档（第五档）
+
+**核心改动**：在现有四档基础上新增第五档"剧情拆解档"（decon-plot），针对参考书进行6维度剧情结构拆解，服务下游 seed 和 plot 模块。
+
+### 新增内容
+
+- **SKILL.md 新增 decon-plot 剧情拆解档**：
+  - 触发条件：用户提供参考书
+  - 产出路径：`素材/decon-plot-{书名}.md`
+  - 消费方：seed S1+S2 / plot R2+R3+R4+R5 / character C1
+  - SOP骨架：DP1接收+采样 → DP2 6维度拆解 → DP3-DP4质检+存盘
+  - 6个拆解维度：
+    1. 力量体系对比（→seed S1）：参考书做法/优缺点/爽感差异
+    2. 金手指设计对比（→seed S2）：加速比/限制设计/代价平衡
+    3. Boss战设计（→plot R2）：铺垫时长/战斗阶段数/破局方式/临终反扑/爽感爆发点
+    4. 爽感场景拆解（→plot R3）：信息差铺设/面板爆发节奏/越级杀节奏
+    5. 分幕转折手法（→plot R4）：转折事件/节奏变化/读者冲击
+    6. NPC登场效果（→character C1+plot R5）：出场方式/关系建立节奏/伏笔埋设手法
+- **红线新增❌8**：decon-plot 6维度必须全拆，每个维度必须标注消费方。缺维度=不合格
+- **速查表新增**：`steps/step-decon-plot.md`（decon-plot档·DP1采样+6维度拆解+质检门禁）
+- **frontmatter description 更新**：新增"用户提供参考书时启用decon-plot剧情拆解"触发条件
+- **header 更新**：三档→四档，版本标注 v4.3.0
+- **execution.mode 更新**：decon-plot 加入"必须完整执行"列表
+
+### 保留不动
+
+- 现有四档（燃料+题材机制/decon-lite 9表拆书/赛道定位调研）的所有内容不动
+- 红线1-7保留不动（仅新增红线8）
+- step文件（step-1-find.md / step-2-output.md / step-decon-lite.md / step-track-research.md）未改
+- templates/（fuel-doc.tpl.md / mechanics-doc.tpl.md）未改
+- agents/openai.yaml 未改
+- `steps/step-decon-plot.md` 待创建（SKILL.md已引用，详细执行指令后续补充）
+
+### 版本
+
+- SKILL.md + skill.json + CHANGELOG.md 三处版本号同步为 4.3.0
+
+## v4.2.0 — 2026-07-22
+
+### SKILL.md规范重写
+
+- 按skill-create规范重写SKILL.md（≤100行/读取协议红线/文件目录速查表/强弱加载声明）
+- frontmatter description确认含触发条件（燃料/decon-lite/赛道调研三档触发词）
+- 红线从10条合并为7条（删除meta红线：双文件/版本一致/Get-Content读取，新增读取协议为第一条；保留全部业务红线：不越界/燃料三要素/content-mechanics落盘/机制不伪装文风/9表全拆+表1规则级/表9三组成齐全）
+- SOP从315行大幅压缩为档位引导（9表完整定义和四轮搜索详情留在step文件）
+- 速查表保留文件目录格式（已有，确认合规）
+- 强弱加载声明保留
+- 版本只留最新一条，历史版本见CHANGELOG.md
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
+### 保留不动
+
+- step文件（step-1-find.md / step-2-output.md / step-decon-lite.md / step-track-research.md）未改
+- templates/（fuel-doc.tpl.md / mechanics-doc.tpl.md）未改
+- agents/openai.yaml 未改
+- v4.0.0-v4.1.0全部业务设计保留
+
 ## v4.1.0 — 2026-07-22
 
 ### DL1.5采样算法升级v2.0 + 表1新增子养成线境界涌现字段

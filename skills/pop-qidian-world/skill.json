@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-world",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "displayName": "起点世界构筑引擎",
-  "description": "v2.0.0：三层骨架设计（力量体系+动力引擎+金手指）前移到seed Phase 1/2，world改为消费骨架.md+主角设计.md生长血肉。删除Step 2a力量体系设计/2b动力引擎设计/2f金手指设计，改为消费说明。保留2c地图/2d势力/2e危机的血肉生长能力，新增骨架消费验证约束。拆解模式和融合模式不受影响。保留三种模式+三层骨架理论(消费视角)+7条红线。",
+  "description": "起点世界构筑引擎。v2.2.0：新增Step 0交互式世界决策（W1-W2，2轮），产出世界决策表.md。v2.1.0：按skill-create规范重写。",
   "tags": ["世界构筑"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-world", "起点world", "起点世界构筑"] },

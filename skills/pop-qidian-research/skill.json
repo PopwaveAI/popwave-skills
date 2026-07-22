@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-research",
-  "version": "4.1.0",
+  "version": "4.3.0",
   "displayName": "涌现 Research",
-  "description": "三档调研skill：燃料+题材机制（用户说找燃料/补燃料时）/ decon-lite 9表拆书（用户给了力量体系参考书时，从番茄research v2.2.0移植9表完整定义）/ 赛道定位调研（pipeline Phase 0自动触发，4轮搜索）。为涌现式小说找写作燃料、题材机制、外部事件、行业机制和可神话化素材；产出 research-写作燃料.md、content-mechanics.md、decon-lite-{书名}.md、赛道调研.md。",
+  "description": "起点调研引擎。当用户说\"找燃料\"\"补燃料\"\"题材机制\"时启用燃料档；用户给力量体系参考书时启用decon-lite 9表拆书；pipeline Phase 0自动触发赛道定位调研；用户提供参考书时启用decon-plot剧情拆解。不写正文不排章纲。v4.3.0：新增decon-plot剧情拆解档。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": {

@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-write",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "displayName": "涌现 Write",
-  "description": "起点唯一写作引擎。v3.3.0：write→review链路改硬约束（未review不得写下一章）。v3.2.0：合并dndlike/onepiece为流派技法包。v3.1.0：DNA项目空间化。6章型骨架+17微观技法+五层指导+流派技法包加载表+条件红线。",
+  "description": "起点正文写作引擎。当用户说\"写正文\"\"续写\"\"write\"时启用。6章型骨架+17微观技法+五层指导+DNA三态协议+设定库精选注入，将剧情锚点渲染为2000-2500字章节正文。",
   "tags": ["剧情与正文"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-write", "写正文", "续写"] },

@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## v4.3.0 | 2026-07-22
+
+### 新增：Step 0交互式卷纲决策
+- 新增`steps/step-0-interactive.md`——5轮RPG式交互决策（R1-R5）
+- R1卷终点（核心）/ R2关底Boss（核心）/ R3核心爽感（核心）/ R4剧情节奏（可选）/ R5 NPC登场（可选）
+- 产出`设计/第一卷剧情/卷纲决策表.md`，作为Step 1-3的硬输入
+- 每轮给2-3个结构化选项+1个自定义入口，不是开放式提问
+- 消费decon-plot拆解结果（如有）提升选项质量
+
+## v4.2.0 | 2026-07-22
+
+### SKILL.md规范重写
+
+- 按skill-create规范重写SKILL.md（≤100行/读取协议红线/文件目录速查表/强弱加载声明）
+- frontmatter补description（含触发条件："剧情白描""推演剧情""卷纲""plot"）
+- 红线从10条合并为7条（保留全部业务约束：故事先行+活跃层/候选差异化/主角主动/危机螺旋/困难三层面+爽感因子/起承转合+精彩度+章末钩子）
+- SOP从详细操作压缩为step引导（每step 1-2行），详细操作留在step文件
+- 速查表从合格/不合格对照表改为文件目录引导（文件+读取时机+核心内容）
+- 新增强弱加载声明（SKILL.md必读/steps强加载/references弱加载）
+- 版本只留最新一条，历史版本见CHANGELOG.md
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
+### 保留不动
+
+- step文件（step-1-material.md / step-2-act.md / step-3-snapshot.md / step-3-chapters.md）未改
+- templates/幕纲-模板.md 未改
+- references/ 未改
+- v4.0.0-v4.1.0全部业务设计保留
+
 ## v4.1.0 | 2026-07-22
 
 ### 4项调优
