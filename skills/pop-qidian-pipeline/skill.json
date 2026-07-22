@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "1.4.0",
-  "description": "起点管线总控。v1.4.0：review新增小说快照（全书累计视图）+write→review硬约束+Phase 6产出新增小说快照.md。v1.3.0：合并流派write为唯一pop-qidian-write。v1.2.0：项目总控.html替代md+初始化修复+write DNA项目空间化。",
+  "version": "1.5.0",
+  "description": "起点管线总控。v1.5.0：plot v4.1.0调优(卷纲改名+起承转合+章锚点表简化+精彩度五问)。v1.4.0：review小说快照+write→review硬约束。v1.3.0：合并流派write。v1.2.0：项目总控.html替代md+初始化修复。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },

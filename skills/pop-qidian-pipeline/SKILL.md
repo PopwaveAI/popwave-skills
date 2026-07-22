@@ -45,8 +45,8 @@
 │   ├── 角色库/                     # Phase 3.5 character产出
 │   │   └── 角色库.md
 │   └── 第一卷剧情/                 # Phase 4 plot产出
-│       ├── 剧情白描.md
-│       └── 章锚点表.md
+│       ├── 卷纲.md                 # 四层结构（设定快照+剧情线+分幕起承转合+白描+精彩度自检）
+│       └── 章锚点表.md              # 4硬锚点+3软指导（v4.1.0简化）
 ├── 正文/                           # Phase 5产出
 │   └── chXXX.txt
 └── 审核/                           # Phase 6产出
@@ -159,7 +159,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 2. 每个角色标注攀登方式类型+等级坐标
 3. 更新项目总控.html：`phase=phase4`
 
-### Phase 4: Plot（叙事流剧情白描）
+### Phase 4: Plot（卷纲设计+章锚点表）
 
 ```
 触发条件：state.phase = phase4
@@ -167,7 +167,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 ```
 
 **执行流程**：
-1. 调pop-qidian-plot v4.0.0，消费骨架.md+主角设计.md+全书设定+角色库，产出`设计/第一卷剧情/剧情白描.md`（含四层结构+困难三层面：每幕出场角色清单）+ `章锚点表.md`
+1. 调pop-qidian-plot v4.1.0，消费骨架.md+主角设计.md+全书设定+角色库，产出`设计/第一卷剧情/卷纲.md`（含四层结构+起承转合四段式+精彩度五问自检）+ `章锚点表.md`（4硬锚点+3软指导）
 2. 更新项目总控.html：`phase=phase5`，`current_chapter=ch002`
 
 > **注**：起点架构中plot在character之后（与番茄pipeline的plot→character顺序不同），因为character需要骨架.md的众生攀登方式分层作为输入，而plot需要角色库作为输入。world→character→plot是血肉层的依赖链。
@@ -176,7 +176,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 ```
 触发条件：state.phase = phase5
-前置检查：设计/第一卷剧情/剧情白描.md + 设计/角色库/角色库.md + current_chapter 存在
+前置检查：设计/第一卷剧情/卷纲.md + 设计/第一卷剧情/章锚点表.md + 设计/角色库/角色库.md + current_chapter 存在
 ```
 
 **执行流程**：
@@ -264,7 +264,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 | Phase 2 | pop-qidian-seed | v8.1.0 | 设计/骨架.md | 设计/主角设计.md |
 | Phase 3 | pop-qidian-world | v2.0.0 | 设计/骨架.md + 设计/主角设计.md | 设计/全书设定/（多文件） |
 | Phase 3.5 | pop-qidian-character | v1.0.0 | 设计/全书设定/ + 设计/骨架.md | 设计/角色库/角色库.md |
-| Phase 4 | pop-qidian-plot | v4.0.0 | 设计/全书设定/ + 设计/角色库/ + 设计/骨架.md + 设计/主角设计.md | 设计/第一卷剧情/剧情白描.md + 章锚点表.md |
+| Phase 4 | pop-qidian-plot | v4.1.0 | 设计/全书设定/ + 设计/角色库/ + 设计/骨架.md + 设计/主角设计.md | 设计/第一卷剧情/卷纲.md + 章锚点表.md |
 | Phase 5 | pop-qidian-write (**子agent**) | v3.3.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md + 用户声明流派 | 正文/chXXX.txt |
 | Phase 6 | pop-qidian-review | v3.1.0 | 正文/chXXX.txt | 审核/review-chXXX.md + current-state.md + 小说快照.md |
 
@@ -274,7 +274,8 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 v1.1.0 | 2026-07-21 | 全链路联调完成。版本快照表对齐所有已升级skill。Phase路由微调+Skill调度表标注版本号。 → CHANGELOG.md
 
-v1.4.0 | 2026-07-22 | review新增小说快照（全书累计视图）。write→review链路改硬约束（不得连续写两章不review）。Phase 6产出新增小说快照.md。
+v1.5.0 | 2026-07-22 | plot v4.1.0调优——剧情白描→卷纲改名+起承转合四段式+章锚点表简化(4硬+3软)+精彩度五问自检。Phase 4产出更新。
+v1.4.0 | 2026-07-22 | review新增小说快照（全书累计视图）。write→review链路改硬约束。Phase 6产出新增小说快照.md。
 v1.3.0 | 2026-07-22 | 合并dndlike/onepiece到兜底write为流派技法包。Phase 5路由简化为永远调pop-qidian-write。删除两个独立流派skill。
 v1.2.0 | 2026-07-22 | 删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html标记字段。初始化强制创建全部8目录+自检。write DNA改为100%项目空间读取。
 v1.0.0 | 2026-07-21 | 新建skill。Phase 0→6路由+三层骨架依赖链。基于番茄pipeline v3.2.0适配起点架构。 → CHANGELOG.md
