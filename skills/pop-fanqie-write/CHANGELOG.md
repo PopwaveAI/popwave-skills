@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v8.4.0 (2026-07-22)
+
+### 按Popwave Skill设计规范重写SKILL.md结构
+
+**改动**：
+- SKILL.md从239行压缩到62行（≤100行），frontmatter加触发条件式description
+- 红线从12条合并为7条（新增读取协议红线，合并加载红线/篇幅+章型+爽感红线/ch001+钩子红线/笔触DNA+面板格式红线），保留全部业务红线
+- 速查表从章型表+SOP流程+笔触DNA等改为全文件目录引导（含steps/references/scripts）
+- 新增强弱加载保障声明
+- 版本历史只留最新一条，其余在CHANGELOG.md
+- SOP骨架每step压缩到1-2行
+- skill.json版本8.3.1→8.4.0，description改为触发条件式
+
+**保留不动**：4种章型7节拍骨架/三层指导/笔触DNA三态协议/step2.md/step4.md/step5.md——业务方法论不做改动
+
 ## v8.3.1 (2026-07-21)
 
 ### 路径更新——对齐pipeline v3.2.0设计文件夹拆为3个子文件夹

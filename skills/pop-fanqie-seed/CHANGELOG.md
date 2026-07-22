@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v13.18.0 (2026-07-22)
+
+### 按规范重写 SKILL.md
+
+- 按pop-shared-skill-create v6.1.0规范重写SKILL.md
+- 新增frontmatter（name+description含触发条件"当用户说'做种子/创意/立项/写创意'时启用"）
+- 红线#1新增读取协议（Get-Content -Encoding UTF8 -Raw，禁用Read工具）
+- 保留全部13条业务红线，编号顺延为#2-#14
+- 新增"怎么操作"section含execution.mode+强弱加载声明
+- 速查表从步骤对照表改为文件目录引导（文件+读取时机+核心内容）
+- 新增版本section（此前SKILL.md无版本区）
+- 版本只留最新一条
+- skill.json版本同步至13.18.0，description更新为含触发条件
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v13.17.0 (2026-07-21)
 
 ### 六维底牌升级七维+1c-5题材深度调研+2e力量体系层加厚

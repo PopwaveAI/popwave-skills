@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v4.1.0 (2026-07-22)
+
+### SKILL.md按设计规范重写
+
+- frontmatter补触发条件（'新建涌现项目''项目跑偏''审计涌现规范'时启用）
+- 红线重构为7条（首条为读取协议/强弱加载规则）
+- 速查表从合格/不合格对照表改为文件目录引导（文件+读取时机+核心内容）
+- 版本历史只留最新一条，其余移至CHANGELOG
+- 新增强弱加载保障声明（SOP骨架区块）
+- 业务方法论不变，只改结构/格式/规范
+- skill.json版本号4.0.1→4.1.0（修复SKILL.md与skill.json版本不一致问题）
+
 ## v4.0.0 (2026-07-14)
 
 - 骨架从 5 skill 扩展为 7 skill：新增 pop-qidian-plot、pop-qidian-write-dndlike、pop-qidian-write-onepiece。
