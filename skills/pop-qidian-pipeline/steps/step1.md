@@ -4,52 +4,77 @@
 
 ## 目标
 
-创建标准化项目目录结构 + project-state.md + project-state.html，为后续Phase路由做好准备。
+创建标准化项目目录结构 + 项目总控.html，为后续Phase路由做好准备。
+
+**v1.2.0核心变化**：删除project-state.md，项目总控.html是唯一状态文件。agent直接用SearchReplace更新html中的`<!--STATE:xxx -->`标记字段。
 
 ## 执行
 
-### 1. 创建目录结构
+### 1. 创建完整目录结构（全部一次性创建，含审核/）
 
-```text
-{项目名}/
-├── project-state.md
-├── README.md
-├── 素材/
-│   └── downloads/
-├── 设计/
-│   ├── 全书设定/
-│   ├── 角色库/
-│   └── 第一卷剧情/
-├── 正文/
-└── 审核/
-```
-
-### 2. 生成 project-state.md
-
-按 SKILL.md 中的 project-state.md 模板生成，初始值：
-- phase: init
-- current_chapter: ch000
-- 所有就绪状态：❌
-- 所有阶段完成情况：未勾选
-
-### 3. 生成 project-state.html（如有脚本）
+用PowerShell一次性创建所有目录（`-Force`确保已存在也不报错）：
 
 ```powershell
-python skills/pop-qidian-pipeline/scripts/generate-state-html.py {项目目录}/project-state.md
+$dirs = @(
+  "素材", "素材/downloads", "素材/知识沉淀",
+  "设计", "设计/全书设定", "设计/角色库", "设计/第一卷剧情",
+  "正文",
+  "审核"
+)
+foreach ($d in $dirs) {
+  New-Item -ItemType Directory -Force -Path $d | Out-Null
+}
 ```
 
-> 如脚本不存在，跳过HTML生成，仅落盘state.md。
+**必须创建的目录清单（8个）**：
+- `素材/` + `素材/downloads/` + `素材/知识沉淀/`
+- `设计/` + `设计/全书设定/` + `设计/角色库/` + `设计/第一卷剧情/`
+- `正文/`
+- `审核/`（初始化时就创建，不等Phase 6）
 
-### 4. 生成 README.md
+### 2. 创建项目总控.html
 
-简述项目信息 + 管线说明 + 目录结构说明。
+读取模板文件 `skills/pop-qidian-pipeline/templates/项目总控.html`，将其内容写入项目根目录的 `项目总控.html`。
+
+然后用SearchReplace更新以下字段：
+
+| 标记 | 替换值 |
+|:--|:--|
+| `<!--STATE:project_name -->未命名项目<!--/STATE:project_name -->` | `<!--STATE:project_name -->{用户给的项目名}<!--/STATE:project_name -->` |
+| `<!--STATE:created_at -->--<!--/STATE:created_at -->` | `<!--STATE:created_at -->{YYYY-MM-DD HH:mm}<!--/STATE:created_at -->` |
+| `<!--STATE:updated_at -->--<!--/STATE:updated_at -->` | `<!--STATE:updated_at -->{YYYY-MM-DD HH:mm}<!--/STATE:updated_at -->` |
+| `<!--STATE:genre -->待指定<!--/STATE:genre -->` | `<!--STATE:genre -->{用户赛道方向}<!--/STATE:genre -->`（如用户未指定则保留"待指定"） |
+
+### 3. 创建 README.md
+
+简述项目信息 + 管线说明 + 目录结构说明 + 指向项目总控.html。
+
+### 4. 初始化自检（强制执行）
+
+创建完目录和文件后，**必须执行自检**——用LS工具确认以下全部存在：
+
+```
+✅ 素材/
+✅ 素材/downloads/
+✅ 素材/知识沉淀/
+✅ 设计/
+✅ 设计/全书设定/
+✅ 设计/角色库/
+✅ 设计/第一卷剧情/
+✅ 正文/
+✅ 审核/
+✅ 项目总控.html
+✅ README.md
+```
+
+**任何一项缺失=初始化失败**，必须补创后才能进入Phase 0。
 
 ## 质量门
 
-- 四个一级文件夹（素材/设计/正文/审核）已创建
-- 设计/ 下三个子文件夹（全书设定/角色库/第一卷剧情）已创建
-- project-state.md 已落盘，phase=init
-- README.md 已落盘
+- [x] 8个目录全部创建（含审核/和知识沉淀/）
+- [x] 项目总控.html已落盘，project_name和timestamp已更新
+- [x] README.md已落盘
+- [x] 自检通过（11项全部✅）
 
 ## 下一步
 

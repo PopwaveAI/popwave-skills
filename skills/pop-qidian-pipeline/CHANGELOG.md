@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## v1.3.0 | 2026-07-22
+
+### 合并流派write skill
+- Phase 5路由简化为**永远调pop-qidian-write**——不再有dndlike/onepiece分支
+- 用户声明流派后，将流派名称传给子agent，子agent在write Step 4自动加载`references/流派专属/{流派名}/`技法包
+- Skill调度表从3行write合并为1行
+- 删除`pop-qidian-write-dndlike`和`pop-qidian-write-onepiece`两个skill
+
+## v1.2.0 | 2026-07-22
+
+### 项目总控.html替代project-state.md
+- **删除project-state.md**——项目总控.html成为唯一状态文件（agent读+人看）
+- **agent直接用SearchReplace更新html**——所有可变字段用`<!--STATE:xxx -->`注释标记包裹，phase circle用CSS class控制（pending/done/current）
+- **不用脚本**——删除scripts/generate-state-html.py依赖，agent直接操作html标记字段
+- **新增模板文件** `templates/项目总控.html`——暗色主题，含项目简介/Phase进度条/下一步指引/就绪卡片/产出表/文件夹树
+
+### 初始化修复
+- **强制创建全部8个目录**（含审核/和知识沉淀/）——之前审核/目录初始化时不创建，导致Phase 6时才发现缺失
+- **初始化自检**——创建完后必须用LS确认11项全部存在，任何缺失=初始化失败
+- step1.md和step2.md完全重写
+
+### write DNA方案对齐番茄
+- write/write-dndlike/write-onepiece删除skill内部dna/目录
+- DNA 100%从项目空间`素材/文风锚定.md`读取（pop-dna-style在Phase 0提取落盘）
+- write成为通用skill，流派技法（章型节拍/战斗模式）保留在skill内部
+
 ## v1.1.0 | 2026-07-21
 
 ### 全链路联调

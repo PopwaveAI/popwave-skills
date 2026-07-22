@@ -1,14 +1,15 @@
 # pop-qidian-pipeline · 起点管线总控
 
-> v1.1.0：全链路联调完成，版本快照表更新对齐所有已升级skill（research v4.0.0 / seed v8.1.0 / world v2.0.0 / plot v4.0.0 / write v3.0.0 / review v3.0.0 / character v1.0.0）。Phase路由微调+Skill调度表标注版本号。Phase 0→6路由+project-state.md状态追踪+三层骨架依赖链（骨架→主角→血肉→写作→审核）。基于番茄pipeline v3.2.0适配起点架构（三层骨架前移到seed+流派write分离）。
-> 每次对话开始，agent读project-state.md就知道"我在哪、该进哪个phase"。人读project-state.html看进度。
+> v1.2.0：删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html中的`<!--STATE:xxx -->`标记字段。初始化强制创建全部目录（含审核/）+自检。write DNA改为100%项目空间读取（删除skill内部dna/目录）。
+> v1.1.0：全链路联调完成，版本快照表更新对齐所有已升级skill。Phase 0→6路由+三层骨架依赖链（骨架→主角→血肉→写作→审核）。基于番茄pipeline v3.2.0适配起点架构。
+> 每次对话开始，agent读项目总控.html就知道"我在哪、该进哪个phase"。人读同一个html看进度。
 
 ---
 
 ## 做什么
 
 输入：项目名（用户给）或当前项目目录
-输出：标准化目录结构 + `project-state.md`（agent读）+ `project-state.html`（人看）
+输出：标准化目录结构 + `项目总控.html`（agent读+人看，唯一状态文件）
 
 **定位**：pipeline不写正文、不创意、不审核——它只负责"把agent指向正确的phase和skill"。所有下游skill（seed/world/character/plot/write/review/research/dna-style）由pipeline按phase调度，不自行启动。
 
@@ -20,15 +21,14 @@
 
 ```
 {项目名}/
-├── project-state.html
-├── project-state.md
+├── 项目总控.html                   # 唯一状态文件（agent读+人看）
 ├── README.md
 ├── 素材/                           # Phase 0产出
 │   ├── 用户意图.md
 │   ├── 赛道调研.md
 │   ├── 市场校准.md
 │   ├── decon-lite-{书名}.md
-│   ├── 文风锚定.md
+│   ├── 文风锚定.md                 # pop-dna-style提取的笔触DNA（write的唯一DNA源）
 │   └── downloads/
 │       └── {书名}.txt
 ├── 设计/                           # Phase 1-3.5产出
@@ -59,8 +59,8 @@
 
 | 步骤 | 做什么 | 产出 | 详细方法 |
 |------|--------|------|---------|
-| Step 1 | 初始化项目目录 + project-state.md + project-state.html | 目录就绪 + state=init | steps/step1.md |
-| Step 2 | 读project-state.md → 按phase路由 → 完成后更新state.md+state.html | 进入对应phase | steps/step2.md |
+| Step 1 | 初始化项目目录 + 项目总控.html | 目录就绪 + state=init | steps/step1.md |
+| Step 2 | 读项目总控.html → 按phase路由 → 完成后SearchReplace更新html | 进入对应phase | steps/step2.md |
 
 ---
 
@@ -104,7 +104,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 **并发规则**：
 - 下载依赖：先等下载子agent返回 → 再同时派发笔触DNA + decon-lite
 - 赛道定位调研：和其他任务完全独立，第一优先级启动
-- 全部子agent返回后 → 更新project-state.md + project-state.html → `phase=phase1`
+- 全部子agent返回后 → 更新项目总控.html → `phase=phase1`
 
 ---
 
@@ -117,7 +117,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 **执行流程**：
 1. 调pop-qidian-seed v8.1.0，执行Phase 0七维底牌+Phase 1骨架层（1d力量体系设计+1e动力引擎设计+1f骨架自洽）→1g双轨发散→1h故事纲领→1i黄金首章
-2. Seed产出落盘后（`设计/骨架.md` + `设计/创意.md` + `正文/ch001.txt`），更新project-state.md + html
+2. Seed产出落盘后（`设计/骨架.md` + `设计/创意.md` + `正文/ch001.txt`），更新项目总控.html
 3. 骨架就绪状态检查：力量体系✅ + 动力引擎✅ + 骨架自洽✅ → `phase=phase2`
 
 **关键依赖**：骨架.md必须在创意发散前定稿。骨架自洽检查（1f）不通过不进Phase 2。
@@ -131,7 +131,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 **执行流程**：
 1. 调pop-qidian-seed v8.1.0 继续执行Phase 2主角层（2a主角设计+2b金手指设计+2c爽感矛盾设计）
-2. 产出`设计/主角设计.md`，更新project-state.md + html
+2. 产出`设计/主角设计.md`，更新项目总控.html
 3. 主角就绪状态检查：主角设计✅ + 金手指设计✅ + 爽感矛盾✅ → `phase=phase3`
 
 ### Phase 3: World（世界构筑→全书设定/）
@@ -156,7 +156,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 **执行流程**：
 1. 调pop-qidian-character v1.0.0，消费骨架.md（众生攀登方式分层）+全书设定/势力.md，产出`设计/角色库/角色库.md`
 2. 每个角色标注攀登方式类型+等级坐标
-3. 更新state.md + state.html：`phase=phase4`
+3. 更新项目总控.html：`phase=phase4`
 
 ### Phase 4: Plot（叙事流剧情白描）
 
@@ -167,7 +167,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 **执行流程**：
 1. 调pop-qidian-plot v4.0.0，消费骨架.md+主角设计.md+全书设定+角色库，产出`设计/第一卷剧情/剧情白描.md`（含四层结构+困难三层面：每幕出场角色清单）+ `章锚点表.md`
-2. 更新state.md + state.html：`phase=phase5`，`current_chapter=ch002`
+2. 更新项目总控.html：`phase=phase5`，`current_chapter=ch002`
 
 > **注**：起点架构中plot在character之后（与番茄pipeline的plot→character顺序不同），因为character需要骨架.md的众生攀登方式分层作为输入，而plot需要角色库作为输入。world→character→plot是血肉层的依赖链。
 
@@ -180,10 +180,11 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 **执行流程**：
 1. **必须用子agent调write**——主agent只做路由，不直接执行write
-2. 流派write选择：
-   - 用户声明D&D数据面板流 → 调pop-qidian-write-dndlike v1.0.1
-   - 用户声明海贼王世界冒险流 → 调pop-qidian-write-onepiece v1.0.1
-   - 未声明流派 → 调pop-qidian-write v3.0.0（兜底模板）
+2. 流派选择（v1.3.0简化）：
+   - **永远调pop-qidian-write**（唯一write skill）
+   - 用户声明流派后，将流派名称传给子agent，子agent在write的Step 4自动加载`references/流派专属/{流派名}/`技法包
+   - 支持的流派：D&D数据面板流（dndlike）/ 海贼王世界冒险流（onepiece）/ 无流派（默认通用）
+   - 子agent指令需包含：`用户声明流派={流派名}，请在Step 4加载references/流派专属/{流派名}/技法文件`
 3. 子agent指令模板：`你扮演 {write-skill-name}，读取 skills/{write-skill-name}/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md和设计/主角设计.md（爽感矛盾公式），战斗/升级场景必须使用DNA面板格式。`
 4. 子agent产出`正文/chXXX.txt`
 5. 更新state：`phase=phase6`
@@ -202,74 +203,31 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 ---
 
-## project-state.md 模板
+## 项目总控.html
 
-```markdown
-# 项目：{项目名}
+项目总控.html是**唯一状态文件**——agent读它判断phase+路由，人读它看进度。没有project-state.md。
 
-> 管线：起点skill群 | 创建：{timestamp} | 更新：{timestamp}
+- **模板文件**：`skills/pop-qidian-pipeline/templates/项目总控.html`
+- **初始化**：step1.md负责创建（读模板→写入项目根目录→SearchReplace更新project_name和timestamp）
+- **更新**：step2.md负责每次phase完成后用SearchReplace更新html中的`<!--STATE:xxx -->`标记字段
+- **字段说明**：所有可变字段用`<!--STATE:field -->值<!--/STATE:field -->`注释标记包裹，agent用SearchReplace精确替换
+- **phase circle**：用CSS class控制状态（pending→done/current），agent用SearchReplace改class属性
 
-## 当前阶段
-phase: {init | phase0 | phase1 | phase2 | phase3 | phase3.5 | phase4 | phase5 | phase6}
-current_chapter: {ch000 | ch001 | ch002 | ...}
-current_write_skill: {pop-qidian-write | pop-qidian-write-dndlike | pop-qidian-write-onepiece}
-
-## 阶段完成情况
-- [ ] Phase 0: 用户意图 + 并发前置准备
-- [ ] Phase 1: Seed骨架层 → 设计/骨架.md + 设计/创意.md + 正文/ch001.txt
-- [ ] Phase 2: Seed主角层 → 设计/主角设计.md
-- [ ] Phase 3: World → 设计/全书设定/（多文件）
-- [ ] Phase 3.5: Character → 设计/角色库/角色库.md
-- [ ] Phase 4: Plot → 设计/第一卷剧情/剧情白描.md + 章锚点表.md
-- [ ] Phase 5: Write → 正文/chXXX.txt (当前: chNNN)
-- [ ] Phase 6: Review → 审核/review-chXXX.md
-
-## 骨架就绪状态（Phase 1产出）
-- 力量体系（坐标系）：{✅/❌}
-- 动力引擎（众生攀登系统）：{✅/❌}
-- 骨架自洽检查：{✅/❌}
-
-## 主角就绪状态（Phase 2产出）
-- 主角设计：{✅/❌}
-- 金手指设计（含限制+代价）：{✅/❌}
-- 爽感矛盾设计（公式化）：{✅/❌}
-
-## 血肉就绪状态（Phase 3-4产出）
-- 地图：{✅/❌}
-- 势力：{✅/❌}
-- 角色库：{✅/❌}
-- 剧情白描：{✅/❌}
-
-## 底牌就绪
-- 用户意图：素材/用户意图.md {✅/❌}
-- 赛道调研：素材/赛道调研.md {✅/❌}
-- 参考书下载：{done/skipped}
-- 笔触DNA：素材/文风锚定.md {✅/❌}
-- decon-lite：素材/decon-lite-{书名}.md {✅/❌}
-
-## 创意摘要
-- 书名(暂)：{seed产出}
-- 一句话：{seed产出}
-
-## 最近产出
-| 阶段 | 产出文件 | 落盘时间 |
-|------|---------|---------|
-| ... | ... | ... |
-```
+**不要手动写HTML标签**——只通过SearchReplace更新已有标记字段的值。
 
 ---
 
 ## 红线
 
-1. **project-state.md是唯一状态源**——所有phase切换、进度追踪以它为准。project-state.html是可视化镜像，不作为状态源
-2. **每次更新state.md必须同步生成state.html**——保持人读和机器读一致
+1. **项目总控.html是唯一状态文件**——没有project-state.md。agent读html判断phase+路由，人读html看进度。用SearchReplace更新`<!--STATE:xxx -->`标记字段
+2. **每phase完成后必须SearchReplace更新项目总控.html**——至少更新phase+timestamp+next_step+phase circle。不更新html=phase没完成
 3. **Phase 0必须先深问再并发**——不完成Stage 1用户意图深问，不进入Stage 2
 4. **pipeline只做路由不干活**——不写正文、不创意、不审核、不提取DNA
 5. **Phase 5必须用子agent调write**——主agent只做路由，不直接执行write。主agent执行write会导致skill读取不全+正文质量退化+字数越来越短
-6. **每phase完成后必须更新project-state.md + project-state.html**
+6. **初始化必须创建全部8个目录（含审核/）+自检通过**——任何目录缺失=初始化失败
 7. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作
 8. **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库
-9. **agent每次对话第一件事是读project-state.md**
+9. **agent每次对话第一件事是读项目总控.html**——从`<!--STATE:phase -->`标记提取当前phase值，按速查表路由
 
 ---
 
@@ -277,7 +235,7 @@ current_write_skill: {pop-qidian-write | pop-qidian-write-dndlike | pop-qidian-w
 
 ### 启动时判断
 
-| project-state.md 存在？ | phase 值 | 执行 |
+| 项目总控.html 存在？ | phase 值 | 执行 |
 |------------------------|---------|------|
 | 不存在 | — | Step 1 初始化 → 进 Phase 0 Stage 1 |
 | 存在 | init / phase0 | Phase 0 Stage 1 深问 |
@@ -302,15 +260,15 @@ current_write_skill: {pop-qidian-write | pop-qidian-write-dndlike | pop-qidian-w
 | Phase 3 | pop-qidian-world | v2.0.0 | 设计/骨架.md + 设计/主角设计.md | 设计/全书设定/（多文件） |
 | Phase 3.5 | pop-qidian-character | v1.0.0 | 设计/全书设定/ + 设计/骨架.md | 设计/角色库/角色库.md |
 | Phase 4 | pop-qidian-plot | v4.0.0 | 设计/全书设定/ + 设计/角色库/ + 设计/骨架.md + 设计/主角设计.md | 设计/第一卷剧情/剧情白描.md + 章锚点表.md |
-| Phase 5 | pop-qidian-write (**子agent**) | v3.0.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md | 正文/chXXX.txt |
-| Phase 5 | pop-qidian-write-dndlike (**子agent**) | v1.0.1 | 同上+用户声明D&D流 | 正文/chXXX.txt |
-| Phase 5 | pop-qidian-write-onepiece (**子agent**) | v1.0.1 | 同上+用户声明海贼王流 | 正文/chXXX.txt |
+| Phase 5 | pop-qidian-write (**子agent**) | v3.2.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md + 用户声明流派 | 正文/chXXX.txt |
 | Phase 6 | pop-qidian-review | v3.0.0 | 正文/chXXX.txt | 审核/review-chXXX.md |
 
 ---
 
 ## 版本
 
-v1.1.0 | 2026-07-21 | 全链路联调完成。版本快照表对齐所有已升级skill（research v4.0.0 / seed v8.1.0 / world v2.0.0 / plot v4.0.0 / write v3.0.0 / review v3.0.0 / character v1.0.0 / write-dndlike v1.0.1 / write-onepiece v1.0.1）。Phase路由微调+Skill调度表标注版本号。 → CHANGELOG.md
+v1.1.0 | 2026-07-21 | 全链路联调完成。版本快照表对齐所有已升级skill。Phase路由微调+Skill调度表标注版本号。 → CHANGELOG.md
 
-v1.0.0 | 2026-07-21 | 新建skill。Phase 0→6路由+project-state.md状态追踪+三层骨架依赖链（骨架→主角→血肉→写作→审核）。基于番茄pipeline v3.2.0适配起点架构（三层骨架前移到seed+流派write分离+character在plot之前）。 → CHANGELOG.md
+v1.3.0 | 2026-07-22 | 合并dndlike/onepiece到兜底write为流派技法包。Phase 5路由简化为永远调pop-qidian-write。删除两个独立流派skill。
+v1.2.0 | 2026-07-22 | 删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html标记字段。初始化强制创建全部8目录+自检。write DNA改为100%项目空间读取。
+v1.0.0 | 2026-07-21 | 新建skill。Phase 0→6路由+三层骨架依赖链。基于番茄pipeline v3.2.0适配起点架构。 → CHANGELOG.md
