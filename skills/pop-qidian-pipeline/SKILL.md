@@ -50,7 +50,8 @@
 ├── 正文/                           # Phase 5产出
 │   └── chXXX.txt
 └── 审核/                           # Phase 6产出
-    └── review-chXXX.md
+    ├── review-chXXX.md             # 单章审核报告
+    └── 小说快照.md                  # 全书累计视图（每章review后更新）
 ```
 
 ---
@@ -185,11 +186,12 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
    - 用户声明流派后，将流派名称传给子agent，子agent在write的Step 4自动加载`references/流派专属/{流派名}/`技法包
    - 支持的流派：D&D数据面板流（dndlike）/ 海贼王世界冒险流（onepiece）/ 无流派（默认通用）
    - 子agent指令需包含：`用户声明流派={流派名}，请在Step 4加载references/流派专属/{流派名}/技法文件`
-3. 子agent指令模板：`你扮演 {write-skill-name}，读取 skills/{write-skill-name}/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md和设计/主角设计.md（爽感矛盾公式），战斗/升级场景必须使用DNA面板格式。`
+3. 子agent指令模板：`你扮演 pop-qidian-write，读取 skills/pop-qidian-write/SKILL.md 了解完整SOP。项目目录：{projectDir}。当前章节：{current_chapter}。按SOP执行：加载输入→选章型→写正文→字数自检→落盘。注意：必须加载设计/角色库/角色库.md和设计/主角设计.md（爽感矛盾公式），战斗/升级场景必须使用DNA面板格式。`
 4. 子agent产出`正文/chXXX.txt`
-5. 更新state：`phase=phase6`
+5. 更新项目总控.html：`phase=phase6`
+6. **write完成后必须进入Phase 6 review**——不得连续写两章不review（v1.4.0红线）
 
-### Phase 6: Review（审核+沉淀）
+### Phase 6: Review（审核+沉淀+小说快照）
 
 ```
 触发条件：state.phase = phase6
@@ -197,9 +199,10 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 ```
 
 **执行流程**：
-1. 调pop-qidian-review v3.0.0，产出`审核/review-chXXX.md`（四维审核+骨架维度检查）
-2. 通过 → `phase=phase5`，`current_chapter=chNNN+1`
-3. 打回 → `phase=phase5`（重写本章）
+1. 调pop-qidian-review v3.1.0，产出`审核/review-chXXX.md`（四维审核+骨架维度检查）
+2. review Step 4沉淀产出：`current-state.md`更新 + `审核/小说快照.md`更新（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）
+3. 通过 → 更新项目总控.html：`phase=phase5`，`chapter=chNNN+1`
+4. 打回 → 更新项目总控.html：`phase=phase5`（重写本章）
 
 ---
 
@@ -225,9 +228,11 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 4. **pipeline只做路由不干活**——不写正文、不创意、不审核、不提取DNA
 5. **Phase 5必须用子agent调write**——主agent只做路由，不直接执行write。主agent执行write会导致skill读取不全+正文质量退化+字数越来越短
 6. **初始化必须创建全部8个目录（含审核/）+自检通过**——任何目录缺失=初始化失败
-7. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作
-8. **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库
-9. **agent每次对话第一件事是读项目总控.html**——从`<!--STATE:phase -->`标记提取当前phase值，按速查表路由
+7. **write完成后必须进入review**——Phase 5产出后必须路由到Phase 6，不得连续写两章不review。未review的正文不得作为下一章的前置输入
+8. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作
+9. **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库
+10. **agent每次对话第一件事是读项目总控.html**——从`<!--STATE:phase -->`标记提取当前phase值，按速查表路由
+11. **Phase 6 review必须更新小说快照**——review完成后必须更新`审核/小说快照.md`（全书累计视图），不更新=沉淀未完成
 
 ---
 
@@ -260,8 +265,8 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 | Phase 3 | pop-qidian-world | v2.0.0 | 设计/骨架.md + 设计/主角设计.md | 设计/全书设定/（多文件） |
 | Phase 3.5 | pop-qidian-character | v1.0.0 | 设计/全书设定/ + 设计/骨架.md | 设计/角色库/角色库.md |
 | Phase 4 | pop-qidian-plot | v4.0.0 | 设计/全书设定/ + 设计/角色库/ + 设计/骨架.md + 设计/主角设计.md | 设计/第一卷剧情/剧情白描.md + 章锚点表.md |
-| Phase 5 | pop-qidian-write (**子agent**) | v3.2.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md + 用户声明流派 | 正文/chXXX.txt |
-| Phase 6 | pop-qidian-review | v3.0.0 | 正文/chXXX.txt | 审核/review-chXXX.md |
+| Phase 5 | pop-qidian-write (**子agent**) | v3.3.0 | 设计/第一卷剧情/ + 设计/角色库/ + 设计/主角设计.md + 用户声明流派 | 正文/chXXX.txt |
+| Phase 6 | pop-qidian-review | v3.1.0 | 正文/chXXX.txt | 审核/review-chXXX.md + current-state.md + 小说快照.md |
 
 ---
 
@@ -269,6 +274,7 @@ pipeline 不是简单问"你要写什么"，而是像编辑一样深入摸底。
 
 v1.1.0 | 2026-07-21 | 全链路联调完成。版本快照表对齐所有已升级skill。Phase路由微调+Skill调度表标注版本号。 → CHANGELOG.md
 
+v1.4.0 | 2026-07-22 | review新增小说快照（全书累计视图）。write→review链路改硬约束（不得连续写两章不review）。Phase 6产出新增小说快照.md。
 v1.3.0 | 2026-07-22 | 合并dndlike/onepiece到兜底write为流派技法包。Phase 5路由简化为永远调pop-qidian-write。删除两个独立流派skill。
 v1.2.0 | 2026-07-22 | 删除project-state.md，项目总控.html成为唯一状态文件。agent直接用SearchReplace更新html标记字段。初始化强制创建全部8目录+自检。write DNA改为100%项目空间读取。
 v1.0.0 | 2026-07-21 | 新建skill。Phase 0→6路由+三层骨架依赖链。基于番茄pipeline v3.2.0适配起点架构。 → CHANGELOG.md

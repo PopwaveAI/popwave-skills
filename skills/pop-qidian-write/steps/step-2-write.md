@@ -80,4 +80,9 @@ write 不在 write 内维护任何库文件（设定库/人物库/剧情线/revi
 
 ## 6. 下一步
 
-正文落盘并回复后，建议用户执行 `pop-qidian-review` 更新 current-state，把新增事实、人物变化、燃料使用、伏笔债务压缩进下一轮入口。
+正文落盘并回复后，**必须执行 `pop-qidian-review`**。
+
+- review是write的硬后继——未执行review不得写下一章
+- review负责：四维审核 + current-state更新 + 小说快照更新（全书累计视图）
+- write只在创作记录中声明"新增事实待review"清单，不自行落盘任何库文件
+- pipeline Phase 5完成后自动路由到Phase 6 review，agent不得跳过

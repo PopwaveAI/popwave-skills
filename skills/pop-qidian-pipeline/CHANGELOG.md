@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.4.0 | 2026-07-22
+
+### review小说快照 + write→review硬约束
+- **review新增Step 4c小说快照**——每章review后更新`审核/小说快照.md`（全书累计视图：涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）
+- **write→review链路改硬约束**——Phase 5完成后必须进入Phase 6 review，不得连续写两章不review（新增红线7）
+- **Phase 6产出新增小说快照.md**——调度表和项目空间结构更新
+- **review skill调度表版本更新**——v3.0.0→v3.1.0
+
 ## v1.3.0 | 2026-07-22
 
 ### 合并流派write skill

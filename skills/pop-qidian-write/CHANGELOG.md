@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v3.3.0 (2026-07-22)
+
+### write→review链路改硬约束
+- step-2-write.md第6节"建议用户执行review"改为"**必须**执行review，未review不得写下一章"
+- 明确review的三个职责：四维审核 + current-state更新 + 小说快照更新
+- pipeline Phase 5→6路由增加红线7（write完成后必须进入review）
+
 ## v3.2.0 (2026-07-22)
 
 ### 合并流派专属write skill
