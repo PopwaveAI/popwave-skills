@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v13.19.0 (2026-07-23)
+
+### step1.md瘦身优化
+
+- step1.md从561行压缩至213行（-62%）
+- 5个格式模板块外移到 `templates/Phase1-模板.md`（165行）：七维底牌摸底表/市场校准清单/题材深度调研/策略组装卡/创意展示格式
+- step1.md内联模板替换为 `→ 见 templates/Phase1-模板.md·{章节名}` 引用
+- 合并1c-2和1c-3为"市场分析+产出校准清单"
+- 删除1d-D双轨要点表（与正文冗余）
+- 压缩1b-2派发规则/子agent描述原则/为什么必须落盘等冗余描述
+- SKILL.md速查表新增templates/Phase1-模板.md条目
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v13.18.0 (2026-07-22)
 
 ### 按规范重写 SKILL.md
