@@ -7,24 +7,11 @@
   "scenario": "production",
   "mode": "style",
   "recommended": 3,
-  "tags": [
-    "文风",
-    "DNA",
-    "风格蒸馏",
-    "模仿",
-    "写作",
-    "提示词"
-  ],
+  "tags": ["文风与DNA"],
   "fidelity": "production",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "pop-shared-dna",
-      "DNA",
-      "文风蒸馏",
-      "风格模仿",
-      "style-mimic"
-    ],
+    "slashCommands": ["pop-shared-dna", "文风蒸馏"],
     "default": false
   },
   "permissions": {

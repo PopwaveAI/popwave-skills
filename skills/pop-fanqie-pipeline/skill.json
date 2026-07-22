@@ -3,7 +3,7 @@
   "version": "3.2.0",
   "displayName": "番茄 Pipeline",
   "description": "番茄管线总控。Phase 0→5全链路调度，项目空间标准化（素材/设计[全书设定/角色库/第一卷剧情]/正文/审核），project-state.md/html状态可视化。Phase 4用子agent调write。v3.2.0：设计文件夹拆为3个子文件夹，骨架.md拆为多文件。",
-  "tags": ["管线与总控"],
+  "tags": ["管线与总控", "番茄"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

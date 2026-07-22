@@ -3,9 +3,7 @@
   "version": "1.1.0",
   "displayName": "涌现 Write - D&D数据面板流",
   "description": "D&D数据面板流写作引擎（深渊主宰版本）。将剧情锚点渲染为番茄小说平台可消费的章节正文。完整SOP（8步）+ 6章型骨架 + 11红线 + DNA + 流派技法 + 面板判断表 + 速查表。消费 current-state.md 获取下一章硬推进。正文落盘到 涌现/正文/。",
-  "tags": [
-    "剧情与正文"
-  ],
+  "tags": ["剧情与正文", "起点"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-write-dndlike"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

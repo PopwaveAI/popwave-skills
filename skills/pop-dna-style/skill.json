@@ -3,9 +3,9 @@
   "version": "1.1.0",
   "displayName": "文风DNA提取",
   "description": "从参考书采样→按pop-shared-dna v4模板提取笔触DNA→部署到项目本地涌现/文风锚定.md。双档位设计：A笔触DNA必做（句式/感官/叙事距离/对话/情绪外化）+B剧情DNA brief可选（爽点节奏/Boss梯度/主角成长曲线）。v1.1.0：新增类型权重采样（恐怖悬疑重采揭秘/暗杀/情感高潮，战斗爽文重采boss战/群战，都市异能重采日常对话/揭秘/暗杀）",
-  "tags": ["创意与研究"],
+  "tags": ["文风与DNA"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-dna-style", "提取文风DNA", "文风DNA"] },
+  "activation": { "slashCommands": ["pop-dna-style", "文风DNA"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

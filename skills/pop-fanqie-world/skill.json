@@ -3,7 +3,7 @@
   "version": "1.5.1",
   "displayName": "番茄世界构筑引擎",
   "description": "v1.5.1：骨架.md拆为多文件落盘到 设计/全书设定/（力量体系.md+地图.md+势力.md+危机.md+全书配角.md+各卷切片.md），全链路路径同步更新。v1.5.0：力量体系升级为四层嵌套结构（世界源力量/主养成线含社会地位参照/子养成线含自身阶位+主养成线挂钩/交叉规则），修复decon-lite假消费。",
-  "tags": ["番茄", "世界构筑", "骨架", "力量体系"],
+  "tags": ["世界构筑", "番茄"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-world", "番茄world", "番茄世界构筑"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

@@ -3,10 +3,9 @@
   "version": "4.0.0",
   "displayName": "剧情设计器",
   "description": "起点小说剧情设计器：卷序规划+素材收集(消费骨架.md+主角设计.md)→幕纲四层结构(2a本卷设定快照+2b分支剧情线≥6条+2c分幕设计含困难三层面+2d按幕白描含场景表爽感闭环)→施工卡→事实快照。v4.0.0：消费骨架.md+主角设计.md，Step2重组为四层结构，新增困难三层面(坐标系阻力+引擎代价+天赋限制)与爽感因子标注",
-  "tags": [
-    "剧情与正文"
-  ],
+  "tags": ["剧情与正文", "起点"],
   "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-qidian-plot", "剧情白描"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "pipeline": { "upstream": ["pop-qidian-seed"], "downstream": ["pop-qidian-review"] },
   "author": "popwave",

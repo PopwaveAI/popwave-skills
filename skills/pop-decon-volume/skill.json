@@ -10,14 +10,7 @@
     "upstream":  "pop-decon-design-pack",
     "downstream":  "pop-decon-setting",
     "expert":  "pop-decon",
-    "activation":  {
-                       "slashCommands":  [
-                                             "聚类",
-                                             "cluster",
-                                             "卷幕",
-                                             "clustering"
-                                         ]
-                   },
+    "activation":  { "slashCommands": ["聚类", "卷幕"] },
     "permissions":  {
                         "readProjectFiles":  true,
                         "writeProjectFiles":  true

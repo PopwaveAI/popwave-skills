@@ -7,13 +7,7 @@
     "拆书与分析"
   ],
   "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": [
-      "归纳世界观",
-      "phase-3",
-      "induce-world"
-    ]
-  },
+  "activation": { "slashCommands": ["归纳世界观"] },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true

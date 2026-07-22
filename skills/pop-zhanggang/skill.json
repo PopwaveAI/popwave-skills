@@ -5,7 +5,7 @@
   "description": "基于章纲创作网文正文。输入后续两章章纲，输出第一章正文（3100-3500字）+为第二章留钩子。3步逻辑：拆解冲突+填充细节+推动节奏。4段式骨架分配篇幅，章末期待感对话钩子收尾。",
   "tags": ["写作方法论"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-zhanggang", "章纲流", "章纲续写", "按章纲写"] },
+  "activation": { "slashCommands": ["pop-zhanggang", "章纲"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

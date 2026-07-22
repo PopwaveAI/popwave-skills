@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "displayName": "推书营销专家",
   "description": "从小说原文→读者推书卡（给新读者的无剧透推荐）。三阶段价值扫描（骨架扫描→锚点深读→阅感采样），100章只精读30-40章。9页独立设计语言（Cinematic Poster/Swiss Grid/Magazine Editorial等）。SKILL.md内化Step1保证自执行",
-  "tags": ["推书", "读者推荐", "营销"],
+  "tags": ["营销与推荐"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-recommend", "推书", "推书卡"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

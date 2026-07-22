@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "起点 Character",
   "description": "v1.0.0：新建。参考pop-fanqie-character v1.0.1适配起点架构。定位Phase 3.5——world完成后、plot之前的必经加工站。消费骨架.md（动力引擎组成3众生攀登方式分层）+主角设计.md+全书设定（势力.md+全书配角.md），按分幕设计出场角色清单按需批量塑造，产出设计/角色库/角色库.md。角色库是write的角色唯一源。每个具名角色标注攀登方式类型+等级坐标。",
-  "tags": ["起点", "角色"],
+  "tags": ["角色", "起点"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-character", "起点character", "建角色库"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

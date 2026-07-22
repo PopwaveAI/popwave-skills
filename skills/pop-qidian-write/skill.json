@@ -3,9 +3,7 @@
   "version": "3.0.0",
   "displayName": "涌现 Write",
   "description": "番茄 prose-render 覆盖版。当用户说'写正文/续写/重写/把X写成Y/开篇样章/单章爽文/涌现式write'时启用。消费 current-state.md + dna/笔触DNA文件 + 设计/主角设计.md（爽感矛盾公式）+ 设计/角色库/角色库.md（角色唯一源）+ 用户本轮要求。v3.0.0：DNA三态协议（启用态/缺失态/trial模式）+ 设定库精选注入（≤3维度≤1500字·角色库必选）+ 角色库消费 + 爽感锚定坐标系跃迁。6章型骨架 + 17微观技法 + 五层指导 + 章意图思考 + 微观技法选择 + 验收表。正文落盘到 涌现/正文/",
-  "tags": [
-    "剧情与正文"
-  ],
+  "tags": ["剧情与正文", "起点"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-write", "写正文", "续写"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

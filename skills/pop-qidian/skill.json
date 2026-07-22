@@ -3,11 +3,9 @@
   "version": "4.0.1",
   "displayName": "涌现式小说专家",
   "description": "当用户说'新建涌现项目/项目跑偏/审计涌现规范/涌现式骨架'时启用。初始化或修复涌现式写作项目骨架，审计 skill scope/版本/current-state/soul/review/DNA执行包闭环，给出一次性路由建议。番茄小说创作 skill 群覆盖替换 pop-qidian 系列，骨架扩展为 7 skill。",
-  "tags": [
-    "工作流与调度"
-  ],
+  "tags": ["管线与总控", "起点"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-qidian", "新建涌现项目", "审计涌现规范"] },
+  "activation": { "slashCommands": ["pop-qidian", "新建项目"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"

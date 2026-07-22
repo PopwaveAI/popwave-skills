@@ -3,6 +3,7 @@
   "version": "7.0.0",
   "displayName": "网文搜索下载TXT",
   "description": "搜索并下载中文网文 TXT。三阶段 SOP：脚本自动搜索 → agent web 搜索兜底 → 验证交付。默认排除付费墙正版网站。强制 Phase 2 web 搜索红线，agent 不会在内置源失败后直接放弃。",
+  "tags": ["工具"],
   "pipeline": {
     "upstream": [],
     "downstream": [
@@ -10,17 +11,7 @@
     ]
   },
   "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": [
-      "下载小说",
-      "搜索下载TXT",
-      "导入TXT",
-      "爬取小说",
-      "下载TXT",
-      "tool-download-webnovel"
-    ],
-    "default": false
-  },
+  "activation": { "slashCommands": ["下载小说", "tool-download-webnovel"], "default": false },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true,

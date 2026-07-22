@@ -7,17 +7,7 @@
     "拆书与分析"
   ],
   "entry": "SKILL.md",
-  "activation": {
-    "slashCommands": [
-      "拆书",
-      "解构",
-      "分析",
-      "deconstruct",
-      "拆解",
-      "对标",
-      "提取模板"
-    ]
-  },
+  "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true

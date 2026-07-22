@@ -5,7 +5,7 @@
   "description": "雪花写作法10步迭代式扩展：从25词一句话逐步生长为完整小说。双轨并行（故事架构+人物塑造交替），三次灾难性事件驱动三幕结构，主动/被动场景交替串联。适用于从零开始的长篇小说创作。",
   "tags": ["写作方法论"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-snowflake", "雪花写作", "雪花法", "snowflake"] },
+  "activation": { "slashCommands": ["pop-snowflake", "雪花写作"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
