@@ -219,3 +219,8 @@
 
 > Phase 2 全部完成。通知 orchestrator（pop-decon）可进入 Phase 3。
 > 加载指令：由 orchestrator 调度 pop-decon-setting
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一 step：下游 skill pop-decon-setting（Phase 3）
+> 什么时候进入下一步：Phase 2 全部完成（L2卡+卷纲双轨入库完毕）

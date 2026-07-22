@@ -154,3 +154,8 @@
 ## 下一步
 
 > 设计/角色库/角色库.md就绪 → pipeline进入Phase 4 Write。write消费角色库写正文。
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一 step：下游 skill pop-fanqie-plot
+> 什么时候进入下一步：设计/角色库/角色库.md 落盘完成

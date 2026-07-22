@@ -92,3 +92,8 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 ## 下一步
 
 > Step 2: 路由。读project-state.md → 当前phase=init → 进入Phase 0用户意图深问
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一 step：`steps/step2.md`
+> 什么时候进入下一步：project-state.html 初始化完成

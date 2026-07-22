@@ -50,3 +50,8 @@
 `_temp/prd-collected-data.md` — 结构化数据摘要，包含以上 8 项统计结果。
 
 > **注意**：本步骤只收集不分析。所有数据原样记录，分析判断留给 Step 2。
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一 step：`steps/step-2-synthesize.md`
+> 什么时候进入下一步：8项全管线产出数据收集完毕，`_temp/prd-collected-data.md` 已创建

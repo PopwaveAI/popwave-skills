@@ -175,3 +175,8 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 ## 下一步
 
 > 路由完成 → 进入对应phase执行 → 执行完成后回到本Step 2继续路由
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一 step：路由到子 skill（seed/world/plot/write/review）
+> 什么时候进入下一步：project-state.html 更新完成
