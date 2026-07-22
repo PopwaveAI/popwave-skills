@@ -1,5 +1,19 @@
 # CHANGELOG — 02-pop-novel-deconstructor
 
+## v20.2.0 | 2026-07-22
+
+### 按规范重写 SKILL.md
+
+- 按pop-shared-skill-create v6.1.0规范重写SKILL.md
+- 新增frontmatter（name+description含触发条件）
+- 新增"做什么"输入/输出/下游表
+- 新增"怎么操作"section含execution.mode+强弱加载声明
+- 红线#1改为读取协议（Get-Content -Encoding UTF8 -Raw，禁用Read工具）
+- 速查表改为全文件目录引导（文件+读取时机+核心内容），补全iceberg-theory+wiki-skeleton
+- 版本只留最新一条，其余保留在本文件
+- skill.json版本同步至20.2.0，description更新为入口定位
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v20.1.0 | 2026-07-20
 
 ### 移除pop-trope-library入库，改为沉淀本地文件夹

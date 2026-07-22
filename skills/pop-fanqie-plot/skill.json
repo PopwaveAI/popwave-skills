@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-plot",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "displayName": "番茄叙事引擎",
-  "description": "v3.5.2：路径更新——骨架.md→设计/全书设定/（多文件），剧情白描.md→设计/第一卷剧情/剧情白描.md。对齐pipeline v3.2.0设计文件夹拆为3个子文件夹。v3.5.1：SKILL.md减负——版本历史移到CHANGELOG。",
+  "description": "番茄叙事引擎。当用户说'番茄plot''番茄叙事''剧情白描''分幕设计'时启用。消费全书设定产出本卷设定快照+分支剧情线+分幕设计+按幕白描。",
   "tags": ["剧情与正文"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-plot", "番茄plot", "番茄叙事"] },

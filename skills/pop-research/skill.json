@@ -1,8 +1,8 @@
 {
   "id": "pop-research",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "displayName": "独立调研",
-  "description": "独立调研skill。v2.2.0新增表9动力引擎提取表（基于24本男频小说验证）。动力引擎=驱动逻辑+运转机制+代价结构，五种范式（飞轮型/探索型/混合型/压迫型/对抗型）。核心发现：动力引擎是男频小说的核心（非等级系统），决定剧情驱动力、世界辨识度和叙事节奏。",
+  "description": "当用户说'调研/赛道调研/decon-lite/拆书/采风'时启用。管线独立调研skill，四档位产出供给seed/plot/write。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-research", "调研", "research"] },

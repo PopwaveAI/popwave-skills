@@ -1,8 +1,8 @@
 {
   "id": "tool-download-webnovel",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "displayName": "网文搜索下载TXT",
-  "description": "搜索并下载中文网文 TXT。三阶段 SOP：脚本自动搜索 → agent web 搜索兜底 → 验证交付。默认排除付费墙正版网站。强制 Phase 2 web 搜索红线，agent 不会在内置源失败后直接放弃。",
+  "description": "网文搜索下载。当用户说'下载小说''搜索网文'时启用。输入书名+作者输出TXT文件。三阶段SOP：脚本搜索→web搜索兜底→验证交付。默认排除付费墙正版网站。",
   "tags": ["工具"],
   "pipeline": {
     "upstream": [],

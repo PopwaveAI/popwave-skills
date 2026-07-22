@@ -1,18 +1,18 @@
 {
-    "id":  "pop-decon-volume",
-    "version": "7.0.1",
-    "displayName":  "L2单元卡/卷纲（Phase 2）",
-    "description":  "当用户说\u0027聚类/卷幕/cluster\u0027时启用。从白描卡产出叙事白描→L2单元卡+卷纲（含溯源燃料台+叙事技法分析），产出供下游setting/prd消费。",
-    "tags": [
+  "id": "pop-decon-volume",
+  "version": "7.1.0",
+  "displayName": "L2单元卡/卷纲（Phase 2）",
+  "description": "当用户说'聚类/卷幕/cluster'时启用。从白描卡产出叙事白描→L2单元卡+卷纲（含溯源燃料台+叙事技法分析），产出供下游setting/prd消费。",
+  "tags": [
     "拆书与分析"
   ],
-    "entry":  "SKILL.md",
-    "upstream":  "pop-decon-design-pack",
-    "downstream":  "pop-decon-setting",
-    "expert":  "pop-decon",
-    "activation":  { "slashCommands": ["聚类", "卷幕"] },
-    "permissions":  {
-                        "readProjectFiles":  true,
-                        "writeProjectFiles":  true
-                    }
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-setting",
+  "expert": "pop-decon",
+  "activation": { "slashCommands": ["聚类", "卷幕"] },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
 }

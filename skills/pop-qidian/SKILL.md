@@ -1,61 +1,45 @@
 ---
 name: pop-qidian
-description: 涌现式小说项目初始化/修复/审计入口。当用户说"新建涌现项目/项目跑偏/审计涌现规范/涌现式骨架"时启用。建骨架、补元数据、审计 scope/版本/current-state/soul/review/DNA执行包闭环，给出一次性路由建议；非每轮正文写作总控。
+description: 涌现式小说项目入口。当用户说'新建涌现项目''项目跑偏''审计涌现规范'时启用。初始化/修复/审计项目骨架，给出一次性路由建议；非每轮总控。
 ---
+# pop-qidian
+> 涌现式小说项目初始化/修复/审计入口 v4.1.0。非每轮总控，每轮正文由write执行。
 
-# Pop Emergent
+## 做什么
+| 输入 | 输出 | 下游 |
+|------|------|------|
+| 用户需求(新建/修复/审计) | 项目骨架+审计报告+一次性路由 | seed→plot→review→write循环 |
 
-初始化/修复/审计入口，非每轮总控。每轮正文由 pop-qidian-write 执行，中长线记忆和下一章DNA执行包由 pop-qidian-review 压入 current-state.md。
+骨架7 skill：pop-qidian-seed/plot/write/write-dndlike/write-onepiece/review。
 
-## 骨架定义
+## 怎么操作（SOP骨架）
+> execution.mode: 初始化/修复/审计时一次性执行，非常规每轮调度。
+> 强加载：红线+速查表+PRD §4契约引用（每轮必读）；弱加载：steps/templates/references按scenario按需加载。
 
-```text
-pop-qidian（初始化/审计）
-├── pop-qidian-seed（番茄seed覆盖：种子+世界展开+主角引擎+角色储备池+世界圣经）
-├── pop-qidian-plot（番茄plot-design迁移：素材收集+幕纲+6门禁+施工卡）
-├── pop-qidian-write（番茄prose-render覆盖：6章型+17微观技法+五层指导+current-state消费）
-├── pop-qidian-write-dndlike（番茄dndlike：D&D数据面板流完整写作引擎）
-├── pop-qidian-write-onepiece（番茄onepiece：海贼王世界冒险流完整写作引擎）
-└── pop-qidian-review（番茄review覆盖：逐beat对比+gap分析+current-state更新+历史层）
-```
+### Step 1: 初始化/审计 → `steps/step-1-init-audit.md`
+- 建立骨架（7 skill目录树+空壳元数据）或审计现有项目（scope/版本/current-state/soul/review/DNA执行包闭环）
 
-## 标准流程
-
-```text
-pop-qidian 初始化骨架
-→ pop-qidian-seed 种子+世界展开
-→ pop-qidian-plot 素材收集+幕纲+施工卡
-→ pop-qidian-review 初始化 current-state（将施工卡+快照压缩为 current-state.md）
-→ pop-qidian-write（或流派skill）写正文+落盘
-→ pop-qidian-review 逐beat对比+gap分析+更新current-state+历史层
-→ 循环 write ↔ review
-```
+### Step 2: 修复+路由 → `steps/step-2-fix-route.md`
+- 补current-state/soul骨架缺口，给出一次性路由建议
 
 ## 红线
-
-1. 读取 skill 文件用 `Get-Content -Encoding UTF8 -Raw`，禁用 Read 工具。
-2. 创建项目必须双文件齐全：SKILL.md + skill.json。
-3. 版本三处一致：SKILL.md + skill.json + CHANGELOG.md。
-4. 不当每轮总控；路由建议仅初始化/修复/审计时一次性给出。
-5. 不让 write 全量扫库；库文件由 review 筛入 current-state。
-6. 不把"本次采用 skill"当合规证据；必须检查 scope 真实存在。
-7. 不调用 pop-novel-create 处理涌现式写作。
-8. 启用文风DNA时，必须检查 soul 的长期融合策略和 current-state 的本章DNA执行包是否存在。
+1. **读取协议**：skill文件用`Get-Content -Encoding UTF8 -Raw`读取。强加载=红线+速查表+PRD §4契约（每轮必读）；弱加载=steps/templates/references按scenario按需加载。
+2. **创建项目必须双文件齐全** — SKILL.md + skill.json
+3. **版本三处一致** — SKILL.md + skill.json + CHANGELOG.md
+4. **不当每轮总控** — 路由建议仅初始化/修复/审计时一次性给出
+5. **不让write全量扫库** — 库文件由review筛入current-state
+6. **不把'本次采用skill'当合规证据** — 必须检查scope真实存在
+7. **不调用pop-novel-create** — 涌现式写作不走novel-create；启用文风DNA时必须检查soul融合策略和current-state的DNA执行包
 
 ## 速查表
+| 文件 | 读取时机 | 核心内容 |
+|------|----------|----------|
+| SKILL.md | 每轮必读 | 红线+SOP骨架+速查表 |
+| steps/step-1-init-audit.md | 初始化/审计时 | 骨架建立+审计报告 |
+| steps/step-2-fix-route.md | 修复缺口时 | 补current-state/soul+一次性路由 |
+| templates/skeleton-init.tpl.md | 初始化骨架时 | 目录树+空壳元数据块 |
+| references/v3.5-pipeline-prd.md | 需要契约层时 | 骨架/owner/命名/execution.mode/版本基线 |
+| agents/openai.yaml | 需要agent配置时 | OpenAI agent配置 |
 
-| 文件 | 读取时机 |
-| --- | --- |
-| `steps/step-1-init-audit.md` | 初始化/审计时加载，执行骨架建立与审计报告 |
-| `steps/step-2-fix-route.md` | 修复缺口时加载，补 current-state/soul 骨架并给一次性路由 |
-| `templates/skeleton-init.tpl.md` | 初始化骨架时复制，提供目录树与空壳元数据块 |
-| `references/v3.5-pipeline-prd.md` | 骨架/owner/命名/execution.mode/版本契约层 |
-
-骨架、owner 表、命名规范、execution.mode、版本基线、回复格式见 PRD §4，不在本 skill 重复定义。
-
-## 强弱加载保障
-
-- 强加载：红线、速查表、PRD §4 契约引用（每轮必读）。
-- 弱加载：step-1/step-2/templates 按 scenario 按需加载。
-
-版本：v4.0.0，变更见 `CHANGELOG.md`。
+## 版本
+v4.1.0 | 2026-07-22 | SKILL.md按设计规范重写：frontmatter补触发条件、红线重构为7条(首条读取协议)、速查表改为文件目录引导、版本历史移至CHANGELOG。

@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-prd",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "全书立项设计（Phase 4）",
-  "description": "Phase 4 of deconstruction: 全书立项设计（逆向破解+商业分析+连载规划+风险预警+启动检查清单）",
+  "description": "全书立项设计。当用户说'拆书PRD''立项破解''立项设计'时启用。消费L1-L4全管线产出立项级文档含逆向破解总结+商业可行性+连载规划+风险预警。",
   "tags": [
     "拆书与分析"
   ],

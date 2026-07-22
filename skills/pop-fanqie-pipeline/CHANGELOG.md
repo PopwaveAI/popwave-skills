@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v3.3.0 (2026-07-22)
+
+### 按Popwave Skill设计规范重写SKILL.md结构
+
+**改动**：
+- SKILL.md从329行压缩到60行（≤100行），frontmatter加触发条件式description
+- 红线从8条改为7条（新增读取协议红线，合并原红线1+2+6为一条），保留全部业务红线
+- 速查表从启动判断表+Skill调度表改为全文件目录引导（含steps/scripts/templates）
+- 新增强弱加载保障声明
+- 版本历史只留最新一条，其余在CHANGELOG.md
+- SOP骨架每step压缩到1-2行，Phase路由压缩为表格
+- skill.json版本3.2.0→3.3.0，description改为触发条件式
+
+**保留不动**：Phase路由规则/项目空间结构/state.md模板/step1.md/step2.md——业务方法论不做改动
+
 ## v3.2.0 (2026-07-21)
 
 ### 设计文件夹拆为3个子文件夹 + 骨架.md拆为多文件 + 全链路路径同步

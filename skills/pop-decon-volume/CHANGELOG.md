@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v7.1.0 | 2026-07-22
+
+### 按规范重写 SKILL.md
+
+- 按pop-shared-skill-create v6.1.0规范重写SKILL.md
+- 新增"做什么"输入/输出/下游表
+- 新增"怎么操作"section含execution.mode+强弱加载声明，步骤表合并step文件路径
+- 红线#1改为读取协议（Get-Content -Encoding UTF8 -Raw，禁用Read工具）
+- 合并双速查表为单一文件目录引导（文件+读取时机+核心内容）
+- 版本只留最新一条
+- skill.json版本同步至7.1.0
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v7.0.0 | 2026-07-14
 - **新增 Step 0：全书剧情白描** — Phase 1.5 叙事层
   - 新增 steps/step-0-叙事白描.md：将白描卡碎片串联为按卷分段的流畅叙事白描

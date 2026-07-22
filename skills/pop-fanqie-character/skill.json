@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-character",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "displayName": "番茄 Character",
-  "description": "v1.0.1：路径更新——消费骨架.md→设计/全书设定/（力量体系.md+势力.md+全书配角.md），产出角色库.md→设计/角色库/角色库.md。对齐pipeline v3.2.0设计文件夹拆为3个子文件夹。",
+  "description": "当用户说'建角色库/角色/角色卡'时启用。消费plot产出的分幕设计（出场角色清单）+全书设定，按需批量塑造角色，产出角色库.md。角色库是write的角色唯一源。",
   "tags": ["角色"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-character", "建角色库", "角色"] },
