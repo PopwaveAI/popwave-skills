@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-seed",
-  "version": "8.5.0",
+  "version": "9.0.0",
   "displayName": "起点 Seed",
-  "description": "起点立项引擎。v8.5.0：故事先行——S1故事创意对齐先行，S2力量体系配套。v8.4.0：Step 0交互式决策。v8.3.0：42本decon-power方法论沉淀。",
+  "description": "起点立项引擎。v9.0.0：引擎三要素重构——S1/S2/S3全部加入定位+好坏标准+达成方法。S1增量吸引力≥3+4组合模式。S2适配度6维判断。S3主角引擎（三定位+金手指5方法论+追读钩子5类型+危机关系4模式）。完整版本历史见CHANGELOG.md。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-seed", "做种子"] },
