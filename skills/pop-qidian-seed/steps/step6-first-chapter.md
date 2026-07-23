@@ -171,4 +171,4 @@
 
 ## 下一步
 
-ch001.txt 落盘后，进入 `steps/phase2-protagonist.md`：v8.0.0 过渡版主角引擎（9 字段行为模式表）。
+ch001.txt 落盘后，进入 `steps/step7-protagonist.md`：v8.0.0 过渡版主角引擎（9 字段行为模式表）。

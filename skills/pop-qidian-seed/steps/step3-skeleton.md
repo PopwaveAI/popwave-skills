@@ -390,4 +390,4 @@
 
 ## 下一步
 
-骨架.md落盘后，进入 `steps/phase1-diverge.md`：在骨架框架内双轨发散创意。
+骨架.md落盘后，进入 `steps/step4-diverge.md`：在骨架框架内双轨发散创意。

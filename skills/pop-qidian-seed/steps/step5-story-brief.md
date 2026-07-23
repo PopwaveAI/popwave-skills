@@ -368,4 +368,4 @@
 
 ## 下一步
 
-创意.md落盘后，进入 `steps/phase1-first-chapter.md`：从第 1 句开始用 DNA 笔触写黄金首章，2000-2500 字。
+创意.md落盘后，进入 `steps/step6-first-chapter.md`：从第 1 句开始用 DNA 笔触写黄金首章，2000-2500 字。

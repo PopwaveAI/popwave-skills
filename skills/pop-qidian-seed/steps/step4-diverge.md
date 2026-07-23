@@ -276,4 +276,4 @@
 
 ## 下一步
 
-用户确认方案后，进入 `steps/phase1-story-brief.md`：产出故事纲领（三核心+营销层格式）+ 创意.md。
+用户确认方案后，进入 `steps/step5-story-brief.md`：产出故事纲领（三核心+营销层格式）+ 创意.md。

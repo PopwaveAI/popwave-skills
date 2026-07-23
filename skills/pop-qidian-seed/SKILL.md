@@ -44,32 +44,32 @@ description: 起点立项引擎。当用户说"立项""开始新书""seed"时启
 ⑦ 主角展开（2a-2c）→ 主角设计.md ← 消费S3决策展开
 ```
 
-### Phase 0：七维底牌摸底 → `steps/phase0-brief.md`
+### Phase 0：七维底牌摸底 → `steps/step1-brief.md`
 
 七维逐项摸底（①方向②笔触参考书③力量体系参考书④赛道经典⑤现有设定⑥情绪基调⑦最大卖点），缺的标缺不阻塞。底牌就绪后触发pipeline子agent并发（dna-style/research/赛道调研）。
 
-### Step 0：交互式立项决策 → `steps/step-0-interactive.md`
+### Step 0：交互式立项决策 → `steps/step2-decision.md`
 
 **v9.0.0引擎三要素重构**：基于"引擎三要素"（①定位②好坏标准③达成方法）重构S1/S2/S3。S1增量吸引力≥3+4种组合模式+好坏标准显式化。S2适配度6维判断标准+好坏标准显式化。S3从7字段升级为完整主角引擎（三定位+好坏标准+金手指5方法论+追读钩子5类型+危机关系4模式）。完整版本历史见CHANGELOG.md。
 **产出`设计/立项决策表.md`——后续骨架展开+创意+主角展开的硬输入。**
 
 ### Phase 1：骨架展开 + 创意 + 首章
 
-**1d-1f 骨架展开** → `steps/phase1-skeleton.md`
+**1d-1f 骨架展开** → `steps/step3-skeleton.md`
 消费S1+S2决策→展开为骨架.md。力量体系五层结构（源力量/主养成线/子养成线+境界涌现/交叉规则）+动力引擎六组成（驱动逻辑/运转机制/众生攀登分层+掉落机制/代价三层次/范式选择/演化节点）+骨架自洽12项检查（含S2决策一致性检查）。有参考书消费decon-lite表1/表9作为展开参考。
 
-**1g 双轨发散** → `steps/phase1-diverge.md`
+**1g 双轨发散** → `steps/step4-diverge.md`
 王道轨5个（赛道扫榜融合）+猎奇轨5个（跨领域碰撞），三眼法判断，PK推荐1个等用户确认。
 
-**1h 故事纲领（三核心+营销层）** → `steps/phase1-story-brief.md`
+**1h 故事纲领（三核心+营销层）** → `steps/step5-story-brief.md`
 三核心（世界4层/舞台危机3要素/主角5要素）+营销层（最大钩子≤20字/即时兑现感），同时产出创意.md。
 
-**1i 黄金首章** → `steps/phase1-first-chapter.md`
+**1i 黄金首章** → `steps/step6-first-chapter.md`
 DNA笔触，2000-2500字，体现坐标系展示+金手指激活，产出`正文/ch001.txt`。
 
 ### Phase 2：主角展开
 
-**2a-2c 主角展开** → `steps/phase2-protagonist.md`
+**2a-2c 主角展开** → `steps/step7-protagonist.md`
 消费S3决策→展开为主角设计.md。2a主角展开（坐标系起点/身份底色/性格/核心欲望/与众生关系+9字段行为模式表）+2b金手指展开（类型/加速机制/限制/代价/与引擎关系）+2c爽感矛盾展开（公式/闭环/类型/节奏）。门禁含S3决策一致性检查。
 
 ---
@@ -88,13 +88,13 @@ DNA笔触，2000-2500字，体现坐标系展示+金手指激活，产出`正文
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `steps/phase0-brief.md` | Phase 0 | 七维底牌摸底模板 |
-| `steps/step-0-interactive.md` | Step 0（设计大脑） | S0-S5交互决策→立项决策表.md |
-| `steps/phase1-skeleton.md` | Phase 1 · 1d-1f（骨架展开） | 消费S1+S2决策→展开力量体系五层+动力引擎六组成+自洽12项+8种方法论 |
-| `steps/phase1-diverge.md` | Phase 1 · 1g | 双轨发散（王道+猎奇）+三眼法 |
-| `steps/phase1-story-brief.md` | Phase 1 · 1h | 故事纲领三核心+营销层模板 |
-| `steps/phase1-first-chapter.md` | Phase 1 · 1i | 黄金首章写作规范 |
-| `steps/phase2-protagonist.md` | Phase 2 · 2a-2c（主角展开） | 消费S3决策→展开主角+金手指+爽感矛盾+门禁 |
+| `steps/step1-brief.md` | ①收集底牌 | 七维底牌摸底模板 |
+| `steps/step2-decision.md` | ②交互决策（设计大脑） | S0-S5交互决策→立项决策表.md |
+| `steps/step3-skeleton.md` | ③骨架展开 | 消费S1+S2决策→展开力量体系五层+动力引擎六组成+自洽12项+8种方法论 |
+| `steps/step4-diverge.md` | ④创意发散 | 双轨发散（王道+猎奇）+三眼法 |
+| `steps/step5-story-brief.md` | ⑤故事纲领 | 故事纲领三核心+营销层模板 |
+| `steps/step6-first-chapter.md` | ⑥黄金首章 | 黄金首章写作规范 |
+| `steps/step7-protagonist.md` | ⑦主角展开 | 消费S3决策→展开主角+金手指+爽感矛盾+门禁 |
 | `素材/decon-power-索引.md` | 无参考书时 | 42本按7赛道索引，选2-3本范例参考 |
 
 ---
