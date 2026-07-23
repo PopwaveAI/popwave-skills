@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "1.8.0",
-  "description": "起点管线总控。v1.8.0：Phase 0-1并行（拆书+seed Step 0同时）+seed故事先行。v1.7.0：Phase 1-4先交互再生成。v1.5.0：plot v4.1.0调优。",
+  "version": "3.0.0",
+  "description": "起点管线总控。v3.0.0：seed v9.0.0引擎三要素重构（S1/S2/S3全部加入定位+好坏标准+达成方法）。完整版本历史见seed CHANGELOG.md。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
