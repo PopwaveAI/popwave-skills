@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## v4.4.0 (2026-07-23)
+
+### 四步审核重构：恢复step文件+新增反向检查+补全能力
+
+**P0修复：恢复缺失的step文件**
+- 创建 steps/step1.md（199行）：Step 1 正向符合性+番茄底线 + Step 2 正文质量（AI味7项+笔触DNA+好看度4问）+ Step 3 反向充足性检查
+- 创建 steps/step2.md（162行）：Step 4 剧情沉淀执行（审核报告+verdict+current-state+小说快照+沉淀日志）
+- 修复根因：v4.1.0时所有SOP内嵌在SKILL.md（146行），f98ceae压缩SKILL.md时引用了不存在的step文件
+
+**新增能力**
+- **Step 3 反向充足性检查**：审完正文后反向评估剧情白描/设定库/角色卡/燃料库是否足以指导下一章创作
+- **AI味7项检查**：句式重复/情绪直给/结尾收束/描写堆叠/信息重复/对话死板/高疲劳词，每项有具体判定标准
+- **好看度4问**：有没有劲/记忆点/哪里无聊/代入感，每问要求给具体证据
+- **剧情快照**：新增`审核/小说快照.md`（replace模式），含全书进度/涌现设定/角色状态总表/剧情线/读者已知信息池/待回收伏笔
+- **current-state更新**：新增归档旧版→写新版机制
+- **review-沉淀日志**：新增append-only审稿日志
+- **verdict产出**：新增`审核/review-verdict-chXXX.md`，明确PASS/REJECT结论
+
+**SKILL.md重构**
+- 从三段式审核改为四步审核结构
+- SKILL.md ≤100行，SOP骨架每Step 1-2行
+- 红线7条，含读取协议/AI味具体位置/好看度具体证据/反向检查必产出/verdict必PASS或REJECT/小说快照每章必更新
+- 速查表为文件目录引导
+- skill.json version 4.3.0→4.4.0，description同步更新
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v4.3.0 (2026-07-22)
 
 ### 按Popwave Skill设计规范重写SKILL.md结构

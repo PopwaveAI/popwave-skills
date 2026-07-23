@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-review",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "displayName": "番茄审核专家",
-  "description": "当用户说'番茄review/番茄审核/审核正文'时启用。三段式审核（合规底线→番茄底线→爽感底线），每章产出审核报告，PASS→ch+1/REJECT→重写。",
+  "description": "当用户说'番茄review/番茄审核/审核正文'时启用。四步审核（正向符合性→正文质量→反向充足性→沉淀），每章产出审核报告+current-state+小说快照，PASS→ch+1/REJECT→重写。",
   "tags": ["审核与质检"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-review", "番茄review", "番茄审核"] },

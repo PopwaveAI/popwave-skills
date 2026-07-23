@@ -1,48 +1,68 @@
 ---
 name: pop-fanqie-review
-description: "当用户说'番茄review/番茄审核/审核正文'时启用。三段式审核（合规底线→番茄底线→爽感底线），每章产出审核报告。"
+description: "当用户说'番茄review/番茄审核/审核正文'时启用。四步审核（正向符合性→正文质量→反向充足性→沉淀），每章产出审核报告+current-state+小说快照。"
 ---
 
 # pop-fanqie-review
 
-> 番茄审核专家。三段式审核，通过→ch+1，打回→重写。v4.3.0
+> 番茄审核引擎。四步审核：正向符合性→正文质量→反向充足性→沉淀。v4.4.0
 
 ## 做什么
 
-输入：正文/chXXX.txt+前章审核结论+current-state+角色库+笔触DNA
-输出：审核/review-chXXX.md（审核报告）+ 审核/review-verdict-chXXX.md（结论PASS/REJECT）
+输入：正文/chXXX.md + write交付面板 + 剧情白描本章段 + 骨架/设定 + 角色库 + 笔触DNA(三态协议) + 前章current-state
 
-三段式审核：合规底线（一票否决）→番茄底线（逐条检查）→爽感底线（主推爽感必触发）。
+| 产出文件 | 核心内容 |
+|:--|:--|
+| `审核/review-chXXX.md` | 四步审核结论+gap清单+好看度4问+反向补强建议+主角变化+钩子追踪 |
+| `审核/review-verdict-chXXX.md` | PASS/REJECT+一句话理由+打回条目 |
+| `current-state.md`（更新） | 下一章硬推进+人物状态+燃料队列+伏笔债务+DNA执行包 |
+| `审核/小说快照.md`（replace） | 全书累计视图：进度/涌现设定/角色状态总表/剧情线/读者已知信息池/待回收伏笔 |
+
+审核结论：全部通过→PASS→ch+1。任一不通过→REJECT→重写（附打回条目+修改建议）。
+
+---
 
 ## 怎么操作（SOP骨架）
 
-> execution.mode: 串联式 | 强保障：本SKILL.md由host层强制注入 | 弱保障：steps/需agent主动读取，设计时假设可能没读到
+> execution.mode: formal（落盘）/ draft（补全继续）/ trial（不落盘）。
+> 强弱加载：SKILL.md=完整骨架（必读），steps/下step文件=详细操作（按Step强加载全文）。
 
-- **Step 1** 加载审核材料（内化）→ 正文/chXXX.txt+前章审核结论(如果有)+current-state+角色库+笔触DNA(三态协议对应的笔触约束)
-- **Step 2** 三段式审核 → `steps/step2.md`
-  - 2a 合规底线：政治敏感/红线词/未成年保护/价值观，命中任一=直接REJECT
-  - 2b 番茄底线：章末钩子/爽感≥1/节奏密度8-12个事件/字数2000-2500/章名格式/章型7节拍/前后章衔接(回收前章钩子)/角色库一致性
-  - 2c 爽感底线：主推爽感是否触发/爆发后三段式是否执行/爽感引擎5种类型是否有
-- **Step 3** 产出审核报告 → `steps/step3.md`（审核/review-chXXX.md含三段式结果+问题清单+修改建议，审核/review-verdict-chXXX.md含PASS/REJECT+一句话理由+打回条目）
+### Step 1：正向符合性检查 → `steps/step1.md`
+核心事件逐beat对照→设定一致性（金手指规则+力量体系+世界观）→角色一致性→爽感闭环（三段式）+番茄底线（章末钩子/节奏密度8-12/字数2000-2500/前后章衔接）。不通过=废章。
 
-审核结论：全部通过→PASS→pipeline Phase 4 ch+1。任一不通过→REJECT→pipeline Phase 4重写（附打回条目+修改建议）。
+### Step 2：正文质量检查 → `steps/step1.md`
+AI味7项（句式重复/情绪直给/结尾收束/描写堆叠/信息重复/对话死板/高疲劳词）+ 笔触DNA一致性（启用态8维度/trial模式3项）+ 好看度4问（有没有劲/记忆点/哪里无聊/代入感）。
+
+### Step 3：反向充足性检查 → `steps/step1.md`
+审完正文后反向评估：剧情白描、设定库、角色卡、燃料库是否足以指导下一章创作。产出补强建议清单。
+
+### Step 4：剧情沉淀 → `steps/step2.md`
+输出审核报告+verdict+更新current-state（归档旧版→写新版）+更新小说快照（replace）+追加review-沉淀日志。
+
+---
 
 ## 红线
 
-1. **读取协议**——读取skill文件用`Get-Content -Encoding UTF8 -Raw`，Read工具有行数限制会截断丢内容
-2. **三段式全审**——合规→番茄→爽感，不能跳过任何一段，合规命中=直接REJECT不再审后续
-3. **审核结论必须PASS/REJECT**——不能模棱两可，REJECT必须列出具体打回条目+修改建议
-4. **每条问题必须标注严重等级+修改建议+证据引用**——严重等级分critical/major/minor，证据引用正文行号或片段
-5. **Step文件链式加载**——Step1内化→step2.md→step3.md，禁止跳过
+1. **读取协议**：读取skill文件用`Get-Content -Encoding UTF8 -Raw`，禁用Read工具。
+2. **正向符合性不通过=废章**：核心事件主线丢失/金手指违规/爽感闭环三段缺一=REJECT。
+3. **AI味7项每项必须给具体位置**：不能泛泛说"有AI味"，必须标注哪句话/哪个段落。
+4. **好看度4问必须给具体证据**：必须引用原文或标注段落位置，不能泛泛说"还行"。
+5. **反向检查必须产出补强建议清单**：即使全部充足也要逐项确认"充足"，缺项必须给出具体补强建议。
+6. **审核结论必须PASS/REJECT**：不能模棱两可，REJECT必须列出具体打回条目+修改建议。
+7. **小说快照每章必更新**：review完成后必须更新`审核/小说快照.md`（replace模式）。
+
+---
 
 ## 速查表
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `SKILL.md` | 每次run强制注入 | SOP骨架+三段式审核方法论+红线 |
-| `steps/step2.md` | Step1完成后读取 | 三段式审核执行（合规8项/番茄8项/爽感3项检查清单） |
-| `steps/step3.md` | Step2完成后读取 | 审核报告+结论产出格式（review-chXXX.md+review-verdict-chXXX.md） |
+| `SKILL.md`（本文件） | 每次 | 四步审核骨架+红线+执行入口 |
+| `steps/step1.md` | Step 1-3 | 正向符合性+番茄底线+正文质量(AI味7项+DNA+好看度4问)+反向充足性 |
+| `steps/step2.md` | Step 4 | 审核报告+verdict模板+current-state更新+小说快照+沉淀日志 |
+
+---
 
 ## 版本
 
-v4.3.0 | 2026-07-22 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为5条含读取协议 → CHANGELOG.md
+v4.4.0 | 2026-07-23 | 四步审核重构：恢复缺失step文件，新增反向充足性检查(Step 3)，补全AI味7项/好看度4问/剧情快照/current-state → [CHANGELOG.md](CHANGELOG.md)

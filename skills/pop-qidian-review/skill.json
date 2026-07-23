@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-review",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "displayName": "涌现 Review（番茄覆盖）",
-  "description": "起点章节审核引擎。当用户说\"审稿\"\"审核\"\"review\"时启用。四维审核：符合性→笔触→好看度→沉淀，产出审核报告+状态快照+current-state更新+小说快照。",
+  "description": "起点章节审核引擎。当用户说\"审稿\"\"审核\"\"review\"时启用。四步审核：正向符合性→正文质量→反向充足性→沉淀，产出审核报告+current-state+小说快照。",
   "tags": ["审核与质量"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-review", "审稿"] },
