@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v3.4.0 (2026-07-24)
+
+### 新增导入/续写模式（Step 0）
+- **问题背景**：原pipeline只支持从零开始的写作流程，用户已有历史资料/设定/正文时无法接入
+- **新增 `steps/step0-import.md`**：5步执行链路（0a资产扫描→0b缺口分析→0c落地Phase决策→0d状态文件重建→0e正文反推）
+- **三种mode**：fresh（从零开始）/import（导入已有设定）/resume（续写已有正文）
+- **step1.md增加前置检测**：LS扫描项目目录，检测到 正文/ 或 设计/ 已有文件→重定向到Step 0
+- **project-state.md模板新增mode字段**：`mode: fresh`
+- **generate-state-html.py新增mode解析**：解析mode字段→替换模板`{{MODE}}`占位符
+- **project-state.html.tpl新增mode显示**：phase-badge行增加"模式：{{MODE}}"
+- **正文反推功能**：有正文但缺小说快照时，从正文提取角色/剧情/设定/伏笔→生成小说快照.md+current-state.md
+- **降级模式**：缺剧情白描时，用户可选择跳过plot直接续写，在current-state.md中手动指定下一章核心事件
+- **新增红线第8条**：导入/续写模式不可跳过资产扫描
+- **速查表新增step0-import.md条目**
+- skill.json版本更新：3.3.0→3.4.0
+
 ## v3.3.0 (2026-07-22)
 
 ### 按Popwave Skill设计规范重写SKILL.md结构

@@ -180,7 +180,7 @@
       <span>创建：{{CREATED_AT}}</span>
       <span>更新：{{UPDATED_AT}}</span>
     </div>
-    <div class="phase-badge">当前阶段：{{PHASE}} · {{CURRENT_CHAPTER}}</div>
+    <div class="phase-badge">模式：{{MODE}} · 当前阶段：{{PHASE}} · {{CURRENT_CHAPTER}}</div>
   </div>
 
   <!-- Phase Progress -->

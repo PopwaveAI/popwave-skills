@@ -33,6 +33,10 @@ def parse_state_md(md_path):
     m = re.search(r'phase:\s*(\S+)', content)
     state['phase'] = m.group(1).strip() if m else 'init'
 
+    # mode
+    m = re.search(r'mode:\s*(\S+)', content)
+    state['mode'] = m.group(1).strip() if m else 'fresh'
+
     # current_chapter
     m = re.search(r'current_chapter:\s*(\S+)', content)
     state['current_chapter'] = m.group(1).strip() if m else 'ch000'
@@ -202,6 +206,7 @@ def main():
         '{{CREATED_AT}}': state['created_at'],
         '{{UPDATED_AT}}': state['updated_at'],
         '{{PHASE}}': state['phase'],
+        '{{MODE}}': state['mode'],
         '{{CURRENT_CHAPTER}}': state['current_chapter'],
         '{{PHASE_CHECKLIST}}': build_phase_checklist_html(phases, state['phase']),
         '{{DECK_CARDS}}': build_deck_cards_html(decks),

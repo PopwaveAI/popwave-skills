@@ -2,6 +2,13 @@
 
 > 只在project-state.md不存在时执行。创建标准目录结构+落盘project-state.md+生成project-state.html。
 
+## ⚠️ 前置检测：是否需要走导入/续写模式
+
+**在执行任何创建操作前，先LS扫描项目目录**：
+
+1. 如果 `正文/` 有 ch*.txt/ch*.md 文件，或 `设计/` 有 .md 文件 → **说明用户已有历史资料**，跳转 `steps/step0-import.md` 执行导入/续写模式
+2. 如果项目目录为空或仅有 `project-state.md` → 继续执行下面的正常初始化流程
+
 ---
 
 ## 1a. 确认项目目录
@@ -44,6 +51,7 @@ New-Item -ItemType Directory -Force -Path "$projectDir/审核" | Out-Null
 > 管线：番茄skill群 | 创建：{YYYY-MM-DD HH:MM} | 更新：{YYYY-MM-DD HH:MM}
 
 ## 当前阶段
+mode: fresh
 phase: init
 current_chapter: ch000
 

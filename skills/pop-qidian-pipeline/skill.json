@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "3.0.0",
-  "description": "起点管线总控。v3.0.0：seed v9.0.0引擎三要素重构（S1/S2/S3全部加入定位+好坏标准+达成方法）。完整版本历史见seed CHANGELOG.md。",
+  "version": "3.1.0",
+  "description": "起点管线总控。v3.1.0：新增导入/续写模式（Step 0），支持用户已有历史资料/正文时跳过从零初始化。完整版本历史见CHANGELOG.md。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },

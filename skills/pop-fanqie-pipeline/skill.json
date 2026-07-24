@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-pipeline",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "displayName": "番茄 Pipeline",
-  "description": "当用户说'初始化项目/管线总控/番茄pipeline'时启用。Phase 0→5全链路调度，项目空间标准化，project-state状态可视化。Phase 4用子agent调write。",
+  "description": "当用户说'初始化项目/管线总控/番茄pipeline/导入/续写'时启用。Phase 0→5全链路调度，项目空间标准化，project-state状态可视化。v3.4.0新增导入/续写模式。",
   "tags": ["管线与总控"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },
