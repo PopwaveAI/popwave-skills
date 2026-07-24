@@ -1,0 +1,18 @@
+{
+  "task": "R8-C-noskill",
+  "content_length": 1563,
+  "usage": {
+    "prompt_tokens": 476,
+    "completion_tokens": 1292,
+    "total_tokens": 1768,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 322
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 476
+  },
+  "elapsed": 19.9
+}

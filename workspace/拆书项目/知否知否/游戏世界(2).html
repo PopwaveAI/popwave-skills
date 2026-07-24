@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北帝镇诡录 · AI 文游</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d0d1a;--card:#1a1a2e;--border:#2d2d44;--text:#e8e4de;--muted:#9a94a0;--accent:#5bc0be;--danger:#be5b5b;--radius:8px;--font:system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;min-height:100vh;overflow-x:hidden}
+#app{display:flex;height:100vh;max-width:1400px;margin:0 auto}
+#sidebar{width:300px;min-width:300px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+#sidebar.hidden{display:none}
+.side-section{padding:16px 20px;border-bottom:1px solid var(--border)}
+.side-section h3{font-size:13px;color:var(--accent);letter-spacing:.05em;margin-bottom:8px;font-weight:400}
+.side-section .stat{display:flex;justify-content:space-between;padding:4px 0;font-size:13px}
+.side-section .stat .label{color:var(--muted)}
+.side-section .stat .val{font-weight:500}
+.stat-bar{height:4px;border-radius:2px;background:var(--border);margin-top:2px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.daoxin .stat-bar-fill{background:#5bc0be}
+.xiuwei .stat-bar-fill{background:#e8c95b}
+.shengwang .stat-bar-fill{background:#c8a4de}
+.wuran .stat-bar-fill{background:#be5b5b}
+#inventory-list{font-size:13px;padding:4px 0}
+#inventory-list li{list-style:none;padding:3px 0;color:var(--text)}
+#inventory-list li::before{content:'\25C8 ';color:var(--accent)}
+.nav-btn{display:block;width:100%;padding:10px;margin:4px 0;background:var(--border);border:none;border-radius:var(--radius);color:var(--text);font-size:13px;cursor:pointer;transition:background .2s;font-family:var(--font)}
+.nav-btn:hover{background:#3d3d55}
+.nav-btn.danger{color:var(--danger)}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#story-area{flex:1;overflow-y:auto;padding:24px 32px}
+#story-text{white-space:pre-wrap;font-size:15px;line-height:1.8;color:var(--text)}
+#stream-cursor::after{content:'\2588';animation:blink .8s infinite;color:var(--accent)}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+#loading-bar{height:2px;background:var(--accent);width:0;transition:width .3s;position:sticky;top:0;z-index:10}
+#loading-bar.active{width:60%;animation:loading-pulse 2s infinite}
+@keyframes loading-pulse{0%{width:10%}50%{width:70%}100%{width:10%}}
+#choices-area{padding:16px 32px 20px;border-top:1px solid var(--border);background:var(--bg)}
+.choice-btn{display:block;width:100%;text-align:left;padding:12px 16px;margin:6px 0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;cursor:pointer;transition:all .2s;font-family:var(--font);line-height:1.5}
+.choice-btn:hover{background:var(--border);border-color:var(--accent);transform:translateX(4px)}
+.choice-btn .idx{color:var(--accent);margin-right:8px}
+.choice-btn .desc{color:var(--muted);font-size:12px;display:block;margin-top:2px}
+#free-input-area{display:flex;gap:8px;margin-top:12px}
+#free-input{flex:1;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;font-family:var(--font);outline:none;transition:border-color .2s}
+#free-input:focus{border-color:var(--accent)}
+#free-input::placeholder{color:var(--muted)}
+#free-submit{padding:10px 20px;background:var(--accent);border:none;border-radius:var(--radius);color:#0d0d1a;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;font-family:var(--font)}
+#free-submit:hover{opacity:.85}
+#free-submit:disabled{opacity:.4;cursor:not-allowed}
+#sidebar-toggle{display:none;position:fixed;top:12px;right:12px;z-index:100;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:20px;cursor:pointer;font-family:var(--font)}
+#sidebar-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:50}
+@media(max-width:900px){#sidebar{position:fixed;left:-300px;top:0;bottom:0;z-index:60;transition:left .3s;box-shadow:4px 0 20px rgba(0,0,0,.5)}#sidebar.open{left:0}#sidebar-toggle{display:block}#sidebar-overlay.show{display:block}#story-area{padding:16px}#choices-area{padding:12px 16px 16px}}
+</style>
+</head>
+<body>
+<div id="sidebar-toggle" onclick="toggleSidebar()">&#9776;</div>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div id="app">
+<div id="sidebar">
+  <div class="side-section">
+    <h3>北极驱邪院 · 状态</h3>
+    <div id="stats-panel"></div>
+  </div>
+  <div class="side-section">
+    <h3>行囊</h3>
+    <ul id="inventory-list"><li style="color:var(--muted)">&mdash;</li></ul>
+  </div>
+  <div class="side-section">
+    <h3>世界百科</h3>
+    <button class="nav-btn" onclick="showLore('world')">&#127758; 世界观</button>
+    <button class="nav-btn" onclick="showLore('characters')">&#128100; 角色档案</button>
+  </div>
+  <div class="side-section">
+    <h3>操作</h3>
+    <button class="nav-btn" onclick="showHistory()">&#128214; 剧情回顾</button>
+    <button class="nav-btn danger" onclick="confirmReset()">&#8635; 重置游戏</button>
+  </div>
+  <div class="side-section" style="font-size:11px;color:var(--muted);text-align:center;padding:12px">
+    北帝镇诡录 &middot; AI文游<br>Powered by DeepSeek
+  </div>
+</div>
+
+<div id="main">
+  <div id="loading-bar"></div>
+  <div id="story-area">
+    <div id="story-text"></div>
+    <span id="stream-cursor"></span>
+  </div>
+  <div id="choices-area">
+    <div id="choices-list"></div>
+    <div id="free-input-area">
+      <input id="free-input" type="text" placeholder="输入你的行动..." maxlength="200">
+      <button id="free-submit" onclick="submitFreeInput()">行动</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ===== CONFIG =====
+var API_KEY = "sk-926032330d2c4f12ad78c4c9883a6d56";
+var API_URL = "https://api.deepseek.com/v1/chat/completions";
+
+var GAME_INSTRUCTION = [
+    "# ================================================",
+    "# 《北帝镇诡录》AI 文游：主持指令",
+    "# ================================================",
+    "",
+    "## 一、你的角色",
+    "",
+    "你是《北帝镇诡录》AI 文游的游戏主持人（GM）。你同时扮演：旁白叙述者、所有 NPC、世界本身。",
+    "你的风格：黑暗仙侠 + 克苏鲁式恐怖 + 绝望中的人性微光。多用环境暗示而非直接恐怖。",
+    "",
+    "## 二、世界观设定",
+    "",
+    "大明末年，道法文明进入末法时代。太虚中的祂们正在苏醒，虚气污染现实，百诡昼行。",
+    "- 太虚层：不可名状的混沌，外神本体所在",
+    "- 现实层：人间+修仙界，故事主舞台",
+    "- 酆都层：前代道法文明遗迹",
+    "- 灵气衰竭，虚气扩散，北帝法以敕令律令鬼神，每次使用都有代价",
+    "",
+    "## 三、角色设定",
+    "",
+    "张北辰（19岁，北帝派第三十七代传人）：沉默寡言，责任感强。持有裂痕令牌、断星七星剑。右手中指已白化。",
+    "苏九音（上古器灵，化形白衣少女）：活体知识库，不能战斗。喜欢叫主角\"小朋友\"。",
+    "左千户（锦衣卫千户，凡人）：阴阳眼+闭气胎，雷击枣木刀。粗犷豪爽，绝对靠得住。",
+    "白鹤道人（神霄派叛降者）：亦敌亦友。帮三次害三次。",
+    "",
+    "## 四、游戏规则",
+    "",
+    "玩家开局选择身份：",
+    "1. 北帝派记名弟子（推荐）：道心+10，修为+5",
+    "2. 游方散修：声望+5，修为+3",
+    "3. 锦衣卫校尉：声望+10，修为+1，道心+5",
+    "",
+    "四维数值：道心(0-100)/修为(0-100)/声望(0-100)/污染(0-100，达100游戏结束)",
+    "数值变化：使用北帝法/接触诡异→污染+3~10,道心-5~15；成功驱邪→声望+5~15；修炼/战斗胜利→修为+3~10；休息/对话→道心+3~8",
+    "",
+    "分支节点（至少触发3个关键决策）：",
+    "1. 溺鬼之战：战斗/逃跑/交涉",
+    "2. 南疆城井中诡异：独自探查/求助左千户/寻找苏九音",
+    "3. 真相揭示时：直面/寻求盟友/另寻他法",
+    "4. 令牌裂痕扩大时：继续承担代价/寻找其他道路",
+    "5. 神霄派献祭仪式：阻止/合作/牺牲封印",
+    "",
+    "结局：结局A·北帝重燃 / 结局B·我即北帝 / 隐藏结局·道在人心",
+    "",
+    "AI约束：禁止必胜/必败，保持克系氛围，每段叙事200-400字，成长需过程，力量与代价对等，NPC贴合人设，禁止机械降神。",
+    "",
+    "## 五、输出格式要求",
+    "",
+    "每次输出严格遵循双段格式：",
+    "",
+    "叙事文本（200-400字纯文字，用 \\n 表示换行）",
+    "",
+    "---DATA---",
+    "{",
+    "  \"stats\": {\"道心\":值,\"修为\":值,\"声望\":值,\"污染\":值},",
+    "  \"choices\": [",
+    "    \"① 选项描述 —— 说明\",",
+    "    \"② 选项描述 —— 说明\",",
+    "    \"③ 选项描述 —— 说明\"",
+    "  ],",
+    "  \"inventory\": [\"物品1\",\"物品2\"],",
+    "  \"flags\": {\"flag_name\": true/false}",
+    "}",
+    "",
+    "重要：choices 给出3-4个选项，每个用\"① 描述 —— 说明\"格式。inventory包含当前物品。flags追踪事件进展。",
+    "开局设定：玩家是北帝派记名弟子/游方散修/锦衣卫校尉，从南疆城外的柳溪村区域开始游戏。"
+  ].join("\n");
+
+// ===== STATE =====
+var gameState = {
+  messages: [],
+  stats: {道心:50,修为:5,声望:0,污染:0},
+  choices: [],
+  inventory: [],
+  flags: {},
+  history: []
+};
+var isLoading = false;
+var storyText = document.getElementById("story-text");
+var streamCursor = document.getElementById("stream-cursor");
+var loadingBar = document.getElementById("loading-bar");
+
+// ===== SIDEBAR =====
+function toggleSidebar() {
+  var s = document.getElementById("sidebar");
+  var o = document.getElementById("sidebar-overlay");
+  s.classList.toggle("open");
+  o.classList.toggle("show");
+}
+
+// ===== LORE =====
+var loreData = {
+  world: [
+    "【太虚】宇宙的本源混沌——活的、不可名状的终极存在。",
+    "【虚气】太虚的呼吸，正在污染现实世界。每当虚气浓度升高，诡异现象就越频繁。",
+    "【道】上古道祖建立的安抚/封印协议。不是宗教教义，而是一套宇宙级的操作系统。",
+    "【灵气】被'道'过滤后的安全能量，目前正在衰竭。",
+    "【北帝法/执律】北极驱邪院的敕令体系。不依赖灵气，以律令命令鬼神。每次使用都有代价。",
+    "【三层现实】太虚层(不可知)→现实层(人间+修仙界)→酆都层(前代文明遗迹)",
+    "【百诡昼行】虚气浓度突破阈值后，诡异在白日也能显现。",
+    "【一元】十二万九千六百年，太虚潮汐的周期。上一次潮汐覆灭了前代道法文明。",
+    "【外神】不是怪物，而是'道'的某个侧面被太虚污染后的扭曲形态。",
+    "【神霄派】曾经的正道宗门，掌教主动献祭宗门迎接'雷主'降临，已堕落。",
+    "【酆都层】阴阳交界处的废墟，保留着前代文明的禁忌知识和失败经验。"
+  ],
+  characters: [
+    "【张北辰】19岁，北帝派第三十七代传人。沉默寡言，责任感过剩。七星剑已断三颗星，令牌布满裂痕，右手中指因使用北帝法而白化。",
+    "【苏九音】上古道观器灵，化形为白衣少女，实际年龄一千三百岁。通晓失传道法和秘辛。称主角为'小朋友'。",
+    "【左千户】锦衣卫千户，世袭武职。凡人但有阴阳眼+闭气胎。雷击枣木刀。粗犷豪爽，绝对靠得住。",
+    "【白鹤道人】前神霄派长老，主角师父故交。投靠雷主以求活命。帮三次害三次。",
+    "【师父（已故）】北帝派第三十六代传人。名言：'别的东西不敢看的，我们看。别的东西不敢镇的，我们镇。'"
+  ]
+};
+
+function showLore(type) {
+  var items = loreData[type] || [];
+  var text = "=== " + (type === "world" ? "世界观设定" : "角色档案") + " ===\n\n";
+  text += items.join("\n\n");
+  storyText.textContent = text;
+  streamCursor.style.display = "none";
+  document.getElementById("story-area").scrollTop = 0;
+  if (window.innerWidth <= 900) toggleSidebar();
+}
+
+function showHistory() {
+  var h = gameState.history;
+  if (h.length === 0) {
+    storyText.textContent = "暂无剧情记录。游戏开始后对话会自动保存。";
+  } else {
+    var text = "=== 剧情回顾 ===\n\n";
+    var start = Math.max(0, h.length - 10);
+    for (var i = start; i < h.length; i++) {
+      text += "【第" + (i + 1) + "轮】\n" + h[i].substring(0, 100) + (h[i].length > 100 ? "..." : "") + "\n\n";
+    }
+    storyText.textContent = text;
+  }
+  streamCursor.style.display = "none";
+  document.getElementById("story-area").scrollTop = 0;
+  if (window.innerWidth <= 900) toggleSidebar();
+}
+
+// ===== RENDER =====
+function renderStats() {
+  var s = gameState.stats;
+  var html = "";
+  var items = [
+    {key:"道心",cls:"daoxin"},
+    {key:"修为",cls:"xiuwei"},
+    {key:"声望",cls:"shengwang"},
+    {key:"污染",cls:"wuran"}
+  ];
+  for (var i = 0; i < items.length; i++) {
+    var v = s[items[i].key] || 0;
+    html += "<div class=\"stat\"><span class=\"label\">" + items[i].key + "</span><span class=\"val\">" + v + "</span></div>";
+    html += "<div class=\"stat-bar " + items[i].cls + "\"><div class=\"stat-bar-fill\" style=\"width:" + Math.min(v, 100) + "%\"></div></div>";
+  }
+  document.getElementById("stats-panel").innerHTML = html;
+}
+
+function renderInventory() {
+  var inv = gameState.inventory;
+  var el = document.getElementById("inventory-list");
+  if (!inv || inv.length === 0) {
+    el.innerHTML = "<li style=\"color:var(--muted)\">空</li>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < inv.length; i++) {
+    html += "<li>" + inv[i] + "</li>";
+  }
+  el.innerHTML = html;
+}
+
+function renderChoices() {
+  var el = document.getElementById("choices-list");
+  var c = gameState.choices;
+  if (!c || c.length === 0) { el.innerHTML = ""; return; }
+  var html = "";
+  for (var i = 0; i < c.length; i++) {
+    html += "<button class=\"choice-btn\" onclick=\"choose(" + i + ")\"><span class=\"idx\">" + (i+1) + ".</span>" + c[i] + "</button>";
+  }
+  el.innerHTML = html;
+}
+
+function saveState() {
+  try { localStorage.setItem("beidi_game_state", JSON.stringify(gameState)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem("beidi_game_state");
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && s.messages && s.stats) {
+        gameState = s;
+        renderStats();
+        renderInventory();
+        if (gameState.history.length > 0) {
+          storyText.textContent = gameState.history[gameState.history.length - 1];
+          streamCursor.style.display = "none";
+        }
+        renderChoices();
+        return true;
+      }
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ===== API =====
+function callAI(userInput) {
+  if (isLoading) return;
+  isLoading = true;
+  loadingBar.classList.add("active");
+  streamCursor.style.display = "inline";
+  document.getElementById("free-submit").disabled = true;
+  document.getElementById("free-input").disabled = true;
+  var btns = document.querySelectorAll(".choice-btn");
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+
+  gameState.messages.push({role:"user", content: userInput});
+  var historyMsgs = gameState.messages.slice();
+  var body = JSON.stringify({
+    model: "deepseek-v4-flash",
+    messages: [{role:"system", content: GAME_INSTRUCTION}].concat(historyMsgs),
+    temperature: 0.85,
+    max_tokens: 2048,
+    stream: true
+  });
+
+  var fullContent = "";
+  storyText.textContent = "";
+
+  fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + API_KEY
+    },
+    body: body
+  })
+  .then(function(resp) {
+    if (!resp.ok) throw new Error("API error: " + resp.status);
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var buffer = "";
+    function readChunk() {
+      reader.read().then(function(result) {
+        if (result.done) { finishStream(fullContent); return; }
+        var text = decoder.decode(result.value, {stream: true});
+        buffer += text;
+        var lines = buffer.split("\n");
+        buffer = lines.pop();
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (line.startsWith("data: ")) {
+            var data = line.substring(6);
+            if (data === "[DONE]") continue;
+            try {
+              var json = JSON.parse(data);
+              var delta = json.choices && json.choices[0] && json.choices[0].delta;
+              if (delta && delta.content) {
+                fullContent += delta.content;
+                storyText.textContent = fullContent;
+                document.getElementById("story-area").scrollTop = document.getElementById("story-area").scrollHeight;
+              }
+            } catch(e) {}
+          }
+        }
+        readChunk();
+      }).catch(function(err) { finishStream(fullContent); });
+    }
+    readChunk();
+  })
+  .catch(function(err) {
+    storyText.textContent = "[连接失败: " + err.message + "\n正在重试...]";
+    setTimeout(function() {
+      isLoading = false;
+      loadingBar.classList.remove("active");
+      document.getElementById("free-submit").disabled = false;
+      document.getElementById("free-input").disabled = false;
+      callAI(userInput);
+    }, 2000);
+  });
+}
+
+function finishStream(content) {
+  streamCursor.style.display = "none";
+  loadingBar.classList.remove("active");
+  isLoading = false;
+  document.getElementById("free-submit").disabled = false;
+  document.getElementById("free-input").disabled = false;
+
+  var result = parseStreamResponse(content);
+  if (result.narrative) {
+    storyText.textContent = result.narrative;
+    gameState.history.push(result.narrative);
+  }
+  if (result.stats) {
+    for (var k in result.stats) {
+      if (result.stats.hasOwnProperty(k)) gameState.stats[k] = result.stats[k];
+    }
+    if (gameState.stats.污染 >= 100) {
+      storyText.textContent += "\n\n---\n你的意识被虚气彻底吞没了。\n\n【游戏结束】污染值已满。";
+      document.getElementById("choices-list").innerHTML = "";
+      renderStats();
+      saveState();
+      return;
+    }
+    renderStats();
+  }
+  if (result.choices) gameState.choices = result.choices;
+  if (result.inventory) gameState.inventory = result.inventory;
+  if (result.flags) gameState.flags = result.flags;
+  renderInventory();
+  renderChoices();
+  saveState();
+  document.getElementById("story-area").scrollTop = document.getElementById("story-area").scrollHeight;
+}
+
+function parseStreamResponse(content) {
+  var result = {narrative:"", stats:null, choices:null, inventory:null, flags:null};
+  var dataIdx = content.indexOf("---DATA---");
+  if (dataIdx >= 0) {
+    result.narrative = content.substring(0, dataIdx).trim();
+    var jsonStr = content.substring(dataIdx + 10).trim();
+    try {
+      var json = JSON.parse(jsonStr);
+      if (json.stats) result.stats = json.stats;
+      if (json.choices) result.choices = json.choices;
+      if (json.inventory) result.inventory = json.inventory;
+      if (json.flags) result.flags = json.flags;
+    } catch(e) {
+      var match = jsonStr.match(/\{[\s\S]*"stats"[\s\S]*\}/);
+      if (match) try { var j2 = JSON.parse(match[0]); result.stats = j2.stats; result.choices = j2.choices; result.inventory = j2.inventory; result.flags = j2.flags; } catch(e2) {}
+    }
+    return result;
+  }
+  var trimmed = content.trim();
+  if (trimmed.charAt(0) === "{") {
+    try {
+      var j = JSON.parse(trimmed);
+      if (j.narrative) result.narrative = j.narrative;
+      if (j.stats) result.stats = j.stats;
+      if (j.choices) result.choices = j.choices;
+      if (j.inventory) result.inventory = j.inventory;
+      if (j.flags) result.flags = j.flags;
+    } catch(e) {}
+  } else {
+    result.narrative = content;
+  }
+  return result;
+}
+
+// ===== ACTIONS =====
+function choose(idx) {
+  if (isLoading) return;
+  var c = gameState.choices;
+  if (!c || idx < 0 || idx >= c.length) return;
+
+  // Handle identity selection
+  if (!gameState.flags.identity_chosen) {
+    gameState.flags.identity_chosen = true;
+    if (idx === 0) { gameState.stats.道心 += 10; gameState.stats.修为 += 5; gameState.inventory = ["裂痕令牌(劣)", "黄符×5", "朱砂一小包"]; }
+    else if (idx === 1) { gameState.stats.声望 += 5; gameState.stats.修为 += 3; gameState.inventory = ["粗制桃木剑", "护身符×3", "碎银二两"]; }
+    else { gameState.stats.声望 += 10; gameState.stats.修为 += 1; gameState.stats.道心 += 5; gameState.inventory = ["绣春刀", "锦衣卫腰牌", "火折子"]; }
+    renderStats();
+    renderInventory();
+    var ident = ["北帝派记名弟子","游方散修","锦衣卫校尉"][idx];
+    gameState.messages.push({role:"assistant", content: "你选择了" + ident + "。\n\n---DATA---\n" + JSON.stringify({stats:gameState.stats,choices:[],inventory:gameState.inventory,flags:gameState.flags})});
+    callAI("游戏开始。我是" + ident + "。请从南疆城外的山村开始我的故事。");
+    return;
+  }
+
+  var choice = c[idx];
+  gameState.messages.push({role:"assistant", content: storyText.textContent + "\n\n---DATA---\n" + JSON.stringify({stats:gameState.stats,choices:c,inventory:gameState.inventory,flags:gameState.flags})});
+  callAI("我选择：" + choice);
+}
+
+function submitFreeInput() {
+  if (isLoading) return;
+  var input = document.getElementById("free-input");
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+  var c = gameState.choices;
+  gameState.messages.push({role:"assistant", content: storyText.textContent + "\n\n---DATA---\n" + JSON.stringify({stats:gameState.stats,choices:c,inventory:gameState.inventory,flags:gameState.flags})});
+  callAI(text);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("free-input").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") submitFreeInput();
+  });
+});
+
+// ===== RESET =====
+function confirmReset() {
+  if (confirm("确定重置游戏？所有进度将丢失。")) resetGame();
+}
+
+function resetGame() {
+  isLoading = false;
+  loadingBar.classList.remove("active");
+  streamCursor.style.display = "none";
+  document.getElementById("free-submit").disabled = false;
+  document.getElementById("free-input").disabled = false;
+  gameState = {
+    messages: [],
+    stats: {道心:50,修为:5,声望:0,污染:0},
+    choices: [],
+    inventory: ["残卷·北帝基础符法", "干粮×3"],
+    flags: {},
+    history: []
+  };
+  localStorage.removeItem("beidi_game_state");
+  storyText.textContent = "";
+  document.getElementById("choices-list").innerHTML = "";
+  renderStats();
+  renderInventory();
+  startGame();
+}
+
+// ===== START =====
+function startGame() {
+  var intro = [
+    "≡≡≡ 北帝镇诡录· AI 文游 ≡≡≡",
+    "",
+    "大明末年，虚气复苏。",
+    "修仙界已崩塌——正一道灭门，全真道龟缩，神霄派堕落。",
+    "北帝派最后的传人张北辰，独自走在荒芜的山路上。",
+    "他的师父今早坐化了。",
+    "他腰间的北极驱邪院令牌，已经裂了。",
+    "山外的雾中，有东西在移动。",
+    "",
+    "而你，也将踏入这个即将倾覆的世界。",
+    "",
+    "──────────────────────",
+    "【请选择你的身份】",
+    "",
+    "① 北帝派记名弟子—— 你有北帝法基础，跟随张北辰一同下山。道心+10，修为+5",
+    "② 游方散修 —— 独自在乱世求存，懂一些粗浅法术。声望+5，修为+3",
+    "③ 锦衣卫校尉—— 左千户麾下的凡人武官，靠胆识吃饭。声望+10，修为+1，道心+5",
+    "",
+    "──────────────────────"
+  ].join("\n");
+  storyText.textContent = intro;
+  streamCursor.style.display = "none";
+  gameState.choices = [
+    "① 北帝派记名弟子—— 你有北帝法基础，跟随张北辰下山。道心+10，修为+5",
+    "② 游方散修 —— 独自求存，懂粗浅法术。声望+5，修为+3",
+    "③ 锦衣卫校尉—— 左千户麾下。声望+10，修为+1，道心+5"
+  ];
+  renderChoices();
+  saveState();
+}
+
+// ===== INIT =====
+if (!loadState()) { startGame(); }
+else {
+  renderStats();
+  renderInventory();
+  renderChoices();
+  if (gameState.history.length > 0) streamCursor.style.display = "none";
+}
+
+</script>
+</body>
+</html>

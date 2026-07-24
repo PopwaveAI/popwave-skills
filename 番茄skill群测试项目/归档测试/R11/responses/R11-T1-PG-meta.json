@@ -1,0 +1,18 @@
+{
+  "task": "R11-T1-PG",
+  "content_length": 0,
+  "usage": {
+    "prompt_tokens": 207,
+    "completion_tokens": 1434,
+    "total_tokens": 1641,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1434
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 207
+  },
+  "elapsed": 22.1
+}

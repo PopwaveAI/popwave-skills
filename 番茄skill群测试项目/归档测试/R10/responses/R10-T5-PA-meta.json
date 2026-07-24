@@ -1,0 +1,18 @@
+{
+  "task": "R10-T5-PA",
+  "content_length": 255,
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 861,
+    "total_tokens": 886,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 693
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 25
+  },
+  "elapsed": 17.9
+}

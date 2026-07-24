@@ -1,0 +1,18 @@
+{
+  "task": "R10-T6-PC",
+  "content_length": 984,
+  "usage": {
+    "prompt_tokens": 199,
+    "completion_tokens": 2235,
+    "total_tokens": 2434,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1596
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 199
+  },
+  "elapsed": 31.6
+}

@@ -1,0 +1,18 @@
+{
+  "task": "R11-T3-PG",
+  "content_length": 2399,
+  "usage": {
+    "prompt_tokens": 211,
+    "completion_tokens": 2739,
+    "total_tokens": 2950,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1232
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 211
+  },
+  "elapsed": 49.3
+}

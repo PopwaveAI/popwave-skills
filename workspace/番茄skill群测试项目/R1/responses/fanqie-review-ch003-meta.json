@@ -1,0 +1,18 @@
+{
+  "task": "fanqie-review-ch003",
+  "content_length": 3092,
+  "usage": {
+    "prompt_tokens": 9064,
+    "completion_tokens": 2691,
+    "total_tokens": 11755,
+    "prompt_tokens_details": {
+      "cached_tokens": 5888
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 785
+    },
+    "prompt_cache_hit_tokens": 5888,
+    "prompt_cache_miss_tokens": 3176
+  },
+  "elapsed": 31.2
+}

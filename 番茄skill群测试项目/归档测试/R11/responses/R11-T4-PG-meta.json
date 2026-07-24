@@ -1,0 +1,18 @@
+{
+  "task": "R11-T4-PG",
+  "content_length": 2010,
+  "usage": {
+    "prompt_tokens": 210,
+    "completion_tokens": 1845,
+    "total_tokens": 2055,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 522
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 210
+  },
+  "elapsed": 31.6
+}

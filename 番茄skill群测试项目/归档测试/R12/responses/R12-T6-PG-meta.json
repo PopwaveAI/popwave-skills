@@ -1,0 +1,18 @@
+{
+  "task": "R12-T6-PG",
+  "content_length": 2276,
+  "usage": {
+    "prompt_tokens": 208,
+    "completion_tokens": 1935,
+    "total_tokens": 2143,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 472
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 80
+  },
+  "elapsed": 29.2
+}

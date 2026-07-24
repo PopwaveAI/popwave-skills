@@ -1,0 +1,53 @@
+{
+  "round": "R42d",
+  "task": "dna_write_combo",
+  "mode": "enabled",
+  "books": [
+    {
+      "book": "夜无疆",
+      "mode": "dna+write-skill-combo",
+      "model": "deepseek-v4-flash",
+      "output_length": 3555,
+      "elapsed": 40.4,
+      "usage": {
+        "prompt_tokens": 8038,
+        "completion_tokens": 3246,
+        "total_tokens": 11284,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 932
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8038
+      },
+      "input_chars": 12384,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\combo-夜无疆-ch03.md",
+      "input_log_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\inputs-combo\\夜无疆-combo_input.md"
+    },
+    {
+      "book": "玄鉴仙族",
+      "mode": "dna+write-skill-combo",
+      "model": "deepseek-v4-flash",
+      "output_length": 2595,
+      "elapsed": 33.5,
+      "usage": {
+        "prompt_tokens": 8631,
+        "completion_tokens": 2924,
+        "total_tokens": 11555,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1174
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8631
+      },
+      "input_chars": 13028,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\combo-玄鉴仙族-ch03.md",
+      "input_log_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\inputs-combo\\玄鉴仙族-combo_input.md"
+    }
+  ]
+}

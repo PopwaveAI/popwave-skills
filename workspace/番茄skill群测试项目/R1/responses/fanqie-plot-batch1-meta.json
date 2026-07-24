@@ -1,0 +1,18 @@
+{
+  "task": "fanqie-plot-batch1",
+  "content_length": 3304,
+  "usage": {
+    "prompt_tokens": 7834,
+    "completion_tokens": 2469,
+    "total_tokens": 10303,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 477
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 7834
+  },
+  "elapsed": 21.6
+}

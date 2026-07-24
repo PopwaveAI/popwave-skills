@@ -1,0 +1,76 @@
+{
+  "A_write_v720": [
+    {
+      "ch_num": "ch001",
+      "system_length": 14860,
+      "user_length": 49266,
+      "total_length": 64126,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\A-write-v720\\ch001_input.md"
+    },
+    {
+      "ch_num": "ch002",
+      "system_length": 14860,
+      "user_length": 51759,
+      "total_length": 66619,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\A-write-v720\\ch002_input.md"
+    },
+    {
+      "ch_num": "ch003",
+      "system_length": 14860,
+      "user_length": 52600,
+      "total_length": 67460,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\A-write-v720\\ch003_input.md"
+    },
+    {
+      "ch_num": "ch004",
+      "system_length": 14860,
+      "user_length": 53025,
+      "total_length": 67885,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\A-write-v720\\ch004_input.md"
+    },
+    {
+      "ch_num": "ch005",
+      "system_length": 14860,
+      "user_length": 54010,
+      "total_length": 68870,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\A-write-v720\\ch005_input.md"
+    }
+  ],
+  "B_external_pe": [
+    {
+      "ch_num": "ch001",
+      "system_length": 1710,
+      "user_length": 49218,
+      "total_length": 50928,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\B-external-pe\\ch001_input.md"
+    },
+    {
+      "ch_num": "ch002",
+      "system_length": 1710,
+      "user_length": 52089,
+      "total_length": 53799,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\B-external-pe\\ch002_input.md"
+    },
+    {
+      "ch_num": "ch003",
+      "system_length": 1710,
+      "user_length": 50185,
+      "total_length": 51895,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\B-external-pe\\ch003_input.md"
+    },
+    {
+      "ch_num": "ch004",
+      "system_length": 1710,
+      "user_length": 51440,
+      "total_length": 53150,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\B-external-pe\\ch004_input.md"
+    },
+    {
+      "ch_num": "ch005",
+      "system_length": 1710,
+      "user_length": 52475,
+      "total_length": 54185,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\inputs\\B-external-pe\\ch005_input.md"
+    }
+  ]
+}

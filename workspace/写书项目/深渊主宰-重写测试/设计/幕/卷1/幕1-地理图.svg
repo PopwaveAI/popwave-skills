@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 350" font-family="sans-serif" font-size="13">
+  <rect width="520" height="350" fill="#f5f0e8" rx="8"/>
+  <rect x="0" y="60" width="520" height="30" fill="#b3d9ff" rx="4"/>
+  <text x="260" y="79" text-anchor="middle" fill="#2b6cb0" font-size="11" font-weight="bold">玛瑙河</text>
+  <rect x="30" y="100" width="460" height="200" fill="none" stroke="#8b7355" stroke-width="2" rx="6" stroke-dasharray="6,3"/>
+  <text x="260" y="120" text-anchor="middle" fill="#8b7355" font-size="12" font-weight="bold">琥珀城</text>
+  <rect x="50" y="140" width="140" height="70" fill="#ffe0b2" stroke="#e65100" rx="4"/>
+  <text x="120" y="168" text-anchor="middle" fill="#bf360c" font-weight="bold">贫民区</text>
+  <text x="120" y="188" text-anchor="middle" fill="#bf360c" font-size="11">索伦家·十字巷</text>
+  <rect x="50" y="225" width="140" height="55" fill="#fff3e0" stroke="#e65100" rx="4"/>
+  <text x="120" y="258" text-anchor="middle" fill="#bf360c" font-weight="bold">码头区</text>
+  <rect x="215" y="140" width="120" height="60" fill="#e8eaf6" stroke="#3949ab" rx="4"/>
+  <text x="275" y="168" text-anchor="middle" fill="#283593" font-weight="bold">贵族区</text>
+  <text x="275" y="185" text-anchor="middle" fill="#283593" font-size="11">(剥皮事件)</text>
+  <rect x="215" y="220" width="120" height="60" fill="#fff9c4" stroke="#f9a825" rx="4"/>
+  <text x="275" y="248" text-anchor="middle" fill="#f57f17" font-weight="bold">晨曦神殿</text>
+  <text x="275" y="265" text-anchor="middle" fill="#f57f17" font-size="11">(薇薇安觉醒)</text>
+  <rect x="365" y="145" width="105" height="50" fill="#eceff1" stroke="#78909c" rx="4"/>
+  <text x="417" y="175" text-anchor="middle" fill="#546e7a" font-weight="bold">墓园区</text>
+  <rect x="170" y="10" width="180" height="40" fill="#f3e5f5" stroke="#7b1fa2" rx="4"/>
+  <text x="260" y="35" text-anchor="middle" fill="#4a148c" font-weight="bold">乱葬岗 · 巫妖藏宝洞</text>
+  <line x1="120" y1="210" x2="120" y2="225" stroke="#a1887f" stroke-width="1"/>
+  <line x1="190" y1="170" x2="215" y2="170" stroke="#a1887f" stroke-width="1" stroke-dasharray="4,2"/>
+  <line x1="260" y1="100" x2="260" y2="50" stroke="#7b1fa2" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="300" y="78" fill="#7b1fa2" font-size="10">渡河向北</text>
+  <line x1="490" y1="230" x2="520" y2="230" stroke="#8d6e63" stroke-width="2"/>
+  <text x="500" y="225" fill="#8d6e63" font-size="10">荒野商路→</text>
+  <text x="40" y="330" fill="#666" font-size="11">■ 城区  ■ 地点  ┅ 路径</text>
+  <text x="280" y="330" fill="#666" font-size="11">幕1范围: ch001-ch020 | 约7-10天</text>
+</svg>

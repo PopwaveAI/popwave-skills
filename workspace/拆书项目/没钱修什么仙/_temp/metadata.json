@@ -1,0 +1,1517 @@
+{
+  "source_book": "没钱修什么仙？",
+  "author": "熊狼狗",
+  "chapter_count": 250,
+  "volume_count": 1,
+  "volumes": [
+    {
+      "name": "第一卷",
+      "start_ch": 1,
+      "end_ch": 250,
+      "chapters": 250
+    }
+  ],
+  "chapters": [
+    {
+      "num": 1,
+      "original_num": "1",
+      "title": "面试",
+      "chars": 6625
+    },
+    {
+      "num": 2,
+      "original_num": "2",
+      "title": "学校",
+      "chars": 5280
+    },
+    {
+      "num": 3,
+      "original_num": "3",
+      "title": "体育",
+      "chars": 5378
+    },
+    {
+      "num": 4,
+      "original_num": "4",
+      "title": "请神",
+      "chars": 5145
+    },
+    {
+      "num": 5,
+      "original_num": "5",
+      "title": "羽书",
+      "chars": 3021
+    },
+    {
+      "num": 6,
+      "original_num": "6",
+      "title": "自由",
+      "chars": 3396
+    },
+    {
+      "num": 7,
+      "original_num": "7",
+      "title": "人和人的差距",
+      "chars": 4182
+    },
+    {
+      "num": 8,
+      "original_num": "8",
+      "title": "老师的关心",
+      "chars": 2857
+    },
+    {
+      "num": 9,
+      "original_num": "9",
+      "title": "工作",
+      "chars": 3964
+    },
+    {
+      "num": 10,
+      "original_num": "10",
+      "title": "竞争激烈和3级健体",
+      "chars": 3569
+    },
+    {
+      "num": 11,
+      "original_num": "11",
+      "title": "周天采气",
+      "chars": 3774
+    },
+    {
+      "num": 12,
+      "original_num": "12",
+      "title": "勇猛精进（感谢『水_澜』的盟主打赏）",
+      "chars": 3874
+    },
+    {
+      "num": 13,
+      "original_num": "13",
+      "title": "法赛",
+      "chars": 3394
+    },
+    {
+      "num": 14,
+      "original_num": "14",
+      "title": "准备和新工作",
+      "chars": 3568
+    },
+    {
+      "num": 15,
+      "original_num": "15",
+      "title": "中心大厦",
+      "chars": 3222
+    },
+    {
+      "num": 16,
+      "original_num": "16",
+      "title": "巡逻",
+      "chars": 3612
+    },
+    {
+      "num": 17,
+      "original_num": "17",
+      "title": "分数和秘辛",
+      "chars": 3522
+    },
+    {
+      "num": 18,
+      "original_num": "18",
+      "title": "天人演武图",
+      "chars": 3493
+    },
+    {
+      "num": 19,
+      "original_num": "19",
+      "title": "惊怖和道心",
+      "chars": 4316
+    },
+    {
+      "num": 20,
+      "original_num": "20",
+      "title": "参悟",
+      "chars": 3502
+    },
+    {
+      "num": 21,
+      "original_num": "21",
+      "title": "天武炼心",
+      "chars": 3590
+    },
+    {
+      "num": 22,
+      "original_num": "22",
+      "title": "合同",
+      "chars": 3554
+    },
+    {
+      "num": 23,
+      "original_num": "23",
+      "title": "谈",
+      "chars": 3406
+    },
+    {
+      "num": 24,
+      "original_num": "24",
+      "title": "灵根",
+      "chars": 3297
+    },
+    {
+      "num": 25,
+      "original_num": "25",
+      "title": "气海",
+      "chars": 3760
+    },
+    {
+      "num": 26,
+      "original_num": "26",
+      "title": "报名法赛和月考到来",
+      "chars": 3485
+    },
+    {
+      "num": 27,
+      "original_num": "27",
+      "title": "考间冲刺",
+      "chars": 3890
+    },
+    {
+      "num": 28,
+      "original_num": "28",
+      "title": "道术和实战",
+      "chars": 3725
+    },
+    {
+      "num": 29,
+      "original_num": "29",
+      "title": "实战考试",
+      "chars": 3531
+    },
+    {
+      "num": 30,
+      "original_num": "30",
+      "title": "掌力比拼和道心考试",
+      "chars": 3488
+    },
+    {
+      "num": 31,
+      "original_num": "31",
+      "title": "灵界",
+      "chars": 3718
+    },
+    {
+      "num": 32,
+      "original_num": "32",
+      "title": "法力和体育",
+      "chars": 3621
+    },
+    {
+      "num": 33,
+      "original_num": "33",
+      "title": "体育考试和王海对策",
+      "chars": 3431
+    },
+    {
+      "num": 34,
+      "original_num": "34",
+      "title": "成绩出，学霸现",
+      "chars": 3492
+    },
+    {
+      "num": 35,
+      "original_num": "35",
+      "title": "选择和功法",
+      "chars": 3624
+    },
+    {
+      "num": 36,
+      "original_num": "36",
+      "title": "甲级合同",
+      "chars": 3581
+    },
+    {
+      "num": 37,
+      "original_num": "37",
+      "title": "天罗地网",
+      "chars": 3790
+    },
+    {
+      "num": 38,
+      "original_num": "38",
+      "title": "10级周天采气法",
+      "chars": 4282
+    },
+    {
+      "num": 39,
+      "original_num": "39",
+      "title": "心法",
+      "chars": 4146
+    },
+    {
+      "num": 40,
+      "original_num": "40",
+      "title": "快乐心法和法赛补习",
+      "chars": 3529
+    },
+    {
+      "num": 41,
+      "original_num": "41",
+      "title": "密谋和法赛开始",
+      "chars": 3772
+    },
+    {
+      "num": 42,
+      "original_num": "42",
+      "title": "法赛阵容",
+      "chars": 3579
+    },
+    {
+      "num": 43,
+      "original_num": "43",
+      "title": "联盟和法赛第一关",
+      "chars": 3703
+    },
+    {
+      "num": 44,
+      "original_num": "44",
+      "title": "飞剑",
+      "chars": 4311
+    },
+    {
+      "num": 45,
+      "original_num": "45",
+      "title": "聊一聊新书，求一求追读",
+      "chars": 948
+    },
+    {
+      "num": 46,
+      "original_num": "46",
+      "title": "紫云药",
+      "chars": 4134
+    },
+    {
+      "num": 47,
+      "original_num": "47",
+      "title": "大山",
+      "chars": 3733
+    },
+    {
+      "num": 48,
+      "original_num": "48",
+      "title": "争",
+      "chars": 4471
+    },
+    {
+      "num": 49,
+      "original_num": "49",
+      "title": "前十！",
+      "chars": 3858
+    },
+    {
+      "num": 50,
+      "original_num": "50",
+      "title": "无极云手",
+      "chars": 3622
+    },
+    {
+      "num": 51,
+      "original_num": "51",
+      "title": "变化和加码",
+      "chars": 3429
+    },
+    {
+      "num": 52,
+      "original_num": "52",
+      "title": "暗流涌动",
+      "chars": 4147
+    },
+    {
+      "num": 53,
+      "original_num": "53",
+      "title": "月考结束风雨欲来",
+      "chars": 3802
+    },
+    {
+      "num": 54,
+      "original_num": "54",
+      "title": "天武炼心",
+      "chars": 3651
+    },
+    {
+      "num": 55,
+      "original_num": "55",
+      "title": "张羽抉择",
+      "chars": 3845
+    },
+    {
+      "num": 56,
+      "original_num": "56",
+      "title": "神辅考核",
+      "chars": 3607
+    },
+    {
+      "num": 57,
+      "original_num": "57",
+      "title": "过考核，去嵩阳（求月票）",
+      "chars": 3728
+    },
+    {
+      "num": 58,
+      "original_num": "58",
+      "title": "学长",
+      "chars": 3451
+    },
+    {
+      "num": 59,
+      "original_num": "59",
+      "title": "威压",
+      "chars": 3911
+    },
+    {
+      "num": 60,
+      "original_num": "60",
+      "title": "最强高一（第三更，章节贷）",
+      "chars": 3268
+    },
+    {
+      "num": 61,
+      "original_num": "61",
+      "title": "箓书",
+      "chars": 2259
+    },
+    {
+      "num": 62,
+      "original_num": "62",
+      "title": "拜神",
+      "chars": 2222
+    },
+    {
+      "num": 63,
+      "original_num": "63",
+      "title": "轰杀，朋友",
+      "chars": 3784
+    },
+    {
+      "num": 64,
+      "original_num": "64",
+      "title": "变化（求月票）",
+      "chars": 3900
+    },
+    {
+      "num": 65,
+      "original_num": "65",
+      "title": "武道补习",
+      "chars": 3526
+    },
+    {
+      "num": 66,
+      "original_num": "66",
+      "title": "耗尽积蓄（求月票）",
+      "chars": 3551
+    },
+    {
+      "num": 67,
+      "original_num": "67",
+      "title": "竞赛开始",
+      "chars": 4236
+    },
+    {
+      "num": 68,
+      "original_num": "68",
+      "title": "差距，评分",
+      "chars": 4133
+    },
+    {
+      "num": 69,
+      "original_num": "69",
+      "title": "分组",
+      "chars": 3477
+    },
+    {
+      "num": 70,
+      "original_num": "70",
+      "title": "隐藏灵根",
+      "chars": 3927
+    },
+    {
+      "num": 71,
+      "original_num": "71",
+      "title": "上架活动福利不要错过",
+      "chars": 718
+    },
+    {
+      "num": 72,
+      "original_num": "72",
+      "title": "压制",
+      "chars": 3465
+    },
+    {
+      "num": 73,
+      "original_num": "73",
+      "title": "八强战",
+      "chars": 3682
+    },
+    {
+      "num": 74,
+      "original_num": "74",
+      "title": "浴血奋战",
+      "chars": 3588
+    },
+    {
+      "num": 75,
+      "original_num": "75",
+      "title": "狂风暴雨（四更完毕求月票）",
+      "chars": 3835
+    },
+    {
+      "num": 76,
+      "original_num": "76",
+      "title": "穷，四强战",
+      "chars": 3328
+    },
+    {
+      "num": 77,
+      "original_num": "77",
+      "title": "背龙翻岳",
+      "chars": 3395
+    },
+    {
+      "num": 78,
+      "original_num": "78",
+      "title": "二强决出（还月票贷1）",
+      "chars": 3586
+    },
+    {
+      "num": 79,
+      "original_num": "79",
+      "title": "威力最大的一招",
+      "chars": 3483
+    },
+    {
+      "num": 80,
+      "original_num": "80",
+      "title": "冠军（求月票）",
+      "chars": 3362
+    },
+    {
+      "num": 81,
+      "original_num": "81",
+      "title": "宋海龙让我当教练（感谢『与太郎』盟主）",
+      "chars": 4179
+    },
+    {
+      "num": 82,
+      "original_num": "82",
+      "title": "功法，培养（感谢『孟椰椰』盟主）",
+      "chars": 3572
+    },
+    {
+      "num": 83,
+      "original_num": "83",
+      "title": "竞赛名额（还月票贷2）",
+      "chars": 3846
+    },
+    {
+      "num": 84,
+      "original_num": "84",
+      "title": "10级，兼职（感谢'多佛朗铭哥'盟主）",
+      "chars": 3487
+    },
+    {
+      "num": 85,
+      "original_num": "85",
+      "title": "兼职，朋友圈(感谢'Cruzer'盟主)",
+      "chars": 3483
+    },
+    {
+      "num": 86,
+      "original_num": "86",
+      "title": "移植（感谢『Lhcccc』盟主）",
+      "chars": 3395
+    },
+    {
+      "num": 87,
+      "original_num": "87",
+      "title": "较劲，GG（感谢书友20171123095745156盟主",
+      "chars": 3573
+    },
+    {
+      "num": 88,
+      "original_num": "88",
+      "title": "拍摄，教训何大有（还月票贷3）",
+      "chars": 3401
+    },
+    {
+      "num": 89,
+      "original_num": "89",
+      "title": "邪神谈判（感谢』神翔九苍'盟主）",
+      "chars": 3394
+    },
+    {
+      "num": 90,
+      "original_num": "90",
+      "title": "黑暗补课界（感谢』小虎很困』盟主）",
+      "chars": 3453
+    },
+    {
+      "num": 91,
+      "original_num": "91",
+      "title": "昆墟黑暗面(感谢』珈百璃是也』盟主)",
+      "chars": 3398
+    },
+    {
+      "num": 92,
+      "original_num": "92",
+      "title": "速学武功(感谢书友20190611151400639盟主)",
+      "chars": 3510
+    },
+    {
+      "num": 93,
+      "original_num": "93",
+      "title": "暗学帮，试课",
+      "chars": 3522
+    },
+    {
+      "num": 94,
+      "original_num": "94",
+      "title": "来自重点高中的先进经验",
+      "chars": 3475
+    },
+    {
+      "num": 95,
+      "original_num": "95",
+      "title": "张羽的秘密",
+      "chars": 3515
+    },
+    {
+      "num": 96,
+      "original_num": "96",
+      "title": "张羽的诱惑",
+      "chars": 3673
+    },
+    {
+      "num": 97,
+      "original_num": "97",
+      "title": "准备，退课（感谢』xX",
+      "chars": 3371
+    },
+    {
+      "num": 98,
+      "original_num": "98",
+      "title": "什幺东西进来了？",
+      "chars": 3654
+    },
+    {
+      "num": 99,
+      "original_num": "99",
+      "title": "借走阿真的灵根(还月票贷4)",
+      "chars": 3433
+    },
+    {
+      "num": 100,
+      "original_num": "100",
+      "title": "羽子，我决定不租房了！",
+      "chars": 3932
+    },
+    {
+      "num": 101,
+      "original_num": "101",
+      "title": "约定时间，争夺竞赛名额",
+      "chars": 3987
+    },
+    {
+      "num": 102,
+      "original_num": "102",
+      "title": "力量比较，参加特殊培养计划？",
+      "chars": 4045
+    },
+    {
+      "num": 103,
+      "original_num": "103",
+      "title": "购买隐匿符，竞赛前夕(求月票)",
+      "chars": 4124
+    },
+    {
+      "num": 104,
+      "original_num": "104",
+      "title": "竞赛到来",
+      "chars": 3677
+    },
+    {
+      "num": 105,
+      "original_num": "105",
+      "title": "公司战场的延伸（求月票）",
+      "chars": 4375
+    },
+    {
+      "num": 106,
+      "original_num": "106",
+      "title": "人声鼎沸",
+      "chars": 3389
+    },
+    {
+      "num": 107,
+      "original_num": "107",
+      "title": "我能摸一下你吗？",
+      "chars": 3532
+    },
+    {
+      "num": 108,
+      "original_num": "108",
+      "title": "张羽，4.95级",
+      "chars": 3804
+    },
+    {
+      "num": 109,
+      "original_num": "109",
+      "title": "肉体强度排名",
+      "chars": 3623
+    },
+    {
+      "num": 110,
+      "original_num": "110",
+      "title": "灵敏（感谢'拉拉拉拉拉拉拉拉拉伸'盟主）",
+      "chars": 3788
+    },
+    {
+      "num": 111,
+      "original_num": "111",
+      "title": "是兄弟来借钱吧(感谢'上仙齐天'盟主)",
+      "chars": 4416
+    },
+    {
+      "num": 112,
+      "original_num": "112",
+      "title": "速度之争（感谢'张翩翩喵'伊芙的盟主）",
+      "chars": 3702
+    },
+    {
+      "num": 113,
+      "original_num": "113",
+      "title": "挑战玉星寒",
+      "chars": 4075
+    },
+    {
+      "num": 114,
+      "original_num": "114",
+      "title": "胜负",
+      "chars": 3809
+    },
+    {
+      "num": 115,
+      "original_num": "115",
+      "title": "赛前突破，天空柱",
+      "chars": 3793
+    },
+    {
+      "num": 116,
+      "original_num": "116",
+      "title": "酝酿(感谢'百里彤云'的盟主）",
+      "chars": 4138
+    },
+    {
+      "num": 117,
+      "original_num": "117",
+      "title": "擎天（感谢'轻轻巧巧呵呵'的盟主）",
+      "chars": 4337
+    },
+    {
+      "num": 118,
+      "original_num": "118",
+      "title": "最强力量！",
+      "chars": 3909
+    },
+    {
+      "num": 119,
+      "original_num": "119",
+      "title": "绝世天才",
+      "chars": 3416
+    },
+    {
+      "num": 120,
+      "original_num": "120",
+      "title": "代言人",
+      "chars": 3534
+    },
+    {
+      "num": 121,
+      "original_num": "121",
+      "title": "课安排不过来",
+      "chars": 3402
+    },
+    {
+      "num": 122,
+      "original_num": "122",
+      "title": "对不起，阿真（还月票贷5）",
+      "chars": 3425
+    },
+    {
+      "num": 123,
+      "original_num": "123",
+      "title": "筑基资格证",
+      "chars": 3973
+    },
+    {
+      "num": 124,
+      "original_num": "124",
+      "title": "邪神谈秘辛",
+      "chars": 3505
+    },
+    {
+      "num": 125,
+      "original_num": "125",
+      "title": "大日气海",
+      "chars": 3488
+    },
+    {
+      "num": 126,
+      "original_num": "126",
+      "title": "功法，租房，乐沐岚",
+      "chars": 3943
+    },
+    {
+      "num": 127,
+      "original_num": "127",
+      "title": "裤子都破了（还月票贷6）",
+      "chars": 3881
+    },
+    {
+      "num": 128,
+      "original_num": "128",
+      "title": "羽子你好香",
+      "chars": 3534
+    },
+    {
+      "num": 129,
+      "original_num": "129",
+      "title": "大日行气，找房成功（求月票）",
+      "chars": 4144
+    },
+    {
+      "num": 130,
+      "original_num": "130",
+      "title": "战白龙",
+      "chars": 3502
+    },
+    {
+      "num": 131,
+      "original_num": "131",
+      "title": "磨刀石，崩山掌（求月票）",
+      "chars": 3549
+    },
+    {
+      "num": 132,
+      "original_num": "132",
+      "title": "10级大日，穷的难受（感谢』空城旧巷凉城少年』盟主）",
+      "chars": 3501
+    },
+    {
+      "num": 133,
+      "original_num": "133",
+      "title": "新药品渠道，仙韵代言（求月票）",
+      "chars": 3722
+    },
+    {
+      "num": 134,
+      "original_num": "134",
+      "title": "找渠道，形象设计（感谢'秋水染星河'打赏盟主）",
+      "chars": 3465
+    },
+    {
+      "num": 135,
+      "original_num": "135",
+      "title": "10级残牛，暗流涌动（感谢'洛古特亲王'打赏盟主）",
+      "chars": 3597
+    },
+    {
+      "num": 136,
+      "original_num": "136",
+      "title": "乐白轮换，突飞猛进（还月票贷7）",
+      "chars": 3553
+    },
+    {
+      "num": 137,
+      "original_num": "137",
+      "title": "呼吸的艰难（感谢』你爸爸爽朗地笑着说』打赏盟主）",
+      "chars": 3871
+    },
+    {
+      "num": 138,
+      "original_num": "138",
+      "title": "繁育基地（感谢』你爸爸爽朗地笑着说』打赏盟主2）",
+      "chars": 3318
+    },
+    {
+      "num": 139,
+      "original_num": "139",
+      "title": "高考结，翩翩去（还月票贷8）",
+      "chars": 3355
+    },
+    {
+      "num": 140,
+      "original_num": "140",
+      "title": "告别张翩翩，报名开始(感谢』凛酱的海豚』打赏盟主)",
+      "chars": 3669
+    },
+    {
+      "num": 141,
+      "original_num": "141",
+      "title": "考试改革，筑基测试(求月票)",
+      "chars": 3922
+    },
+    {
+      "num": 142,
+      "original_num": "142",
+      "title": "最强水平（感谢』啾与咪与驴与点与甜』打赏盟主）",
+      "chars": 4014
+    },
+    {
+      "num": 143,
+      "original_num": "143",
+      "title": "给他安排十个（求月票）",
+      "chars": 6220
+    },
+    {
+      "num": 144,
+      "original_num": "144",
+      "title": "放弃的价格（感谢’sfqk』打赏盟主）",
+      "chars": 4338
+    },
+    {
+      "num": 145,
+      "original_num": "145",
+      "title": "张羽，估值？？？（求月票）",
+      "chars": 3838
+    },
+    {
+      "num": 146,
+      "original_num": "146",
+      "title": "干吧羽子！彻底释放我们的仙道潜力吧！",
+      "chars": 3738
+    },
+    {
+      "num": 147,
+      "original_num": "147",
+      "title": "逐渐变成内鬼的形状",
+      "chars": 3993
+    },
+    {
+      "num": 148,
+      "original_num": "148",
+      "title": "张羽的突飞猛进（感谢』所发生的给』打赏盟主）",
+      "chars": 3529
+    },
+    {
+      "num": 149,
+      "original_num": "149",
+      "title": "真正的实战技术（求月票）",
+      "chars": 3374
+    },
+    {
+      "num": 150,
+      "original_num": "150",
+      "title": "辱蓝岭（感谢』焉渊之殇』打赏盟主）",
+      "chars": 3348
+    },
+    {
+      "num": 151,
+      "original_num": "151",
+      "title": "战周澈尘（求月票）",
+      "chars": 3730
+    },
+    {
+      "num": 152,
+      "original_num": "152",
+      "title": "张羽的人脉（感谢’sfqk』打赏白银盟主）",
+      "chars": 3574
+    },
+    {
+      "num": 153,
+      "original_num": "153",
+      "title": "阿真你肚子怎幺变大了？（求月票）",
+      "chars": 3428
+    },
+    {
+      "num": 154,
+      "original_num": "154",
+      "title": "真灵根的第一次进化",
+      "chars": 3374
+    },
+    {
+      "num": 155,
+      "original_num": "155",
+      "title": "灵界修行，穷盟现身",
+      "chars": 3396
+    },
+    {
+      "num": 156,
+      "original_num": "156",
+      "title": "阿真开厂，张羽打工",
+      "chars": 3483
+    },
+    {
+      "num": 157,
+      "original_num": "157",
+      "title": "真残牛真舍身真心法",
+      "chars": 4051
+    },
+    {
+      "num": 158,
+      "original_num": "158",
+      "title": "张羽发动仪式",
+      "chars": 3477
+    },
+    {
+      "num": 159,
+      "original_num": "159",
+      "title": "参加第一轮筑基考试（求月票）",
+      "chars": 3566
+    },
+    {
+      "num": 160,
+      "original_num": "160",
+      "title": "神秘张羽",
+      "chars": 3422
+    },
+    {
+      "num": 161,
+      "original_num": "161",
+      "title": "小丑位的召唤",
+      "chars": 3628
+    },
+    {
+      "num": 162,
+      "original_num": "162",
+      "title": "最强高中生",
+      "chars": 4117
+    },
+    {
+      "num": 163,
+      "original_num": "163",
+      "title": "深不可测的张羽",
+      "chars": 3613
+    },
+    {
+      "num": 164,
+      "original_num": "164",
+      "title": "暴食",
+      "chars": 3543
+    },
+    {
+      "num": 165,
+      "original_num": "165",
+      "title": "张羽的消化力！",
+      "chars": 3739
+    },
+    {
+      "num": 166,
+      "original_num": "166",
+      "title": "与玉星寒的再决胜负",
+      "chars": 3713
+    },
+    {
+      "num": 167,
+      "original_num": "167",
+      "title": "最后一场，武道考试",
+      "chars": 3332
+    },
+    {
+      "num": 168,
+      "original_num": "168",
+      "title": "张羽的痛心（感谢』天则律』打赏白银盟主 ）",
+      "chars": 4138
+    },
+    {
+      "num": 169,
+      "original_num": "169",
+      "title": "我练成了",
+      "chars": 3641
+    },
+    {
+      "num": 170,
+      "original_num": "170",
+      "title": "春秋无尽禅",
+      "chars": 3589
+    },
+    {
+      "num": 171,
+      "original_num": "171",
+      "title": "通过考试",
+      "chars": 3775
+    },
+    {
+      "num": 172,
+      "original_num": "172",
+      "title": "第二轮分组，夜凌霄的战意",
+      "chars": 3332
+    },
+    {
+      "num": 173,
+      "original_num": "173",
+      "title": "张羽的生产工具",
+      "chars": 3460
+    },
+    {
+      "num": 174,
+      "original_num": "174",
+      "title": "种子买卖（感谢』阿墨天天摸鱼』打赏盟主）",
+      "chars": 3477
+    },
+    {
+      "num": 175,
+      "original_num": "175",
+      "title": "张羽辛苦挣钱",
+      "chars": 3547
+    },
+    {
+      "num": 176,
+      "original_num": "176",
+      "title": "激发玉星寒的潜力",
+      "chars": 3825
+    },
+    {
+      "num": 177,
+      "original_num": "177",
+      "title": "狩猎开始",
+      "chars": 3404
+    },
+    {
+      "num": 178,
+      "original_num": "178",
+      "title": "千万诱惑",
+      "chars": 3519
+    },
+    {
+      "num": 179,
+      "original_num": "179",
+      "title": "张羽的雷霆出击",
+      "chars": 3473
+    },
+    {
+      "num": 180,
+      "original_num": "180",
+      "title": "阻击六大强者",
+      "chars": 3676
+    },
+    {
+      "num": 181,
+      "original_num": "181",
+      "title": "狩猎邪神成功",
+      "chars": 3538
+    },
+    {
+      "num": 182,
+      "original_num": "182",
+      "title": "羽书新一章",
+      "chars": 3376
+    },
+    {
+      "num": 183,
+      "original_num": "183",
+      "title": "邪神晋级，巡查关注",
+      "chars": 3684
+    },
+    {
+      "num": 184,
+      "original_num": "184",
+      "title": "被问询的张羽",
+      "chars": 3804
+    },
+    {
+      "num": 185,
+      "original_num": "185",
+      "title": "真真潜力，仪式上身",
+      "chars": 3806
+    },
+    {
+      "num": 186,
+      "original_num": "186",
+      "title": "学校电霸，10级春秋",
+      "chars": 3475
+    },
+    {
+      "num": 187,
+      "original_num": "187",
+      "title": "嵩阳豪族，张羽威胁（求月票）",
+      "chars": 3479
+    },
+    {
+      "num": 188,
+      "original_num": "188",
+      "title": "层层束缚（感谢』是夏晚啊』打赏盟主）",
+      "chars": 4192
+    },
+    {
+      "num": 189,
+      "original_num": "189",
+      "title": "张羽的时间",
+      "chars": 3377
+    },
+    {
+      "num": 190,
+      "original_num": "190",
+      "title": "潜伏爪牙，等待良机",
+      "chars": 3329
+    },
+    {
+      "num": 191,
+      "original_num": "191",
+      "title": "高中圣体（求月票）",
+      "chars": 4046
+    },
+    {
+      "num": 192,
+      "original_num": "192",
+      "title": "圣体终成，考试假条",
+      "chars": 3529
+    },
+    {
+      "num": 193,
+      "original_num": "193",
+      "title": "第二轮筑基考试开始",
+      "chars": 3425
+    },
+    {
+      "num": 194,
+      "original_num": "194",
+      "title": "好学生就该打药",
+      "chars": 3289
+    },
+    {
+      "num": 195,
+      "original_num": "195",
+      "title": "三大神药（求月票）",
+      "chars": 3451
+    },
+    {
+      "num": 196,
+      "original_num": "196",
+      "title": "一口吃两片",
+      "chars": 3268
+    },
+    {
+      "num": 197,
+      "original_num": "197",
+      "title": "高中圣体？链气圣体！（求月票）",
+      "chars": 3420
+    },
+    {
+      "num": 198,
+      "original_num": "198",
+      "title": "考试暂停？",
+      "chars": 3285
+    },
+    {
+      "num": 199,
+      "original_num": "199",
+      "title": "用药第一，玄冥重水（求月票）",
+      "chars": 3497
+    },
+    {
+      "num": 200,
+      "original_num": "200",
+      "title": "同归于尽（感谢』lyrical000』打赏盟主）",
+      "chars": 3294
+    },
+    {
+      "num": 201,
+      "original_num": "201",
+      "title": "张羽最好的修炼条件（求月票）",
+      "chars": 4064
+    },
+    {
+      "num": 202,
+      "original_num": "202",
+      "title": "最完美的高中生肉体（感谢』忽有狂徒夜磨刀s』打赏盟主）",
+      "chars": 3725
+    },
+    {
+      "num": 203,
+      "original_num": "203",
+      "title": "第二轮筑基考试结束（求月票）",
+      "chars": 3413
+    },
+    {
+      "num": 204,
+      "original_num": "204",
+      "title": "张羽议计，正神秘辛（感谢』rap演唱会首席手语师』打赏盟）",
+      "chars": 3327
+    },
+    {
+      "num": 205,
+      "original_num": "205",
+      "title": "财神第一，大学大专（求月票）",
+      "chars": 3463
+    },
+    {
+      "num": 206,
+      "original_num": "206",
+      "title": "安安的求助，张羽的计划",
+      "chars": 3358
+    },
+    {
+      "num": 207,
+      "original_num": "207",
+      "title": "遭遇突袭的张羽",
+      "chars": 3589
+    },
+    {
+      "num": 208,
+      "original_num": "208",
+      "title": "雷鸣符，军用武装",
+      "chars": 3535
+    },
+    {
+      "num": 209,
+      "original_num": "209",
+      "title": "问讯张羽，正神清场",
+      "chars": 3340
+    },
+    {
+      "num": 210,
+      "original_num": "210",
+      "title": "封锁万星集团（感谢』N甲基_1苯基丙_2胺』打赏盟主）",
+      "chars": 3913
+    },
+    {
+      "num": 211,
+      "original_num": "211",
+      "title": "调解室内的张羽",
+      "chars": 3714
+    },
+    {
+      "num": 212,
+      "original_num": "212",
+      "title": "张羽的丰厚收获",
+      "chars": 3483
+    },
+    {
+      "num": 213,
+      "original_num": "213",
+      "title": "隐藏危机，黑暗补课",
+      "chars": 4633
+    },
+    {
+      "num": 214,
+      "original_num": "214",
+      "title": "黑暗补课界最赚钱的方向",
+      "chars": 3504
+    },
+    {
+      "num": 215,
+      "original_num": "215",
+      "title": "张羽的突飞猛进和金牌试课",
+      "chars": 3447
+    },
+    {
+      "num": 216,
+      "original_num": "216",
+      "title": "大学都没上过的废物（感谢『敛醉颜』打赏盟主）",
+      "chars": 3430
+    },
+    {
+      "num": 217,
+      "original_num": "217",
+      "title": "就是这股味儿",
+      "chars": 3750
+    },
+    {
+      "num": 218,
+      "original_num": "218",
+      "title": "炸墓地",
+      "chars": 3440
+    },
+    {
+      "num": 219,
+      "original_num": "219",
+      "title": "圣胎初成，考试将近",
+      "chars": 3491
+    },
+    {
+      "num": 220,
+      "original_num": "220",
+      "title": "嵩阳乱象",
+      "chars": 3620
+    },
+    {
+      "num": 221,
+      "original_num": "221",
+      "title": "圣胎小成，出发考试",
+      "chars": 3391
+    },
+    {
+      "num": 222,
+      "original_num": "222",
+      "title": "满是观众的筑基考试？",
+      "chars": 3476
+    },
+    {
+      "num": 223,
+      "original_num": "223",
+      "title": "神灵根（感谢『雨仙齐天』送给白真真10双外置灵根袜）",
+      "chars": 3488
+    },
+    {
+      "num": 224,
+      "original_num": "224",
+      "title": "神灵根的功率（感谢『nudge』打赏的盟主）",
+      "chars": 3391
+    },
+    {
+      "num": 225,
+      "original_num": "225",
+      "title": "大战夜凌霄",
+      "chars": 3691
+    },
+    {
+      "num": 226,
+      "original_num": "226",
+      "title": "胜负（感谢『凿光人』给张羽转帐并送白真真8双丝袜成盟主）",
+      "chars": 3422
+    },
+    {
+      "num": 227,
+      "original_num": "227",
+      "title": "教学级法骸",
+      "chars": 3307
+    },
+    {
+      "num": 228,
+      "original_num": "228",
+      "title": "法骸的负担",
+      "chars": 3627
+    },
+    {
+      "num": 229,
+      "original_num": "229",
+      "title": "胜负就在第三关",
+      "chars": 3296
+    },
+    {
+      "num": 230,
+      "original_num": "230",
+      "title": "肉体第三关",
+      "chars": 3465
+    },
+    {
+      "num": 231,
+      "original_num": "231",
+      "title": "胜负已分",
+      "chars": 4406
+    },
+    {
+      "num": 232,
+      "original_num": "232",
+      "title": "超越声音",
+      "chars": 3630
+    },
+    {
+      "num": 233,
+      "original_num": "233",
+      "title": "张羽决战夜凌霄",
+      "chars": 3659
+    },
+    {
+      "num": 234,
+      "original_num": "234",
+      "title": "终得筑基证（二合一章节）",
+      "chars": 6999
+    },
+    {
+      "num": 235,
+      "original_num": "235",
+      "title": "奖励到帐，暗流涌动",
+      "chars": 4743
+    },
+    {
+      "num": 236,
+      "original_num": "236",
+      "title": "贺张羽 白真真考取筑基资格证成功",
+      "chars": 4586
+    },
+    {
+      "num": 237,
+      "original_num": "237",
+      "title": "名震嵩阳（感谢『小河马233』打赏的盟主）",
+      "chars": 3548
+    },
+    {
+      "num": 238,
+      "original_num": "238",
+      "title": "张羽的筑基领域",
+      "chars": 3745
+    },
+    {
+      "num": 239,
+      "original_num": "239",
+      "title": "合欢（感谢『路边小厨』送白真真10双外置灵根袜）",
+      "chars": 3407
+    },
+    {
+      "num": 240,
+      "original_num": "240",
+      "title": "专业情报",
+      "chars": 4071
+    },
+    {
+      "num": 241,
+      "original_num": "241",
+      "title": "王总他善",
+      "chars": 3629
+    },
+    {
+      "num": 242,
+      "original_num": "242",
+      "title": "一层巨变之始（求月票）",
+      "chars": 4508
+    },
+    {
+      "num": 243,
+      "original_num": "243",
+      "title": "有钱的张羽",
+      "chars": 3758
+    },
+    {
+      "num": 244,
+      "original_num": "244",
+      "title": "思想落后的张羽（求月票）",
+      "chars": 4776
+    },
+    {
+      "num": 245,
+      "original_num": "245",
+      "title": "有钱生活，武道圣胎（感谢『qyqxxxxxxx』打赏的盟主",
+      "chars": 4661
+    },
+    {
+      "num": 246,
+      "original_num": "246",
+      "title": "努力适应，宗门龃龉（求月票）",
+      "chars": 5246
+    },
+    {
+      "num": 247,
+      "original_num": "247",
+      "title": "忍耐（感谢『张翩翩喵』伊芙送张翩翩10个奥斯卡奖杯）",
+      "chars": 3435
+    },
+    {
+      "num": 248,
+      "original_num": "248",
+      "title": "忍无可忍",
+      "chars": 3549
+    },
+    {
+      "num": 249,
+      "original_num": "249",
+      "title": "前军用级（感谢『笑讽嘲』打赏的盟主）",
+      "chars": 3861
+    },
+    {
+      "num": 250,
+      "original_num": "250",
+      "title": "出来吧，我的备用潜力！助我筑基！",
+      "chars": 4806
+    }
+  ],
+  "total_chars": 924933
+}

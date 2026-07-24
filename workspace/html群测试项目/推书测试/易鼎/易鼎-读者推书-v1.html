@@ -1,0 +1,645 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>易鼎｜读者推书卡</title>
+<style>
+/* ============================================================
+   TOKENS — 5主题 × 10色
+   ============================================================ */
+:root{
+  --bg:#1a1a1e;--white:#fff;--black:#111;--grey1:#f8f8f8;--grey2:#eee;--grey3:#ccc;--grey4:#999;--grey5:#555;--grey6:#333;
+  --red:#c0392b;--gold:#b8860b;--blue:#1a5276;--teal:#117a65;--orange:#d35400;
+  --ink:#1a1a1e;--soft:#666;--accent:#b8860b;--accent2:#8b6914;--paper:#faf8f2;
+  --cover1:#1a1410;--cover2:#3d2817;
+}
+body[data-theme="ink-blue"]{
+  --ink:#0d1b2a;--soft:#5a7a9a;--accent:#1b6b8f;--accent2:#2e86ab;--paper:#f2f7fa;
+  --cover1:#0a1628;--cover2:#1a3a5c;--red:#8b0000;--gold:#b8860b;
+}
+body[data-theme="warm-paper"]{
+  --ink:#2d1f14;--soft:#8b7355;--accent:#c0392b;--accent2:#d35400;--paper:#fef9f0;
+  --cover1:#1a0f08;--cover2:#5c2a0e;--gold:#d4a017;
+}
+body[data-theme="dark-modern"]{
+  --bg:#0a0a0c;--ink:#e8e8ec;--soft:#888;--accent:#ff6b6b;--accent2:#ffa500;--paper:#141418;
+  --cover1:#050508;--cover2:#1a1020;--gold:#ffa500;--white:#e8e8ec;--grey1:#1a1a20;--grey2:#222;--grey3:#333;--grey4:#666;--grey5:#999;--grey6:#bbb;--black:#000;
+}
+body[data-theme="diary-orange"]{
+  --ink:#1e2d3a;--soft:#5a7a8a;--accent:#d35400;--accent2:#e67e22;--paper:#faf6f0;
+  --cover1:#1a2530;--cover2:#6b3000;--gold:#d35400;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 0}
+.page{position:relative;width:720px;height:960px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.45);flex-shrink:0}
+
+/* ============================================================
+   P1 · COVER — CINEMATIC POSTER
+   ============================================================ */
+.page-cover{
+  background:linear-gradient(160deg,var(--cover1) 0%,var(--cover2) 60%,var(--cover1) 100%);
+  color:var(--white);padding:0;display:flex;flex-direction:column;
+}
+.page-cover:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.04),transparent 60%);pointer-events:none;z-index:0}
+.page-cover .cover-inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 70px}
+.page-cover .cover-eyebrow{font:600 13px/1.2 -apple-system,sans-serif;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:40px}
+.page-cover h1{font:900 72px/1.05 "Songti SC","STSong","Noto Serif SC",serif;letter-spacing:-.03em;color:var(--white);max-width:560px}
+.page-cover h1 em{color:var(--gold);font-style:normal}
+.page-cover .cover-quote{margin-top:32px;font:500 22px/1.5 "Songti SC",serif;color:rgba(255,255,255,.75);max-width:500px;padding-left:24px;border-left:3px solid var(--gold)}
+.page-cover .cover-lede{margin-top:16px;font:400 14px/1.7 -apple-system,sans-serif;color:rgba(255,255,255,.5);max-width:480px}
+.page-cover .cover-footer{position:absolute;bottom:40px;left:70px;right:70px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.page-cover .cover-tags{display:flex;gap:8px;flex-wrap:wrap}
+.page-cover .cover-tags span{font:500 11px/1 -apple-system,sans-serif;color:rgba(255,255,255,.5);letter-spacing:.1em;padding:4px 0}
+.page-cover .cover-tags span+span:before{content:"·";margin:0 6px;color:rgba(255,255,255,.25)}
+.page-cover .cover-num{font:600 12px/1 -apple-system,sans-serif;color:rgba(255,255,255,.35);letter-spacing:.15em}
+.page-cover .cover-overlay{position:absolute;right:-60px;bottom:-60px;width:320px;height:320px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none;z-index:0}
+
+/* ============================================================
+   INLINE SVG ICONS — 内嵌装饰图形，无外部依赖
+   ============================================================ */
+.deco-icon{pointer-events:none;z-index:0;overflow:visible}
+.deco-icon svg{width:100%;height:100%;display:block}
+.cover-deco-book{position:absolute;left:58px;bottom:52px;width:72px;height:72px;opacity:.08}
+.dash-deco-chart{width:48px;height:48px;opacity:.12;flex-shrink:0}
+.back-deco-star{width:100px;height:20px;opacity:.5;margin:0 auto 8px}
+.show-deco-grid{position:absolute;right:0;top:0;width:180px;height:180px;opacity:.05;pointer-events:none;z-index:0}
+
+/* ============================================================
+   P2 · HOOK — SWISS GRID MINIMALISM
+   ============================================================ */
+.page-swiss{background:var(--paper);padding:52px 60px 52px 70px;display:flex;flex-direction:column}
+.page-swiss:before{content:"";position:absolute;left:0;top:0;width:6px;height:100%;background:var(--black)}
+.page-swiss .swiss-header{margin-bottom:44px}
+.page-swiss .swiss-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
+.page-swiss h2{font:700 42px/1.1 -apple-system,sans-serif;letter-spacing:-.02em;color:var(--ink);max-width:520px}
+.page-swiss h2 em{color:var(--accent);font-style:normal}
+.page-swiss .swiss-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0;flex:1}
+.page-swiss .swiss-cell{padding:28px 32px 28px 0;display:flex;flex-direction:column;justify-content:flex-start;border-bottom:1px solid var(--grey3)}
+.page-swiss .swiss-cell:nth-child(odd){padding-right:28px;border-right:1px solid var(--grey3)}
+.page-swiss .swiss-cell:nth-child(3),.page-swiss .swiss-cell:nth-child(4){border-bottom:none}
+.page-swiss .swiss-num{font:900 48px/1 -apple-system,sans-serif;color:var(--grey3);margin-bottom:8px}
+.page-swiss .swiss-cell h3{font:700 16px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-swiss .swiss-cell p{font:400 13px/1.55 -apple-system,sans-serif;color:var(--soft);max-width:240px}
+.page-swiss .swiss-panel{margin-top:28px;padding:20px 0 0;border-top:2px solid var(--black)}
+.page-swiss .swiss-panel h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-swiss .swiss-panel p{font:400 13px/1.6 -apple-system,sans-serif;color:var(--soft);max-width:500px}
+.page-swiss .swiss-footer{position:absolute;bottom:28px;left:70px;right:60px;display:flex;justify-content:space-between;font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.12em}
+
+/* ============================================================
+   P3 · SYNOPSIS — MAGAZINE EDITORIAL
+   ============================================================ */
+.page-magazine{background:var(--paper);padding:0;display:flex}
+.page-magazine .mag-left{width:180px;background:var(--ink);color:var(--white);padding:52px 32px;display:flex;flex-direction:column;justify-content:space-between}
+.page-magazine .mag-left .mag-eyebrow{font:600 10px/1.4 -apple-system,sans-serif;letter-spacing:.3em;writing-mode:vertical-rl;color:var(--gold);margin:0 auto}
+.page-magazine .mag-left .mag-section{font:900 72px/1 -apple-system,sans-serif;color:rgba(255,255,255,.08);text-align:center}
+.page-magazine .mag-right{flex:1;padding:52px 48px 52px 40px;overflow-y:auto;display:flex;flex-direction:column}
+.page-magazine h2{font:700 36px/1.15 "Songti SC",serif;color:var(--ink);margin-bottom:32px;letter-spacing:-.01em}
+.page-magazine h2 em{color:var(--accent);font-style:normal}
+.page-magazine .mag-steps{flex:1;display:flex;flex-direction:column;gap:0;position:relative}
+.page-magazine .mag-steps:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--grey2)}
+.page-magazine .mag-step{position:relative;padding:0 0 28px 32px}
+.page-magazine .mag-step:last-child{padding-bottom:0}
+.page-magazine .mag-step:before{content:"";position:absolute;left:0;top:6px;width:15px;height:15px;border:2px solid var(--accent);border-radius:50%;background:var(--paper);z-index:1}
+.page-magazine .mag-step:first-child:before{background:var(--accent)}
+.page-magazine .mag-step h3{font:700 18px/1.3 "Songti SC",serif;color:var(--ink);margin-bottom:4px}
+.page-magazine .mag-step p{font:400 13px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-magazine .mag-panel{margin-top:24px;padding:20px 24px;background:var(--grey1);border-left:3px solid var(--accent)}
+.page-magazine .mag-panel h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-magazine .mag-panel p{font:400 12.5px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-magazine .mag-footer{display:flex;justify-content:space-between;margin-top:28px;padding-top:16px;border-top:1px solid var(--grey2);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P4 · CHARACTERS — PROFILE SPREAD
+   ============================================================ */
+.page-profiles{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-profiles .prof-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;border-bottom:2px solid var(--black);padding-bottom:20px}
+.page-profiles .prof-eyebrow{font:600 10px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft)}
+.page-profiles h2{font:700 40px/1.1 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-profiles h2 em{color:var(--accent);font-style:normal}
+.page-profiles .prof-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1}
+.page-profiles .prof-card{padding:0;border:none;background:none}
+.page-profiles .prof-card .prof-name{font:700 22px/1.2 "Songti SC",serif;color:var(--ink);margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:inline-block}
+.page-profiles .prof-card .prof-identity{font:500 12px/1 -apple-system,sans-serif;color:var(--accent);letter-spacing:.08em;margin-bottom:12px}
+.page-profiles .prof-card .prof-traits{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.page-profiles .prof-card .prof-traits span{font:500 10px/1 -apple-system,sans-serif;color:var(--soft);padding:4px 10px;background:var(--grey2);border-radius:2px}
+.page-profiles .prof-card .prof-drive{font:400 12.5px/1.55 -apple-system,sans-serif;color:var(--soft)}
+.page-profiles .prof-panel{margin-top:24px;padding:20px 0 0;border-top:1px solid var(--grey3);display:flex;gap:32px}
+.page-profiles .prof-panel h3{font:600 13px/1.3 -apple-system,sans-serif;color:var(--ink);min-width:80px}
+.page-profiles .prof-panel p{font:400 12.5px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-profiles .prof-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P5 · CHEMISTRY — INFOGRAPHIC DIAGRAM
+   ============================================================ */
+.page-infographic{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-infographic .info-header{text-align:center;margin-bottom:36px}
+.page-infographic .info-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.3em;color:var(--soft);margin-bottom:14px}
+.page-infographic h2{font:700 34px/1.15 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-infographic h2 em{color:var(--accent);font-style:normal}
+.page-infographic .info-diagram{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.page-infographic .info-center{text-align:center;z-index:1}
+.page-infographic .info-formula{display:inline-flex;align-items:center;gap:16px;padding:24px 32px;border:2px solid var(--black);background:var(--white)}
+.page-infographic .info-formula span{font:700 20px/1 "Songti SC",serif;color:var(--ink)}
+.page-infographic .info-formula i{font:300 28px/1 serif;color:var(--accent)}
+.page-infographic .info-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.page-infographic .info-card{padding:20px 24px;border:1px solid var(--grey3);background:var(--white)}
+.page-infographic .info-card h3{font:700 15px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-infographic .info-card p{font:400 12px/1.55 -apple-system,sans-serif;color:var(--soft)}
+.page-infographic .info-panel{margin-top:20px;text-align:center;padding:16px 0;border-top:1px solid var(--grey3)}
+.page-infographic .info-panel h3{font:600 13px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-infographic .info-panel p{font:400 12.5px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-infographic .info-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P6 · STRUCTURE — HORIZONTAL TIMELINE
+   ============================================================ */
+.page-timeline{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-timeline .tl-header{margin-bottom:48px}
+.page-timeline .tl-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft);margin-bottom:14px}
+.page-timeline h2{font:700 36px/1.15 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-timeline h2 em{color:var(--accent);font-style:normal}
+.page-timeline .tl-track{flex:1;display:flex;align-items:flex-start;position:relative;padding:20px 20px 0}
+.page-timeline .tl-track:before{content:"";position:absolute;left:20px;right:20px;top:26px;height:2px;background:var(--black)}
+.page-timeline .tl-cards{display:flex;gap:0;width:100%;position:relative;z-index:1}
+.page-timeline .tl-card{flex:1;text-align:center;padding:0 12px;position:relative}
+.page-timeline .tl-card:before{content:"";display:block;width:14px;height:14px;border:3px solid var(--black);border-radius:50%;background:var(--paper);margin:0 auto 20px}
+.page-timeline .tl-card:first-child:before{background:var(--accent);border-color:var(--accent)}
+.page-timeline .tl-card h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-timeline .tl-card p{font:400 11px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-timeline .tl-route{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:32px;padding:16px 24px;border:2px solid var(--black)}
+.page-timeline .tl-route span{font:700 14px/1 -apple-system,sans-serif;color:var(--ink);letter-spacing:.04em}
+.page-timeline .tl-route i{font:300 18px/1 serif;color:var(--accent)}
+.page-timeline .tl-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P7 · SELLING POINTS — FEATURE SHOWCASE
+   ============================================================ */
+.page-showcase{background:var(--ink);color:var(--white);padding:52px 60px;display:flex;flex-direction:column}
+.page-showcase .show-header{margin-bottom:40px}
+.page-showcase .show-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.3em;color:var(--gold);margin-bottom:14px}
+.page-showcase h2{font:700 38px/1.1 -apple-system,sans-serif;color:var(--white);letter-spacing:-.02em}
+.page-showcase h2 em{color:var(--gold);font-style:normal}
+.page-showcase .show-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);flex:1;margin-bottom:24px}
+.page-showcase .show-card{padding:28px 28px;background:var(--ink);display:flex;flex-direction:column}
+.page-showcase .show-card .show-num{font:900 40px/1 -apple-system,sans-serif;color:rgba(255,255,255,.1);margin-bottom:12px}
+.page-showcase .show-card h3{font:700 15px/1.3 -apple-system,sans-serif;color:var(--white);margin-bottom:6px}
+.page-showcase .show-card p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.55)}
+.page-showcase .show-panel{padding:20px 0 0;border-top:1px solid rgba(255,255,255,.1)}
+.page-showcase .show-panel h3{font:600 12px/1.3 -apple-system,sans-serif;color:var(--gold);margin-bottom:4px}
+.page-showcase .show-panel p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.45)}
+.page-showcase .show-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
+
+/* ============================================================
+   P8 · RISKS — DASHBOARD
+   ============================================================ */
+.page-dashboard{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-dashboard .dash-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
+.page-dashboard .dash-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft)}
+.page-dashboard h2{font:700 34px/1.1 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em;margin-top:10px}
+.page-dashboard h2 em{color:var(--accent);font-style:normal}
+.page-dashboard .dash-warning-tag{font:700 10px/1 -apple-system,sans-serif;color:var(--white);background:var(--red);padding:8px 14px;letter-spacing:.15em}
+.page-dashboard .dash-body{display:flex;gap:24px;flex:1}
+.page-dashboard .dash-radar{flex:1;padding:24px;border:2px solid var(--black);display:flex;flex-direction:column;gap:16px;justify-content:center}
+.page-dashboard .dash-radar-row{display:flex;align-items:center;gap:12px}
+.page-dashboard .dash-radar-row .dash-label{width:70px;font:600 11px/1 -apple-system,sans-serif;color:var(--soft);text-align:right}
+.page-dashboard .dash-radar-row .dash-track{flex:1;height:8px;background:var(--grey2);position:relative}
+.page-dashboard .dash-radar-row .dash-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .4s}
+.page-dashboard .dash-radar-row .dash-val{width:28px;font:700 14px/1 -apple-system,sans-serif;color:var(--ink);text-align:right}
+.page-dashboard .dash-right{flex:1;display:flex;flex-direction:column;gap:16px}
+.page-dashboard .dash-warning{padding:20px;border:2px solid var(--red);background:rgba(192,57,43,.04);flex:1}
+.page-dashboard .dash-warning h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--red);margin-bottom:12px}
+.page-dashboard .dash-warning ul{list-style:none;padding:0}
+.page-dashboard .dash-warning li{font:400 11.5px/1.5 -apple-system,sans-serif;color:var(--soft);padding:4px 0 4px 16px;position:relative}
+.page-dashboard .dash-warning li:before{content:"—";position:absolute;left:0;color:var(--red)}
+.page-dashboard .dash-panel{padding:16px;border:1px solid var(--grey3);background:var(--white)}
+.page-dashboard .dash-panel h3{font:600 12px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-dashboard .dash-panel p{font:400 11.5px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-dashboard .dash-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P9 · VERDICT — DARK BACK COVER
+   ============================================================ */
+.page-backcover{
+  background:linear-gradient(160deg,var(--cover2) 0%,var(--cover1) 40%,var(--cover1) 100%);
+  color:var(--white);padding:0;display:flex;flex-direction:column;
+}
+.page-backcover:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 80%,rgba(255,255,255,.03),transparent 60%);pointer-events:none;z-index:0}
+.page-backcover .back-inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:52px 60px}
+.page-backcover .back-eyebrow{font:600 12px/1 -apple-system,sans-serif;letter-spacing:.35em;color:var(--gold);margin-bottom:28px;text-align:center}
+.page-backcover .back-title{text-align:center;margin-bottom:40px}
+.page-backcover .back-title h2{font:700 32px/1.15 "Songti SC",serif;color:var(--white)}
+.page-backcover .back-title h2 em{color:var(--gold);font-style:normal}
+.page-backcover .back-verdict{text-align:center;padding:32px 40px;margin-bottom:24px;border:2px solid rgba(255,255,255,.15);background:rgba(0,0,0,.3)}
+.page-backcover .back-verdict .back-score{font:900 64px/1 "Songti SC",serif;color:var(--gold);margin-bottom:8px}
+.page-backcover .back-verdict .back-grade{font:600 14px/1 -apple-system,sans-serif;color:rgba(255,255,255,.7);letter-spacing:.15em;margin-bottom:16px}
+.page-backcover .back-verdict .back-text{font:400 13px/1.6 -apple-system,sans-serif;color:rgba(255,255,255,.6);max-width:480px;margin:0 auto}
+.page-backcover .back-audience{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.page-backcover .back-audience>div{padding:20px 24px;border:1px solid rgba(255,255,255,.1)}
+.page-backcover .back-audience h3{font:700 12px/1 -apple-system,sans-serif;color:var(--gold);letter-spacing:.1em;margin-bottom:10px}
+.page-backcover .back-audience ul{list-style:none;padding:0}
+.page-backcover .back-audience li{font:400 11px/1.5 -apple-system,sans-serif;color:rgba(255,255,255,.5);padding:3px 0}
+.page-backcover .back-why{padding:20px 24px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.page-backcover .back-why h3{font:600 12px/1 -apple-system,sans-serif;color:var(--gold);letter-spacing:.1em;margin-bottom:8px}
+.page-backcover .back-why p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.45)}
+.page-backcover .back-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
+
+/* ============================================================
+   BRAND SIGNATURE — popwave 页码印记
+   ============================================================ */
+.brand{font-weight:400;color:var(--grey4);margin-left:3px;letter-spacing:.04em}
+.page-cover .brand{color:rgba(255,255,255,.35)}
+.page-backcover .brand{color:rgba(255,255,255,.3)}
+</style>
+</head>
+<body>
+<!-- DATA-INJECT: 部署时替换为 window.__BOOK_DATA__ = {...};  -->
+<script>window.__BOOK_DATA__ = {
+  "theme": "literary-red",
+  "pages": [
+    {
+      "page_no": 1,
+      "type": "cover",
+      "eyebrow": "一本书值不值得看？",
+      "title": "易鼎",
+      "highlight": "鼎",
+      "subtitle": "荆柯守 \u00b7 争霸架空 \u00b7 气运流",
+      "blocks": [
+        { "kind": "quote", "text": "穿越+重生双魂夺舍，从败军队正到开国皇帝的乱世争霸史诗" },
+        { "kind": "lede", "text": "不同于单纯穿越文或重生文，本书采用双魂叠合设定——穿越者与重生土著记忆融合，既保留了原主十八年未来记忆作为战略预知，又带入穿越者的现代思维和望气术金手指。叠加上精细的军政体系、宗教博弈和龙气世界观，形成一部有厚度的大一统争霸文。" },
+        { "kind": "tags", "items": ["穿越", "争霸", "历史架空", "气运流", "望气术", "开国皇帝", "宗教博弈"] }
+      ],
+      "footer": "争霸架空 \u00d7 气运流"
+    },
+    {
+      "page_no": 2,
+      "type": "hook",
+      "layout": "layout-editorial",
+      "eyebrow": "核心梗",
+      "title": "它与同类争霸文有什么不同",
+      "highlight": "不同",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "身份落差", "text": "开局是兵败坠马的小小队正——不是穿越成皇子将军，也不是重生为世家公子。从一队残兵、十一个牙兵起步，每一步权力积累都要靠实打实的操作。" },
+            { "title": "双魂叠合", "text": "穿越者灵魂撞碎并融合了重生十八年的土著灵魂——既拥有未来记忆的战略预知，又带有望气术金手指。这种双核驱动在争霸文中极为罕见。" },
+            { "title": "气运世界观", "text": "个人有本命之气、军队有军气、国家有龙气——这不是系统面板上的属性数字，而是一个可以观察、干预、博弈的完整超自然世界规则。" },
+            { "title": "宗教博弈", "text": "不是简单的灭佛崇道，而是利用宗教自身信条实施气运层面的策略性分化。推恩令的逻辑放在网文中独一无二。" }
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "真正的故事问题",
+          "text": "当一个拥有未来记忆和望气术的人站在乱世的起点，他会选择顺应已知的命运，还是用每一次望气、每一场战争、每一道政令去改写它？"
+        }
+      ],
+      "footer": "核心梗"
+    },
+    {
+      "page_no": 3,
+      "type": "synopsis",
+      "layout": "layout-timeline",
+      "eyebrow": "故事梗概",
+      "title": "无剧透地讲清故事方向",
+      "blocks": [
+        {
+          "kind": "steps",
+          "items": [
+            { "title": "开局：军败坠马，双魂觉醒", "text": "少年军官王守田在兵败中坠马昏迷，醒来时发现自己拥有了两个人的记忆——一个是穿越而来的灵魂，一个是重生十八年的未来命运。更关键的是，他能看见每个人头顶的气运。" },
+            { "title": "破局：一队残兵，步步为营", "text": "收服山民、夜袭敌营、治理废县、养望联姻——每一步都需要实打实的操作。望气术让他能判断谁是可用之人、谁是隐患。" },
+            { "title": "升阶：从县令到国公", "text": "从一个县的治理到一镇之主的权柄，再到世家联姻、道门介入、朝廷封赏。权力的每一步增长都伴随着战争、政治和望气术的深度应用。" },
+            { "title": "问鼎：建制称帝，气运归一", "text": "当朝廷式微、胡骑南下，他选择了一条从称王到建制、从推恩令到海关财政的路线。最终以气运洞察天命，完成大一统。" }
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "故事推进的轴心",
+          "text": "全书的驱动力不是简单的升级打怪，而是一个核心追问：当你能看见命运本身，你是顺应它还是改变它？每一场战争、每一道政令、每一次联姻，都在回答这个问题。"
+        }
+      ],
+      "footer": "无剧透梗概"
+    },
+    {
+      "page_no": 4,
+      "type": "characters",
+      "layout": "layout-grid",
+      "eyebrow": "人物角色卡",
+      "title": "谁值得关注",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "王弘毅（王守田）", "text": "穿越者与重生者的融合体。表面是沉稳果断的军政全才，内核是一个始终恐惧重蹈覆辙的亡者。望气术让他看见每个人的命运，也让他永远无法完全信任任何人。" },
+            { "title": "素儿（瑾妃）", "text": "河神龙女，全书最独特的角色。她对主角的忠诚不是来自儿女情长，而是来自对天命的判断——她认定了这条龙，便押上全部修行。她的视角是读者理解气运世界的钥匙。" },
+            { "title": "贺仲", "text": "自幼追随的亲兵，前世曾经背叛，今生仍在主角身边。他是主角多疑性格的镜面——你知道他曾经背叛，却无法不用他。信任与观察的微妙平衡贯穿始终。" },
+            { "title": "宋心悠", "text": "宋家嫡女，政治联姻的正妻。但在前世主角败亡后，她故意冬日淋雨不药而死以保全宋家。今生她将以怎样的方式与主角共度——这是书中一条隐忍有力的感情线。" }
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "群像功能",
+          "text": "四个核心角色各代表一条叙事线：主角驱动全部主线、素儿连接超自然世界、贺仲承载信任困境、宋心悠锚定世家政治。没有纯工具人，每个人都在推动故事。"
+        }
+      ],
+      "footer": "人物角色卡"
+    },
+    {
+      "page_no": 5,
+      "type": "chemistry",
+      "layout": "layout-relationship",
+      "eyebrow": "关系化学",
+      "title": "天命如何成为故事的引擎",
+      "blocks": [
+        {
+          "kind": "formula",
+          "items": [
+            "王弘毅 \u00b7 需要天命加持来强化统治合法性",
+            "素儿 \u00b7 需要依附潜龙气运完成神灵修行"
+          ]
+        },
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "超越男女之情的天命同盟", "text": "这是一段建立在气运判断之上的关系。素儿以神灵视角观察主角的龙气变化，她的忠诚本质上是对天命的判断。两人的关系推进以「气运变化」而非「感情升温」为标志。" },
+            { "title": "被前世记忆绑定的信任困境", "text": "贺仲前世背叛过主角——这个只有主角知道的秘密让两人的关系始终隔着一层冰。望气术让主角能「数据化」地监控贺仲的忠诚度，形成一种独属于本书的关系张力。" }
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "关系向前的标志",
+          "text": "主角与素儿的关系推进，标志不是告白或亲密，而是她获得监管天下诸神之权的那一刻——权力授予即信任确认。这是本书区别于情感驱动的独特关系叙事。"
+        }
+      ],
+      "footer": "关系化学"
+    },
+    {
+      "page_no": 6,
+      "type": "structure",
+      "layout": "layout-editorial",
+      "eyebrow": "世界与结构",
+      "title": "读者需要知道的故事结构",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "气运世界底层规则", "text": "个人有本命之气、官员有官气、军队有军气、国家有龙气——全部可观察可干预。龙气消散意味着政权崩溃，气运有盛衰周期，无人永远鼎盛。" },
+            { "title": "世界复杂度：高", "text": "官职体系、藩镇格局、宗教势力（道门七脉+梵门六道）、胡人汗国、海关财政、推恩令制度——世界观层层嵌套，需要一定的学习成本。" },
+            { "title": "五阶段完整争霸弧线", "text": "乱世重生\u2192封侯定远\u2192称王扫荡\u2192建制变法\u2192统一君临。649章无跳跃，每个阶段都对应具体的战争、建设和政治操作。" },
+            { "title": "文风：半文半白古风", "text": "荆柯守标志性的叙事风格——长短句交替，政论段落偏密集但逻辑清晰。对文史爱好者是加分项，对纯白话读者有一定适应成本。" }
+          ]
+        },
+        {
+          "kind": "route",
+          "items": ["队正", "县令", "将军", "国公", "楚王", "皇帝"]
+        }
+      ],
+      "footer": "故事结构"
+    },
+    {
+      "page_no": 7,
+      "type": "selling_points",
+      "layout": "layout-grid",
+      "eyebrow": "具体卖点",
+      "title": "好看具体发生在哪里",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "双魂叠合的核心设定", "text": "开篇通过梦境碎片呈现穿越+重生的融合，两个灵魂的碰撞既有信息优势也有认知冲突，建立主角必须改变命运的紧迫感。" },
+            { "title": "望气术的军事战略应用", "text": "望气术不只是一个金手指标签——它实际应用于军事侦察（观察敌军气运判断虚实）、战略决策（通过龙气变化把握天下大势），是整个叙事逻辑的有机组成。" },
+            { "title": "水战火器的战术创新", "text": "陶雷+手火雷配合船小灵活的水上骑射战术，在资源有限（油料昂贵、只能奇用）的条件下打出不对称优势。战斗场面有层次感，不靠降维打击取胜。" },
+            { "title": "宗教博弈的推恩令", "text": "利用梵门自身信条实施策略性分化——让各门派建立汉人祖师金身，使集中的宗教气运分散为数十股，从根子上消解宗教对国运的影响力。这是网文中罕见的政治智慧。", "text2": "" }
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "强项边界",
+          "text": "本书最强的世界构建和政治博弈正是它劝退部分读者的原因——你需要对「气运世界观」和「制度建设」本身感兴趣，而不是仅仅想看打仗和升级。"
+        }
+      ],
+      "footer": "卖点"
+    },
+    {
+      "page_no": 8,
+      "type": "risks",
+      "layout": "layout-warning",
+      "eyebrow": "阅感与避雷",
+      "title": "哪些人可能会弃书",
+      "blocks": [
+        {
+          "kind": "radar",
+          "items": [
+            { "label": "人物塑造", "value": 8.0 },
+            { "label": "情节设计", "value": 8.5 },
+            { "label": "文笔风格", "value": 7.0 },
+            { "label": "关系化学", "value": 6.5 },
+            { "label": "世界观", "value": 9.0 },
+            { "label": "节奏控制", "value": 6.0 }
+          ]
+        },
+        {
+          "kind": "warning",
+          "title": "阅读门槛与劝退点",
+          "items": [
+            "前10章设定铺设较重——双魂融合+望气术+乱世格局三层信息同时加载",
+            "中后期朝堂戏增多、军事戏减少，偏好战争场面的读者可能感到节奏放缓",
+            "多女主感情线偏工具化——情感戏克制内敛，对深度感情描写有期待者可能失望",
+            "气运决定论世界观——望气术多次替代谋略推理，可能让硬核权谋爱好者不满",
+            "半文半白行文风格——有古韵但也有适应成本，纯白话网文读者需过渡期"
+          ]
+        },
+        {
+          "kind": "panel",
+          "title": "争议如何理解",
+          "text": "序章宏大战争与第3章微观叙事的跳跃，本质上是全书双线叙事的缩影——前代英雄殉国的悲壮与今生从零开始的艰辛最终会交汇。气运决定论也不是偷懒设定，而是本书区别于其他争霸文的核心世界观。"
+        }
+      ],
+      "footer": "避雷"
+    },
+    {
+      "page_no": 9,
+      "type": "verdict",
+      "layout": "layout-verdict",
+      "eyebrow": "最终结论",
+      "title": "它到底适合谁",
+      "blocks": [
+        {
+          "kind": "audience",
+          "items": {
+            "recommended": [
+              "喜欢争霸文且能接受完整权力升级弧线的读者——从队正到皇帝649章阶梯清晰",
+              "对气运、望气、龙气等玄学体系有兴趣的读者——这是本书最核心的差异化卖点",
+              "偏好制度建设和政治博弈的读者——推恩令、海关财政、内阁制提供了超越一般争霸文的智力含量",
+              "能够接受半文半白叙事风格的老书虫——荆柯守的行文有辨识度，在古风与易读之间找到平衡"
+            ],
+            "avoid": [
+              "追求快节奏爽文的读者——前期铺设50章才完成势力积累，非快热型作品",
+              "排斥多女主或后宫设定的读者——感情线偏工具化",
+              "偏好硬核权谋博弈的读者——望气术降低了智斗的紧凑感",
+              "对文言/半文言有阅读障碍的读者——需适应期"
+            ]
+          }
+        },
+        {
+          "kind": "verdict",
+          "title": "综合评分 4.1/5 \u00b7 粮草+",
+          "text": "气运流争霸文的标杆之作——世界观完整度9分，但节奏偏慢和感情线工具化拉低了综合体验。属于「对上电波就极香、对不上就煎熬」的类型作品。如果你厌倦了系统面板+无脑升级的争霸文，它的气运世界观会给你完全不同的阅读体验。给它的前50章一个机会——当望气术第一次展现出它不只是金手指而是世界观本身时，你会理解为什么这部作品在气运流中仍有不可替代的位置。"
+        }
+      ],
+      "footer": "最终推荐"
+    }
+  ]
+};
+</script>
+<script>
+(function(){
+  var D = window.__BOOK_DATA__;
+  if(!D){
+    // fallback: 尝试外部加载 review.js（file:// 协议可能失败）
+    var s = document.createElement('script'); s.src='review.js';
+    s.onload=function(){ if(window.__BOOK_DATA__) init(window.__BOOK_DATA__); };
+    s.onerror=function(){ document.body.innerHTML='<p style="color:#fff;padding:40px;font-family:sans-serif">review.js 未加载。<br>请将 review.js 与此 HTML 放在同一目录后刷新。</p>'; };
+    document.head.appendChild(s);
+    return;
+  }
+  init(D);
+})();
+function init(D){
+  document.body.dataset.theme = D.theme||'literary-red';
+  var E = function(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+  var MT = function(p){var r=String(p.title||''),m=String(p.highlight||'');if(!m||r.indexOf(m)<0)return E(r);return r.split(m).map(E).join('<em>'+E(m)+'</em>');};
+  var SV = function(x){return typeof x==='string'?x:(x.label||x.title||x.text||x.value||'');};
+  var T = D.pages.length;
+
+  function P1(p){
+    var tags=(p.blocks||[]).filter(function(b){return b.kind==='tags'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var q=(p.blocks||[]).find(function(b){return b.kind==='quote'});
+    var l=(p.blocks||[]).find(function(b){return b.kind==='lede'});
+    return '<div class="page page-cover"><div class="cover-inner">'+
+      '<div class="cover-eyebrow">'+E(p.eyebrow||'')+'</div>'+
+      '<h1>'+MT(p)+'</h1>'+
+      (q?'<div class="cover-quote">'+E(q.text)+'</div>':'')+
+      (l?'<div class="cover-lede">'+E(l.text)+'</div>':'')+
+      '</div>'+
+      '<div class="cover-footer"><div class="cover-tags">'+tags.map(function(t){return '<span>'+E(SV(t))+'</span>';}).join('')+'</div><span class="cover-num">1 / '+T+'<span class="brand">popwave</span></span></div>'+
+      '<div class="cover-deco-book deco-icon"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="18" height="34" rx="1" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".6"/><rect x="26" y="6" width="18" height="34" rx="1" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".3"/><line x1="13" y1="16" x2="22" y2="14" stroke="var(--gold)" stroke-width=".8" opacity=".4"/><line x1="13" y1="24" x2="22" y2="22" stroke="var(--gold)" stroke-width=".8" opacity=".4"/><line x1="30" y1="16" x2="39" y2="14" stroke="var(--gold)" stroke-width=".8" opacity=".25"/><line x1="30" y1="24" x2="39" y2="22" stroke="var(--gold)" stroke-width=".8" opacity=".25"/></svg></div>'+
+      '<div class="cover-overlay"></div></div>';
+  }
+
+  function P2(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var cells='';for(var i=0;i<4;i++){var c=cards[i]||{};cells+='<div class="swiss-cell"><div class="swiss-num">0'+(i+1)+'</div><h3>'+E(c.title||'')+'</h3><p>'+E(c.text||'')+'</p></div>';}
+    return '<div class="page page-swiss">'+
+      '<div class="swiss-header"><div class="swiss-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="swiss-grid">'+cells+'</div>'+
+      (panel?'<div class="swiss-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="swiss-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P3(p){
+    var steps=(p.blocks||[]).filter(function(b){return b.kind==='steps'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var stepsHtml=steps.map(function(s,i){return '<div class="mag-step"><h3>'+E(s.title)+'</h3><p>'+E(s.text||'')+'</p></div>';}).join('');
+    return '<div class="page page-magazine">'+
+      '<div class="mag-left"><div class="mag-eyebrow">'+E(p.eyebrow||'')+'</div><div class="mag-section">'+('0'+p.page_no).slice(-2)+'</div></div>'+
+      '<div class="mag-right"><h2>'+MT(p)+'</h2><div class="mag-steps">'+stepsHtml+'</div>'+
+      (panel?'<div class="mag-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="mag-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
+  }
+
+  function P4(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var cardsHtml=cards.map(function(c){
+      var id=c.title||''; var text=c.text||'';
+      var parts=text.split('。');var identity=parts[0]||'';var rest=parts.slice(1).join('。');
+      return '<div class="prof-card"><div class="prof-name">'+E(id)+'</div><div class="prof-identity">'+E(identity)+'</div><div class="prof-drive">'+E(rest)+'</div></div>';
+    }).join('');
+    return '<div class="page page-profiles">'+
+      '<div class="prof-header"><div><div class="prof-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div></div>'+
+      '<div class="prof-grid">'+cardsHtml+'</div>'+
+      (panel?'<div class="prof-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="prof-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P5(p){
+    var formula=(p.blocks||[]).find(function(b){return b.kind==='formula'});
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,2);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var f=(formula&&formula.items||[]);
+    var fHtml=f.length?f.map(function(x,i){return (i?'<i>×</i>':'')+'<span>'+E(SV(x))+'</span>';}).join(''):'';
+    return '<div class="page page-infographic">'+
+      '<div class="info-header"><div class="info-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="info-diagram"><div class="info-center">'+(fHtml?'<div class="info-formula">'+fHtml+'</div>':'')+'</div></div>'+
+      (cards.length?'<div class="info-cards">'+cards.map(function(c){return '<div class="info-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>':'')+
+      (panel?'<div class="info-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="info-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P6(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var route=(p.blocks||[]).find(function(b){return b.kind==='route'});
+    var r=(route&&route.items||[]);
+    return '<div class="page page-timeline">'+
+      '<div class="tl-header"><div class="tl-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="tl-track"><div class="tl-cards">'+cards.map(function(c){return '<div class="tl-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div></div>'+
+      (r.length?'<div class="tl-route">'+r.map(function(x,i){return (i?'<i>→</i>':'')+'<span>'+E(SV(x))+'</span>';}).join('')+'</div>':'')+
+      '<div class="tl-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P7(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    return '<div class="page page-showcase">'+
+      '<div class="show-deco-grid deco-icon"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".5"/><circle cx="20" cy="20" r="14" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".35"/><circle cx="20" cy="20" r="9" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".2"/><line x1="20" y1="1" x2="20" y2="39" stroke="var(--gold)" stroke-width=".3" opacity=".15"/><line x1="1" y1="20" x2="39" y2="20" stroke="var(--gold)" stroke-width=".3" opacity=".15"/></svg></div>'+
+      '<div class="show-header"><div class="show-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="show-grid">'+cards.map(function(c,i){return '<div class="show-card"><div class="show-num">'+('0'+(i+1)).slice(-2)+'</div><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>'+
+      (panel?'<div class="show-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="show-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P8(p){
+    var radar=(p.blocks||[]).find(function(b){return b.kind==='radar'});
+    var warning=(p.blocks||[]).find(function(b){return b.kind==='warning'});
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var ri=(radar&&radar.items||[]);
+    var wi=(warning&&warning.items||[]);
+    return '<div class="page page-dashboard">'+
+      '<div class="dash-header"><div><div class="dash-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div><div class="dash-warning-tag">'+E((warning||{}).title||'阅读门槛')+'</div></div>'+
+      '<div class="dash-body"><div class="dash-radar">'+ri.map(function(x){var v=Math.max(0,Math.min(10,Number(x.value)||0));return '<div class="dash-radar-row"><span class="dash-label">'+E(x.label)+'</span><div class="dash-track"><div class="dash-fill" style="width:'+(v*10)+'%"></div></div><span class="dash-val">'+v+'</span></div>';}).join('')+'</div>'+
+      '<div class="dash-deco-chart deco-icon"><svg viewBox="0 0 24 24"><polyline points="2,20 8,14 12,16 18,6 22,10" fill="none" stroke="var(--soft)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="14" r="2" fill="var(--soft)" opacity=".3"/><circle cx="18" cy="6" r="2" fill="var(--soft)" opacity=".3"/></svg></div>'+
+      '<div class="dash-right"><div class="dash-warning"><h3>⚠ 明确阅读门槛</h3><ul>'+wi.map(function(x){return '<li>'+E(SV(x))+'</li>';}).join('')+'</ul></div>'+
+      (panel?'<div class="dash-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+'</div></div>'+
+      '<div class="dash-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P9(p){
+    var audience=(p.blocks||[]).find(function(b){return b.kind==='audience'});
+    var verdict=(p.blocks||[]).find(function(b){return b.kind==='verdict'});
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var aud=audience&&audience.items||{};
+    var rec=aud.recommended||[]; var avo=aud.avoid||[];
+    var vTitle=verdict?verdict.title:''; var vText=verdict?verdict.text:'';
+    var scoreMatch=vTitle.match(/[\d.]+/g);
+    return '<div class="page page-backcover"><div class="back-inner">'+
+      '<div class="back-eyebrow">'+E(p.eyebrow||'')+'</div>'+
+      '<div class="back-title"><h2>'+MT(p)+'</h2></div>'+
+      '<div class="back-verdict">'+
+      '<div class="back-deco-star deco-icon"><svg viewBox="0 0 100 20">'+
+        (function(){var s='';for(var i=0;i<5;i++)s+='<polygon points="'+(10+i*20)+',1 '+(13+i*20)+',6.5 '+(19+i*20)+',8.5 '+(14+i*20)+',13.5 '+(15+i*20)+',19.5 '+(10+i*20)+',16.8 '+(5+i*20)+',19.5 '+(6+i*20)+',13.5 '+(1+i*20)+',8.5 '+(7+i*20)+',6.5" fill="var(--gold)" opacity=".8"/>';return s;})()+
+      '</svg></div>'+
+      (scoreMatch?'<div class="back-score">'+scoreMatch.join('–')+'</div>':'')+'<div class="back-grade">'+E(p.footer||'')+'</div><div class="back-text">'+E(vText)+'</div></div>'+
+      '<div class="back-audience"><div><h3>✓ 推荐给</h3><ul>'+rec.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div><div><h3>✗ 不推荐给</h3><ul>'+avo.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div></div>'+
+      (panel?'<div class="back-why"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="back-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
+  }
+
+  var renderers = {cover:P1, hook:P2, synopsis:P3, characters:P4, chemistry:P5, structure:P6, selling_points:P7, risks:P8, verdict:P9};
+  var html = D.pages.map(function(p){var fn=renderers[p.type];return fn?fn(p):P2(p);}).join('');
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+</script>
+</body>
+</html>

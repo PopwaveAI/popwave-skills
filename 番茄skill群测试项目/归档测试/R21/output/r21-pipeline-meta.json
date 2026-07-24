@@ -1,0 +1,40 @@
+{
+  "plot": {
+    "model": "deepseek-v4-flash",
+    "content_length": 12415,
+    "elapsed": 116.5,
+    "usage": {
+      "prompt_tokens": 6714,
+      "completion_tokens": 9207,
+      "total_tokens": 15921,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1126
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 6714
+    },
+    "path": "D:\\popwave-skills\\番茄skill群测试项目\\R21\\output\\r21-ds-plot.md"
+  },
+  "write_ch01": {
+    "model": "deepseek-v4-flash",
+    "content_length": 5834,
+    "elapsed": 72.0,
+    "usage": {
+      "prompt_tokens": 14825,
+      "completion_tokens": 4700,
+      "total_tokens": 19525,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 948
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 14825
+    },
+    "path": "D:\\popwave-skills\\番茄skill群测试项目\\R21\\output\\r21-ds-ch01.md"
+  }
+}

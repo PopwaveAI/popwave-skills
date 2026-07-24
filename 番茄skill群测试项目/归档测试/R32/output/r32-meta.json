@@ -1,0 +1,94 @@
+{
+  "config": {
+    "model": "deepseek-v4-flash",
+    "temperature": 0.7,
+    "chapters": 5,
+    "input": "深渊主宰C方案（拆书产出）",
+    "A_version": "write v7.2.0（融合方案：动作链+多感官+章名）",
+    "B_version": "外部PE（与R31一致）"
+  },
+  "A_write_v720": [
+    {
+      "ch_num": "ch001",
+      "prompt_length": 49266,
+      "content_length": 2290,
+      "elapsed": 30.9,
+      "tokens": 44373,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\A-write-v720\\ch001.md"
+    },
+    {
+      "ch_num": "ch002",
+      "prompt_length": 51759,
+      "content_length": 3296,
+      "elapsed": 34.5,
+      "tokens": 46113,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\A-write-v720\\ch002.md"
+    },
+    {
+      "ch_num": "ch003",
+      "prompt_length": 52600,
+      "content_length": 3683,
+      "elapsed": 43.6,
+      "tokens": 47414,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\A-write-v720\\ch003.md"
+    },
+    {
+      "ch_num": "ch004",
+      "prompt_length": 53025,
+      "content_length": 4627,
+      "elapsed": 45.6,
+      "tokens": 48092,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\A-write-v720\\ch004.md"
+    },
+    {
+      "ch_num": "ch005",
+      "prompt_length": 54010,
+      "content_length": 5041,
+      "elapsed": 47.7,
+      "tokens": 48986,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\A-write-v720\\ch005.md"
+    }
+  ],
+  "B_external_pe": [
+    {
+      "ch_num": "ch001",
+      "prompt_length": 49218,
+      "content_length": 2853,
+      "elapsed": 27.7,
+      "tokens": 36552,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\B-external-pe\\ch001.md"
+    },
+    {
+      "ch_num": "ch002",
+      "prompt_length": 52089,
+      "content_length": 1076,
+      "elapsed": 14.6,
+      "tokens": 37250,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\B-external-pe\\ch002.md"
+    },
+    {
+      "ch_num": "ch003",
+      "prompt_length": 50185,
+      "content_length": 2252,
+      "elapsed": 24.4,
+      "tokens": 36674,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\B-external-pe\\ch003.md"
+    },
+    {
+      "ch_num": "ch004",
+      "prompt_length": 51440,
+      "content_length": 3266,
+      "elapsed": 33.4,
+      "tokens": 38318,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\B-external-pe\\ch004.md"
+    },
+    {
+      "ch_num": "ch005",
+      "prompt_length": 52142,
+      "content_length": 2614,
+      "elapsed": 24.0,
+      "tokens": 38097,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R32\\output\\B-external-pe\\ch005.md"
+    }
+  ]
+}

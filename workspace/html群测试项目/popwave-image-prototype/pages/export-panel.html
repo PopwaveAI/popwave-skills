@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>popwave - 多规格导出</title>
+    <style id="theme-vars">
+:root {
+  /* Popwave IDE Brand Tokens */
+  --pw-bg-primary: #1a1b1e;
+  --pw-bg-secondary: #212226;
+  --pw-bg-tertiary: #2a2b30;
+  --pw-bg-hover: #32333a;
+  --pw-bg-active: #3a3b42;
+  --pw-bg-panel: #25262b;
+  --pw-bg-input: #2c2d33;
+  --pw-border-primary: #35363c;
+  --pw-border-hover: #45464e;
+  --pw-text-primary: #e4e4e8;
+  --pw-text-secondary: #9a9ba3;
+  --pw-text-tertiary: #6b6c75;
+  --pw-text-inverse: #1a1b1e;
+  --pw-accent: #6c8cff;
+  --pw-accent-hover: #85a1ff;
+  --pw-accent-bg: rgba(108, 140, 255, 0.1);
+  --pw-accent-bg-hover: rgba(108, 140, 255, 0.18);
+  --pw-success: #4cd964;
+  --pw-warning: #ffcc00;
+  --pw-error: #ff453a;
+  --pw-info: #5ac8fa;
+  --pw-radius-sm: 4px;
+  --pw-radius-md: 6px;
+  --pw-radius-lg: 8px;
+  --pw-radius-xl: 12px;
+  --pw-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --pw-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --pw-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --pw-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --pw-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --pw-font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  --pw-font-size-xs: 11px;
+  --pw-font-size-sm: 12px;
+  --pw-font-size-base: 13px;
+  --pw-font-size-md: 14px;
+  --pw-font-size-lg: 16px;
+  --pw-font-size-xl: 18px;
+  --pw-font-size-2xl: 22px;
+  --pw-line-height: 1.5;
+  --pw-sidebar-width: 240px;
+  --pw-panel-width: 400px;
+  /* Semantic theme mappings (required by fill-html-head.mjs) */
+  --pw-background: #1a1b1e;
+  --pw-foreground: #e4e4e8;
+  --pw-card: #25262b;
+  --pw-primary: #6c8cff;
+  --pw-border: #35363c;
+  --pw-muted: #9a9ba3;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--pw-background);
+    --color-foreground: var(--pw-foreground);
+    --color-card: var(--pw-card);
+    --color-primary: var(--pw-primary);
+    --color-muted: var(--pw-muted);
+    --color-accent: var(--pw-accent);
+    --color-border: var(--pw-border);
+    --radius-sm: var(--pw-radius-sm);
+    --radius-md: var(--pw-radius-md);
+    --radius-lg: var(--pw-radius-lg);
+    --radius-xl: var(--pw-radius-xl);
+  }
+  @layer base {
+    body { background: var(--pw-background); color: var(--pw-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--pw-background); }
+      .text-background { color: var(--pw-background); }
+      .border-background { border-color: var(--pw-background); }
+      .ring-background { --tw-ring-color: var(--pw-background); }
+      .bg-foreground { background-color: var(--pw-foreground); }
+      .text-foreground { color: var(--pw-foreground); }
+      .border-foreground { border-color: var(--pw-foreground); }
+      .ring-foreground { --tw-ring-color: var(--pw-foreground); }
+      .bg-card { background-color: var(--pw-card); }
+      .text-card { color: var(--pw-card); }
+      .border-card { border-color: var(--pw-card); }
+      .ring-card { --tw-ring-color: var(--pw-card); }
+      .bg-primary { background-color: var(--pw-primary); }
+      .text-primary { color: var(--pw-primary); }
+      .border-primary { border-color: var(--pw-primary); }
+      .ring-primary { --tw-ring-color: var(--pw-primary); }
+      .bg-muted { background-color: var(--pw-muted); }
+      .text-muted { color: var(--pw-muted); }
+      .border-muted { border-color: var(--pw-muted); }
+      .ring-muted { --tw-ring-color: var(--pw-muted); }
+      .bg-accent { background-color: var(--pw-accent); }
+      .text-accent { color: var(--pw-accent); }
+      .border-accent { border-color: var(--pw-accent); }
+      .ring-accent { --tw-ring-color: var(--pw-accent); }
+      .bg-border { background-color: var(--pw-border); }
+      .text-border { color: var(--pw-border); }
+      .border-border { border-color: var(--pw-border); }
+      .ring-border { --tw-ring-color: var(--pw-border); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+
+  <!-- DIMMED IDE BACKGROUND -->
+  <div class="ide-background">
+    <div class="ide-sidebar">
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+      <div class="ide-sidebar-item"></div>
+    </div>
+    <div class="ide-main">
+      <div class="ide-toolbar">
+        <div class="ide-toolbar-dot" style="background:#ff5f57;"></div>
+        <div class="ide-toolbar-dot" style="background:#febc2e;"></div>
+        <div class="ide-toolbar-dot" style="background:#28c840;"></div>
+      </div>
+      <div class="ide-canvas">
+        <div class="ide-canvas-placeholder">Canvas</div>
+      </div>
+    </div>
+    <div class="ide-panel">
+      <div class="ide-panel-block"></div>
+      <div class="ide-panel-block" style="height:80px;"></div>
+      <div class="ide-panel-block" style="height:100px;"></div>
+      <div class="ide-panel-block" style="height:60px;"></div>
+      <div class="ide-panel-block" style="height:40px;"></div>
+      <div class="ide-panel-block"></div>
+      <div class="ide-panel-block" style="height:50px;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL BACKDROP -->
+  <div class="modal-backdrop">
+    <div class="modal">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <div class="modal-title-group">
+            <h2>导出多规格</h2>
+            <p>基于当前封面生成各平台规格</p>
+          </div>
+        </div>
+        <button class="modal-close" aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-divider"></div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <!-- Cover preview -->
+        <div class="cover-preview-row">
+          <img class="cover-thumb" src="../assets/cover-v2-group.jpg" alt="封面预览">
+          <div class="cover-info">
+            <span class="cover-label">当前封面</span>
+            <span class="cover-name">玄鉴仙族-cover-v2.jpg (v2 群像)</span>
+          </div>
+        </div>
+
+        <!-- Platform list -->
+        <div>
+          <div class="section-label" style="margin-bottom: 8px;">平台规格</div>
+          <div class="platform-list">
+
+            <!-- 番茄小说 - in progress -->
+            <div class="platform-row" style="flex-wrap: wrap;">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" checked>
+                <div class="checkbox-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="platform-dot" style="background: #ff453a;"></div>
+              <div class="platform-info">
+                <span class="platform-name">番茄小说</span>
+                <div class="platform-specs">
+                  <span class="spec-badge">9:16</span>
+                  <span>1080 × 1920</span>
+                </div>
+              </div>
+              <div class="platform-status">
+                <span class="status-progress">生成中... 60%</span>
+              </div>
+              <div style="width: 100%; padding-left: 30px;">
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" style="width: 60%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 起点中文网 - done -->
+            <div class="platform-row">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" checked>
+                <div class="checkbox-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="platform-dot" style="background: #ff9500;"></div>
+              <div class="platform-info">
+                <span class="platform-name">起点中文网</span>
+                <div class="platform-specs">
+                  <span class="spec-badge">3:4</span>
+                  <span>1200 × 1600</span>
+                </div>
+              </div>
+              <div class="platform-status">
+                <div class="status-icon-row">
+                  <span class="status-done">已完成</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--pw-success);"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- 微信读书 - waiting -->
+            <div class="platform-row">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" checked>
+                <div class="checkbox-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="platform-dot" style="background: #07c160;"></div>
+              <div class="platform-info">
+                <span class="platform-name">微信读书</span>
+                <div class="platform-specs">
+                  <span class="spec-badge">4:5</span>
+                  <span>1200 × 1500</span>
+                </div>
+              </div>
+              <div class="platform-status">
+                <span class="status-waiting">等待中...</span>
+              </div>
+            </div>
+
+            <!-- 宣发横幅 - unchecked -->
+            <div class="platform-row">
+              <div class="checkbox-wrapper">
+                <input type="checkbox">
+                <div class="checkbox-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="platform-dot" style="background: #5ac8fa;"></div>
+              <div class="platform-info">
+                <span class="platform-name">宣发横幅</span>
+                <div class="platform-specs">
+                  <span class="spec-badge">16:9</span>
+                  <span>1920 × 1080</span>
+                </div>
+              </div>
+              <div class="platform-status">
+                <span class="status-idle">--</span>
+              </div>
+            </div>
+
+            <!-- 社交媒体方图 - unchecked -->
+            <div class="platform-row">
+              <div class="checkbox-wrapper">
+                <input type="checkbox">
+                <div class="checkbox-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="platform-dot" style="background: #af52de;"></div>
+              <div class="platform-info">
+                <span class="platform-name">社交媒体方图</span>
+                <div class="platform-specs">
+                  <span class="spec-badge">1:1</span>
+                  <span>1080 × 1080</span>
+                </div>
+              </div>
+              <div class="platform-status">
+                <span class="status-idle">--</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Export options -->
+        <div class="export-options">
+          <div class="option-row">
+            <div class="checkbox-wrapper">
+              <input type="checkbox" checked>
+              <div class="checkbox-visual">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <span>导出到 设计/封面/export/{平台}/ 目录</span>
+          </div>
+          <div class="option-row">
+            <div class="checkbox-wrapper">
+              <input type="checkbox" checked>
+              <div class="checkbox-visual">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <span>完成后在对话流显示缩略图</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-ghost">取消</button>
+        <button class="btn btn-primary">开始导出 (3个平台)</button>
+      </div>
+    </div>
+  </div>
+
+
+    <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1440px;
+      height: 900px;
+      overflow: hidden;
+      font-family: var(--pw-font-sans);
+      font-size: var(--pw-font-size-base);
+      line-height: var(--pw-line-height);
+      color: var(--pw-text-primary);
+      background: var(--pw-bg-primary);
+    }
+
+    /* ===== DIMMED IDE BACKGROUND ===== */
+    .ide-background {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .ide-sidebar {
+      width: var(--pw-sidebar-width);
+      background: var(--pw-bg-secondary);
+      border-right: 1px solid var(--pw-border-primary);
+      padding: 12px;
+    }
+
+    .ide-sidebar-item {
+      height: 28px;
+      background: var(--pw-bg-tertiary);
+      border-radius: var(--pw-radius-sm);
+      margin-bottom: 4px;
+    }
+
+    .ide-main {
+      flex: 1;
+      background: var(--pw-bg-primary);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ide-toolbar {
+      height: 36px;
+      background: var(--pw-bg-secondary);
+      border-bottom: 1px solid var(--pw-border-primary);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+    }
+
+    .ide-toolbar-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .ide-canvas {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--pw-bg-primary);
+    }
+
+    .ide-canvas-placeholder {
+      width: 320px;
+      height: 420px;
+      border: 2px dashed var(--pw-border-primary);
+      border-radius: var(--pw-radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--pw-text-tertiary);
+      font-size: var(--pw-font-size-sm);
+    }
+
+    .ide-panel {
+      width: var(--pw-panel-width);
+      background: var(--pw-bg-secondary);
+      border-left: 1px solid var(--pw-border-primary);
+      padding: 12px;
+    }
+
+    .ide-panel-block {
+      height: 60px;
+      background: var(--pw-bg-tertiary);
+      border-radius: var(--pw-radius-sm);
+      margin-bottom: 8px;
+    }
+
+    /* ===== BACKDROP ===== */
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      width: 600px;
+      background: var(--pw-bg-secondary);
+      border: 1px solid var(--pw-border-primary);
+      border-radius: var(--pw-radius-xl);
+      box-shadow: var(--pw-shadow-xl);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .modal-header {
+      padding: 20px 24px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .modal-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--pw-radius-lg);
+      background: var(--pw-accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .modal-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--pw-accent);
+    }
+
+    .modal-title-group h2 {
+      font-size: var(--pw-font-size-xl);
+      font-weight: 600;
+      color: var(--pw-text-primary);
+      line-height: 1.3;
+    }
+
+    .modal-title-group p {
+      font-size: var(--pw-font-size-sm);
+      color: var(--pw-text-secondary);
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--pw-text-tertiary);
+      cursor: pointer;
+      border-radius: var(--pw-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .modal-close:hover {
+      background: var(--pw-bg-hover);
+      color: var(--pw-text-primary);
+    }
+
+    .modal-close svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Divider */
+    .modal-divider {
+      height: 1px;
+      background: var(--pw-border-primary);
+      margin: 0 24px;
+    }
+
+    /* Body */
+    .modal-body {
+      padding: 16px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Cover preview row */
+    .cover-preview-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--pw-bg-tertiary);
+      border-radius: var(--pw-radius-md);
+      border: 1px solid var(--pw-border-primary);
+    }
+
+    .cover-thumb {
+      width: 44px;
+      height: 60px;
+      border-radius: var(--pw-radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .cover-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .cover-label {
+      font-size: var(--pw-font-size-xs);
+      color: var(--pw-text-tertiary);
+    }
+
+    .cover-name {
+      font-size: var(--pw-font-size-sm);
+      color: var(--pw-text-primary);
+      font-weight: 500;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: var(--pw-font-size-xs);
+      color: var(--pw-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    /* Platform list */
+    .platform-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .platform-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--pw-bg-tertiary);
+      border: 1px solid var(--pw-border-primary);
+      border-radius: var(--pw-radius-md);
+      transition: background 0.15s, border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .platform-row:hover {
+      background: var(--pw-bg-hover);
+      border-color: var(--pw-border-hover);
+    }
+
+    .platform-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .platform-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .platform-name {
+      font-size: var(--pw-font-size-md);
+      color: var(--pw-text-primary);
+      font-weight: 500;
+      width: 90px;
+      flex-shrink: 0;
+    }
+
+    .platform-specs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--pw-font-size-sm);
+      color: var(--pw-text-secondary);
+    }
+
+    .spec-badge {
+      padding: 2px 8px;
+      background: var(--pw-bg-primary);
+      border-radius: var(--pw-radius-sm);
+      font-size: var(--pw-font-size-xs);
+      color: var(--pw-text-secondary);
+      font-family: var(--pw-font-mono);
+    }
+
+    .platform-status {
+      width: 80px;
+      text-align: right;
+      font-size: var(--pw-font-size-xs);
+      flex-shrink: 0;
+    }
+
+    .status-done {
+      color: var(--pw-success);
+    }
+
+    .status-progress {
+      color: var(--pw-accent);
+    }
+
+    .status-waiting {
+      color: var(--pw-text-tertiary);
+    }
+
+    .status-idle {
+      color: var(--pw-text-tertiary);
+    }
+
+    /* Custom checkbox */
+    .checkbox-wrapper {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .checkbox-wrapper input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      z-index: 1;
+      margin: 0;
+    }
+
+    .checkbox-visual {
+      width: 18px;
+      height: 18px;
+      border-radius: var(--pw-radius-sm);
+      border: 1.5px solid var(--pw-border-hover);
+      background: var(--pw-bg-input);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .checkbox-wrapper input:checked + .checkbox-visual {
+      background: var(--pw-accent);
+      border-color: var(--pw-accent);
+    }
+
+    .checkbox-visual svg {
+      width: 12px;
+      height: 12px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+
+    .checkbox-wrapper input:checked + .checkbox-visual svg {
+      opacity: 1;
+    }
+
+    /* Progress bar */
+    .progress-bar-track {
+      width: 100%;
+      height: 3px;
+      background: var(--pw-bg-primary);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--pw-accent);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: var(--pw-font-size-xs);
+      color: var(--pw-accent);
+      margin-top: 4px;
+    }
+
+    /* Export options */
+    .export-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      background: var(--pw-bg-tertiary);
+      border: 1px solid var(--pw-border-primary);
+      border-radius: var(--pw-radius-md);
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: var(--pw-font-size-sm);
+      color: var(--pw-text-secondary);
+    }
+
+    .option-row .checkbox-wrapper {
+      width: 16px;
+      height: 16px;
+    }
+
+    .option-row .checkbox-visual {
+      width: 16px;
+      height: 16px;
+    }
+
+    .option-row .checkbox-visual svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    /* Footer */
+    .modal-footer {
+      padding: 16px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 20px;
+      border-radius: var(--pw-radius-md);
+      font-size: var(--pw-font-size-md);
+      font-family: var(--pw-font-sans);
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+      line-height: 1.4;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--pw-text-secondary);
+      border: 1px solid var(--pw-border-primary);
+    }
+
+    .btn-ghost:hover {
+      background: var(--pw-bg-hover);
+      color: var(--pw-text-primary);
+      border-color: var(--pw-border-hover);
+    }
+
+    .btn-primary {
+      background: var(--pw-accent);
+      color: #ffffff;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--pw-accent-hover);
+    }
+
+    /* Platform status with check icon */
+    .status-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    .status-icon-row svg {
+      width: 14px;
+      height: 14px;
+    }
+  </style>
+</body>
+</html>

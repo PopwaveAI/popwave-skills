@@ -1,0 +1,40 @@
+{
+  "round": "R1",
+  "track": "仙侠修真",
+  "model": "deepseek-v4-flash",
+  "total_elapsed": 608.9,
+  "phases": [
+    {
+      "name": "phase1-骨架",
+      "status": "done"
+    },
+    {
+      "name": "phase2-主角设计",
+      "status": "done"
+    },
+    {
+      "name": "phase1-创意首章",
+      "status": "done"
+    },
+    {
+      "name": "phase3-world",
+      "status": "done"
+    },
+    {
+      "name": "phase3.5-character",
+      "status": "done"
+    },
+    {
+      "name": "phase4-plot",
+      "status": "done"
+    },
+    {
+      "name": "phase5-write-ch001",
+      "status": "done"
+    },
+    {
+      "name": "phase6-review-ch001",
+      "status": "done"
+    }
+  ]
+}

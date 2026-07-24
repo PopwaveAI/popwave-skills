@@ -1,0 +1,21 @@
+{
+  "write_ch01": {
+    "model": "deepseek-v4-flash",
+    "content_length": 4132,
+    "elapsed": 32.0,
+    "usage": {
+      "prompt_tokens": 33162,
+      "completion_tokens": 3303,
+      "total_tokens": 36465,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 772
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 32266
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R25\\output\\r25-ch01.md"
+  }
+}

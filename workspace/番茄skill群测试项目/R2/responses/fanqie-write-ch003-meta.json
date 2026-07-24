@@ -1,0 +1,18 @@
+{
+  "task": "fanqie-write-ch003",
+  "content_length": 4838,
+  "usage": {
+    "prompt_tokens": 7399,
+    "completion_tokens": 3628,
+    "total_tokens": 11027,
+    "prompt_tokens_details": {
+      "cached_tokens": 6272
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 813
+    },
+    "prompt_cache_hit_tokens": 6272,
+    "prompt_cache_miss_tokens": 1127
+  },
+  "elapsed": 63.3
+}

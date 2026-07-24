@@ -1,0 +1,38 @@
+{
+  "deepseek": {
+    "model": "deepseek-v4-flash",
+    "content_length": 7709,
+    "elapsed": 77.1,
+    "usage": {
+      "prompt_tokens": 2462,
+      "completion_tokens": 5593,
+      "total_tokens": 8055,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 757
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 2462
+    },
+    "path": "D:\\popwave-skills\\番茄skill群测试项目\\R21\\output\\r21-ds-seed.md"
+  },
+  "doubao": {
+    "model": "doubao-seed-2-1-turbo-260628",
+    "content_length": 7612,
+    "elapsed": 242.0,
+    "usage": {
+      "completion_tokens": 13934,
+      "prompt_tokens": 2578,
+      "total_tokens": 16512,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8600
+      }
+    },
+    "path": "D:\\popwave-skills\\番茄skill群测试项目\\R21\\output\\r21-doubao-seed.md"
+  }
+}

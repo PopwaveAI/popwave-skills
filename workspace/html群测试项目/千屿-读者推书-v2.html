@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《千屿》读者推书卡</title>
+  <style>
+    :root {
+      --ink: #1a1c1c;
+      --ink-soft: #364242;
+      --paper: #eaf0ec;
+      --paper-2: #dde4df;
+      --blue: #2e6b8a;
+      --blue-bright: #4896b4;
+      --gold: #b58f54;
+      --line: rgba(54, 75, 82, .18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: #26323b;
+      color: var(--ink);
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 0;
+    }
+    body.single { padding: 0; gap: 0; overflow: hidden; }
+    .page {
+      position: relative;
+      width: 720px;
+      height: 960px;
+      overflow: hidden;
+      padding: 66px 66px 54px;
+      background:
+        radial-gradient(circle at 92% 6%, rgba(46,107,138,.12), transparent 25%),
+        radial-gradient(circle at 8% 92%, rgba(181,143,84,.10), transparent 24%),
+        repeating-linear-gradient(0deg, rgba(60,82,72,.015) 0, rgba(60,82,72,.015) 1px, transparent 1px, transparent 5px),
+        var(--paper);
+      box-shadow: 0 22px 70px rgba(0,0,0,.38);
+    }
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid var(--line);
+      pointer-events: none;
+    }
+    .page::after {
+      content: "";
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      right: -57px;
+      bottom: -57px;
+      border: 1px solid rgba(46,107,138,.28);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(46,107,138,.04), 0 0 0 38px rgba(46,107,138,.025);
+    }
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      color: var(--blue);
+      font: 600 14px/1.2 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      letter-spacing: .18em;
+    }
+    .index {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(46,107,138,.55);
+      letter-spacing: 0;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h2 {
+      font-size: 39px;
+      line-height: 1.18;
+      letter-spacing: .02em;
+      font-weight: 800;
+    }
+    h2 em { color: var(--blue); font-style: normal; }
+    .lead {
+      margin-top: 17px;
+      color: var(--ink-soft);
+      font-size: 20px;
+      line-height: 1.72;
+    }
+    .rule {
+      width: 72px;
+      height: 4px;
+      margin: 22px 0 26px;
+      background: var(--blue);
+      border-radius: 3px;
+    }
+    .footer {
+      position: absolute;
+      left: 66px;
+      right: 66px;
+      bottom: 39px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 13px;
+      color: #667a72;
+      font: 500 12px/1.2 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      letter-spacing: .08em;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(46,107,138,.085);
+      border: 1px solid rgba(46,107,138,.20);
+      color: #235970;
+      font: 600 14px/1 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.27);
+      padding: 22px 23px;
+      border-radius: 4px;
+    }
+    .panel h3 {
+      margin-bottom: 10px;
+      color: var(--blue);
+      font-size: 19px;
+      line-height: 1.3;
+    }
+    .panel p { font-size: 16px; line-height: 1.68; color: var(--ink-soft); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .quote {
+      position: relative;
+      padding-left: 25px;
+      color: var(--ink);
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+    .quote::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      bottom: 7px;
+      width: 5px;
+      background: var(--blue);
+    }
+    .small-note { color: #6a7d76; font-size: 14px; line-height: 1.6; }
+    .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .metric {
+      text-align: center;
+      border: 1px solid var(--line);
+      padding: 17px 8px 15px;
+      background: rgba(255,255,255,.2);
+    }
+    .metric b { display: block; color: var(--blue); font-size: 25px; margin-bottom: 6px; }
+    .metric span { color: #667a72; font: 500 13px/1.3 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+    .steps { display: grid; gap: 14px; }
+    .step { display: grid; grid-template-columns: 46px 1fr; gap: 15px; align-items: start; }
+    .step-num {
+      width: 42px; height: 42px; display: grid; place-items: center;
+      color: var(--paper); background: var(--blue); border-radius: 50%;
+      font: 700 16px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .step h3 { font-size: 20px; margin-bottom: 5px; }
+    .step p { color: var(--ink-soft); font-size: 16px; line-height: 1.55; }
+    .characters { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .character {
+      min-height: 245px;
+      padding: 22px 20px;
+      border-top: 4px solid var(--blue);
+      background: rgba(255,255,255,.26);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .character .name { font-size: 25px; font-weight: 800; }
+    .character .role { margin: 7px 0 14px; color: var(--blue); font: 600 14px/1.4 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+    .character p { color: var(--ink-soft); font-size: 15px; line-height: 1.58; }
+    .formula {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center;
+      margin: 31px 0 26px;
+    }
+    .formula .person { padding: 24px 18px; text-align: center; border: 1px solid var(--line); background: rgba(255,255,255,.27); }
+    .formula .person b { display: block; font-size: 24px; margin-bottom: 8px; }
+    .formula .person span { color: var(--blue); font-size: 15px; }
+    .formula .cross { color: var(--blue); font-size: 33px; }
+    .tension { display: grid; gap: 12px; }
+    .tension-line { display: grid; grid-template-columns: 95px 1fr; gap: 15px; align-items: center; }
+    .tension-line b { color: var(--blue); font-size: 16px; }
+    .bar { height: 9px; background: rgba(54,75,82,.12); overflow: hidden; border-radius: 10px; }
+    .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold), var(--blue)); border-radius: 10px; }
+    .world-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+    .world-card { padding: 19px; border-left: 4px solid var(--gold); background: rgba(255,255,255,.26); }
+    .world-card b { display: block; margin-bottom: 8px; color: var(--blue); font-size: 18px; }
+    .world-card p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.58; }
+    .route { margin-top: 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+    .route span { padding: 8px 8px; border: 1px solid var(--line); font-size: 12.5px; background: rgba(255,255,255,.22); }
+    .route i { color: var(--blue); font-style: normal; }
+    .sell-list { display: grid; gap: 15px; margin-top: 26px; }
+    .sell {
+      display: grid; grid-template-columns: 56px 1fr; gap: 16px;
+      padding: 17px 19px; background: rgba(255,255,255,.28); border: 1px solid var(--line);
+    }
+    .sell .no { color: var(--blue); font: 800 28px/1 -apple-system, BlinkMacSystemFont, sans-serif; }
+    .sell b { font-size: 19px; }
+    .sell p { margin-top: 5px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.52; }
+    .radar { display: grid; gap: 15px; margin: 26px 0 30px; }
+    .radar-row { display: grid; grid-template-columns: 92px 1fr 35px; gap: 13px; align-items: center; }
+    .radar-row b { font-size: 15px; }
+    .radar-row span { text-align: right; color: var(--blue); font: 700 14px/1 sans-serif; }
+    .warning {
+      border: 1px solid rgba(46,107,138,.35);
+      background: rgba(46,107,138,.07);
+      padding: 20px 22px;
+    }
+    .warning h3 { color: var(--blue); font-size: 20px; margin-bottom: 10px; }
+    .warning ul { margin: 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+    .warning li { margin: 0 0 9px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; break-inside: avoid; }
+    .verdict {
+      margin-top: 31px;
+      padding: 27px;
+      background: #1a3445;
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+    }
+    .verdict::after { content:"屿"; position:absolute; right:-9px; bottom:-33px; font-size:120px; color:rgba(255,255,255,.045); }
+    .verdict b { color: #d4b278; font-size: 27px; }
+    .verdict p { margin-top: 12px; font-size: 18px; line-height: 1.65; }
+    .audience { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+    .audience > div { padding: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.24); }
+    .audience h3 { margin-bottom: 11px; font-size: 20px; }
+    .audience .yes h3 { color: #3d785a; }
+    .audience .no h3 { color: var(--blue); }
+    .audience ul { margin: 0; padding-left: 19px; }
+    .audience li { margin-bottom: 8px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.4; }
+    .page[data-page="9"] h2 { font-size: 37px; }
+    .page[data-page="9"] .audience { margin-top: 16px; }
+    .page[data-page="9"] .audience > div { padding: 17px 19px; }
+    .page[data-page="9"] .verdict { margin-top: 20px; padding: 21px 25px; }
+    .page[data-page="9"] .verdict p { margin-top: 8px; font-size: 17px; }
+    .page[data-page="9"] .metric-row { margin-top: 17px !important; }
+    .page[data-page="9"] .metric { padding: 13px 8px 11px; }
+    .page[data-page="9"] .panel { margin-top: 17px !important; padding: 15px 20px; }
+    .page[data-page="9"] .panel h3 { margin-bottom: 6px; }
+    .page[data-page="9"] .small-note { font-size: 13px; }
+
+    /* Cover */
+    .cover { background: linear-gradient(145deg, #1a2a2e 0%, #1d3036 40%, #1e3e47 100%); color: var(--paper); }
+    .cover::before { border-color: rgba(210,224,218,.23); }
+    .cover::after { border-color: rgba(212,178,120,.3); box-shadow: 0 0 0 18px rgba(212,178,120,.035), 0 0 0 38px rgba(212,178,120,.02); }
+    .cover .eyebrow { color: #c8ad7a; font: 600 14px/1.2 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; letter-spacing: .25em; }
+    .cover h1 { margin-top: 83px; font-size: 77px; line-height: 1.17; letter-spacing: .02em; }
+    .cover h1 small { display: block; margin-top: 20px; color: #c8ad7a; font-size: 22px; font-weight: 500; letter-spacing: .15em; }
+    .cover .hook { width: 525px; margin-top: 82px; padding-top: 27px; border-top: 1px solid rgba(210,224,218,.25); font-size: 28px; line-height: 1.58; }
+    .cover .hook em { color: #c8ad7a; font-style: normal; }
+    .cover .score { position: absolute; right: 65px; top: 66px; text-align: right; }
+    .cover .score b { display: block; color: #c8ad7a; font: 700 30px/1 -apple-system, BlinkMacSystemFont, sans-serif; }
+    .cover .score span { display: block; margin-top: 7px; color: #aabbb5; font: 500 12px/1 sans-serif; letter-spacing: .08em; }
+    .cover .footer { color: #98aba4; border-color: rgba(210,224,218,.18); }
+    .waves { position: absolute; right: 36px; bottom: 120px; width: 200px; height: 120px; opacity: .35; }
+    .waves i { position:absolute; display:block; border:1px solid #c8ad7a; border-radius:50%; }
+    .waves i:nth-child(1){width:170px;height:60px;left:15px;top:10px;border-color:transparent;border-top-color:#c8ad7a;border-width:2px;transform:rotate(-2deg)}
+    .waves i:nth-child(2){width:190px;height:55px;left:5px;top:35px;border-color:transparent;border-top-color:#c8ad7a;border-width:2px;transform:rotate(1deg)}
+    .waves i:nth-child(3){width:150px;height:50px;left:25px;top:58px;border-color:transparent;border-top-color:#c8ad7a;border-width:1.5px;transform:rotate(-1deg)}
+    .waves i:nth-child(4){position:absolute;width:50px;height:50px;left:100px;top:15px;border:1.5px solid rgba(200,173,122,.25);transform:rotate(45deg)}
+    .waves i:nth-child(5){width:35px;height:35px;left:155px;top:55px;border:1px solid rgba(200,173,122,.2);transform:rotate(20deg)}
+  </style>
+</head>
+<body>
+  <section class="page cover" data-page="1">
+    <div class="eyebrow">一本书值不值得看？</div>
+    <div class="score"><b>5.5—8.0</b><span>综合推荐区间</span></div>
+    <h1>千屿<small>白羽摘雕弓 · 连载中</small></h1>
+    <div class="hook">重生为锦鲤文炮灰女配，前世被魔王一剑穿心——<em>这次，她偏不按剧本走。</em></div>
+    <div class="waves"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="footer"><span>修仙 × 重生女配 × 性格驱动</span><span>01 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="2">
+    <div class="topline"><span>THE HOOK · 核心梗</span><span class="index">02</span></div>
+    <h2>女配不欠锦鲤命，<br><em>硬闯仙门</em>就是了</h2>
+    <div class="rule"></div>
+    <p class="quote">系统说她是炮灰，她偏不信。没剧本、没金手指、没靠山——她自己就是最大的变数。</p>
+    <div class="grid-2" style="margin-top:29px">
+      <div class="panel"><h3>穿成谁？</h3><p>蓬莱掌门的外室之女，在锦鲤文里客串恶毒女配——但重生后前世的记忆迟迟不来，还没意识到自己是炮灰。</p></div>
+      <div class="panel"><h3>对手是谁？</h3><p>锦鲤女主陆呦自带系统和金手指，手握攻略魔王的主线。但她的主角光环——正在无声无息地生锈。</p></div>
+      <div class="panel"><h3>靠什么翻盘？</h3><p>骄纵、混不吝、不服输。用凡间的蛮劲撕开仙门的规矩：劈禁制、代行刑、练左手鞭——全是我行我素。</p></div>
+      <div class="panel"><h3>特别在哪？</h3><p>不是女配按剧本规避危险，而是女配压根不知道剧本——她的每一步选择，都来自本性而非剧情需要。</p></div>
+    </div>
+    <div class="tags" style="margin-top:25px"><span class="tag">修仙</span><span class="tag">重生女配</span><span class="tag">女强</span><span class="tag">锦鲤文变体</span><span class="tag">慢热</span><span class="tag">情感拉扯</span></div>
+    <div class="footer"><span>首发未知 · ~50万字 · 连载中</span><span>02 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="3">
+    <div class="topline"><span>STORY · 无剧透梗概</span><span class="index">03</span></div>
+    <h2>锦鲤在躺赢，女配在练鞭<br>——到底谁才是<em>主角？</em></h2>
+    <div class="rule"></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><h3>一剑穿心</h3><p>千屿盗走魔骨叛出师门，被魔王谢妄真一剑斩杀。魂魄坠落无妄崖后，在十四岁的水家闺房中惊醒。</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h3>硬闯蓬莱</h3><p>被带回蓬莱后吃粗茶淡饭、关禁闭小院。她砍开禁制、偷跑下山、代人执刑——用骄纵对抗仙门的规矩。</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h3>暗中较劲</h3><p>千屿在蓬莱学艺修炼，陆呦在攻略魔王。一个在苦练鞭法，一个在喂小蛋糕刷好感——两条线在不知不觉地交织。</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h3>事态升级</h3><p>水月花境、胭脂蛊、四伥鬼、弟子大会……锦鲤女主的金手指开始退化，魔王马甲浮现，所有人的命运在重新洗牌。</p></div></div>
+    </div>
+    <div class="metric-row" style="margin-top:30px">
+      <div class="metric"><b>高</b><span>人物浓度</span></div>
+      <div class="metric"><b>中</b><span>事件密度</span></div>
+      <div class="metric"><b>中低</b><span>设定硬度</span></div>
+    </div>
+    <div class="footer"><span>剧透等级：低</span><span>03 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="4">
+    <div class="topline"><span>CHARACTERS · 人物卡</span><span class="index">04</span></div>
+    <h2>四个不肯站在原地<br>的人，正在<em>各走各路</em></h2>
+    <div class="rule"></div>
+    <div class="characters">
+      <div class="character"><div class="name">徐千屿</div><div class="role">骄纵硬核 · 嘴硬心不软 · 自学成才</div><p>蓬莱掌门之女，在凡间娇养成大小姐。重生后没拿到前世记忆，全靠本能行事。她的行为逻辑完全由性格驱动：不吃亏、不求人、不服输。不会撒娇只会硬刚。</p></div>
+      <div class="character"><div class="name">沈溯微</div><div class="role">剑君 · 冷寂隐忍 · 无声守护</div><p>蓬莱内门首席，童年黑暗。话少到近乎哑巴，但关心全在细节里：藏月饼、暗中跟踪、教鞭法。他的心动从不宣之于口，却在每次违背掌门指令的沉默选择中暴露。</p></div>
+      <div class="character"><div class="name">谢妄真 / 小乙</div><div class="role">魔王三块魔魂 · 记忆混乱 · 危险游荡</div><p>杀了千屿前世的人。魔魂分裂为三人，第二块魔魂以幻术师"小乙"的形象游荡。残余记忆混乱，面对千屿和陆呦有不同的本能反应——像一面破碎的镜子，各自映出不同的真相。</p></div>
+      <div class="character"><div class="name">陆呦</div><div class="role">锦鲤女主 · 软糯善良 · 依赖系统</div><p>原定女主角。自带金手指和系统，本该顺风顺水攻略魔王——但被动的攻略策略让她陷入死循环：金因不用而退化，没有爽度就兑换不了技能，进度越拖越慢。</p></div>
+    </div>
+    <p class="small-note" style="margin-top:19px">配角亮点：蔑婆婆的善恶底色、花青伞以妖入道的悲怆、水家外祖父的人情债——每个支线都在丰富"凭什么别人来决定我的命运"这个主题。</p>
+    <div class="footer"><span>性格驱动 ＞ 剧情推动</span><span>04 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="5">
+    <div class="topline"><span>CHEMISTRY · CP化学反应</span><span class="index">05</span></div>
+    <h2>他从不说关心，<br>她却<em>什么都看得见</em></h2>
+    <div class="formula">
+      <div class="person"><b>徐千屿</b><span>骄纵 · 不服输 · 嘴硬心热</span></div>
+      <div class="cross">×</div>
+      <div class="person"><b>沈溯微</b><span>冷寂 · 隐忍 · 一切藏在行动里</span></div>
+    </div>
+    <p class="lead">甜点在于细节堆积：他藏起她送的月饼整整四年、暗中跟踪却从不现身、教她鞭法却假装顺路。虐点在于信息不对等：她记恨他前世的一剑之仇，他的温柔又沉默到几乎隐形。</p>
+    <div class="rule"></div>
+    <div class="tension">
+      <div class="tension-line"><b>暧昧拉扯</b><div class="bar"><i style="width:82%"></i></div></div>
+      <div class="tension-line"><b>情绪浓度</b><div class="bar"><i style="width:86%"></i></div></div>
+      <div class="tension-line"><b>关系进展</b><div class="bar"><i style="width:65%"></i></div></div>
+      <div class="tension-line"><b>角色张力</b><div class="bar"><i style="width:88%"></i></div></div>
+    </div>
+    <div class="panel" style="margin-top:27px"><h3>真正好磕的地方</h3><p>不是霸道剑君爱上我，而是一个不肯示弱的人，被另一个沉默到极致的人，用行为而不是言语一点一点接住。千屿对沈溯微的态度从记恨到认可，沈溯微从公事公办到违背掌门命令——每一步转变，正文里都找得到依据。</p></div>
+    <div class="footer"><span>含蓄慢热 · 需要耐心品</span><span>05 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="6">
+    <div class="topline"><span>WORLD · 世界与谜题</span><span class="index">06</span></div>
+    <h2>仙门一日，凡间五日<br>——修炼的苦，<em>一天都逃不掉</em></h2>
+    <div class="world-grid">
+      <div class="world-card"><b>蓬莱仙门</b><p>以掌门徐冰来为首，有内门外门之分。弟子通过灵根检测+引气入体→炼气→筑基修炼。千屿从零开始，内外兼修（锻体+内功+心法）。</p></div>
+      <div class="world-card"><b>时间流速差</b><p>仙门一日约等于凡间五日。这意味着千屿在水家过的十年，在蓬莱的徐冰来看来不过两年——父女之间的陌生感因此加倍残酷。</p></div>
+      <div class="world-card"><b>锦鲤文系统</b><p>陆呦绑定的系统靠"爽度"维持金手指。长期不用技能就会退化、需要爽度兑换——而她捡不到谢妄真就产出不了爽度，陷入死循环。</p></div>
+      <div class="world-card"><b>境（灵界空间）</b><p>每个修士独有的灵界空间。沈溯微的境冰封万物，不装活人。千屿却把月饼和行李塞了进去——寒冰之上第一次有了不属于他的温度。</p></div>
+    </div>
+    <div class="rule"></div>
+    <h3 style="font-size:20px;margin-bottom:12px">阅读路线</h3>
+    <div class="route"><span>第一卷 重生觉醒</span><i>→</i><span>第二卷 蓬莱学艺</span><i>→</i><span>第三卷 水月花境</span><i>→</i><span>第四卷 冲突升级</span><i>→</i><span>地窟·未完结</span></div>
+    <div class="panel" style="margin-top:25px"><h3>阅读提醒：前慢后快</h3><p>前三分之一以人物建立和日常修炼为主，后期事件密度明显提升。不是快节奏爽文，而是需要耐心沉浸的人物叙事。</p></div>
+    <div class="footer"><span>轻修仙设定 · 人物领先于世界</span><span>06 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="7">
+    <div class="topline"><span>WHY READ · 四大卖点</span><span class="index">07</span></div>
+    <h2>它凭什么让读者<br>愿意<em>慢下来读一个人</em>？</h2>
+    <div class="sell-list">
+      <div class="sell"><div class="no">01</div><div><b>女主不是剧情傀儡</b><p>徐千屿的每一个选择都源于她的性格——骄纵、不服、聪明但不精明。读者的代入感来自"我想我也会这么做"，而不是"她怎么这么巧"。</p></div></div>
+      <div class="sell"><div class="no">02</div><div><b>男主的爱藏在细节的灰尘里</b><p>沈溯微的关心从不写在脸上。藏了四年的月饼、被拒绝后仍然跟在后面的脚步、教鞭法时假装不经意的靠近——这不是玛丽苏想象，是沉默者的真实。</p></div></div>
+      <div class="sell"><div class="no">03</div><div><b>女配vs锦鲤的爽感对位</b><p>千屿在苦练鞭法吃土豆时，陆呦在挂机喂小蛋糕；千屿在拼命突破，陆呦的金手指在倒退。不是拉踩，是两个系统的互文——勤勉和运气，谁更可靠？</p></div></div>
+      <div class="sell"><div class="no">04</div><div><b>日常的厚度让后期爆发有分量</b><p>前期的每一个细节——打陀螺、砍禁制、偷月饼、代行刑——都不是水字数，而是在为后期的情感爆发和命运抉择积蓄力量。</p></div></div>
+    </div>
+    <div class="quote" style="font-size:21px;margin-top:26px">人物立得住、关系有嚼头、写法不取巧——但需要耐心读到它发力的地方。</div>
+    <div class="footer"><span>强项很强 · 短板也明确</span><span>07 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="8">
+    <div class="topline"><span>READING FEEL · 阅感与避雷</span><span class="index">08</span></div>
+    <h2>先说清楚：这不是<br>每章一个爽点的<em>快餐文</em></h2>
+    <div class="radar">
+      <div class="radar-row"><b>人物塑造</b><div class="bar"><i style="width:80%"></i></div><span>8</span></div>
+      <div class="radar-row"><b>CP张力</b><div class="bar"><i style="width:80%"></i></div><span>8</span></div>
+      <div class="radar-row"><b>叙事笔力</b><div class="bar"><i style="width:80%"></i></div><span>8</span></div>
+      <div class="radar-row"><b>情节密度</b><div class="bar"><i style="width:65%"></i></div><span>6.5</span></div>
+      <div class="radar-row"><b>世界观严谨</b><div class="bar"><i style="width:70%"></i></div><span>7</span></div>
+    </div>
+    <div class="warning">
+      <h3>⚠ 明确劝退项</h3>
+      <ul>
+        <li>前20章以日常磨炼为主，事件密度极低</li>
+        <li>男主感情表达极其隐晦，需耐心体会</li>
+        <li>非全本连载中，结尾章节截断无完结标记</li>
+        <li>锦鲤女主视角篇幅少，后期逐渐收窄</li>
+        <li>不是每章都有强情节推进</li>
+        <li>女主性格骄纵，可能劝退喜欢温柔型主角的读者</li>
+        <li>大量日常场景和修炼描写</li>
+        <li>节奏前慢后快，不能跳章阅读</li>
+      </ul>
+    </div>
+    <p class="small-note" style="margin-top:21px">注：TXT版本止于第102章，尾部非完整句末，未发现完结标记。以下评价仅基于已有内容。</p>
+    <div class="footer"><span>有耐心再入场</span><span>08 / 09</span></div>
+  </section>
+
+  <section class="page" data-page="9">
+    <div class="topline"><span>VERDICT · 最终推荐</span><span class="index">09</span></div>
+    <h2>能接受慢热叙事，<br>它就是<em>被低估的潜力股</em></h2>
+    <div class="audience">
+      <div class="yes"><h3>✓ 推荐给</h3><ul><li>喜欢性格驱动型女主的读者</li><li>能接受慢热修炼日常的修仙题材读者</li><li>喜欢女配视角反套路叙事的读者</li><li>对含蓄情感线有耐心的读者</li></ul></div>
+      <div class="no"><h3>× 不推荐给</h3><ul><li>追求每章强情节推进的读者</li><li>需要感情线迅速明朗的读者</li><li>无法接受大量日常描写的读者</li><li>对非全本有顾虑的读者</li></ul></div>
+    </div>
+    <div class="verdict"><b>推荐指数｜2.5—3.5星</b><p>它不是快节奏爽文，而是一部用人物叙事撑起来的修仙女配文。优点是人物立得住、关系有层次、写法不取巧；短板是节奏太慢、未完结、感情线过于含蓄。对上电了就是宝藏，对不上就会觉得在过家家。</p></div>
+    <div class="metric-row" style="margin-top:24px">
+      <div class="metric"><b>粮草</b><span>保守评价</span></div>
+      <div class="metric"><b>仙草-</b><span>题材命中</span></div>
+      <div class="metric"><b>~50万</b><span>当前字数</span></div>
+    </div>
+    <div class="panel" style="margin-top:24px"><h3>一句话收束</h3><p>命运给她发了炮灰剧本，她没读，撕了，把自己的命运写在别人的规矩之外。最动人的，不是她赢了，而是她从没想过会输。</p></div>
+    <p class="small-note" style="margin-top:14px">白羽摘雕弓继《黑莲花攻略手册》后的又一部长篇，同一作者两种气质的对照阅读也很有趣。</p>
+    <div class="footer"><span>《千屿》读者推书卡 v2</span><span>09 / 09</span></div>
+  </section>
+
+  <script>
+    const page = new URLSearchParams(location.search).get('page');
+    if (page) {
+      document.body.classList.add('single');
+      document.querySelectorAll('.page').forEach(el => {
+        el.style.display = el.dataset.page === page ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

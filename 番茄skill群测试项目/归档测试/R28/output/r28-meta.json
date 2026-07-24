@@ -1,0 +1,62 @@
+{
+  "D-完整输入抑制": {
+    "group": "D-完整输入抑制",
+    "prompt_length": 63202,
+    "content_length": 2133,
+    "elapsed": 28.3,
+    "usage": {
+      "prompt_tokens": 48855,
+      "completion_tokens": 2367,
+      "total_tokens": 51222,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1011
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 48855
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\r28-D-完整输入抑制-ch001.md"
+  },
+  "C-精选设定库": {
+    "group": "C-精选设定库",
+    "prompt_length": 49076,
+    "content_length": 1760,
+    "elapsed": 29.5,
+    "usage": {
+      "prompt_tokens": 40064,
+      "completion_tokens": 2366,
+      "total_tokens": 42430,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1258
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 40064
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\r28-C-精选设定库-ch001.md"
+  },
+  "B-skill优化无设定": {
+    "group": "B-skill优化无设定",
+    "prompt_length": 48161,
+    "content_length": 3187,
+    "elapsed": 30.8,
+    "usage": {
+      "prompt_tokens": 39504,
+      "completion_tokens": 2565,
+      "total_tokens": 42069,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 629
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 39504
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\r28-B-skill优化无设定-ch001.md"
+  }
+}

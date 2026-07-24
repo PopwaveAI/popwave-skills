@@ -1,0 +1,42 @@
+{
+  "round": "R2",
+  "track": "D&D数据面板流派",
+  "direction": "D&D数据面板流派（深渊主宰like）",
+  "write_skill": "pop-qidian-write-dndlike v1.1.0 + DNA enabled",
+  "model": "deepseek-v4-flash",
+  "total_elapsed": 758.5,
+  "phases": [
+    {
+      "name": "phase1-骨架",
+      "status": "done"
+    },
+    {
+      "name": "phase2-主角设计",
+      "status": "done"
+    },
+    {
+      "name": "phase1-创意首章",
+      "status": "done"
+    },
+    {
+      "name": "phase3-world",
+      "status": "done"
+    },
+    {
+      "name": "phase3.5-character",
+      "status": "done"
+    },
+    {
+      "name": "phase4-plot",
+      "status": "done"
+    },
+    {
+      "name": "phase5-write-ch001",
+      "status": "done"
+    },
+    {
+      "name": "phase6-review-ch001",
+      "status": "done"
+    }
+  ]
+}

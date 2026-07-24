@@ -1,0 +1,98 @@
+{
+  "round": "R42e",
+  "task": "v8.0.0_test",
+  "tasks": [
+    {
+      "task": "enabled-夜无疆",
+      "book": "夜无疆",
+      "mode": "enabled",
+      "model": "deepseek-v4-flash",
+      "output_length": 3762,
+      "elapsed": 43.7,
+      "usage": {
+        "prompt_tokens": 7440,
+        "completion_tokens": 3557,
+        "total_tokens": 10997,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 972
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7440
+      },
+      "input_chars": 11497,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42e-enabled-夜无疆.md"
+    },
+    {
+      "task": "enabled-玄鉴仙族",
+      "book": "玄鉴仙族",
+      "mode": "enabled",
+      "model": "deepseek-v4-flash",
+      "output_length": 2667,
+      "elapsed": 26.4,
+      "usage": {
+        "prompt_tokens": 8033,
+        "completion_tokens": 2261,
+        "total_tokens": 10294,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 581
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8033
+      },
+      "input_chars": 12141,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42e-enabled-玄鉴仙族.md"
+    },
+    {
+      "task": "trial-夜无疆",
+      "book": "夜无疆",
+      "mode": "trial",
+      "model": "deepseek-v4-flash",
+      "output_length": 3334,
+      "elapsed": 34.3,
+      "usage": {
+        "prompt_tokens": 1985,
+        "completion_tokens": 2892,
+        "total_tokens": 4877,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 694
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1985
+      },
+      "input_chars": 2986,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42e-trial-夜无疆.md"
+    },
+    {
+      "task": "trial-玄鉴仙族",
+      "book": "玄鉴仙族",
+      "mode": "trial",
+      "model": "deepseek-v4-flash",
+      "output_length": 2971,
+      "elapsed": 32.3,
+      "usage": {
+        "prompt_tokens": 1927,
+        "completion_tokens": 2784,
+        "total_tokens": 4711,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 878
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1927
+      },
+      "input_chars": 2864,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42e-trial-玄鉴仙族.md"
+    }
+  ]
+}

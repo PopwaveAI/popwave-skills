@@ -1,0 +1,19 @@
+{
+  "creative": "王道1-宗门公务员",
+  "creative_type": "阶级攀爬型",
+  "emotion": "荒诞轻喜剧+权谋博弈",
+  "phases": [
+    {
+      "name": "phase2-创意",
+      "length": 4086,
+      "elapsed": 65.8,
+      "tokens": 12593
+    },
+    {
+      "name": "phase3-ch001",
+      "length": 2992,
+      "elapsed": 43.2,
+      "tokens": 9404
+    }
+  ]
+}

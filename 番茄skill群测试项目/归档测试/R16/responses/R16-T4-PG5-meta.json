@@ -1,0 +1,18 @@
+{
+  "task": "R16-T4-PG5",
+  "content_length": 4527,
+  "usage": {
+    "prompt_tokens": 270,
+    "completion_tokens": 3204,
+    "total_tokens": 3474,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 370
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 270
+  },
+  "elapsed": 43.3
+}

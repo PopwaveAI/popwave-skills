@@ -1,0 +1,128 @@
+{
+  "C-精选设定库": [
+    {
+      "ch_num": "ch001",
+      "prompt_length": 49066,
+      "content_length": 2502,
+      "elapsed": 36.8,
+      "tokens": 42530,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\C-精选设定库\\ch001.md"
+    },
+    {
+      "ch_num": "ch002",
+      "prompt_length": 51771,
+      "content_length": 2762,
+      "elapsed": 33.3,
+      "tokens": 44015,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\C-精选设定库\\ch002.md"
+    },
+    {
+      "ch_num": "ch003",
+      "prompt_length": 51866,
+      "content_length": 2645,
+      "elapsed": 38.3,
+      "tokens": 44483,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\C-精选设定库\\ch003.md"
+    },
+    {
+      "ch_num": "ch004",
+      "prompt_length": 51787,
+      "content_length": 3345,
+      "elapsed": 47.9,
+      "tokens": 44750,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\C-精选设定库\\ch004.md"
+    },
+    {
+      "ch_num": "ch005",
+      "prompt_length": 52528,
+      "content_length": 5267,
+      "elapsed": 56.9,
+      "tokens": 45682,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\C-精选设定库\\ch005.md"
+    }
+  ],
+  "D-完整输入": [
+    {
+      "ch_num": "ch001",
+      "prompt_length": 63243,
+      "content_length": 1894,
+      "elapsed": 31.8,
+      "tokens": 50714,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\D-完整输入\\ch001.md"
+    },
+    {
+      "ch_num": "ch002",
+      "prompt_length": 65340,
+      "content_length": 5296,
+      "elapsed": 64.1,
+      "tokens": 54061,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\D-完整输入\\ch002.md"
+    },
+    {
+      "ch_num": "ch003",
+      "prompt_length": 68577,
+      "content_length": 4776,
+      "elapsed": 56.5,
+      "tokens": 55740,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\D-完整输入\\ch003.md"
+    },
+    {
+      "ch_num": "ch004",
+      "prompt_length": 68095,
+      "content_length": 3206,
+      "elapsed": 41.9,
+      "tokens": 54801,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\D-完整输入\\ch004.md"
+    },
+    {
+      "ch_num": "ch005",
+      "prompt_length": 66566,
+      "content_length": 2896,
+      "elapsed": 38.5,
+      "tokens": 53401,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\D-完整输入\\ch005.md"
+    }
+  ],
+  "B-skill优化无设定": [
+    {
+      "ch_num": "ch001",
+      "prompt_length": 48202,
+      "content_length": 2147,
+      "elapsed": 38.2,
+      "tokens": 41727,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\B-skill优化无设定\\ch001.md"
+    },
+    {
+      "ch_num": "ch002",
+      "prompt_length": 50552,
+      "content_length": 3389,
+      "elapsed": 43.3,
+      "tokens": 43826,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\B-skill优化无设定\\ch002.md"
+    },
+    {
+      "ch_num": "ch003",
+      "prompt_length": 51629,
+      "content_length": 3709,
+      "elapsed": 54.7,
+      "tokens": 44970,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\B-skill优化无设定\\ch003.md"
+    },
+    {
+      "ch_num": "ch004",
+      "prompt_length": 51987,
+      "content_length": 3388,
+      "elapsed": 37.2,
+      "tokens": 44361,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\B-skill优化无设定\\ch004.md"
+    },
+    {
+      "ch_num": "ch005",
+      "prompt_length": 51707,
+      "content_length": 4994,
+      "elapsed": 66.7,
+      "tokens": 46131,
+      "path": "d:\\popwave-skills\\番茄skill群测试项目\\R28\\output\\B-skill优化无设定\\ch005.md"
+    }
+  ]
+}

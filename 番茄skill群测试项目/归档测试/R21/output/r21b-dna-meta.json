@@ -1,0 +1,53 @@
+{
+  "strategy": "交替采样30章(ch01-10全读+ch11-49奇数章)",
+  "model": "deepseek-v4-flash",
+  "content_length": 10207,
+  "elapsed": 114.5,
+  "usage": {
+    "prompt_tokens": 988923,
+    "completion_tokens": 6787,
+    "total_tokens": 995710,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 625
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 988923
+  },
+  "input_chars": 1403322,
+  "chapters_read": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    15,
+    17,
+    19,
+    21,
+    23,
+    25,
+    27,
+    29,
+    31,
+    33,
+    35,
+    37,
+    39,
+    41,
+    43,
+    45,
+    47,
+    49
+  ],
+  "chapter_count": 30
+}

@@ -1,0 +1,59 @@
+{
+  "ch001": {
+    "model": "deepseek-v4-flash",
+    "content_length": 2511,
+    "elapsed": 38.0,
+    "usage": {
+      "prompt_tokens": 48614,
+      "completion_tokens": 2281,
+      "total_tokens": 50895,
+      "prompt_tokens_details": {
+        "cached_tokens": 6656
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 685
+      },
+      "prompt_cache_hit_tokens": 6656,
+      "prompt_cache_miss_tokens": 41958
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R26\\output\\r26-ch001.md"
+  },
+  "ch002": {
+    "model": "deepseek-v4-flash",
+    "content_length": 2701,
+    "elapsed": 43.8,
+    "usage": {
+      "prompt_tokens": 50317,
+      "completion_tokens": 2510,
+      "total_tokens": 52827,
+      "prompt_tokens_details": {
+        "cached_tokens": 6656
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 843
+      },
+      "prompt_cache_hit_tokens": 6656,
+      "prompt_cache_miss_tokens": 43661
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R26\\output\\r26-ch002.md"
+  },
+  "ch003": {
+    "model": "deepseek-v4-flash",
+    "content_length": 2687,
+    "elapsed": 34.6,
+    "usage": {
+      "prompt_tokens": 50289,
+      "completion_tokens": 2291,
+      "total_tokens": 52580,
+      "prompt_tokens_details": {
+        "cached_tokens": 6656
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 638
+      },
+      "prompt_cache_hit_tokens": 6656,
+      "prompt_cache_miss_tokens": 43633
+    },
+    "path": "d:\\popwave-skills\\番茄skill群测试项目\\R26\\output\\r26-ch003.md"
+  }
+}

@@ -1,0 +1,95 @@
+# collision_curve.yaml — 战斗密度与张力曲线
+# 追溯自：故事引擎「结构预期」+ L1-03 历史与驱动力
+# 描述：全书的战斗密度分布和张力变化预期
+
+volume_1:
+  name: "混沌潮"
+  total_chapters: 30
+  # 战斗密度：每章的冲突等级
+  # E=探索/生存战斗，C=混沌威胁战斗，B=Boss战，D=剧情转折，R=角色沉淀
+  rhythm:
+    - range: "CH1-8"
+      type: "生存期"
+      combat_density: 0.5  # 每2章一次战斗
+      description: "江轩从阴沟逃生 → 找到庇护所 → 发现被盯上"
+      key_events: "首次混沌感知、首次战斗、发现灰骑士种子可被追踪"
+    - range: "CH9-18"
+      type: "爬坡期"
+      combat_density: 0.6
+      description: "建立初步战力 → 卷入费伦势力博弈"
+      key_events: "接触竖琴手/散塔林会、获得第一件魔法武器、第一次施法"
+    - range: "CH19-25"
+      type: "混沌潮汐"
+      combat_density: 0.8
+      description: "混沌教团追捕升级 → 被迫离开安全区"
+      key_events: "混沌四教团的联合猎杀、被迫进入险地"
+    - range: "CH26-30"
+      type: "卷终高潮"
+      combat_density: 1.0
+      description: "获得第一枚神性火花 → 正式进入四神视野"
+      key_events: "Boss战（混沌祭司/恶魔领主分身）、神性火花获取、四神正式标记江轩"
+
+volume_2:
+  name: "深渊使徒"
+  total_chapters: 35
+  rhythm:
+    - range: "CH31-42"
+      type: "深渊预热"
+      combat_density: 0.5
+      description: "卷1到卷2的过渡——信息收集、决定下深渊"
+      key_events: "遇见萝丝、了解深渊入口的信息、心理准备"
+    - range: "CH43-55"
+      type: "深渊开拓"
+      combat_density: 0.7
+      description: "第一次进入深渊——探索、战斗、发现"
+      key_events: "首次下深渊（Lv9→10突破）、第一次主动使用种子力量（觉醒20%触发）"
+    - range: "CH56-62"
+      type: "深渊风暴"
+      combat_density: 0.9
+      description: "深渊中层冲突——恶魔领主出场"
+      key_events: "萝丝的‘恰巧’出现、恶魔领主级战斗、获得第二枚神性火花"
+    - range: "CH63-65"
+      type: "卷终过渡"
+      combat_density: 0.4
+      description: "返回地表→整合战斗力→下一个目标"
+      key_events: "地表世界的变化反馈、混沌教团在费伦的进展"
+
+volume_3:
+  name: "灰烬觉醒"
+  total_chapters: 35
+  rhythm:
+    - range: "CH66-75"
+      type: "阴影逼近"
+      combat_density: 0.6
+      description: "种子觉醒度的副作用开始显现 + 四神的计划接近完成"
+      key_events: "感官异化开始、四神中的一位锁定江轩坐标"
+    - range: "CH76-88"
+      type: "觉醒风暴"
+      combat_density: 0.8
+      description: "种子半觉醒事件（保护所爱之人时的濒死触发）"
+      key_events: "种子从30%暴涨至50%、误伤/差点误杀队友、被迫面对‘非人化’"
+    - range: "CH89-100"
+      type: "无序混沌"
+      combat_density: 1.0
+      description: "卷3终局——对四神之一的有效反击"
+      key_events: "四神化身首次登场、江轩以半觉醒态对抗、代价结算"
+
+volume_4:
+  name: "诸神黄昏"
+  total_chapters: 40
+  rhythm:
+    - range: "CH101-115"
+      type: "全面战争"
+      combat_density: 0.7
+      description: "费伦全面战争——混沌四神 + 外神苏醒前兆"
+      key_events: "四神联军推进、费伦城邦陷落、外神的第一次显形"
+    - range: "CH116-130"
+      type: "终极选择"
+      combat_density: 0.8
+      description: "江轩面对封神/不封神的终极选择"
+      key_events: "种子觉醒100% vs 封印种子的抉择、神性火花的最后一块拼图"
+    - range: "CH131-140"
+      type: "终局决战"
+      combat_density: 1.0
+      description: "种子觉醒→外神苏醒→最终决战"
+      key_events: "四神化身 vs 外神化身 vs 江轩（觉醒态）的三角战、结局"

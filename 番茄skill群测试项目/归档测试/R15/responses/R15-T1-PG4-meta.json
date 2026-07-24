@@ -1,0 +1,18 @@
+{
+  "task": "R15-T1-PG4",
+  "content_length": 3651,
+  "usage": {
+    "prompt_tokens": 513,
+    "completion_tokens": 2861,
+    "total_tokens": 3374,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 583
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 257
+  },
+  "elapsed": 46.2
+}

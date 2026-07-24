@@ -1,0 +1,51 @@
+:root {
+  /* Popwave IDE Brand Tokens */
+  --pw-bg-primary: #1a1b1e;
+  --pw-bg-secondary: #212226;
+  --pw-bg-tertiary: #2a2b30;
+  --pw-bg-hover: #32333a;
+  --pw-bg-active: #3a3b42;
+  --pw-bg-panel: #25262b;
+  --pw-bg-input: #2c2d33;
+  --pw-border-primary: #35363c;
+  --pw-border-hover: #45464e;
+  --pw-text-primary: #e4e4e8;
+  --pw-text-secondary: #9a9ba3;
+  --pw-text-tertiary: #6b6c75;
+  --pw-text-inverse: #1a1b1e;
+  --pw-accent: #6c8cff;
+  --pw-accent-hover: #85a1ff;
+  --pw-accent-bg: rgba(108, 140, 255, 0.1);
+  --pw-accent-bg-hover: rgba(108, 140, 255, 0.18);
+  --pw-success: #4cd964;
+  --pw-warning: #ffcc00;
+  --pw-error: #ff453a;
+  --pw-info: #5ac8fa;
+  --pw-radius-sm: 4px;
+  --pw-radius-md: 6px;
+  --pw-radius-lg: 8px;
+  --pw-radius-xl: 12px;
+  --pw-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --pw-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --pw-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --pw-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --pw-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --pw-font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  --pw-font-size-xs: 11px;
+  --pw-font-size-sm: 12px;
+  --pw-font-size-base: 13px;
+  --pw-font-size-md: 14px;
+  --pw-font-size-lg: 16px;
+  --pw-font-size-xl: 18px;
+  --pw-font-size-2xl: 22px;
+  --pw-line-height: 1.5;
+  --pw-sidebar-width: 240px;
+  --pw-panel-width: 400px;
+  /* Semantic theme mappings (required by fill-html-head.mjs) */
+  --pw-background: #1a1b1e;
+  --pw-foreground: #e4e4e8;
+  --pw-card: #25262b;
+  --pw-primary: #6c8cff;
+  --pw-border: #35363c;
+  --pw-muted: #9a9ba3;
+}

@@ -1,0 +1,446 @@
+# combat_capability.yaml
+# 战斗数值体系——从战斗章中提取
+# 格式: 职业、等级范围、HP范围、属性范围、典型战斗力、chXX出处
+
+meta:
+  title: "深渊主宰第一卷·战斗数值体系"
+  description: "基于全部38个设计包战斗数据聚合"
+  game_system: "D&D 3.5e / Pathfinder混合体系"
+
+# ============================================
+# 一、属性标准化数值
+# ============================================
+attributes:
+  standard_human:
+    base: 10
+    description: "人类标准属性10点"
+
+  thresholds:
+    superhuman_20: "20点=超凡门槛，获得特殊能力"
+    legendary_25: "25点=传奇门槛，觉醒领域能力"
+    godlike_30plus: "30点以上=半神/神灵领域"
+
+  attribute_scale:
+    strength:
+      12: "索伦初始力量(ch002)"
+      14: "索伦戴食人魔护腕(ch018)"
+      18: "食人魔天生超凡力量(ch065)"
+      20: "食人魔进阶巅峰/蛇魔力量(ch015)"
+      24: "双头食人魔牧师戈洛尔(龙力术加成)(ch083)"
+      30: "魅魔女王美坎修特(ch175)"
+      42: "上古红龙(ch044)"
+    agility:
+      19: "索伦初始敏捷(ch002)"
+      20: "索伦超凡敏捷(ch006)"
+      24: "索伦高等轻灵术后(ch104)"
+      25: "阿拉丁轻灵术上限(ch104)"
+      36: "魅魔女王美坎修特(ch175)"
+    constitution:
+      15: "索伦初始体质(ch002)"
+      18: "索伦苦行者卡后(ch014)"
+      19: "索伦2级盗贼(ch016)"
+      20: "索伦超凡体质(ch051)"
+      25: "巨魔体质标准(ch076)"
+      35: "上古红龙(ch044)"
+      40: "魅魔女王美坎修特(ch175)"
+    intelligence:
+      18: "索伦初始智力(ch002)"
+      19: "索伦巫师2级(ch068)"
+      20: "索伦超凡智力(ch068)"
+      21: "双头食人魔戈洛尔(ch083)"
+      24: "上古红龙(ch044)"
+      25: "奥术师脱离法术书的门槛(ch056)"
+      30: "魅魔女王美坎修特(ch175)"
+    perception:
+      15: "索伦初始感知(ch002)"
+      18: "薇薇安天生感知(ch028)"
+      24: "上古红龙(ch044)"
+      30: "魅魔女王美坎修特(ch175)"
+    charisma:
+      16: "索伦初始魅力(ch002)"
+      18: "索伦水精斗篷后(ch169)"
+      20: "树精/水精/魅魔/欲魔天生(ch169)"
+      21: "薇薇安天生魅力(ch028)"
+      24: "上古红龙(ch044)"
+      49: "魅魔女王美坎修特(魅魔女王极致)(ch175)"
+
+# ============================================
+# 二、职业等级体系
+# ============================================
+classes:
+  # --- 基础职业 ---
+  rogue:
+    name: "游荡者/盗贼"
+    base_hp_die: 6
+    skill_points_per_level: "20+(智力-10)×0.5"
+    tiers:
+      - level: "1-3"
+        tier: 一阶
+        description: "基础盗贼能力，3级获阴影掌握"
+        example: "索伦1-3级盗贼(ch002-010)"
+      - level: "4-5"
+        tier: 二阶
+        description: "获阴影袭杀，可离城冒险"
+        example: "索伦5级盗贼(ch017)"
+      - level: "6-7"
+        tier: 二阶后期
+        description: "超凡体质，超凡敏捷"
+        example: "索伦7级盗贼(ch116)"
+      - level: "8-14"
+        tier: 三阶
+        description: "进阶职业前置达成"
+      - level: "15+"
+        tier: 传奇
+        description: "阴影行者等传奇进阶"
+
+  wizard:
+    name: "巫师"
+    base_hp_die: 4
+    skill_points_per_level: "20+(智力-10)×0.5"
+    tiers:
+      - level: "1-4"
+        tier: 一阶
+        description: "学习0-1环法术"
+        example: "索伦4级巫师(ch068)"
+      - level: "5-9"
+        tier: 二阶
+        description: "可记忆三环法术，获法术反制"
+        example: "索伦5级巫师(ch084)"
+      - level: "10-14"
+        tier: 三阶
+        description: "可记忆五六环法术"
+      - level: "15+"
+        tier: 传奇
+        description: "时间停止等传奇法术"
+
+  sorcerer:
+    name: "术士"
+    base_hp_die: 4
+    casting_ability: "魅力"
+    tiers:
+      - level: "1"
+        tier: 觉醒
+        description: "8岁觉醒魅力21+施法天才，强度堪比5级巫师"
+        example: "薇薇安1级术士(ch047)"
+      - level: "3"
+        tier: 一阶
+        description: "双职业薇薇安3术士/2巫师(ch103)"
+        example: "薇薇安3术士/2巫师"
+
+  fighter:
+    name: "战士"
+    base_hp_die: 10
+    tiers:
+      - level: "1-5"
+        tier: 一阶
+        description: "基础战斗训练"
+      - level: "5-10"
+        tier: 二阶
+        description: "获提气斩(ch065)，军官级"
+        example: "民兵队长二阶战士"
+      - level: "10+"
+        tier: 三阶
+        description: "精锐战士"
+      - level: "15+"
+        tier: 传奇
+        description: "传奇坚韧/传奇强壮"
+
+  paladin:
+    name: "圣武士"
+    base_hp_die: 10
+    tiers:
+      - level: "15+"
+        tier: 传奇
+        description: "白银之手级别"
+        example: "白银之手(ch177-185)"
+
+  # --- 进阶职业 ---
+  shadow_warrior:
+    name: "影武者"
+    base_hp_die: 8
+    prerequisite: "反射闪避+灵活移动，潜行100+，躲避50+"
+    core_ability: "【躲避视线】职业天赋，可在敌人目光中凭空消失"
+    example: "索伦2级影武者(ch116)"
+
+  sword_saint:
+    name: "剑圣"
+    base_hp_die: 8
+    prerequisite: "三阶以上战士"
+    feature: "放弃铠甲，追求极致攻击。传奇剑圣可洞察弱点破偏斜力场"
+    weakness: "极脆弱——被命中一下几乎当场毙命"
+    example: "白马城战场三五个剑圣全部战死(ch082)"
+
+  storm_lord:
+    name: "风暴领主"
+    base_hp_die: 12
+    prerequisite: "风暴之神信徒的战士/德鲁伊/野蛮人"
+    feature: "战矛附着雷电，静电领域【传奇力场】30米范围"
+    example: "白马城女统帅(ch080)"
+
+  dragon_blooded_sorcerer:
+    name: "龙脉术士"
+    base_hp_die: 10
+    feature: "10级约12点额外属性，500+年寿命"
+    exp_penalty: "杀戮经验为其他进阶3倍"
+    example: "规划路线(ch110)"
+
+  assassin:
+    name: "刺客"
+    prerequisite: "200+炼金术，满级毒药学"
+    feature: "暗杀专精"
+
+  stalker:
+    name: "潜行者"
+    feature: "【遁入阴影】临时进入阴影位面"
+
+# ============================================
+# 三、生命值体系
+# ============================================
+hit_points:
+  formulas:
+    per_level: "基础生命数 + (体质-10)×0.5"
+    example: "索伦盗贼7级：6 + (20-10)×0.5 = 11点/级总77点；影武者2级：8+5=13点/级总26点"
+    total_example: "索伦游荡者部分：7×11+2×13=103，+巫师5×9=45，总约148(ch122)"
+
+  tier_ranges:
+    - tier: "普通平民"
+      hp: "5-15"
+      example: "普通人类"
+    - tier: "一阶(1-5级)"
+      hp: "20-60"
+      example: "索伦早期~60(ch016)"
+    - tier: "二阶(5-10级)"
+      hp: "60-150"
+      example: "索伦HP136(ch122)"
+    - tier: "三阶(10-15级)"
+      hp: "150-300"
+      example: "土元素HP~300(ch104)"
+    - tier: "高阶/准传奇"
+      hp: "300-500"
+      example: "冰霜翼龙HP300+(ch147)"
+    - tier: "传奇领域"
+      hp: "500-1500"
+      example: "双头食人魔戈洛尔(ch083)"
+    - tier: "魔神级"
+      hp: "800+"
+      example: "魅魔女王HP800+(ch175)"
+
+  special:
+    - name: "超凡体质20→再生初级"
+      effect: "每小时+1HP自愈(ch051)"
+    - name: "再生中级"
+      effect: "每小时+2HP，重伤可自愈(ch128)"
+    - name: "巨魔体质25+"
+      effect: "砍头也能重生(ch076)"
+    - name: "吸血鬼之触"
+      effect: "吸收30+HP治疗自身(ch139)"
+
+# ============================================
+# 四、战斗力评估
+# ============================================
+combat_power:
+  rating_scale:
+    S: "神灵/半神级——上古红龙、魅魔女王"
+    A: "传奇领域——风暴领主、白银之手、双头食人魔巫师"
+    B: "高阶(三阶以上)——银月行者、食人魔督军、北地女巫"
+    C: "中阶(二阶)——索伦中期、民兵队长、普通食人魔"
+    D: "低阶(一阶)——普通盗贼、普通狗头人"
+    E: "杂兵——平民、地精"
+
+  examples:
+    - name: "上古红龙"
+      rating: "S+"
+      challenge: 25
+      level: 34
+      description: "七阶，属性力42体35，接近弱等神灵(ch044)"
+    - name: "魅魔女王美坎修特"
+      rating: "S"
+      description: "弱等魔神，40魅惑魔女/10情欲魔神，魅力49(ch175)"
+    - name: "双头食人魔戈洛尔"
+      rating: "A"
+      challenge: "传奇"
+      class: "8双头食人魔/11巫师/4狂暴战士"
+      stats: "力量24(龙力术后)、智力21、体质20"
+      hp: "500+"
+      description: "本卷最强BOSS(ch083)"
+    - name: "风暴领主"
+      rating: "A"
+      description: "传奇领域，紫雷战矛，静电领域(ch080)"
+    - name: "白银之手"
+      rating: "A-"
+      description: "传奇圣武士，神器白昼之星(ch177)"
+    - name: "恐怖骑士×8"
+      rating: "A-"
+      challenge: 16
+      level: 24
+      description: "五阶传奇亡灵，属性95-110(ch036)"
+    - name: "传奇武僧(苦行僧)"
+      rating: "A"
+      description: "超凡入圣免疫非超凡攻击(ch037)"
+    - name: "传奇野蛮人"
+      rating: "A"
+      description: "传奇怪兽→5米巨人形态(ch037)"
+    - name: "长公主"
+      rating: "A"
+      description: "传奇天命术士，放逐寒冬少女(ch145)"
+    - name: "双头食人魔(普通)"
+      rating: "B+"
+      description: "高阶巫师，多重施法专长(ch070)"
+    - name: "半神吸血鬼(莱茵哈特)"
+      rating: "A-"
+      description: "启动封神仪式，硬抗白银之手+圣灵牧师(ch183-185)"
+    - name: "银月行者"
+      rating: "B+"
+      level: 18
+      description: "准传奇进阶职业(ch126-130)"
+    - name: "食人魔督军"
+      rating: "B"
+      level: "三阶以上接近四阶"
+      description: "杀戮经验2400点(ch084)"
+    - name: "索伦(终卷)"
+      rating: "B-"
+      class: "7盗贼/2影武者/5巫师"
+      hp: 136
+      stats: "力14/di21/体20/智20/感15/魅16"
+      description: "三阶游荡者，微弱神性3/10(ch122)"
+    - name: "索伦(杀戮之子形态)"
+      rating: "B+"
+      stats: "力20+6/di24+2/体23+2/智20+1/感15/魅18+2"
+      description: "杀戮者形态力量+4/敏捷+2/体质+2/感知+2(ch184)"
+    - name: "北地女巫(歌莉娅)"
+      rating: "B+"
+      level: 16
+      description: "准传奇，接近传奇(ch047)"
+    - name: "精灵游侠(恐惧神子)"
+      rating: "B"
+      description: "被索伦斩杀，获3神性+3600经验(ch116)"
+    - name: "恐惧神子刺客"
+      rating: "B+"
+      description: "传奇刺客，使用吸能术；被索伦斩杀(ch184)"
+    - name: "冰霜翼龙"
+      rating: "B"
+      challenge: 14
+      level: 17
+      hp: 300
+      description: "四阶亚龙，索伦斩杀3头(ch147-149)"
+    - name: "土元素(四阶)"
+      rating: "B-"
+      challenge: 9
+      level: 15
+      hp: 300
+      description: "属性90-100，免疫背刺(ch104)"
+    - name: "深渊蛇魔(双臂)"
+      rating: "C+"
+      challenge: 6
+      level: 12
+      hp: 150
+      description: "被索伦以陷阱+跳斩击杀(ch014-016)"
+    - name: "食人魔(普通)"
+      rating: "C+"
+      level: 5
+      challenge: 6
+      description: "天生超凡力量(ch065)"
+    - name: "豺狼人(进阶战士)"
+      rating: "C"
+      description: "生物等级3+1-2级职业"
+    - name: "掘地虫"
+      rating: "C"
+      challenge: 8
+      level: 10
+      description: "总值80-90属性(ch031)"
+    - name: "蜥蜴人(普通)"
+      rating: "D+"
+      level: 2
+      description: "平均属性12点"
+    - name: "狗头人(普通)"
+      rating: "D"
+      level: 1
+      description: "生物等级1, 15点经验/只"
+
+# ============================================
+# 五、伤害与防御数值
+# ============================================
+combat_stats:
+  damage_examples:
+    - attack: "索伦弯刀普通攻击"
+      damage: "~20点攻击强度(无超凡武器)(ch052-053)"
+    - attack: "索伦弯刀+2(魔化武器)"
+      damage: "8点/刀(增强后)(ch104)"
+    - attack: "阴影袭杀(每级)"
+      damage: "6点无视防御暗影伤害(ch065)"
+    - attack: "奥术飞弹(索伦)"
+      damage: "~5点/颗(ch069)"
+    - attack: "奥术飞弹(薇薇安爆发)"
+      damage: "8颗连发~40-50点总爆发(ch103)"
+    - attack: "背刺成功"
+      damage: "18(+1)~36点(ch011/ch060)"
+    - attack: "燃烧之手(1环)"
+      damage: "8点灼烧(ch051)"
+    - attack: "疫病术(德鲁伊)"
+      damage: "18点疫病伤害+持续溃烂(ch065)"
+    - attack: "斩首攻击(索伦)"
+      damage: "121点致命伤害(ch116)；125点(ch148)"
+    - attack: "吸能术(传奇)"
+      damage: "永久失去8个职业等级+4属性(ch183)"
+    - attack: "阴影黑触手(4环)"
+      damage: "力量碾压判定→秒杀食人魔(ch066)"
+
+  defense_examples:
+    - defense: "法师护甲(基础)"
+      protection: "20点防护强度——挡1刀(ch055)"
+    - defense: "高等法师护甲(3-4环)"
+      protection: "偏斜攻击，全方位防护(ch055)"
+    - defense: "石肤术(4环)"
+      protection: "~150点防护强度(ch055)"
+    - defense: "食人魔铸铁铠甲"
+      protection: "厚重但沉重，正面防护极强(ch080)"
+    - defense: "元素装甲(土元素)"
+      protection: "免疫攻击强度10以下物理(ch104)"
+    - defense: "20体质+石肤术"
+      protection: "双重减伤，箭矢卡在肋骨之间(ch114)"
+    - defense: "超凡入圣(武僧传奇)"
+      protection: "免疫非+1附魔武器攻击(ch037)"
+
+# ============================================
+# 六、法术环位-伤害对照
+# ============================================
+spell_damage:
+  - spell: "光亮术(0环)"
+    effect: "照明/ch020"
+  - spell: "闪电震慑(0环)"
+    effect: "麻痹/ch027"
+  - spell: "燃烧之手(1环)"
+    damage: "8点灼烧"
+    aoe: "60度扇形"
+    source: "ch051"
+  - spell: "寒冰掌(1环)"
+    damage: "6点冻伤+减速"
+    source: "ch051"
+  - spell: "奥术飞弹(1环)"
+    damage: "5点/颗，9级最多5颗"
+    speed: "1秒施法"
+    source: "ch069"
+  - spell: "火球术(3环)"
+    effect: "≈榴弹炮威力"
+    aoe: "大范围爆炸"
+    source: "ch055"
+  - spell: "流星爆(9环/传奇)"
+    effect: "≈8枚战斧导弹对5公里轰炸"
+    requirement: "施法者等级20"
+    source: "ch036"
+  - spell: "阴影黑触手(4环)"
+    damage: "力量判定→秒杀级"
+    duration: "30秒"
+    source: "ch066"
+  - spell: "死亡一指(7环)"
+    effect: "即死判定"
+    source: "ch114"
+  - spell: "群体定身术(7环)"
+    effect: "群体控制"
+    source: "ch140"
+  - spell: "吸能术(传奇)"
+    effect: "永久降8级-4属性"
+    source: "ch183"
+  - spell: "毁灭魔剑(传奇·塑能系最强)"
+    effect: "抽取时空碎片为剑，接触即分解判定"
+    source: "ch161"

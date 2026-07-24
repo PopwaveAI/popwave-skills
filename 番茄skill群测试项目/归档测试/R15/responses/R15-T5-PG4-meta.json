@@ -1,0 +1,18 @@
+{
+  "task": "R15-T5-PG4",
+  "content_length": 2517,
+  "usage": {
+    "prompt_tokens": 429,
+    "completion_tokens": 2153,
+    "total_tokens": 2582,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 526
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 429
+  },
+  "elapsed": 32.1
+}

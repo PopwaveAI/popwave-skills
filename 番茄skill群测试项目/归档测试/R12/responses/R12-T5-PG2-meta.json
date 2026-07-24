@@ -1,0 +1,18 @@
+{
+  "task": "R12-T5-PG2",
+  "content_length": 2598,
+  "usage": {
+    "prompt_tokens": 285,
+    "completion_tokens": 2230,
+    "total_tokens": 2515,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 583
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 285
+  },
+  "elapsed": 30.7
+}

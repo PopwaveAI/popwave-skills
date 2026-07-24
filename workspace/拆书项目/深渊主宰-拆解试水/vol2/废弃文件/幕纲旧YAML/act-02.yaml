@@ -1,0 +1,169 @@
+# ⛔ 废弃文件 - 已由新格式替代
+
+> **本文件为旧版格式（pop-decon-volume v2.x），已被 v3.0.0 的 L2/L3/L4 Markdown 格式完全替代。**
+>
+> **保留它仅供历史追溯，不作为叙事结构分析的引用来源。**
+>
+> **新格式位置：**
+> - L2 剧情单元卡 → `设计/L2单元卡/`
+> - L3 剧情线 → `设计/L3剧情线/`
+> - L4 全书事件 → `设计/L4全书事件/`
+>
+> **替代日期：** 2026-06-24
+
+1|# 第二幕: 血战的试炼（ch031~ch050）
+2|# YAML Canvas 矩阵 — 基于第二卷设计包数据推断
+3|
+4|statistics:
+5|  chapters: "ch031~ch050"
+6|  act_title: "血战的试炼"
+7|  core_theme: "薇薇安觉醒·沼泽之王覆灭"
+8|  total_chapters: 20
+9|  key_events:
+10|    - "薇薇安苏醒，五阶传奇数据面板揭示"
+11|    - "恐惧魔神世界观展开"
+12|    - "沼泽之王决战——薇薇安暴走秒杀"
+13|    - "卓尔精灵势力引入"
+14|    - "索伦战略视野从生存转向封神"
+15|
+16|chapters:
+17|  - chapter: "ch031 阴谋密布！"
+18|    line_major1_war: "【战前】海狼联盟准备就绪，索伦备战"
+19|    line_major2_character: "【索伦】决定先灭海狼，等待薇薇安苏醒"
+20|    line_major3_relation: "【娜迦祭司】博弈加深，索伦保持警惕"
+21|    timeline: "第三十天"
+22|    hook: "决战的倒计时"
+23|
+24|  - chapter: "ch032 安娜公主的日常"
+25|    line_major1_war: "【日常】战争迫在眉睫前的平静时刻"
+26|    line_major2_character: "【角色拓展】安娜公主——另一个关键角色的侧面展示"
+27|    line_major3_relation: "【社交圈】索伦势力的社交网络扩大"
+28|    timeline: "第三十一天"
+29|    hook: "安娜与主线的关系"
+30|
+31|  - chapter: "ch033 特殊的俘虏"
+32|    line_major1_war: "【俘虏】抓获特殊的俘虏——有价值的囚犯"
+33|    line_major2_character: "【情报】获取敌人情报"
+34|    line_major3_relation: "【谈判】俘虏成为外交筹码"
+35|    timeline: "第三十二天"
+36|    hook: "俘虏身份的特殊价值"
+37|
+38|  - chapter: "ch034 流浪的卓尔精灵"
+39|    line_major1_war: "【新势力】流浪卓尔精灵出现在海外"
+40|    line_major2_character: "【世界观】幽暗少女陨落，卓尔流亡背景"
+41|    line_major3_relation: "【接触】索伦与卓尔的第一次接触"
+42|    timeline: "第三十三天"
+43|    hook: "卓尔族群的困境"
+44|
+45|  - chapter: "ch035 隔海观火"
+46|    line_major1_war: "【战后盘点】海狼战利品价值惊人（≈城市一年税赋）"
+47|    line_major2_character: "【索伦】封神路线规划——半精灵神职为跳板→杀戮神性"
+48|    line_major3_relation: "【半卓尔精灵】送出信件与物资进行战略投资"
+49|    timeline: "第三十四天"
+50|    hook: "封神路线的完整规划"
+51|
+52|  - chapter: "ch036 小姑娘的日常"
+53|    line_major1_war: "【日常】薇薇安醒来前的日常描写"
+54|    line_major2_character: "【薇薇安】性格侧面——善良温柔"
+55|    line_major3_relation: "【兄妹】温馨互动"
+56|    timeline: "第三十五天"
+57|    hook: "沉睡中的薇薇安正在发生变化"
+58|
+59|  - chapter: "ch037 暴走的莉莉安"
+60|    line_major1_war: "【人格切换】莉莉安人格首次主导身体"
+61|    line_major2_character: "【莉莉安】冷酷、实用、强大——与薇薇安互补"
+62|    line_major3_relation: "【双人格】莉莉安vs薇薇安的内部张力"
+63|    timeline: "第三十六天"
+64|    hook: "双人格设定的正式确立"
+65|
+66|  - chapter: "ch038 杀手锏"
+67|    line_major1_war: "【备战】索伦准备杀手锏应对海狼联盟"
+68|    line_major2_character: ""
+69|    line_major3_relation: ""
+70|    timeline: "第三十七天"
+71|    hook: "杀手锏到底是什么"
+72|
+73|  - chapter: "ch039 特殊协议"
+74|    line_major1_war: "【外交】索伦与其他势力签订特殊协议"
+75|    line_major2_character: "【索伦】外交手腕展示"
+76|    line_major3_relation: "【协议】绑定利益关系"
+77|    timeline: "第三十八天"
+78|    hook: "协议的背后代价"
+79|
+80|  - chapter: "ch040 五阶传奇"
+81|    line_major1_war: "【数据揭示】薇薇安完整面板——五阶传奇术士"
+82|    line_major2_character: "【薇薇安】恐惧魔女·恐惧神子·属性全面震撼"
+83|    line_major3_relation: "【恐惧魔神】最终BOSS的世界观级碾压"
+84|    timeline: "第三十九天"
+85|    hook: "圣者浩劫即将到来+吸血鬼神子已封神"
+86|
+87|  - chapter: "ch041 命运金币"
+88|    line_major1_war: "【道具】命运金币——关键因果道具的获得"
+89|    line_major2_character: "【索伦】命运的转折点"
+90|    line_major3_relation: ""
+91|    timeline: "第四十天"
+92|    hook: "命运金币的特殊能力"
+93|
+94|  - chapter: "ch042 沼泽之王"
+95|    line_major1_war: "【BOSS登场】沼泽之王正式出场——三大海盗王之首"
+96|    line_major2_character: "【索伦】评估BOSS强度"
+97|    line_major3_relation: "【大衮之子】沼泽之王是大衮的追随者"
+98|    timeline: "第四十一天"
+99|    hook: "沼泽之王的力量远超预期"
+100|
+101|  - chapter: "ch043 海盗王之战！"
+102|    line_major1_war: "【决战开幕】索伦舰队vs沼泽之王"
+103|    line_major2_character: ""
+104|    line_major3_relation: "【决战】南海岸最强海盗对撞"
+105|    timeline: "第四十二天"
+106|    hook: "幽灵船对决"
+107|
+108|  - chapter: "ch044 联手杀敌！"
+109|    line_major1_war: "【协同作战】索伦+薇薇安联手对抗沼泽之王"
+110|    line_major2_character: "【薇薇安】首次参战表现"
+111|    line_major3_relation: "【兄妹战斗】默契展示"
+112|    timeline: "第四十二天续"
+113|    hook: "沼泽之王碾压级力量"
+114|
+115|  - chapter: "ch045 暴走的薇薇安！"
+116|    line_major1_war: "【高潮】薇薇安因索伦受伤暴走→时间静止秒杀沼泽之王"
+117|    line_major2_character: "【薇薇安】恶魔之翼+瞳孔泛红+传奇法术【时间静止】"
+118|    line_major3_relation: "【莉莉安】暴走状态是'另一个人格'"
+119|    timeline: "第四十二天终"
+120|    hook: "时间静止30秒内发生了什么？"
+121|
+122|  - chapter: "ch046 融合神性"
+123|    line_major1_war: "【战后收益】索伦融合神性——战略级质变"
+124|    line_major2_character: "【索伦】神性值积累到了关键点"
+125|    line_major3_relation: ""
+126|    timeline: "第四十三天"
+127|    hook: "神性融合对未来的影响"
+128|
+129|  - chapter: "ch047 特殊意义"
+130|    line_major1_war: "【战后复盘】沼泽之王之死在南海岸的震动"
+131|    line_major2_character: "【索伦】身份从'新海盗'升级为'海盗王级'"
+132|    line_major3_relation: "【传说度】声望突破临界值"
+133|    timeline: "第四十四天"
+134|    hook: "海洋神殿对索伦的重新评估"
+135|
+136|  - chapter: "ch048 补偿"
+137|    line_major1_war: "【谈判】拿沼泽之王的地盘/资源"
+138|    line_major2_character: "【索伦】战利品谈判"
+139|    line_major3_relation: "【娜迦祭司】利益分配博弈"
+140|    timeline: "第四十五天"
+141|    hook: "补偿的实际价值"
+142|
+143|  - chapter: "ch049 传说度的用处"
+144|    line_major1_war: "【系统】传说度的游戏化机制详解"
+145|    line_major2_character: "【索伦】传说度的战略运用"
+146|    line_major3_relation: ""
+147|    timeline: "第四十六天"
+148|    hook: "传说度对封神的意义"
+149|
+150|  - chapter: "ch050 卓尔会议"
+151|    line_major1_war: "【新势力深入】海外群岛地理布局（百岛碎裂大陆）"
+152|    line_major2_character: "【暗刃·安德里】卓尔战士焦虑族群困境"
+153|    line_major3_relation: "【大祭司】因索伦击杀沼泽之王而改变态度"
+154|    timeline: "第四十七天"
+155|    hook: "卓尔合作之门重新打开"
+156|

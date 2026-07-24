@@ -1,0 +1,18 @@
+{
+  "task": "R10-T3-PB",
+  "content_length": 1400,
+  "usage": {
+    "prompt_tokens": 126,
+    "completion_tokens": 1244,
+    "total_tokens": 1370,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 375
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 126
+  },
+  "elapsed": 22.8
+}

@@ -1,0 +1,18 @@
+{
+  "task": "R8-C-skill",
+  "content_length": 1333,
+  "usage": {
+    "prompt_tokens": 3900,
+    "completion_tokens": 1252,
+    "total_tokens": 5152,
+    "prompt_tokens_details": {
+      "cached_tokens": 3328
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 450
+    },
+    "prompt_cache_hit_tokens": 3328,
+    "prompt_cache_miss_tokens": 572
+  },
+  "elapsed": 19.4
+}

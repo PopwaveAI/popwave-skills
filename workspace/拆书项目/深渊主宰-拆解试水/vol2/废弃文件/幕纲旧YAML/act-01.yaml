@@ -1,0 +1,239 @@
+# ⛔ 废弃文件 - 已由新格式替代
+
+> **本文件为旧版格式（pop-decon-volume v2.x），已被 v3.0.0 的 L2/L3/L4 Markdown 格式完全替代。**
+>
+> **保留它仅供历史追溯，不作为叙事结构分析的引用来源。**
+>
+> **新格式位置：**
+> - L2 剧情单元卡 → `设计/L2单元卡/`
+> - L3 剧情线 → `设计/L3剧情线/`
+> - L4 全书事件 → `设计/L4全书事件/`
+>
+> **替代日期：** 2026-06-24
+
+
+# 第一幕: 泰罗港风云（ch001~ch030）
+# YAML Canvas 矩阵 — 基于第二卷设计包数据推断
+
+statistics:
+  chapters: "ch001~ch030"
+  act_title: "泰罗港风云"
+  core_theme: "立足·第一次势力跃迁"
+  total_chapters: 30
+  key_events:
+    - "索伦到达泰罗港，被吸能术debuff"
+    - "海洋神殿求医，卷入黄金争夺战"
+    - "传奇海战vs大衮之子，获3点神性"
+    - "收阿黛尔，灭海狼"
+    - "薇薇安沉睡中苏醒前兆"
+
+chapters:
+  - chapter: "ch001 混乱之地"
+    line_major1_war: "【抵达泰罗港】索伦抱沉睡薇薇安下船，被港口混乱生态震撼"
+    line_major2_character: "【薇薇安】沉睡状态，全程无意识"
+    line_major3_relation: "【亚马逊旅馆】入住，遇彪悍女行刑者"
+    timeline: "到达第一天"
+    hook: "决定去海洋神殿求医"
+
+  - chapter: "ch002 神灵契约"
+    line_major1_war: "【海洋神殿】求见娜迦祭司，寻求解除吸能术"
+    line_major2_character: "【薇薇安】安置在旅馆"
+    line_major3_relation: "【交易】以任务换治疗"
+    timeline: "到达第二天"
+    hook: "接受海洋神殿任务"
+
+  - chapter: "ch003 高阶复原术"
+    line_major1_war: "【施法过程】高阶复原术的展示"
+    line_major2_character: "【索伦】恢复过程受到关注"
+    line_major3_relation: "【世界观】神殿高阶法术体系展示"
+    timeline: "第三天"
+    hook: "任务正式启动"
+
+  - chapter: "ch004 脱衣术"
+    line_major1_war: "【战斗教学】脱衣术战术价值展示"
+    line_major2_character: "【索伦】战术素养展示"
+    line_major3_relation: "【娜迦祭司】建立初步信任"
+    timeline: "第四天"
+    hook: "得知黄金船队信息"
+
+  - chapter: "ch005 割喉者的出现"
+    line_major1_war: "【首次劫杀】索伦在南海岸首次出手"
+    line_major2_character: "【称号建立】'割喉者'名号开始流传"
+    line_major3_relation: ""
+    timeline: "第五天"
+    hook: "传说度开始累积"
+
+  - chapter: "ch006 无双乱舞"
+    line_major1_war: "【战斗高潮】索伦双刀乱舞展示游荡者战力"
+    line_major2_character: ""
+    line_major3_relation: ""
+    timeline: "第五天晚"
+    hook: "引起多方注意"
+
+  - chapter: "ch007 亡语者号"
+    line_major1_war: "【幽灵船登场】亡语者号——索伦的传奇战舰"
+    line_major2_character: "【势力资产】获传奇舰船"
+    line_major3_relation: "【娜迦祭司】加深合作"
+    timeline: "第六天"
+    hook: "亡语者号的来历"
+
+  - chapter: "ch008 高等隐身术"
+    line_major1_war: "【法术展示】高等隐身术的战术运用"
+    line_major2_character: "【索伦】战术多样性展示"
+    line_major3_relation: ""
+    timeline: "第七天"
+    hook: "任务升级"
+
+  - chapter: "ch009 祸乱之源"
+    line_major1_war: "【黄金船队】情报收集，目标锁定"
+    line_major2_character: "【索伦】分析威胁层次"
+    line_major3_relation: "【风暴领主】潜在第三方势力的出现"
+    timeline: "第八天"
+    hook: "大章鱼怪物+黑龙情报"
+
+  - chapter: "ch010 计划改变"
+    line_major1_war: "【任务升级】从摧毁变抢夺，黄金50万金德勒"
+    line_major2_character: "【索伦】质疑娜迦祭司隐瞒信息"
+    line_major3_relation: "【信任裂隙】图腾精魂缺失的信息差"
+    timeline: "第九天"
+    hook: "多方势力围猎黄金船队"
+
+  - chapter: "ch011 战斗测试！(超长章)"
+    line_major1_war: "【海战准备】考核新收海盗战力"
+    line_major2_character: "【索伦】用人策略展示"
+    line_major3_relation: "【手下】半精灵大副卡萨表现"
+    timeline: "第十天"
+    hook: "即将正式开战"
+
+  - chapter: "ch012 难缠的娘们！"
+    line_major1_war: "【遭遇战】与亚马逊女海盗交手"
+    line_major2_character: "【战斗风格】硬派战斗展示"
+    line_major3_relation: ""
+    timeline: "第十一天"
+    hook: "女海盗势力背景"
+
+  - chapter: "ch013 双武器战斗"
+    line_major1_war: "【战斗技巧】双武器战斗专长的实战展示"
+    line_major2_character: ""
+    line_major3_relation: ""
+    timeline: "第十二天"
+    hook: "战斗天赋提升"
+
+  - chapter: "ch014 伊莎贝尔"
+    line_major1_war: "【人物引入】女海盗伊莎贝尔正式登场"
+    line_major2_character: ""
+    line_major3_relation: "【阿黛尔】第一个可招募的女性角色"
+    timeline: "第十三天"
+    hook: "阿黛尔的名字与性格"
+
+  - chapter: "ch015 有价值的女人！"
+    line_major1_war: "【评估】索伦评估阿黛尔的战略价值"
+    line_major2_character: ""
+    line_major3_relation: "【阿黛尔】展现出色素质"
+    timeline: "第十四天"
+    hook: "招募后的安排"
+
+  - chapter: "ch016 黑龙！"
+    line_major1_war: "【黑龙情报】化形黑龙出现在沉船海湾"
+    line_major2_character: ""
+    line_major3_relation: "【世界观】龙族在海外群岛的影响力"
+    timeline: "第十五天"
+    hook: "黑龙的隐藏目的"
+
+  - chapter: "ch017 传奇海战"
+    line_major1_war: "【核心海战】索伦+娜迦祭司vs大衮之子"
+    line_major2_character: "【深海巨兽】大衮之子本体战斗"
+    line_major3_relation: "【联军】海族+人类联军"
+    timeline: "第十六天"
+    hook: "战斗结果将决定南海岸格局"
+
+  - chapter: "ch018 大衮之子"
+    line_major1_war: "【BOSS战】大衮之子——深海巨兽的真实实力"
+    line_major2_character: "【娜迦祭司】高阶施法者实力展示"
+    line_major3_relation: "【深海九头蛇】高阶生物出动"
+    timeline: "第十七天"
+    hook: "黄金骨头上的神性"
+
+  - chapter: "ch019 深海巨兽"
+    line_major1_war: "【海战高潮】深海九头蛇vs大衮之子"
+    line_major2_character: "【索伦】趁乱收割3点神性值"
+    line_major3_relation: "【娜迦祭司】对索伦评估加深"
+    timeline: "第十八天"
+    hook: "神性吸收的秘密"
+
+  - chapter: "ch020 返航"
+    line_major1_war: "【战后盘点】收3万杀戮经验+超凡装备"
+    line_major2_character: "【索伦】与娜迦祭司博弈神性归属"
+    line_major3_relation: "【阿黛尔招募成功】如约出现"
+    timeline: "第十九天"
+    hook: "阿黛尔成为部下+娜迦祭司的算计"
+
+  - chapter: "ch021 海洋女神的赐福"
+    line_major1_war: "【神性收益】海洋女神的回馈/赐福"
+    line_major2_character: "【索伦】吸收3点神性后的变化"
+    line_major3_relation: "【神殿关系】进一步绑定"
+    timeline: "第二十天"
+    hook: "赐福的实际效果"
+
+  - chapter: "ch022 冷酷的索伦"
+    line_major1_war: "【立威】索伦对新收海盗立规矩"
+    line_major2_character: "【统治哲学】恐惧即统治的铁血手段"
+    line_major3_relation: "【阿黛尔】被索伦的统治手段震撼"
+    timeline: "第二十一天"
+    hook: "下一个目标——海狼"
+
+  - chapter: "ch023 逆袭崛起！"
+    line_major1_war: "【整合】索伦势力开始在南海岸崛起"
+    line_major2_character: ""
+    line_major3_relation: "【海狼】感受到威胁"
+    timeline: "第二十二天"
+    hook: "海狼准备联合其他海盗"
+
+  - chapter: "ch024 变身杀戮者"
+    line_major1_war: "【战斗】索伦以杀戮者形态出战"
+    line_major2_character: "【能力展示】杀戮者形态的战斗潜力"
+    line_major3_relation: ""
+    timeline: "第二十三天"
+    hook: "杀戮者形态的副作用"
+
+  - chapter: "ch025 简单粗暴"
+    line_major1_war: "【灭独角鲸】索伦快速清剿独角鲸势力"
+    line_major2_character: "【统治展示】三秒回答制+杀一儆百"
+    line_major3_relation: "【阿黛尔】获钨钢甲馈赠"
+    timeline: "第二十四天"
+    hook: "目标毒蛇岛"
+
+  - chapter: "ch026 毒蛇岛主"
+    line_major1_war: "【地盘争夺】毒蛇岛——首个据点"
+    line_major2_character: "【索伦】战略布局：七天内让阿黛尔崛起"
+    line_major3_relation: "【势力扩张】从流浪到有岛的质变"
+    timeline: "第二十五天"
+    hook: "毒蛇岛上的资源和秘密"
+
+  - chapter: "ch027 拿起与放下"
+    line_major1_war: "【势力巩固】稳固毒蛇岛控制"
+    line_major2_character: "【索伦心态】角色内省与决心"
+    line_major3_relation: ""
+    timeline: "第二十六天"
+    hook: "决定下一步战略"
+
+  - chapter: "ch028 割喉者的传闻"
+    line_major1_war: "【声望扩散】割喉者名号在整个南海岸传播"
+    line_major2_character: "【索伦】被标签为'海洋教会的人'"
+    line_major3_relation: ""
+    timeline: "第二十七天"
+    hook: "沼泽之王的注意"
+
+  - chapter: "ch029 德鲁伊的复兴"
+    line_major1_war: "【世界观】德鲁伊教派在海外群岛的线索"
+    line_major2_character: ""
+    line_major3_relation: "【德鲁伊】潜在的第三势力"
+    timeline: "第二十八天"
+    hook: "德鲁伊与土著人的关系"
+
+  - chapter: "ch030 海盗群战"
+    line_major1_war: "【战争前夜】海狼联合各路海盗对抗索伦"
+    line_major2_character: "【索伦】看穿娜迦祭司布局——无论赢输都得利"
+    line_major3_relation: "【海狼协议】各海盗首领结成临时联盟"
+    timeline: "第二十九天"
+    hook: "战争一触即发"

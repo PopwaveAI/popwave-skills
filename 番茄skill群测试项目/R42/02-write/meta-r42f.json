@@ -1,0 +1,98 @@
+{
+  "round": "R42f",
+  "task": "fair_test",
+  "tasks": [
+    {
+      "task": "f1-玄鉴ch50+玄鉴DNA",
+      "synopsis_source": "玄鉴仙族-ch50",
+      "dna_source": "玄鉴仙族",
+      "model": "deepseek-v4-flash",
+      "output_length": 1923,
+      "elapsed": 30.0,
+      "usage": {
+        "prompt_tokens": 8104,
+        "completion_tokens": 2288,
+        "total_tokens": 10392,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 993
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8104
+      },
+      "input_chars": 12226,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42f-f1-玄鉴ch50+玄鉴DNA.md"
+    },
+    {
+      "task": "f2-夜无疆ch50+夜无疆DNA",
+      "synopsis_source": "夜无疆-ch50",
+      "dna_source": "夜无疆",
+      "model": "deepseek-v4-flash",
+      "output_length": 2990,
+      "elapsed": 37.9,
+      "usage": {
+        "prompt_tokens": 7679,
+        "completion_tokens": 3054,
+        "total_tokens": 10733,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1121
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7679
+      },
+      "input_chars": 11793,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42f-f2-夜无疆ch50+夜无疆DNA.md"
+    },
+    {
+      "task": "f3-深渊ch075+玄鉴DNA",
+      "synopsis_source": "深渊主宰-ch075",
+      "dna_source": "玄鉴仙族",
+      "model": "deepseek-v4-flash",
+      "output_length": 3163,
+      "elapsed": 48.3,
+      "usage": {
+        "prompt_tokens": 8206,
+        "completion_tokens": 3360,
+        "total_tokens": 11566,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1373
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 8206
+      },
+      "input_chars": 12420,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42f-f3-深渊ch075+玄鉴DNA.md"
+    },
+    {
+      "task": "f4-深渊ch075+夜无疆DNA",
+      "synopsis_source": "深渊主宰-ch075",
+      "dna_source": "夜无疆",
+      "model": "deepseek-v4-flash",
+      "output_length": 3754,
+      "elapsed": 46.8,
+      "usage": {
+        "prompt_tokens": 7555,
+        "completion_tokens": 3258,
+        "total_tokens": 10813,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 757
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 7555
+      },
+      "input_chars": 11654,
+      "output_path": "D:\\popwave-skills\\番茄skill群测试项目\\R42\\02-write\\r42f-f4-深渊ch075+夜无疆DNA.md"
+    }
+  ]
+}

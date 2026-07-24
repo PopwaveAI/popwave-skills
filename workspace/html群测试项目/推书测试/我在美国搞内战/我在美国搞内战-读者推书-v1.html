@@ -1,0 +1,626 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我在美国搞内战｜读者推书卡</title>
+<style>
+/* ============================================================
+   TOKENS — 5主题 × 10色
+   ============================================================ */
+:root{
+  --bg:#1a1a1e;--white:#fff;--black:#111;--grey1:#f8f8f8;--grey2:#eee;--grey3:#ccc;--grey4:#999;--grey5:#555;--grey6:#333;
+  --red:#c0392b;--gold:#b8860b;--blue:#1a5276;--teal:#117a65;--orange:#d35400;
+  --ink:#1a1a1e;--soft:#666;--accent:#b8860b;--accent2:#8b6914;--paper:#faf8f2;
+  --cover1:#1a1410;--cover2:#3d2817;
+}
+body[data-theme="ink-blue"]{
+  --ink:#0d1b2a;--soft:#5a7a9a;--accent:#1b6b8f;--accent2:#2e86ab;--paper:#f2f7fa;
+  --cover1:#0a1628;--cover2:#1a3a5c;--red:#8b0000;--gold:#b8860b;
+}
+body[data-theme="warm-paper"]{
+  --ink:#2d1f14;--soft:#8b7355;--accent:#c0392b;--accent2:#d35400;--paper:#fef9f0;
+  --cover1:#1a0f08;--cover2:#5c2a0e;--gold:#d4a017;
+}
+body[data-theme="dark-modern"]{
+  --bg:#0a0a0c;--ink:#e8e8ec;--soft:#888;--accent:#ff6b6b;--accent2:#ffa500;--paper:#141418;
+  --cover1:#050508;--cover2:#1a1020;--gold:#ffa500;--white:#e8e8ec;--grey1:#1a1a20;--grey2:#222;--grey3:#333;--grey4:#666;--grey5:#999;--grey6:#bbb;--black:#000;
+}
+body[data-theme="diary-orange"]{
+  --ink:#1e2d3a;--soft:#5a7a8a;--accent:#d35400;--accent2:#e67e22;--paper:#faf6f0;
+  --cover1:#1a2530;--cover2:#6b3000;--gold:#d35400;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 0}
+.page{position:relative;width:720px;height:960px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.45);flex-shrink:0}
+
+/* ============================================================
+   P1 · COVER — CINEMATIC POSTER
+   ============================================================ */
+.page-cover{
+  background:linear-gradient(160deg,var(--cover1) 0%,var(--cover2) 60%,var(--cover1) 100%);
+  color:var(--white);padding:0;display:flex;flex-direction:column;
+}
+.page-cover:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.04),transparent 60%);pointer-events:none;z-index:0}
+.page-cover .cover-inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 70px}
+.page-cover .cover-eyebrow{font:600 13px/1.2 -apple-system,sans-serif;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:40px}
+.page-cover h1{font:900 72px/1.05 "Songti SC","STSong","Noto Serif SC",serif;letter-spacing:-.03em;color:var(--white);max-width:560px}
+.page-cover h1 em{color:var(--gold);font-style:normal}
+.page-cover .cover-quote{margin-top:32px;font:500 22px/1.5 "Songti SC",serif;color:rgba(255,255,255,.75);max-width:500px;padding-left:24px;border-left:3px solid var(--gold)}
+.page-cover .cover-lede{margin-top:16px;font:400 14px/1.7 -apple-system,sans-serif;color:rgba(255,255,255,.5);max-width:480px}
+.page-cover .cover-footer{position:absolute;bottom:40px;left:70px;right:70px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.page-cover .cover-tags{display:flex;gap:8px;flex-wrap:wrap}
+.page-cover .cover-tags span{font:500 11px/1 -apple-system,sans-serif;color:rgba(255,255,255,.5);letter-spacing:.1em;padding:4px 0}
+.page-cover .cover-tags span+span:before{content:"·";margin:0 6px;color:rgba(255,255,255,.25)}
+.page-cover .cover-num{font:600 12px/1 -apple-system,sans-serif;color:rgba(255,255,255,.35);letter-spacing:.15em}
+.page-cover .cover-overlay{position:absolute;right:-60px;bottom:-60px;width:320px;height:320px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none;z-index:0}
+
+/* ============================================================
+   INLINE SVG ICONS — 内嵌装饰图形，无外部依赖
+   ============================================================ */
+.deco-icon{pointer-events:none;z-index:0;overflow:visible}
+.deco-icon svg{width:100%;height:100%;display:block}
+.cover-deco-book{position:absolute;left:58px;bottom:52px;width:72px;height:72px;opacity:.08}
+.dash-deco-chart{width:48px;height:48px;opacity:.12;flex-shrink:0}
+.back-deco-star{width:100px;height:20px;opacity:.5;margin:0 auto 8px}
+.show-deco-grid{position:absolute;right:0;top:0;width:180px;height:180px;opacity:.05;pointer-events:none;z-index:0}
+
+/* ============================================================
+   P2 · HOOK — SWISS GRID MINIMALISM
+   ============================================================ */
+.page-swiss{background:var(--paper);padding:52px 60px 52px 70px;display:flex;flex-direction:column}
+.page-swiss:before{content:"";position:absolute;left:0;top:0;width:6px;height:100%;background:var(--black)}
+.page-swiss .swiss-header{margin-bottom:44px}
+.page-swiss .swiss-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
+.page-swiss h2{font:700 42px/1.1 -apple-system,sans-serif;letter-spacing:-.02em;color:var(--ink);max-width:520px}
+.page-swiss h2 em{color:var(--accent);font-style:normal}
+.page-swiss .swiss-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0;flex:1}
+.page-swiss .swiss-cell{padding:28px 32px 28px 0;display:flex;flex-direction:column;justify-content:flex-start;border-bottom:1px solid var(--grey3)}
+.page-swiss .swiss-cell:nth-child(odd){padding-right:28px;border-right:1px solid var(--grey3)}
+.page-swiss .swiss-cell:nth-child(3),.page-swiss .swiss-cell:nth-child(4){border-bottom:none}
+.page-swiss .swiss-num{font:900 48px/1 -apple-system,sans-serif;color:var(--grey3);margin-bottom:8px}
+.page-swiss .swiss-cell h3{font:700 16px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-swiss .swiss-cell p{font:400 13px/1.55 -apple-system,sans-serif;color:var(--soft);max-width:240px}
+.page-swiss .swiss-panel{margin-top:28px;padding:20px 0 0;border-top:2px solid var(--black)}
+.page-swiss .swiss-panel h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-swiss .swiss-panel p{font:400 13px/1.6 -apple-system,sans-serif;color:var(--soft);max-width:500px}
+.page-swiss .swiss-footer{position:absolute;bottom:28px;left:70px;right:60px;display:flex;justify-content:space-between;font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.12em}
+
+/* ============================================================
+   P3 · SYNOPSIS — MAGAZINE EDITORIAL
+   ============================================================ */
+.page-magazine{background:var(--paper);padding:0;display:flex}
+.page-magazine .mag-left{width:180px;background:var(--ink);color:var(--white);padding:52px 32px;display:flex;flex-direction:column;justify-content:space-between}
+.page-magazine .mag-left .mag-eyebrow{font:600 10px/1.4 -apple-system,sans-serif;letter-spacing:.3em;writing-mode:vertical-rl;color:var(--gold);margin:0 auto}
+.page-magazine .mag-left .mag-section{font:900 72px/1 -apple-system,sans-serif;color:rgba(255,255,255,.08);text-align:center}
+.page-magazine .mag-right{flex:1;padding:52px 48px 52px 40px;overflow-y:auto;display:flex;flex-direction:column}
+.page-magazine h2{font:700 36px/1.15 "Songti SC",serif;color:var(--ink);margin-bottom:32px;letter-spacing:-.01em}
+.page-magazine h2 em{color:var(--accent);font-style:normal}
+.page-magazine .mag-steps{flex:1;display:flex;flex-direction:column;gap:0;position:relative}
+.page-magazine .mag-steps:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--grey2)}
+.page-magazine .mag-step{position:relative;padding:0 0 28px 32px}
+.page-magazine .mag-step:last-child{padding-bottom:0}
+.page-magazine .mag-step:before{content:"";position:absolute;left:0;top:6px;width:15px;height:15px;border:2px solid var(--accent);border-radius:50%;background:var(--paper);z-index:1}
+.page-magazine .mag-step:first-child:before{background:var(--accent)}
+.page-magazine .mag-step h3{font:700 18px/1.3 "Songti SC",serif;color:var(--ink);margin-bottom:4px}
+.page-magazine .mag-step p{font:400 13px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-magazine .mag-panel{margin-top:24px;padding:20px 24px;background:var(--grey1);border-left:3px solid var(--accent)}
+.page-magazine .mag-panel h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-magazine .mag-panel p{font:400 12.5px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-magazine .mag-footer{display:flex;justify-content:space-between;margin-top:28px;padding-top:16px;border-top:1px solid var(--grey2);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P4 · CHARACTERS — PROFILE SPREAD
+   ============================================================ */
+.page-profiles{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-profiles .prof-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;border-bottom:2px solid var(--black);padding-bottom:20px}
+.page-profiles .prof-eyebrow{font:600 10px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft)}
+.page-profiles h2{font:700 40px/1.1 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-profiles h2 em{color:var(--accent);font-style:normal}
+.page-profiles .prof-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1}
+.page-profiles .prof-card{padding:0;border:none;background:none}
+.page-profiles .prof-card .prof-name{font:700 22px/1.2 "Songti SC",serif;color:var(--ink);margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:inline-block}
+.page-profiles .prof-card .prof-identity{font:500 12px/1 -apple-system,sans-serif;color:var(--accent);letter-spacing:.08em;margin-bottom:12px}
+.page-profiles .prof-card .prof-traits{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.page-profiles .prof-card .prof-traits span{font:500 10px/1 -apple-system,sans-serif;color:var(--soft);padding:4px 10px;background:var(--grey2);border-radius:2px}
+.page-profiles .prof-card .prof-drive{font:400 12.5px/1.55 -apple-system,sans-serif;color:var(--soft)}
+.page-profiles .prof-panel{margin-top:24px;padding:20px 0 0;border-top:1px solid var(--grey3);display:flex;gap:32px}
+.page-profiles .prof-panel h3{font:600 13px/1.3 -apple-system,sans-serif;color:var(--ink);min-width:80px}
+.page-profiles .prof-panel p{font:400 12.5px/1.6 -apple-system,sans-serif;color:var(--soft)}
+.page-profiles .prof-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P5 · CHEMISTRY — INFOGRAPHIC DIAGRAM
+   ============================================================ */
+.page-infographic{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-infographic .info-header{text-align:center;margin-bottom:36px}
+.page-infographic .info-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.3em;color:var(--soft);margin-bottom:14px}
+.page-infographic h2{font:700 34px/1.15 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-infographic h2 em{color:var(--accent);font-style:normal}
+.page-infographic .info-diagram{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.page-infographic .info-center{text-align:center;z-index:1}
+.page-infographic .info-formula{display:inline-flex;align-items:center;gap:16px;padding:24px 32px;border:2px solid var(--black);background:var(--white)}
+.page-infographic .info-formula span{font:700 20px/1 "Songti SC",serif;color:var(--ink)}
+.page-infographic .info-formula i{font:300 28px/1 serif;color:var(--accent)}
+.page-infographic .info-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.page-infographic .info-card{padding:20px 24px;border:1px solid var(--grey3);background:var(--white)}
+.page-infographic .info-card h3{font:700 15px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:6px}
+.page-infographic .info-card p{font:400 12px/1.55 -apple-system,sans-serif;color:var(--soft)}
+.page-infographic .info-panel{margin-top:20px;text-align:center;padding:16px 0;border-top:1px solid var(--grey3)}
+.page-infographic .info-panel h3{font:600 13px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-infographic .info-panel p{font:400 12.5px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-infographic .info-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P6 · STRUCTURE — HORIZONTAL TIMELINE
+   ============================================================ */
+.page-timeline{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-timeline .tl-header{margin-bottom:48px}
+.page-timeline .tl-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft);margin-bottom:14px}
+.page-timeline h2{font:700 36px/1.15 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em}
+.page-timeline h2 em{color:var(--accent);font-style:normal}
+.page-timeline .tl-track{flex:1;display:flex;align-items:flex-start;position:relative;padding:20px 20px 0}
+.page-timeline .tl-track:before{content:"";position:absolute;left:20px;right:20px;top:26px;height:2px;background:var(--black)}
+.page-timeline .tl-cards{display:flex;gap:0;width:100%;position:relative;z-index:1}
+.page-timeline .tl-card{flex:1;text-align:center;padding:0 12px;position:relative}
+.page-timeline .tl-card:before{content:"";display:block;width:14px;height:14px;border:3px solid var(--black);border-radius:50%;background:var(--paper);margin:0 auto 20px}
+.page-timeline .tl-card:first-child:before{background:var(--accent);border-color:var(--accent)}
+.page-timeline .tl-card h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-timeline .tl-card p{font:400 11px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-timeline .tl-route{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:32px;padding:16px 24px;border:2px solid var(--black)}
+.page-timeline .tl-route span{font:700 14px/1 -apple-system,sans-serif;color:var(--ink);letter-spacing:.04em}
+.page-timeline .tl-route i{font:300 18px/1 serif;color:var(--accent)}
+.page-timeline .tl-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P7 · SELLING POINTS — FEATURE SHOWCASE
+   ============================================================ */
+.page-showcase{background:var(--ink);color:var(--white);padding:52px 60px;display:flex;flex-direction:column}
+.page-showcase .show-header{margin-bottom:40px}
+.page-showcase .show-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.3em;color:var(--gold);margin-bottom:14px}
+.page-showcase h2{font:700 38px/1.1 -apple-system,sans-serif;color:var(--white);letter-spacing:-.02em}
+.page-showcase h2 em{color:var(--gold);font-style:normal}
+.page-showcase .show-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);flex:1;margin-bottom:24px}
+.page-showcase .show-card{padding:28px 28px;background:var(--ink);display:flex;flex-direction:column}
+.page-showcase .show-card .show-num{font:900 40px/1 -apple-system,sans-serif;color:rgba(255,255,255,.1);margin-bottom:12px}
+.page-showcase .show-card h3{font:700 15px/1.3 -apple-system,sans-serif;color:var(--white);margin-bottom:6px}
+.page-showcase .show-card p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.55)}
+.page-showcase .show-panel{padding:20px 0 0;border-top:1px solid rgba(255,255,255,.1)}
+.page-showcase .show-panel h3{font:600 12px/1.3 -apple-system,sans-serif;color:var(--gold);margin-bottom:4px}
+.page-showcase .show-panel p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.45)}
+.page-showcase .show-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
+
+/* ============================================================
+   P8 · RISKS — DASHBOARD
+   ============================================================ */
+.page-dashboard{background:var(--paper);padding:52px 60px;display:flex;flex-direction:column}
+.page-dashboard .dash-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
+.page-dashboard .dash-eyebrow{font:600 11px/1 -apple-system,sans-serif;letter-spacing:.25em;color:var(--soft)}
+.page-dashboard h2{font:700 34px/1.1 -apple-system,sans-serif;color:var(--ink);letter-spacing:-.02em;margin-top:10px}
+.page-dashboard h2 em{color:var(--accent);font-style:normal}
+.page-dashboard .dash-warning-tag{font:700 10px/1 -apple-system,sans-serif;color:var(--white);background:var(--red);padding:8px 14px;letter-spacing:.15em}
+.page-dashboard .dash-body{display:flex;gap:24px;flex:1}
+.page-dashboard .dash-radar{flex:1;padding:24px;border:2px solid var(--black);display:flex;flex-direction:column;gap:16px;justify-content:center}
+.page-dashboard .dash-radar-row{display:flex;align-items:center;gap:12px}
+.page-dashboard .dash-radar-row .dash-label{width:70px;font:600 11px/1 -apple-system,sans-serif;color:var(--soft);text-align:right}
+.page-dashboard .dash-radar-row .dash-track{flex:1;height:8px;background:var(--grey2);position:relative}
+.page-dashboard .dash-radar-row .dash-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .4s}
+.page-dashboard .dash-radar-row .dash-val{width:28px;font:700 14px/1 -apple-system,sans-serif;color:var(--ink);text-align:right}
+.page-dashboard .dash-right{flex:1;display:flex;flex-direction:column;gap:16px}
+.page-dashboard .dash-warning{padding:20px;border:2px solid var(--red);background:rgba(192,57,43,.04);flex:1}
+.page-dashboard .dash-warning h3{font:700 14px/1.3 -apple-system,sans-serif;color:var(--red);margin-bottom:12px}
+.page-dashboard .dash-warning ul{list-style:none;padding:0}
+.page-dashboard .dash-warning li{font:400 11.5px/1.5 -apple-system,sans-serif;color:var(--soft);padding:4px 0 4px 16px;position:relative}
+.page-dashboard .dash-warning li:before{content:"—";position:absolute;left:0;color:var(--red)}
+.page-dashboard .dash-panel{padding:16px;border:1px solid var(--grey3);background:var(--white)}
+.page-dashboard .dash-panel h3{font:600 12px/1.3 -apple-system,sans-serif;color:var(--ink);margin-bottom:4px}
+.page-dashboard .dash-panel p{font:400 11.5px/1.5 -apple-system,sans-serif;color:var(--soft)}
+.page-dashboard .dash-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid var(--grey3);font:500 10px/1 -apple-system,sans-serif;color:var(--grey4);letter-spacing:.1em}
+
+/* ============================================================
+   P9 · VERDICT — DARK BACK COVER
+   ============================================================ */
+.page-backcover{
+  background:linear-gradient(160deg,var(--cover2) 0%,var(--cover1) 40%,var(--cover1) 100%);
+  color:var(--white);padding:0;display:flex;flex-direction:column;
+}
+.page-backcover:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 80%,rgba(255,255,255,.03),transparent 60%);pointer-events:none;z-index:0}
+.page-backcover .back-inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:52px 60px}
+.page-backcover .back-eyebrow{font:600 12px/1 -apple-system,sans-serif;letter-spacing:.35em;color:var(--gold);margin-bottom:28px;text-align:center}
+.page-backcover .back-title{text-align:center;margin-bottom:40px}
+.page-backcover .back-title h2{font:700 32px/1.15 "Songti SC",serif;color:var(--white)}
+.page-backcover .back-title h2 em{color:var(--gold);font-style:normal}
+.page-backcover .back-verdict{text-align:center;padding:32px 40px;margin-bottom:24px;border:2px solid rgba(255,255,255,.15);background:rgba(0,0,0,.3)}
+.page-backcover .back-verdict .back-score{font:900 64px/1 "Songti SC",serif;color:var(--gold);margin-bottom:8px}
+.page-backcover .back-verdict .back-grade{font:600 14px/1 -apple-system,sans-serif;color:rgba(255,255,255,.7);letter-spacing:.15em;margin-bottom:16px}
+.page-backcover .back-verdict .back-text{font:400 13px/1.6 -apple-system,sans-serif;color:rgba(255,255,255,.6);max-width:480px;margin:0 auto}
+.page-backcover .back-audience{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.page-backcover .back-audience>div{padding:20px 24px;border:1px solid rgba(255,255,255,.1)}
+.page-backcover .back-audience h3{font:700 12px/1 -apple-system,sans-serif;color:var(--gold);letter-spacing:.1em;margin-bottom:10px}
+.page-backcover .back-audience ul{list-style:none;padding:0}
+.page-backcover .back-audience li{font:400 11px/1.5 -apple-system,sans-serif;color:rgba(255,255,255,.5);padding:3px 0}
+.page-backcover .back-why{padding:20px 24px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.page-backcover .back-why h3{font:600 12px/1 -apple-system,sans-serif;color:var(--gold);letter-spacing:.1em;margin-bottom:8px}
+.page-backcover .back-why p{font:400 12px/1.55 -apple-system,sans-serif;color:rgba(255,255,255,.45)}
+.page-backcover .back-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font:500 10px/1 -apple-system,sans-serif;color:rgba(255,255,255,.25);letter-spacing:.1em}
+
+/* ============================================================
+   BRAND SIGNATURE — popwave 页码印记
+   ============================================================ */
+.brand{font-weight:400;color:var(--grey4);margin-left:3px;letter-spacing:.04em}
+.page-cover .brand{color:rgba(255,255,255,.35)}
+.page-backcover .brand{color:rgba(255,255,255,.3)}
+</style>
+</head>
+<body>
+<!-- DATA-INJECT: 部署时替换为 window.__BOOK_DATA__ = {...};  -->
+<script>window.__BOOK_DATA__ = {
+  "theme": "warm-paper",
+  "pages": [
+    {
+      "page_no": 1,
+      "type": "cover",
+      "layout": "editorial",
+      "eyebrow": "一本书值不值得看？",
+      "title": "我在美国搞内战",
+      "highlight": "搞内战",
+      "subtitle": "捕梦者 · 都市/系统 · 黑色幽默 · 156万字",
+      "blocks": [
+        { "kind": "quote", "text": "中国警察穿越成美国流浪汉，把美利坚当成地下城来刷" },
+        { "kind": "lede", "text": "将美国社会底层映射为魔域地下城——流浪汉是哥布林、警察是堕落骑士、帮派是食人魔。主角用中国智慧（赤脚医生+太平天国+基层动员）在美利坚的底层建立地上神国。这不是简单的系统爽文，而是一次用RPG逻辑解构美国社会病灶的黑色寓言。" },
+        { "kind": "tags", "items": ["系统流", "穿越", "美利坚", "黑色幽默", "社会寓言", "RPG化现实", "基建种田", "宗教崛起"] }
+      ],
+      "footer": "系统流 · 穿越 · 美利坚"
+    },
+    {
+      "page_no": 2,
+      "type": "hook",
+      "layout": "editorial",
+      "eyebrow": "核心梗",
+      "title": "它与同类系统文有什么不同",
+      "highlight": "不同",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "身份落差", "text": "不是废柴逆袭，是中国警察的灵魂困在美国过气童星的身体里。底层求生+文化碰撞+身份表演，三重张力叠加。" },
+            { "title": "表层目标", "text": "在冰雨夜里活过今晚、赚到下一支抗生素、还清帮派的20000刀——起点极低，每一关都是真实的生存题。" },
+            { "title": "核心阻力", "text": "美国底层是一个运转精密的'斩杀系统'：警察暴力、医疗天价、帮派追债、药物泛滥。系统面板把这些翻译为地下城生态。" },
+            { "title": "差异机制", "text": "系统只看表象不看本质——假装打倒也是打倒，演戏驱魔也是治疗。主角利用这个盲区，把RPG规则变成了街头生存的武器。" }
+          ]
+        },
+        { "kind": "panel", "title": "真正的故事问题", "text": "如果把美国社会底层看成一个开放世界RPG——你是一个开局血条触底的流浪汉，唯一的金手指是一个会'翻译'的系统，你怎么活下来，并且最终把这个地下城改造成你自己的神国？" }
+      ],
+      "footer": "核心梗"
+    },
+    {
+      "page_no": 3,
+      "type": "synopsis",
+      "layout": "timeline",
+      "eyebrow": "故事梗概",
+      "title": "无剧透地讲清故事方向",
+      "blocks": [
+        {
+          "kind": "steps",
+          "items": [
+            { "title": "开局", "text": "穿越成西雅图流浪汉，冰雨夜醒来的第一件事是在帐篷里卖尸体换抗生素。血量4/60，每1小时掉1点血，真正的生死时速。" },
+            { "title": "靠近", "text": "凭前童星身份+被动技「他乡故知」化解帮派危机，结识生死之交迈克和戴维，在街头流浪汉社群中找到立足之地。" },
+            { "title": "失衡", "text": "发现美国人连海姆立克急救法都不会。用抗生素+地塞米松两件套化身街头医神——当无医保的底层排队求'驱邪'时，旧的规则开始松动。" },
+            { "title": "方向", "text": "从街头诊所→巫毒灵媒→圣徒→神国领主。用尸体搭建庇护所，用信仰组织信徒，在美利坚的裂缝里种下一座地下帝国。" }
+          ]
+        },
+        { "kind": "panel", "title": "故事推进的轴心", "text": "系统面板的每一次弹窗不只是数值变化，更是一次社会现实的'翻译'——当你在面板上看到'你击败了堕落执法者'时，其实是刚从黑警手中救下了要被'合法'暴力致死的流浪汉。" }
+      ],
+      "footer": "无剧透梗概"
+    },
+    {
+      "page_no": 4,
+      "type": "characters",
+      "layout": "grid",
+      "eyebrow": "人物角色卡",
+      "title": "谁值得关注",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "韦恩（布鲁斯·韦恩）", "text": "前中国警察，穿越为美国过气童星流浪汉。标签：冷静务实、善于表演、天然亲和力、道德灵活。核心驱动力——'不被这个系统吞掉，就要成为系统的主人'。" },
+            { "title": "迈克", "text": "黑人流浪汉，韦恩的第一个生死之交。标签：忠诚、重情义、底层韧性。驱动力——照顾生病的叔叔，跟随韦恩后从个人情义走向组织忠诚。" },
+            { "title": "戴维", "text": "黑人流浪汉，三人组中的行动派。标签：热血冲动、话多幽默、哮喘患者。他的哮喘病史和激素药细节直接推动了医疗线的开启。" },
+            { "title": "老威尔", "text": "血帮分支小头目，被韦恩的'圣徒'光环征服后成为神国运动的辩经担当。代表帮派底层向宗教运动转化的可能性。" }
+          ]
+        },
+        { "kind": "panel", "title": "群像功能", "text": "这不是一人开挂的爽文。迈克和戴维不是工具人跟班，他们每个人都有独立的困境（叔叔的绝症、哮喘的脆弱），而这些困境最终都变成了推动神国运动的燃料。" }
+      ],
+      "footer": "人物角色卡"
+    },
+    {
+      "page_no": 5,
+      "type": "chemistry",
+      "layout": "relationship",
+      "eyebrow": "关系化学",
+      "title": "三人组如何成为故事的引擎",
+      "blocks": [
+        {
+          "kind": "formula",
+          "items": ["韦恩：中国智慧+系统金手指→提供战略和资源", "迈克：忠诚守护者→情绪稳定器和人力核心", "戴维：街头直觉行动派→以身试险的先锋"]
+        },
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "收尸人时期", "text": "三人因'尸体经济'走到一起——卖尸体换第一笔钱、应对帮派追债、从黑警手中互相救援。忠诚度以系统量化的'生死之交'为起点。" },
+            { "title": "神国时期", "text": "关系从街头互助升级为信仰共同体。戴维从'别急着卖，让我兄弟做赐福'到充当收尸人助理，忠诚度锚点从'生死之交'跃迁到'誓死追随'。" }
+          ]
+        },
+        { "kind": "panel", "title": "关系向前的标志", "text": "系统忠诚度数值是明线——从'生死之交'到'誓死追随'。暗线是行为模式的变化：从'我帮你是因为你救过我'到'我相信你做的事，我愿意把命交给你'。" }
+      ],
+      "footer": "关系化学"
+    },
+    {
+      "page_no": 6,
+      "type": "structure",
+      "layout": "editorial",
+      "eyebrow": "世界与结构",
+      "title": "读者需要知道的故事结构",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "世界规则", "text": "美利坚被系统识别为魔域地下城。所有社会底层元素被翻译为RPG术语——这是全书最核心的设定，不是噱头，而是贯穿始终的认知框架。" },
+            { "title": "系统核心", "text": "系统只看表象不看本质（演戏也算打倒）。这创造了一个巨大的取巧空间，成为主角的核心竞争力来源。" },
+            { "title": "升级路径", "text": "流浪汉→尸体商→巫毒灵媒→街头医神→圣徒→庇护所领主→神国牧羊人。每一步升级都有对应的资源累积和组织扩张。" },
+            { "title": "最终方向", "text": "从个体求生到社区控制再到地下帝国——这部小说的'内战'不是传统意义上的军事冲突，而是在美利坚体内种出一套平行权力体系。" }
+          ]
+        },
+        {
+          "kind": "route",
+          "items": ["西雅图求生", "街头医神", "圣徒崛起", "神国初建", "内战降临"]
+        }
+      ],
+      "footer": "故事结构"
+    },
+    {
+      "page_no": 7,
+      "type": "selling_points",
+      "layout": "grid",
+      "eyebrow": "具体卖点",
+      "title": "好看具体发生在哪里",
+      "blocks": [
+        {
+          "kind": "cards",
+          "items": [
+            { "title": "RPG化现实的黑色幽默", "text": "每一次系统弹窗都是一次社会现实的翻译——搜流浪汉尸体获得'化合物制作'技能，治疗底层民众获得'圣徒'称号。熟悉的RPG机制，陌生的美利坚街头。" },
+            { "title": "中国智慧降维打击", "text": "抗生素+地塞米松+海姆立克急救法 = 西雅图街头医神。当美国人连最基本的急救常识都没有的时候，一个中国赤脚医生的知识储备就是降维武器。" },
+            { "title": "系统盲区的创造性利用", "text": "假装打倒也算打倒，演戏驱魔也是治疗——主角不断发现系统的规则漏洞，把RPG机制玩成了街头生存的'合法外挂'。" },
+            { "title": "暗黑基建种田", "text": "用8具帮派成员的尸体搭建庇护所基础，开启史诗级任务「地上神国」。庇护所提供体力恢复+精神安抚+窃听屏蔽的Buff——这是尸体种田，不是田园种田。" }
+          ]
+        },
+        { "kind": "panel", "title": "强项边界", "text": "以上卖点对熟悉RPG机制且对美国社会有兴趣的读者效果最佳。如果你纯粹追求数值碾压和战力膨胀，这本书的'爽'可能不够直接——它的智力快感多于感官刺激。" }
+      ],
+      "footer": "卖点"
+    },
+    {
+      "page_no": 8,
+      "type": "risks",
+      "layout": "warning",
+      "eyebrow": "阅感与避雷",
+      "title": "哪些人可能会弃书",
+      "blocks": [
+        {
+          "kind": "radar",
+          "items": [
+            { "label": "人物塑造", "value": 8.0 },
+            { "label": "情节节奏", "value": 7.5 },
+            { "label": "文笔质量", "value": 7.0 },
+            { "label": "关系发展", "value": 7.5 },
+            { "label": "世界观", "value": 8.5 },
+            { "label": "叙事节奏", "value": 6.5 }
+          ]
+        },
+        {
+          "kind": "warning",
+          "title": "潜在劝退点",
+          "items": [
+            "开局极弱：主角血量触斩杀线、体力不足常人三分之一，前5章以生存挣扎为主，升级速度慢热",
+            "系统面板轰炸：每章大量系统提示弹窗，不喜欢看数值的读者会感到烦躁",
+            "猎奇内容预警：后期涉及尸体种植、巫毒仪式等cult元素，敏感读者慎入",
+            "道德灰色地带：主角使用欺骗、操控、利用宗教信仰等手段，传统英雄爱好者可能不适",
+            "源文件质量：当前网络流通版本约75%章节内容污染，建议正版阅读"
+          ]
+        },
+        { "kind": "panel", "title": "争议如何理解", "text": "本书的道德灰色地带和猎奇元素不是噱头，而是对美利坚底层的真实映射——当生存是第一优先级的时候，道德的边界自然变得模糊。如果你能接受'在绝境里先活下来再谈善良'这个前提，这些争议就不会成为弃书的理由。" }
+      ],
+      "footer": "避雷"
+    },
+    {
+      "page_no": 9,
+      "type": "verdict",
+      "layout": "verdict",
+      "eyebrow": "最终结论",
+      "title": "它到底适合谁",
+      "blocks": [
+        {
+          "kind": "audience",
+          "items": {
+            "recommended": [
+              "喜欢用RPG术语解构现实世界的读者——翻译系统是同类中最彻底的",
+              "对美国社会问题有兴趣但不想读非虚构的读者——用娱乐包装完成社会科普",
+              "系统流+基建种田双修读者——从单人求生到组织建设的完整升级路径",
+              "追求'中国人降维打击海外'爽感的读者——赤脚医生打败美国医疗复合体",
+              "能接受黑色幽默和cult元素的读者——尸体种植、巫毒仪式是独特审美体验"
+            ],
+            "avoid": [
+              "追求开局即无敌的读者——前20章主角都在死亡线上挣扎",
+              "不喜欢频繁数值面板的读者——系统弹窗密度在同类中偏高",
+              "对猎奇/尸体/巫毒内容有生理不适的读者",
+              "追求清晰道德边界和传统英雄叙事的读者",
+              "使用当前盗版文本源的读者——内容污染严重，阅读体验极差"
+            ]
+          }
+        },
+        {
+          "kind": "verdict",
+          "title": "评分区间 6.0 - 7.5 · 粮草",
+          "text": "世界观设定独树一帜（魔域地下城=美利坚），执行完成度高，但前期节奏慢热和系统面板频率影响了整体观感。适合能接受'用RPG逻辑解构现实'的读者，不适合追求单纯升级爽感的读者。"
+        },
+        {
+          "kind": "panel",
+          "title": "为什么值得试读",
+          "text": "如果你曾经想过'美国底层到底是什么样子'，这本书用最娱乐的方式带你走了一遍。它不是社会调查报告，但它比大多数调查报告更生动——因为每一个流浪汉都是哥布林，每一个收尸人都是黑暗精灵商人，每一个黑警都是堕落骑士。这种'翻译'不是逃避现实，而是让你换一个更舒适的视角去看那些沉重的事。而当主角开始用地塞米松和抗生素建立自己的地下城帝国时，你会发现这本书比大多数爽文都要聪明——它的爽，来自于智识上的会心一笑，而非数据的无限膨胀。"
+        }
+      ],
+      "footer": "最终推荐"
+    }
+  ]
+};
+</script>
+<script>
+(function(){
+  var D = window.__BOOK_DATA__;
+  if(!D){
+    // fallback: 尝试外部加载 review.js（file:// 协议可能失败）
+    var s = document.createElement('script'); s.src='review.js';
+    s.onload=function(){ if(window.__BOOK_DATA__) init(window.__BOOK_DATA__); };
+    s.onerror=function(){ document.body.innerHTML='<p style="color:#fff;padding:40px;font-family:sans-serif">review.js 未加载。<br>请将 review.js 与此 HTML 放在同一目录后刷新。</p>'; };
+    document.head.appendChild(s);
+    return;
+  }
+  init(D);
+})();
+function init(D){
+  document.body.dataset.theme = D.theme||'literary-red';
+  var E = function(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+  var MT = function(p){var r=String(p.title||''),m=String(p.highlight||'');if(!m||r.indexOf(m)<0)return E(r);return r.split(m).map(E).join('<em>'+E(m)+'</em>');};
+  var SV = function(x){return typeof x==='string'?x:(x.label||x.title||x.text||x.value||'');};
+  var T = D.pages.length;
+
+  function P1(p){
+    var tags=(p.blocks||[]).filter(function(b){return b.kind==='tags'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var q=(p.blocks||[]).find(function(b){return b.kind==='quote'});
+    var l=(p.blocks||[]).find(function(b){return b.kind==='lede'});
+    return '<div class="page page-cover"><div class="cover-inner">'+
+      '<div class="cover-eyebrow">'+E(p.eyebrow||'')+'</div>'+
+      '<h1>'+MT(p)+'</h1>'+
+      (q?'<div class="cover-quote">'+E(q.text)+'</div>':'')+
+      (l?'<div class="cover-lede">'+E(l.text)+'</div>':'')+
+      '</div>'+
+      '<div class="cover-footer"><div class="cover-tags">'+tags.map(function(t){return '<span>'+E(SV(t))+'</span>';}).join('')+'</div><span class="cover-num">1 / '+T+'<span class="brand">popwave</span></span></div>'+
+      '<div class="cover-deco-book deco-icon"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="18" height="34" rx="1" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".6"/><rect x="26" y="6" width="18" height="34" rx="1" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".3"/><line x1="13" y1="16" x2="22" y2="14" stroke="var(--gold)" stroke-width=".8" opacity=".4"/><line x1="13" y1="24" x2="22" y2="22" stroke="var(--gold)" stroke-width=".8" opacity=".4"/><line x1="30" y1="16" x2="39" y2="14" stroke="var(--gold)" stroke-width=".8" opacity=".25"/><line x1="30" y1="24" x2="39" y2="22" stroke="var(--gold)" stroke-width=".8" opacity=".25"/></svg></div>'+
+      '<div class="cover-overlay"></div></div>';
+  }
+
+  function P2(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var cells='';for(var i=0;i<4;i++){var c=cards[i]||{};cells+='<div class="swiss-cell"><div class="swiss-num">0'+(i+1)+'</div><h3>'+E(c.title||'')+'</h3><p>'+E(c.text||'')+'</p></div>';}
+    return '<div class="page page-swiss">'+
+      '<div class="swiss-header"><div class="swiss-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="swiss-grid">'+cells+'</div>'+
+      (panel?'<div class="swiss-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="swiss-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P3(p){
+    var steps=(p.blocks||[]).filter(function(b){return b.kind==='steps'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var stepsHtml=steps.map(function(s,i){return '<div class="mag-step"><h3>'+E(s.title)+'</h3><p>'+E(s.text||'')+'</p></div>';}).join('');
+    return '<div class="page page-magazine">'+
+      '<div class="mag-left"><div class="mag-eyebrow">'+E(p.eyebrow||'')+'</div><div class="mag-section">'+('0'+p.page_no).slice(-2)+'</div></div>'+
+      '<div class="mag-right"><h2>'+MT(p)+'</h2><div class="mag-steps">'+stepsHtml+'</div>'+
+      (panel?'<div class="mag-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="mag-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
+  }
+
+  function P4(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var cardsHtml=cards.map(function(c){
+      var id=c.title||''; var text=c.text||'';
+      var parts=text.split('。');var identity=parts[0]||'';var rest=parts.slice(1).join('。');
+      return '<div class="prof-card"><div class="prof-name">'+E(id)+'</div><div class="prof-identity">'+E(identity)+'</div><div class="prof-drive">'+E(rest)+'</div></div>';
+    }).join('');
+    return '<div class="page page-profiles">'+
+      '<div class="prof-header"><div><div class="prof-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div></div>'+
+      '<div class="prof-grid">'+cardsHtml+'</div>'+
+      (panel?'<div class="prof-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="prof-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P5(p){
+    var formula=(p.blocks||[]).find(function(b){return b.kind==='formula'});
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,2);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var f=(formula&&formula.items||[]);
+    var fHtml=f.length?f.map(function(x,i){return (i?'<i>×</i>':'')+'<span>'+E(SV(x))+'</span>';}).join(''):'';
+    return '<div class="page page-infographic">'+
+      '<div class="info-header"><div class="info-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="info-diagram"><div class="info-center">'+(fHtml?'<div class="info-formula">'+fHtml+'</div>':'')+'</div></div>'+
+      (cards.length?'<div class="info-cards">'+cards.map(function(c){return '<div class="info-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>':'')+
+      (panel?'<div class="info-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="info-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P6(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]).slice(0,4);
+    var route=(p.blocks||[]).find(function(b){return b.kind==='route'});
+    var r=(route&&route.items||[]);
+    return '<div class="page page-timeline">'+
+      '<div class="tl-header"><div class="tl-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="tl-track"><div class="tl-cards">'+cards.map(function(c){return '<div class="tl-card"><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div></div>'+
+      (r.length?'<div class="tl-route">'+r.map(function(x,i){return (i?'<i>→</i>':'')+'<span>'+E(SV(x))+'</span>';}).join('')+'</div>':'')+
+      '<div class="tl-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P7(p){
+    var cards=(p.blocks||[]).filter(function(b){return b.kind==='cards'}).reduce(function(a,b){return a.concat(b.items||[]);},[]);
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    return '<div class="page page-showcase">'+
+      '<div class="show-deco-grid deco-icon"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".5"/><circle cx="20" cy="20" r="14" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".35"/><circle cx="20" cy="20" r="9" fill="none" stroke="var(--gold)" stroke-width=".5" opacity=".2"/><line x1="20" y1="1" x2="20" y2="39" stroke="var(--gold)" stroke-width=".3" opacity=".15"/><line x1="1" y1="20" x2="39" y2="20" stroke="var(--gold)" stroke-width=".3" opacity=".15"/></svg></div>'+
+      '<div class="show-header"><div class="show-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div>'+
+      '<div class="show-grid">'+cards.map(function(c,i){return '<div class="show-card"><div class="show-num">'+('0'+(i+1)).slice(-2)+'</div><h3>'+E(c.title)+'</h3><p>'+E(c.text||'')+'</p></div>';}).join('')+'</div>'+
+      (panel?'<div class="show-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="show-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P8(p){
+    var radar=(p.blocks||[]).find(function(b){return b.kind==='radar'});
+    var warning=(p.blocks||[]).find(function(b){return b.kind==='warning'});
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var ri=(radar&&radar.items||[]);
+    var wi=(warning&&warning.items||[]);
+    return '<div class="page page-dashboard">'+
+      '<div class="dash-header"><div><div class="dash-eyebrow">'+E(p.eyebrow||'')+'</div><h2>'+MT(p)+'</h2></div><div class="dash-warning-tag">'+E((warning||{}).title||'阅读门槛')+'</div></div>'+
+      '<div class="dash-body"><div class="dash-radar">'+ri.map(function(x){var v=Math.max(0,Math.min(10,Number(x.value)||0));return '<div class="dash-radar-row"><span class="dash-label">'+E(x.label)+'</span><div class="dash-track"><div class="dash-fill" style="width:'+(v*10)+'%"></div></div><span class="dash-val">'+v+'</span></div>';}).join('')+'</div>'+
+      '<div class="dash-deco-chart deco-icon"><svg viewBox="0 0 24 24"><polyline points="2,20 8,14 12,16 18,6 22,10" fill="none" stroke="var(--soft)" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="14" r="2" fill="var(--soft)" opacity=".3"/><circle cx="18" cy="6" r="2" fill="var(--soft)" opacity=".3"/></svg></div>'+
+      '<div class="dash-right"><div class="dash-warning"><h3>⚠ 明确阅读门槛</h3><ul>'+wi.map(function(x){return '<li>'+E(SV(x))+'</li>';}).join('')+'</ul></div>'+
+      (panel?'<div class="dash-panel"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+'</div></div>'+
+      '<div class="dash-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div>';
+  }
+
+  function P9(p){
+    var audience=(p.blocks||[]).find(function(b){return b.kind==='audience'});
+    var verdict=(p.blocks||[]).find(function(b){return b.kind==='verdict'});
+    var panel=(p.blocks||[]).find(function(b){return b.kind==='panel'});
+    var aud=audience&&audience.items||{};
+    var rec=aud.recommended||[]; var avo=aud.avoid||[];
+    var vTitle=verdict?verdict.title:''; var vText=verdict?verdict.text:'';
+    var scoreMatch=vTitle.match(/[\d.]+/g);
+    return '<div class="page page-backcover"><div class="back-inner">'+
+      '<div class="back-eyebrow">'+E(p.eyebrow||'')+'</div>'+
+      '<div class="back-title"><h2>'+MT(p)+'</h2></div>'+
+      '<div class="back-verdict">'+
+      '<div class="back-deco-star deco-icon"><svg viewBox="0 0 100 20">'+
+        (function(){var s='';for(var i=0;i<5;i++)s+='<polygon points="'+(10+i*20)+',1 '+(13+i*20)+',6.5 '+(19+i*20)+',8.5 '+(14+i*20)+',13.5 '+(15+i*20)+',19.5 '+(10+i*20)+',16.8 '+(5+i*20)+',19.5 '+(6+i*20)+',13.5 '+(1+i*20)+',8.5 '+(7+i*20)+',6.5" fill="var(--gold)" opacity=".8"/>';return s;})()+
+      '</svg></div>'+
+      (scoreMatch?'<div class="back-score">'+scoreMatch.join('–')+'</div>':'')+'<div class="back-grade">'+E(p.footer||'')+'</div><div class="back-text">'+E(vText)+'</div></div>'+
+      '<div class="back-audience"><div><h3>✓ 推荐给</h3><ul>'+rec.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div><div><h3>✗ 不推荐给</h3><ul>'+avo.map(function(x){return '<li>'+E(x)+'</li>';}).join('')+'</ul></div></div>'+
+      (panel?'<div class="back-why"><h3>'+E(panel.title)+'</h3><p>'+E(panel.text)+'</p></div>':'')+
+      '<div class="back-footer"><span>'+E(p.footer||'')+'</span><span>'+p.page_no+' / '+T+'<span class="brand">popwave</span></span></div></div></div>';
+  }
+
+  var renderers = {cover:P1, hook:P2, synopsis:P3, characters:P4, chemistry:P5, structure:P6, selling_points:P7, risks:P8, verdict:P9};
+  var html = D.pages.map(function(p){var fn=renderers[p.type];return fn?fn(p):P2(p);}).join('');
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+</script>
+</body>
+</html>

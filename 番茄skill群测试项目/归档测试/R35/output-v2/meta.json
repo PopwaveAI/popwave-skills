@@ -1,0 +1,20 @@
+{
+  "config": "R35 v2 纯净版",
+  "method": "API调用，避免agent上下文污染",
+  "input_length": 11808,
+  "output_length": 4009,
+  "elapsed_seconds": 51.997724294662476,
+  "tokens": {
+    "prompt_tokens": 7268,
+    "completion_tokens": 3239,
+    "total_tokens": 10507,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 549
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 7268
+  }
+}

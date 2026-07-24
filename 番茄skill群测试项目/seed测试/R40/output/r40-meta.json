@@ -1,0 +1,23 @@
+{
+  "track": "都市异能",
+  "phases": [
+    {
+      "name": "phase1-发散",
+      "length": 4711,
+      "elapsed": 46.5,
+      "tokens": 10492
+    },
+    {
+      "name": "phase2-创意",
+      "length": 1952,
+      "elapsed": 25.1,
+      "tokens": 9561
+    },
+    {
+      "name": "phase3-ch001",
+      "length": 3828,
+      "elapsed": 32.6,
+      "tokens": 7958
+    }
+  ]
+}

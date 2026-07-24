@@ -1,0 +1,18 @@
+{
+  "task": "R13-T3-PG2",
+  "content_length": 2139,
+  "usage": {
+    "prompt_tokens": 292,
+    "completion_tokens": 2141,
+    "total_tokens": 2433,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 797
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 36
+  },
+  "elapsed": 32.4
+}
