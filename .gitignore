@@ -23,18 +23,20 @@ _projects/
 
 # IDE/tool config
 .trae/
-workspace/.claude/
-workspace/.trae/
 
 # Temp directory
 .tmp/
 
-# Large reference novels (400MB+ — kept locally, not in git)
+# Non-skill directories — kept locally, not tracked in git
 downloads/
-workspace/参考小说txt/
-
-# Deprecated test projects
-workspace/废弃测试项目/
-
-# Nested git repos (untracked, cause add failures)
-workspace/html群测试项目/推书/
+workspace/
+番茄skill群测试项目/
+起点skill群测试项目/
+素材/
+prd/
+.uploads/
+.trae-html-share-packages/
+expert-showcase*.html
+expert-showcase*.md
+project-state-demo.html
+PRD-*.md
