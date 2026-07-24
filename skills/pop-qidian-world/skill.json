@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-world",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "displayName": "起点世界构筑引擎",
-  "description": "起点世界构筑引擎。v2.2.0：新增Step 0交互式世界决策（W1-W2，2轮），产出世界决策表.md。v2.1.0：按skill-create规范重写。",
+  "description": "起点世界构筑引擎。v3.0.0：引擎三要素重构（定位+好坏标准+达成方法），world定位为骨架空间展开器，力量体系/动力引擎/金手指改为引用骨架.md。",
   "tags": ["世界构筑"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-world", "起点world", "起点世界构筑"] },
