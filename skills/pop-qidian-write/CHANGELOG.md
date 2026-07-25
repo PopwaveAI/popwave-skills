@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v3.5.0 (2026-07-26)
+
+### 对齐pipeline标准架构（整体性改造）
+- **目录路径对齐**：正文落盘路径从 `涌现/正文/{书名}-第{N}章-{标题}.txt` 改为 `正文/ch{NNN}.txt`，对齐pipeline 8目录标准
+- **DNA三态协议修复**：删除 soul 依赖，`素材/文风锚定.md` 存在即可直接触发DNA加载（续写模式适用）；current-state.md 的 DNA执行包仍为正向模式优先源
+- **current-state.md 路径对齐**：从 `审核/current-state.md` 改为 `current-state.md`（项目根），对齐pipeline标准
+- **创作记录模板对齐**：soul约束 → DNA约束（来源素材/文风锚定.md），文风DNA约束 → 文风DNA执行包，路径对齐
+- **SKILL.md Step 1 描述对齐**：从"读取种子文档+幕纲"改为对齐step-1-consume.md实际逻辑
+- **配套修复-review**：step-2-commit.md 库文件名对齐pipeline标准路径（设定库.md→世界圣经.md/人物库.md→角色库.md/剧情线.md→卷纲.md/research-写作燃料.md→素材/写作燃料.md）；压缩归档路径从 `压缩归档/` 改为 `审核/压缩归档/`
+- **配套修复-pipeline**：step0-import.md 的 current-state 反推模板补 DNA执行包字段
+- skill.json displayName 从"涌现 Write"改为"起点 Write"
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v3.4.0 (2026-07-22)
 
 ### SKILL.md按skill-create规范重写

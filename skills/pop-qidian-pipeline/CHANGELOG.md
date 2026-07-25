@@ -1,5 +1,72 @@
 # CHANGELOG
 
+## v3.4.0 | 2026-07-26
+
+### 导入模式重构：pipeline从搬运工升级为调度员
+
+**根因**：step0-import.md自己做内容结构标准化+正文反推+设计文档补建，但pipeline作为路由总控无法达到各skill深度方法论保证的产出质量。各skill的SOP/格式/校验逻辑深度思考，pipeline自行转换只是形式对齐。
+
+**改动**：
+- step0-import.md重构：
+  - 0b简化为"资产归位"（只做文件名/目录归位+来源标记，删除0b-2内容结构标准化）
+  - 0f重写为"调度skill补跑"（替代原0b-2/0f的pipeline自做内容转换/反推）
+  - 新增文件来源标记机制（user-original/pipeline-relocated/skill-generated/skill-reconstruct）
+  - 新增补跑建议清单（输出给用户决定补跑策略）
+  - 0f-2 review reconstruct：有正文缺状态文件时调度review批量回溯
+  - 0f-3 设计文档补跑：缺设计文档时调度对应skill reconstruct
+- step2.md新增Reconstruct子agent派发模板：
+  - review reconstruct子agent（批量回溯审核）
+  - skill reconstruct子agent（设计文档校验+补全，通用模板）
+- SKILL.md路由表review版本v3.2.0→v3.4.0
+- SKILL.md Step 0描述更新为"调度员"架构
+- 配套改造review v3.4.0：新增step-reconstruct.md（批量回溯审核模式）
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
+**架构边界**：pipeline只做资产清点+文件归位+调度skill，深度内容转换由对应skill的reconstruct模式完成
+
+## v3.3.0 | 2026-07-24
+
+### 补全Phase 3/3.5/4子agent派发模板
+
+**根因**：run日志分析发现world/character/plot在主会话中直接执行，未派发子agent。导致：①skillNames为空，skill定义未加载 ②主agent凭记忆"扮演"skill，自评偏乐观无人拦截 ③产出质量不达标（地图区域少/势力不够/剧情平淡）
+
+**改动**：
+- step2.md新增Phase 3 world/Phase 3.5 character/Phase 4 plot三个子agent派发模板
+  - 均使用 `purpose: "research"`（执行类，可写文件）
+  - instruction自包含：remote-skills路径+SKILL.md+steps/读取指令+关键红线+产出路径+「执行任务不是检查任务」声明
+  - 每个模板包含该Phase特有的红线摘要（world: 骨架消费验证/地图空间叙事/势力4层具名/危机引擎化/敌人攀登方式代表；character: 角色从世界矛盾生长/攀登方式归属/反派自洽动机；plot: 四层结构/起承转合/4硬锚点/精彩度五问/四地图叠加推演）
+- step2.md Phase 1-4执行模式说明新增：交互决策完成后必须派发子agent执行生成（seed除外，因交互轮次多）
+- SKILL.md路由表Phase 3/3.5/4标注「**子agent**生成」
+- SKILL.md红线#4扩展：Phase 0/3/3.5/4/5的生成任务都必须派发子agent，禁止在主会话直接执行
+- SKILL.md版本号3.2.0→3.3.0
+
+**部署要求**：同步到 `C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\pop-qidian-pipeline\3.3.0\`
+
+## v3.2.0 | 2026-07-24
+
+### 子agent派发host约束修正 + Phase 0产出真实性门禁
+
+**根因**：run日志分析发现三个致命问题——
+1. `paopao_subagent_run` 工具没有 `skills` 参数，step2.md模板里的 `skills: ["pop-qidian-research"]` 被host完全忽略
+2. `purpose` 只支持 `verification/research/critique/implementation-check`，没有 `implementation`，agent回退到 `implementation-check`，导致子agent只产出检查报告不执行
+3. 本地修改（v3.2.0）未部署到remote-skills缓存，agent加载的还是旧版3.1.0
+
+**改动**：
+- step2.md子agent派发模板全面重写：
+  - 删除所有 `skills` 参数（host不支持）
+  - `purpose: "implementation"` → `purpose: "research"`（host支持值）
+  - instruction自包含：skill文件读取路径（remote-skills目录）+ 关键红线摘要 + 产出路径 + 「执行任务不是检查任务」声明
+  - 新增Phase 5 write子agent模板（之前SKILL.md有但step2.md缺失）
+- SKILL.md红线#14重写：从"必须用implementation模式"改为"必须遵守host约束"
+- SKILL.md Phase 5指令模板引用step2.md（不再内联）
+- SKILL.md版本标注更新3.1.0→3.2.0
+- 新增Phase 0产出真实性门禁（decon-lite≥3处原文引用+文风锚定≥500字原文采样）
+- 新增下载失败中断机制（下载失败→禁止派发拆书/DNA→等用户决策）
+
+### 部署要求
+- 必须同步到 `C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\pop-qidian-pipeline\3.2.0\`
+- 旧版3.1.0可保留但不再被加载（版本号自动选最新）
+
 ## v3.1.0 | 2026-07-24
 
 ### 新增导入/续写模式（Step 0）——标准化转换为核心

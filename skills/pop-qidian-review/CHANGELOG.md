@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v3.4.0 (2026-07-26)
+
+### 新增reconstruct模式（批量回溯审核）
+- **新增 `steps/step-reconstruct.md`**：pipeline导入模式0f调度的reconstruct模式，对已有正文逐章回溯审核
+- 采样策略：≤10章全审 / 11-30章最近5章+每5章取1章 / >30章最近5章+第一章+每10章取1章
+- 简化版审核：信息提取（每章必做）+ 正向符合性简化（动作闭环/越级/金手指）+ 正文质量简化（AI味7项+字数）
+- 产出：多章简版审核报告 + current-state.md（含DNA执行包+source:skill-reconstruct标记）+ 小说快照.md + review-沉淀.md
+- SKILL.md新增Reconstruct模式SOP入口 + 速查表新增step-reconstruct.md
+- skill.json version 3.3.0→3.4.0，displayName从"涌现 Review（番茄覆盖）"改为"起点 Review"
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v3.3.0 (2026-07-23)
 
 ### 四步审核重构：SKILL.md与step文件结构对齐

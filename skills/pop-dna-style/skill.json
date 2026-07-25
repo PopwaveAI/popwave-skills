@@ -1,8 +1,8 @@
 {
   "id": "pop-dna-style",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "文风DNA提取",
-  "description": "文风DNA提取。当用户说'文风DNA''提取笔触''文风锚定'时启用。从参考书采样按v4模板提取笔触DNA部署到项目本地素材/文风锚定.md。双档位：A笔触必做+B剧情brief可选。",
+  "description": "文风DNA提取。v1.3.0：新增原文存在性前置门禁，采样前必须验证参考书txt存在，禁止基于记忆/书评/评论替代原文。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-dna-style", "文风DNA"] },

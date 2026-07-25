@@ -11,7 +11,7 @@ last_updated: YYYY-MM-DD
 # Current State
 
 > 本文件是下一章 write 的唯一剧情入口，控制在 1000-2500 字。写不下的内容留在库文件，不进入 write 入口。
-> 更新规则：覆盖本文件前，旧版必须先归档到 `压缩归档/current-state-{YYYYMMDD}-{章位}.md`（见 PRD §4.4）。
+> 更新规则：覆盖本文件前，旧版必须先归档到 `审核/压缩归档/current-state-{YYYYMMDD}-{章位}.md`（见 PRD §4.4）。
 
 ## 当前章位
 - 已完成：

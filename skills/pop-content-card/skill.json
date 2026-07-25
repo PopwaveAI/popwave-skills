@@ -1,0 +1,17 @@
+{
+  "id": "pop-content-card",
+  "version": "3.2.0",
+  "displayName": "素材图文卡",
+  "description": "当用户说'素材卡/素材图文/满页图文/网文素材卡/出HTML'时启用。把网文写作素材做成5页手机可读HTML长图。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-content-card", "素材卡", "素材图文", "满页图文"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["营销与推荐"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -5,13 +5,13 @@ description: 起点章节审核引擎。当用户说"审稿""审核""review"时�
 
 # review
 
-> 起点章节审核引擎。四步审核：正向符合性→正文质量→反向充足性→沉淀。v3.3.0。
+> 起点章节审核引擎。四步审核：正向符合性→正文质量→反向充足性→沉淀。v3.4.0。
 
 ---
 
 ## 做什么
 
-输入：本章施工卡（plot产出）+ 本章正文（write产出）+ DNA笔触 + 骨架.md + 主角设计.md + 角色库 + 设定库 + 前章current-state
+输入：本章施工卡（plot产出）+ 本章正文（write产出）+ DNA笔触 + 力量体系.md + 动力引擎.md + 主角设计.md + 角色库 + 设定库 + 前章current-state
 
 | 产出文件 | 核心内容 |
 |:--|:--|
@@ -39,6 +39,9 @@ AI味7项（句式重复/情绪直给/结尾收束/描写堆叠/信息重复/对
 ### Step 4：剧情沉淀 → `steps/step-2-commit.md`
 输出审核报告+更新current-state（归档旧版→写新版）+更新小说快照（replace）+追加review-沉淀日志。
 
+### Reconstruct模式：批量回溯审核 → `steps/step-reconstruct.md`
+导入/续写模式触发。对已有正文逐章回溯审核（采样策略），生成current-state+小说快照+review-沉淀，为续写提供状态基础。
+
 ---
 
 ## 红线
@@ -60,10 +63,11 @@ AI味7项（句式重复/情绪直给/结尾收束/描写堆叠/信息重复/对
 | `SKILL.md`（本文件） | 每次 | 四步审核骨架+红线+执行入口 |
 | `steps/step-1-audit.md` | Step 1-3 | 正向符合性6项+正文质量(AI味7项+DNA8维度+好看度4问+字数)+反向充足性4项 |
 | `steps/step-2-commit.md` | Step 4 | 审核报告模板+current-state更新+小说快照更新+沉淀日志 |
+| `steps/step-reconstruct.md` | Reconstruct模式 | 批量回溯审核（采样策略+简化审核+状态文件生成） |
 | `templates/current-state.tpl.md` | Step 4落盘 | current-state空模板 |
 
 ---
 
 ## 版本
 
-v3.3.0 | 2026-07-23 | 四步审核重构：SKILL.md与step文件结构对齐，新增反向充足性检查(Step 3)，补全AI味7项/好看度4问/字数检查 → [CHANGELOG.md](CHANGELOG.md)
+v3.4.0 | 2026-07-26 | 新增reconstruct模式（批量回溯审核），pipeline导入模式调度 → [CHANGELOG.md](CHANGELOG.md)
