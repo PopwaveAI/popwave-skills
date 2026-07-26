@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-write",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "displayName": "起点 Write",
-  "description": "起点正文写作引擎。当用户说\"写正文\"\"续写\"\"write\"时启用。6章型骨架+17微观技法+五层指导+DNA三态协议+设定库精选注入，将剧情锚点渲染为2000-2500字章节正文。",
+  "description": "起点正文写作引擎。当用户说\"写正文\"\"续写\"\"write\"时启用。6章型骨架+17微观技法+五层指导+DNA三态协议+设定库精选注入+视角设计框架（章意图7问），将剧情锚点渲染为2000-2500字章节正文。",
   "tags": ["剧情与正文"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-write", "写正文", "续写"] },
