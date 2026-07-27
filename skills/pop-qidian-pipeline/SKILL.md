@@ -32,7 +32,7 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 0-Stage2 | ①拆书任务（download→dna-style→decon-lite） ②seed Step 0交互（S0→S1世界→S2力量→S3主角）。主agent依次执行拆书任务，同时推进seed交互 | Stage1完成 | 素材/（调研+文风锚定+decon-lite） + 设计/立项决策表.md |
 | 1 | pop-qidian-seed v9.0.0（S4-S5续交互→骨架+创意+首章） | S1-S3完成+拆书就绪 | 立项决策表.md（完整）+力量体系.md+动力引擎.md+创意.md+正文/ch001.txt |
 | 2 | pop-qidian-seed v9.0.0（主角层） | 骨架自洽通过 | 设计/主角设计.md |
-| 3 | pop-qidian-world v3.0.0（交互→主agent加载skill执行生成世界圣经） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+全书设定/世界圣经.md |
+| 3 | pop-qidian-world v4.1.0（交互→主agent加载skill执行生成世界圣经） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+全书设定/世界圣经.md |
 | 3.5 | pop-qidian-character v1.2.0（交互→主agent加载skill执行生成角色库） | 全书设定就绪 | 设计/角色库/角色库.md |
 | 4 | pop-qidian-plot v4.3.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲.md+章锚点表.md |
 | 5 | pop-qidian-write v3.5.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
