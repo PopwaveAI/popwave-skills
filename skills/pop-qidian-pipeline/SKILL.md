@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.5.0。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -47,7 +47,7 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 1. **读取协议**：每次对话第一件事读项目总控.html获取当前phase→按路由表调度。禁止跳过读html直接干活。
 2. **pipeline只做路由不干活**——所有产出由下游skill生成。pipeline不直接写正文/创意/审核/提取DNA。
 3. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作。
-4. **主agent直接执行所有skill SOP**——所有Phase的生成任务（Phase 0/3/3.5/4/5/6）均由主agent直接加载对应skill的SKILL.md+step文件后执行，不派发子agent。主agent在执行前必须读取对应skill的SKILL.md获取骨架，再按Step加载step文件。执行指南见step2.md。
+4. **混合执行模式**——交互型step（底牌摸底/决策交互）由主agent直接执行；执行型step（骨架展开/世界圣经/角色库/卷纲/正文/审核）由主agent收集上下文后派发子agent执行。主agent职责：读取skill SKILL.md+step文件→提炼红线+操作要点+项目上下文→组装instruction→派发子agent→检查产出→更新项目总控→衔接下一step。子agent职责：按instruction读取skill文件+输入文件→执行SOP→落盘产出。不依赖harness层skillNames传参。
 
 ---
 

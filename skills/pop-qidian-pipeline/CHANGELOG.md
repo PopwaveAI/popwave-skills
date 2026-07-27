@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v3.6.0 | 2026-07-27
+
+### seed 从主agent直接执行改为混合执行模式（方案3）
+
+**根因**：主agent直接执行所有step会导致上下文信息衰减——越长越衰减，到后期step时指令权重下降，agent跳过红线、省略产出。这是模型注意力机制的物理限制，无法通过"强调红线"或"加门禁"解决。
+
+**方案3·混合执行**：主agent做调度器（读skill→提炼红线+操作要点+项目上下文→组装instruction→派发子agent→检查产出→衔接下一step），子agent做执行器（拿到干净上下文+完整执行指南，专注生成）。不依赖harness层skillNames传参——主agent用Read工具自行读取skill文件。
+
+**改动**：
+- SKILL.md：
+  - 红线#4从"主agent直接执行所有skill SOP"改为"混合执行模式"——交互型step主agent执行，执行型step主agent派发子agent执行
+- step2.md：
+  - "Phase 1-4执行模式"从"先交互→再生成（主agent直接执行）"改为"交互型step主agent执行 + 执行型step子agent派发"
+  - 新增"seed 执行型step子agent派发模板"——为step3-7各设计instruction模板（通用结构+派发时机+主agent准备+instruction要点）
+  - 新增"seed 执行型step串联流程"——展示step3→step4（用户确认）→step5→step6→step7的完整派发链路
+  - Phase 3/3.5/4执行指南标注"待改造"（后续逐步改造）
+- 涉及文件：SKILL.md + steps/step2.md
+
+**seed step分类**：
+- 交互型（主agent执行）：step1底牌摸底、step2交互决策
+- 执行型（子agent执行）：step3骨架展开、step4创意发散（产出候选PK→主agent让用户确认）、step5故事纲领、step6黄金首章、step7主角展开
+
+**后续计划**：world/character/plot/write/review 逐步改造为相同的混合执行模式
+
 ## v3.5.0 | 2026-07-27
 
 ### 全系列从子agent派发改为主agent直接执行

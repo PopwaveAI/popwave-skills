@@ -114,22 +114,184 @@ SearchReplace:
 
 **下载失败中断机制**：下载任务返回失败后，**禁止**执行decon-lite和dna-style。必须向用户报告下载失败并给出三个选项：①换一本可下载的参考书 ②用户手动提供txt文件路径 ③用户明确选择跳过拆书（后续seed基于通用知识生成，需用户确认接受质量降级）。用户未决策前，Phase 0 Stage 2的拆书分支暂停，seed交互分支可继续。
 
-### Phase 1-4执行模式：先交互→再生成
+### Phase 1-4执行模式：交互型step主agent执行 + 执行型step子agent派发
 
-Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后才进入下游skill自动生成。可选轮用户可跳过。
+Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后，进入执行型step。
 
 | Phase | Step 0交互轮次 | 核心必答/可选 | 决策表产出 | 完成后执行 |
 |:--|:--|:--|:--|:--|
-| 1 seed | S0-S5（6轮） | S1-S4核心必答+S5可选 | 设计/立项决策表.md | 再执行骨架生成 |
-| 3 world | W1-W2（2轮） | W1核心必答+W2可选 | 设计/世界决策表.md | 再执行世界圣经生成 |
-| 3.5 character | C1-C2（2轮） | C1核心必答+C2可选 | 设计/角色库/角色库决策表.md | 再执行角色库生成 |
-| 4 plot | R1-R5（5轮） | 前3轮核心必答+后2轮可选 | 设计/第一卷剧情/卷纲决策表.md | 再执行Step 1-3自动生成 |
+| 1 seed | S0-S5（6轮） | S1-S4核心必答+S5可选 | 设计/立项决策表.md | 主agent派发子agent执行step3-7 |
+| 3 world | W1-W2（2轮） | W1核心必答+W2可选 | 设计/世界决策表.md | 主agent派发子agent执行step1-3（待改造） |
+| 3.5 character | C1-C2（2轮） | C1核心必答+C2可选 | 设计/角色库/角色库决策表.md | 主agent派发子agent执行角色库生成（待改造） |
+| 4 plot | R1-R5（5轮） | 前3轮核心必答+后2轮可选 | 设计/第一卷剧情/卷纲决策表.md | 主agent派发子agent执行step1-3（待改造） |
 
 **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库。
 
-**Phase 1-4交互决策完成后由主agent直接执行生成**——交互决策产出决策表后，主agent直接加载对应skill的SKILL.md+step文件，按SOP执行生成任务并落盘。所有Phase（含seed/world/character/plot）均由主agent在当前会话中执行，不派发子agent。
+**step分类与执行方式**：
 
-## Phase 3/3.5/4 主agent执行指南
+| step类型 | 执行方式 | 示例 |
+|:--|:--|:--|
+| 交互型 | 主agent直接执行（需与用户多轮对话） | seed step1底牌/step2决策、world step0决策、character step0决策、plot step0决策 |
+| 执行型 | 主agent派发子agent执行 | seed step3-7、world step1-3、character step1、plot step1-3 |
+
+**交互型step执行流程**：主agent读取skill SKILL.md+step文件 → 与用户多轮交互（给选项不给空白） → 产出决策表落盘
+
+**执行型step执行流程**（方案3·混合执行）：
+1. 主agent读取skill SKILL.md → 提取红线（3-5条）
+2. 主agent读取对应step文件 → 提炼操作要点（50-100行摘要）
+3. 主agent读取项目输入文件 → 提炼项目上下文摘要
+4. 主agent组装instruction（核心层：红线+操作要点+上下文 / 引用层：文件路径）
+5. 主agent派发子agent（general_purpose_task，research模式）
+6. 子agent按instruction读取skill文件+输入文件 → 执行SOP → 落盘产出
+7. 主agent检查产出 → 更新项目总控 → 衔接下一step
+
+---
+
+## seed 执行型step子agent派发模板
+
+> 主agent按以下模板为seed的每个执行型step组装instruction，派发子agent。每个step一个子agent，子agent执行完返回后主agent检查产出再派发下一个。
+
+### 通用instruction结构
+
+每个step的instruction包含以下部分：
+
+```
+## 任务
+执行 pop-qidian-seed 的 stepX-{name}（{step名称}），产出 {产出文件路径}。
+
+## 执行方式
+1. 读取 skill 文件获取完整SOP：
+   - skills/pop-qidian-seed/SKILL.md（骨架+红线）
+   - skills/pop-qidian-seed/steps/stepX-{name}.md（详细操作）
+2. 按SOP执行，消费输入文件，产出落盘
+
+## 红线（必须遵守）
+{主agent从SKILL.md提取的3-5条红线}
+
+## 操作要点摘要
+{主agent从step文件提炼的关键操作，50-100行}
+
+## 项目上下文
+{主agent从项目文件提炼的上下文摘要}
+
+## 输入文件路径
+- {文件1路径}: {用途}
+- {文件2路径}: {用途}
+
+## 产出要求
+- 落盘路径: {路径}
+- 完成后报告: {报告内容}
+```
+
+### step3 骨架展开
+
+**派发时机**：Step 0交互决策（S0-S5）完成，立项决策表落盘后
+
+**主agent准备**：
+1. 读取 `skills/pop-qidian-seed/SKILL.md` → 提取红线
+2. 读取 `skills/pop-qidian-seed/steps/step3-skeleton.md` → 提炼操作要点
+3. 读取 `设计/立项决策表.md` → 提炼S1世界+S2力量体系决策摘要
+
+**instruction要点**：
+- 任务：消费立项决策表S1+S2决策，展开为力量体系.md（四层结构）+动力引擎.md（六组成）+骨架自洽检查
+- 红线：骨架先行/动力引擎世界级（众生攀登分层+掉落机制）/金手指不喧宾夺主/决策表是硬输入（S2已定方向不可推翻，如发现缺陷回Step 0重走S2）
+- 输入文件：`设计/立项决策表.md` + `素材/用户意图.md` + `素材/decon-lite-{书名}.md`（如有）+ `素材/市场校准.md`
+- 产出：`设计/力量体系.md` + `设计/动力引擎.md`
+- 完成后报告：力量体系子境界数、动力引擎范式、骨架自洽检查结果
+
+### step4 创意发散
+
+**特殊**：step4产出候选PK，需要用户确认后才能进step5
+
+**派发时机**：step3骨架展开完成，力量体系.md+动力引擎.md落盘后
+
+**主agent准备**：
+1. 读取 `skills/pop-qidian-seed/steps/step4-diverge.md` → 提炼操作要点
+2. 读取 `设计/力量体系.md` + `设计/动力引擎.md` → 提炼骨架摘要
+
+**instruction要点**：
+- 任务：在骨架框架内双轨发散（王道轨5个+猎奇轨5个），三眼法判断，PK推荐1个
+- 红线：骨架先行（创意必须在力量体系+动力引擎框架内，不能推翻坐标系）
+- 输入文件：`设计/力量体系.md` + `设计/动力引擎.md` + `素材/市场校准.md` + `素材/用户意图.md`
+- 产出：`设计/创意候选PK.md`（候选清单+三眼法判断+推荐）
+- 完成后报告：王道轨5个方向+猎奇轨5个方向+推荐方向
+
+**用户确认环节**：子agent产出候选PK后 → 主agent读取 `设计/创意候选PK.md` → 呈现给用户选择 → 用户选择后追加到 `设计/立项决策表.md`
+
+### step5 故事纲领
+
+**派发时机**：step4创意发散完成且用户已确认创意方向后
+
+**主agent准备**：
+1. 读取 `skills/pop-qidian-seed/steps/step5-story-brief.md` → 提炼操作要点
+2. 读取 `设计/立项决策表.md` → 提炼S1+S3决策摘要+用户确认的创意选择
+
+**instruction要点**：
+- 任务：消费S1世界+S3主角+用户确认的创意方向，产出故事纲领（三核心+营销层）+创意.md
+- 输入文件：`设计/立项决策表.md` + `设计/力量体系.md` + `设计/动力引擎.md` + `设计/创意候选PK.md`
+- 产出：`设计/创意.md`
+- 完成后报告：三核心摘要+最大钩子
+
+### step6 黄金首章
+
+**派发时机**：step5故事纲领完成，创意.md落盘后
+
+**主agent准备**：
+1. 读取 `skills/pop-qidian-seed/steps/step6-first-chapter.md` → 提炼操作要点
+2. 读取 `设计/创意.md` → 提炼故事纲领摘要
+3. 读取 `素材/文风锚定.md`（如有） → 确认DNA笔触可用
+
+**instruction要点**：
+- 任务：DNA笔触写黄金首章（2000-2500字），体现坐标系展示+金手指激活
+- 输入文件：`设计/创意.md` + `设计/力量体系.md` + `设计/动力引擎.md` + `素材/文风锚定.md`（如有）
+- 产出：`正文/ch001.txt`
+- 完成后报告：字数+章型+金手指激活方式
+
+### step7 主角展开
+
+**派发时机**：step6黄金首章完成，ch001.txt落盘后
+
+**主agent准备**：
+1. 读取 `skills/pop-qidian-seed/steps/step7-protagonist.md` → 提炼操作要点
+2. 读取 `设计/立项决策表.md` → 提炼S3决策摘要
+3. 读取 `设计/力量体系.md` + `设计/动力引擎.md` → 提炼骨架摘要
+
+**instruction要点**：
+- 任务：消费S3决策+骨架+ch001，展开为主角设计.md（2a主角展开+2b金手指展开+2c爽感矛盾展开）
+- 红线：决策表是硬输入（S3已定方向不可推翻，如发现缺陷回Step 0重走S3）
+- 输入文件：`设计/立项决策表.md` + `设计/力量体系.md` + `设计/动力引擎.md` + `设计/创意.md` + `正文/ch001.txt`
+- 产出：`设计/主角设计.md`
+- 完成后报告：主角三定位+金手指限制代价+爽感矛盾公式
+
+### seed 执行型step串联流程
+
+```
+Step 0交互决策完成 → 立项决策表落盘
+  ↓
+主agent派发 step3 子agent（骨架展开）
+  ↓ 子agent产出 力量体系.md + 动力引擎.md
+主agent检查产出 → 更新项目总控
+  ↓
+主agent派发 step4 子agent（创意发散）
+  ↓ 子agent产出 创意候选PK.md
+主agent读取候选PK → 呈现给用户 → 用户确认创意方向
+  ↓
+主agent派发 step5 子agent（故事纲领）
+  ↓ 子agent产出 创意.md
+主agent检查产出 → 更新项目总控
+  ↓
+主agent派发 step6 子agent（黄金首章）
+  ↓ 子agent产出 ch001.txt
+主agent检查产出 → 更新项目总控
+  ↓
+主agent派发 step7 子agent（主角展开）
+  ↓ 子agent产出 主角设计.md
+主agent检查产出 → 更新项目总控 → Phase 2完成 → 进入Phase 3
+```
+
+---
+
+## Phase 3/3.5/4 主agent执行指南（待改造为子agent派发模式）
 
 > 主agent直接加载对应skill执行生成任务。执行前必须读取skill的SKILL.md获取骨架，再按Step加载step文件。
 
