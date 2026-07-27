@@ -139,16 +139,16 @@ Phase ID对照表（同step2.md）：
 
 ### 0f. 调度skill补跑
 
-> pipeline 不自行做内容结构标准化、正文反推、设计文档补建。这些深度工作调度对应 skill 的 reconstruct 模式完成。pipeline 只负责识别缺口 + 派发子agent + 汇报结果。
+> pipeline 不自行做内容结构标准化、正文反推、设计文档补建。这些深度工作由主agent加载对应 skill 的 reconstruct 模式完成。pipeline 只负责识别缺口 + 调度skill执行 + 汇报结果。
 
 #### 0f-1. 补跑策略
 
 根据缺口报告，对以下情况调度 skill 补跑：
 
-| 缺口类型 | 调度skill | reconstruct做什么 | 派发模板 |
+| 缺口类型 | 调度skill | reconstruct做什么 | 执行指南 |
 |:--|:--|:--|:--|
-| 有正文 + 缺current-state/小说快照 | review | 批量回溯审核已有正文 → 生成current-state + 小说快照 + review-沉淀 | step2.md「review reconstruct子agent」 |
-| 缺Phase 1-4设计文档 | 对应skill（seed/world/character/plot） | 读取已有文件 → 按skill方法论校验+补全 → 输出标准格式 | step2.md「skill reconstruct子agent」 |
+| 有正文 + 缺current-state/小说快照 | review | 批量回溯审核已有正文 → 生成current-state + 小说快照 + review-沉淀 | step2.md「review reconstruct执行指南」 |
+| 缺Phase 1-4设计文档 | 对应skill（seed/world/character/plot） | 读取已有文件 → 按skill方法论校验+补全 → 输出标准格式 | step2.md「skill reconstruct执行指南」 |
 | 已有设计文档但来源=user-original | 对应skill | 读取已有文件 → 按skill方法论校验 → 标注缺口或确认达标 | 按需调度（用户确认后） |
 
 **不调度的情况**（pipeline自行处理）：
@@ -159,9 +159,9 @@ Phase ID对照表（同step2.md）：
 
 > 触发条件：`正文/` 有文件 且 `审核/小说快照.md` 或 `current-state.md` 不存在
 
-**必须派发子agent执行**——禁止在主会话中直接做正文反推。派发模板见 step2.md「review reconstruct子agent」。
+**主agent必须加载review skill执行**——按review reconstruct模式的SOP执行正文反推。执行指南见 step2.md「review reconstruct执行指南」。
 
-子agent执行 review 的 reconstruct 模式（见 `skills/pop-qidian-review/steps/step-reconstruct.md`）：
+主agent执行 review 的 reconstruct 模式（见 `skills/pop-qidian-review/steps/step-reconstruct.md`）：
 - 输入：已有正文章节
 - 采样策略：≤10章全审 / 11-30章最近5章+每5章取1章 / >30章最近5章+第一章+每10章取1章
 - 产出：
@@ -215,7 +215,7 @@ Phase ID对照表（同step2.md）：
 ## 下一步
 
 > 根据落地Phase，加载 `steps/step2.md` 进入路由循环。
-> 如果需要先执行0f补跑，在step2.md路由前先派发reconstruct子agent。
+> 如果需要先执行0f补跑，在step2.md路由前先执行reconstruct任务。
 
 ---
 ## ⛔ 加载门禁 + 下一步指引

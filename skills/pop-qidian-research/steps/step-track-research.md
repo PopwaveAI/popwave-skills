@@ -1,7 +1,7 @@
 # step-track-research 赛道定位调研
 
 > 本文件是 pop-qidian-research 赛道定位调研档位执行指令。进入前已由 SKILL.md 强保障注入红线。
-> **触发**：pipeline Phase 0 Stage 2 自动派发子agent。所有项目必有。
+> **触发**：pipeline Phase 0 Stage 2 主agent执行。所有项目必有。
 > **产出**：`素材/赛道调研.md`。消费方：seed 1d 双轨发散（王道赛道借鉴+避雷）+ plot 三源合流（赛道参考第一源）。
 
 ## S1 · 接收需求

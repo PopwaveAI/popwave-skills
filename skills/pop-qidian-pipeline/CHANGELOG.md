@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v3.5.0 | 2026-07-27
+
+### 全系列从子agent派发改为主agent直接执行
+
+**根因**：`paopao_subagent_run` 工具不支持 `skills` 参数（host层限制），导致子agent无法加载skill定义，只能凭记忆"扮演"skill，产出质量不达标。同时子agent无法获取主会话上下文，world/character/plot等需要上下文的环节产出脱节。
+
+**改动**：
+- SKILL.md：
+  - Phase路由表删除所有「**子agent**生成」标注，改为「主agent加载skill执行」
+  - 红线#4从"子agent派发必须遵守host约束"改为"主agent直接执行所有skill SOP"
+  - 速查表step2.md描述从"子agent派发模板"改为"主agent执行指南"
+- step2.md：
+  - Phase 0并发规则从"同时派发dna-style+decon-lite"改为"主agent依次执行（串行）"
+  - Phase 1-4从"交互决策完成后必须派发子agent"改为"主agent直接执行生成"
+  - 所有子agent派发模板（Phase 3/3.5/4/5/0/reconstruct）改为主agent执行指南
+  - 删除host约束说明（不再需要paopao_subagent_run参数约束）
+  - 执行指南保留原有红线和执行步骤实质内容，仅改变执行方式
+- step0-import.md：
+  - 0f调度从"派发子agent"改为"主agent加载skill执行"
+  - 表格header从"派发模板"改为"执行指南"
+  - 交叉引用从"reconstruct子agent"改为"reconstruct执行指南"
+- 涉及文件：SKILL.md + steps/step2.md + steps/step0-import.md
+
+**关联skill改动**：
+- pop-qidian-seed SKILL.md：Phase 0描述从"触发pipeline子agent并发"改为"主agent依次执行拆书任务"
+- pop-qidian-seed steps/step1-brief.md：底牌就绪后从"子agent并发"改为"主agent依次执行"，描述原则从"告诉子agent扮演哪个skill"改为"主agent读取对应skill的SKILL.md"
+- pop-qidian-research steps/step-track-research.md：触发条件从"自动派发子agent"改为"主agent执行"
+
 ## v3.4.0 | 2026-07-26
 
 ### 导入模式重构：pipeline从搬运工升级为调度员

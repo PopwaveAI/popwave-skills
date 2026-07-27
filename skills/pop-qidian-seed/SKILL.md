@@ -46,7 +46,7 @@ description: 起点立项引擎。当用户说"立项""开始新书""seed"时启
 
 ### Phase 0：七维底牌摸底 → `steps/step1-brief.md`
 
-七维逐项摸底（①方向②笔触参考书③力量体系参考书④赛道经典⑤现有设定⑥情绪基调⑦最大卖点），缺的标缺不阻塞。底牌就绪后触发pipeline子agent并发（dna-style/research/赛道调研）。
+七维逐项摸底（①方向②笔触参考书③力量体系参考书④赛道经典⑤现有设定⑥情绪基调⑦最大卖点），缺的标缺不阻塞。底牌就绪后主agent依次执行拆书任务（dna-style/decon-lite/赛道调研）。
 
 ### Step 0：交互式立项决策 → `steps/step2-decision.md`
 
