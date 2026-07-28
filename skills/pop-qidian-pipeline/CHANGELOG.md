@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v3.7.0 | 2026-07-28
+
+### Phase 3→3.5新增DNA综合重构调度
+
+**根因**：文风DNA从参考书纯提取（Stage 1，Phase 0）存在局限性——参考书的笔触可能和本书世界画风矛盾（如深渊主宰的弹窗式面板在生存记录感世界不自然），且用户需求（面板偏好/主角姿态/节奏偏好）无法在纯提取阶段注入。需要在世界圣经产出后，用世界画风+用户需求对笔触层进行校验重构。
+
+**改动**：
+- Phase路由表新增"3→3.5"行：pop-dna-style v1.4.0 Stage 2，世界圣经就绪后执行
+- step2.md新增"Phase 3→3.5 DNA重构调度"执行指南
+- 主agent在Phase 3完成后、进入Phase 3.5之前，加载pop-dna-style Stage 2执行
+- Stage 2对Stage 1笔触层拥有写权限（可修改/删除/保留），每个修改/删除需世界画风的因果依据
+- 文风锚定.md从单层（笔触层）升级为三层（笔触层+世界画风层+用户需求层）
+- world版本号Phase路由表对齐：v4.1.0→v4.3.0
+
+**关联skill改动**：
+- pop-dna-style v1.4.0：新增Stage 2 + step5-synthesize.md + 红线❌6/❌7
+- 涉及文件：pipeline SKILL.md + step2.md + skill.json + pop-dna-style SKILL.md + step5-synthesize.md + skill.json + CHANGELOG.md
+
 ## v3.6.0 | 2026-07-27
 
 ### seed 从主agent直接执行改为混合执行模式（方案3）

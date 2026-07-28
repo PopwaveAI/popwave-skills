@@ -1,11 +1,11 @@
 {
   "id": "pop-dna-style",
-  "version": "1.3.0",
-  "displayName": "文风DNA提取",
-  "description": "文风DNA提取。v1.3.0：新增原文存在性前置门禁，采样前必须验证参考书txt存在，禁止基于记忆/书评/评论替代原文。",
+  "version": "1.4.0",
+  "displayName": "文风DNA提取与综合重构",
+  "description": "文风DNA提取与综合重构。v1.4.0：新增Stage 2综合重构模式，Phase 3完成后用世界画风+用户需求重构Stage 1笔触层，产出三层综合终版文风锚定.md。v1.3.0：原文存在性前置门禁。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-dna-style", "文风DNA"] },
+  "activation": { "slashCommands": ["pop-dna-style", "文风DNA", "DNA重构"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
