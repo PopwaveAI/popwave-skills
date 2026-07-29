@@ -44,6 +44,12 @@ MAX_WAIT = 300
 # 常见本地代理端口（Clash/v2ray/SS等），按优先级排列
 FALLBACK_PROXY_PORTS = [7890, 7897, 1080, 10809, 10808, 8080]
 
+# Web Unlocker API 端点（用 Bright Data 服务器代理下载，不需要本地VPN）
+WEB_UNLOCKER_URL = "https://api.brightdata.com/request"
+# Web Unlocker zone 名称（在 Bright Data 后台创建，环境变量可覆盖）
+DEFAULT_UNLOCKER_ZONE = "web_unlocker1"
+UNLOCKER_ZONE = os.environ.get("BRIGHTDATA_UNLOCKER_ZONE") or DEFAULT_UNLOCKER_ZONE
+
 
 # ── 代理自动检测 ────────────────────────────────────────
 
@@ -191,18 +197,78 @@ def normalize_pins(raw_results: list, keyword: str) -> list:
     return pins
 
 
-# ── 图片下载 ────────────────────────────────────────────
+# ── 图片下载（三层fallback）─────────────────────────────
 
-def download_images(pins: list, output_dir: Path, limit: int = 20, proxies: dict = None) -> list:
+def _download_via_proxy(img_url: str, proxies: dict = None, timeout: int = 20) -> bytes | None:
+    """Layer 1: 通过本地代理直连下载。成功返回bytes，失败返回None。"""
+    try:
+        resp = requests.get(img_url, timeout=timeout, proxies=proxies)
+        if resp.status_code == 200 and len(resp.content) > 1000:
+            return resp.content
+    except Exception:
+        pass
+    return None
+
+
+def _download_via_unlocker(img_url: str, api_key: str, zone: str, timeout: int = 30) -> bytes | None:
+    """Layer 2: 通过 Bright Data Web Unlocker API 下载（不需本地VPN）。
+
+    用 Bright Data 的服务器做代理转发，绕过国内GFW。
+    需要在 Bright Data 后台创建名为 zone 的 Web Unlocker zone。
+    """
+    try:
+        resp = requests.post(
+            WEB_UNLOCKER_URL,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "zone": zone,
+                "url": img_url,
+                "format": "raw",
+            },
+            timeout=timeout,
+        )
+        if resp.status_code == 200 and len(resp.content) > 1000:
+            return resp.content
+        elif resp.status_code == 400 and "not found" in resp.text.lower():
+            print(f"  [Web Unlocker] zone '{zone}' 不存在，请在 Bright Data 后台创建 Web Unlocker zone")
+    except Exception:
+        pass
+    return None
+
+
+def download_images(pins: list, output_dir: Path, limit: int = 20,
+                    proxies: dict = None, api_key: str = None,
+                    unlocker_zone: str = None) -> list:
     """下载 pin 图片到本地，在 pin 字典里补充 image_local 字段。
 
-    proxies: 代理配置（由 detect_proxy() 检测）。Pinterest CDN (i.pinimg.com)
-    在国内被墙，必须走代理下载。传 None 则尝试直连（国内大概率失败）。
+    三层 fallback 策略：
+      Layer 1: 本地代理直连（免费，快，需要VPN/Clash）
+      Layer 2: Bright Data Web Unlocker API（付费，不需VPN，需创建zone）
+      Layer 3: 优雅降级（跳过下载，保留 image_url 在JSON中）
+
+    proxies:       detect_proxy() 检测到的本地代理
+    api_key:       Bright Data API Key（用于 Web Unlocker fallback）
+    unlocker_zone: Bright Data Web Unlocker zone 名称
     """
     output_dir.mkdir(parents=True, exist_ok=True)
     downloaded = 0
+    failed_count = 0
+    layer1_hits = 0
+    layer2_hits = 0
+
+    use_unlocker = bool(api_key and unlocker_zone)
     if proxies:
-        print(f"[下载] 使用代理下载 Pinterest 图片")
+        print(f"[下载] Layer 1 (本地代理) 可用")
+    if use_unlocker:
+        print(f"[下载] Layer 2 (Web Unlocker zone={unlocker_zone}) 可用作为fallback")
+
+    if not proxies and not use_unlocker:
+        print("[下载] ⚠ 无本地代理且未配置Web Unlocker，图片将无法下载")
+        print("[下载]   → 建议方案：1) 开启VPN/Clash  2) 在Bright Data后台创建Web Unlocker zone")
+        print("[下载]   → 当前仅保存图片URL到JSON，不下载图片文件")
 
     for pin in pins[:limit]:
         img_url = pin.get("image_url", "")
@@ -216,20 +282,41 @@ def download_images(pins: list, output_dir: Path, limit: int = 20, proxies: dict
         filename = f"pin_{pin_id}{ext}"
         filepath = output_dir / filename
 
-        try:
-            resp = requests.get(img_url, timeout=20, proxies=proxies)
-            if resp.status_code == 200 and len(resp.content) > 1000:
-                filepath.write_bytes(resp.content)
-                pin["image_local"] = str(filepath)
-                downloaded += 1
-                print(f"  [下载 {downloaded}/{limit}] {filename} ({len(resp.content)//1024}KB)")
-            else:
-                print(f"  [跳过] pin_{pin_id} HTTP {resp.status_code} 或内容过小")
-        except Exception as e:
-            err_short = str(e)[:200]
-            print(f"  [失败] pin_{pin_id}: {err_short}")
+        content = None
+        source = ""
+
+        # Layer 1: 本地代理
+        if proxies:
+            content = _download_via_proxy(img_url, proxies=proxies)
+            if content:
+                source = "proxy"
+
+        # Layer 2: Bright Data Web Unlocker
+        if not content and use_unlocker:
+            content = _download_via_unlocker(img_url, api_key, unlocker_zone)
+            if content:
+                source = "unlocker"
+
+        # 写入文件
+        if content:
+            filepath.write_bytes(content)
+            pin["image_local"] = str(filepath)
+            pin["download_method"] = source
+            downloaded += 1
+            if source == "proxy":
+                layer1_hits += 1
+            elif source == "unlocker":
+                layer2_hits += 1
+            print(f"  [下载 {downloaded}/{limit}] {filename} ({len(content)//1024}KB via {source})")
+        else:
+            failed_count += 1
+            print(f"  [跳过] pin_{pin_id} 所有下载方式失败，URL已保留在JSON中")
 
     print(f"[下载完成] {downloaded} 张图片 → {output_dir}")
+    if downloaded > 0:
+        print(f"  Layer 1 (本地代理): {layer1_hits} 张 | Layer 2 (Web Unlocker): {layer2_hits} 张")
+    if failed_count > 0:
+        print(f"  ⚠ {failed_count} 张图片下载失败（URL已保留，可用浏览器手动打开）")
     return pins
 
 
@@ -276,10 +363,15 @@ def main():
         json.dump(pins, f, ensure_ascii=False, indent=2)
     print(f"[JSON] 已保存 → {json_path}")
 
-    # 5. 下载图片
+    # 5. 下载图片（三层fallback: 本地代理 → Web Unlocker → 优雅降级）
     if args.download and not args.json_only:
         proxies = detect_proxy()
-        pins = download_images(pins, output_dir, args.limit, proxies=proxies)
+        pins = download_images(
+            pins, output_dir, args.limit,
+            proxies=proxies,
+            api_key=BRIGHTDATA_API_KEY,
+            unlocker_zone=UNLOCKER_ZONE,
+        )
         # 更新 JSON（补充 image_local 字段）
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(pins, f, ensure_ascii=False, indent=2)

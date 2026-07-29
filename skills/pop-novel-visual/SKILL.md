@@ -148,6 +148,10 @@ description: "当用户说'网文封面/人设图/小说封面/角色图/视觉�
 3. API Key 已内置在脚本中（环境变量可覆盖）：
    - `ARK_API_KEY`（火山引擎方舟）→ `scripts/generate.py`
    - `BRIGHTDATA_API_KEY`（Pinterest 搜索）→ `scripts/pinterest_search.py`
+4. **Pinterest 图片下载三层 fallback**（Pinterest CDN `i.pinimg.com` 在国内被墙）：
+   - Layer 1：本地代理自动检测（环境变量→Windows注册表→端口探测7890/1080等），有VPN/Clash时自动生效
+   - Layer 2：Bright Data Web Unlocker API（不需本地VPN，需在Bright Data后台创建Web Unlocker zone，环境变量 `BRIGHTDATA_UNLOCKER_ZONE` 可覆盖默认名 `web_unlocker1`）
+   - Layer 3：优雅降级（保留图片URL到JSON，不崩溃，agent可呈现URL供用户浏览器打开）
 
 ## 强弱加载保障
 
