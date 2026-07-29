@@ -138,14 +138,16 @@ description: "当用户说'网文封面/人设图/小说封面/角色图/视觉�
 | 查参考点→提示词策略映射 | `steps/step2-generate.md` §2 | Step2 翻译提示词前必读 |
 | 查参考图精确分离公式 | `steps/step2-generate.md` §3.3 | 画风参考点时必读 |
 | 调用 API 生成图片 | `scripts/generate.py` | Step2 调用时执行 |
+| 搜索 Pinterest 参考图 | `scripts/pinterest_search.py` | Step0 搜索时执行 |
 | 设计方案模板 | `templates/design-plan.tpl.md` | Step1 输出时参考 |
 
 ## 前置条件
 
-1. 环境变量 `ARK_API_KEY` 已设置（火山引擎方舟 API Key）
-2. 环境变量 `BRIGHTDATA_API_KEY` 已设置（Pinterest 搜索 API Key）
-3. Python 3.8+ 环境（脚本仅使用标准库，无需额外安装）
-4. 用户能提供：书名、赛道/风格方向、目标读者画像（如有小说项目文件则更好，但非必须）
+1. Python 3.8+ 环境
+2. `requests` 库（pinterest_search.py 依赖，`pip install requests`）
+3. API Key 已内置在脚本中（环境变量可覆盖）：
+   - `ARK_API_KEY`（火山引擎方舟）→ `scripts/generate.py`
+   - `BRIGHTDATA_API_KEY`（Pinterest 搜索）→ `scripts/pinterest_search.py`
 
 ## 强弱加载保障
 

@@ -232,13 +232,9 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 
 ## 5. 执行 API 脚本
 
-### 5.1 检查环境变量
+### 5.1 检查环境
 
-确认 `ARK_API_KEY` 环境变量已设置。未设置则报错：
-```
-错误：未设置 ARK_API_KEY 环境变量
-设置方法：set ARK_API_KEY=your_api_key
-```
+API Key 已内置在 `scripts/generate.py` 中，无需手动设置环境变量。如需覆盖，可设置 `ARK_API_KEY` 环境变量。
 
 ### 5.2 执行生成
 

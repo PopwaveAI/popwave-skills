@@ -11,7 +11,7 @@ pop-novel-visual API 调用脚本
     python generate.py video --prompt "提示词" --model doubao-seedance-1-0-pro-250428 --ratio 3:4 --duration 5 --output "封面.mp4"
 
 环境变量:
-  ARK_API_KEY - 火山引擎方舟 API Key（必填）
+  ARK_API_KEY - 火山引擎方舟 API Key（已内置默认值，可通过环境变量覆盖）
 """
 
 import argparse
@@ -28,14 +28,13 @@ SEEDREAM_API = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
 SEEDANCE_TASK_API = "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks"
 SEEDANCE_QUERY_API = "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks/{task_id}"
 
+# 内置 API Key（环境变量优先）
+DEFAULT_ARK_API_KEY = "b597f4e5-2370-4bdf-875f-5ae43e43c52b"
+
 
 def get_api_key():
-    """从环境变量获取 API Key"""
-    api_key = os.environ.get("ARK_API_KEY")
-    if not api_key:
-        print("错误：未设置 ARK_API_KEY 环境变量", file=sys.stderr)
-        print("设置方法: set ARK_API_KEY=your_api_key", file=sys.stderr)
-        sys.exit(1)
+    """获取 API Key，环境变量优先，回退到内置默认值"""
+    api_key = os.environ.get("ARK_API_KEY") or DEFAULT_ARK_API_KEY
     return api_key
 
 
@@ -253,7 +252,7 @@ def main():
     # 图片生成子命令
     img_parser = subparsers.add_parser("image", help="Seedream 图片生成")
     img_parser.add_argument("--prompt", required=True, help="提示词（中文≤300字）")
-    img_parser.add_argument("--model", default="doubao-seedream-5-0-lite-260128", help="模型 ID（默认 5.0 lite，4.5 用 doubao-seedream-4-5-251128）")
+    img_parser.add_argument("--model", default="doubao-seedream-5-0-pro-260628", help="模型 ID（默认 5.0 Pro）")
     img_parser.add_argument("--size", default=None, help="图片尺寸（如 1728x2304 或 2K）")
     img_parser.add_argument("--output", required=True, help="输出文件路径")
     img_parser.add_argument("--watermark", action="store_true", default=False, help="添加水印")
