@@ -50,3 +50,35 @@
 ## 提示词记录
 
 <!-- 生成完成后在此追加提示词记录 -->
+
+## 方向对齐记录（门禁A）
+
+### 小说DNA
+- USP：{{usp}}
+- 电影海报时刻：{{poster_moment}}
+- 读者承诺：{{reader_promise}}
+- 气质关键词：{{mood_keywords}}
+
+### 同赛道封面参照
+{{competitor_reference}}
+
+### 确认方向
+- 视觉钩子：{{hook_direction}}
+- 构图方向：{{composition_direction}}
+- 配色方向：{{color_direction}}
+- 风格方向：{{style_direction}}
+
+### 参考图（如有）
+- 参考图理解：{{ref_understanding}}
+- 生成路线：{{generation_route}}
+
+### 用户反馈
+{{gate_a_feedback}}
+
+## 方案对齐记录（门禁B）
+
+### 设计方案
+{{confirmed_design}}
+
+### 用户反馈
+{{gate_b_feedback}}

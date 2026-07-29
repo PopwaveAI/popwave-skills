@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-visual",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "displayName": "网文视觉生成",
-  "description": "当用户说'网文封面/人设图/小说封面/角色图/视觉设计'时启用。理解小说卖点，形成视觉设计方案，翻译为 Seedream/Seedance 提示词并调用 API 生成图片/视频。",
+  "description": "当用户说'网文封面/人设图/小说封面/角色图/视觉设计'时启用。理解小说卖点，联网找参考，与用户对齐设计方案，翻译为 Seedream/Seedance 提示词并调用 API 生成图片/视频。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-novel-visual", "网文封面", "人设图", "小说封面", "角色图", "视觉设计"]
