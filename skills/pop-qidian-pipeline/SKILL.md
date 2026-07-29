@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.7.0：Phase 3→3.5新增DNA综合重构调度（pop-dna-style Stage 2）。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。v3.7.0：Phase 3→3.5新增DNA综合重构调度（pop-dna-style Stage 2）。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -32,8 +32,8 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 0-Stage2 | ①拆书任务（download→dna-style→decon-lite） ②seed Step 0交互（S0→S1世界→S2力量→S3主角）。主agent依次执行拆书任务，同时推进seed交互 | Stage1完成 | 素材/（调研+文风锚定+decon-lite） + 设计/立项决策表.md |
 | 1 | pop-qidian-seed v9.0.0（S4-S5续交互→骨架+创意+首章） | S1-S3完成+拆书就绪 | 立项决策表.md（完整）+力量体系.md+动力引擎.md+创意.md+正文/ch001.txt |
 | 2 | pop-qidian-seed v9.0.0（主角层） | 骨架自洽通过 | 设计/主角设计.md |
-| 3 | pop-qidian-world v4.3.0（交互→主agent加载skill执行生成世界圣经） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+全书设定/世界圣经.md |
-| 3→3.5 | pop-dna-style v1.4.0 Stage 2（主agent加载skill执行DNA综合重构） | 世界圣经就绪 | 素材/文风锚定.md v2（笔触层+世界画风层+用户需求层） |
+| 3 | pop-qidian-world v4.4.0（交互→主agent加载skill执行生成世界设定） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+设计/全书设定/（10个最小闭环文件） |
+| 3→3.5 | pop-dna-style v1.4.0 Stage 2（主agent加载skill执行DNA综合重构） | 全书设定文件就绪 | 素材/文风锚定.md v2（笔触层+世界画风层+用户需求层） |
 | 3.5 | pop-qidian-character v1.2.0（交互→主agent加载skill执行生成角色库） | 全书设定就绪 | 设计/角色库/角色库.md |
 | 4 | pop-qidian-plot v4.3.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲.md+章锚点表.md |
 | 5 | pop-qidian-write v3.5.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
@@ -48,7 +48,7 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 1. **读取协议**：每次对话第一件事读项目总控.html获取当前phase→按路由表调度。禁止跳过读html直接干活。
 2. **pipeline只做路由不干活**——所有产出由下游skill生成。pipeline不直接写正文/创意/审核/提取DNA。
 3. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作。
-4. **混合执行模式**——交互型step（底牌摸底/决策交互）由主agent直接执行；执行型step（骨架展开/世界圣经/角色库/卷纲/正文/审核）由主agent收集上下文后派发子agent执行。主agent职责：读取skill SKILL.md+step文件→提炼红线+操作要点+项目上下文→组装instruction→派发子agent→检查产出→更新项目总控→衔接下一step。子agent职责：按instruction读取skill文件+输入文件→执行SOP→落盘产出。不依赖harness层skillNames传参。
+4. **混合执行模式**——交互型step（底牌摸底/决策交互）由主agent直接执行；执行型step（骨架展开/世界设定/角色库/卷纲/正文/审核）由主agent收集上下文后派发子agent执行。主agent职责：读取skill SKILL.md+step文件→提炼红线+操作要点+项目上下文→组装instruction→派发子agent→检查产出→更新项目总控→衔接下一step。子agent职责：按instruction读取skill文件+输入文件→执行SOP→落盘产出。不依赖harness层skillNames传参。
 
 ---
 

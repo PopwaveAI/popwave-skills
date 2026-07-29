@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "3.7.0",
-  "description": "起点管线总控。v3.7.0：Phase 3→3.5新增DNA综合重构调度（pop-dna-style Stage 2），世界圣经产出后用世界画风+用户需求重构笔触层。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。",
+  "version": "3.8.0",
+  "description": "起点管线总控。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0同步）。v3.7.0：Phase 3→3.5新增DNA综合重构调度（pop-dna-style Stage 2），世界设定产出后用世界画风+用户需求重构笔触层。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
