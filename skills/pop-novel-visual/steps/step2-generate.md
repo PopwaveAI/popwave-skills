@@ -25,7 +25,7 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 
 ### 2.0 视觉模式决定提示词结构
 
-**必读 `references/visual-mode-guide.md` §五**，根据视觉模式选择不同的提示词结构：
+**按视觉模式读取对应文件**（`references/mode-cover.md` / `references/mode-character.md` / `references/mode-scene-art.md` / `references/mode-scene.md`），根据视觉模式选择不同的提示词结构：
 
 | 视觉模式 | 提示词结构 | 文字处理 |
 |:---------|:---------|:---------|
