@@ -311,7 +311,7 @@
       <span class="value"><!--STATE:one_line -->待seed产出<!--/STATE:one_line --></span>
     </div>
     <div class="brief-row">
-      <span class="label">当前write</span>
+      <span class="label">流派</span>
       <span class="value"><!--STATE:write_skill -->待Phase 5指定<!--/STATE:write_skill --></span>
     </div>
   </div>
@@ -411,10 +411,10 @@
       </div>
       <div class="readiness-block" style="padding-top:0;">
         <div class="readiness-title">血肉就绪</div>
-        <div class="status-item">地图 <span class="status-badge"><!--STATE:flesh_0 -->❌<!--/STATE:flesh_0 --></span></div>
-        <div class="status-item">势力 <span class="status-badge"><!--STATE:flesh_1 -->❌<!--/STATE:flesh_1 --></span></div>
+        <div class="status-item">全书设定 <span class="status-badge"><!--STATE:flesh_0 -->❌<!--/STATE:flesh_0 --></span></div>
+        <div class="status-item">DNA综合 <span class="status-badge"><!--STATE:flesh_1 -->❌<!--/STATE:flesh_1 --></span></div>
         <div class="status-item">角色库 <span class="status-badge"><!--STATE:flesh_2 -->❌<!--/STATE:flesh_2 --></span></div>
-        <div class="status-item">剧情白描 <span class="status-badge"><!--STATE:flesh_3 -->❌<!--/STATE:flesh_3 --></span></div>
+        <div class="status-item">卷纲 <span class="status-badge"><!--STATE:flesh_3 -->❌<!--/STATE:flesh_3 --></span></div>
       </div>
     </div>
   </div>
@@ -444,24 +444,50 @@
       <span class="section-rule"></span>
     </div>
 <div class="folder-tree"><span class="dir">项目根/</span>
-├── <span class="dir">素材/</span>            Phase 0 产出（调研+DNA+拆书+原书）
+├── 项目总控.html             pipeline 唯一状态文件
+├── current-state.md          Phase 6 review（当前章位状态）
+├── <span class="dir">素材/</span>              Phase 0 产出
 │   ├── 用户意图.md
 │   ├── 赛道调研.md
-│   ├── 文风锚定.md          pop-dna-style 提取的笔触DNA
-│   └── decon-lite-{书名}.md  research 拆书9表
-├── <span class="dir">设计/</span>            Phase 1-4 产出
-│   ├── 力量体系.md           Phase 1 seed（力量体系四层）
-│   ├── 动力引擎.md           Phase 1 seed（动力引擎六组成）
-│   ├── 主角设计.md           Phase 2 seed（主角+金手指+爽感矛盾）
-│   ├── 创意.md              Phase 1 seed（故事纲领）
-│   ├── <span class="dir">全书设定/</span>      Phase 3 world
+│   ├── 文风锚定.md            DNA v1→v2 综合重构
+│   ├── decon-lite-{书名}.md   research 拆书9表
+│   └── downloads/{书名}.txt
+├── <span class="dir">设计/</span>              Phase 1-4 产出
+│   ├── 立项决策表.md          Phase 0-1 seed（S0-S5决策）
+│   ├── 力量体系.md            Phase 1 seed
+│   ├── 动力引擎.md            Phase 1 seed
+│   ├── 创意候选PK.md          Phase 1 seed（中间文件）
+│   ├── 创意.md               Phase 1 seed
+│   ├── 主角设计.md            Phase 2 seed
+│   ├── 世界决策表.md          Phase 3 world Step0
+│   ├── <span class="dir">全书设定/</span>      Phase 3 world（10个最小闭环文件）
+│   │   ├── 世界设计原则.md
+│   │   ├── 物理规则.md
+│   │   ├── 战斗系统.md
+│   │   ├── 政治经济.md
+│   │   ├── 民风民俗.md
+│   │   ├── 地理建筑.md
+│   │   ├── 势力人物.md
+│   │   ├── 危机敌人矛盾.md
+│   │   ├── 世界规则表.md
+│   │   └── 各卷切片.md
 │   ├── <span class="dir">角色库/</span>        Phase 3.5 character
+│   │   ├── 角色库决策表.md
+│   │   └── 角色库.md
 │   └── <span class="dir">第一卷剧情/</span>    Phase 4 plot
-├── <span class="dir">正文/</span>             Phase 5 write
-│   ├── ch001.md
-│   └── ch002.md ...
-└── <span class="dir">审核/</span>             Phase 6 review
-    └── review-chXXX.md</div>
+│       ├── 卷纲决策表.md
+│       ├── 卷纲.md
+│       └── 章锚点表.md
+├── <span class="dir">产出/</span>              Phase 4 plot（事实快照）
+│   └── 正文/
+│       └── 事实快照-幕NNN.md
+├── <span class="dir">正文/</span>              Phase 5 write
+│   ├── ch001.txt
+│   └── ch002.txt ...
+└── <span class="dir">审核/</span>              Phase 6 review
+    ├── review-chXXX.md
+    ├── 小说快照.md
+    └── review-沉淀.md</div>
   </div>
 
   <!-- ========== Footer ========== -->

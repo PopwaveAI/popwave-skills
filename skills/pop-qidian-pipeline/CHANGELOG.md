@@ -1,5 +1,50 @@
 # CHANGELOG
 
+## v3.9.0 | 2026-07-29
+
+### 文件全景图对齐——修复残留引用+补全产出列+HTML模板更新
+
+**根因**：v3.8.0完成了world产出从单文件到10个最小闭环文件的重构，但pipeline自身文件中仍残留5处`设计/骨架.md`引用（实际应为`设计/力量体系.md`+`设计/动力引擎.md`），Phase路由表产出列缺失7个中间/最终文件，HTML模板文件夹树和badge名称未同步更新，初始化缺少`产出/`目录（plot事实快照落盘需要）。
+
+**改动**：
+
+**骨架.md残留修复（5处）**：
+- step2.md Phase 3 world执行指南：`设计/骨架.md`→`设计/力量体系.md`+`设计/动力引擎.md`
+- step2.md Phase 3.5 character执行指南：同上
+- step2.md Phase 4 plot执行指南：同上
+- step2.md Phase 5 write执行指南：同上
+- step2.md Phase 3红线引用：`见骨架.md`→`见力量体系.md+动力引擎.md`
+
+**Phase路由表产出列补全（7个文件）**：
+- Phase 0-Stage2：`素材/（调研+文风锚定+decon-lite）`→`素材/（赛道调研.md+文风锚定.md v1+decon-lite-{书名}.md+downloads/{书名}.txt）`+`设计/立项决策表.md（S0-S3部分）`
+- Phase 1：新增`创意候选PK.md`
+- Phase 3.5：新增`角色库决策表.md`
+- Phase 4：新增`卷纲决策表.md`+`产出/正文/事实快照-幕NNN.md`
+- Phase 6：新增`review-沉淀.md`+`current-state.md（项目根）`
+
+**HTML模板更新**：
+- badge名称：`flesh_0(地图)`→`flesh_0(全书设定)`、`flesh_1(势力)`→`flesh_1(DNA综合)`、`flesh_3(剧情白描)`→`flesh_3(卷纲)`
+- write_skill字段标签：`当前write`→`流派`，值简化为`pop-qidian-write（流派: {流派名}）`
+- 文件夹树重写为完整文件全景图（含10个全书设定文件+决策表+事实快照+current-state.md+review-沉淀.md等全部文件）
+
+**step2.md badge更新表**：
+- `Phase 3 | flesh_0(地图)→✅, flesh_1(势力)→✅`→`Phase 3 | flesh_0(全书设定)→✅`+`Phase 3→3.5 | flesh_1(DNA综合)→✅`
+- `Phase 4 | flesh_3(剧情白描)→✅`→`Phase 4 | flesh_3(卷纲)→✅`
+
+**step2.md Phase 6产出**：补上`审核/review-沉淀.md`追加
+
+**step0-import.md更新**：
+- 0c缺口分析表：Phase 1新增立项决策表.md检查、Phase 3新增世界决策表.md检查、新增Phase 3→3.5行（文风锚定v2）、Phase 6新增current-state.md检查
+- 0f-3设计文档补跑表：`骨架`→`力量体系+动力引擎`
+
+**step1.md更新**：
+- 初始化目录从8个增至10个：新增`产出/`+`产出/正文/`（plot事实快照落盘目录）
+- 自检清单从11项增至13项
+- 质量门从"8个目录"改为"10个目录"
+
+- skill.json version 3.8.0→3.9.0
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v3.8.0 | 2026-07-29
 
 ### Phase 3产出更新为10个最小闭环文件（world v4.4.0同步）

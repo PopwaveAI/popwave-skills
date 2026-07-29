@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。v3.7.0：Phase 3→3.5新增DNA综合重构调度（pop-dna-style Stage 2）。v3.6.0：seed混合执行模式（方案3）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -29,15 +29,15 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | Phase | 调用Skill | 前置检查 | 产出 |
 |:--|:--|:--|:--|
 | 0-Stage1 | 深问四层（赛道/标签/参考书/现有设定） | state=init/phase0 | 素材/用户意图.md |
-| 0-Stage2 | ①拆书任务（download→dna-style→decon-lite） ②seed Step 0交互（S0→S1世界→S2力量→S3主角）。主agent依次执行拆书任务，同时推进seed交互 | Stage1完成 | 素材/（调研+文风锚定+decon-lite） + 设计/立项决策表.md |
-| 1 | pop-qidian-seed v9.0.0（S4-S5续交互→骨架+创意+首章） | S1-S3完成+拆书就绪 | 立项决策表.md（完整）+力量体系.md+动力引擎.md+创意.md+正文/ch001.txt |
+| 0-Stage2 | ①拆书任务（download→dna-style→decon-lite） ②seed Step 0交互（S0→S1世界→S2力量→S3主角）。主agent依次执行拆书任务，同时推进seed交互 | Stage1完成 | 素材/（赛道调研.md+文风锚定.md v1+decon-lite-{书名}.md+downloads/{书名}.txt） + 设计/立项决策表.md（S0-S3部分） |
+| 1 | pop-qidian-seed v9.0.0（S4-S5续交互→骨架+创意+首章） | S1-S3完成+拆书就绪 | 立项决策表.md（完整）+力量体系.md+动力引擎.md+创意候选PK.md+创意.md+正文/ch001.txt |
 | 2 | pop-qidian-seed v9.0.0（主角层） | 骨架自洽通过 | 设计/主角设计.md |
 | 3 | pop-qidian-world v4.4.0（交互→主agent加载skill执行生成世界设定） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+设计/全书设定/（10个最小闭环文件） |
 | 3→3.5 | pop-dna-style v1.4.0 Stage 2（主agent加载skill执行DNA综合重构） | 全书设定文件就绪 | 素材/文风锚定.md v2（笔触层+世界画风层+用户需求层） |
-| 3.5 | pop-qidian-character v1.2.0（交互→主agent加载skill执行生成角色库） | 全书设定就绪 | 设计/角色库/角色库.md |
-| 4 | pop-qidian-plot v4.3.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲.md+章锚点表.md |
+| 3.5 | pop-qidian-character v1.2.0（交互→主agent加载skill执行生成角色库） | 全书设定就绪 | 设计/角色库/角色库决策表.md+角色库.md |
+| 4 | pop-qidian-plot v4.3.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md+产出/正文/事实快照-幕NNN.md |
 | 5 | pop-qidian-write v3.5.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
-| 6 | pop-qidian-review v3.4.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md |
+| 6 | pop-qidian-review v3.4.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md+review-沉淀.md+current-state.md（项目根） |
 
 > Phase 0-1并行设计、产出真实性门禁、下载失败中断、主agent执行指南、Phase 5/6执行细节、Phase 1-4交互模式等规则见 `steps/step2.md`
 

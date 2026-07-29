@@ -66,9 +66,10 @@
 | Phase 0 | deck_0(用户意图)→✅, deck_1(赛道调研)→✅, deck_2(参考书)→✅或跳过, deck_3(笔触DNA)→✅或跳过, deck_4(decon-lite)→✅或跳过 |
 | Phase 1 | skel_0(力量体系)→✅, skel_1(动力引擎)→✅, skel_2(骨架自洽)→✅ |
 | Phase 2 | prot_0(主角设计)→✅, prot_1(金手指)→✅, prot_2(爽感矛盾)→✅ |
-| Phase 3 | flesh_0(地图)→✅, flesh_1(势力)→✅ |
+| Phase 3 | flesh_0(全书设定)→✅ |
+| Phase 3→3.5 | flesh_1(DNA综合)→✅ |
 | Phase 3.5 | flesh_2(角色库)→✅ |
-| Phase 4 | flesh_3(剧情白描)→✅, chapter→ch002 |
+| Phase 4 | flesh_3(卷纲)→✅, chapter→ch002 |
 
 **badge SearchReplace示例**：
 - old: `<!--STATE:skel_0 -->❌<!--/STATE:skel_0 -->` → new: `<!--STATE:skel_0 -->✅<!--/STATE:skel_0 -->`
@@ -87,9 +88,9 @@ SearchReplace:
 - old: `<!--STATE:outputs_start-->`
 - new: `<!--STATE:outputs_start-->\n        <tr><td>{Phase名}</td><td class="file-path">{产出文件路径}</td><td>{时间}</td></tr>`
 
-#### 3f. write_skill更新（Phase 5开始时）
+#### 3f. 流派记录（Phase 5开始时）
 
-- old: `<!--STATE:write_skill -->待Phase 5指定<!--/STATE:write_skill -->` → new: `<!--STATE:write_skill -->{pop-qidian-write / pop-qidian-write-dndlike / pop-qidian-write-onepiece}<!--/STATE:write_skill -->`
+- old: `<!--STATE:write_skill -->待Phase 5指定<!--/STATE:write_skill -->` → new: `<!--STATE:write_skill -->pop-qidian-write（流派: {流派名}）<!--/STATE:write_skill -->`
 
 ### 路由规则要点
 
@@ -299,12 +300,12 @@ Step 0交互决策完成 → 立项决策表落盘
 
 **执行步骤**：
 1. 读取 `skills/pop-qidian-world/` 下的 SKILL.md 和 steps/ 下所有step文件（step0-decision/step1-flesh/step2-fullbook/step3-output）了解完整SOP
-2. 消费输入文件：设计/骨架.md + 设计/主角设计.md + 设计/世界决策表.md
-3. 骨架消费验证门禁：验证骨架.md4项完整性（力量体系四层/动力引擎六组成/众生攀登方式分层/金手指不喧宾夺主），任何一项不通过=报错中止
+2. 消费输入文件：设计/力量体系.md + 设计/动力引擎.md + 设计/主角设计.md + 设计/世界决策表.md
+3. 骨架消费验证门禁：验证力量体系.md+动力引擎.md4项完整性（力量体系四层/动力引擎六组成/众生攀登方式分层/金手指不喧宾夺主），任何一项不通过=报错中止
 4. 按SOP执行：Step 1生长血肉（地图空间化→势力具名化→危机引擎化→敌人生态化+矛盾轴化）→Step 2全书展开→Step 3落盘10个最小闭环文件（设计/全书设定/目录）
 
 关键红线（必须遵守）：
-- world只展开骨架不发明骨架——力量体系/动力引擎/金手指只放引用指针（见骨架.md/见主角设计.md），不重复落盘
+- world只展开骨架不发明骨架——力量体系/动力引擎/金手指只放引用指针（见力量体系.md+动力引擎.md/见主角设计.md），不重复落盘
 - 地图必须有空间叙事价值（不是地名列表，每区域必须有空间法则+主角核心行为+信息差来源）
 - 势力必须从引擎生长且4层全具名（有资源/没资源/爬到顶/掉下来，每层至少2个具名势力+领袖/代表）
 - 危机是引擎阻力非随机威胁（必须对应动力引擎组成）
@@ -345,7 +346,7 @@ Step 0交互决策完成 → 立项决策表落盘
 
 **执行步骤**：
 1. 读取 `skills/pop-qidian-character/` 下的 SKILL.md 和 steps/ 下所有step文件了解完整SOP
-2. 消费输入文件：设计/骨架.md + 设计/主角设计.md + 设计/全书设定/各卷切片.md（按需加载势力人物.md/危机敌人矛盾.md等） + 设计/角色库/角色库决策表.md
+2. 消费输入文件：设计/力量体系.md + 设计/动力引擎.md + 设计/主角设计.md + 设计/全书设定/各卷切片.md（按需加载势力人物.md/危机敌人矛盾.md等） + 设计/角色库/角色库决策表.md
 3. 按SOP执行：角色卡生成（主角已有→配角/反派/盟友/中立角色）
 
 关键红线（必须遵守）：
@@ -362,7 +363,7 @@ Step 0交互决策完成 → 立项决策表落盘
 
 **执行步骤**：
 1. 读取 `skills/pop-qidian-plot/` 下的 SKILL.md 和 steps/ 下所有step文件了解完整SOP
-2. 消费输入文件：设计/骨架.md + 设计/主角设计.md + 设计/全书设定/各卷切片.md（导航→按需加载物理规则.md/战斗系统.md/地理建筑.md/势力人物.md/危机敌人矛盾.md等） + 设计/角色库/角色库.md + 设计/第一卷剧情/卷纲决策表.md
+2. 消费输入文件：设计/力量体系.md + 设计/动力引擎.md + 设计/主角设计.md + 设计/全书设定/各卷切片.md（导航→按需加载物理规则.md/战斗系统.md/地理建筑.md/势力人物.md/危机敌人矛盾.md等） + 设计/角色库/角色库.md + 设计/第一卷剧情/卷纲决策表.md
 3. 按SOP执行：卷纲生成（四层结构+起承转合+精彩度五问自检）→章锚点表生成（4硬锚点+3软指导）
 
 关键红线（必须遵守）：
@@ -400,7 +401,7 @@ Step 0交互决策完成 → 立项决策表落盘
 ```
 
 1. 调pop-qidian-review v3.4.0，产出`审核/review-chXXX.md`（四维审核+骨架维度检查）
-2. review Step 4沉淀产出：`current-state.md`更新 + `审核/小说快照.md`更新（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）
+2. review Step 4沉淀产出：`current-state.md`更新（项目根） + `审核/小说快照.md`更新（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表） + `审核/review-沉淀.md`追加（审稿判断+规则沉淀，append-only）
 3. 通过 → 更新项目总控.html：`phase=phase5`，`chapter=chNNN+1`
 4. 打回 → 更新项目总控.html：`phase=phase5`（重写本章）
 
@@ -495,7 +496,7 @@ Step 0交互决策完成 → 立项决策表落盘
 
 **执行步骤**：
 1. 读取 `skills/pop-qidian-write/` 下的 SKILL.md 了解完整SOP
-2. 加载输入文件：设计/主角设计.md + 素材/文风锚定.md + 设计/骨架.md + 设计/角色库/角色库.md + 设计/第一卷剧情/章锚点表.md + 设计/第一卷剧情/卷纲.md
+2. 加载输入文件：设计/主角设计.md + 素材/文风锚定.md + 设计/力量体系.md + 设计/动力引擎.md + 设计/角色库/角色库.md + 设计/第一卷剧情/章锚点表.md + 设计/第一卷剧情/卷纲.md
 3. 按SOP执行：选章型→写正文→字数自检→落盘
 
 当前章节: ch{N}（标题: {标题}）
