@@ -120,9 +120,30 @@ python "{本skill路径}/scripts/generate_storyboard.py"
 {输出目录}/漫画-{章节名}.html
 ```
 
-### 预览
+## 4. HTML 图片内联化（必须执行）
 
-启动本地 HTTP 服务器预览效果：
+popwave webview 安全策略禁止加载外部资源（相对路径、绝对路径、file:// 均被阻止），HTML 中的 `<img src="output/frame1.png">` 在 popwave 中会显示为图片损坏。
+
+**必须**在上一步组装完 HTML 后，运行内联化脚本，将所有图片压缩为 base64 data URI 嵌入 HTML：
+
+```powershell
+python "{本skill路径}/scripts/inline_html.py" "{输出目录}/漫画-{章节名}.html"
+```
+
+脚本参数（可选）：
+- `--width 800`：图片最大宽度像素（默认800，漫画页max-width=900px时够用）
+- `--quality 65`：JPEG 质量（默认65，体积与画质平衡点）
+
+```powershell
+# 自定义压缩参数
+python "{本skill路径}/scripts/inline_html.py" "{输出目录}/漫画-{章节名}.html" --width 600 --quality 50
+```
+
+执行后 HTML 文件被覆盖为自包含版本（图片内联为 base64），原图片文件保留在 `output/` 不受影响。
+
+> 内联化后的 HTML 在浏览器和 popwave 中均能正常显示。未内联化的 HTML 仅在浏览器中可用。
+
+### 预览
 
 ```powershell
 cd {输出目录}
@@ -142,6 +163,7 @@ python -m http.server 8765
 | 叙事连贯 | 按顺序看8格 | 不看文字也能理解剧情 |
 | 气泡不遮挡 | HTML页面目测 | 气泡不挡角色面部/动作焦点 |
 | 图片格式 | 检查 output/*.png 文件头 | magic bytes 为 `89 50 4E 47`（真PNG），非 `FF D8 FF`（JPEG伪装）。脚本已内置自动转码 |
+| HTML 自包含 | 检查 HTML 中 img src | 全部为 `data:image/jpeg;base64,...`，无 `output/` 路径引用 |
 
 ## 5. 降级处理
 

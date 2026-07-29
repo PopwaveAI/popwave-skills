@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.2.0 | 2026-07-29
+
+### 修复（HTML 图片内联化）
+- **根因**：popwave webview 安全策略禁止加载外部资源（相对路径、绝对路径、file:// 协议均被阻止），HTML 中 `<img src="output/frame1.png">` 在 popwave 中显示为图片损坏
+- **验证过程**：相对路径 ❌ → 绝对路径 file:// ❌ → base64 内联 472KB ✅ → base64 内联 6.5MB ❌（文件过大无法打开）→ 压缩 base64 内联 ✅
+- **修复**：新增 `scripts/inline_html.py` 脚本，将 HTML 中所有本地图片引用压缩为 base64 data URI（默认 800px 宽 + JPEG quality 65），使 HTML 完全自包含
+- **新增铁律6**：HTML 必须内联图片，禁止交付含外部图片路径的 HTML
+- **step2-generate.md** 新增 §4 HTML 图片内联化步骤（必须执行）和质量检查项
+
 ## v1.1.0 | 2026-07-29
 
 ### 修复（格式保真）

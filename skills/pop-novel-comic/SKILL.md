@@ -63,6 +63,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | ❌3 | **风格锚定串全章统一** — 所有分镜格共用同一条风格描述串，追加在每格提示词末尾。禁止每格换不同风格 | 8格风格割裂，不像同一部漫画 |
 | ❌4 | **对白用 HTML 叠加不用 Seedream 渲染** — 对白气泡、旁白框、拟声词用 CSS 定位叠加在画面上。禁止让 Seedream 在画面内渲染文字 | 模型文字渲染不可控，气泡位置挡画面 |
 | ❌5 | **下载后格式保真** — Seedream API 返回的 URL 资源实际为 JPEG，脚本保存为 .png 时必须检测 magic bytes 并转码为真 PNG。禁止直接写入 JPEG 字节流到 .png 文件 | popwave webview 按 MIME 校验，假 PNG 被判定为图片损坏 |
+| ❌6 | **HTML 必须内联图片** — 组装完 HTML 后必须运行 `scripts/inline_html.py` 将图片转为 base64 data URI。禁止交付含外部图片路径的 HTML | popwave webview 禁止加载外部资源（相对路径/绝对路径/file:// 均被阻止），未内联的 HTML 图片全部损坏 |
 
 ## 速查表
 
@@ -73,6 +74,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | Step 2 写提示词前必读 |
 | 调用 Seedream API 生成图片 | `../pop-novel-visual/scripts/generate.py` | Step 2 生成单张图片时执行 |
 | 批量生成分镜 | `scripts/generate_storyboard.py` | Step 2 批量生成8帧时执行 |
+| HTML 图片内联化 | `scripts/inline_html.py` | Step 2 组装HTML后必须执行 |
 | HTML 漫画页模板 | `templates/comic-page.tpl.html` | Step 2 组装漫画页时参考 |
 | 查分镜脚本写法指南 | `references/storyboard-guide.md` | Step 1 拆分镜时参考 |
 
@@ -95,4 +97,4 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 版本
 
-v1.1.0 | 2026-07-29 | 格式保真修复：Seedream API 返回 JPEG 资源但脚本以 .png 命名保存，导致严格 webview 判定为图片损坏。新增 ensure_png_format() 在下载后自动检测 magic bytes 并转码为真 PNG。同步修复 pop-novel-visual/scripts/generate.py。新增铁律5。
+v1.2.0 | 2026-07-29 | HTML 内联化修复：popwave webview 禁止加载外部资源（相对路径/绝对路径/file:// 均被阻止），导致 HTML 中图片全部损坏。新增 `scripts/inline_html.py` 脚本，在 HTML 组装后自动将图片压缩为 base64 data URI 内联。新增铁律6：HTML 必须内联图片。
