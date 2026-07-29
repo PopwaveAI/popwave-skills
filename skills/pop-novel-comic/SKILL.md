@@ -1,100 +1,120 @@
 ---
 name: pop-novel-comic
-description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成'时启用。读取网文章节原文，Agent拆解分镜脚本，调用 Seedream 生成角色定妆图+逐格分镜画面，HTML 层叠加对白气泡组装成完整漫画页面。"
+description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成/漫画连载'时启用。Pipeline 化漫画连载管理器：初始化角色定妆库→逐章生成分镜漫画→视觉审核沉淀。通过冻结提示词+定妆图持久化+分层记忆机制，跨章保持人设和画风一致性。"
 ---
 
 # pop-novel-comic
 
-> 网文章节转漫画生成器。输入一章网文，输出一页多格漫画 HTML 页面。Agent 做编剧（拆分镜），Seedream 做画师（生成画面），HTML 做排版（组装漫画页）。v1.0.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.0.0
 
 ## 这个 Skill 做什么
 
-输入：网文章节原文（.txt / .md，~3000字）+ 可选角色描述/参考图。
-输出：HTML 漫画页面（含 6-8 格分镜画面 + 对白气泡 + 旁白框 + 拟声词）+ 角色定妆图 + 分镜脚本。
+把长篇小说逐章变成漫画连载。通过**冻结提示词 + 定妆图持久化 + 分层记忆机制**，解决 DeepSeek 无视觉能力下的跨章人设/画风一致性问题。
 
-核心价值：把一章网文变成一页可分享的漫画。**Agent 负责"想"**（章节解构→分镜脚本），**Seedream 负责"画"**（角色定妆+逐格分镜），**HTML 负责"排"**（对白叠加+页面组装）。三者分工，各司其职。
+输入：小说项目（含角色库.md / 正文 / 力量体系.md 等）
+输出：每章一个自包含漫画 HTML + 持久化的角色定妆库 + 连载状态管理文件
+
+核心管线：**Phase 0 初始化**（一次性建角色库+定妆图）→ **Phase 1 单章生成**（循环，每章拆分镜+生成+组装）→ **Phase 2 视觉审核**（记忆沉淀+状态更新）
 
 ## 模型说明
 
 | 模型 | 版本 | 用途 | 模型 ID |
 |:-----|:-----|:-----|:--------|
-| Seedream | 5.0 lite | 角色定妆+分镜生成（速度优先） | `doubao-seedream-5-0-lite-260128` |
-| Seedream | 5.0 Pro | 角色定妆+分镜生成（质量优先，可选） | `doubao-seedream-5-0-pro-260628` |
+| Seedream | 5.0 lite | 定妆+分镜（速度优先） | `doubao-seedream-5-0-lite-260128` |
+| Seedream | 5.0 Pro | 定妆+分镜（质量优先，可选） | `doubao-seedream-5-0-pro-260628` |
 
-> 复用 `pop-novel-visual` 的 API 脚本和提示词指南。API 信息见 `pop-novel-visual/scripts/generate.py` 和 `pop-novel-visual/references/seedream-prompt-guide.md`。
+> 复用 `pop-novel-visual` 的 API 脚本和提示词指南。
 
 ## 怎么运作
 
-### Step 1: 章节解构 → 分镜脚本 → `steps/step1-deconstruct.md`
+### Phase 0: 项目初始化 → `steps/step0-init.md`（一次性）
 
-- 读取章节原文
-- 提取角色清单（名字+视觉特征）
-- 拆出 6-8 个关键帧，每帧确定：场景、角色动作、机位（全景/中景/近景/特写）、情绪、对白/旁白/拟声词
-- 确定风格锚定串（全章统一的风格描述，每格提示词末尾追加）
-- 输出分镜脚本表 + 角色视觉规格表
-- **🚪 门禁A：分镜确认** → 向用户呈现分镜脚本，用户确认/调整后继续
+- 读取小说项目的角色库.md / 主角设计.md / 力量体系.md
+- 为每个重要角色提取视觉规格表 → 生成定妆图 → **冻结提示词到角色库**
+- 定妆图持久化到 `assets/characters/`（不放章节 output/ 下）
+- 确定全系列风格锚定串 → 冻结到漫画快照.md
+- 创建三个记忆文件：漫画角色库.md + 漫画快照.md + 漫画状态.md
+- **🚪 门禁0：角色定妆确认**
 
-### Step 2: 生成画面 + HTML 组装 → `steps/step2-generate.md`
+### Phase 1: 单章生成 → `steps/step1-chapter.md`（循环）
 
-- **角色定妆**：为主角生成 1-2 张角色立绘（纯文生图），作为后续分镜的参考图
-- **逐格分镜**：每格传入角色定妆图作为参考（图生图模式），提示词≤300字，追加风格锚定串
-- **HTML 组装**：将生成的分镜画面用 CSS Grid 排版，叠加对白气泡/旁白框/拟声词，输出完整漫画 HTML 页面
+- 读 漫画状态.md + 漫画角色库.md → 获取角色定妆图路径和冻结提示词
+- 读小说正文 ch{NNN}.txt → 拆 6-8 帧分镜（每帧标注出场角色+对应定妆图版本）
+- **🚪 门禁A：分镜确认**
+- 按帧映射角色定妆图生成画面（角色外观变化时→增量定妆图+更新角色库）
+- HTML 组装 + 图片内联化（base64）
+- 完成后自动进入 Phase 2
+
+### Phase 2: 视觉审核+记忆沉淀 → `steps/step2-review.md`（每章生成后）
+
+- 检查产出完整性（帧数、格式、HTML 自包含）
+- 记录本章视觉决策（用了哪些定妆图版本、有无增量）
+- append 视觉沉淀.md（问题+规则，永不删改历史）
+- 更新 漫画快照.md（章节清单+角色出场记录）
+- 更新 漫画状态.md（下一章角色状态+注意事项）
+
+## 记忆机制
+
+| 文件 | 层级 | 更新方式 | 作用 |
+|:-----|:-----|:---------|:-----|
+| `漫画角色库.md` | 长期 | 增量更新 | 角色规格表+冻结提示词+定妆图资产+决策日志 |
+| `漫画快照.md` | 中期 | replace | 章节清单+风格锚定串+角色出场记录 |
+| `漫画状态.md` | 短期 | replace | 当前章位+角色状态+上章问题+注意事项 |
+| `视觉沉淀.md` | 审稿 | append-only | 每章一致性判断+问题记录+改进规则 |
+
+> 漫画角色库.md 的每个角色含四层结构：规格表（人读）→ 冻结提示词（API读，真相源）→ 定妆图资产（版本管理）→ 决策日志（append-only）。
 
 ## 产出文件结构
 
 ```
-{输出目录}/
-├── storyboard.md          # 分镜脚本（Step 1 产出）
-├── output/
-│   ├── char-{角色名}.png  # 角色定妆图
-│   ├── frame1.png         # 分镜画面 1~8
-│   ├── frame2.png
-│   ├── ...
-│   └── frame8.png
-└── 漫画-{章节名}.html     # 最终漫画页面
+{小说项目}/漫画/
+├── assets/characters/           # 定妆图持久化（跨章复用）
+│   ├── char-{名}-v1.png
+│   └── char-{名}-v2.png         # 角色变化后的增量版
+├── 漫画角色库.md                  # 长期记忆
+├── 漫画快照.md                    # 中期记忆
+├── 漫画状态.md                    # 短期记忆
+├── 视觉沉淀.md                    # 审稿记忆
+├── 第1章/
+│   ├── storyboard.md
+│   ├── output/frame1~8.png
+│   └── 漫画-{章节名}.html        # 自包含（base64内联）
+└── 第2章/...
 ```
 
 ## ❌ 铁律
 
 | # | 铁律 | 违反后果 |
 |:-:|:-----|:---------|
-| ❌1 | **先解构再生成** — 必须先读章节原文、拆出分镜脚本、用户确认后才能生成。禁止跳过解构直接翻译原文为提示词 | 画面各格之间无叙事逻辑，精确地画错了故事 |
-| ❌2 | **角色定妆图先行** — 必须先生成角色定妆图作为参考图，再逐格生成分镜。禁止无参考图直接文生图 | 角色跨格外观不一致，8格画的是8个不同的人 |
-| ❌3 | **风格锚定串全章统一** — 所有分镜格共用同一条风格描述串，追加在每格提示词末尾。禁止每格换不同风格 | 8格风格割裂，不像同一部漫画 |
-| ❌4 | **对白用 HTML 叠加不用 Seedream 渲染** — 对白气泡、旁白框、拟声词用 CSS 定位叠加在画面上。禁止让 Seedream 在画面内渲染文字 | 模型文字渲染不可控，气泡位置挡画面 |
-| ❌5 | **下载后格式保真** — Seedream API 返回的 URL 资源实际为 JPEG，脚本保存为 .png 时必须检测 magic bytes 并转码为真 PNG。禁止直接写入 JPEG 字节流到 .png 文件 | popwave webview 按 MIME 校验，假 PNG 被判定为图片损坏 |
-| ❌6 | **HTML 必须内联图片** — 组装完 HTML 后必须运行 `scripts/inline_html.py` 将图片转为 base64 data URI。禁止交付含外部图片路径的 HTML | popwave webview 禁止加载外部资源（相对路径/绝对路径/file:// 均被阻止），未内联的 HTML 图片全部损坏 |
+| ❌1 | **冻结提示词是角色一致性唯一真相源** — 角色定妆图生成后，提示词立即冻结到漫画角色库.md。后续章节直接引用冻结版，禁止重新从规格表组装提示词。角色外观变化时基于冻结版+变化描述生成新版本，新提示词同样冻结 | 跨章角色漂移，同一角色画出不同的人 |
+| ❌2 | **HTML 必须内联图片** — 组装完 HTML 后必须运行 `inline_html.py` 将图片转为 base64 data URI。禁止交付含外部图片路径的 HTML | popwave webview 禁止加载外部资源，未内联的 HTML 图片全部损坏 |
+| ❌3 | **每章生成后必须走 Phase 2 审核** — 更新记忆文件（角色库/快照/状态/沉淀），不得连续生成两章不审核 | 记忆断裂，下章不知道上章角色外观变化和视觉问题 |
+| ❌4 | **定妆图持久化在 assets/characters/** — 定妆图存放在项目级 `assets/characters/` 目录，不放章节 `output/` 下。跨章复用，版本递增 | 定妆图随章节散落，无法跨章复用，每章重新生成导致角色不一致 |
 
 ## 速查表
 
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
-| 执行章节解构+分镜脚本 | `steps/step1-deconstruct.md` | Step 1 开始时读取 |
-| 执行生成+HTML组装 | `steps/step2-generate.md` | Step 2 开始时读取 |
-| 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | Step 2 写提示词前必读 |
-| 调用 Seedream API 生成图片 | `../pop-novel-visual/scripts/generate.py` | Step 2 生成单张图片时执行 |
-| 批量生成分镜 | `scripts/generate_storyboard.py` | Step 2 批量生成8帧时执行 |
-| HTML 图片内联化 | `scripts/inline_html.py` | Step 2 组装HTML后必须执行 |
-| HTML 漫画页模板 | `templates/comic-page.tpl.html` | Step 2 组装漫画页时参考 |
-| 查分镜脚本写法指南 | `references/storyboard-guide.md` | Step 1 拆分镜时参考 |
+| 执行项目初始化 | `steps/step0-init.md` | Phase 0 开始时读取 |
+| 执行单章生成 | `steps/step1-chapter.md` | Phase 1 开始时读取 |
+| 执行视觉审核 | `steps/step2-review.md` | Phase 2 开始时读取 |
+| 初始化漫画项目 | `scripts/init_project.py` | Phase 0 建目录+生成角色库 |
+| 增量更新角色定妆图 | `scripts/update_char_asset.py` | Phase 1 角色外观变化时 |
+| 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 批量生成8帧时执行 |
+| HTML 图片内联化 | `scripts/inline_html.py` | Phase 1 组装HTML后必须执行 |
+| 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | 写提示词前必读 |
+| 调用 Seedream API | `../pop-novel-visual/scripts/generate.py` | 生成单张图片时执行 |
+| HTML 漫画页模板 | `templates/comic-page.tpl.html` | 组装漫画页时参考 |
+| 角色一致性管理指南 | `references/char-consistency-guide.md` | Phase 0 初始化角色库时必读 |
+| 查分镜脚本写法 | `references/storyboard-guide.md` | Phase 1 拆分镜时参考 |
 
 ## 前置条件
 
-1. Python 3.8+ 环境
+1. Python 3.8+ + Pillow（图片转码/压缩）
 2. `ARK_API_KEY` 环境变量（火山引擎方舟 API Key）
-3. 网文章节原文文件（.txt / .md）
+3. 小说项目已存在（含角色库.md 或 主角设计.md）
 4. 输出目录可写
-
-## 已验证的参数
-
-| 参数 | 值 | 说明 |
-|:-----|:---|:-----|
-| 模型 | `doubao-seedream-5-0-lite-260128` | R15 测试验证，速度优先 |
-| 尺寸 | `1728x2304`（3:4） | API 最小像素要求 3686400 |
-| 格数 | 6-8 格 | 一章 ~3000 字的最佳分镜密度 |
-| 角色定妆 | 1-2 张 | 主角必出，重要配角可选 |
-| 提示词上限 | 300 字/格 | Seedream 中文提示词上限 |
 
 ## 版本
 
-v1.2.0 | 2026-07-29 | HTML 内联化修复：popwave webview 禁止加载外部资源（相对路径/绝对路径/file:// 均被阻止），导致 HTML 中图片全部损坏。新增 `scripts/inline_html.py` 脚本，在 HTML 组装后自动将图片压缩为 base64 data URI 内联。新增铁律6：HTML 必须内联图片。
+v2.0.0 | 2026-07-29 | Pipeline 化重构：从单章生成器升级为漫画连载管线。新增 Phase 0 项目初始化（角色定妆库+冻结提示词+记忆文件）、Phase 2 视觉审核+记忆沉淀。冻结提示词机制解决 DeepSeek 无视觉能力下的跨章一致性问题。分层记忆对齐起点 pipeline 架构。

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-pop-novel-comic 批量分镜生成脚本
-读取角色定妆图作为参考，逐格生成多帧分镜画面
+pop-novel-comic 批量分镜生成脚本 v2.0
+支持按帧映射角色定妆图（多角色参考图）
 
 用法:
   1. 修改下方 FRAMES 列表（每帧的 id + prompt）
-  2. 修改 CHAR_IMG 为角色定妆图路径
+  2. 修改 FRAME_REFS 映射每帧的角色定妆图路径（None=无角色帧）
   3. 修改 OUTPUT_DIR 为输出目录
   4. 运行: python generate_storyboard.py
 
@@ -28,13 +28,13 @@ API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
 MODEL = "doubao-seedream-5-0-lite-260128"
 SIZE = "1728x2304"
 
-# 角色定妆图路径
-CHAR_IMG = r"output/char-vivian.png"
+# 输出目录（章节级）
+OUTPUT_DIR = r"第1章/output"
 
-# 输出目录
-OUTPUT_DIR = r"output"
+# 定妆图根目录（项目级，跨章复用）
+CHAR_ASSETS_DIR = r"assets/characters"
 
-# 风格锚定串（全章统一，追加在每格提示词末尾）
+# 风格锚定串（全系列冻结，从漫画快照.md复制）
 STYLE = "暗黑奇幻半写实日式漫画风格，水彩质感笔触，灰暗色调，暖色火光点缀，情绪氛围浓郁"
 
 # 分镜帧列表
@@ -50,6 +50,14 @@ FRAMES = [
     # ... 更多帧请自行添加
 ]
 
+# 按帧映射角色定妆图（None=无角色帧，直接文生图）
+FRAME_REFS = {
+    "frame1": "char-vivian-v1.png",
+    "frame2": "char-vivian-v1.png",
+    # "frame3": "char-soren-v1.png",
+    # "frame4": None,  # 无角色帧
+}
+
 # ============ 执行区（无需修改） ============
 
 
@@ -57,16 +65,16 @@ def image_to_data_uri(path):
     """读取图片文件转为 data URI"""
     with open(path, "rb") as f:
         b64 = base64.b64encode(f.read()).decode()
+    # 检测实际格式
+    f.seek(0)
+    header = f.read(8)
+    if header[:3] == b'\xff\xd8\xff':
+        return f"data:image/jpeg;base64,{b64}"
     return f"data:image/png;base64,{b64}"
 
 
 def ensure_png_format(path):
-    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。
-
-    Seedream API 返回的 URL 资源实际为 JPEG，直接保存为 .png 会导致
-    扩展名与内容不符。浏览器做 MIME sniffing 能兼容，但严格 webview
-    会判定为图片损坏。此函数自动检测并转码。
-    """
+    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。"""
     with open(path, "rb") as f:
         header = f.read(8)
     if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
@@ -84,16 +92,41 @@ def ensure_png_format(path):
         print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
 
 
-def generate_frame(frame, ref_image_uri, output_path):
-    """生成单帧分镜"""
+def resolve_ref_image(frame_id):
+    """根据帧ID查找对应的角色定妆图路径"""
+    ref_name = FRAME_REFS.get(frame_id)
+    if not ref_name:
+        return None
+    # 尝试多个路径
+    candidates = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
+        os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
+        os.path.join(os.getcwd(), "assets", "characters", ref_name),
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    print(f"  [警告] 定妆图未找到: {ref_name}，该帧将使用文生图", file=sys.stderr)
+    return None
+
+
+def generate_frame(frame, output_path):
+    """生成单帧分镜，自动选择参考图"""
     payload = {
         "model": MODEL,
         "prompt": frame["prompt"],
         "size": SIZE,
         "watermark": False,
         "response_format": "url",
-        "image": ref_image_uri,
     }
+
+    # 按帧映射角色参考图
+    ref_path = resolve_ref_image(frame["id"])
+    if ref_path:
+        payload["image"] = image_to_data_uri(ref_path)
+        print(f"  参考图: {os.path.basename(ref_path)}")
+    else:
+        print(f"  参考图: 无（文生图）")
 
     headers = {
         "Content-Type": "application/json",
@@ -145,21 +178,8 @@ def generate_frame(frame, ref_image_uri, output_path):
 
 def main():
     print("=" * 60)
-    print("pop-novel-comic 批量分镜生成")
+    print("pop-novel-comic 批量分镜生成 v2.0")
     print("=" * 60)
-
-    # 读取角色参考图
-    char_path = CHAR_IMG
-    if not os.path.isabs(char_path):
-        char_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", char_path)
-
-    print(f"\n读取角色参考图: {char_path}")
-    if not os.path.exists(char_path):
-        print(f"  错误：角色定妆图不存在: {char_path}", file=sys.stderr)
-        sys.exit(1)
-
-    ref_uri = image_to_data_uri(char_path)
-    print(f"  data URI 长度: {len(ref_uri)} 字符")
 
     # 确定输出目录
     out_dir = OUTPUT_DIR
@@ -167,13 +187,20 @@ def main():
         out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
+    # 检查定妆图可用性
+    print("\n定妆图映射检查:")
+    for frame in FRAMES:
+        ref_path = resolve_ref_image(frame["id"])
+        status = os.path.basename(ref_path) if ref_path else "无（文生图）"
+        print(f"  {frame['id']}: {status}")
+
     # 逐帧生成
     results = []
     for i, frame in enumerate(FRAMES):
         print(f"\n[{i+1}/{len(FRAMES)}] {frame['id']}")
         output_path = os.path.join(out_dir, f"{frame['id']}.png")
 
-        success = generate_frame(frame, ref_uri, output_path)
+        success = generate_frame(frame, output_path)
         results.append({"id": frame["id"], "success": success, "path": output_path})
 
         if success and i < len(FRAMES) - 1:
