@@ -53,13 +53,19 @@
 
 ## 方向对齐记录（门禁A）
 
+### 关键词理解
+| 用户原词 | 确认的视觉理解 | 具体视觉特征 |
+|:---------|:-------------|:------------|
+| {{keyword_1}} | {{keyword_1_understanding}} | {{keyword_1_features}} |
+| {{keyword_2}} | {{keyword_2_understanding}} | {{keyword_2_features}} |
+
 ### 小说DNA
 - USP：{{usp}}
 - 电影海报时刻：{{poster_moment}}
 - 读者承诺：{{reader_promise}}
 - 气质关键词：{{mood_keywords}}
 
-### 同赛道封面参照
+### 搜索参照
 {{competitor_reference}}
 
 ### 确认方向
