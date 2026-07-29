@@ -60,6 +60,30 @@ def image_to_data_uri(path):
     return f"data:image/png;base64,{b64}"
 
 
+def ensure_png_format(path):
+    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。
+
+    Seedream API 返回的 URL 资源实际为 JPEG，直接保存为 .png 会导致
+    扩展名与内容不符。浏览器做 MIME sniffing 能兼容，但严格 webview
+    会判定为图片损坏。此函数自动检测并转码。
+    """
+    with open(path, "rb") as f:
+        header = f.read(8)
+    if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
+        try:
+            from PIL import Image
+        except ImportError:
+            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {path}", file=sys.stderr)
+            return
+        img = Image.open(path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = path + ".tmp"
+        img.save(tmp, "PNG", optimize=True)
+        os.replace(tmp, path)
+        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
+
+
 def generate_frame(frame, ref_image_uri, output_path):
     """生成单帧分镜"""
     payload = {
@@ -114,6 +138,7 @@ def generate_frame(frame, ref_image_uri, output_path):
         with open(output_path, "wb") as f:
             f.write(resp.read())
 
+    ensure_png_format(output_path)
     print(f"  已保存: {output_path}")
     return True
 

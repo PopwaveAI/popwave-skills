@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.5.1 | 2026-07-29
+
+### 修复（格式保真）
+- **根因**：Seedream API 返回 JPEG 资源，但 `generate.py` 的 `download_file` 和 `save_base64_image` 按调用方指定的 `.png` 扩展名保存，导致假 PNG
+- **修复**：新增 `ensure_format_integrity()` 函数，在图片写入后自动检测 magic bytes，若扩展名与实际格式不符则用 Pillow 转码（JPEG→PNG / PNG→JPEG 双向）
+- **影响**：所有调用 generate.py 生成图片的 skill（pop-novel-comic、pop-novel-visual）均受益
+
 ## v2.5.0 | 2026-07-29
 
 ### 重构（模式文件拆分 + 立绘信息密度升级）

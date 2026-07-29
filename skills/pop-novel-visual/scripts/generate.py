@@ -68,10 +68,54 @@ def download_file(url, output_path):
         with urllib.request.urlopen(req, timeout=300) as response:
             with open(output_path, "wb") as f:
                 f.write(response.read())
+        ensure_format_integrity(output_path)
         print(f"文件已保存: {output_path}")
     except Exception as e:
         print(f"下载失败: {e}", file=sys.stderr)
         sys.exit(1)
+
+
+def ensure_format_integrity(output_path):
+    """检测文件实际格式，若与扩展名不符则用 Pillow 转码保真。
+
+    火山引擎 Seedream API 返回的 URL 资源实际为 JPEG，
+    但调用方通常以 .png 命名输出文件。浏览器会做 MIME sniffing
+    自动兼容，但严格 webview（如 nosniff 模式）会判定为损坏。
+    此函数在写入后自动检测并转码，确保扩展名与实际格式一致。
+    """
+    ext = os.path.splitext(output_path)[1].lower()
+    try:
+        with open(output_path, "rb") as f:
+            header = f.read(8)
+    except Exception:
+        return
+    is_jpeg = header[:3] == b'\xff\xd8\xff'
+    is_png = header[:8] == b'\x89PNG\r\n\x1a\n'
+    if ext == ".png" and is_jpeg:
+        try:
+            from PIL import Image
+        except ImportError:
+            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {output_path}", file=sys.stderr)
+            return
+        img = Image.open(output_path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = output_path + ".tmp"
+        img.save(tmp, "PNG", optimize=True)
+        os.replace(tmp, output_path)
+        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(output_path)}")
+    elif ext in (".jpg", ".jpeg") and is_png:
+        try:
+            from PIL import Image
+        except ImportError:
+            return
+        img = Image.open(output_path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = output_path + ".tmp"
+        img.save(tmp, "JPEG", quality=95)
+        os.replace(tmp, output_path)
+        print(f"  [格式修正] PNG → JPEG 转码: {os.path.basename(output_path)}")
 
 
 def save_base64_image(b64_data, output_path):
@@ -82,6 +126,7 @@ def save_base64_image(b64_data, output_path):
     try:
         with open(output_path, "wb") as f:
             f.write(base64.b64decode(b64_data))
+        ensure_format_integrity(output_path)
         print(f"图片已保存: {output_path}")
     except Exception as e:
         print(f"保存失败: {e}", file=sys.stderr)

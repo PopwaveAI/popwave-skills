@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.1.0 | 2026-07-29
+
+### 修复（格式保真）
+- **根因**：Seedream API 返回的 URL 资源实际为 JPEG（magic bytes `FF D8 FF`），但 `generate_storyboard.py` 以 `.png` 命名保存，导致扩展名与实际格式不符
+- **现象**：浏览器做 MIME sniffing 能兼容显示，但 popwave webview（nosniff 模式）按扩展名校验 MIME，判定为图片损坏
+- **修复**：新增 `ensure_png_format()` 函数，在图片下载后自动检测 magic bytes，若为 JPEG 内容则用 Pillow 转码为真 PNG
+- **同步修复**：`pop-novel-visual/scripts/generate.py` 的 `download_file` 和 `save_base64_image` 两条路径（新增 `ensure_format_integrity()` 函数）
+- **新增铁律5**：下载后格式保真
+
 ## v1.0.0 | 2026-07-29
 
 ### 新增
