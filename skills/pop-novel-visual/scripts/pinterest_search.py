@@ -19,6 +19,7 @@ import json
 import os
 import sys
 import time
+import urllib.request
 from pathlib import Path
 
 import requests
@@ -39,6 +40,59 @@ SNAPSHOT_URL = "https://api.brightdata.com/datasets/v3/snapshot/{snapshot_id}"
 POLL_INTERVAL = 10
 # 最大等待时间（秒），超时则放弃
 MAX_WAIT = 300
+
+# 常见本地代理端口（Clash/v2ray/SS等），按优先级排列
+FALLBACK_PROXY_PORTS = [7890, 7897, 1080, 10809, 10808, 8080]
+
+
+# ── 代理自动检测 ────────────────────────────────────────
+
+def detect_proxy() -> dict | None:
+    """自动检测可用代理，返回 requests 格式的 proxies dict。
+
+    检测顺序：
+    1. 环境变量 HTTP_PROXY/HTTPS_PROXY
+    2. Windows 注册表系统代理（trust_env 机制）
+    3. 常见本地代理端口探测（Clash 7890 / v2ray 10809 等）
+    返回 None 表示无代理（直连）。
+    """
+    # 1. 环境变量
+    env_proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy") \
+        or os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy") \
+        or os.environ.get("ALL_PROXY") or os.environ.get("all_proxy")
+    if env_proxy:
+        print(f"[代理] 使用环境变量代理: {env_proxy}")
+        return {"http": env_proxy, "https": env_proxy}
+
+    # 2. Windows 注册表系统代理
+    try:
+        system_proxies = urllib.request.getproxies()
+        if system_proxies:
+            # getproxies() 返回 {'http': '...', 'https': '...'} 或 {'http': '...'}
+            http_proxy = system_proxies.get("https") or system_proxies.get("http")
+            if http_proxy:
+                print(f"[代理] 使用系统代理: {http_proxy}")
+                return {"http": http_proxy, "https": http_proxy}
+    except Exception:
+        pass
+
+    # 3. 探测常见本地代理端口
+    import socket
+    for port in FALLBACK_PROXY_PORTS:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.3)
+            result = sock.connect_ex(("127.0.0.1", port))
+            sock.close()
+            if result == 0:
+                proxy_url = f"http://127.0.0.1:{port}"
+                print(f"[代理] 探测到本地代理: {proxy_url}")
+                return {"http": proxy_url, "https": proxy_url}
+        except Exception:
+            continue
+
+    print("[代理] 未检测到代理，使用直连")
+    return None
 
 
 # ── 核心流程 ────────────────────────────────────────────
@@ -139,10 +193,16 @@ def normalize_pins(raw_results: list, keyword: str) -> list:
 
 # ── 图片下载 ────────────────────────────────────────────
 
-def download_images(pins: list, output_dir: Path, limit: int = 20) -> list:
-    """下载 pin 图片到本地，在 pin 字典里补充 image_local 字段。"""
+def download_images(pins: list, output_dir: Path, limit: int = 20, proxies: dict = None) -> list:
+    """下载 pin 图片到本地，在 pin 字典里补充 image_local 字段。
+
+    proxies: 代理配置（由 detect_proxy() 检测）。Pinterest CDN (i.pinimg.com)
+    在国内被墙，必须走代理下载。传 None 则尝试直连（国内大概率失败）。
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
     downloaded = 0
+    if proxies:
+        print(f"[下载] 使用代理下载 Pinterest 图片")
 
     for pin in pins[:limit]:
         img_url = pin.get("image_url", "")
@@ -157,16 +217,17 @@ def download_images(pins: list, output_dir: Path, limit: int = 20) -> list:
         filepath = output_dir / filename
 
         try:
-            resp = requests.get(img_url, timeout=15)
-            if resp.status_code == 200:
+            resp = requests.get(img_url, timeout=20, proxies=proxies)
+            if resp.status_code == 200 and len(resp.content) > 1000:
                 filepath.write_bytes(resp.content)
                 pin["image_local"] = str(filepath)
                 downloaded += 1
-                print(f"  [下载 {downloaded}/{limit}] {filename}")
+                print(f"  [下载 {downloaded}/{limit}] {filename} ({len(resp.content)//1024}KB)")
             else:
-                print(f"  [跳过] pin_{pin_id} HTTP {resp.status_code}")
+                print(f"  [跳过] pin_{pin_id} HTTP {resp.status_code} 或内容过小")
         except Exception as e:
-            print(f"  [失败] pin_{pin_id}: {e}")
+            err_short = str(e)[:200]
+            print(f"  [失败] pin_{pin_id}: {err_short}")
 
     print(f"[下载完成] {downloaded} 张图片 → {output_dir}")
     return pins
@@ -217,7 +278,8 @@ def main():
 
     # 5. 下载图片
     if args.download and not args.json_only:
-        pins = download_images(pins, output_dir, args.limit)
+        proxies = detect_proxy()
+        pins = download_images(pins, output_dir, args.limit, proxies=proxies)
         # 更新 JSON（补充 image_local 字段）
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(pins, f, ensure_ascii=False, indent=2)
