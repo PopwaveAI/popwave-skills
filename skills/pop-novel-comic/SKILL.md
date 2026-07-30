@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-novel-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（改编分析、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.4.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.5.0
 
 ## 这个 Skill 做什么
 
@@ -14,7 +14,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 输入：小说项目（含角色库.md / 正文 / 力量体系.md 等）
 输出：每章一个自包含漫画 HTML + 持久化的角色定妆库 + 连载状态管理文件
 
-核心管线：**Phase 0 初始化**（一次性建角色库+定妆图）→ **Phase 1 单章生成**（循环，每章拆分镜+生成+组装）→ **Phase 2 视觉审核**（记忆沉淀+状态更新）
+核心管线：**Phase 0 初始化**（一次性建角色库+定妆图）→ **Phase 1 导演卡+分镜生成**（循环，导演卡→分镜→生成→组装）→ **Phase 2 视觉审核**（记忆沉淀+状态更新）
 
 ## 模型说明
 
@@ -37,18 +37,23 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 - 门禁0通过后才冻结：风格锚定串→漫画快照.md / 角色提示词→漫画角色库.md
 - 创建四个记忆文件
 
-### Phase 1: 单章生成 → `steps/step1-chapter.md`（循环）
+### Phase 1 Step 1: 漫画导演卡 → `steps/step1-director.md`（循环）
 
 - 读 漫画状态.md + 漫画角色库.md → 获取角色定妆图路径和冻结提示词
 - 读小说正文 ch{NNN}.txt → **角色外观变化识别**（换装/受伤/变身等→计划增量定妆图）
-- **漫画化改编分析**（§3.5）：内容分段标注 → 关键信息审计 → 逐条定改编策略（直接选帧/视觉转化/旁白浓缩/砍掉）→ 转化方案设计 → 信息覆盖率自检
-- 基于改编分析拆分镜（**格数由内容决定，不锁死**，4-20格按章节内容密度自主判断）
-- **🚪 门禁A：改编分析+分镜+角色变化确认**
+- **漫画化改编分析**：内容分段标注 → 关键信息审计 → 逐条定改编策略（直接选帧/视觉转化/旁白浓缩/砍掉）→ 转化方案设计 → 信息覆盖率自检
+- 产出 **导演卡.md**（章节概要+角色变化+改编策略表+转化帧设计+旁白文案）
+- **🚪 门禁：导演卡确认**（关键信息有没有漏 / 改编策略对不对 / 转化方案行不行）
+
+### Phase 1 Step 2: 分镜生成 → `steps/step2-storyboard.md`（循环）
+
+- 读导演卡 → 基于策略表拆分镜（**格数由内容决定，不锁死**，4-20格按章节内容密度自主判断）
 - 增量定妆图生成（如有变化）→ 按帧映射角色定妆图版本生成画面
+- **🚪 门禁：分镜+角色变化确认**（帧选得对不对）
 - HTML 组装 + 图片内联化（base64）
 - 完成后自动进入 Phase 2
 
-### Phase 2: 视觉审核+记忆沉淀 → `steps/step2-review.md`（每章生成后）
+### Phase 2: 视觉审核+记忆沉淀 → `steps/step3-review.md`（每章生成后）
 
 - 检查产出完整性（帧数、格式、HTML 自包含）
 - 记录本章视觉决策（用了哪些定妆图版本、有无增量）
@@ -79,6 +84,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 ├── 漫画状态.md                    # 短期记忆
 ├── 视觉沉淀.md                    # 审稿记忆
 ├── 第1章/
+│   ├── 导演卡.md                # Step 1 产出（改编决策记录）
 │   ├── storyboard.md
 │   ├── output/frame1~N.png      # 帧数不固定，按章节内容决定
 │   └── 漫画-{章节名}.html        # 自包含（base64内联）
@@ -99,17 +105,18 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
 | 执行项目初始化 | `steps/step0-init.md` | Phase 0 开始时读取 |
-| 执行单章生成 | `steps/step1-chapter.md` | Phase 1 开始时读取 |
-| 执行视觉审核 | `steps/step2-review.md` | Phase 2 开始时读取 |
+| 执行漫画导演卡 | `steps/step1-director.md` | Phase 1 Step 1 开始时读取 |
+| 执行分镜生成 | `steps/step2-storyboard.md` | Phase 1 Step 2 开始时读取 |
+| 执行视觉审核 | `steps/step3-review.md` | Phase 2 开始时读取 |
 | 初始化漫画项目 | `scripts/init_project.py` | Phase 0 建目录+生成角色库 |
-| 增量更新角色定妆图 | `scripts/update_char_asset.py` | Phase 1 角色外观变化时 |
-| 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 批量生成各帧时执行 |
-| HTML 图片内联化 | `scripts/inline_html.py` | Phase 1 组装HTML后必须执行 |
+| 增量更新角色定妆图 | `scripts/update_char_asset.py` | Phase 1 Step 2 角色外观变化时 |
+| 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 Step 2 批量生成各帧时执行 |
+| HTML 图片内联化 | `scripts/inline_html.py` | Phase 1 Step 2 组装HTML后必须执行 |
 | 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | 写提示词前必读 |
 | 调用 Seedream API | `../pop-novel-visual/scripts/generate.py` | 生成单张图片时执行 |
 | HTML 漫画页模板 | `templates/comic-page.tpl.html` | 组装漫画页时参考 |
 | 角色一致性管理指南 | `references/char-consistency-guide.md` | Phase 0 初始化角色库时必读 |
-| 查分镜脚本写法+改编策略 | `references/storyboard-guide.md` | Phase 1 改编分析+拆分镜时参考 |
+| 查分镜脚本写法+改编策略 | `references/storyboard-guide.md` | Phase 1 Step 1 改编分析 + Step 2 拆分镜时参考 |
 
 ## 前置条件
 
@@ -119,6 +126,8 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 4. 输出目录可写
 
 ## 版本
+
+v2.5.0 | 2026-07-31 | 导演卡架构拆分。Phase 1 从单step拆为双step：Step 1 漫画导演卡（改编分析+产出导演卡.md+门禁确认）→ Step 2 分镜生成（读导演卡拆分镜+生成+HTML组装）。原step2-review顺延为step3-review。门禁从1个变2个：先确认改编策略再确认具体帧。导演卡作为独立产出物可沉淀复用。
 
 v2.4.0 | 2026-07-31 | 漫画化改编SOP。step1 新增 §3.5 改编分析环节（内容分类→信息审计→策略决策→转化方案→覆盖率自检），storyboard-guide 新增「改编策略」章节（决策树+四种转化方案+闪回区分+自检清单），门禁A升级为改编分析+分镜+角色变化三合一确认。
 

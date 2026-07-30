@@ -235,4 +235,4 @@ python "{pop-novel-visual路径}/scripts/generate.py" image `
 - `assets/characters/` 目录已有全部定妆图
 - `视觉沉淀.md` 已创建（空文件）
 
-> Phase 0 完成后，进入 Phase 1（读取 `steps/step1-chapter.md`）。
+> Phase 0 完成后，进入 Phase 1 Step 1（读取 `steps/step1-director.md`）。
