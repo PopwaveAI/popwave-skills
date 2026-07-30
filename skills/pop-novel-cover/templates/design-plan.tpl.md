@@ -70,3 +70,7 @@
 
 ### 用户反馈
 {{gate_b_feedback}}
+
+---
+
+> 本设计方案由 popwave 生成
