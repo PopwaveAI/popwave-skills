@@ -5,7 +5,7 @@ description: "当用户说'拆书/解构/分析/对标/提取模板'时启用。
 
 # pop-decon · 拆书专家入口
 
-> 拆书专家入口，初始化项目 + 一次性路由建议，不常驻调度。v20.2.0
+> 拆书专家入口，初始化项目 + 一次性路由建议，不常驻调度。v21.0.0
 
 ## 做什么
 
@@ -56,13 +56,13 @@ pop-decon (初始化 + 一次性路由)
     ├── 一次性路由建议：Phase 1→4 顺序
     └── 退出，agent 按 description 自主调度子 skill
 
-Phase 1: pop-decon-design-pack → 设计包v4
-Phase 2: pop-decon-volume → L2单元卡 + 卷纲
-Phase 3: pop-decon-setting → 设定层+角色层+势力层+叙事资产层
+Phase 1: pop-decon-design-pack → 章节设计包（precision/fast双模式）
+Phase 2: pop-decon-volume → 故事机制DNA + 名场面库 + 读者体验曲线 + 卷纲
+Phase 3: pop-decon-setting → 设定+角色（含角色弧线）+伏笔追踪
 Phase 4: pop-decon-prd → 全书立项设计
 沉淀: 项目本地文件夹（不入库 pop-trope-library）
 ```
 
 ## 版本
 
-v20.2.0 | 2026-07-22 | 按规范重写 SKILL.md：补全做什么/怎么操作/强弱加载声明，速查表改为全文件目录引导，版本只留最新 → [CHANGELOG.md](CHANGELOG.md)
+v21.0.0 | 2026-07-31 | 管线地图+路由建议更新：Phase 2从L2单元卡改为故事机制DNA+名场面库+读者体验曲线，Phase 3消费源对齐 → [CHANGELOG.md](CHANGELOG.md)

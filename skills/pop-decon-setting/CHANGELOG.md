@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v4.0.0 | 2026-07-31
+
+### 精简+增强：经典场景拆解迁出，角色弧线新增
+
+- **删除经典场景拆解**：step-14-iconic-scenes.md + templates/经典场景拆解.tpl.md 迁至 Phase 2（pop-decon-volume Step 2），升级为叙事式拆解
+- **新增Step 15：角色弧线** — 从故事机制DNA的有效事件清单提取角色动态变化（状态/心态/触发事件/弧线功能），与Step 11人物卡互补（静态设定 vs 动态变化）
+- **消费源更新**：从"L2/L3"改为"故事机制DNA"，对齐Phase 2重构
+- **红线#2更新**：从"L2/L3产出缺失"改为"故事机制DNA产出缺失"
+- **下游更新**：从pop-decon-trace改为pop-decon-prd
+- skill.json版本同步至4.0.0
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
 ## v3.4.0 | 2026-07-22
 
 ### SKILL.md按设计规范重写
