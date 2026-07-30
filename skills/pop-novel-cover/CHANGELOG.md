@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v1.2.0 (2026-07-31)
+
+新增品牌签名规则：所有生成图片通过提示词在画面底部中央融入 "popwave" 品牌签名。
+
+### 变更
+- **references/seedream-prompt-guide.md** 新增 §1.11 品牌签名规则（强制），覆盖 V3 公式/高精度模板/基础公式/漫画分镜帧四种提示词模板
+- **references/seedream-prompt-guide.md** §1.10 高精度模板 EXACT TYPOGRAPHY 块新增 [品牌签名] 元素
+- **references/seedream-prompt-guide.md** §1.10 高精度模板 HARD CONSTRAINTS 更新：允许 popwave 品牌签名为唯一品牌标识
+- **references/seedream-prompt-guide.md** 完整示例追加品牌签名文字元素
+- **steps/step2-generate.md** 自检项新增品牌签名检查
+
+### 兼容性
+- 不影响已有提示词结构，品牌签名作为末尾追加项
+
 ## v1.1.0 (2026-07-30)
 
 接入 `pop-novel-asset` 基建 skill，两个 Step 0 均新增资产文件优先读取路径。

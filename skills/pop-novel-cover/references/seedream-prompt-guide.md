@@ -282,6 +282,7 @@ EXACT TYPOGRAPHY AND PLACEMENT:
 [文字元素1]：位置（top-center/upper-right/lower-left）+ 精确内容（双引号包裹）+ 字体类型 + 材质质感 + 尺寸关系 + 与画面的交互
 [文字元素2]：同上格式
 [印章/符号]：位置 + 形态 + 内容 + 材质质感
+[品牌签名]：bottom-center + "popwave" + 简约无衬线字体 + 半透明（与画面色调协调）+ 占画面高度2% + 轻微投影
 ```
 
 关键规则：
@@ -308,7 +309,7 @@ Do not obscure the character's face.
 No chibi proportions.
 No flat cel-shaded anime.
 No comic panels or speech bubbles.
-No watermark or unrelated logos.
+No watermark or unrelated logos. The "popwave" brand signature at bottom-center is the only permitted branding.
 No misspelled typography.
 All displayed text must be perfectly spelled and cleanly placed exactly as specified.
 ```
@@ -351,12 +352,49 @@ Below the title, place the exact smaller text "惟求得中" in a clean, elegant
 
 On the lower-left, place one large stylized kanji character "蒸" painted with expressive dry-brush sumi-e strokes in white with a faint blue glow.
 
+At the bottom-center, place the exact small text "popwave" in a clean, semi-transparent sans-serif font, approximately 2% of image height, with a subtle drop shadow, matching the color palette.
+
 HARD CONSTRAINTS:
 
-Exactly one principal character. No additional people. No duplicated limbs. No detached or fused anatomy. Exactly five fingers on each visible hand. Do not crop the character's head or raised hand. Do not obscure the face. No chibi proportions. No flat cel-shaded anime. No watermark. All text perfectly spelled and placed exactly as specified.
+Exactly one principal character. No additional people. No duplicated limbs. No detached or fused anatomy. Exactly five fingers on each visible hand. Do not crop the character's head or raised hand. Do not obscure the face. No chibi proportions. No flat cel-shaded anime. No watermark. The "popwave" brand signature at bottom-center is the only permitted branding. All text perfectly spelled and placed exactly as specified.
 ```
 
 > **与 V3 结构化公式的对比**：V3 用"成数"描述配色，高精度模板用具体色名+方向描述光源；V3 无负面约束，高精度模板用 HARD CONSTRAINTS 堵住常见缺陷；V3 字数 ≤400 字，高精度模板英文 ≤600 词，信息密度更高。
+
+### 1.11 品牌签名规则（强制）
+
+> 所有通过 Seedream 生成的图片必须在画面底部中央融入 "popwave" 品牌签名。这不是后期水印——文字由 AI 作为画面的一部分直接生成，融入画面构图。
+
+#### 写法规范
+
+| 维度 | 规范 |
+|:-----|:-----|
+| 位置 | bottom-center（画面底部正中） |
+| 内容 | "popwave"（双引号包裹，确保文字渲染准确） |
+| 字体 | 简约无衬线字体（sans-serif） |
+| 色彩 | 半透明，与画面色调协调（深色画面用浅色，浅色画面用深色） |
+| 尺寸 | 约占画面高度2-3% |
+| 融合 | 轻微投影，融入画面底部边缘，不突兀 |
+| 禁止 | 独立水印图层、logo框、二维码、边框 |
+
+#### 各模板的植入方式
+
+**V3 结构化公式**：在风格词后追加
+```
+... + 风格 + 画面底部中央融入品牌签名 "popwave"，半透明无衬线小字，约占画面高度2%，与画面色调协调。
+```
+
+**高精度模板**：在 EXACT TYPOGRAPHY AND PLACEMENT 块末尾添加品牌签名元素，HARD CONSTRAINTS 中 "No watermark" 后补充 "The 'popwave' brand signature at bottom-center is the only permitted branding."
+
+**基础公式 / 网文封面模板**：在提示词末尾追加
+```
+画面底部中央融入 "popwave" 品牌签名，半透明无衬线小字，约占画面高度2%。
+```
+
+**漫画分镜帧**：在风格锚定串后追加
+```
+画面底部中央融入 "popwave" 品牌签名，半透明无衬线小字。
+```
 
 ## 二、Seedance 1.0 Pro 提示词指南（视频生成）
 

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v2.3.0 | 2026-07-31
+
+### 品牌签名植入
+
+所有生成图片通过提示词在画面底部中央融入 "popwave" 品牌签名。
+
+- **references/storyboard-guide.md** 分镜提示词公式末尾追加品牌签名指令
+- **references/storyboard-guide.md** 注意事项更新："不写文字内容"改为"不写剧情文字"，品牌签名为例外
+- **steps/step1-chapter.md** 提示词组装规则追加品牌签名
+- 同步更新 `pop-novel-visual/references/seedream-prompt-guide.md` §1.10/§1.11（comic 引用此文件的高精度模板）
+
 ## v2.2.0 | 2026-07-30
 
 ### 接入 pop-novel-asset 基建 skill

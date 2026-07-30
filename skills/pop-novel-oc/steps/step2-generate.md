@@ -157,6 +157,7 @@ python scripts/generate.py image --prompt "[高精度提示词]" --model doubao-
 ## 8. 自检
 
 - [ ] 提示词包含4块结构（LOCKED COMPOSITION / ENVIRONMENT AND LIGHTING / EXACT TYPOGRAPHY / HARD CONSTRAINTS）
+- [ ] EXACT TYPOGRAPHY 块包含 "popwave" 品牌签名（底部中央，半透明无衬线小字）
 - [ ] 冻结特征已嵌入 HARD CONSTRAINTS
 - [ ] 六层文字均用双引号包裹，指定字体和位置
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）
