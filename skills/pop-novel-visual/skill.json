@@ -1,6 +1,6 @@
 {
   "id": "pop-novel-visual",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "displayName": "网文视觉生成",
   "description": "[已废弃] 当用户说'网文封面/人设图/小说封面/角色图/场景图/视觉设计'或提供小说原文时启用。支持两种起点：①用户意图→Pinterest搜参考→选图+对齐参考点→设计方案；②小说原文→原文解构→上下文补全→叙事瞬间选取→理解确认→设计方案。调用 Seedream/Seedance API 生成图片/视频。",
   "entry": "SKILL.md",

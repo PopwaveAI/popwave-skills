@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v2.5.1 | 2026-07-31
+
+### 移除品牌签名提示词需求
+
+水印生成不稳定，改走工程化方案（HTML 模板 footer 承载品牌信息）。
+
+**清除范围**：
+- `pop-novel-visual/references/seedream-prompt-guide.md`：删除 §1.11 品牌签名规则（强制）整节、§1.10 块3 品牌签名行、块4 及完整示例中的 popwave 引用
+- `pop-novel-comic/references/storyboard-guide.md`：公式和示例中移除品牌签名后缀
+- `pop-novel-comic/steps/step2-storyboard.md`：提示词组装规则移除品牌签名
+
+**保留**：HTML 模板 `comic-page.tpl.html` 中的 footer 文字（工程化方案，非提示词层面）
+
 ## v2.5.0 | 2026-07-31
 
 ### 导演卡架构拆分

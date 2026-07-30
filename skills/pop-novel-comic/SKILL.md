@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-novel-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.5.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.5.1
 
 ## 这个 Skill 做什么
 
@@ -126,6 +126,8 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 4. 输出目录可写
 
 ## 版本
+
+v2.5.1 | 2026-07-31 | 移除品牌签名提示词需求。水印不稳定，改走工程化方案（HTML模板footer）。清除 seedream-prompt-guide §1.11、storyboard-guide 公式、step2 提示词组装规则中所有 popwave 品牌签名指令。
 
 v2.5.0 | 2026-07-31 | 导演卡架构拆分。Phase 1 从单step拆为双step：Step 1 漫画导演卡（改编分析+产出导演卡.md+门禁确认）→ Step 2 分镜生成（读导演卡拆分镜+生成+HTML组装）。原step2-review顺延为step3-review。门禁从1个变2个：先确认改编策略再确认具体帧。导演卡作为独立产出物可沉淀复用。
 

@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v2.6.1 | 2026-07-31
+
+### 移除品牌签名提示词需求
+
+水印生成不稳定，改走工程化方案。
+
+**清除范围**：
+- `references/seedream-prompt-guide.md`：删除 §1.11 品牌签名规则（强制）整节
+- §1.10 高精度模板块3（EXACT TYPOGRAPHY）中的品牌签名行
+- §1.10 块4（HARD CONSTRAINTS）中的 popwave 例外声明
+- §1.10 完整示例中的品牌签名文字行和 HARD CONSTRAINTS 中的 popwave 引用
+
 ## v2.6.0 | 2026-07-30
 
 ### 新增（高精度提示词模板 + IP背景理解）

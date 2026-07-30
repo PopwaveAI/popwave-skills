@@ -306,7 +306,6 @@ python scripts/generate.py video --prompt "提示词内容" --model doubao-seeda
 
 ## 8. 自检
 
-- [ ] 提示词包含 "popwave" 品牌签名指令（底部中央，半透明无衬线小字）
 - [ ] 提示词未超字数限制（Seedream ≤400 字 / Seedance ≤500 字）
 - [ ] **参考点放权维度检查**：用户选了"色系"→提示词中无颜色词；用户选了"构图"→提示词中无布局词
 - [ ] 提示词用自然语言连贯描述，非关键词堆叠
