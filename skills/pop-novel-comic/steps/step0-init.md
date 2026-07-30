@@ -22,6 +22,18 @@ Phase 0 是漫画连载的**一次性地基**。所有跨章一致性的根基�
 | 卷纲.md | `设计/第一卷剧情/卷纲.md` | 了解故事走向，预判角色变化 |
 | ch001.txt | `正文/ch001.txt` | 无设定文件时，从正文提取 |
 
+### 1.1 IP 背景检查（画风推导前必执行）
+
+**在推导画风之前，必须先判断小说是否基于已有 IP。** 同人/改编小说的画风推导需要参考源 IP 的视觉 DNA。
+
+| IP 类型 | 识别信号 | 处理方式 |
+|:---------|:---------|:---------|
+| **同人** | 出现原著角色名、世界观术语、能力体系 | WebSearch 搜索源 IP 官方画风 → 提取视觉 DNA → 决定锚定或偏离 |
+| **改编** | 书名或设定与已知 IP 高度重合 | 同上 |
+| **原创** | 无原著角色名、无已知世界观 | 跳过，正常推导画风 |
+
+> 详见 `../pop-novel-visual/references/novel-visual-design.md` §IP 背景理解。漏判 IP 背景会导致画风方向完全跑偏。
+
 ## 2. 提取角色视觉规格表
 
 为每个重要角色建立视觉规格表。**必读 `references/char-consistency-guide.md`** 了解角色一致性管理方法论。
@@ -96,9 +108,30 @@ Phase 0 是漫画连载的**一次性地基**。所有跨章一致性的根基�
 
 ### 定妆图提示词写法
 
+定妆图是跨章一致性的基准，建议使用高精度模板（见 `../pop-novel-visual/references/seedream-prompt-guide.md` §1.10）。
+
+**基础写法**（简单角色/速度优先）：
 ```
 一个[年龄]的[体型特征]角色，[发色/发型]，[瞳色]，穿[服装描述]，[标志性特征]。[表情]。[待验证风格锚定串]，全身立绘，纯色背景。
 ```
+
+**高精度写法**（主角定妆图/商业级质量）：
+```
+LOCKED COMPOSITION:
+[镜头规格]：35mm镜头，平视，角色居中占画面75%
+[角色外观]：年龄+种族+发型发色+眼瞳色+面部特征+皮肤质感+表情+服装逐层（外套→衬衫→腰带→裤子→靴子）+配饰
+[角色动作]：每只手的具体动作 + 身体姿态
+[背景]：纯色或简约背景
+
+ENVIRONMENT AND LIGHTING:
+[光源]：正面柔光为主 + 轮廓光
+[渲染]：photorealistic materials, detailed fabric texture, individual hair strands, skin pores, [风格锚定串]
+
+HARD CONSTRAINTS:
+Exactly one character. No duplicated limbs. Exactly five fingers per hand. No chibi proportions. No flat cel-shaded anime.
+```
+
+> **定妆图是全系列基准，值得用高精度模板。** 主角定妆图强烈建议使用高精度写法，配角可用基础写法加速。
 
 ### 调用方式
 

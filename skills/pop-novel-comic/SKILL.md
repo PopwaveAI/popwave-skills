@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-novel-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.0.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.1.0
 
 ## 这个 Skill 做什么
 
@@ -39,9 +39,10 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 ### Phase 1: 单章生成 → `steps/step1-chapter.md`（循环）
 
 - 读 漫画状态.md + 漫画角色库.md → 获取角色定妆图路径和冻结提示词
-- 读小说正文 ch{NNN}.txt → 拆 6-8 帧分镜（每帧标注出场角色+对应定妆图版本）
-- **🚪 门禁A：分镜确认**
-- 按帧映射角色定妆图生成画面（角色外观变化时→增量定妆图+更新角色库）
+- 读小说正文 ch{NNN}.txt → **角色外观变化识别**（换装/受伤/变身等→计划增量定妆图）
+- 拆分镜（**格数由内容决定，不锁死**，4-20格按章节内容密度自主判断）
+- **🚪 门禁A：分镜+角色变化确认**
+- 增量定妆图生成（如有变化）→ 按帧映射角色定妆图版本生成画面
 - HTML 组装 + 图片内联化（base64）
 - 完成后自动进入 Phase 2
 
@@ -77,7 +78,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 ├── 视觉沉淀.md                    # 审稿记忆
 ├── 第1章/
 │   ├── storyboard.md
-│   ├── output/frame1~8.png
+│   ├── output/frame1~N.png      # 帧数不固定，按章节内容决定
 │   └── 漫画-{章节名}.html        # 自包含（base64内联）
 └── 第2章/...
 ```
@@ -100,7 +101,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 执行视觉审核 | `steps/step2-review.md` | Phase 2 开始时读取 |
 | 初始化漫画项目 | `scripts/init_project.py` | Phase 0 建目录+生成角色库 |
 | 增量更新角色定妆图 | `scripts/update_char_asset.py` | Phase 1 角色外观变化时 |
-| 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 批量生成8帧时执行 |
+| 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 批量生成各帧时执行 |
 | HTML 图片内联化 | `scripts/inline_html.py` | Phase 1 组装HTML后必须执行 |
 | 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | 写提示词前必读 |
 | 调用 Seedream API | `../pop-novel-visual/scripts/generate.py` | 生成单张图片时执行 |
@@ -117,4 +118,4 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 版本
 
-v2.0.0 | 2026-07-29 | Pipeline 化重构：从单章生成器升级为漫画连载管线。新增 Phase 0 项目初始化（角色定妆库+冻结提示词+记忆文件）、Phase 2 视觉审核+记忆沉淀。冻结提示词机制解决 DeepSeek 无视觉能力下的跨章一致性问题。分层记忆对齐起点 pipeline 架构。
+v2.1.0 | 2026-07-30 | 新增高精度提示词模板集成（定妆图+关键帧）和IP背景检查。定妆图建议使用高精度4块结构（LOCKED COMPOSITION / ENVIRONMENT AND LIGHTING / HARD CONSTRAINTS），关键帧按内容密度升级。画风推导前必执行IP背景判断，同人小说需提取源IP视觉DNA。

@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v2.6.0 | 2026-07-30
+
+### 新增（高精度提示词模板 + IP背景理解）
+
+**高精度提示词模板**（`references/seedream-prompt-guide.md` §1.10）：
+- 基于实测验证的工程图纸级写法，4块结构：LOCKED COMPOSITION / ENVIRONMENT AND LIGHTING / EXACT TYPOGRAPHY / HARD CONSTRAINTS
+- 新增镜头语言维度（焦段+机位+位置），V3公式无此维度
+- 新增渲染要求块（材质质感列表+风格参考+画质标准）
+- 新增硬约束块（HARD CONSTRAINTS）——负面约束清单，防止多指/残肢/文字乱码等AI常见缺陷
+- 适用场景速查表：何时用V3结构化公式，何时升级为高精度模板
+- 完整示例（海贼法典封面图）
+
+**IP背景理解**（`references/novel-visual-design.md` §一 + `steps/step0-research.md` §1.1）：
+- 设计推理三步法第一步"读懂小说"新增IP背景作为首要维度
+- 同人/改编小说必须提取源IP视觉DNA：画风/角色经典形象/世界观视觉符号/标志色
+- Step 0意图分析新增IP背景提取维度+同人小说处理流程（识别→WebSearch→提取4维度→Pinterest IP搜索→设计方向决策）
+- 海贼法典作为示例：识别为海贼王同人→提取尾田画风DNA→设计方向"锚定世界观符号，偏离原作画风走暗黑写实"
+
 ## v2.5.1 | 2026-07-29
 
 ### 修复（格式保真）

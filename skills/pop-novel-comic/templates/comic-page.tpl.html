@@ -182,7 +182,20 @@
   <div class="comic-title">{{TITLE}}</div>
   <div class="comic-subtitle">{{SUBTITLE}}</div>
 
+  <!--
+    分镜格数不限于8格。
+    追加帧：复制下方模板，替换帧号即可。
+    布局交替原则：全宽格（panel-full）用于场景建立和关键瞬间，半宽格（panel-half）用于对话和细节。
+    超过12格时分页：生成第二个HTML文件。
+  -->
   <div class="grid">
+    <!-- === 帧模板（复制此块追加更多帧） ===
+    <div class="panel panel-full">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+    </div>
+    -->
+
     <!-- Frame 1: 全宽 -->
     <div class="panel panel-full">
       <img src="output/frame1.png" alt="frame1">
@@ -238,6 +251,8 @@
       <span class="panel-num">8</span>
       <!-- {{FRAME_8_OVERLAY}} -->
     </div>
+
+    <!-- {{ADDITIONAL_FRAMES}} — 追加帧在此处插入 -->
   </div>
 
   <div class="separator">— 待 续 —</div>

@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v2.1.0 | 2026-07-30
+
+### 新增（IP背景检查 + 高精度模板集成）
+
+**IP背景检查**（`steps/step0-init.md` §1.1）：
+- 画风推导前必执行IP背景判断：同人/改编/原创三分类
+- 同人小说需WebSearch搜索源IP官方画风，提取视觉DNA后决定锚定或偏离
+- 引用 pop-novel-visual 的IP背景理解方法论
+
+**高精度模板集成**：
+- `steps/step0-init.md` 定妆图提示词新增高精度写法（主角定妆图建议使用4块结构）
+- `steps/step1-chapter.md` 新增关键帧高精度模板指引（高潮帧/变身帧/名场面升级为高精度，普通帧速度优先）
+- `references/storyboard-guide.md` 新增关键帧升级段落
+
 ## v2.0.0 | 2026-07-29
 
 ### 重构（Pipeline 化 — 漫画连载管线）

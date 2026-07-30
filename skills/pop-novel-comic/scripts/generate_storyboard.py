@@ -111,13 +111,13 @@ def resolve_ref_image(frame_id):
 
 
 def generate_frame(frame, output_path):
-    """生成单帧分镜，自动选择参考图"""
+    """生成单帧分镜，自动选择参考图。使用 b64_json 直接返回图片数据，避免临时URL导致对话流与落盘不一致。"""
     payload = {
         "model": MODEL,
         "prompt": frame["prompt"],
         "size": SIZE,
         "watermark": False,
-        "response_format": "url",
+        "response_format": "b64_json",
     }
 
     # 按帧映射角色参考图
@@ -160,16 +160,15 @@ def generate_frame(frame, output_path):
         print(f"  生成失败: {item['error']}", file=sys.stderr)
         return False
 
-    url = item.get("url")
-    if not url:
-        print(f"  错误：未返回URL", file=sys.stderr)
+    b64_data = item.get("b64_json")
+    if not b64_data:
+        print(f"  错误：未返回b64_json数据", file=sys.stderr)
         return False
 
-    # 下载图片
-    req2 = urllib.request.Request(url)
-    with urllib.request.urlopen(req2, timeout=300) as resp:
-        with open(output_path, "wb") as f:
-            f.write(resp.read())
+    # 直接解码base64写入文件，不经过临时URL
+    img_bytes = base64.b64decode(b64_data)
+    with open(output_path, "wb") as f:
+        f.write(img_bytes)
 
     ensure_png_format(output_path)
     print(f"  已保存: {output_path}")
