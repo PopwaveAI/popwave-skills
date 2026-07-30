@@ -92,6 +92,9 @@ Phase 0 是漫画连载的**一次性地基**。所有跨章一致性的根基�
 | 瞳色 | 原文描述或推断 | 黑色 |
 | 服装 | 原文描述或推断 | 破旧亚麻衬衫，赤脚 |
 | 标志性特征 | 疤痕/异色瞳/特殊道具 | 苍白面色，锁骨突出 |
+| **视觉锚点串** | **面部+身体+服饰的具体识别标签** | **`short messy sandy hair, black eyes, pale skin, prominent collarbone, thin build, worn linen shirt, barefoot`** |
+
+> **视觉锚点**是规格表的关键增量。锚点必须具体到位置、形状、颜色（见 storyboard-guide §角色一致性工艺包 §视觉锚点）。锚点串将在每帧提示词中强制继承，是角色一致性的第二道保险（第一道是冻结提示词+定妆图参考）。
 
 ## 3. 推导画风主基调
 
@@ -234,5 +237,18 @@ python "{pop-novel-visual路径}/scripts/generate.py" image `
 同时确认：
 - `assets/characters/` 目录已有全部定妆图
 - `视觉沉淀.md` 已创建（空文件）
+
+### 6.4 表情变体库（可选增强）
+
+定妆图只有一张正面中性表情。如果主角在故事中有大量强情绪戏（战斗、哭泣、愤怒），可在 Phase 0 额外生成**表情变体**作为图生图参考，比纯文字微表情描述更可靠。
+
+**详见 `references/storyboard-guide.md` §角色一致性工艺包 §表情变体库**，包含标准表情变体集（angry/sad/surprised/determined/fearful）、调用方式和存储规范。
+
+执行策略：
+- **主角**：建议生成 3 个核心变体（determined + angry + sad），覆盖大部分强情绪帧
+- **配角**：不需要变体，Phase 1 用微表情描述即可
+- 变体定妆图保存到 `assets/characters/char-{名}-{表情}-v1.png`，提示词冻结到角色库
+
+> 表情变体不是必须的。微表情技法能解决 80% 的问题，变体库用于解决剩下 20% 的"图生图参考图不够准"的情况。是否生成由用户在门禁0时决定。
 
 > Phase 0 完成后，进入 Phase 1 Step 1（读取 `steps/step1-director.md`）。

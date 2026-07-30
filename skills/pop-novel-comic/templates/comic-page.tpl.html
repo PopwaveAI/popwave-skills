@@ -6,7 +6,7 @@
 <title>{{TITLE}} · 漫画版</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+
   body {
     background: #1a1a1a;
     font-family: "Noto Sans CJK SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
@@ -41,6 +41,7 @@
     letter-spacing: 2px;
   }
 
+  /* === 基础格子 === */
   .panel {
     position: relative;
     overflow: hidden;
@@ -55,15 +56,128 @@
     display: block;
   }
 
+  /* === 布局系统 === */
   .grid {
     display: grid;
     gap: 8px;
     grid-template-columns: 1fr 1fr;
   }
 
+  /* 宽度类 */
   .panel-full { grid-column: 1 / -1; }
-  .panel-half { aspect-ratio: 3 / 4; }
+  .panel-half { }
+  .panel-wide { grid-column: 1 / -1; aspect-ratio: 16 / 7; }
+  .panel-tall { grid-row: span 2; aspect-ratio: 3 / 7; }
+
+  /* 比例类 */
   .panel-full { aspect-ratio: 7 / 4; }
+  .panel-half { aspect-ratio: 3 / 4; }
+  .panel-square { aspect-ratio: 1 / 1; }
+  .panel-cinema { aspect-ratio: 21 / 9; }
+  .panel-portrait { aspect-ratio: 2 / 3; }
+  .panel-landscape { aspect-ratio: 4 / 3; }
+
+  /* === 出血页（无框全幅） === */
+  .panel-bleed {
+    grid-column: 1 / -1;
+    border: none;
+    position: relative;
+    margin: 0 -24px;
+    width: calc(100% + 48px);
+    max-width: none;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .panel-bleed img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .panel-bleed .panel-num {
+    top: 16px;
+    right: 40px;
+  }
+
+  /* === 跨页大格（双倍高度） === */
+  .panel-splash {
+    grid-column: 1 / -1;
+    aspect-ratio: 3 / 4;
+    border-width: 4px;
+  }
+
+  /* === 三栏布局 === */
+  .grid-3 {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .grid-3 .panel-third { aspect-ratio: 1 / 1; }
+  .grid-3 .panel-third-wide { grid-column: span 2; aspect-ratio: 2 / 1; }
+
+  /* === 错落布局（非对称） === */
+  .grid-stagger {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 2fr 1fr;
+  }
+  .grid-stagger .panel-big { aspect-ratio: 4 / 3; }
+  .grid-stagger .panel-small { aspect-ratio: 3 / 4; }
+
+  .grid-stagger-rev {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 2fr;
+  }
+  .grid-stagger-rev .panel-small { aspect-ratio: 3 / 4; }
+  .grid-stagger-rev .panel-big { aspect-ratio: 4 / 3; }
+
+  /* === 分隔线（场景切换） === */
+  .scene-break {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 8px 0;
+    color: #aaa;
+    font-size: 14px;
+    letter-spacing: 12px;
+    border: none;
+    background: transparent;
+  }
+
+  /* === 章末钩子（全幅+暗角） === */
+  .panel-hook {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+    border: 3px solid #1a1a1a;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-hook img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+  }
+  .panel-hook::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+  }
+  .panel-hook .hook-text {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    z-index: 10;
+    letter-spacing: 3px;
+    text-align: center;
+    max-width: 80%;
+  }
 
   .panel-num {
     position: absolute;
@@ -74,6 +188,7 @@
     z-index: 5;
   }
 
+  /* === 对白气泡 === */
   .bubble {
     position: absolute;
     background: #fff;
@@ -96,6 +211,7 @@
     border: 8px solid transparent;
   }
 
+  /* === 旁白框 === */
   .narration {
     position: absolute;
     background: rgba(245,230,200,0.92);
@@ -109,6 +225,7 @@
     border-radius: 2px;
   }
 
+  /* === 拟声词 === */
   .sfx {
     position: absolute;
     font-weight: 900;
@@ -136,8 +253,7 @@
     letter-spacing: 1px;
   }
 
-  /* === 气泡位置类（按需调整） === */
-  /* 对话气泡 */
+  /* === 气泡位置类 === */
   .bubble-tl { top: 12%; left: 8%; }
   .bubble-tl::after { border-top-color: #fff; bottom: -14px; left: 20px; border-bottom: 0; }
   .bubble-tr { top: 10%; right: 8%; }
@@ -151,13 +267,13 @@
   .bubble-bc { bottom: 12%; left: 50%; transform: translateX(-50%); }
   .bubble-bc::after { border-top-color: #fff; bottom: -14px; left: 50%; margin-left: -8px; border-bottom: 0; }
 
-  /* 旁白框 */
+  /* 旁白框位置 */
   .narration-tr { top: 6%; right: 6%; }
   .narration-tl { top: 6%; left: 6%; }
   .narration-br { bottom: 6%; right: 6%; }
   .narration-bl { bottom: 6%; left: 6%; }
 
-  /* 拟声词 */
+  /* 拟声词位置 */
   .sfx-tl { top: 35%; left: 15%; font-size: 28px; color: #ff4444; }
   .sfx-br { bottom: 10%; right: 12%; font-size: 24px; }
   .sfx-bl { bottom: 10%; left: 8%; font-size: 12px; color: #ffaa44; text-shadow: 1px 1px 2px #000; }
@@ -175,6 +291,155 @@
     z-index: 10;
     letter-spacing: 3px;
   }
+
+  /* ====== 视觉花样系统 ====== */
+
+  /* === 速度线（放射状，少年漫画标志性效果） === */
+  .speed-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg 2.5deg,
+      rgba(255,255,255,0.12) 2.5deg 3.5deg
+    );
+    mix-blend-mode: screen;
+    opacity: 0.6;
+  }
+
+  /* === 倾斜格（制造动感/紧张感） === */
+  .tilt-left { transform: rotate(-1.5deg); box-shadow: 3px 3px 12px rgba(0,0,0,0.4); }
+  .tilt-right { transform: rotate(1.5deg); box-shadow: -3px 3px 12px rgba(0,0,0,0.4); }
+
+  /* === 闪回帧（冷蓝色调+去饱和+虚线框） === */
+  .effect-flashback {
+    border-style: dashed;
+    border-color: #6a8aaa;
+  }
+  .effect-flashback img {
+    filter: sepia(0.4) hue-rotate(180deg) brightness(0.85) contrast(1.05) saturate(0.7);
+  }
+  .effect-flashback::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent 0px 8px,
+      rgba(100,150,200,0.06) 8px 16px
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* === 单色调滤镜 === */
+  .effect-sepia img { filter: sepia(0.8) contrast(1.05) brightness(0.95); }
+  .effect-noir img { filter: grayscale(1) contrast(1.35) brightness(0.85); }
+  .effect-dream img { filter: blur(0.8px) brightness(1.12) saturate(0.6) hue-rotate(12deg); }
+
+  /* === 冲击框（粗白框+外发光，强调关键帧） === */
+  .impact-frame {
+    border: 5px solid #fff !important;
+    box-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(255,200,0,0.2), 2px 2px 8px rgba(0,0,0,0.5);
+  }
+
+  /* === 角色出场名片（新角色首次出场） === */
+  .char-intro {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.82);
+    color: #fff;
+    padding: 5px 18px 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    z-index: 15;
+    border-bottom: 2px solid #ffd700;
+    text-shadow: 0 0 6px rgba(255,215,0,0.4);
+    white-space: nowrap;
+  }
+  .char-intro .char-role {
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    color: #999;
+    letter-spacing: 2px;
+    margin-top: 1px;
+  }
+
+  /* === 戏剧旁白条（全宽黑底白字，独立成行） === */
+  .narration-dramatic {
+    grid-column: 1 / -1;
+    background: #0a0a0a;
+    color: #f0e8d8;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: 2px;
+    line-height: 1.6;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+
+  /* === 章节封面页（每章开篇大画面+标题） === */
+  .chapter-cover {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    margin: 0 -24px 16px;
+    width: calc(100% + 48px);
+    max-width: none;
+    border: none;
+  }
+  .chapter-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.45);
+  }
+  .chapter-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+  }
+  .chapter-cover .cover-title {
+    position: absolute;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 900;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.9);
+    z-index: 10;
+    letter-spacing: 6px;
+    text-align: center;
+  }
+  .chapter-cover .cover-subtitle {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.65);
+    font-size: 11px;
+    z-index: 10;
+    letter-spacing: 4px;
+  }
+
+  /* === 紧密间距（快节奏段，减小gap） === */
+  .grid.tight { gap: 3px; }
+  .grid.tight .panel { border-width: 2px; }
+
+  /* === 宽松间距（慢节奏段，加大gap） === */
+  .grid.loose { gap: 16px; }
 </style>
 </head>
 <body>
@@ -183,20 +448,157 @@
   <div class="comic-subtitle">{{SUBTITLE}}</div>
 
   <!--
-    分镜格数不限于8格。
-    追加帧：复制下方模板，替换帧号即可。
-    布局交替原则：全宽格（panel-full）用于场景建立和关键瞬间，半宽格（panel-half）用于对话和细节。
-    超过12格时分页：生成第二个HTML文件。
+    === 布局系统使用指南 ===
+
+    布局类（决定格子在页面中的大小和位置）：
+    ┌──────────────┬──────────────────────────────────────┐
+    │ 类名         │ 用途                                 │
+    ├──────────────┼──────────────────────────────────────┤
+    │ panel-full   │ 全宽格：场景建立、关键瞬间、高潮帧   │
+    │ panel-half   │ 半宽格：对话、细节反应、并列对比     │
+    │ panel-bleed  │ 出血页：无框全幅，最强视觉冲击       │
+    │ panel-splash │ 跨页大格：竖版大特写，名场面专用     │
+    │ panel-cinema │ 电影宽幅：21:9，史诗场景/大远景      │
+    │ panel-hook   │ 章末钩子：暗角+文字，"接下来会…"     │
+    │ panel-tall   │ 高瘦格：角色全身立绘、垂直运动       │
+    └──────────────┴──────────────────────────────────────┘
+
+    布局容器（决定整行的排列方式）：
+    ┌─────────────────┬─────────────────────────────────────┐
+    │ 容器            │ 效果                                │
+    ├─────────────────┼─────────────────────────────────────┤
+    │ .grid           │ 标准2列：全宽+半宽交替（默认）      │
+    │ .grid-3         │ 3列：快速过场、三连拍、时间流逝     │
+    │ .grid-stagger   │ 左大右小：主角动作+配角反应         │
+    │ .grid-stagger-rev│ 左小右大：配角反应+主角动作        │
+    └─────────────────┴─────────────────────────────────────┘
+
+    特殊元素：
+    ┌──────────────┬──────────────────────────────────────┐
+    │ scene-break  │ 场景切换分隔线（◇ ◇ ◇），用在时间/   │
+    │              │ 地点跳转处，替代强行用画面过渡       │
+    │ panel-hook   │ 章末钩子帧，必须放最后一格           │
+    └──────────────┴──────────────────────────────────────┘
+
+    === 情感弧线→布局映射（Agent 选帧时参考） ===
+    ┌──────────────┬──────────────────────────────────────┐
+    │ 情感段位      │ 推荐布局                             │
+    ├──────────────┼──────────────────────────────────────┤
+    │ 开场建立      │ panel-full 或 panel-cinema（大远景） │
+    │ 日常铺垫      │ panel-half ×2 并列（节奏舒缓）       │
+    │ 情绪升温      │ grid-stagger（大小对比制造张力）     │
+    │ 冲突爆发      │ panel-bleed（无框全幅冲击）          │
+    │ 高潮名场面    │ panel-splash（跨页大格）             │
+    │ 情绪回落      │ grid-3 三连拍（快速收束）            │
+    │ 章末钩子      │ panel-hook（暗角+悬念文字）          │
+    └──────────────┴──────────────────────────────────────┘
+
+    === 排版原则 ===
+    1. 不要全用同一种格子——连续3个相同布局=读者疲劳
+    2. 全宽格和半宽格交替是基础节奏，出血页/splash用于打破节奏
+    3. 每章至少1个出血页或splash（视觉锚点）
+    4. 最后一格必须是 panel-hook（章末钩子）
+    5. 场景切换用 scene-break，不要强行用画面过渡
+
+    === 视觉花样系统（CSS效果类，叠加在panel上） ===
+    ┌──────────────────┬──────────────────────────────────────────┐
+    │ 类名              │ 效果/适用场景                            │
+    ├──────────────────┼──────────────────────────────────────────┤
+    │ speed-lines      │ 速度线背景，叠在panel内部，冲击/爆发瞬间 │
+    │ tilt-left        │ 格子左倾1.5°，制造动感和紧张             │
+    │ tilt-right       │ 格子右倾1.5°，同上                       │
+    │ effect-flashback │ 闪回帧：冷蓝色调+去饱和+虚线框           │
+    │ effect-sepia     │ 复古回忆：sepia滤镜                      │
+    │ effect-noir      │ 黑白戏剧：grayscale+高对比               │
+    │ effect-dream     │ 梦境/幻觉：模糊+色偏+降饱和              │
+    │ impact-frame     │ 冲击框：粗白框+外发光，强调关键帧        │
+    │ char-intro       │ 角色名片：新角色首次出场时浮动显示       │
+    │ narration-dramatic│ 戏剧旁白条：全宽黑底白字，独立成行      │
+    │ chapter-cover    │ 章节封面页：开篇大画面+标题叠加          │
+    │ grid.tight       │ 紧密间距：快节奏段减小gap到3px           │
+    │ grid.loose       │ 宽松间距：慢节奏段加大gap到16px          │
+    └──────────────────┴──────────────────────────────────────────┘
+
+    花样使用原则：
+    1. 每章最多2-3个视觉花样，过多=花样自嗨
+    2. 花样服务于叙事——闪回用effect-flashback，爆发用speed-lines
+    3. 角色名片只在角色首次出场那帧用，不重复
+    4. 戏剧旁白条用于转场或重要独白，不用于普通旁白
   -->
   <div class="grid">
-    <!-- === 帧模板（复制此块追加更多帧） ===
+    <!-- === 帧模板 ===
+    基础全宽：
     <div class="panel panel-full">
       <img src="output/frameN.png" alt="frameN">
       <span class="panel-num">N</span>
     </div>
+
+    出血页（无框全幅）：
+    <div class="panel panel-bleed">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+    </div>
+
+    跨页大格（名场面）：
+    <div class="panel panel-splash">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+    </div>
+
+    章末钩子：
+    <div class="panel panel-hook">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+      <div class="hook-text">下章预告文字</div>
+    </div>
+
+    场景切换：
+    <div class="scene-break">◇ ◇ ◇</div>
+
+    速度线（冲击/爆发帧，叠在panel内部）：
+    <div class="panel panel-full impact-frame">
+      <img src="output/frameN.png" alt="frameN">
+      <div class="speed-lines"></div>
+      <span class="panel-num">N</span>
+    </div>
+
+    倾斜格（动感/紧张）：
+    <div class="panel panel-half tilt-left">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+    </div>
+
+    闪回帧（冷蓝色调+虚线框）：
+    <div class="panel panel-full effect-flashback">
+      <img src="output/frameN.png" alt="frameN">
+      <span class="panel-num">N</span>
+    </div>
+
+    角色名片（新角色首次出场）：
+    <div class="panel panel-full">
+      <img src="output/frameN.png" alt="frameN">
+      <div class="char-intro">薇薇安<span class="char-role">索伦之妹</span></div>
+      <span class="panel-num">N</span>
+    </div>
+
+    戏剧旁白条（全宽黑底白字，独立成行，不放panel内）：
+    <div class="narration-dramatic">这个世界，将来会迎来诸神的黄昏。</div>
+
+    章节封面页（开篇大画面+标题）：
+    <div class="chapter-cover">
+      <img src="output/frame0.png" alt="cover">
+      <div class="cover-title">第一章</div>
+      <div class="cover-subtitle">苏醒</div>
+    </div>
+
+    紧密间距容器（快节奏段）：
+    <div class="grid tight">
+      <div class="panel panel-half">...</div>
+      <div class="panel panel-half">...</div>
+    </div>
     -->
 
-    <!-- Frame 1: 全宽 -->
+    <!-- Frame 1: 全宽开场 -->
     <div class="panel panel-full">
       <img src="output/frame1.png" alt="frame1">
       <span class="panel-num">1</span>
@@ -245,8 +647,8 @@
       <!-- {{FRAME_7_OVERLAY}} -->
     </div>
 
-    <!-- Frame 8: 全宽 -->
-    <div class="panel panel-full">
+    <!-- Frame 8: 章末钩子 -->
+    <div class="panel panel-hook">
       <img src="output/frame8.png" alt="frame8">
       <span class="panel-num">8</span>
       <!-- {{FRAME_8_OVERLAY}} -->

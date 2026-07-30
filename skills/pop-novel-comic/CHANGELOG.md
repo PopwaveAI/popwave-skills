@@ -1,5 +1,42 @@
 # CHANGELOG
 
+## v2.6.0 | 2026-07-31
+
+### 角色一致性工艺包 + 分镜节奏方法论 + HTML 视觉花样系统
+
+三大方法论增强，系统性提升漫画质量上限。
+
+**一、角色一致性工艺包**（`references/storyboard-guide.md` 新增 §角色一致性工艺包）：
+
+- **视觉锚点**：规格表新增"视觉锚点串"字段，具体到位置/形状/颜色的不可变识别标签，每帧提示词强制继承
+- **微表情技法**：情绪→生理反应映射表（8种情绪），用"下巴肌肉紧绷"替代"他很痛苦"
+- **表情变体库**（Phase 0 可选）：主角可生成 3-5 个表情变体（determined/angry/sad等）作为图生图参考
+- **负面提示词策略**：HARD CONSTRAINTS 中加入角色一致性专属禁止项（No facial drift / No changing hairstyle 等）
+
+同步更新：`step0-init.md` §2 规格表新增视觉锚点串字段 + §6.4 表情变体库说明；`step2-storyboard.md` 提示词组装规则引用视觉锚点+微表情
+
+**二、分镜节奏方法论**（`references/storyboard-guide.md` 新增 §分镜节奏方法论）：
+
+- **快慢节奏控制**：慢→快→慢节奏弧 + 慢/快节奏段写法对照表 + 节奏标注自检
+- **钩子帧设计**：5种钩子帧类型（悬念/反转/预告/情绪/倒计时）+ 提示词写法 + HTML布局
+- **信息密度校准**：密度分级（高/中/低）+ 4条优化原则 + 密度自检决策树
+
+同步更新：`step2-storyboard.md` 分镜表新增"节奏"和"布局类"列
+
+**三、HTML 视觉花样系统**（`templates/comic-page.tpl.html` 新增 13 个 CSS 效果类）：
+
+- **速度线**（speed-lines）：放射状速度线背景，爆发/冲击瞬间
+- **倾斜格**（tilt-left/right）：1.5°倾斜，制造动感
+- **闪回帧**（effect-flashback）：冷蓝色调+虚线框，区分时间线
+- **单色调滤镜**（effect-sepia/noir/dream）：复古/黑白戏剧/梦境
+- **冲击框**（impact-frame）：粗白框+外发光，强调关键帧
+- **角色名片**（char-intro）：新角色首次出场浮动名片
+- **戏剧旁白条**（narration-dramatic）：全宽黑底白字，转场/世界观旁白
+- **章节封面页**（chapter-cover）：开篇大画面+标题叠加
+- **间距控制**（grid.tight/loose）：快节奏3px/慢节奏16px
+
+同步更新：`references/storyboard-guide.md` §视觉花样系统（效果类速查+花样×叙事场景对照+使用纪律）；`step2-storyboard.md` §6 HTML组装引用花样表
+
 ## v2.5.1 | 2026-07-31
 
 ### 移除品牌签名提示词需求
