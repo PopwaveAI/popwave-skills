@@ -211,6 +211,28 @@ python "{本skill路径}/scripts/inline_html.py" "{漫画项目}/第{N}章/漫�
 
 > 内联化后 HTML 在浏览器和 popwave 中均能正常显示。
 
-## 8. 进入 Phase 2
+## 8. 截长图（必须执行）
+
+将内联化后的 HTML 截取为长图 PNG，方便用户直接分享到社交平台。
+
+```powershell
+python "{本skill路径}/scripts/screenshot_html.py" "{漫画项目}/第{N}章/漫画-{章节名}.html" --format jpeg --quality 90
+```
+
+**参数说明**：
+
+| 参数 | 默认值 | 说明 |
+|:-----|:-------|:-----|
+| `--format` | png | 输出格式：png（无损）或 jpeg（小体积，分享推荐） |
+| `--quality` | 95 | JPEG 质量 1-100（仅 --format=jpeg 时生效） |
+| `--width` | 940 | 截图宽度，匹配模板 max-width+padding |
+| `--max-height` | 12000 | 最大高度，内容多时增大（如 `--max-height 20000`） |
+| `--output` | 同名.png | 自定义输出路径 |
+
+**输出**：`{漫画项目}/第{N}章/漫画-{章节名}.jpg`（或 .png）
+
+> 脚本自动检测系统 Edge/Chrome 浏览器，headless 模式渲染后自动裁剪底部空白。无需额外安装依赖。
+
+## 9. 进入 Phase 2
 
 分镜生成完成后，自动进入 Phase 2（读取 `steps/step3-review.md`）执行视觉审核和记忆沉淀。

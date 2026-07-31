@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-novel-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.7.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.7.1
 
 ## 这个 Skill 做什么
 
@@ -50,7 +50,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 - 读导演卡 → 基于策略表拆分镜（**格数由内容决定，不锁死**，4-20格按章节内容密度自主判断；高光时刻独占格）
 - 增量定妆图生成（如有变化）→ 按帧映射角色定妆图+场景主镜生成画面（同场景首格成为主镜，后续帧引用锁定空间/光源/材质）
 - **🚪 门禁：分镜+角色变化确认**（帧选得对不对）
-- HTML 组装 + 图片内联化（base64）
+- HTML 组装 + 图片内联化（base64）+ **截长图**（JPEG/PNG，方便分享）
 - 完成后自动进入 Phase 2
 
 ### Phase 2: 视觉审核+记忆沉淀 → `steps/step3-review.md`（每章生成后）
@@ -88,7 +88,8 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 │   ├── 导演卡.md                # Step 1 产出（改编决策记录）
 │   ├── storyboard.md
 │   ├── output/frame1~N.png      # 帧数不固定，按章节内容决定
-│   └── 漫画-{章节名}.html        # 自包含（base64内联）
+│   ├── 漫画-{章节名}.html        # 自包含（base64内联）
+│   └── 漫画-{章节名}.jpg         # 长图（截长图脚本产出，方便分享）
 └── 第2章/...
 ```
 
@@ -113,6 +114,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 增量更新角色定妆图 | `scripts/update_char_asset.py` | Phase 1 Step 2 角色外观变化时 |
 | 批量生成分镜 | `scripts/generate_storyboard.py` | Phase 1 Step 2 批量生成各帧时执行 |
 | HTML 图片内联化 | `scripts/inline_html.py` | Phase 1 Step 2 组装HTML后必须执行 |
+| HTML 截长图 | `scripts/screenshot_html.py` | Phase 1 Step 2 内联化后执行，产出可分享长图 |
 | 查 Seedream 提示词写法 | `../pop-novel-visual/references/seedream-prompt-guide.md` | 写提示词前必读 |
 | 调用 Seedream API | `../pop-novel-visual/scripts/generate.py` | 生成单张图片时执行 |
 | HTML 漫画页模板 | `templates/comic-page.tpl.html` | 组装漫画页时参考 |
@@ -127,6 +129,8 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 4. 输出目录可写
 
 ## 版本
+
+v2.7.1 | 2026-07-31 | 新增截长图功能。`scripts/screenshot_html.py`：浏览器 headless 渲染 HTML → 自动裁剪底部空白 → 输出 JPEG/PNG 长图，方便用户直接分享。零额外依赖（利用系统自带 Edge/Chrome）。step2 新增 §8 截长图步骤，step3 产出检查新增长图文件项。
 
 v2.7.0 | 2026-07-31 | 借鉴 book-to-comic 五大机制。①场景主镜机制：同场景首格成为主镜，后续帧引用主镜锁定空间/光源/材质一致性 ②高光独占格：情绪转折/剧情逆转/认知骤变必须独占一格，禁止信息稀释 ③证据链：关键信息审计表新增来源段落+原文摘录，改编决策可审计追溯 ④改编灵魂：导演卡新增灵魂冲突/避开俗套/求新钩子三问定调 ⑤感染力评审：Step 3 新增五维评审（3秒焦点/情绪钉子/角色记忆点/记忆句/扫描测试）。
 

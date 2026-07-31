@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## v2.7.1 | 2026-07-31
+
+### 新增截长图功能
+
+HTML 漫画产出后自动截取长图，用户无需手动截图即可分享。
+
+**新增脚本** `scripts/screenshot_html.py`：
+
+- **原理**：浏览器 headless 模式渲染 HTML → 全页截图 → Pillow 自动裁剪底部空白
+- **零依赖**：自动检测系统自带的 Edge/Chrome（Windows 自带 Edge），无需安装 Playwright/Puppeteer
+- **智能裁剪**：扫描 comic-page 背景色（#f5f0e8）定位内容底边界，hook panel 暗角不会被误判为空白
+- **双格式**：PNG（无损）或 JPEG（小体积，分享推荐），默认 JPEG quality=90
+- **截断检测**：内容超出 max-height 时自动警告
+
+**管线集成**：
+- `step2-storyboard.md` 新增 §8 截长图步骤（内联化后必须执行）
+- `step3-review.md` 产出检查表新增"长图已生成"检查项
+- `SKILL.md` 速查表新增截图脚本入口，产出文件结构新增长图文件
+
+**测试验证**（深渊主宰 ch15，962KB HTML）：
+- 原始截图 940×12000 → 裁剪后 940×4491
+- JPEG output 991KB，9 帧全部完整，footer 文字可见
+
 ## v2.7.0 | 2026-07-31
 
 ### 借鉴 book-to-comic 五大机制

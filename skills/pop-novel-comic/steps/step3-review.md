@@ -22,6 +22,7 @@ DeepSeek 无视觉能力，所以这里的"审核"不是看图判断角色像不
 | 图片格式 | 检查文件头 | magic bytes 为 `89 50 4E 47`（真PNG），脚本已内置自动转码 |
 | HTML 自包含 | 检查 HTML 中 img src | 全部为 `data:image/jpeg;base64,...`，无外部路径引用 |
 | HTML 可打开 | 文件大小 | <2MB（popwave webview 大小限制） |
+| 长图已生成 | LS 检查 | 漫画-{章节名}.jpg 或 .png 已落盘 |
 | storyboard.md 存在 | LS 检查 | 分镜脚本已落盘 |
 | 导演卡存在 | LS 检查 | 第{N}章/导演卡.md 已落盘 |
 
