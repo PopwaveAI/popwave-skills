@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-novel-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.9.1
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（导演卡、拆分镜、管角色库、记状态），Seedream 做画师（生成画面），HTML 做排版。v2.9.2
 
 ## 这个 Skill 做什么
 

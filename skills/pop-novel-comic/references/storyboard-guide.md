@@ -115,7 +115,7 @@
 **冲击帧公式**：
 
 ```
-[最大布局 panel-splash/bleed] + [具体视觉奇观描述] + [环境/他人反应] + [风格锚定串] + [高精度模板 HARD CONSTRAINTS]
+[最大布局 panel-splash/bleed] + [Seedream 执行串] + [具体视觉奇观描述] + [环境/他人反应] + [风格保真约束 + 高精度模板 HARD CONSTRAINTS]
 ```
 
 > 冲击帧必须使用高精度模板（4 块结构），因为普通提示词的约束力不够，容易画成泛化的"能量光效"而非具体的视觉奇观。
@@ -242,25 +242,42 @@
 
 ### 公式
 
+> **v2.9.2 重构**：画风从末尾移到开头（高权重位），场景描述精简，末尾加风格保真约束。解决分镜帧画风漂移到"电影概念艺术"的问题。
+
 ```
-参考图中的人物形象。[角色动作描述]。[场景环境描述]。[风格锚定串]，[情绪氛围]。
+[Seedream 执行串(画风,含参考作品)]。参考图中的人物形象，[视觉锚点串]。[微表情串(如有情绪)]。[角色动作描述]。[场景环境描述(精简≤2句)]。[情绪氛围]。[风格保真约束]。
 ```
+
+**结构对比**：
+
+| 位置 | 旧公式(失败) | 新公式(修复) |
+|:-----|:------------|:------------|
+| 开头 | `参考图中的人物形象` | `[Seedream 执行串]` ← 画风前置，高权重 |
+| 中段 | 角色动作 + 场景(详细) | 角色动作 + 场景(**精简≤2句**) |
+| 末尾 | `[风格锚定串]` ← 低权重，被淹没 | `[风格保真约束]` ← HARD CONSTRAINTS 防漂移 |
 
 ### 示例
 
+旧写法（失败——画风在末尾被淹没）：
 ```
 参考图中的人物形象。瘦弱女孩侧面蹲在破旧灶台前，用木棍搅动陶碗里的稀粥，
 灶膛火光映亮她的脸。破烂的屋顶漏雨，屋内弥漫浓烟和蒸汽。阴暗破败的贫民区小屋，
 墙角堆着湿柴。暗黑奇幻半写实日式漫画风格，水彩质感笔触，灰暗色调，暖色火光点缀，压抑氛围。
 ```
 
+新写法（修复——画风前置+保真约束后置）：
+```
+Semi-thick painting manga style, clean hard outer contour lines as skeleton with soft gradient shading inside color blocks, cel-shaded base with painterly soft-light overlays, 7.5-head semi-realistic proportions, modern refined illustration. Art style similar to Da Feng Da Geng Ren manga adaptation. 参考图中的人物形象，short messy black hair, black eyes, pale skin, thin build, worn dark jacket。瘦弱女孩侧面蹲在破旧灶台前，用木棍搅动陶碗里的稀粥，灶膛火光映亮她的脸。破败小屋，屋顶漏雨。压抑氛围。Maintain visible outer contour lines. Use soft gradient shading inside color blocks, not full painterly blending. Keep manga readability. No lineless style. No cinematic concept art. No photorealistic 3D rendering.
+```
+
 ### 注意事项
 
-- 首句写 `参考图中的人物形象`（告诉模型提取角色特征）
+- **首句必须是 Seedream 执行串**（从漫画角色库的风格锚定串字段复制），不能以"参考图中的人物形象"开头
+- **场景描述精简到≤2句**——过长的场景描述会把 Seedream 推向"电影概念艺术"模式，淹没画风
+- **末尾必须有风格保真约束**（从漫画角色库的风格保真约束字段复制），防止画风漂移
 - 不写对白（对白用 HTML 叠加）
 - 不写任何文字内容（Seedream 文字渲染不可控）
-- ≤300 字
-- 末尾必须有风格锚定串
+- ≤300 字（英文部分不计入字数限制）
 
 ### 关键帧升级：高精度模板
 
@@ -282,22 +299,34 @@
 | 人群喊叫 | 小字描边 | 打死小偷！ |
 | 旁白叙述 | 米色旁白框 | 脚步声。不止一个人。 |
 
-## 风格锚定串参考
+## 风格三字段速查
 
-> 风格锚定串在 Phase 0 从**画风锚定池**选取并冻结（见 `art-style-pool.md`）。本表仅作速查，完整画风池含 8 种主流画风+代表作+视觉特征+AI复现难度。
+> v2.9.2 升级：画风从单字段（锚定串）升级为三字段（锚定串 + Seedream 执行串 + 风格保真约束）。完整画风池见 `art-style-pool.md`。
 
-| 画风 | 锚定串 | 适用赛道 |
-|:-----|:-------|:---------|
-| 日系赛璐璐平涂 | `日式赛璐璐漫画风格，干净细腻线稿，平整色块上色，二分光影，高饱和明亮色调，通透清爽质感` | 言情甜宠、校园日常 |
-| 伪厚涂/半厚涂 | `半厚涂漫画风格，清晰外轮廓线，色块内柔和渐变过渡，半写实比例，立体饱满质感，现代精致画面` | 全题材通吃 |
-| 韩漫半写实厚涂 | `韩式网漫半写实厚涂风格，全厚涂上色，戏剧性轮廓光，冷蓝紫色阶，写实比例，电影感光影，精致背景细节` | 热血战斗、系统流 |
-| 国漫玄幻修仙厚涂 | `国漫玄幻修仙厚涂风格，毛笔感粗细变化线稿，华丽服饰金属玉石质感，高饱和法术发光特效，东方纹样，史诗仙侠氛围` | 修仙玄幻 |
-| 硬朗武侠历史 | `硬朗武侠历史漫画风格，粗犷刀刻感线稿，低饱和土黄赭石色调，高对比硬光，写实比例，粗粝厚重质感` | 武侠、历史 |
-| 少女水彩言情 | `少女水彩言情漫画风格，纤细柔美线稿，水彩晕染上色，柔和马卡龙色调，光斑花瓣装饰，梦幻柔光氛围` | 言情甜宠 |
-| 暗黑悬疑高对比 | `暗黑悬疑漫画风格，粗黑实线，大面积阴影涂黑，低饱和去色处理，局部血红惨绿强色点缀，极端高对比光影，粗糙噪点质感` | 悬疑诡异 |
-| 都市赛博 | `都市赛博漫画风格，现代硬朗线稿，霓虹青蓝色调，屏幕辉光与镜头光晕，半写实比例，UI 浮层数据流粒子质感` | 都市异能、系统流 |
+### 提示词中各字段的位置
 
-> Phase 0 选定画风后，锚定串可能追加赛道微调修饰（如"暖色火光点缀"）。分镜提示词中使用的锚定串以漫画快照.md 中冻结的版本为准。
+```
+[Seedream 执行串]  ← 提示词开头（高权重）
+    ↓
+参考图中的人物形象 + 角色动作 + 场景描述
+    ↓
+[风格保真约束]  ← 提示词末尾（防漂移）
+```
+
+### 速查表（仅列 Seedream 执行串和风格保真约束）
+
+| 画风 | Seedream 执行串 | 风格保真约束 |
+|:-----|:----------------|:------------|
+| 日系赛璐璐平涂 | `Clean cel-shading manga style, bold visible outline strokes, flat color fills with no soft blending, two-tone cel shading with sharp highlight edges, anime 7-head proportions with large eyes, vibrant saturated palette. Art style similar to Douluo Dalu manga adaptation` | `Maintain visible bold outline strokes. Use flat color fills only, no soft gradient blending. Keep two-tone cel shading. No photorealistic rendering. No cinematic concept art. No 3D rendering appearance.` |
+| 伪厚涂/半厚涂 | `Semi-thick painting manga style, clean hard outer contour lines as skeleton with soft gradient shading inside color blocks, cel-shaded base with painterly soft-light overlays, 7.5-head semi-realistic proportions, modern refined illustration. Art style similar to Da Feng Da Geng Ren manga adaptation` | `Maintain visible outer contour lines. Use soft gradient shading inside color blocks, not full painterly blending. Keep manga readability. No lineless style. No cinematic concept art. No photorealistic 3D rendering.` |
+| 韩漫半写实厚涂 | `Korean webtoon semi-realistic painterly style, no visible lineart with full painterly color shaping, dramatic rim lighting, cool blue-purple color palette, realistic 7.5-8 head proportions with sharp facial features, cinematic lighting with detailed backgrounds. Art style similar to Solo Leveling webtoon` | `Use full painterly coloring without visible lineart. Maintain dramatic rim lighting. Keep cool blue-purple palette. No flat cel-shading. No anime-style bold outlines. No cute chibi proportions.` |
+| 国漫玄幻修仙厚涂 | `Chinese xianxia painterly manga style, brush-like variable-width lineart, ornate costumes with metal and jade material textures, high-saturation glowing magic effects with particle layers, dense Eastern ornamental patterns, epic xianxia atmosphere. Art style similar to Battle Through the Heavens manga` | `Maintain brush-like variable-width lineart. Include Eastern ornamental patterns. Use high-saturation magic effects. No Western fantasy style. No flat cel-shading. No modern clothing elements.` |
+| 硬朗武侠历史 | `Gritty wuxia historical manga style, rough carved lineart with bold powerful strokes, low-saturation earthy yellow-ochre-blood red palette, high-contrast hard lighting, realistic 8-head proportions with solid muscle-bone structure, rough heavy texture. Art style similar to Biao Ren manga` | `Maintain rough carved bold lineart. Use low-saturation earthy palette. Keep high-contrast hard lighting. No soft pretty anime style. No bright saturated colors. No modern elements.` |
+| 少女水彩言情 | `Shoujo watercolor manga style, delicate soft lineart, watercolor wash coloring with bleeding edges, soft pastel macaron palette of pink-blue-lavender, light spots and petal decorations, dreamy soft-glow atmosphere, 7-head proportions with large teary eyes. Art style similar to Feng Qi Cang Lan manga` | `Maintain delicate soft lineart. Use watercolor wash coloring. Keep pastel macaron palette. No dark heavy themes. No thick oil painting texture. No realistic proportions.` |
+| 暗黑悬疑高对比 | `Dark suspense manga style, bold black solid outline lines, large area shadow blackening, low-saturation desaturated tones with blood-red and sickly-green accent colors, extreme high-contrast lighting, rough noise texture with blood stains and fog. Art style similar to Zhongguo Jingqi Xiansheng manga` | `Maintain bold black solid lines. Use extreme high-contrast lighting. Keep desaturated palette with accent colors only. No bright cheerful tones. No soft gradient shading. No pretty anime style.` |
+| 都市赛博 | `Urban cyberpunk manga style, modern hard lineart, neon cyan-magenta-electric blue color palette, screen glow and lens flare effects, 7.5-head semi-realistic proportions, UI overlay and data stream particles. Art style similar to Quanzhi Fashi manga adaptation` | `Maintain modern hard lineart. Use neon cyan-blue palette. Include cyberpunk UI elements. No historical or ancient elements. No soft watercolor style. No pastel colors.` |
+
+> Phase 0 选定画风后，三个字段都冻结到 `漫画角色库.md` 和 `漫画快照.md`。分镜提示词中的 Seedream 执行串和风格保真约束以冻结版本为准（可能含赛道微调修饰）。
 
 ## 角色一致性工艺包
 
@@ -417,10 +446,10 @@ Exactly {N} characters. Each character maintains distinct appearance from refere
 场景主镜图作为图生图参考时，提示词中追加环境锁定描述：
 
 ```
-参考图中的人物形象。[角色动作描述]。
-场景环境与参考图一致：[从场景主镜提取的空间特征，如"破败小屋，左侧灶台，右墙漏雨，木地板"]。
+[Seedream 执行串]。参考图中的人物形象，[视觉锚点串]。[角色动作描述]。
+场景环境与参考图一致：[从场景主镜提取的空间特征，如"破败小屋，左侧灶台，右墙漏雨"]。
 光源方向与参考图一致：[如"灶膛火光从左下方照射"]。
-[风格锚定串]，[情绪氛围]。
+[情绪氛围]。[风格保真约束]。
 ```
 
 > 场景主镜锁的是**空间+光源+材质**，不是角色。角色一致性仍由角色定妆图负责。
@@ -521,8 +550,8 @@ FRAME_REFS = {
 钩子帧的提示词要强调**未完成感**——画面中有一个"没说完的故事"：
 
 ```
-参考图中的人物形象。[角色名] [动作：看向画面外/定格在某个表情]，[环境]。
-[风格锚定串]，[情绪氛围]，画面有强烈的未完成感和悬念感，暗角效果。
+[Seedream 执行串]。参考图中的人物形象，[视觉锚点串]。[角色名] [动作：看向画面外/定格在某个表情]，[环境(精简)]。
+[情绪氛围]，画面有强烈的未完成感和悬念感，暗角效果。[风格保真约束]。
 ```
 
 #### 钩子帧 HTML

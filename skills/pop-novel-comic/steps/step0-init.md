@@ -208,7 +208,7 @@ assets/characters/
 - 氛围修饰：如贫民窟设定 → `破败泥泞质感`
 - 特效倾向：如修仙战斗多 → `剑光灵气特效密集`
 
-> 微调是"在画风基础上加调料"，不是改画风。详见 `references/art-style-pool.md` §赛道微调。
+> 微调是"在画风基础上加调料"，不是改画风。**微调修饰同时追加到锚定串和 Seedream 执行串末尾**。详见 `references/art-style-pool.md` §赛道微调。
 
 ### 3.4 推导示例
 
@@ -216,12 +216,16 @@ assets/characters/
 
 ```
 推荐画风：国漫玄幻修仙厚涂风（代表作：《凡人修仙传》《沧元图》）
+
+三字段（待赛道微调）：
 锚定串：国漫玄幻修仙厚涂风格，毛笔感粗细变化线稿，华丽服饰金属玉石质感，高饱和法术发光特效，东方纹样，史诗仙侠氛围
-赛道微调：+ 鎏金与墨色交织的权谋战争色调
-最终：国漫玄幻修仙厚涂风格，毛笔感粗细变化线稿，华丽服饰金属玉石质感，高饱和法术发光特效，东方纹样，史诗仙侠氛围，鎏金与墨色交织的权谋战争色调
+Seedream 执行串：Chinese xianxia painterly manga style, brush-like variable-width lineart, ornate costumes with metal and jade material textures, high-saturation glowing magic effects with particle layers, dense Eastern ornamental patterns, epic xianxia atmosphere. Art style similar to Battle Through the Heavens manga
+风格保真约束：Maintain brush-like variable-width lineart. Include Eastern ornamental patterns. Use high-saturation magic effects. No Western fantasy style. No flat cel-shading. No modern clothing elements.
+
+赛道微调：+ 鎏金与墨色交织的权谋战争色调（追加到锚定串和 Seedream 执行串末尾）
 ```
 
-> 此时的风格锚定串是**待验证版**，尚未冻结。
+> 此时的三字段是**待验证版**，尚未冻结。定妆图验证通过后才冻结。
 
 ## 4. 生成角色定妆图（兼画风验证）
 
@@ -233,11 +237,13 @@ assets/characters/
 
 **基础写法**（简单角色/速度优先）：
 ```
-一个[年龄]的[体型特征]角色，[发色/发型]，[瞳色]，穿[服装描述]，[标志性特征]。[表情]。[待验证风格锚定串]，全身立绘，纯色背景。
+[Seedream 执行串(含赛道微调)]。一个[年龄]的[体型特征]角色，[发色/发型]，[瞳色]，穿[服装描述]，[标志性特征]。[表情]。全身立绘，纯色背景。[风格保真约束]。
 ```
 
 **高精度写法**（主角定妆图/商业级质量）：
 ```
+[Seedream 执行串(含赛道微调)]。
+
 LOCKED COMPOSITION:
 [镜头规格]：35mm镜头，平视，角色居中占画面75%
 [角色外观]：年龄+种族+发型发色+眼瞳色+面部特征+皮肤质感+表情+服装逐层（外套→衬衫→腰带→裤子→靴子）+配饰
@@ -246,10 +252,11 @@ LOCKED COMPOSITION:
 
 ENVIRONMENT AND LIGHTING:
 [光源]：正面柔光为主 + 轮廓光
-[渲染]：photorealistic materials, detailed fabric texture, individual hair strands, skin pores, [风格锚定串]
+[渲染]：photorealistic materials, detailed fabric texture, individual hair strands, skin pores
 
 HARD CONSTRAINTS:
-Exactly one character. No duplicated limbs. Exactly five fingers per hand. No chibi proportions. No flat cel-shaded anime.
+[风格保真约束]
+Exactly one character. No duplicated limbs. Exactly five fingers per hand. No chibi proportions.
 ```
 
 > **定妆图是全系列基准，值得用高精度模板。** 主角定妆图强烈建议使用高精度写法，配角可用基础写法加速。
@@ -310,15 +317,20 @@ python "{pop-novel-visual路径}/scripts/generate.py" image `
 
 门禁0通过后，**一次性冻结所有基线资产**：
 
-### 6.1 冻结风格锚定串
+### 6.1 冻结风格三字段
 
-将门禁0确认的风格锚定串写入 `漫画快照.md`。此后全系列冻结，不每章重推导。
+将门禁0确认的三个字段写入 `漫画快照.md` 和 `漫画角色库.md` 顶部：
+- **锚定串**（人读·画风概览）
+- **Seedream 执行串**（API 读·分镜帧提示词开头用）
+- **风格保真约束**（API 读·分镜帧提示词末尾用）
+
+> 此后全系列冻结，不每章重推导。分镜帧组装时从角色库复制 Seedream 执行串和风格保真约束。
 
 ### 6.2 冻结角色提示词
 
 将每个角色定妆图的完整提示词原文冻结到 `漫画角色库.md`。
 
-> 冻结提示词 = 曾经发给 API 的原始文本。后续章节引用此文本，不重新组装。
+> 冻结提示词 = 曾经发给 API 的原始文本（含 Seedream 执行串 + 角色描述 + 风格保真约束）。后续章节引用此文本，不重新组装。
 
 ### 6.3 创建记忆文件
 

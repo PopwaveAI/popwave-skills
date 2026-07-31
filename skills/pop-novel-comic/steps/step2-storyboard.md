@@ -84,13 +84,18 @@ Agent 根据章节内容自主判断格数：
 
 ### 提示词组装规则
 
+> **v2.9.2 重构**：画风从末尾移到开头（Seedream 对提示词开头权重最高），场景描述精简，末尾加风格保真约束。解决分镜帧画风漂移到"电影概念艺术"的问题。
+
 每格提示词结构：
 
 ```
-参考图中的人物形象。[视觉锚点串] + [微表情串（如有情绪）] + [角色动作描述] + [场景环境描述] + [风格锚定串]
+[Seedream 执行串(画风,含参考作品)]。参考图中的人物形象，[视觉锚点串]。[微表情串（如有情绪）]。[角色动作描述]。[场景环境描述(精简≤2句)]。[情绪氛围]。[风格保真约束]。
 ```
 
 **关键规则**：
+- **首句必须是 Seedream 执行串**——从漫画角色库的「Seedream 执行串」字段复制，放在提示词最前面（高权重位）
+- **末尾必须有风格保真约束**——从漫画角色库的「风格保真约束」字段复制，防止画风漂移
+- **场景描述精简到≤2句**——过长的场景描述会把 Seedream 推向"电影概念艺术"模式
 - 角色描述部分**从角色库的冻结提示词直接复制**，不重新组装
 - **视觉锚点串**从角色库的锚点提示词串字段复制（见 storyboard-guide §角色一致性工艺包）
 - **微表情**：有强情绪的帧，用 storyboard-guide §微表情技法中的映射表替换情绪词
@@ -110,15 +115,17 @@ Agent 根据章节内容自主判断格数：
 
 示例（索伦觉醒后帧）：
 ```
+# 开头的 Seedream 执行串（从角色库复制）：
+Semi-thick painting manga style, clean hard outer contour lines as skeleton with soft gradient shading inside color blocks, cel-shaded base with painterly soft-light overlays, 7.5-head semi-realistic proportions, modern refined illustration. Art style similar to Da Feng Da Geng Ren manga adaptation.
 # 从角色库复制的 v2 冻结提示词角色描述（觉醒后）：
-一个18岁的瘦削男性角色，亚麻色短发微乱，金色眼眸（觉醒后），穿破旧亚麻衬衫，苍白面色，背部隐约可见金色纹路。
-# 追加的场景和动作：
-年轻男子站在废墟中，金色眼眸首次绽放光芒，周围碎石悬浮。
-# 追加的风格锚定串：
-暗黑奇幻半写实日式漫画风格，水彩质感笔触，灰暗色调被金光撕裂，觉醒的震撼氛围。
+参考图中的人物形象，一个18岁的瘦削男性角色，亚麻色短发微乱，金色眼眸（觉醒后），穿破旧亚麻衬衫，苍白面色，背部隐约可见金色纹路。
+# 追加的场景和动作（精简≤2句）：
+年轻男子站在废墟中，金色眼眸首次绽放光芒，周围碎石悬浮。觉醒的震撼氛围。
+# 末尾的风格保真约束（从角色库复制）：
+Maintain visible outer contour lines. Use soft gradient shading inside color blocks, not full painterly blending. Keep manga readability. No lineless style. No cinematic concept art. No photorealistic 3D rendering.
 ```
 
-> 无角色帧（纯环境/特写）不需要参考图和角色描述，直接写场景提示词 + 风格锚定串。
+> 无角色帧（纯环境/特写）不需要参考图和角色描述，但仍然需要 [Seedream 执行串] 开头 + [风格保真约束] 结尾。
 
 ## 4. 🚪 门禁：分镜+角色变化确认
 

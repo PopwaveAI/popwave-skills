@@ -20,6 +20,25 @@
 4. 生成主角定妆图验证 → 门禁0 确认 → 冻结
 ```
 
+## 三字段体系
+
+> **v2.9.2 新增**：每个画风从单字段（锚定串）升级为三字段体系，解决分镜帧画风漂移问题。
+
+| 字段 | 用途 | 语言 | 放置位置 |
+|:-----|:-----|:-----|:---------|
+| **锚定串** | 人读·画风概览，Phase 0 选择和快照冻结用 | 中+英 | 漫画快照.md |
+| **Seedream 执行串** | API 读·Seedream 最优理解的画风描述，含参考作品名 | 英文 | 提示词**开头**（高权重） |
+| **风格保真约束** | API 读·HARD CONSTRAINTS，防止 Seedream 漂移到其他画风 | 英文 | 提示词**末尾** |
+
+### 为什么需要三字段
+
+**定妆图好看但分镜帧画风跑偏**——根因是分镜帧提示词把锚定串放在末尾，场景描述占据了开头高权重位，把 Seedream 推向"电影概念艺术"模式。
+
+三字段体系让分镜帧提示词跟定妆图同构：
+```
+[Seedream 执行串(前置)] + [人物+动作+场景(中段)] + [风格保真约束(后置)]
+```
+
 ## 八大主流画风
 
 ### 1. 日系赛璐璐平涂风（Cel-Shading）
@@ -30,6 +49,8 @@
 | **适用赛道** | 言情甜宠、都市异能、轻松向热血、校园日常 |
 | **视觉特征** | 干净封闭线稿，平整色块，二分光影（明暗两色），高光锐利，日式 7 头身大眼，扁平通透 |
 | **锚定串** | `日式赛璐璐漫画风格，干净细腻线稿，平整色块上色，二分光影，高饱和明亮色调，通透清爽质感` |
+| **Seedream 执行串** | `Clean cel-shading manga style, bold visible outline strokes, flat color fills with no soft blending, two-tone cel shading with sharp highlight edges, anime 7-head proportions with large eyes, vibrant saturated palette. Art style similar to Douluo Dalu manga adaptation` |
+| **风格保真约束** | `Maintain visible bold outline strokes. Use flat color fills only, no soft gradient blending. Keep two-tone cel shading. No photorealistic rendering. No cinematic concept art. No 3D rendering appearance.` |
 | **AI 复现** | ⭐ 最易复现。Seedream 原生擅长，量产稳定性最高 |
 | **不适合** | 暗黑题材、写实武侠、血腥暴力（画风太清爽撑不起压迫感） |
 
@@ -41,6 +62,8 @@
 | **适用赛道** | **全题材通吃**，尤其修仙玄幻、热血战斗、都市异能 |
 | **视觉特征** | 外硬内软——清晰硬朗外轮廓线为骨架，色块内部柔和渐变过渡。兼具二次元辨识度 + 厚涂立体感 |
 | **锚定串** | `半厚涂漫画风格，清晰外轮廓线，色块内柔和渐变过渡，半写实比例，立体饱满质感，现代精致画面` |
+| **Seedream 执行串** | `Semi-thick painting manga style, clean hard outer contour lines as skeleton with soft gradient shading inside color blocks, cel-shaded base with painterly soft-light overlays, 7.5-head semi-realistic proportions, modern refined illustration. Art style similar to Da Feng Da Geng Ren manga adaptation` |
+| **风格保真约束** | `Maintain visible outer contour lines. Use soft gradient shading inside color blocks, not full painterly blending. Keep manga readability. No lineless style. No cinematic concept art. No photorealistic 3D rendering.` |
 | **AI 复现** | ⭐⭐ 表现良好。Seedream/SDXL 均可，需控制"线+柔渐变"平衡 |
 | **不适合** | 需要极致写实的历史武侠（不够粗粝）、需要极致扁平可爱的少女漫（太立体） |
 
@@ -52,6 +75,8 @@
 | **适用赛道** | 热血战斗、系统流、暗黑奇幻、末日生存、都市异能 |
 | **视觉特征** | 弱线/无线，全厚涂色块塑形，戏剧性 rim light（轮廓光），蓝紫冷调色阶，偏写实 7.5-8 头身，五官立体窄脸，竖屏滚动构图 |
 | **锚定串** | `韩式网漫半写实厚涂风格，全厚涂上色，戏剧性轮廓光，冷蓝紫色阶，写实比例，电影感光影，精致背景细节` |
+| **Seedream 执行串** | `Korean webtoon semi-realistic painterly style, no visible lineart with full painterly color shaping, dramatic rim lighting, cool blue-purple color palette, realistic 7.5-8 head proportions with sharp facial features, cinematic lighting with detailed backgrounds. Art style similar to Solo Leveling webtoon` |
+| **风格保真约束** | `Use full painterly coloring without visible lineart. Maintain dramatic rim lighting. Keep cool blue-purple palette. No flat cel-shading. No anime-style bold outlines. No cute chibi proportions.` |
 | **AI 复现** | ⭐⭐ 中等。有大量 Solo Leveling LoRA 可参考，复现度高 |
 | **不适合** | 轻松日常、少女言情（太写实太冷）、国风修仙（缺少东方笔触感） |
 
@@ -63,6 +88,8 @@
 | **适用赛道** | 修仙玄幻、热血战斗、系统流 |
 | **视觉特征** | 粗细变化毛笔感线稿，厚涂为主，服饰华丽繁复，金属/玉石质感精细，法阵/灵气/剑光等高饱和发光特效层叠，7.5 头身偏写实，东方纹样密集 |
 | **锚定串** | `国漫玄幻修仙厚涂风格，毛笔感粗细变化线稿，华丽服饰金属玉石质感，高饱和法术发光特效，东方纹样，史诗仙侠氛围` |
+| **Seedream 执行串** | `Chinese xianxia painterly manga style, brush-like variable-width lineart, ornate costumes with metal and jade material textures, high-saturation glowing magic effects with particle layers, dense Eastern ornamental patterns, epic xianxia atmosphere. Art style similar to Battle Through the Heavens manga` |
+| **风格保真约束** | `Maintain brush-like variable-width lineart. Include Eastern ornamental patterns. Use high-saturation magic effects. No Western fantasy style. No flat cel-shading. No modern clothing elements.` |
 | **AI 复现** | ⭐⭐ 中等。特效层是难点，法阵/粒子需分图层或后期合成 |
 | **不适合** | 现代都市（东方纹样违和）、悬疑恐怖（太华丽不够压抑） |
 
@@ -74,6 +101,8 @@
 | **适用赛道** | 武侠、历史、权谋、成人向热血 |
 | **视觉特征** | 粗犷有力刀刻感线稿，低饱和土黄/赭石/血红色调，高对比硬光，写实 8 头身，肌肉骨骼结构扎实，墨韵影响 |
 | **锚定串** | `硬朗武侠历史漫画风格，粗犷刀刻感线稿，低饱和土黄赭石色调，高对比硬光，写实比例，粗粝厚重质感` |
+| **Seedream 执行串** | `Gritty wuxia historical manga style, rough carved lineart with bold powerful strokes, low-saturation earthy yellow-ochre-blood red palette, high-contrast hard lighting, realistic 8-head proportions with solid muscle-bone structure, rough heavy texture. Art style similar to Biao Ren manga` |
+| **风格保真约束** | `Maintain rough carved bold lineart. Use low-saturation earthy palette. Keep high-contrast hard lighting. No soft pretty anime style. No bright saturated colors. No modern elements.` |
 | **AI 复现** | ⭐⭐⭐ 较难。SD 默认模型易偏柔化，需 `rough sketch, bold lines` 强化 |
 | **不适合** | 轻松日常、少女言情、修仙玄幻（缺少法术特效表现力） |
 
@@ -85,6 +114,8 @@
 | **适用赛道** | 言情甜宠、古风言情、纯爱、治愈 |
 | **视觉特征** | 纤细柔美线稿，水彩/柔光平涂，马卡龙色系（粉蓝粉紫），柔光漫射，光斑/花瓣/星点装饰，7 头身大泪眼樱桃唇 |
 | **锚定串** | `少女水彩言情漫画风格，纤细柔美线稿，水彩晕染上色，柔和马卡龙色调，光斑花瓣装饰，梦幻柔光氛围` |
+| **Seedream 执行串** | `Shoujo watercolor manga style, delicate soft lineart, watercolor wash coloring with bleeding edges, soft pastel macaron palette of pink-blue-lavender, light spots and petal decorations, dreamy soft-glow atmosphere, 7-head proportions with large teary eyes. Art style similar to Feng Qi Cang Lan manga` |
+| **风格保真约束** | `Maintain delicate soft lineart. Use watercolor wash coloring. Keep pastel macaron palette. No dark heavy themes. No thick oil painting texture. No realistic proportions.` |
 | **AI 复现** | ⭐ 最易复现。二次元模型 + `watercolor` 风格词即可 |
 | **不适合** | 热血战斗、暗黑奇幻、悬疑恐怖（画风太柔撑不起张力） |
 
@@ -96,6 +127,8 @@
 | **适用赛道** | 悬疑诡异、暗黑奇幻、末日生存、灵异 |
 | **视觉特征** | 粗黑实线，大面积涂黑阴影，低饱和去色，局部强色（血红/惨绿）点缀，极端高对比，噪点粗糙笔触，血迹/雾气 |
 | **锚定串** | `暗黑悬疑漫画风格，粗黑实线，大面积阴影涂黑，低饱和去色处理，局部血红惨绿强色点缀，极端高对比光影，粗糙噪点质感` |
+| **Seedream 执行串** | `Dark suspense manga style, bold black solid outline lines, large area shadow blackening, low-saturation desaturated tones with blood-red and sickly-green accent colors, extreme high-contrast lighting, rough noise texture with blood stains and fog. Art style similar to Zhongguo Jingqi Xiansheng manga` |
+| **风格保真约束** | `Maintain bold black solid lines. Use extreme high-contrast lighting. Keep desaturated palette with accent colors only. No bright cheerful tones. No soft gradient shading. No pretty anime style.` |
 | **AI 复现** | ⭐⭐⭐ 较难。控光是关键，需负面词排除明亮色调 |
 | **不适合** | 言情甜宠、轻松日常、热血少年（太压抑） |
 
@@ -107,6 +140,8 @@
 | **适用赛道** | 都市异能、系统流、末日生存、科幻 |
 | **视觉特征** | 现代硬朗线稿，霓虹色（青/品红/电光蓝），赛博质感，霓虹发光/屏幕辉光/镜头光晕，7.5 头身半写实，现代服饰，UI 浮层/数据流粒子 |
 | **锚定串** | `都市赛博漫画风格，现代硬朗线稿，霓虹青蓝色调，屏幕辉光与镜头光晕，半写实比例，UI 浮层数据流粒子质感` |
+| **Seedream 执行串** | `Urban cyberpunk manga style, modern hard lineart, neon cyan-magenta-electric blue color palette, screen glow and lens flare effects, 7.5-head semi-realistic proportions, UI overlay and data stream particles. Art style similar to Quanzhi Fashi manga adaptation` |
+| **风格保真约束** | `Maintain modern hard lineart. Use neon cyan-blue palette. Include cyberpunk UI elements. No historical or ancient elements. No soft watercolor style. No pastel colors.` |
 | **AI 复现** | ⭐⭐⭐ 较难。UI 面板需后期合成，AI 难以直接生成规范文字 |
 | **不适合** | 古风/修仙/武侠（霓虹色违和）、纯日常（赛博感过剩） |
 
@@ -137,7 +172,7 @@
 | 氛围修饰 | `破败泥泞质感`（贫民窟设定）/ `华丽宫廷金饰`（贵族设定） |
 | 特效倾向 | `剑光灵气特效密集`（修仙战斗多）/ `雾气阴影浓郁`（悬疑氛围重） |
 
-> 微调是"在画风基础上加调料"，不是改画风。选了韩漫厚涂就不会因为加了"暖色火光"变成水彩风。
+> 微调是"在画风基础上加调料"，不是改画风。选了韩漫厚涂就不会因为加了"暖色火光"变成水彩风。微调修饰同时追加到锚定串和 Seedream 执行串末尾。
 
 ## 自定义画风
 
@@ -149,7 +184,9 @@
 
 示例：用户说"想要新海诚那种蓝天天空的风格" →
 ```
-日式动画风景漫画风格，精致细腻线稿，明亮高饱和上色，蔚蓝天空色调，逆光光晕与云层透光，清新通透氛围
+锚定串：日式动画风景漫画风格，精致细腻线稿，明亮高饱和上色，蔚蓝天空色调，逆光光晕与云层透光，清新通透氛围
+Seedream 执行串：Japanese anime landscape manga style, refined delicate lineart, bright high-saturation coloring, vivid blue sky tones, backlight halation and cloud light transmission, fresh transparent atmosphere. Art style similar to Makoto Shinkai anime films
+风格保真约束：Maintain delicate refined lineart. Use bright high-saturation coloring. Keep vivid blue sky palette. No dark heavy themes. No thick painting texture. No desaturated tones.
 ```
 
-> 自定义画风需在门禁0重点验证——没有代表作参照，AI 复现稳定性未知。
+> 自定义画风需在门禁0重点验证——没有代表作参照，AI 复现稳定性未知。自定义画风也必须组装三字段（锚定串 + Seedream 执行串 + 风格保真约束）。
