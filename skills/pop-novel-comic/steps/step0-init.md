@@ -267,7 +267,7 @@ Exactly one character. No duplicated limbs. Exactly five fingers per hand. No ch
 $env:ARK_API_KEY="{API_KEY}"
 python "{pop-novel-visual路径}/scripts/generate.py" image `
   --prompt '{定妆提示词}' `
-  --model doubao-seedream-5-0-lite-260128 `
+  --model doubao-seedream-5-0-pro-260628 `
   --size 1728x2304 `
   --output "{漫画项目}/assets/characters/char-{角色名}-v1.png"
 ```
@@ -285,7 +285,7 @@ python "{pop-novel-visual路径}/scripts/generate.py" image `
 ```powershell
 python "{pop-novel-visual路径}/scripts/generate.py" image `
   --prompt '{定妆提示词}' `
-  --model doubao-seedream-5-0-lite-260128 `
+  --model doubao-seedream-5-0-pro-260628 `
   --size 1728x2304 `
   --image "data:image/png;base64,{二创参考图base64}" `
   --output "{漫画项目}/assets/characters/char-{角色名}-v1.png"

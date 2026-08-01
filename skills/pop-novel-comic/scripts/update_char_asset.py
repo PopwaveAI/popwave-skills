@@ -24,7 +24,7 @@ import urllib.error
 
 API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
 API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
-MODEL = "doubao-seedream-5-0-lite-260128"
+MODEL = "doubao-seedream-5-0-pro-260628"
 SIZE = "1728x2304"
 
 

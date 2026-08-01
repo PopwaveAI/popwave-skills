@@ -1,5 +1,297 @@
 # CHANGELOG
 
+## v3.1.0 | 2026-08-01
+
+### 高并发生成 + 稳定长截图 + CSS层职责铁律
+
+**根因分析**：v3.0.0 的 HTML 排版方案在玄鉴仙族ch1491（16帧）和深渊主宰ch016（18帧）测试中暴露三个问题：① `generate_storyboard.py` 串行生成16帧需6+分钟，效率瓶颈；② 浏览器全页截图在长页面底部出现质量退化（模糊/截断）；③ CSS 后叠加的 SVG 特效（速度线/粒子/发光）与 AI 画面脱节，用户反馈"特效有负面作用"。
+
+**一、高并发生成引擎** `scripts/generate_storyboard.py` v3.0：
+
+- **ThreadPoolExecutor 8线程并发**：16帧从6分钟降至~20秒。Seedream API 限制500图/分钟（8.3图/秒），8线程安全
+- **自动重试**：3次指数退避（3s/6s/9s），单帧失败不阻断整体流程
+- **格式保真**：`ensure_png_bytes()` 检测 JPEG magic bytes 并转码为 PNG，在写入文件前完成（不依赖事后检测）
+- **元数据输出**：生成 `generation_meta.json`，记录帧数/成功/失败/耗时/并发数/模型
+- **提示词长度检查**：>2200字符时警告
+- 每帧支持可选 `size` 字段（横幅/竖幅灵活配置）
+
+**二、稳定长截图方案** 新增 `scripts/screenshot_comic.py` v1.0：
+
+- **逐元素截图 + Pillow 拼接**：Playwright headless 浏览器逐个截图 `.frame` / `.scene-break` 元素，Pillow 拼接为完整长图
+- **解决全页截图质量退化**：浏览器 `full_page=True` 截图在长页面（>5000px）底部出现模糊/截断，逐元素方案每段都是原始分辨率
+- **自动元素检测**：`.frame`, `.scene-break`, `.comic-page > div` 三种选择器，找不到时回退整页截图
+- **双格式输出**：PNG（无损存档）/ JPEG（quality=92 分享用）
+- **命令行接口**：`python screenshot_comic.py <HTML路径或URL> [输出路径]`
+- 支持 `file://` 协议直接加载本地 HTML，无需启动 HTTP 服务器
+
+**三、CSS 层职责铁律** `references/layout-pool.md` + `SKILL.md` 铁律2：
+
+从测试中总结的核心设计原则——**画面是 AI 画的，排版是 CSS 做的，两者各司其职不交叉**：
+
+| CSS 负责 | CSS 禁止 |
+|:---------|:---------|
+| 格子布局（flex/aspect-ratio/定位） | SVG 速度线/粒子/发光特效 |
+| 文字排版（遮罩/气泡/字号/text-shadow） | CSS 叠加拟声字/特效文字 |
+| 场景过渡（scene-break/间距/出血边距） | CSS 创建粒子/光效/动态背景 |
+
+所有视觉特效必须在生图提示词中直接生成（speed lines / shockwave / glowing energy / floating particles 等），禁止 CSS 后叠加。
+
+铁律2 从"HTML 排版必须覆盖所有帧 + 排版避让铁律"升级为"HTML 排版必须覆盖所有帧 + CSS层仅负责格子布局/文字排版/场景过渡 + 排版避让铁律"。
+
+**四、object-fit: cover 通用规则**：
+
+深渊主宰ch016测试中 narrow 布局缺少 `object-fit: cover` 导致图片下方出现 341px 黑边。layout-pool.md 新增通用规则：所有布局的图片必须 `width:100%; height:100%; object-fit:cover;`。
+
+**五、全链路文档同步更新**：
+
+| 文件 | 更新内容 |
+|:-----|:---------|
+| `SKILL.md` | 版本号→v3.1.0，描述新增高并发+截长图，铁律2 整合CSS层职责，速查表新增 screenshot_comic.py，前置条件新增 Playwright，产出文件结构新增长图文件，Phase 1 Step 2 新增高并发+截长图描述 |
+| `skill.json` | 版本号→3.1.0，description 新增高并发+CSS层职责+Playwright截长图 |
+| `scripts/generate_storyboard.py` | v2.0→v3.0：ThreadPoolExecutor高并发+重试+格式保真+元数据输出 |
+| `scripts/screenshot_comic.py` | 新增（Playwright逐元素截图+Pillow拼接） |
+| `steps/step2-storyboard.md` | §5 新增高并发说明，新增 §7 截长图步骤，§8 Pillow（原§7），§9 Phase 2（原§8） |
+| `steps/step3-review.md` | 产出检查表新增长图截图项，沉淀模板新增长图截图记录 |
+| `references/layout-pool.md` | 新增 CSS层职责铁律章节（三项功能+特效映射表+object-fit:cover通用规则） |
+| `CHANGELOG.md` | 本条目 |
+
+**修改文件清单**：
+1. `scripts/generate_storyboard.py` — 重构（ThreadPoolExecutor+重试+格式保真+元数据）
+2. `scripts/screenshot_comic.py` — 新增（Playwright逐元素截图+Pillow拼接）
+3. `SKILL.md` — 版本号+描述+铁律2+速查表+前置条件+产出结构+Phase 1描述
+4. `skill.json` — 版本号+description
+5. `steps/step2-storyboard.md` — §5高并发+§7截长图+§8/§9重编号
+6. `steps/step3-review.md` — 产出检查+沉淀模板
+7. `references/layout-pool.md` — CSS层职责铁律+object-fit:cover通用规则
+8. `CHANGELOG.md` — 本条目
+
+> **测试验证**：玄鉴仙族ch1491（16帧国漫玄幻厚涂）+ 深渊主宰ch016（18帧韩漫厚涂）双重验证。高并发16帧~20秒完成，长截图逐元素拼接无质量退化，CSS净版排版用户确认满意。
+
+## v3.0.0 | 2026-08-01
+
+### HTML 排版回归——7种排版布局+原文旁白嵌入+排版避让铁律
+
+**根因分析**：v2.11.0 的纯 Pillow 拼图方案虽然解决了 HTML base64 内联的文件过大问题，但 Pillow 像素级拼图的布局表达能力受限——无法实现侧边文字面板（layout-narrow）、叠加嵌套（layout-overlay）、全幅出血（layout-fullbleed）等需要 CSS flex/定位/溢出的复杂布局。CH001 测试验证了 7 种 HTML 排版布局，其中 5 种可直接用于生产。
+
+**解决方案——HTML 排版作为主要产出格式 + 外部图片引用 + 本地 HTTP 服务器预览**：
+
+- 图片使用外部路径引用（`<img src="output/frameN.png">`），不使用 base64 内联，HTML 文件保持轻量可编辑
+- 通过 `python -m http.server` 本地 HTTP 服务器预览，解决 v1.2.0 popwave webview 安全策略禁止加载外部资源的问题
+- Pillow 拼图保留为备选方案（`scripts/assemble_comic.py` 不删除），HTML 环境不可用时回退
+
+**一、新增排版池** `references/layout-pool.md`：
+
+CH001 测试验证的 7 种 HTML 排版布局：
+
+| # | 布局类 | 画幅 | 叙事功能 | 验证状态 |
+|:-:|:-------|:-----|:---------|:---------|
+| 1 | layout-splash | 3:4 竖幅 | 章节开场/场景建立 | 已验证 |
+| 2 | layout-split | 双格 50/50 | 对比/并进/反应（替代斜切分格） | 已验证 |
+| 3 | layout-fullwide | 4:3 横幅 | 情感舒缓/环境交代 | 已验证 |
+| 4 | layout-overlay | 主图+inset 35% | 戏剧转折/因果对照 | 进阶 |
+| 5 | layout-narrow | flex 30/70 | 旁白密集/静态段落 | 已验证 |
+| 6 | layout-fullbleed | 16:9 出血 | 战斗/冲击/沉浸 | 进阶 |
+| 7 | layout-climax | 3:4 竖幅 85vh | 情感高潮/章末收尾 | 已验证 |
+
+每种布局含：CSS 实现要点、适用场景、叙事功能、避让规则。
+
+**二、排版避让铁律**（从 F2/F3 斜切失败中总结）：
+
+1. clip-path 斜切线只能穿过画面空白区，绝不能穿过人物和文字
+2. 使用斜切布局时，提示词必须包含留白构图指令
+3. 旁白文字不能放在被 clip-path 裁切的区域内
+4. 斜切无叙事必要性时不使用，垂直分格（layout-split）是更安全的替代方案
+
+**三、原文旁白嵌入规范**：
+
+- 底部渐变遮罩统一：`linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)`
+- 文字字号 14-16px，行高 1.8-2.0
+- text-shadow 至少 2 层确保暗/亮画面均可读
+- 旁白内容直接使用小说原文，不二次改写
+- 单帧旁白不超过 3 行（约 80 字），超长用 layout-narrow 侧边文字布局
+
+**四、画风适配规则**：
+
+- 高戏剧性场景 → layout-splash/layout-climax（大格全幅）
+- 战斗/冲击场景 → layout-fullbleed（出血打破边界）
+- 戏剧转折 → layout-overlay（主图+inset 对照）
+- 情感舒缓 → layout-fullwide（4:3 横幅安静）
+- 静态/旁白密集 → layout-narrow（文字面板弥补画面张力）
+- 情感高潮/章末 → layout-climax（85vh 最大画幅）
+
+**五、铁律更新**：
+
+- ❌2 从"拼图配置必须覆盖所有帧"改为"HTML 排版必须覆盖所有帧 + 排版避让铁律"
+- 铁律保持 4 条不变
+
+**六、全链路文档同步更新**：
+
+| 文件 | 更新内容 |
+|:-----|:---------|
+| `SKILL.md` | 版本号→v3.0.0，管线描述 Pillow→HTML（Pillow 备选），输出 JPEG→HTML+JPEG，铁律2 更新，文件结构新增 index.html，速查表新增 layout-pool.md，前置条件新增浏览器+HTTP 服务器，Phase 2 产出检查更新 |
+| `skill.json` | 版本号→3.0.0，description 更新为 HTML 排版引擎+7种排版布局+Pillow 备选 |
+| `steps/step2-storyboard.md` | §6 从 Pillow 拼图改为 HTML 排版（新增排版池引用+7种布局映射表+原文旁白嵌入+排版避让铁律+本地HTTP预览），原 Pillow 拼图保留为 §7 备选方案，§7→§8 进入 Phase 2 |
+| `steps/step3-review.md` | 产出检查表新增 HTML 漫画页面检查项，沉淀模板新增 HTML 产出记录 |
+| `references/layout-pool.md` | 新增（7种布局 CSS 实现+避让铁律+旁白规范+画风适配+HTML 技术规范） |
+| `references/storyboard-guide.md` | 页面布局系统新增排版池引用，布局类速查表更新为7种HTML布局，页面功能位映射更新，排版六原则更新，视觉花样系统更新，快慢节奏布局引用更新，钩子帧布局更新，对白旁白分类更新 |
+| `CHANGELOG.md` | 本条目 |
+
+**修改文件清单**：
+1. `references/layout-pool.md` — 新增（排版池参考文件）
+2. `SKILL.md` — 版本号+管线描述+输出+铁律+文件结构+速查表+前置条件+Phase 2产出检查
+3. `skill.json` — 版本号+description
+4. `steps/step2-storyboard.md` — §6 HTML 排版+§7 Pillow 备选+§8 Phase 2
+5. `steps/step3-review.md` — 产出检查表+沉淀模板
+6. `references/storyboard-guide.md` — 页面布局系统+布局类速查+页面功能位映射+排版六原则+视觉花样系统+快慢节奏+钩子帧+对白旁白分类
+7. `CHANGELOG.md` — 本条目
+
+> **保留不变**：`scripts/assemble_comic.py` 保留为备选拼图引擎，不删除不修改。
+
+## v2.11.0 | 2026-07-31
+
+### Pillow 拼图引擎——彻底移除 HTML 内联方案
+
+**根因分析**：HTML 内联方案存在三个结构性问题：① base64 内联导致 HTML 文件过大（6.5MB 无法打开，需压缩到<2MB）；② HTML/CSS 渲染在不同 webview 中表现不一致，出现留白和不对齐；③ 三步流程（HTML 组装→内联化→截长图）链路长、故障点多。
+
+**解决方案——纯 Pillow 像素级拼图**：废弃 HTML 全链路，改用 `assemble_comic.py` 直接拼合分镜帧为 JPEG 长图。像素级控制布局，零留白、严丝合缝。
+
+**一、新增脚本** `scripts/assemble_comic.py`：
+
+- 纯 Pillow 实现，无需浏览器、无需 HTML 中间产物、无需 base64 内联
+- JSON 配置驱动：每帧指定 layout（full/scene/impact/hook/half）、position（裁剪位置）、caption（旁白文字）、style（视觉效果）
+- 5 种布局类对应不同画幅比例：full 16:9 / scene 2:3 / impact 2:1 / hook 16:9+暗角 / half 1:1（自动配对并排）
+- 4 种 style 值：normal（黑边2px）/ feature（粗黑边3px+红发光）/ impact（粗白边3px+橙发光）/ hook（暗角）
+- separator 分隔线对应导演卡页面设计表的页面边界
+- 直接输出 JPEG（900px 宽，quality 92），典型产出 ~800KB
+
+**二、废弃并删除的文件**：
+
+| 文件 | 原用途 | 状态 |
+|:-----|:-------|:-----|
+| `scripts/inline_html.py` | HTML 图片 base64 内联化 | 已删除 |
+| `scripts/screenshot_html.py` | HTML 截长图 | 已删除 |
+| `templates/comic-page.tpl.html` | HTML 漫画页模板 | 已删除 |
+
+**三、铁律更新**：
+
+- ❌2 从"HTML 必须内联图片"改为"拼图配置必须覆盖所有帧"
+
+**四、全链路文档同步更新**：
+
+| 文件 | 更新内容 |
+|:-----|:---------|
+| `SKILL.md` | 版本号→v2.11.0，管线描述 HTML→Pillow，输出 HTML→JPEG 长图，铁律2 更新，文件结构移除 .html 增加 拼图配置.json，速查表移除 inline_html/screenshot_html/tpl.html 增加 assemble_comic.py |
+| `skill.json` | 版本号→2.11.0，description HTML→Pillow 拼图引擎 |
+| `steps/step2-storyboard.md` | §6 从 HTML 组装+内联化+截长图三步合并为一步 Pillow 拼图，新增布局类映射表/style 字段/position 字段/separator 说明 |
+| `steps/step3-review.md` | 产出检查表移除"HTML 自包含""HTML 可打开"，新增"拼图配置完整""漫画长图已生成"，沉淀模板 HTML自包含→漫画长图 |
+| `references/storyboard-guide.md` | 11 处 HTML 引用替换：分页说明、对白处理表、钩子帧配置、页面布局系统描述、推导链、视觉花样系统（CSS效果类→style字段+提示词效果） |
+| `scripts/init_project.py` | 漫画快照模板 HTML大小→图片大小 |
+| `templates/漫画快照.md.tpl` | HTML大小→图片大小，{{HTML_SIZE}}→{{IMAGE_SIZE}} |
+
+**修改文件清单**：
+1. `scripts/assemble_comic.py` — 新增（纯 Pillow 拼图引擎）
+2. `SKILL.md` — 版本号+管线描述+输出+铁律+文件结构+速查表
+3. `skill.json` — 版本号+description
+4. `steps/step2-storyboard.md` — §6 拼图替代 HTML 三步
+5. `steps/step3-review.md` — 产出检查项+沉淀模板
+6. `references/storyboard-guide.md` — 11 处 HTML 引用替换
+7. `scripts/init_project.py` — 快照模板字段名
+8. `templates/漫画快照.md.tpl` — 快照模板字段名
+9. `CHANGELOG.md` — 本条目
+10. 删除 `scripts/inline_html.py`、`scripts/screenshot_html.py`、`templates/comic-page.tpl.html`
+
+## v2.10.0 | 2026-07-31
+
+### 三层章节设计框架——故事层→页层→格层自上而下推导
+
+**根因分析**：用户指出"HTML动态化大概率会被搞成为了动态而动态，而不是站在一话的角度上顶层设计"。当前架构中，布局决策在 step2 组装 HTML 时临时做出——选什么布局类、分几页、每页放什么，全部在"画"的阶段才决定，没有叙事依据。布局和故事脱节，导致"为动态而动态"。
+
+**解决方案——三层推导架构**：将布局决策从 step2 前移到 step1 导演卡，实现"先想清楚怎么布局，再画"。
+
+```
+故事层（讲什么故事）→ 页层（分几页、每页做什么）→ 格层（每格画什么、多大、怎么排）
+     Step 1 步骤2            Step 1 步骤7            Step 1 步骤8
+```
+
+**一、故事层增强：情感曲线**（`step1-director.md` 步骤2.5 新增）
+
+叙事主线设计原有：一句话故事、因果链、主副线、读者理解路径。新增**情感曲线**：
+
+| 因果链环节 | 读者情绪 | 情感强度 | 转折点 |
+|:-----------|:---------|:---------|:-------|
+| 起因 | 压抑/紧张 | ★★ | — |
+| 发展 | 焦虑升级 | ★★★ | 转折点1：信息揭示 |
+| 决策 | 震撼/爆发 | ★★★★★ | 转折点2：核心决策 |
+| 后果 | 沉寂/悬念 | ★★ | 转折点3：钩子 |
+
+> **情感转折点 = 页面分割线。** 读者情绪翻转的地方，就是一页结束、新一页开始的信号。
+
+**二、页层新增：页面布局设计**（`step1-director.md` 步骤7 新增）
+
+根据情感转折点将一话分为 2-5 个"叙事页"，每页有独立功能位：
+
+| 功能位 | 叙事任务 | 布局策略 | 视觉重心 |
+|:-------|:---------|:---------|:---------|
+| 建立页 | 场景建立+角色登场+情境交代 | 大格开场→中格交代角色 | 场景全景 |
+| 发展页 | 推进因果链+信息揭示+冲突升级 | 快慢交替→大格停在关键信息 | 角色互动 |
+| 高潮页 | 名场面+核心决策+情绪爆发 | 独占格定格→小格反应→大格后果 | 名场面 |
+| 钩子页 | 后果呈现+情绪回落+章末钩子 | 大格余韵→hook格留悬念 | 余韵/悬念 |
+
+每页必须有：①一个视觉重心 ②格数预算 ③页内钩子（让读者想继续滑）④页间衔接（悬念/情绪/转场/对比）
+
+**三、格层新增：分格设计**（`step1-director.md` 步骤8 新增）
+
+页面设计确定"每页做什么"，分格设计确定"每格画什么、多大、怎么排"。
+
+**格子大小由信息重要性决定**：
+
+| 信息级别 | 布局规模 | 理由 |
+|:---------|:---------|:-----|
+| S级 | 独占格（splash/bleed/full） | 核心决策必须最大视觉空间 |
+| A级 | 正常格（half） | 重要信息正常呈现 |
+| B级 | 小格（third）或合并 | 辅助信息不抢空间 |
+
+**格子排列由节奏决定**：慢→大格少格，快→小格多格，爆发→独占格+反应+后果，悬念→渐收+hook。
+
+**布局选择决策树**：信息级别 → 名场面判断 → 章末判断，三级决策确保每个布局选择有叙事理由。
+
+**分格设计表**（导演卡核心产出，step2 直接输入）：
+
+| 格号 | 所属页 | 布局类 | 节奏 | 叙事功能 | 信息来源 | 画面方向 | 效果类 |
+|:-----|:-------|:-------|:-----|:---------|:---------|:---------|:-------|
+
+> step2 继承此表的布局类/节奏/效果类，只补充画面提示词/定妆图版本/场景主镜/对白文字。
+
+**四、导演卡模板升级**
+
+新增两段：
+- **页面布局设计**：页面设计表 + 页间衔接说明
+- **分格设计**：分格设计表
+
+门禁从6项升级为8项（新增：页面布局对不对 / 分格设计对不对）
+自检从14项升级为23项（新增：情感曲线/视觉重心/S级独占/节奏交替/布局类不重复/名场面最大布局/页内钩子/章末hook/布局有理由/格数一致）
+
+**五、storyboard-guide.md 同步更新**
+
+1. 新增「叙事驱动布局」章节：说明推导链（情感曲线→页面功能位→格层布局类→HTML组装），铁律"每个布局选择必须能回答为什么这么布局"
+2. 「情感弧线→布局映射」升级为「页面功能位→布局映射」，与step1四种功能位对齐
+3. 排版五原则升级为六原则（新增：从导演卡分格设计表继承布局）
+
+**六、step2-storyboard.md 同步更新**
+
+1. §1 读取导演卡：新增读取页面设计表和分格设计表
+2. §3 拆分镜脚本：改为"继承分格设计表的布局类/节奏/效果类，补充执行细节"，不重新决定布局
+3. 分镜脚本表新增"所属页"和"效果类"两列（从分格设计表继承）
+4. §6 HTML组装：按页面设计表分割页面+按分格设计表布局类组装
+
+**修改文件清单**：
+1. `steps/step1-director.md` — 全面重构（步骤1.5→步骤2重编号+增强情感曲线，新增步骤7页面布局设计+步骤8分格设计，步骤6→步骤9重编号+增强自检，导演卡模板新增两段，门禁8项，自检23项）
+2. `references/storyboard-guide.md` — 新增叙事驱动布局章节，页面功能位→布局映射升级，排版六原则
+3. `steps/step2-storyboard.md` — 继承分格设计表，不重新决定布局
+4. `SKILL.md` — 版本号+Phase 1描述+版本记录
+5. `skill.json` — 版本号 2.9.2 → 2.10.0
+6. `CHANGELOG.md` — 本条目
+
 ## v2.9.2 | 2026-07-31
 
 ### 画风三字段体系——解决分镜帧画风漂移

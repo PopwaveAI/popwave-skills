@@ -1,6 +1,6 @@
 # Step 2: 分镜生成
 
-> 读导演卡 → 拆分镜(弹性格数) → 门禁确认 → 增量定妆图(如有) → 逐格生成 → HTML组装+内联化
+> 读导演卡 → 拆分镜(弹性格数) → 门禁确认 → 增量定妆图(如有) → 逐格生成 → 漫画HTML排版(Pillow备选)
 
 ## 设计哲学
 
@@ -21,12 +21,16 @@
 | 导演卡内容 | 用途 |
 |:-----------|:-----|
 | 章节概要 | 把握整体情绪走向 |
-| 角色变化记录 | 规划增量定妆图（§3） |
+| 角色变化记录 | 规划增量定妆图（§2） |
 | 改编策略表 | 拆分镜的输入源——每条策略对应一个或多个分镜帧 |
 | 转化帧设计 | 视觉转化帧的画面提示词基础 |
 | 旁白文案 | 旁白浓缩帧的已拟文字 |
+| **页面设计表** | **页面分割依据**——每页的功能位、视觉重心、格数预算、页内钩子（拼图时用 separator 还原页面边界） |
+| **分格设计表** | **拆分镜的直接输入**——每格的布局类、节奏、叙事功能、信息来源、画面方向、效果类已确定，Step 2 只需补充画面提示词、定妆图版本、场景主镜等执行细节 |
 
 > 如果导演卡不存在（跳过了 Step 1），**必须回退执行 Step 1**，不得直接从原文拆分镜。
+
+> **v2.10.0 变更**：布局类、节奏、效果类已在 Step 1 分格设计表中确定。Step 2 **继承**这些设计决策，不重新决定布局。Step 2 的工作是"执行"——补充画面提示词、定妆图版本、场景主镜，然后生成画面并用 HTML 排版（Pillow 备选）。
 
 ## 2. 增量定妆图生成（如有变化）
 
@@ -51,30 +55,34 @@ python "{本skill路径}/scripts/update_char_asset.py" `
 
 ## 3. 拆分镜脚本
 
-基于导演卡的策略表拆出分镜序列。**参考 `references/storyboard-guide.md`** 了解选帧方法论和转化方案库。
+基于导演卡的**分格设计表**拆出分镜序列。**参考 `references/storyboard-guide.md`** 了解选帧方法论、转化方案库和叙事驱动布局。**参考 `references/layout-pool.md`** 了解7种HTML排版布局的CSS实现、适用场景和避让规则。
 
-### 格数由内容决定，不锁死
+> **v2.10.0 变更**：分格设计表已在 Step 1 确定了每格的布局类、节奏、叙事功能、信息来源、画面方向和效果类。Step 2 在此基础上**补充执行细节**（画面提示词、定妆图版本、场景主镜、对白文字），形成完整的分镜脚本表。不重新决定布局类和节奏。
 
-Agent 根据章节内容自主判断格数：
+### 格数由导演卡决定
+
+格数和布局已在 Step 1 导演卡的分格设计表中确定。Step 2 校验格数合理性：
 
 - **内容密集章**（多场战斗/多线交织/大量信息揭示）：10-15格
 - **标准章节**（有起承转合，3-5个情绪转折）：6-8格
 - **过渡章**（日常/铺垫为主，情绪平稳）：4-6格
 - **高潮章**（大事件密集爆发）：可到15-20格，分多页呈现
 
-判断标准：**每个值得"看到"的瞬间都该有独立分镜。** 如果一章有8个该画的场面就画8格，有15个就画15格。宁可多画不可漏画——漏掉关键场面比多画几格更影响阅读体验。
+> 如果导演卡的分格设计表格数与上述范围严重偏离，回 Step 1 重新评估。正常情况下直接按分格设计表执行。
 
 ### 分镜脚本表格式
 
+> **v2.10.0**：分镜脚本表 = 分格设计表（Step 1 产出） + 执行细节（Step 2 补充）。布局类、节奏、效果类从分格设计表**继承**，场景组、定妆图版本、场景主镜、对白文字、画面提示词由 Step 2 **补充**。
+
 每帧必须标注出场角色、定妆图版本、场景组、布局类和节奏：
 
-| 帧号 | 场景组 | 场景 | 角色动作 | 机位 | 情绪 | 节奏 | 布局类 | 出场角色 | 定妆图版本 | 场景主镜 | 对白/文字 | 画面提示词 |
-|:-----|:-------|:-----|:---------|:-----|:-----|:-----|:-------|:---------|:-----------|:---------|:---------|:-----------|
-| 1 | A | 破屋，雨夜 | 薇薇安从米袋抓米 | 全景 | 压抑 | 慢 | panel-full | 薇薇安 | char-vivian-v1 | — | 旁白:没有食物了 | [提示词] |
-| 2 | A | 破屋灶台 | 薇薇安抱老狗 | 中近景 | 温暖 | 慢 | panel-half | 薇薇安 | char-vivian-v1 | frame1 | 对白:又不会偷东西 | [提示词] |
-| 3 | A | 门外 | 脚步声逼近 | 特写 | 恐惧 | 快 | panel-half | 无 | — | frame1 | 旁白:脚步声 | [提示词] |
-| 5 | B | 集市 | 薇薇安穿新衣出行 | 中景 | 明亮 | 慢 | panel-full | 薇薇安 | char-vivian-v2 | — | 旁白:第一次穿上干净的衣裳 | [提示词] |
-| 8 | C | 门口 | 索伦睁眼 | 特写 | 震惊 | 慢 | panel-hook | 索伦 | char-soren-v2 | — | — | [提示词] |
+| 帧号 | 所属页 | 场景组 | 场景 | 角色动作 | 机位 | 情绪 | 节奏 | 布局类 | 效果类 | 出场角色 | 定妆图版本 | 场景主镜 | 对白/文字 | 画面提示词 |
+|:-----|:-------|:-------|:-----|:---------|:-----|:-----|:-----|:-------|:-------|:---------|:-----------|:---------|:---------|:-----------|
+| 1 | P1 | A | 破屋，雨夜 | 薇薇安从米袋抓米 | 全景 | 压抑 | 慢 | panel-full | — | 薇薇安 | char-vivian-v1 | — | 旁白:没有食物了 | [提示词] |
+| 2 | P1 | A | 破屋灶台 | 薇薇安抱老狗 | 中近景 | 温暖 | 慢 | panel-half | — | 薇薇安 | char-vivian-v1 | frame1 | 对白:又不会偷东西 | [提示词] |
+| 3 | P1 | A | 门外 | 脚步声逼近 | 特写 | 恐惧 | 快 | panel-half | — | 无 | — | frame1 | 旁白:脚步声 | [提示词] |
+| 5 | P2 | B | 集市 | 薇薇安穿新衣出行 | 中景 | 明亮 | 慢 | panel-full | — | 薇薇安 | char-vivian-v2 | — | 旁白:第一次穿上干净的衣裳 | [提示词] |
+| 8 | P3 | C | 门口 | 索伦睁眼 | 特写 | 震惊 | 慢 | panel-hook | — | 索伦 | char-soren-v2 | — | — | [提示词] |
 
 > 注意帧8使用 panel-hook（章末钩子）。**场景组**标识同一场景的连续帧——同组第2格起需用首格作为场景主镜参考图（见 storyboard-guide §场景主镜机制）。布局类和节奏标注参见 `references/storyboard-guide.md` 的「分镜节奏方法论」和「页面布局系统」章节。
 
@@ -140,7 +148,9 @@ Maintain visible outer contour lines. Use soft gradient shading inside color blo
 
 ## 5. 逐格分镜生成
 
-### 批量生成（推荐）
+### 高并发批量生成（推荐）
+
+> **v3.1.0 升级**：`generate_storyboard.py` 升级为 ThreadPoolExecutor 高并发生成（默认8线程），16帧从6分钟降至~20秒。Seedream API 限制500图/分钟（8.3图/秒），8线程安全。内置自动重试（3次指数退避）和格式保真（JPEG→PNG转码）。
 
 配置 `generate_storyboard.py` 的 `FRAMES` 列表和 `FRAME_REFS`（按帧映射参考图，支持场景主镜）：
 
@@ -170,75 +180,184 @@ python "{本skill路径}/scripts/generate_storyboard.py"
 ```powershell
 python "{pop-novel-visual路径}/scripts/generate.py" image `
   --prompt '{分镜提示词}' `
-  --model doubao-seedream-5-0-lite-260128 `
+  --model doubao-seedream-5-0-pro-260628 `
   --size 1728x2304 `
   --image "data:image/png;base64,{角色定妆图base64}" `
   --output "第{N}章/output/frame{N}.png"
 ```
 
-## 6. HTML 漫画页组装
+## 6. 漫画 HTML 排版
 
-读取 `templates/comic-page.tpl.html`，替换占位符，组装漫画页面。
+将分镜帧编排为 HTML 漫画页面，嵌入原文旁白，通过本地 HTTP 服务器预览。HTML 排版是 v3.0.0 起的主要产出格式，支持 7 种排版布局、渐变遮罩旁白、外部图片引用。
 
-**布局系统**（详见模板注释和 storyboard-guide §页面布局系统）：
+> **v3.0.0 变更**：从纯 Pillow 拼图回归 HTML 排版作为主要产出格式。解决 v2.11.0 Pillow 方案布局表达能力不足的问题——HTML 支持 7 种排版布局（含侧边文字面板、叠加嵌套、全幅出血等 Pillow 无法实现的布局），原文旁白直接嵌入 HTML 渐变遮罩。图片使用外部路径引用（非 base64 内联），通过本地 HTTP 服务器预览，HTML 文件轻量可编辑。Pillow 拼图保留为 §7 备选方案。
 
-- 每帧按分镜表中标注的**布局类**选择对应的 HTML 结构
-- 最后一格必须使用 `panel-hook`（章末钩子）
-- 场景切换处插入 `<div class="scene-break">◇ ◇ ◇</div>`
-- 高潮帧可用 `panel-bleed`（出血页）或 `panel-splash`（跨页大格）
-- 对白气泡用 CSS 定位叠加
+> **必读 `references/layout-pool.md`**：7 种布局的 CSS 实现要点、适用场景、叙事功能、避让规则、原文旁白嵌入规范、画风适配规则。
 
-**视觉花样**（详见 storyboard-guide §视觉花样系统）：
+### 编写排版配置 JSON
 
-根据分镜表的叙事场景，为关键帧叠加 CSS 效果类：
+在 `{漫画项目}/第{N}章/` 下创建 `拼图配置.json`（同时驱动 HTML 排版和 Pillow 备选），按分镜脚本表的帧顺序描述每帧的布局、旁白和样式：
 
-| 叙事场景 | 效果类 | 写法 |
-|:---------|:-------|:-----|
-| 爆发/觉醒/必杀 | `impact-frame` + `speed-lines` | panel class 加 `impact-frame`，内部加 `<div class="speed-lines"></div>` |
-| 闪回/记忆 | `effect-flashback` | panel class 加 `effect-flashback` |
-| 梦境/幻觉 | `effect-dream` | panel class 加 `effect-dream` |
-| 戏剧性黑白 | `effect-noir` | panel class 加 `effect-noir` |
-| 新角色首次出场 | `char-intro` | panel 内加 `<div class="char-intro">名字<span class="char-role">身份</span></div>` |
-| 转场/世界观旁白 | `narration-dramatic` | 独立元素 `<div class="narration-dramatic">旁白文字</div>` |
-| 章节开篇 | `chapter-cover` | 独立元素含 cover-title 和 cover-subtitle |
-| 快节奏段 | `grid tight` | 容器 class 加 `tight` |
-| 慢节奏段 | `grid loose` | 容器 class 加 `loose` |
-
-> **花样纪律**：每章最多 2-3 个视觉花样，服务于叙事而非炫技。详见 storyboard-guide §花样使用纪律。
-
-**格数超过8格时**：在模板基础上追加 `<div class="panel">` 节点即可。模板中的8帧结构是示例，不是上限。超过12格时考虑分页（生成两个HTML文件）。
-
-输出到 `{漫画项目}/第{N}章/漫画-{章节名}.html`
-
-## 7. HTML 图片内联化（必须执行）
-
-```powershell
-python "{本skill路径}/scripts/inline_html.py" "{漫画项目}/第{N}章/漫画-{章节名}.html"
+```json
+{
+  "title": "诡秘之主",
+  "subtitle": "第一章 · 绯红",
+  "frames_dir": "{漫画项目}/第{N}章/output",
+  "output_html": "{漫画项目}/第{N}章/index.html",
+  "output_jpeg": "{漫画项目}/第{N}章/漫画-{章节名}.jpg",
+  "footer": "popwave",
+  "frames": [
+    {"file": "frame1.png", "layout": "splash",   "caption": "没有食物了。"},
+    {"separator": "line"},
+    {"file": "frame2.png", "layout": "fullwide", "caption": "薇薇安从米袋里抓出最后一把米。"},
+    {"file": "frame3.png", "layout": "split",    "caption_left": "破屋内", "caption_right": "门外脚步声逼近", "file_right": "frame4.png"},
+    {"separator": "line"},
+    {"file": "frame5.png", "layout": "narrow",   "narration": "这个世界将来会迎来诸神的黄昏。诸神的黄昏，意味着一切的终结。"},
+    {"file": "frame6.png", "layout": "fullbleed", "caption": "剑气冲霄，百丈山峰被无形力量切出一道裂痕。"},
+    {"file": "frame8.png", "layout": "climax",   "caption": "脚步声，越来越近……"}
+  ]
+}
 ```
 
-> 内联化后 HTML 在浏览器和 popwave 中均能正常显示。
+### 布局类映射表（7 种 HTML 布局）
 
-## 8. 截长图（必须执行）
+`layout` 值对应分镜脚本表中的「布局类」（由 Step 1 分格设计表确定，**继承不重新选择**）：
 
-将内联化后的 HTML 截取为长图 PNG，方便用户直接分享到社交平台。
+| 分格设计表布局类 | HTML layout 值 | 画幅 | 叙事功能 | Pillow 备选 layout |
+|:----------------|:--------------|:-----|:---------|:-------------------|
+| panel-splash | splash | 3:4 竖幅 | 章节开场/场景建立 | scene |
+| panel-split | split | 双格 50/50 | 对比/并进/反应 | half×2 |
+| panel-fullwide | fullwide | 4:3 横幅 | 情感舒缓/环境交代 | full |
+| panel-overlay | overlay | 主图+inset 35% | 戏剧转折/因果对照 | — (回退 fullwide) |
+| panel-narrow | narrow | flex 30/70 | 旁白密集/静态段落 | — (回退 fullwide) |
+| panel-fullbleed | fullbleed | 16:9 出血 | 战斗/冲击/沉浸 | impact |
+| panel-climax | climax | 3:4 竖幅 85vh | 情感高潮/章末收尾 | hook |
+
+> 详细 CSS 实现要点、适用场景、避让规则见 `references/layout-pool.md`。Pillow 备选方案不支持 overlay 和 narrow 布局，遇到这两种布局且必须用 Pillow 时回退为 fullwide。
+
+### 原文旁白嵌入
+
+旁白文字直接嵌入 HTML 排版的渐变遮罩中，不二次改写：
+
+- **底部遮罩旁白**（splash/fullwide/fullbleed/climax/overlay）：使用 `caption` 字段，单帧不超过 3 行（约 80 字）
+- **侧边文字面板**（narrow）：使用 `narration` 字段，可达 150-200 字
+- **分格旁白**（split）：使用 `caption_left` / `caption_right` 字段，每格不超过 2 行（约 50 字）
+
+> 旁白渐变遮罩规范、文字样式规范、内容规范详见 `references/layout-pool.md` 原文旁白嵌入规范章节。
+
+### 排版避让铁律
+
+> 详见 `references/layout-pool.md` 排版避让铁律章节。核心规则：
+
+1. clip-path 斜切线只能穿过画面空白区（墙壁/地面/天空），绝不能穿过人物和文字
+2. 使用斜切布局时，生成图片的提示词必须包含"画面左侧/右侧留白"的构图指令
+3. 旁白文字不能放在被 clip-path 裁切的区域内
+4. 斜切无叙事必要性时不使用，垂直分格（layout-split）是更安全的替代方案
+
+### 生成 HTML 漫画页面
+
+根据排版配置 JSON，生成 `index.html`：
+
+1. 读取 `拼图配置.json` 中的 frames 数组
+2. 按 layout 值为每帧套用对应 CSS 布局类（见 `references/layout-pool.md` 各布局 CSS 实现要点）
+3. 图片使用外部路径引用：`<img src="output/frameN.png">`（非 base64 内联）
+4. 旁白文字嵌入对应布局的 caption-layer / text-panel / narration 元素
+5. 在帧之间插入 `<div class="scene-break">◇ ◇ ◇</div>` 对应 separator
+
+### 本地 HTTP 服务器预览
 
 ```powershell
-python "{本skill路径}/scripts/screenshot_html.py" "{漫画项目}/第{N}章/漫画-{章节名}.html" --format jpeg --quality 90
+# 在章节目录下启动本地 HTTP 服务器
+cd "{漫画项目}/第{N}章"
+python -m http.server 8000
+
+# 浏览器打开预览
+# http://localhost:8000/index.html
 ```
 
-**参数说明**：
+> 本地 HTTP 服务器解决了图片外部路径引用的加载问题。HTML 文件保持轻量（不含 base64），可随时编辑调整布局和旁白。
 
-| 参数 | 默认值 | 说明 |
-|:-----|:-------|:-----|
-| `--format` | png | 输出格式：png（无损）或 jpeg（小体积，分享推荐） |
-| `--quality` | 95 | JPEG 质量 1-100（仅 --format=jpeg 时生效） |
-| `--width` | 940 | 截图宽度，匹配模板 max-width+padding |
-| `--max-height` | 12000 | 最大高度，内容多时增大（如 `--max-height 20000`） |
-| `--output` | 同名.png | 自定义输出路径 |
+### 输出
 
-**输出**：`{漫画项目}/第{N}章/漫画-{章节名}.jpg`（或 .png）
+`{漫画项目}/第{N}章/index.html`（HTML 漫画页面，外部图片引用 + 原文旁白嵌入）。通过本地 HTTP 服务器在浏览器中预览。
 
-> 脚本自动检测系统 Edge/Chrome 浏览器，headless 模式渲染后自动裁剪底部空白。无需额外安装依赖。
+### 格数超过8格
+
+排版配置的 `frames` 数组长度不限，超过8格时继续在 `frames` 中追加帧配置即可。建议用 `separator` 分隔页面边界，保持阅读节奏。
+
+## 7. 截长图（分享用）
+
+> **v3.1.0 新增**。HTML 漫画页面排版完成后，使用 Playwright 逐元素截图 + Pillow 拼接输出长图，用于分享。解决浏览器全页截图底部质量退化问题。
+
+```powershell
+python "{本skill路径}/scripts/screenshot_comic.py" "{漫画项目}/第{N}章/index.html" "{漫画项目}/第{N}章/长图-{章节名}.png"
+```
+
+### 截图原理
+
+1. Playwright headless 浏览器加载 HTML 页面
+2. 等待所有图片完全加载（`img.complete && img.naturalWidth > 0`）
+3. 自动检测页面元素（`.frame`, `.scene-break`, `.comic-page > div`）
+4. 逐元素滚动到视口并截图（避免全页截图的底部模糊）
+5. Pillow 拼接所有元素截图为完整长图
+
+### 输出格式
+
+- **PNG**（默认，无损）：适合存档
+- **JPEG**（指定 .jpg 扩展名）：适合分享，quality=92
+
+### 注意事项
+
+- 截图前确保本地 HTTP 服务器已启动（或使用 file:// 协议直接加载）
+- 视口宽度默认 820px，可通过 `SCREENSHOT_WIDTH` 环境变量调整
+- 如未安装 Playwright，执行 `pip install playwright && playwright install chromium`
+
+## 8. Pillow 拼图（备选方案）
+
+当 HTML 排版环境不可用（无浏览器/无本地服务器）时，使用 `scripts/assemble_comic.py` 纯 Pillow 拼图作为备选方案，直接输出 JPEG 长图。
+
+> Pillow 拼图不支持 layout-overlay 和 layout-narrow 布局（需文字面板/嵌套图），遇到这两种布局时回退为 layout-fullwide（full）。
+
+### 执行拼图
+
+```powershell
+python "{本skill路径}/scripts/assemble_comic.py" "{漫画项目}/第{N}章/拼图配置.json"
+```
+
+### Pillow 布局类映射表
+
+Pillow 模式下 layout 值映射为 Pillow 内部布局类：
+
+| HTML layout 值 | Pillow layout 值 | 说明 | 尺寸 |
+|:--------------|:----------------|:-----|:-----|
+| splash | scene | 名场面格 2:3 | 852×568 |
+| split | half×2 | 半宽格 1:1（自动配对并排） | 424×424 |
+| fullwide | full | 全宽格 16:9 | 852×479 |
+| overlay | full (回退) | 不支持，回退为全宽格 | 852×479 |
+| narrow | full (回退) | 不支持，回退为全宽格 | 852×479 |
+| fullbleed | impact | 冲击格 2:1 | 852×426 |
+| climax | hook | 章末钩子（暗角+居中文字） | 852×479 |
+
+### Pillow style 字段（可选，默认按 layout 自动推断）
+
+| style | 效果 | 默认对应 layout |
+|:------|:-----|:----------------|
+| normal | 普通黑边2px | full, half |
+| feature | 粗黑边3px + 红色发光 | scene |
+| impact | 粗白边3px + 橙色发光 | impact |
+| hook | 无边框 + 暗角 | hook |
+
+### Pillow position 字段（可选，默认 center）
+
+控制图片裁剪位置：`center` / `center 30%` / `top` / `bottom`。根据画面内容调整——人物在上方用 `center 20%`，人物在下方用 `center 80%`。
+
+### 输出
+
+`{漫画项目}/第{N}章/漫画-{章节名}.jpg`（900px 宽，JPEG quality 92）。纯 Pillow 实现，无需浏览器。
+
+### 半宽格配对规则
+
+连续两个 `layout: "half"` 的帧自动配对并排。单独 half 帧会警告并当全宽处理。
 
 ## 9. 进入 Phase 2
 

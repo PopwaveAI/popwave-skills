@@ -1,8 +1,8 @@
 {
   "id": "pop-novel-comic",
-  "version": "2.9.2",
+  "version": "3.1.0",
   "displayName": "网文转漫画",
-  "description": "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成'时启用。读取网文章节原文，Agent拆解分镜脚本，调用 Seedream 生成角色定妆图+逐格分镜画面，HTML 层叠加对白气泡组装成完整漫画页面。",
+  "description": "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成'时启用。读取网文章节原文，Agent拆解分镜脚本，调用 Seedream 高并发生成角色定妆图+逐格分镜画面，HTML 排版引擎组装成漫画页面（7种排版布局+原文旁白嵌入+CSS层仅管布局/文字/过渡），Playwright 截长图，Pillow 拼图作为备选方案。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-novel-comic", "网文转漫画", "章节漫画", "小说漫画", "漫画生成"]

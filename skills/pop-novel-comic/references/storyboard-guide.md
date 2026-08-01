@@ -53,7 +53,7 @@
 
 **核心判断标准**：每个值得"看到"的瞬间都该有独立分镜。宁可多画不可漏画——漏掉关键场面比多画几格更影响阅读体验。
 
-超过12格时考虑分页（生成两个HTML文件，每页6-10格）。
+超过12格时考虑分页（排版配置中用 separator 分隔，每页6-10格）。
 
 ### 7. 高光独占格
 
@@ -83,7 +83,7 @@
 | 情绪爆发 | 这个画面能不能让读者感到什么？ | 画面承载了强烈的情绪（震撼/悲壮/热血/恐惧） |
 | 剧情转折 | 这个画面是否改变了故事走向？ | 画面呈现的是一个转折点/决策点/揭示点 |
 
-**三条满足两条 = 名场面。** 名场面必须用最大布局（panel-splash 或 panel-bleed）+ 视觉花样 + 高精度提示词。
+**三条满足两条 = 名场面。** 名场面必须用最大布局（panel-splash 或 panel-fullbleed）+ 视觉花样 + 高精度提示词。
 
 > 每章至少 1 个名场面。如果一章找不出一个名场面，说明选帧有问题——不是每一章都有"画面感"强的内容，但每一章至少有一个"读者会记住"的瞬间。
 
@@ -115,7 +115,7 @@
 **冲击帧公式**：
 
 ```
-[最大布局 panel-splash/bleed] + [Seedream 执行串] + [具体视觉奇观描述] + [环境/他人反应] + [风格保真约束 + 高精度模板 HARD CONSTRAINTS]
+[最大布局 panel-splash/fullbleed] + [Seedream 执行串] + [具体视觉奇观描述] + [环境/他人反应] + [风格保真约束 + 高精度模板 HARD CONSTRAINTS]
 ```
 
 > 冲击帧必须使用高精度模板（4 块结构），因为普通提示词的约束力不够，容易画成泛化的"能量光效"而非具体的视觉奇观。
@@ -275,7 +275,7 @@ Semi-thick painting manga style, clean hard outer contour lines as skeleton with
 - **首句必须是 Seedream 执行串**（从漫画角色库的风格锚定串字段复制），不能以"参考图中的人物形象"开头
 - **场景描述精简到≤2句**——过长的场景描述会把 Seedream 推向"电影概念艺术"模式，淹没画风
 - **末尾必须有风格保真约束**（从漫画角色库的风格保真约束字段复制），防止画风漂移
-- 不写对白（对白用 HTML 叠加）
+- 不写对白（对白用 HTML 排版 caption 嵌入底部渐变遮罩）
 - 不写任何文字内容（Seedream 文字渲染不可控）
 - ≤300 字（英文部分不计入字数限制）
 
@@ -291,13 +291,15 @@ Semi-thick painting manga style, clean hard outer contour lines as skeleton with
 
 ## 对白/旁白/拟声词分类
 
-| 类型 | HTML 处理 | 示例 |
-|:-----|:---------|:-----|
-| 角色台词 | 白底圆角气泡 + 尾巴指向角色 | "你会保护我的，对不对？" |
-| 内心独白 | 米色旁白框 | 米不多了。 |
-| 环境拟声词 | 大字斜体描边 | 啪！BOING—— |
-| 人群喊叫 | 小字描边 | 打死小偷！ |
-| 旁白叙述 | 米色旁白框 | 脚步声。不止一个人。 |
+| 类型 | HTML 排版处理 | 示例 |
+|:-----|:-------------|:-----|
+| 角色台词 | caption 文字嵌入底部渐变遮罩 | "你会保护我的，对不对？" |
+| 内心独白 | caption 文字嵌入底部渐变遮罩 | 米不多了。 |
+| 环境拟声词 | 提示词中写明拟声词效果 | 啪！BOING—— |
+| 人群喊叫 | 提示词中写明人群喊叫效果 | 打死小偷！ |
+| 旁白叙述 | caption 文字嵌入底部渐变遮罩（超长用 layout-narrow 侧边文字面板） | 脚步声。不止一个人。 |
+
+> 旁白嵌入规范详见 `references/layout-pool.md` 原文旁白嵌入规范章节。
 
 ## 风格三字段速查
 
@@ -497,10 +499,10 @@ FRAME_REFS = {
 
 | 特征 | 效果 | 布局选择 |
 |:-----|:-----|:---------|
-| 大格+少格 | 给读者时间消化信息 | panel-full 或 panel-cinema |
-| 静态画面 | 角色站立/坐着/沉思 | panel-half ×2 并列 |
-| 环境描写多 | 建立场景氛围 | panel-bleed（出血页） |
-| 旁白多 | 信息密度靠文字承载 | panel-half + 旁白框 |
+| 大格+少格 | 给读者时间消化信息 | panel-splash 或 panel-fullwide |
+| 静态画面 | 角色站立/坐着/沉思 | panel-split（50/50 并列） |
+| 环境描写多 | 建立场景氛围 | panel-fullwide（4:3 横幅） |
+| 旁白多 | 信息密度靠文字承载 | panel-narrow（侧边文字面板） |
 
 > 慢节奏段每 3-4 行原文对应 1 格，允许画面"呼吸"。
 
@@ -508,10 +510,10 @@ FRAME_REFS = {
 
 | 特征 | 效果 | 布局选择 |
 |:-----|:-----|:---------|
-| 小格+多格 | 快速切换制造紧迫感 | grid-3 三连拍 或 panel-half 连续 |
-| 动态画面 | 角色在运动/打斗 | panel-half 紧凑排列 |
-| 动作拆解 | 一个动作拆成 2-3 个瞬间 | panel-third ×3（三连拍） |
-| 拟声词多 | 视觉冲击强化 | panel-half + sfx 拟声词 |
+| 小格+多格 | 快速切换制造紧迫感 | panel-split 连续 |
+| 动态画面 | 角色在运动/打斗 | panel-fullwide 紧凑排列 |
+| 动作拆解 | 一个动作拆成 2-3 个瞬间 | panel-split（左右对照） |
+| 拟声词多 | 视觉冲击强化 | panel-fullbleed + sfx 拟声词 |
 
 > 快节奏段每 1-2 行原文对应 1 格，单格信息量小但切换快。
 
@@ -521,13 +523,13 @@ FRAME_REFS = {
 
 | 帧# | 节奏 | 布局 | 理由 |
 |:----|:-----|:-----|:-----|
-| 1 | 慢 | panel-full | 场景建立 |
-| 2 | 慢 | panel-half | 日常铺垫 |
-| 3 | 快 | panel-half | 突发事件 |
-| 4 | 快 | panel-half | 冲突升级 |
-| 5 | 快 | panel-bleed | 爆发瞬间 |
-| 6 | 慢 | panel-full | 余韵 |
-| 7 | 慢 | panel-hook | 章末钩子 |
+| 1 | 慢 | panel-splash | 场景建立 |
+| 2 | 慢 | panel-fullwide | 日常铺垫 |
+| 3 | 快 | panel-split | 突发事件 |
+| 4 | 快 | panel-split | 冲突升级 |
+| 5 | 快 | panel-fullbleed | 爆发瞬间 |
+| 6 | 慢 | panel-fullwide | 余韵 |
+| 7 | 慢 | panel-climax | 章末钩子 |
 
 > **自检**：连续 3 帧以上相同节奏 = 节奏单调，需要调整。
 
@@ -539,11 +541,11 @@ FRAME_REFS = {
 
 | 类型 | 适用场景 | 画面设计 | HTML 布局 |
 |:-----|:---------|:---------|:----------|
-| 悬念型 | 下一章有重大揭示 | 角色看向画面外的某个东西，表情震惊/恐惧，不画出来那个东西 | panel-hook + 暗角 |
-| 反转型 | 本章末尾发生反转 | 反转事件的瞬间画面，角色表情定格在不可置信 | panel-hook + 暗角 |
-| 预告型 | 下一章有新角色/新势力 | 新角色的剪影/背影/局部特写，不露全貌 | panel-bleed + 暗角 |
-| 情绪型 | 本章情感浓烈 | 角色在情感高潮的瞬间定格，配合暗角和光效 | panel-splash |
-| 倒计时型 | 下一章有紧迫危机 | 角色看向某个倒计时/逼近的威胁，画面有压迫感 | panel-hook + 暗角 |
+| 悬念型 | 下一章有重大揭示 | 角色看向画面外的某个东西，表情震惊/恐惧，不画出来那个东西 | panel-climax + 居中遮罩 |
+| 反转型 | 本章末尾发生反转 | 反转事件的瞬间画面，角色表情定格在不可置信 | panel-climax + 居中遮罩 |
+| 预告型 | 下一章有新角色/新势力 | 新角色的剪影/背影/局部特写，不露全貌 | panel-fullbleed + 底部遮罩 |
+| 情绪型 | 本章情感浓烈 | 角色在情感高潮的瞬间定格，配合暗角和光效 | panel-climax |
+| 倒计时型 | 下一章有紧迫危机 | 角色看向某个倒计时/逼近的威胁，画面有压迫感 | panel-climax + 居中遮罩 |
 
 #### 钩子帧提示词写法
 
@@ -554,19 +556,15 @@ FRAME_REFS = {
 [情绪氛围]，画面有强烈的未完成感和悬念感，暗角效果。[风格保真约束]。
 ```
 
-#### 钩子帧 HTML
+#### 钩子帧排版配置
 
-使用 `panel-hook` 布局类，自动应用暗角效果。可添加 `hook-text` 文字层：
+使用 `layout: "climax"` 布局类，85vh 最大画幅 + 居中文字渐变遮罩。caption 文字叠加在底部遮罩区域：
 
-```html
-<div class="panel panel-hook">
-  <img src="output/frameN.png" alt="frameN">
-  <span class="panel-num">N</span>
-  <div class="hook-text">脚步声，越来越近……</div>
-</div>
+```json
+{"file": "frameN.png", "layout": "climax", "caption": "脚步声，越来越近……"}
 ```
 
-> hook-text 不是必须的。如果画面本身悬念足够强，不加文字更好。
+> caption 不是必须的。如果画面本身悬念足够强，不加文字更好。详见 `references/layout-pool.md` layout-climax 布局。
 
 ### 信息密度校准
 
@@ -600,80 +598,91 @@ FRAME_REFS = {
 
 ## 页面布局系统
 
-> HTML 模板已升级为多变布局系统。选帧时需为每帧指定布局类，组装 HTML 时按布局类排版。
+> 拼图系统支持多变布局。选帧时需为每帧指定布局类，拼图时按布局类排版。
+
+> **v3.0.0 新增排版池**：7 种 HTML 排版布局的详细 CSS 实现、适用场景、叙事功能、避让规则见 `references/layout-pool.md`。HTML 排版是 v3.0.0 起的主要产出格式，Pillow 拼图为备选。
+
+### 叙事驱动布局（v2.10.0 新增）
+
+> **布局不从模板出发，从叙事需求推导。** Step 1 导演卡的页面设计表和分格设计表已经确定了每页的功能位、视觉重心、每格的布局类和节奏。Step 2 拼图时**直接继承导演卡的分格设计表**，不重新决定布局。
+
+**推导链**：故事层情感曲线 → 页层功能位 → 格层布局类 → HTML 排版
+
+| 推导环节 | 在哪里做 | 产出 |
+|:---------|:---------|:-----|
+| 情感曲线标注 | Step 1 步骤2.5 | 读者情绪轨迹 + 转折点 |
+| 页面分割 | Step 1 步骤7 | 页面设计表（功能位/视觉重心/格数预算） |
+| 分格布局 | Step 1 步骤8 | 分格设计表（布局类/节奏/效果类/画面方向） |
+| HTML 排版 | Step 2 §6 | 按分格设计表的布局类生成 HTML 漫画页面 |
+
+> **铁律：每个布局选择必须能回答"为什么这么布局"。** 回答不出 = 为动态而动态。S 级信息 → 独占大格；快节奏 → 紧密小格；高潮 → panel-splash/fullbleed；章末 → panel-climax。这些不是模板，是叙事需求推导的结果。
 
 ### 布局类速查
 
-| 布局类 | 用途 | 视觉效果 | 使用频率 |
-|:-------|:-----|:---------|:---------|
-| `panel-full` | 全宽格 | 场景建立、关键瞬间 | 每章 2-4 次 |
-| `panel-half` | 半宽格 | 对话、细节反应 | 每章 3-6 次 |
-| `panel-bleed` | 出血页 | 无框全幅，最强冲击 | 每章 0-1 次 |
-| `panel-splash` | 跨页大格 | 名场面、竖版大特写 | 每章 0-1 次 |
-| `panel-cinema` | 电影宽幅 | 史诗远景 21:9 | 每章 0-1 次 |
-| `panel-hook` | 章末钩子 | 暗角+悬念文字 | 每章 1 次（末帧） |
-| `grid-3` | 三栏容器 | 三连拍、快速过场 | 每章 0-2 次 |
-| `grid-stagger` | 错落容器 | 大小对比制造张力 | 每章 0-2 次 |
-| `scene-break` | 场景切换 | ◇ ◇ ◇ 分隔线 | 按需 |
+> v3.0.0 更新：以下布局类对应 `references/layout-pool.md` 排版池中的 7 种 HTML 布局。CSS 实现要点和避让规则详见排版池参考文件。
 
-### 情感弧线→布局映射
+| 布局类 | HTML layout 值 | 用途 | 视觉效果 | 使用频率 |
+|:-------|:--------------|:-----|:---------|:---------|
+| `panel-splash` | layout-splash | 竖幅开场/场景建立 | 3:4全屏+标题叠加+底部遮罩 | 每章 1-2 次 |
+| `panel-split` | layout-split | 对比/并进/反应 | 50/50分割+中线分隔 | 每章 1-3 次 |
+| `panel-fullwide` | layout-fullwide | 情感舒缓/环境交代 | 4:3横幅+底部遮罩 | 每章 2-4 次 |
+| `panel-overlay` | layout-overlay | 戏剧转折/因果对照 | 主图全幅+右下inset 35% | 每章 0-1 次 |
+| `panel-narrow` | layout-narrow | 旁白密集/静态段落 | flex 30/70 左文字右竖图 | 每章 0-2 次 |
+| `panel-fullbleed` | layout-fullbleed | 战斗/冲击/破格 | 100vw出血+16:9横幅 | 每章 0-1 次 |
+| `panel-climax` | layout-climax | 情感高潮/章末收尾 | 3:4竖幅85vh+居中遮罩 | 每章 1 次（末帧） |
+| `scene-break` | scene-break | 场景切换 | ◇ ◇ ◇ 分隔线 | 按需 |
 
-| 情感段位 | 推荐布局 | 理由 |
-|:---------|:---------|:-----|
-| 开场建立 | panel-full 或 panel-cinema | 大远景建立场景 |
-| 日常铺垫 | panel-half ×2 并列 | 节奏舒缓，信息密度低 |
-| 情绪升温 | grid-stagger | 大小对比制造张力 |
-| 冲突爆发 | panel-bleed | 无框全幅冲击 |
-| 高潮名场面 | panel-splash | 跨页大格定格 |
-| 情绪回落 | grid-3 三连拍 | 快速收束 |
-| 章末钩子 | panel-hook | 暗角+悬念 |
+### 页面功能位→布局映射
 
-### 排版五原则
+> v2.10.0 升级：从"情感段位"升级为"页面功能位"，与 Step 1 步骤7 的四种页面功能位对齐。布局选择从导演卡的页面设计表推导，不在 Step 2 临时决定。
 
-1. **不要全用同一种格子** — 连续 3 个相同布局 = 读者疲劳
-2. **全宽和半宽交替是基础节奏** — 出血页/splash 用于打破节奏
-3. **每章至少 1 个出血页或 splash** — 视觉锚点
-4. **最后一格必须是 panel-hook** — 章末钩子
-5. **场景切换用 scene-break** — 不要强行用画面过渡
+| 页面功能位 | 典型布局序列 | 视觉重心 | 理由 |
+|:-----------|:------------|:---------|:-----|
+| 建立页 | panel-splash → panel-fullwide → panel-split | 场景全景 | splash大格开场建立空间感，fullwide交代角色，split展示互动 |
+| 发展页 | panel-split/panel-narrow 交替 → panel-fullwide 停在关键信息 | 角色互动/信息揭示 | 快慢交替推进因果，fullwide锚定关键转折 |
+| 高潮页 | panel-fullbleed/panel-overlay → panel-split 反应 → panel-climax 后果 | 名场面/冲击帧 | 出血/叠加定格爆发，split画反应，climax画后果 |
+| 钩子页 | panel-fullwide 余韵 → panel-climax 悬念 | 余韵/悬念暗示 | fullwide收束情绪，climax最大画幅留悬念 |
 
-### 视觉花样系统（CSS 效果类）
+> **布局序列不是模板**——它是"如果这页是高潮页，通常这样排列"的参考。实际布局以导演卡分格设计表为准，因为分格设计表是基于本章具体内容推导的。
 
-布局类决定"格子多大"，效果类决定"格子什么质感"。效果类叠加在 panel 上，不改变布局，只改变视觉表现。
+### 排版六原则
 
-#### 效果类速查
+1. **从导演卡分格设计表继承布局** — 布局在 Step 1 已从叙事需求推导，Step 2 不重新决定布局类（详见 `references/layout-pool.md` 排版池）
+2. **不要全用同一种格子** — 连续 3 个相同布局 = 读者疲劳
+3. **fullwide 和 split 交替是基础节奏** — splash/fullbleed/climax 用于打破节奏
+4. **每章至少 1 个 splash 或 climax** — 视觉锚点
+5. **最后一格必须是 panel-climax** — 章末最大画幅+钩子文字
+6. **场景切换用 scene-break** — 不要强行用画面过渡
 
-| 效果类 | 叙事功能 | 适用场景 | HTML 写法 |
-|:-------|:---------|:---------|:----------|
-| `speed-lines` | 放射状速度线，冲击感 | 爆发瞬间、必杀技、情绪爆发 | `<div class="speed-lines"></div>` 放在 panel 内部 |
-| `tilt-left` / `tilt-right` | 倾斜格，制造动感 | 紧张对峙、快速移动、冲突 | 加在 panel 的 class 中 |
-| `effect-flashback` | 冷蓝色调+虚线框 | 闪回、记忆、非当前时间线 | 加在 panel 的 class 中 |
-| `effect-sepia` | 棕褐色调 | 历史叙述、遥远回忆 | 加在 panel 的 class 中 |
-| `effect-noir` | 黑白高对比 | 戏剧性时刻、死亡/牺牲 | 加在 panel 的 class 中 |
-| `effect-dream` | 模糊+色偏 | 梦境、幻觉、意识空间 | 加在 panel 的 class 中 |
-| `impact-frame` | 粗白框+外发光 | 关键帧强调、转折瞬间 | 加在 panel 的 class 中 |
-| `char-intro` | 角色名片 | 新角色首次出场 | `<div class="char-intro">名字<span class="char-role">身份</span></div>` |
-| `narration-dramatic` | 全宽黑底旁白条 | 转场、重要独白、世界观旁白 | 独立元素，不在 panel 内 |
-| `chapter-cover` | 章节封面页 | 每章开篇 | 独立元素，含 cover-title 和 cover-subtitle |
-| `grid.tight` | 紧密间距(3px) | 快节奏段 | 容器 class 加 tight |
-| `grid.loose` | 宽松间距(16px) | 慢节奏段 | 容器 class 加 loose |
+### 视觉花样系统（HTML 布局 + 提示词效果）
+
+> v3.0.0 更新：HTML 排版阶段，布局类决定"格子多大+什么叙事功能"，复杂视觉效果通过 Seedream 提示词实现。Pillow 备选方案中 style 字段仍可用（normal/feature/impact/hook）。排版池详见 `references/layout-pool.md`。
+
+#### 提示词层面的视觉效果
+
+以下效果无法通过 HTML 布局类实现，需在 Seedream 提示词中写明：
+
+| 视觉效果 | 提示词写法方向 | 适用场景 |
+|:---------|:-------------|:---------|
+| 速度线 | radiating speed lines, motion lines | 爆发瞬间、必杀技 |
+| 画面倾斜 | dynamic angled composition | 紧张对峙、快速移动 |
+| 闪回色调 | cold blue tint, dashed border frame | 闪回、记忆 |
+| 单色滤镜 | sepia tone / monochrome noir | 历史叙述、戏剧性时刻 |
+| 梦境效果 | soft blur, color shifted, dreamlike | 梦境、幻觉 |
 
 #### 花样×叙事场景对照
 
-| 叙事场景 | 推荐花样组合 | 效果 |
-|:---------|:------------|:-----|
-| 角色觉醒/变身 | `impact-frame` + `speed-lines` | 白框+速度线=爆发感 |
-| 闪回记忆 | `effect-flashback` | 冷蓝+虚线框=时间线区分 |
-| 角色牺牲/死亡 | `effect-noir` + `tilt-left` | 黑白+倾斜=悲剧感 |
-| 梦境/意识空间 | `effect-dream` | 模糊+色偏=非现实感 |
-| 新角色登场 | `char-intro` + `panel-splash` | 名片+大格=仪式感 |
-| 世界观旁白 | `narration-dramatic` | 全宽黑底=权威旁白 |
-| 快速打斗 | `grid.tight` + `tilt-left/right` | 紧密+倾斜=紧迫感 |
-| 章节开篇 | `chapter-cover` | 封面页=仪式感开场 |
+| 叙事场景 | 推荐布局 | 提示词方向 | 效果 |
+|:---------|:---------|:----------|:-----|
+| 角色觉醒/变身 | layout-fullbleed | speed lines + 发光 | 出血+速度线=爆发感 |
+| 闪回记忆 | layout-overlay | cold blue tint | inset+冷蓝=时间线区分 |
+| 角色牺牲/死亡 | layout-climax | monochrome noir | 最大画幅+黑白=悲剧感 |
+| 梦境/意识空间 | layout-narrow | soft blur + color shift | 文字面板+模糊=非现实感 |
+| 新角色登场 | layout-splash | full body shot | 全幅+标题=仪式感 |
+| 章末钩子 | layout-climax | 暗角+未完成感 | 最大画幅+遮罩=悬念 |
 
-#### 花样使用纪律
+#### 使用纪律
 
-1. **每章最多 2-3 个视觉花样** — 过多=花样自嗨，读者注意力被效果抢走
-2. **花样服务于叙事** — 不是"好看就用"，是"这个场景需要什么质感"
-3. **角色名片只首次出场用** — 后续帧不需要重复名片
-4. **戏剧旁白条不用于普通旁白** — 普通旁白用 narration 气泡，戏剧旁白条用于全宽转场
-5. **效果类可叠加** — `panel panel-full impact-frame tilt-left` 是合法的（冲击框+倾斜）
+1. **每章最多 2-3 个进阶布局**（overlay/fullbleed） — 过多=花样自嗨，读者注意力被效果抢走
+2. **布局服务于叙事** — 不是"好看就用"，是"这个场景需要什么叙事功能"（详见 `references/layout-pool.md` 画风适配规则）
+3. **复杂视觉效果走提示词** — 速度线/倾斜/色调等在 Seedream 提示词中写明，不在 HTML 层面叠加
