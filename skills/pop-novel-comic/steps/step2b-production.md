@@ -1,6 +1,6 @@
 # Step 2b: 页面生成+文字叠加
 
-> 增量定妆图（如有）→ 逐页生成 → HTML 文字叠加 → 截长图 → 进入 Phase 2
+> 增量定妆图（如有）→ 逐页生成 → 翻页阅读器 HTML → 截图分享 → 进入 Phase 2
 
 ## 设计哲学
 
@@ -9,7 +9,7 @@ Step 2b 的唯一任务是"执行"——基于 Step 2a 的页面提示词，生�
 **v4.0 核心变化**：
 - 生成单位从"格"升级为"页"——`generate_comic_page.py` 逐页生成，每页一张含多格的完整漫画图
 - HTML 职责简化——不再做格子布局（画面已有分格线），只做文字叠加（旁白条/对白气泡）
-- 移动端优先——页面图片全宽展示，文字叠加使用相对定位，竖向滑动阅读
+- **v4.3 翻页阅读器**——从长滚动页面改为翻页阅读器，一次只显示一页，点击/滑动/方向键切换，移动端全屏沉浸
 
 ## 1. 增量定妆图生成（如有变化）
 
@@ -82,11 +82,11 @@ python "{本skill路径}/scripts/generate_comic_page.py"
 
 > 如果某页生成失败，脚本会重试3次。全部失败后可单独重跑该页。
 
-## 3. HTML 文字叠加
+## 3. 翻页阅读器 HTML 生成
 
-> **必读 `references/page-layout-guide.md`**：文字叠加 CSS 实现、旁白条/对白气泡规范、移动端适配。
+> **必读 `references/page-layout-guide.md`**：翻页阅读器完整 HTML 模板、文字叠加 CSS、导航交互实现。
 
-v4.0 的 HTML 职责极度简化——**画面是 AI 画的（含分格线），文字是 HTML 叠的**。HTML 不做格子布局，只在漫画页图片上叠加文字层。
+**v4.3 核心变化**：从长滚动页面改为**翻页阅读器**——一次只显示一页，左右点击/滑动/方向键切换。更接近真实漫画阅读体验，移动端全屏沉浸。
 
 ### 编写页面配置 JSON
 
@@ -96,6 +96,8 @@ v4.0 的 HTML 职责极度简化——**画面是 AI 画的（含分格线），
 {
   "title": "{章节标题}",
   "subtitle": "第{N}章 · {章节名}",
+  "poem": "鉴中千秋血，镜外万骨枯。",
+  "seal": {"text": "终", "position": "bottom-right"},
   "pages_dir": "output",
   "output_html": "index.html",
   "footer": "popwave",
@@ -103,92 +105,50 @@ v4.0 的 HTML 职责极度简化——**画面是 AI 画的（含分格线），
     {
       "file": "page1.png",
       "captions": [
-        {"type": "narration", "text": "西蜀在大西塬吃亏。", "position": "bottom"}
+        {"type": "narration", "text": "旁白文字", "position": "bottom"}
       ]
     },
-    {"separator": true},
     {
       "file": "page2.png",
       "captions": [
-        {"type": "narration", "text": "迟早要攻蜀。", "position": "bottom"},
-        {"type": "dialogue", "text": "伐蜀只是顺便。", "position": "top-right"}
+        {"type": "narration", "text": "旁白文字", "position": "bottom"},
+        {"type": "dialogue", "text": "对白文字", "position": "top-right"}
       ]
     },
-    {"separator": true},
     {
       "file": "page3.png",
       "captions": []
-    },
-    {"separator": true},
-    {
-      "file": "page4.png",
-      "captions": [
-        {"type": "narration", "text": "擒主焚庙可矣。", "position": "bottom"}
-      ]
     }
   ]
 }
 ```
 
+> **翻页阅读器中不再使用 `separator` 字段**——翻页本身就是页面间的分隔。`poem`/`seal` 为可选字段（古风赛道文化元素，详见 `references/cultural-elements-guide.md`）。
+
 ### 文字叠加类型
 
 | 类型 | CSS 类 | 位置 | 说明 |
 |:-----|:-------|:-----|:-----|
-| 旁白条 | `.caption-narration` | 底部渐变遮罩 | 旁白叙述/内心独白/环境描写，直接使用小说原文 |
-| 对白气泡 | `.caption-dialogue` | 指定位置（top-left/top-right/bottom-left/bottom-right） | 角色台词，圆角气泡+尾巴 |
-| 章节标题 | `.page-title` | 页面顶部 | 章节标题叠加（仅第一页） |
+| 旁白条 | `.caption-narration` | 底部/顶部渐变遮罩 | 旁白叙述/内心独白/环境描写，直接使用小说原文 |
+| 对白气泡 | `.caption-dialogue` | 指定位置（top-left/top-right/bottom-left/bottom-right） | 角色台词，圆角气泡 |
 
 > **大单页通常不加文字**——名场面画面自说，文字会干扰视觉冲击。如果导演卡标注"无（画面自说）"，captions 留空。
+> 章节标题不再用文字叠加，而是由翻页阅读器的标题页（data-index=0）独立展示。
 
-### 移动端适配
+### 生成翻页阅读器 HTML
 
-```css
-/* 移动端优先：页面图片全宽，竖向滑动阅读 */
-.comic-page {
-  width: 100%;
-  max-width: 820px;  /* 桌面端最大宽度 */
-  margin: 0 auto;
-  position: relative;
-}
-.comic-page img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-/* 文字叠加使用绝对定位，按百分比定位以适配不同屏幕 */
-.caption-narration {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 40px 20px 16px;
-  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-}
-.caption-dialogue {
-  position: absolute;
-  max-width: 45%;
-  padding: 10px 14px;
-  background: rgba(255,255,255,0.92);
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #1a1a1a;
-}
-```
+根据页面配置 JSON 和 `references/page-layout-guide.md` 中的完整 HTML 模板，生成 `index.html`：
 
-> 完整 CSS 实现见 `references/page-layout-guide.md`。
+1. **标题页**（data-index=0）：章节标题 + 副标题 + "点击进入"提示
+2. **漫画页**（data-index=1~N）：每页一个 `.page-view`，内含 `.comic-page` 图片 + 文字叠加
+3. **章末页**（data-index=N+1）："未完待续" + 品牌信息
+4. **导航层**：左侧30%上一页 / 右侧30%下一页 / 中间40%不触发
+5. **页码指示器**：底部居中，标题页和章末页不显示
+6. **交互脚本**：键盘方向键 + 触摸滑动 + 点击导航
 
-### 生成 HTML 漫画页面
+> 完整 HTML 模板（含 CSS + JavaScript）见 `references/page-layout-guide.md` §「完整 HTML 模板」。**直接复制模板，替换 `{章节标题}`/`{章节名}`/`pageN.png`/`{旁白文字}` 等占位符即可。**
 
-根据页面配置 JSON，生成 `index.html`：
-
-1. 读取 `页面配置.json` 中的 pages 数组
-2. 每页图片用 `<div class="comic-page">` 包裹，`<img src="output/pageN.png">`
-3. 文字叠加用绝对定位的 `.caption-narration` / `.caption-dialogue` 元素
-4. 页面之间插入 `<div class="scene-break">◇ ◇ ◇</div>` 对应 separator
-5. 底部 footer 显示品牌信息
-
-### 本地 HTTP 服务器预览
+### 本地预览
 
 ```powershell
 cd "{漫画项目}/第{N}章"
@@ -198,28 +158,21 @@ python -m http.server 8000
 
 ### 输出
 
-`{漫画项目}/第{N}章/index.html`（HTML 漫画页面，外部图片引用 + 文字叠加层）。
+`{漫画项目}/第{N}章/index.html`（翻页阅读器，一次一页，点击/滑动/方向键切换）。
 
-## 4. 截长图（分享用）
+## 4. 截图分享（可选）
 
-> 使用 Playwright 逐元素截图 + Pillow 拼接输出长图，用于分享。
+> 翻页阅读器适配：截图脚本需逐页激活 `.page-view` 后截图，再 Pillow 拼接为长图。
 
 ```powershell
 python "{本skill路径}/scripts/screenshot_comic.py" "{漫画项目}/第{N}章/index.html" "{漫画项目}/第{N}章/长图-{章节名}.png"
 ```
 
-### 截图原理
-
-1. Playwright headless 浏览器加载 HTML 页面
-2. 等待所有图片完全加载（`img.complete && img.naturalWidth > 0`）
-3. 自动检测页面元素（`.comic-page`, `.scene-break`）
-4. 逐元素滚动到视口并截图
-5. Pillow 拼接所有元素截图为完整长图
-
 ### 注意事项
 
-- 截图前确保本地 HTTP 服务器已启动（或使用 file:// 协议直接加载）
-- 视口宽度默认 820px，可通过 `SCREENSHOT_WIDTH` 环境变量调整
+- 截图脚本需适配翻页阅读器结构：逐个激活 `.page-view`（设置 `active` 类）→ 截图 → 拼接
+- 跳过标题页和章末页，只截取漫画内容页
+- 截图前确保本地 HTTP 服务器已启动
 - 如未安装 Playwright，执行 `pip install playwright && playwright install chromium`
 
 ## 5. 进入 Phase 2

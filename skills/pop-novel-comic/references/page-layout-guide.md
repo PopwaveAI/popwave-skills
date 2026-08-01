@@ -5,15 +5,14 @@
 ## 设计哲学
 
 **v4.0 核心变化**：生成单位从"格"升级为"页"。Seedream 在单张图内直出完整漫画页（含分格线、多格内容、镜头语言），HTML **不再做格子布局**，只负责：
-1. 页面图片全宽展示（移动端优先）
+1. 翻页阅读器（一次一页，点击/滑动/方向键切换）
 2. 文字叠加（旁白条/对白气泡）
-3. 页面间隔符（scene-break）
 
-| v3.x（格级） | v4.0（页级） |
+| v3.x（格级） | v4.0+（页级） |
 |:-------------|:------------|
 | HTML 做格子布局（7种布局类） | 画面已有分格线，HTML 不做格子布局 |
-| 每格一张图，HTML 排列组合 | 每页一张图（含多格），HTML 全宽展示 |
-| CSS 负责格子大小/间距/特效 | CSS 只负责文字叠加+页面间距 |
+| 每格一张图，HTML 排列组合 | 每页一张图（含多格），翻页阅读器展示 |
+| CSS 负责格子大小/间距/特效 | CSS 负责翻页阅读器+文字叠加 |
 | 布局漂移风险（50%帧被擅自改布局） | 无布局漂移风险（画面是AI直出的） |
 
 ## 页面配置 JSON 规范
@@ -164,7 +163,19 @@
 
 > 如果导演卡标注"无（画面自说）"，`captions` 留空数组 `[]`。
 
-## HTML 结构规范
+## HTML 结构规范（翻页阅读器）
+
+> **v4.3 变化**：从长滚动页面改为**翻页阅读器**——一次只显示一页，左右点击/滑动切换。更接近真实漫画阅读体验，移动端友好。
+
+### 设计原则
+
+| 原则 | 说明 |
+|:-----|:-----|
+| 一次一页 | 视口内只显示当前页，不堆叠所有页面 |
+| 全屏沉浸 | 页面图片居中填充视口，深色背景突出画面 |
+| 自然翻页 | 点击/滑动/方向键切换，带过渡动画 |
+| 页码指示 | 底部显示当前页/总页数 |
+| 章节标题页 | 第一屏是标题页，点击进入正文 |
 
 ### 完整 HTML 模板
 
@@ -173,70 +184,97 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>{章节标题}</title>
   <style>
-    /* === 全局 === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
       background: #0d0d0d;
       font-family: "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
       color: #f5f0e8;
+      -webkit-tap-highlight-color: transparent;
     }
-    /* === 漫画容器 === */
-    .comic-container {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 20px 0;
-    }
-    /* === 章节标题 === */
-    .chapter-title {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .chapter-title h1 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: 2px;
-    }
-    .chapter-title p {
-      font-size: 13px;
-      opacity: 0.6;
-      letter-spacing: 1px;
-    }
-    /* === 页面 === */
-    .comic-page {
-      width: 100%;
+
+    /* === 阅读器容器 === */
+    #reader {
+      width: 100%; height: 100%;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* === 页面视图（一次只显示一个） === */
+    .page-view {
+      position: absolute;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .page-view.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* === 章节标题页 === */
+    .title-screen {
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .title-screen h1 {
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 8px; letter-spacing: 2px;
+    }
+    .title-screen .subtitle {
+      font-size: 13px; opacity: 0.5; letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+    .title-screen .tap-hint {
+      font-size: 12px; opacity: 0.3; letter-spacing: 2px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.5; }
+    }
+
+    /* === 漫画页（图片+文字叠加） === */
+    .comic-page {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
       overflow: hidden;
-      border-radius: 4px;
-      margin-bottom: 0;
     }
     .comic-page img {
-      width: 100%;
-      height: auto;
       display: block;
+      max-width: 100%;
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
     }
+
     /* === 旁白条 === */
     .caption-narration {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      left: 0; right: 0; bottom: 0;
       padding: 40px 20px 16px;
       background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
       color: #f5f0e8;
-      font-size: 15px;
-      line-height: 1.9;
+      font-size: 15px; line-height: 1.9;
       text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
     }
     .caption-narration.top {
-      top: 0;
-      bottom: auto;
+      top: 0; bottom: auto;
       padding: 16px 20px 40px;
       background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
     }
+
     /* === 对白气泡 === */
     .caption-dialogue {
       position: absolute;
@@ -244,8 +282,7 @@
       padding: 10px 14px;
       background: rgba(255,255,255,0.92);
       border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 14px; line-height: 1.6;
       color: #1a1a1a;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
@@ -254,87 +291,201 @@
     .caption-dialogue.bottom-left { bottom: 18%; left: 5%; }
     .caption-dialogue.bottom-right { bottom: 18%; right: 5%; }
     .caption-dialogue.center { top: 40%; left: 50%; transform: translateX(-50%); }
-    /* === 页面间隔符 === */
-    .scene-break {
-      text-align: center;
-      padding: 24px 0;
-      color: #555;
-      font-size: 14px;
-      letter-spacing: 8px;
+
+    /* === 导航点击区 === */
+    .nav-zone {
+      position: absolute;
+      top: 0; height: 100%;
+      width: 30%;
+      cursor: pointer;
+      z-index: 10;
     }
-    /* === 页脚 === */
-    .comic-footer {
-      text-align: center;
-      padding: 30px 20px 20px;
-      color: #444;
-      font-size: 12px;
+    .nav-zone.prev { left: 0; }
+    .nav-zone.next { right: 0; }
+    /* 中间区域不拦截（让文字可点选） */
+    .nav-zone.center {
+      left: 30%; width: 40%;
+      cursor: default;
+    }
+
+    /* === 页码指示器 === */
+    .page-counter {
+      position: fixed;
+      bottom: 12px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px; color: #666;
       letter-spacing: 2px;
+      z-index: 20;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    /* === 章末页 === */
+    .end-screen {
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .end-screen .footer {
+      font-size: 12px; color: #444;
+      letter-spacing: 2px; margin-top: 24px;
+    }
+
+    /* === 文化元素 CSS（如有 poem/seal 字段时追加） === */
+    /* 详见下方「文化元素叠加」章节 */
+
+    /* === 响应式 === */
+    @media (max-width: 480px) {
+      .caption-narration { font-size: 14px; padding: 32px 16px 12px; }
+      .caption-dialogue { font-size: 13px; max-width: 50%; }
+      .title-screen h1 { font-size: 18px; }
     }
   </style>
 </head>
 <body>
-  <div class="comic-container">
-    <div class="chapter-title">
-      <h1>{章节标题}</h1>
-      <p>第{N}章 · {章节名}</p>
+  <div id="reader">
+
+    <!-- 标题页 -->
+    <div class="page-view active" data-index="0">
+      <div class="title-screen">
+        <h1>{章节标题}</h1>
+        <div class="subtitle">第{N}章 · {章节名}</div>
+        <div class="tap-hint">点击进入</div>
+      </div>
     </div>
 
-    <!-- 逐页渲染 -->
-    <div class="comic-page">
-      <img src="output/page1.png" alt="P1">
-      <div class="caption-narration">西蜀在大西塬吃亏。</div>
+    <!-- 漫画页 -->
+    <div class="page-view" data-index="1">
+      <div class="comic-page">
+        <img src="output/page1.png" alt="P1">
+        <div class="caption-narration top">{旁白文字}</div>
+        <div class="caption-narration">{旁白文字}</div>
+      </div>
     </div>
 
-    <div class="scene-break">◇ ◇ ◇</div>
-
-    <div class="comic-page">
-      <img src="output/page2.png" alt="P2">
-      <div class="caption-narration">迟早要攻蜀。</div>
-      <div class="caption-dialogue top-right">伐蜀只是顺便。</div>
+    <div class="page-view" data-index="2">
+      <div class="comic-page">
+        <img src="output/page2.png" alt="P2">
+        <div class="caption-narration">{旁白文字}</div>
+      </div>
     </div>
 
-    <div class="scene-break">◇ ◇ ◇</div>
-
-    <div class="comic-page">
-      <img src="output/page3.png" alt="P3">
-      <!-- 大单页，无文字叠加 -->
+    <div class="page-view" data-index="3">
+      <div class="comic-page">
+        <img src="output/page3.png" alt="P3">
+        <!-- 大单页，无文字叠加 -->
+      </div>
     </div>
 
-    <div class="scene-break">◇ ◇ ◇</div>
-
-    <div class="comic-page">
-      <img src="output/page4.png" alt="P4">
-      <div class="caption-narration">擒主焚庙可矣。</div>
+    <div class="page-view" data-index="4">
+      <div class="comic-page">
+        <img src="output/page4.png" alt="P4">
+        <div class="caption-narration">{旁白文字}</div>
+      </div>
     </div>
 
-    <div class="comic-footer">popwave</div>
+    <!-- 章末页 -->
+    <div class="page-view" data-index="5">
+      <div class="end-screen">
+        <div style="font-size: 14px; opacity: 0.5; letter-spacing: 4px;">未完待续</div>
+        <div class="footer">{footer}</div>
+      </div>
+    </div>
+
+    <!-- 导航点击区 -->
+    <div class="nav-zone prev" onclick="changePage(-1)"></div>
+    <div class="nav-zone center"></div>
+    <div class="nav-zone next" onclick="changePage(1)"></div>
+
+    <!-- 页码指示器 -->
+    <div class="page-counter" id="counter"></div>
+
   </div>
+
+  <script>
+    var views = document.querySelectorAll('.page-view');
+    var total = views.length;
+    var current = 0;
+    var counter = document.getElementById('counter');
+
+    function showPage(index) {
+      if (index < 0 || index >= total) return;
+      views[current].classList.remove('active');
+      current = index;
+      views[current].classList.add('active');
+      // 标题页和章末页不显示页码
+      if (index === 0 || index === total - 1) {
+        counter.style.opacity = '0';
+      } else {
+        counter.style.opacity = '1';
+        counter.textContent = index + ' / ' + (total - 2);
+      }
+    }
+
+    function changePage(delta) {
+      showPage(current + delta);
+    }
+
+    // 键盘导航
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') changePage(-1);
+      if (e.key === 'ArrowRight') changePage(1);
+    });
+
+    // 触摸滑动导航
+    var touchStartX = 0;
+    document.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    document.addEventListener('touchend', function(e) {
+      var delta = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 50) {
+        changePage(delta > 0 ? -1 : 1);
+      }
+    }, { passive: true });
+
+    // 初始化
+    showPage(0);
+  </script>
 </body>
 </html>
 ```
 
+### 页面视图结构
+
+阅读器由三类 `page-view` 组成，按顺序排列：
+
+| 视图类型 | data-index | 内容 | 页码显示 |
+|:---------|:-----------|:-----|:---------|
+| 标题页 | 0 | 章节标题+副标题+"点击进入"提示 | 不显示 |
+| 漫画页 | 1 ~ N | 漫画页图片 + 文字叠加 | 显示 `当前页 / 总漫画页数` |
+| 章末页 | N+1 | "未完待续" + 品牌信息 | 不显示 |
+
+> `页面配置.json` 中的 `separator` 在翻页阅读器中不再渲染为可见元素——翻页本身就是页面间的分隔。
+
+### 导航方式
+
+| 操作 | 设备 | 效果 |
+|:-----|:-----|:-----|
+| 点击右侧 30% 区域 | 全部 | 下一页 |
+| 点击左侧 30% 区域 | 全部 | 上一页 |
+| 左/右方向键 | 桌面 | 上一页/下一页 |
+| 左滑 | 移动端 | 下一页 |
+| 右滑 | 移动端 | 上一页 |
+
+> 中间 40% 区域不触发翻页，避免误触。文字叠加层可正常交互。
+
 ## 移动端适配
 
-**移动端优先设计**——漫画的主要消费场景是手机竖向滑动阅读。
+**翻页阅读器天然适配移动端**——视口全屏，图片 `object-fit: contain` 自适应。
 
 | 维度 | 规范 | 说明 |
 |:-----|:-----|:-----|
-| 容器宽度 | `max-width: 820px` | 桌面端居中限宽，手机端全宽 |
-| 图片展示 | `width: 100%; height: auto` | 图片自适应容器宽度 |
+| 视口 | `100vw × 100vh` | 全屏沉浸，禁止 body 滚动 |
+| 图片 | `object-fit: contain; max-height: 100vh` | 图片完整显示不裁切 |
 | 文字定位 | 绝对定位 + 百分比 | 适配不同屏幕尺寸 |
-| 字号 | 14-15px | 手机端可读，不过大 |
-| 间距 | scene-break 24px | 页面间呼吸感 |
-| 背景色 | `#0d0d0d` | 深色背景突出画面 |
-
-### 响应式微调
-
-```css
-@media (max-width: 480px) {
-  .caption-narration { font-size: 14px; padding: 32px 16px 12px; }
-  .caption-dialogue { font-size: 13px; max-width: 50%; }
-  .chapter-title h1 { font-size: 18px; }
-}
-```
+| 字号 | 14-15px（移动端 13-14px） | 手机端可读 |
+| 触摸滑动 | `touchstart/touchend` 差值 > 50px 触发 | 防误触阈值 |
+| 缩放锁定 | `user-scalable=no` | 防止双指缩放破坏排版 |
 
 ## 避让规则
 
@@ -350,15 +501,7 @@
 
 ## 页面间隔符
 
-页面之间用 `scene-break` 分隔，视觉上是一行 `◇ ◇ ◇`：
-
-```html
-<div class="scene-break">◇ ◇ ◇</div>
-```
-
-- 每页之间都插入间隔符（对应 `页面配置.json` 中的 `{"separator": true}`）
-- 间隔符提供页面间的呼吸感，让读者感知"翻页"
-- 视觉风格：深灰色小字，居中，字间距大
+> **v4.3 变化**：翻页阅读器中不再使用 `scene-break` 间隔符。翻页本身就是页面间的分隔——`页面配置.json` 中的 `separator` 条目在生成 HTML 时被忽略，不渲染为可见元素。
 
 ## 与 v3.x layout-pool.md 的差异
 
