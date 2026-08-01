@@ -686,3 +686,77 @@ FRAME_REFS = {
 1. **每章最多 2-3 个进阶布局**（overlay/fullbleed） — 过多=花样自嗨，读者注意力被效果抢走
 2. **布局服务于叙事** — 不是"好看就用"，是"这个场景需要什么叙事功能"（详见 `references/layout-pool.md` 画风适配规则）
 3. **复杂视觉效果走提示词** — 速度线/倾斜/色调等在 Seedream 提示词中写明，不在 HTML 层面叠加
+
+## 构图骨架系统
+
+> **v3.2.0 新增**。解决"格子里的画面怎么构图"的流程缺口——skill v3.1.0 管死了"格子怎么排"（HTML布局铁律），但"格子里的画面怎么构图"完全放养，导致普通帧默认出"主体居中+平视"的中庸构图。
+
+### 核心概念：机位 ≠ 构图
+
+| 维度 | 回答什么 | 选项 | 举例 |
+|:-----|:---------|:-----|:-----|
+| **机位** | 摄像机在哪 | 全景/中景/近景/特写 + 仰/平/俯 | 全景·仰视 |
+| **构图** | 画面元素怎么排 | 三分法/对角线/框架式/仰角压迫/大留白/前景遮挡/对称/倾斜 | 对角线 |
+
+两者独立选择，组合使用。例如"全景·仰视 + 对角线"="从低角度仰拍，画面元素沿对角线排列"。
+
+### 九种构图手法
+
+| 构图手法 | 英文提示词方向 | 叙事功能 | 适用场景 |
+|:---------|:-------------|:---------|:---------|
+| **三分法** | rule of thirds composition, subject at intersection | 视觉平衡，引导视线 | 日常/对话/过渡/场景建立 |
+| **对角线** | diagonal composition, dynamic angle, leading diagonal lines | 动态张力，不安定感 | 冲突/追逐/战斗/精神动摇 |
+| **框架式** | framing through doorway/arch/window/gap | 聚焦主体，窥视感 | 角色登场/揭示/偷窥/暗处观察 |
+| **仰角压迫** | extreme low angle, looking up, imposing | 威压/崇高/权力感 | 大人物登场/威压建立/仰视敬畏 |
+| **俯角渺小** | high angle looking down, vulnerable | 渺小/无助/被俯视 | 角色受困/被碾压/孤独/命运感 |
+| **大留白** | extreme negative space, minimal composition, vast empty | 孤独/空旷/余韵/寂寥 | 余韵/章末/孤独/时间流逝 |
+| **前景遮挡** | foreground silhouette occluding view, layered depth | 纵深/窥探/层次感 | 暗处观察/偷窥/伏击/通过缝隙看 |
+| **对称构图** | symmetrical composition, centered, formal | 仪式/庄严/权力/秩序 | 朝堂/法阵/仪式/对称空间 |
+| **倾斜构图** | dutch angle, tilted frame, off-balance | 不安/失衡/精神动摇 | 精神崩溃/混乱/颠覆/世界扭曲 |
+
+### 构图骨架串组装规则
+
+分格设计表的「画面方向」+「构图手法」两列，在 step2 组装提示词时翻译为英文**构图骨架串**，放在画风串之后（Seedream 对提示词开头权重最高）：
+
+```
+[Seedream 执行串]。[构图骨架串]。参考图中的人物形象，[视觉锚点串]...
+```
+
+**构图骨架串格式**：`{机位英文}, {构图手法英文}.`
+
+**组装示例**：
+
+| 画面方向 | 构图手法 | 构图骨架串（英文） |
+|:---------|:---------|:-----------------|
+| 全景·仰视 | 仰角压迫 | `WIDE SHOT, extreme low angle, looking up. Imposing symmetrical composition.` |
+| 中景·平视 | 三分法 | `MEDIUM SHOT, eye level. Rule of thirds composition, subject at right intersection.` |
+| 近景·俯视 | 前景遮挡 | `CLOSE-UP, high angle looking down. Foreground silhouette occluding view, layered depth.` |
+| 特写·平视 | 大留白 | `EXTREME CLOSE-UP, eye level. Extreme negative space, minimal composition.` |
+| 全景·仰视 | 对角线 | `WIDE SHOT, low angle. Diagonal composition, dynamic angle with leading diagonal lines.` |
+
+### 构图交替原则
+
+相邻格构图手法应有变化，连续3格以上相同构图=画面单调。
+
+**推荐节奏示例**：
+```
+三分法 → 框架式 → 仰角压迫 → 对角线 → 大留白 → 前景遮挡 → 三分法
+```
+
+**反面案例**（v3.1.0 玄鉴仙族ch1560测试）：
+```
+全帧无构图标注 → Seedream 全部默认"主体居中+平视" → 16帧画面构图雷同，读者感觉中庸
+```
+
+### 名场面构图优先级
+
+名场面帧的构图选择比普通帧更重要——名场面用"中庸构图"是最大的浪费。
+
+| 帧类型 | 构图选择 | 理由 |
+|:-------|:---------|:-----|
+| S级名场面 | 从{仰角压迫/大留白/对角线/倾斜构图}中选 | 高冲击构图配合冲击帧公式 |
+| A级关键帧 | 从{框架式/前景遮挡/俯角渺小}中选 | 有叙事功能的构图 |
+| B级普通帧 | 三分法（安全平衡） | 日常帧不需要强构图 |
+| 钩子帧 | 大留白或倾斜构图 | 留悬念感 |
+
+> **S级帧禁用三分法**——三分法是"安全"构图，S级帧需要的是"冲击"不是"安全"。
