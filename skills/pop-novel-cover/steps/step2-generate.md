@@ -142,6 +142,8 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 
 读取 `references/seedream-prompt-guide.md` 获取提示词写法，然后根据 §2 确定的策略执行翻译。
 
+> **画风DNA来源**：从 `skills/pop-novel-image/references/style-dna-library.json` 取画风的 `dna` + `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格禁用LT1减法照明）。详见 `skills/pop-novel-image/references/lighting-composition-templates.md`。
+
 > **核心原则**：Seedream 5.0 Pro/5.0 lite **画面不再泛白**，简洁精确的提示优于堆砌华丽词汇。用自然语言连贯描述，不堆叠关键词。
 
 ### 3.1 V3 结构化提示词公式（纯文生图 / 控制维度全写时）

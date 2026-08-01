@@ -418,15 +418,30 @@ Exactly one principal character. No additional people. No duplicated limbs. No d
 | 定场诗创作 | 浓缩小说意境为古体诗 | `[核心意象A] + [核心意象B] + [因果/转折] + [情感升华]` |
 | 参考图精确分离 | 控制画风/构图吸收 | `仅参考此图的[具体要素]，不参考[具体要素]。以下画面内容由描述决定` |
 
-## 四、已验证的 Seedream 风格池
+## 四、画风DNA库（引用 pop-novel-image）
 
-| 风格 | 提示词关键词 | 适合赛道 |
-|:-----|:------------|:---------|
-| 厚涂暗黑 | "暗黑奇幻厚涂数字油画，笔触粗犷厚重可见，类似暗黑魂系列" | 暗黑修仙/末日 |
-| 工笔重彩 | "工笔重彩国风，金碧辉煌，矿物颜料质感，类似敦煌壁画" | 传统仙侠/古言 |
-| 水墨写意 | "水墨写意泼墨风格，墨分五色，大面积留白，宣纸质感" | 文人修仙/意境流 |
-| 电影概念 | "电影概念艺术海报，体积光与大气透视，好莱坞奇幻大片质感" | IP化/影视化 |
-| 暗黑写实 | "暗黑写实油画质感" | 悬疑/诡异 |
+> 画风DNA已统一沉淀到 `skills/pop-novel-image/references/style-dna-library.json`，含36种画风（二次元17/国漫6/韩漫3/插画概念10），每种画风包含 `dna` + `constraint` + `recommended_lighting` + `recommended_composition` 四字段。
+
+### 引用方式
+
+1. 读取 `skills/pop-novel-image/references/style-dna-library.json`
+2. 按 `suggested_genres` 或 `keywords` 筛选适合赛道的画风
+3. 取 `dna` 字段作为风格描述（替代旧的关键词式风格词）
+4. 取 `constraint` 字段作为风格保真约束
+5. 取 `recommended_lighting` 检查光照兼容性（见 `skills/pop-novel-image/references/lighting-composition-templates.md`）
+
+### 赛道→画风速查（从36种中筛选）
+
+| 赛道 | 推荐画风（DNA库名） | 备注 |
+|:-----|:-------------------|:-----|
+| 暗黑修仙/末日 | 暗黑奇幻油画、哥特暗黑风、废土末日 | LT1减法照明 |
+| 传统仙侠/古言 | 国漫玄幻厚涂、国风水墨仙侠、工笔重彩感 | 水墨用LT3平光 |
+| 言情/甜宠 | 少女水彩言情、日系赛璐珞、轻小说插画风 | LT2柔光通透 |
+| 悬疑/诡异 | 暗黑悬疑高对比、伊藤潤二、黑执事 | LT1减法照明 |
+| 热血/战斗 | 日系热血战斗、韩漫暗黑厚涂、赛博边缘行者 | LT1或LT2 |
+| IP化/影视化 | 新海诚电影风、电影概念艺术 | 按氛围选光照 |
+
+> 完整36种画风详见 `skills/pop-novel-image/references/style-dna-library.json`。纯文生图时建议画风前置（放提示词前段），图生图时按参考点策略处理。
 
 ## 五、视觉类型与画幅
 

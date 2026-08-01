@@ -91,7 +91,9 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | 设计场景图 | `references/mode-scene.md` | 场景图模式时 |
 | 视觉钩子+构图骨架库 | `references/novel-visual-design.md` §二§三§四 | Step 1 |
 | 文化元素（定场诗/印章） | `references/novel-visual-design.md` §八 | Step 1 |
-| 提示词写法+风格池+控制公式 | `references/seedream-prompt-guide.md` | Step 2 |
+| 提示词写法+控制公式 | `references/seedream-prompt-guide.md` | Step 2 |
+| 画风DNA库（36种+光照兼容性） | `skills/pop-novel-image/references/style-dna-library.json` | Step 2 |
+| 光照-构图模板+兼容性矩阵 | `skills/pop-novel-image/references/lighting-composition-templates.md` | Step 2 |
 | 生成图片 | `scripts/generate.py` | Step 2 |
 | 搜 Pinterest | `scripts/pinterest_search.py` | Step 0 |
 | 设计方案模板 | `templates/design-plan.tpl.md` | Step 1 |

@@ -28,6 +28,8 @@ Step 2 的核心是**根据参考图使用方式选择正确的提示词策略**
 
 读取 `references/seedream-prompt-guide.md` §1.10 获取高精度模板详细说明（4块结构）。
 
+> **画风DNA来源**：从 `skills/pop-novel-image/references/style-dna-library.json` 取画风的 `dna` + `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格禁用LT1减法照明）。`constraint` 字段加入4块结构的HARD CONSTRAINTS块。详见 `skills/pop-novel-image/references/lighting-composition-templates.md`。
+
 > **注意**：4块结构是模式C（纯文生图）和模式B（画风参考）的控制维度写法。模式A（全面参考）不使用4块结构，只写差异描述。
 
 ### 2.1 四块结构

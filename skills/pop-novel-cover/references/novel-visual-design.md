@@ -136,15 +136,17 @@
 - ❌ "国风暗黑插画风格"（太泛，结果素淡）
 - ✅ "暗黑奇幻厚涂数字油画，笔触粗犷厚重可见，类似暗黑魂系列美术质感"（具体到技法+标杆）
 
-已验证的 Seedream 风格池：
+画风DNA库已统一沉淀到 `skills/pop-novel-image/references/style-dna-library.json`（36种画风，每种含dna+constraint+推荐光照+推荐构图）。从DNA库取 `dna` 字段填入下方公式的[技法描述]+[质感描述]+[参考标杆]位置：
 
-| 风格 | 提示词关键词 | 适合赛道 |
-|:-----|:------------|:---------|
-| 厚涂暗黑 | "暗黑奇幻厚涂数字油画，笔触粗犷厚重可见，类似暗黑魂系列" | 暗黑修仙/末日 |
-| 工笔重彩 | "工笔重彩国风，金碧辉煌，矿物颜料质感，类似敦煌壁画" | 传统仙侠/古言 |
-| 水墨写意 | "水墨写意泼墨风格，墨分五色，大面积留白，宣纸质感" | 文人修仙/意境流 |
-| 电影概念 | "电影概念艺术海报，体积光与大气透视，好莱坞奇幻大片质感" | IP化/影视化 |
-| 暗黑写实 | "暗黑写实油画质感" | 悬疑/诡异 |
+| 赛道 | DNA库推荐画风 | dna字段摘要 |
+|:-----|:-------------|:-----------|
+| 暗黑修仙/末日 | 暗黑奇幻油画 | "Dark fantasy oil painting style, thick visible brushwork..." |
+| 传统仙侠/古言 | 国漫玄幻厚涂 | "Chinese xianxia painterly manga style, brush-like variable-width..." |
+| 言情/甜宠 | 少女水彩言情 | "Shoujo watercolor manga style, delicate soft lineart..." |
+| 悬疑/诡异 | 暗黑悬疑高对比 | "Dark suspense manga style, bold black solid outline..." |
+| IP化/影视化 | 新海诚电影风 | "Art style from Makoto Shinkai films, ultra-detailed background..." |
+
+> 完整36种画风及筛选规则见 `skills/pop-novel-image/references/style-dna-library.json` 和 `steps/step2-generate.md` §3。
 
 ### 字体控制公式
 
