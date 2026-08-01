@@ -47,6 +47,21 @@ ANTI_SPIDER_MARKERS = ["验证码", "请输入验证码", "captcha", "人机验�
 # ── Paywall markers (chapter content truncated) ──
 PAYWALL_MARKERS = ["本章未完", "上QQ阅读APP", "登录订阅本章", "后续精彩内容", "本章想法", "打开APP阅读"]
 
+# ── Anti-leech placeholders (chapter content not yet available) ──
+ANTILEECH_MARKERS = ["正在手打中", "手打中", "请稍后刷新", "正在更新中", "内容正在加载", "请刷新页面"]
+
+# ── Foreign content markers (content from other novels mixed in) ──
+# These are character/setting names that would never appear in the target novel.
+# Used for full-file contamination scan after download.
+# Note: generic terms like "穿越"/"重生" are NOT included — they appear in many novels legitimately.
+FOREIGN_CONTENT_MARKERS = [
+    # Specific character names from common crossover novels
+    "司马随生", "叶伤寒", "八歧大蛇",
+    # Setting markers completely unrelated to cultivation/fantasy novels
+    "比特币", "区块链", "解聘", "娱乐圈",
+    "特种兵", "雇佣兵", "丧尸",
+]
+
 # ── Paywalled official site domains — never search/crawl by default ──
 # These sites require login/payment to read full chapters. Crawling them yields
 # truncated content (paywall markers), wasting time and producing broken output.
@@ -221,6 +236,36 @@ SOURCES: list[SourceConfig] = [
         content_selectors=["div.txt", "div#content", "div.content", "div#chaptercontent"],
         encoding=None,
         book_url_pattern=r"/shu/\d+",
+    ),
+    # zxcs (知轩藏书): high-quality proofread TXT site
+    # Domain split: zxcs.click for content pages, zxcs.live for downloads
+    # Downloads redirect to network disks (蓝奏云/百度网盘), not server-direct TXT
+    # Use --source-url with a zxcs.click book page URL; --direct won't work (network disk redirect)
+    SourceConfig(
+        name="zxcs",
+        search_url="",  # search URL unconfirmed; use --source-url with book page
+        list_selectors=["div.doxel a", "dd a", "li a"],
+        content_selectors=["div#content", "div.content", "div.doxel"],
+        encoding="utf-8",
+        book_url_pattern=r"/\w+/\d+",
+    ),
+    # xiashuyun (下书网): TXT/ZIP aggregate download site
+    SourceConfig(
+        name="xiashuyun",
+        search_url="https://www.xiashuyun.com/search.php?q={title}",
+        list_selectors=["dd a", "li a", "div.booklist a"],
+        content_selectors=["div#content", "div.content", "div.book_content_text"],
+        encoding=None,
+        book_url_pattern=r"/\d+/",
+    ),
+    # qisuwang (奇书网): TXT free download site
+    SourceConfig(
+        name="qisuwang",
+        search_url="https://www.qisuwang.com/search.php?q={title}",
+        list_selectors=["dd a", "li a", "div.booklist a"],
+        content_selectors=["div#content", "div.content", "div.book_content_text"],
+        encoding=None,
+        book_url_pattern=r"/\d+/",
     ),
 ]
 
@@ -513,6 +558,9 @@ def _match_source_by_url(url: str) -> SourceConfig | None:
                 "biquge365": "biquge365.net",
                 "xbiquge": "xbiquge.la",
                 "xbiqugu": "xbiqugu.la",
+                "zxcs": "zxcs.click",
+                "xiashuyun": "xiashuyun.com",
+                "qisuwang": "qisuwang.com",
             }
             src_host = name_domains.get(source.name, "")
         if src_host and src_host.replace("www.", "") in host.replace("www.", ""):
@@ -717,6 +765,9 @@ def fetch_chapter_content(
     Many novel sites split one chapter across multiple pages. This function
     detects 'next page' links *within* the chapter (not 'next chapter') and
     concatenates all pages.
+
+    Also detects anti-leech placeholders ("正在手打中" etc.) and returns a
+    marker so the caller can track truncated chapters.
     """
     parts: list[str] = []
     current_url = url
@@ -729,6 +780,13 @@ def fetch_chapter_content(
             break
         text = extract_chapter_content(html, content_selector)
         if text:
+            # ── Anti-leech placeholder detection ──
+            # If the entire chapter is just a placeholder, don't use it
+            text_stripped = text.strip()
+            for marker in ANTILEECH_MARKERS:
+                if marker in text_stripped and len(text_stripped) < 200:
+                    print(f"WARN: 章节内容为防盗占位符 '{marker}'，标记为截断: {url}", file=sys.stderr)
+                    return f"[ANTILEECH:{marker}]"
             parts.append(text)
         pages += 1
 
@@ -772,8 +830,12 @@ def extract_chapter_content(html: str, selector: str | None) -> str:
 def crawl_chapters(
     session: requests.Session, links: list[dict], content_selector: str | None,
     workers: int, timeout: int, resume_titles: set[str] | None = None,
-) -> tuple[dict[int, str | None], int, int, int]:
-    """Crawl all chapters concurrently. Returns (results, crawled, failed, skipped)."""
+) -> tuple[dict[int, str | None], int, int, int, int]:
+    """Crawl all chapters concurrently.
+
+    Returns (results, crawled, failed, skipped, truncated).
+    `truncated` counts chapters that returned anti-leech placeholders.
+    """
     resume_titles = resume_titles or set()
     todo = [(i, link) for i, link in enumerate(links, 1) if link["title"].strip() not in resume_titles]
     skipped = len(links) - len(todo)
@@ -783,6 +845,7 @@ def crawl_chapters(
     results: dict[int, str | None] = {}
     failed = 0
     crawled = 0
+    truncated = 0
 
     def _fetch_one(idx_link):
         i, link = idx_link
@@ -800,24 +863,34 @@ def crawl_chapters(
                 results[i] = content
                 done_count += 1
                 if content:
-                    crawled += 1
+                    if content.startswith("[ANTILEECH:"):
+                        truncated += 1
+                    else:
+                        crawled += 1
                 else:
                     failed += 1
                 if done_count % 50 == 0 or done_count == len(todo):
-                    print(f"INFO: 进度 {done_count}/{len(todo)} (成功 {crawled}, 失败 {failed})", file=sys.stderr)
+                    print(f"INFO: 进度 {done_count}/{len(todo)} (成功 {crawled}, 失败 {failed}, 截断 {truncated})", file=sys.stderr)
     else:
         print(f"INFO: 串行爬取 — {len(todo)} 章", file=sys.stderr)
         for i, link in todo:
             content = fetch_chapter_content(session, link["url"], content_selector, timeout)
             if content:
-                results[i] = content
-                crawled += 1
+                if content.startswith("[ANTILEECH:"):
+                    truncated += 1
+                    results[i] = content
+                else:
+                    results[i] = content
+                    crawled += 1
             else:
                 failed += 1
                 results[i] = None
             time.sleep(0.5)
 
-    return results, crawled, failed, skipped
+    if truncated > 0:
+        print(f"WARN: {truncated} 章内容为防盗占位符（正在手打中），这些章节内容不完整", file=sys.stderr)
+
+    return results, crawled, failed, skipped, truncated
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -841,6 +914,38 @@ def detect_paywall(file_path: Path) -> list[str]:
     return problems
 
 
+def validate_chapter_continuity(file_path: Path) -> dict:
+    """Check chapter number continuity. Returns {gaps, duplicates, range}.
+
+    Scans for "第N章" patterns and reports missing/duplicate chapter numbers.
+    """
+    text = file_path.read_text(encoding="utf-8")
+    # Match both "第123章" and "第123章 标题" in # Chapter headers
+    numbers = []
+    seen = set()
+    for m in re.finditer(r"第(\d+)章", text):
+        num = int(m.group(1))
+        numbers.append(num)
+
+    if not numbers:
+        return {"gaps": [], "duplicates": [], "range": None, "total": 0}
+
+    from collections import Counter
+    counts = Counter(numbers)
+    duplicates = {k: v for k, v in counts.items() if v > 1}
+
+    unique_sorted = sorted(set(numbers))
+    expected = set(range(unique_sorted[0], unique_sorted[-1] + 1))
+    gaps = sorted(expected - set(numbers))
+
+    return {
+        "gaps": gaps,
+        "duplicates": dict(list(duplicates.items())[:20]),
+        "range": (unique_sorted[0], unique_sorted[-1]),
+        "total": len(numbers),
+    }
+
+
 def verify_output(file_path: Path, min_bytes: int = 102400) -> dict:
     """Run all verification checks. Returns structured result."""
     result = {
@@ -849,6 +954,8 @@ def verify_output(file_path: Path, min_bytes: int = 102400) -> dict:
         "size_mb": 0,
         "encoding": "utf-8",
         "paywall_chapters": [],
+        "contamination": [],
+        "chapter_continuity": None,
         "warnings": [],
     }
     if not file_path.exists():
@@ -862,11 +969,44 @@ def verify_output(file_path: Path, min_bytes: int = 102400) -> dict:
     if size < min_bytes:
         result["warnings"].append(f"文件偏小 ({size} bytes < {min_bytes})")
 
-    # Paywall detection
-    problems = detect_paywall(file_path)
+    # Read full text once for all checks
+    try:
+        full_text = file_path.read_text(encoding="utf-8")
+    except Exception:
+        result["warnings"].append("无法读取文件内容")
+        return result
+
+    # Paywall detection (per-chapter short content)
+    parts = re.split(r"^# (.*?)\n", full_text, flags=re.M)
+    problems = []
+    for i in range(1, len(parts), 2):
+        title = parts[i]
+        content = parts[i + 1]
+        clean = content
+        for marker in PAYWALL_MARKERS:
+            clean = re.sub(re.escape(marker) + r".*", "", clean, flags=re.S)
+        clean = clean.strip()
+        if len(clean) < 500:
+            problems.append(f"{title} (仅 {len(clean)} 字)")
     result["paywall_chapters"] = problems
     if problems:
         result["warnings"].append(f"付费墙检测: {len(problems)} 章内容过短")
+
+    # ── Full-file contamination scan ──
+    contamination = scan_for_contamination(full_text)
+    result["contamination"] = contamination
+    if contamination:
+        result["warnings"].append(f"内容污染: 检测到 {len(contamination)} 处其他小说内容混入")
+
+    # ── Chapter continuity check ──
+    continuity = validate_chapter_continuity(file_path)
+    result["chapter_continuity"] = continuity
+    if continuity["gaps"]:
+        gap_count = len(continuity["gaps"])
+        gap_preview = continuity["gaps"][:10]
+        result["warnings"].append(f"章节缺失: {gap_count} 章缺失 (如: {gap_preview}{'...' if gap_count > 10 else ''})")
+    if continuity["duplicates"]:
+        result["warnings"].append(f"章节重复: {len(continuity['duplicates'])} 章重复")
 
     return result
 
@@ -874,23 +1014,34 @@ def verify_output(file_path: Path, min_bytes: int = 102400) -> dict:
 def validate_content_match(file_path: Path, expected_title: str, expected_author: str | None) -> list[str]:
     """Check if downloaded content matches the expected title and author.
 
-    Reads the first 2000 chars of the file and checks for title/author presence.
+    Scans the FULL file (not just first 2000 chars) for title/author presence.
+    Also checks the file tail for content from other novels.
     Returns a list of warning messages (empty if all good).
     """
     warnings = []
     try:
-        text = file_path.read_text(encoding="utf-8")[:2000]
+        text = file_path.read_text(encoding="utf-8")
     except Exception:
         return warnings
 
+    # Title/author check in first 5000 chars (broader than old 2000)
+    head = text[:5000]
     if expected_title:
         title_clean = re.sub(r"[?？：:！!]", "", expected_title).strip()
-        if title_clean and title_clean not in text:
+        if title_clean and title_clean not in head:
             warnings.append(f"内容校验: 文件中未找到书名 '{expected_title}'，可能下错了书")
 
     if expected_author:
-        if expected_author not in text:
+        if expected_author not in head:
             warnings.append(f"内容校验: 文件中未找到作者 '{expected_author}'，可能下错了书")
+
+    # ── Tail contamination check (last 5% of file) ──
+    tail_start = int(len(text) * 0.95)
+    tail = text[tail_start:]
+    tail_contamination = scan_for_contamination(tail)
+    if tail_contamination:
+        markers_found = list(set(f["marker"] for f in tail_contamination))
+        warnings.append(f"尾部污染: 文件末尾混入其他小说内容 ({', '.join(markers_found[:5])})")
 
     return warnings
 
@@ -921,6 +1072,79 @@ def assemble_and_save(
 
     preview_src = new_chapters[0]
     return re.sub(r"\s+", " ", preview_src[:120]).strip()
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Content Contamination Scanner
+# ═══════════════════════════════════════════════════════════════════════════
+
+def scan_for_contamination(text: str, sample_ratio: float = 0.0) -> list[dict]:
+    """Scan full text for content from other novels.
+
+    Detects two contamination patterns:
+    1. Foreign markers — character/setting names from other novels
+    2. Tail contamination — content quality degrades at file end (common in 80ge.info)
+
+    Returns list of contamination findings: [{marker, position, pct, sample}, ...]
+    """
+    findings = []
+    total_len = len(text)
+    if total_len < 10000:
+        return findings
+
+    for marker in FOREIGN_CONTENT_MARKERS:
+        idx = text.find(marker)
+        while idx != -1:
+            pct = idx / total_len * 100
+            # Sample 100 chars around the marker
+            sample_start = max(0, idx - 30)
+            sample = text[sample_start:idx + len(marker) + 70].replace("\n", " ")
+            findings.append({
+                "marker": marker,
+                "position": idx,
+                "pct": round(pct, 1),
+                "sample": sample[:150],
+            })
+            idx = text.find(marker, idx + 1)
+
+    return findings
+
+
+def truncate_contamination(text: str, findings: list[dict]) -> tuple[str, int]:
+    """Truncate text at the tail contamination zone.
+
+    Returns (clean_text, truncated_chars).
+
+    Strategy: find the "tail contamination zone" — the earliest point in the
+    last 10% of the file where foreign markers cluster. Truncate there.
+    Individual markers earlier than 90% are likely small injected content
+    within a chapter, not tail-padding — those are reported but not auto-truncated.
+    """
+    if not findings:
+        return text, 0
+
+    total_len = len(text)
+    tail_threshold = int(total_len * 0.90)  # Last 10% of file
+
+    # Find contamination points in the tail zone (last 10%)
+    tail_findings = [f for f in findings if f["position"] >= tail_threshold]
+
+    if not tail_findings:
+        # No tail contamination — all findings are earlier, don't auto-truncate
+        return text, 0
+
+    # Truncate at the earliest tail contamination point
+    earliest_tail = min(f["position"] for f in tail_findings)
+    clean = text[:earliest_tail].rstrip()
+
+    # Don't truncate if it would remove more than 15% of the file
+    # (that would indicate a bigger problem)
+    truncated_ratio = (total_len - len(clean)) / total_len
+    if truncated_ratio > 0.15:
+        print(f"WARN: 尾部污染占文件 {truncated_ratio*100:.1f}%，超过15%阈值，不自动截断", file=sys.stderr)
+        return text, 0
+
+    return clean, total_len - len(clean)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1009,6 +1233,25 @@ def direct_download(session: requests.Session, url: str, output_path: Path, time
         return False
 
     text = text.replace("\r\n", "\n").replace("\r", "\n")
+
+    # ── Post-download contamination scan ──
+    # Some direct-download sources (e.g. 80ge.info) append content from
+    # other novels at the end of the generated TXT file. Detect and truncate.
+    contamination = scan_for_contamination(text)
+    if contamination:
+        earliest_pct = min(f["pct"] for f in contamination)
+        print(f"WARN: 检测到 {len(contamination)} 处内容污染（最早在 {earliest_pct}% 处）", file=sys.stderr)
+        for f in contamination[:5]:
+            print(f"  '{f['marker']}' @ {f['pct']}%: {f['sample'][:80]}...", file=sys.stderr)
+
+        # Auto-truncate if contamination is in the last 5% of the file
+        clean_text, truncated = truncate_contamination(text, contamination)
+        if truncated > 0:
+            print(f"INFO: 自动截断尾部污染内容 {truncated} 字符", file=sys.stderr)
+            text = clean_text
+        else:
+            print(f"WARN: 污染位置较早（{earliest_pct}%），无法自动截断，保留原文并在验证阶段标记", file=sys.stderr)
+
     output_path.write_text(text, encoding="utf-8", newline="\n")
     return True
 
@@ -1080,7 +1323,7 @@ def main() -> int:
         # Content validation for direct downloads too
         content_warnings = validate_content_match(output_path, args.title, args.author)
         verify["warnings"].extend(content_warnings)
-        _print_result(output_path, preview, 0, 0, 0, args.workers, args.source_url, "direct", verify, start_time)
+        _print_result(output_path, preview, 0, 0, 0, 0, args.workers, args.source_url, "direct", verify, start_time)
         return 0
 
     # ── Mode 2: Source URL provided (skip search) ──
@@ -1177,11 +1420,11 @@ def main() -> int:
             pass
 
     # ── Crawl ──
-    results, crawled, failed, skipped = crawl_chapters(
+    results, crawled, failed, skipped, truncated = crawl_chapters(
         session, links, content_sel, args.workers, args.timeout, done_titles
     )
 
-    if crawled == 0:
+    if crawled == 0 and truncated == 0:
         print("ERROR: 未能成功爬取任何章节", file=sys.stderr)
         print(json.dumps({"status": "error", "reason": "所有章节爬取失败"}, ensure_ascii=False))
         return 1
@@ -1204,17 +1447,31 @@ def main() -> int:
     verify["warnings"].extend(content_warnings)
 
     # ── Print structured result ──
-    _print_result(output_path, preview, crawled, failed, skipped, args.workers, list_url, source_name, verify, start_time)
+    _print_result(output_path, preview, crawled, failed, skipped, truncated, args.workers, list_url, source_name, verify, start_time)
     return 0
 
 
 def _print_result(
     output_path: Path, preview: str, crawled: int, failed: int, skipped: int,
+    truncated: int,
     workers: int, source_url: str, source_name: str, verify: dict, start_time: float,
 ) -> None:
     elapsed = time.time() - start_time
+
+    # Determine quality status
+    contamination_count = len(verify.get("contamination", []))
+    continuity = verify.get("chapter_continuity", {}) or {}
+    gap_count = len(continuity.get("gaps", []))
+
+    # Quality status: success / success_with_warnings / poor_quality
+    quality = "success"
+    if contamination_count > 0 or gap_count > 10 or truncated > 50:
+        quality = "poor_quality"
+    elif verify["warnings"] or truncated > 0 or gap_count > 0:
+        quality = "success_with_warnings"
+
     result = {
-        "status": "success",
+        "status": quality,
         "output": str(output_path),
         "size_bytes": verify["size_bytes"],
         "size_mb": verify["size_mb"],
@@ -1222,6 +1479,9 @@ def _print_result(
         "chapters_crawled": crawled,
         "chapters_failed": failed,
         "chapters_skipped": skipped,
+        "chapters_truncated": truncated,
+        "chapters_missing": gap_count,
+        "contamination_found": contamination_count,
         "workers": workers,
         "source": source_name,
         "source_url": source_url,
@@ -1230,6 +1490,11 @@ def _print_result(
         "warnings": verify["warnings"],
         "preview": preview,
     }
+
+    # Add chapter continuity details if available
+    if continuity and continuity.get("range"):
+        result["chapter_range"] = continuity["range"]
+
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
