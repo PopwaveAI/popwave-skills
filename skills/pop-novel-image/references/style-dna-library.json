@@ -1,0 +1,950 @@
+{
+  "metadata": {
+    "version": "4.1",
+    "description": "画风DNA生产库 - v4.1，6段式提示词+构图/光影模板库+Phase 7验证，36种画风全覆盖",
+    "format": "dna + constraint + recommended_composition + recommended_lighting, 每条DNA≤800字符，指令性写法",
+    "prompt_structure": "6段式: [质量触发词] + Art style: [dna] [constraint] + [构图策略] + [光影叙事] + [场景] + [人物≤100字]",
+    "quality_trigger": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed",
+    "optimized_for": "Seedream 5.0 Pro, 纯文生图, 3:4竖版, 英文提示词",
+    "total_styles": 36,
+    "categories": {
+      "二次元": 17,
+      "国漫": 6,
+      "韩漫": 3,
+      "插画概念": 10
+    },
+    "tested_phases": {
+      "Phase 0": "提示词结构验证 → 结构A(4段式·画风优先)为最优解",
+      "Phase 1": "20种画风基线测试",
+      "Phase 3": "3条优化验证(极简人物/质量触发词/DNA精简)",
+      "Phase 4": "8种强辨识度画风验证，全部成功",
+      "Phase 5": "36种画风全量验证，0失败，辨识度评估完成",
+      "Phase 6": "6段式提示词升级测试，5风格×2构图=10张，新海诚达Pinterest级A档，凡妮塔斯D档失败(水彩被暗色吞噬)",
+      "Phase 7": "LT2柔光通透/LT3平光漫射验证，8张全成功。凡妮塔斯D→B拯救成功，浮世绘/水墨LT3保护成功B+，轻小说A档"
+    },
+    "key_learnings": [
+      "极简人物描述(100字)显著释放画风表达空间",
+      "质量触发词(IMG_2094.CR2)稳定提升材质和光影35-50%",
+      "画风DNA精简到≤800字符+指令性写法有效提升风格执行力",
+      "结构A(画风优先)符合Seedream注意力权重分配机制",
+      "6段式提示词结构(加入构图+光影维度)显著提升审美品质，新海诚风格达到Pinterest级A档",
+      "剪影悬念构图在缩略图辨识度上普遍优于尺度操控，更适合Pinterest传播",
+      "减法照明(LT1)与暗色风格天然兼容，但会吞噬水彩/柔美风格(凡妮塔斯D档失败)",
+      "风格与光影的兼容性是关键变量，需为柔美风格使用LT2柔光通透模板",
+      "并发出图(5线程)将10张测试从30分钟压缩到4分钟，效率提升7.5倍",
+      "LT2柔光通透成功拯救水彩风格：凡妮塔斯从D档提升到B档，水彩质感(透明晕染/色彩渗透)存活",
+      "LT3平光漫射成功保护平面/传统媒介风格：浮世绘B+(色块+粗线存活)，水墨B+(笔墨晕染+留白存活)",
+      "轻小说插画风+LT2获得A档，柔光通透与理想化角色设计天然适配",
+      "吉卜力风格+LT2仅C+，问题不在光影而在场景——暗黑哥特场景与吉卜力温暖田园气质冲突",
+      "光影模板与风格的兼容性矩阵验证完成：LT1(暗黑系)/LT2(柔美系)/LT3(平面系)三分法有效"
+    ],
+    "composition_templates_count": 2,
+    "lighting_templates_count": 3
+  },
+  "styles": {
+    "凡妮塔斯": {
+      "name": "凡妮塔斯",
+      "name_en": "Vanitas no Carte",
+      "category": "二次元",
+      "keywords": "水彩·华丽·蒸汽朋克",
+      "suggested_genres": [
+        "西幻",
+        "诡秘",
+        "悬疑"
+      ],
+      "source": "Phase1转化",
+      "dna": "Art style by Jun Mochizuki from Vanitas no Carte manga, Victorian steampunk gothic aesthetic. Delicate flowing line art with varying line weight, fine detailed strokes for facial features. Soft watercolor-like coloring with ethereal semi-transparent washes, gentle gradient shading. Pale skin tones with subtle pink undertones, vivid accent colors: deep crimson, sapphire blue, antique gold. Colors bleed into each other like wet watercolor on paper. Soft diffused lighting with warm amber undertones, moonlit scenes with ethereal blue-silver highlights. 7.5 head proportion, large expressive eyes, small pointed chin, slender graceful figures. Romantic melancholy with gothic undertones, whimsical yet haunting, fairy-tale quality hinting at hidden darkness.",
+      "constraint": "Must maintain watercolor-like softness and delicate linework. No photorealistic rendering. No thick oil impasto. No 3D render. No harsh cel-shading. Keep ethereal manga aesthetic. No text overlay.",
+      "dna_length": 759,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": "D(LT1减法照明)",
+      "phase7_grade": "B(LT2柔光通透拯救)",
+      "phase7_lighting": "LT2_soft_luminous",
+      "phase7_composition": "CT1_scale_contrast",
+      "phase7_note": "D→B拯救成功，水彩质感存活"
+    },
+    "黑执事": {
+      "name": "黑执事",
+      "name_en": "Black Butler",
+      "category": "二次元",
+      "keywords": "赛璐珞·暗黑·贵族",
+      "suggested_genres": [
+        "悬疑",
+        "推理",
+        "暗黑"
+      ],
+      "source": "Phase1转化",
+      "dna": "Art style by Yana Toboso from Black Butler manga, dark Victorian gothic aesthetic. Clean precise linework with bold contrast, sharp angular lines for dramatic effect. Thick confident outlines for characters, geometric precision in architectural elements. Rich deep color palette: black, crimson, gold, deep purple. Saturated jewel tones with flat cel-shading. Pale skin with cool undertones, metallic sheen on gold and brass. Dramatic chiaroscuro with strong contrast, theatrical spotlight illumination, candlelit warm golden glow. Deep black shadows with no detail, rim lighting on characters against dark backgrounds. 7 head proportion, sharp angular features, narrow intense eyes, aristocratic posture. Decadent aristocratic darkness, operatic drama, refined horror, Victorian manor interiors.",
+      "constraint": "Must maintain clean precise linework and cel-shaded coloring. No watercolor. No soft painterly blending. No photorealistic. No cartoonish. Keep sharp contrast and dark gothic elegance. No text overlay.",
+      "dna_length": 796,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "圣魔之血": {
+      "name": "圣魔之血",
+      "name_en": "Trinity Blood",
+      "category": "二次元",
+      "keywords": "极繁·巴洛克·宗教",
+      "suggested_genres": [
+        "暗黑奇幻",
+        "哥特",
+        "西幻"
+      ],
+      "source": "Phase1转化",
+      "dna": "Art style by THORES Shibamoto from Trinity Blood, extravagant baroque-gothic aesthetic. Ultra-detailed ornate linework with intricate patterns, fine hatching and cross-hatching. Decorative borders and filigree motifs on every surface. Deep saturated palette: ecclesiastical crimson, papal purple, antique gold. Gold leaf-like accents, rich jewel tones, metallic and stained-glass color effects. Brocade and embroidery texture on clothing, gradient shading with visible brushwork. Dramatic theatrical lighting, divine light from above, stained glass window light. 8 head proportion, elongated elegant, sharp aristocratic features, extremely slender. Ecclesiastical decadence, ritualistic grandeur, vampire aristocracy meets Catholic iconography.",
+      "constraint": "Must maintain extremely ornate detail level. No minimalist backgrounds. No modern anime style. No photorealistic. No flat coloring. Every surface needs detail. Keep ecclesiastical decadent gothic aesthetic. No text overlay.",
+      "dna_length": 744,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "赛博边缘行者": {
+      "name": "赛博边缘行者",
+      "name_en": "Cyberpunk Edgerunners",
+      "category": "二次元",
+      "keywords": "荧光·高对比·粗线条",
+      "suggested_genres": [
+        "赛博朋克",
+        "科幻",
+        "动作"
+      ],
+      "source": "Phase1转化",
+      "dna": "Art style from Cyberpunk Edgerunners by Studio Trigger, Hiroyuki Imaishi direction. Bold thick outlines with deliberate irregularity, dynamic energetic linework. Lines vary in thickness for speed and impact, sharp angular strokes for mechanical elements. High saturation fluorescent palette: neon pink, electric blue, acid green, warning yellow. Deep blacks and dark purples, flat cel-shading with sharp boundaries. Glowing cybernetic effects, extreme high contrast lighting. Neon glow from below and sides, deep shadows with colored rim lights. 6.5 head proportion, dynamic exaggerated, sharp angular faces, expressive eyes. Dystopian urban energy, high-tech low-life, speed violence and rebellion.",
+      "constraint": "Must maintain bold outlines and cel-shaded coloring. High saturation neon colors. No watercolor. No soft pastel. No painterly blending. No realistic proportions. Keep dynamic anime style. No text overlay.",
+      "dna_length": 699,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": "超时未测"
+    },
+    "日系赛璐珞": {
+      "name": "日系赛璐珞",
+      "name_en": "Cel-Shaded Anime",
+      "category": "二次元",
+      "keywords": "平涂·通透·清爽",
+      "suggested_genres": [
+        "言情",
+        "校园",
+        "都市异能"
+      ],
+      "source": "Phase1转化",
+      "dna": "Clean cel-shading Japanese anime style, bold visible outline strokes, flat color fills with no soft blending. Clean precise linework with consistent bold outlines, closed line art with no gaps. Clear separation between character and background, geometric and tidy. Flat color fills with two-tone cel shading, sharp highlight edges. Vibrant saturated palette with bright primary colors, flat skin tones with simple blush marks. High contrast between base color and shadow color, no gradient transitions. Simple two-tone lighting: base light and cel shadow, harsh but clean shadow boundaries. Sharp white specular highlights, no atmospheric or ambient lighting effects. 7 head proportion, large expressive eyes, small nose and mouth, youthful cute features.",
+      "constraint": "Must maintain bold visible outline strokes and flat color fills. No soft gradient blending. No photorealistic. No cinematic concept art. No 3D rendering. No text overlay.",
+      "dna_length": 755,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "日系热血战斗": {
+      "name": "日系热血战斗",
+      "name_en": "Shonen Battle",
+      "category": "二次元",
+      "keywords": "网点·速度线·冲击",
+      "suggested_genres": [
+        "热血",
+        "战斗",
+        "冒险"
+      ],
+      "source": "Phase1转化",
+      "dna": "Modern Japanese shonen manga style, dynamic action from Shonen Jump series like Demon Slayer, Jujutsu Kaisen. Bold outlines with varying thickness, thick for impact, fine for quiet scenes. Speed lines and action lines, screen tone patterns for texture. Vibrant saturated colors: bright blues, fiery oranges, crisp whites. Flat cel-shading with sharp contrast, bold color blocking for character recognition. High contrast action lighting, dramatic spotlights for special moves, glowing aura effects. Motion blur and impact flashes, bold white highlights against dark backgrounds. 6.5-7 head proportion, large expressive eyes, exaggerated expressions, dynamic foreshortening. Energetic and exciting, friendship and rivalry, high stakes battles.",
+      "constraint": "Must maintain bold outlines and cel-shaded coloring. Vibrant saturated colors. Screen tone texture. No painterly style. No watercolor. No photorealistic. Keep dynamic shonen manga aesthetic. No text overlay.",
+      "dna_length": 742,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "轻喜剧Q版": {
+      "name": "轻喜剧Q版",
+      "name_en": "Chibi Comedy",
+      "category": "二次元",
+      "keywords": "萌系·圆润·明亮",
+      "suggested_genres": [
+        "日常",
+        "搞笑",
+        "治愈",
+        "校园"
+      ],
+      "source": "Phase1转化",
+      "dna": "Cute slice-of-life manga style, soft wholesome aesthetic from modern comedy manga like Spy x Family. Soft rounded linework with consistent gentle thickness, no sharp angles, everything curved. Simple clean lines, minimal detail, cute chibi-style exaggeration. Bright warm pastel palette: soft pink, mint green, butter yellow, baby blue. Flat cel-shading with soft edges, clean bright colors, no dark tones, gentle gradient overlays. Bright even lighting, no harsh shadows, soft warm natural light, sunny and cheerful. 4-5 head proportion, large round eyes, small noses and mouths, big heads, short limbs, round bodies. Warm and wholesome, comfortable and safe, gentle humor, everyday joy, found family and friendship.",
+      "constraint": "Must maintain soft rounded linework and bright pastel palette. No sharp angles. No dark atmosphere. No horror elements. No realistic proportions. Keep cute and wholesome. No text overlay.",
+      "dna_length": 717,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "少女水彩言情": {
+      "name": "少女水彩言情",
+      "name_en": "Shoujo Watercolor Romance",
+      "category": "二次元",
+      "keywords": "柔美·水彩·梦幻",
+      "suggested_genres": [
+        "言情",
+        "古风",
+        "治愈",
+        "纯爱"
+      ],
+      "source": "Phase1转化",
+      "dna": "Shoujo watercolor manga style, delicate soft lineart with watercolor wash coloring and bleeding edges. Fine thin strokes, soft edges blending into coloring, graceful flowing lines. Watercolor wash with bleeding edges, soft pastel macaron palette: pink, lavender, baby blue, mint. Semi-transparent layers with visible wash texture, soft gradient transitions. Flowers and sparkle decorative elements, soft dreamy glow, no harsh shadows. Backlighting with ethereal halos, warm golden hour light, bokeh effects. 7 head proportion, large teary eyes with sparkling highlights, petite slender figures. Dreamy romance, tender emotions, fairy-tale quality, pure and innocent love.",
+      "constraint": "Must maintain delicate soft lineart and watercolor wash coloring. Keep pastel macaron palette. No dark heavy themes. No thick oil texture. No realistic proportions. No harsh contrast. No text overlay.",
+      "dna_length": 671,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null,
+      "phase7_grade": "A-",
+      "phase7_lighting": "LT2_soft_luminous",
+      "phase7_composition": "CT1_scale_contrast",
+      "phase7_note": "马卡龙色板出色，水彩模拟良好"
+    },
+    "伊藤潤二": {
+      "name": "伊藤潤二",
+      "name_en": "Junji Ito Horror",
+      "category": "二次元",
+      "keywords": "线刻·病态·怪诞",
+      "suggested_genres": [
+        "恐怖",
+        "克苏鲁",
+        "心理"
+      ],
+      "source": "Phase1转化",
+      "dna": "Art style by Junji Ito, grotesque detailed horror manga aesthetic. Extremely precise obsessive linework, fine dense hatching for shadows and texture. Meticulous detail in every element, organic forms become mechanical through line density. Primarily black and white with selective color accents, desaturated sickly tones. Pale gray-green skin, washed-out colors, only accent is deep crimson blood. Flat unsettling lighting, everything unnaturally illuminated, no comfortable darkness. Clinical harsh light revealing every disturbing detail, shadows as fine line hatching. Realistic proportions, deliberately normal, subtle wrongness growing on inspection. Cosmic horror, existential dread, obsessive detail creating claustrophobic unease.",
+      "constraint": "Must maintain obsessive precise linework and hatching. No smooth digital rendering. No painterly. No cel-shading. No anime style. Keep desaturated sickly color palette. No romantic or beautiful aesthetic. No text overlay.",
+      "dna_length": 738,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": "B"
+    },
+    "吉卜力治愈风": {
+      "name": "吉卜力治愈风",
+      "name_en": "Studio Ghibli",
+      "category": "二次元",
+      "keywords": "手绘·水彩·治愈田园",
+      "suggested_genres": [
+        "奇幻",
+        "治愈",
+        "冒险",
+        "日常"
+      ],
+      "source": "新增",
+      "dna": "Studio Ghibli animation style, Hayao Miyazaki aesthetic, hand-drawn watercolor backgrounds. Soft pencil-like linework with organic warmth, gentle and flowing. Lush watercolor backgrounds with visible brush texture, translucent color layers. Natural palette: forest greens, sky blues, warm earth tones, soft golden light. Moderate saturation, warm nostalgic grading, no harsh neon or extreme contrast. Diffuse natural lighting, dappled sunlight, golden hour warmth. Wind and movement in every scene, grass swaying, hair blowing, clouds drifting. 7 head proportion, round gentle faces, soft expressive eyes, natural body types. Whimsical and warm, nature and spirituality coexist, steampunk machinery in pastoral fantasy.",
+      "constraint": "Must maintain hand-drawn watercolor quality and warm natural palette. No photorealistic 3D render. No dark horror tones. No sharp angular linework. No high saturation neon. Keep gentle organic aesthetic. No text overlay.",
+      "dna_length": 719,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null,
+      "phase7_grade": "C+",
+      "phase7_lighting": "LT2_soft_luminous",
+      "phase7_composition": "CT1_scale_contrast",
+      "phase7_note": "风格未完全触发，暗黑场景与吉卜力气质冲突"
+    },
+    "新海诚电影风": {
+      "name": "新海诚电影风",
+      "name_en": "Makoto Shinkai Cinematic",
+      "category": "二次元",
+      "keywords": "光影极致·通透梦幻·壁纸级",
+      "suggested_genres": [
+        "言情",
+        "奇幻",
+        "都市",
+        "青春"
+      ],
+      "source": "新增",
+      "dna": "Makoto Shinkai cinematic anime style. Breathtaking luminous lighting with dreamlike color gradients. Crystal-clear transparent skies with volumetric cloud rendering. Rich saturated colors: deep oranges, purples, and blues blending seamlessly. Light refraction and lens flare effects, god rays through clouds. Hyper-detailed backgrounds with photographic precision, city streets and trains meticulously rendered. Delicate cel-shading with soft gradient transitions on characters. Signature Shinkai blue sky, pink-purple-orange sunset gradients. Tender emotional atmosphere with poetic melancholy, sense of distance and longing. Digital compositing precision, clean polished frames, no hand-drawn roughness.",
+      "constraint": "Must maintain Shinkai cinematic quality with luminous lighting and transparent colors. No dark horror tones. No gritty textures. No flat 2D coloring. Keep dreamlike atmosphere. No text overlay.",
+      "dna_length": 705,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": "A"
+    },
+    "京都动画萌系": {
+      "name": "京都动画萌系",
+      "name_en": "Kyoto Animation",
+      "category": "二次元",
+      "keywords": "京阿尼脸·细腻日常·柔光",
+      "suggested_genres": [
+        "日常",
+        "校园",
+        "治愈",
+        "青春"
+      ],
+      "source": "新增",
+      "dna": "Kyoto Animation studio style, KyoAni aesthetic. Signature KyoAni face design: round faces, large eyes with rich multi-layered highlights, detailed irises. Extremely detailed and silky hair rendering with individual strand highlights. Soft and transparent lighting with gentle warmth, filter-like glow effect. Shallow depth of field, bokeh backgrounds like DSLR photography. Meticulous daily life details: uniform wrinkles, tea cup reflections, hair flips. Clean polished digital linework, consistent quality, smooth and fluid. Realistic backgrounds with school and suburban settings, props rendered with care. 7.5 head proportion, idealized but natural, graceful posture. Warm healing atmosphere, quiet beauty in everyday moments, gentle and sincere.",
+      "constraint": "Must maintain KyoAni signature face design and silky hair rendering. No dark themes. No gritty textures. No flat cel-shading without highlights. Keep warm transparent lighting and detailed daily life aesthetic. No text overlay.",
+      "dna_length": 750,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "大友克洋硬核": {
+      "name": "大友克洋硬核",
+      "name_en": "Katsuhiro Otomo AKIRA",
+      "category": "二次元",
+      "keywords": "粗粝·机械·赛博张力",
+      "suggested_genres": [
+        "科幻",
+        "赛博朋克",
+        "动作",
+        "末世"
+      ],
+      "source": "新增",
+      "dna": "Katsuhiro Otomo AKIRA style, hard-core cyberpunk manga aesthetic. Rough powerful linework with bold strokes, distinctive gritty and aggressive line quality. Exaggerated perspective and foreshortening, extreme camera angles. Meticulously detailed mechanical rendering: motorcycles, cybernetic parts, futuristic equipment. Dynamic motion blur and speed effects, sense of unstoppable force. High contrast coloring with industrial palette: steel gray, rust orange, neon accents. Film grain texture overlay, retro analog feel, VHS-like quality. 7.5 head proportion, semi-realistic, strong jawlines, intense expressions. Hardcore cyberpunk tension, urban decay, technological sublime, apocalyptic energy. Everything feels heavy, solid, and dangerous.",
+      "constraint": "Must maintain rough gritty linework and mechanical detail. No soft watercolor. No cute proportions. No clean polished digital look. Keep film grain and high contrast. No text overlay.",
+      "dna_length": 744,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "轻小说插画风": {
+      "name": "轻小说插画风",
+      "name_en": "Light Novel Illustration",
+      "category": "二次元",
+      "keywords": "柔光·通透·梦幻",
+      "suggested_genres": [
+        "奇幻",
+        "言情",
+        "异世界",
+        "校园"
+      ],
+      "source": "新增",
+      "dna": "Japanese light novel cover illustration style. Clean refined linework with elegant curves, moderate line weight. Soft luminous coloring with airy gradients, semi-transparent layered shading. Beautiful and idealized character design, attractive and appealing. Soft bokeh backgrounds slightly out of focus, drawing attention to character. Dreamy lighting with gentle glow effects, sparkles and light particles. Warm pastel-leaning palette with vivid accent colors for hair and eyes. Detailed costume and accessory design, flowing fabric and ornamental details. 8 head proportion, elongated elegant, large sparkling eyes with intricate iris detail. Romantic and fantastical, aspirational beauty, quiet emotional undertone.",
+      "constraint": "Must maintain soft luminous quality and idealized beauty. No photorealistic. No dark horror. No gritty texture. No flat cel-shading. Keep dreamy atmospheric lighting. No text overlay.",
+      "dna_length": 719,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null,
+      "phase7_grade": "A",
+      "phase7_lighting": "LT2_soft_luminous",
+      "phase7_composition": "CT2_silhouette_back",
+      "phase7_note": "柔光与理想化角色设计天然适配，A档"
+    },
+    "90年代复古动漫": {
+      "name": "90年代复古动漫",
+      "name_en": "90s Retro Anime",
+      "category": "二次元",
+      "keywords": "赛璐璐·VHS·怀旧滤镜",
+      "suggested_genres": [
+        "怀旧",
+        "科幻",
+        "日常",
+        "热血"
+      ],
+      "source": "新增",
+      "dna": "1990s retro anime style, classic cel animation aesthetic. Traditional cel-painted look with visible paint texture, slight color misalignment between line and paint. Bold but slightly rough outlines, hand-drawn imperfection, organic wobble. Limited color palette typical of 90s anime production, slightly faded and desaturated. VHS video tape aesthetic: subtle noise, slight color bleeding, mild scan lines. Film grain and occasional dust scratches, warm analog color cast. Soft and slightly washed-out highlights, no modern digital crispness. Classic anime proportions: 6.5-7 head, large eyes, simple shading. Nostalgic and warm, evoking golden age of anime, physical media charm. Sunset and dusk scenes preferred, lens flare from actual optical artifacts.",
+      "constraint": "Must maintain 90s cel animation and VHS aesthetic. No modern digital crispness. No photorealistic 3D. No ultra-high definition sharpness. Keep retro analog warmth and imperfection. No text overlay.",
+      "dna_length": 756,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "天野喜孝幻想": {
+      "name": "天野喜孝幻想",
+      "name_en": "Yoshitaka Amano",
+      "category": "二次元",
+      "keywords": "唯美·空灵·幻想",
+      "suggested_genres": [
+        "奇幻",
+        "西幻",
+        "史诗",
+        "文艺"
+      ],
+      "source": "新增",
+      "dna": "Yoshitaka Amano illustration style, ethereal fantasy aesthetic. Delicate wispy linework with ethereal quality, lines seem to float and dissolve. Watercolor and ink mixed media, translucent layered colors with visible paper texture. Muted and sophisticated palette: dusty rose, teal, gold, ivory, lavender. Colors blend and bleed organically, no hard edges. Elongated androgynous figures, 9+ head proportion, impossibly elegant. Fine detailed hair flowing like water, delicate hands and long fingers. Dreamlike and otherworldly, no concern for physical accuracy. Decorative and ornamental, influenced by Art Nouveau and ukiyo-e. Mythic and poetic, figures appear to exist between realms, spiritual and transcendent.",
+      "constraint": "Must maintain Amano's ethereal wispy linework and watercolor-ink blend. No photorealistic. No bold thick outlines. No modern anime cel-shading. No digital crispness. Keep dreamlike otherworldly quality. No text overlay.",
+      "dna_length": 714,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": "B+"
+    },
+    "港漫武侠风": {
+      "name": "港漫武侠风",
+      "name_en": "Hong Kong Comic",
+      "category": "二次元",
+      "keywords": "写实·水墨彩稿·拳拳到肉",
+      "suggested_genres": [
+        "武侠",
+        "格斗",
+        "热血",
+        "黑道"
+      ],
+      "source": "新增",
+      "dna": "Hong Kong comic style, Wong Yuk-long and Ma Wing-shing aesthetic. Detailed realistic anatomy with exaggerated musculature, every vein and muscle fiber visible. Brush ink outlines with calligraphic quality, thick and thin variation from brush pressure. Lavish oil-painting-like coloring over ink lines, rich and saturated. Extreme action poses with exaggerated dynamics, bodies twisted mid-strike. Speed lines and impact effects, force visualization radiating from contact points. Dense panel composition with thin gutters, rapid sequential action. High contrast lighting, dramatic spotlights on key combat moments. 8 head proportion, hyper-masculine heroes, chiseled jawlines, intense glares. Martial arts world, jianghu honor and betrayal, raw physical power.",
+      "constraint": "Must maintain realistic anatomy with exaggerated muscles and brush ink outlines. No cute chibi proportions. No flat cel-shading. No soft watercolor. Keep high contrast and dynamic action. No text overlay.",
+      "dna_length": 760,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "伪厚涂半厚涂": {
+      "name": "伪厚涂半厚涂",
+      "name_en": "Semi-Thick Painting",
+      "category": "国漫",
+      "keywords": "外硬内软·立体·通吃",
+      "suggested_genres": [
+        "全能",
+        "玄幻",
+        "都市",
+        "战斗"
+      ],
+      "source": "Phase1转化",
+      "dna": "Semi-thick painting manga style, clean hard outer contour lines with soft gradient shading inside. Visible but not overwhelming outlines, moderate line weight for structure. Cel-shaded base with painterly soft-light overlays, soft gradient inside color blocks. Rich midtones with subtle color variation, warm skin tones with natural undertones. Soft directional lighting with gentle gradients, multiple light sources with temperature shifts. Warm ambient light with cool shadow tones, rim light for depth. 7.5 head proportion, semi-realistic, balanced features, natural anatomy with slight idealization. Modern refined illustration quality, professional commercial manga look, premium webtoon quality.",
+      "constraint": "Maintain visible outer contour lines and soft gradient shading inside color blocks. No lineless style. No cinematic concept art. No photorealistic 3D rendering. Keep manga readability. No text overlay.",
+      "dna_length": 701,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "国漫玄幻厚涂": {
+      "name": "国漫玄幻厚涂",
+      "name_en": "Chinese Xianxia Thick Paint",
+      "category": "国漫",
+      "keywords": "毛笔线·华丽·特效",
+      "suggested_genres": [
+        "修仙",
+        "玄幻",
+        "战斗"
+      ],
+      "source": "Phase1转化",
+      "dna": "Chinese xianxia painterly manga style, brush-like variable-width lineart with calligraphic quality. Thick bold strokes for main forms, thin delicate lines for details, natural taper from brush pressure. Decorative swirl patterns on costumes, dynamic flowing lines for action. High-saturation glowing magic effects with particle layers, dense Eastern ornamental patterns. Metal and jade material textures, rich warm palette: cinnabar red, gold, jade green, deep blue. Gradient shading with luminous highlights, saturated accents for magical elements. Dramatic lighting with magical glow, warm golden cultivation energy, cool spiritual artifacts. Lens flare and light beams, rim light on characters, atmospheric haze. 7.5 head proportion, elegant refined features, flowing hair and costume silhouettes.",
+      "constraint": "Maintain brush-like variable-width lineart and Eastern ornamental patterns. Use high-saturation magic effects. No Western fantasy style. No flat cel-shading. No modern clothing. No text overlay.",
+      "dna_length": 800,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "硬朗武侠历史": {
+      "name": "硬朗武侠历史",
+      "name_en": "Gritty Wuxia Historical",
+      "category": "国漫",
+      "keywords": "粗犷·刀刻·厚重",
+      "suggested_genres": [
+        "武侠",
+        "历史",
+        "权谋"
+      ],
+      "source": "Phase1转化",
+      "dna": "Gritty wuxia historical manga style, rough carved lineart with bold powerful strokes like Biao Ren. Deliberately uneven aggressive line quality, thick dark contours, minimal detail, maximum impact. Carved scratched quality with ink splash and bleed effects. Low-saturation earthy palette: ochre, burnt sienna, rust red, charcoal gray. Rough texture on all surfaces, weathered aged quality, blood red as accent. High-contrast hard lighting, harsh desert sun or candlelit darkness, deep crushed black shadows. No soft gradients, rim light from intense single sources. Realistic 8 head proportions, rugged masculine features, weathered skin. Ancient China's harsh frontier, gritty realism, survival and violence, weight of history.",
+      "constraint": "Maintain rough carved bold lineart and low-saturation earthy palette. Keep high-contrast hard lighting. No soft pretty anime style. No bright saturated colors. No modern elements. No text overlay.",
+      "dna_length": 728,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "暗黑悬疑高对比": {
+      "name": "暗黑悬疑高对比",
+      "name_en": "Dark Suspense High Contrast",
+      "category": "国漫",
+      "keywords": "粗黑·涂黑·压抑",
+      "suggested_genres": [
+        "悬疑",
+        "灵异",
+        "暗黑",
+        "末日"
+      ],
+      "source": "Phase1转化",
+      "dna": "Dark suspense manga style, bold black solid outline lines with large area shadow blackening. Rough aggressive linework, minimal detail, maximum contrast, ink splatter and bleed. Low-saturation desaturated tones, blood-red and sickly-green as accent colors. Heavy black shadows with no detail, sickly pale skin tones, intentionally ugly palette. Extreme high-contrast lighting, single harsh light source, deep black shadows consuming the frame. Bleached-out highlights on faces, unnatural oppressive lighting. Slightly exaggerated proportions, sharp angular gaunt faces, deep set eyes with dark circles. Gritty urban horror, supernatural investigation, constant dread and paranoia.",
+      "constraint": "Maintain bold black solid lines and extreme high-contrast lighting. Keep desaturated palette with accent colors only. No bright cheerful tones. No soft gradient shading. No pretty anime style. No text overlay.",
+      "dna_length": 680,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "都市赛博风": {
+      "name": "都市赛博风",
+      "name_en": "Urban Cyberpunk Chinese Comic",
+      "category": "国漫",
+      "keywords": "霓虹·硬朗·数据流",
+      "suggested_genres": [
+        "都市异能",
+        "系统流",
+        "科幻"
+      ],
+      "source": "Phase1转化",
+      "dna": "Urban cyberpunk Chinese manga style, modern hard lineart with neon cyan-magenta palette. Clean precise digital linework, mechanical precision in tech elements, sharp angular urban lines. Neon cyan-magenta-electric blue palette, screen glow and lens flare effects. Deep urban night blacks and dark purples, glowing UI and data stream particles. High saturation accents against dark backgrounds, holographic and translucent effects. Multiple colored light sources, strong colored rim lights, deep shadows with minimal ambient. Glowing reflections on wet pavement, screen-bloom on faces. 7.5 head proportion, semi-realistic, modern stylish features, fashionable urban types. Modern metropolis with supernatural undercurrents, technology and mysticism intertwined.",
+      "constraint": "Maintain modern hard lineart and neon cyan-blue palette. Include cyberpunk UI elements. No historical or ancient elements. No soft watercolor. No pastel colors. No text overlay.",
+      "dna_length": 760,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "新国潮风": {
+      "name": "新国潮风",
+      "name_en": "New Chinese Trend",
+      "category": "国漫",
+      "keywords": "传统混搭·华丽·东方现代",
+      "suggested_genres": [
+        "国风",
+        "玄幻",
+        "都市",
+        "潮流"
+      ],
+      "source": "新增",
+      "dna": "New Chinese Trend illustration style, modern interpretation of traditional Chinese aesthetics. Fusion of traditional elements with contemporary design: cloud patterns, dragon motifs, opera masks. Bold linework combining brush stroke quality with digital precision. Rich saturated palette: vermilion red, mineral blue, gold, ink black. Modern gradient overlays and glow effects on traditional patterns. High contrast dramatic lighting with neon-like accents on classical elements. Detailed costume design mixing hanfu silhouettes with streetwear attitude. Ornamental backgrounds with traditional patterns in modern digital style. 7.5 head proportion, stylish confident, fusion of classical and contemporary beauty. Bold and trendy, cultural pride meets modern cool.",
+      "constraint": "Must maintain fusion of traditional Chinese elements with modern digital rendering. No pure traditional painting. No flat anime cel-shading. No Western fantasy style. Keep bold saturated colors and cultural motifs. No text overlay.",
+      "dna_length": 764,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "韩漫暗黑厚涂": {
+      "name": "韩漫暗黑厚涂",
+      "name_en": "Korean Dark Thick Paint",
+      "category": "韩漫",
+      "keywords": "厚涂·冷色·电影感",
+      "suggested_genres": [
+        "都市",
+        "异能",
+        "战斗",
+        "悬疑"
+      ],
+      "source": "Phase1转化",
+      "dna": "Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Gradient transitions with no cel boundaries, atmospheric perspective with color temperature shifts. High contrast dramatic lighting, strong rim lights, cold blue ambient with warm accent. Cinematic three-point lighting, deep shadows with color information, luminous glow highlights. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality.",
+      "constraint": "Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.",
+      "dna_length": 780,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "韩漫华丽言情": {
+      "name": "韩漫华丽言情",
+      "name_en": "Korean Romance Manhwa",
+      "category": "韩漫",
+      "keywords": "华丽·浪漫·柔光",
+      "suggested_genres": [
+        "言情",
+        "穿越",
+        "甜宠"
+      ],
+      "source": "Phase1转化",
+      "dna": "Korean webtoon romance manhwa style, luxurious romantic aesthetic. Refined delicate linework with elegant curves, fine strokes for hair and ornaments. Soft contour lines, clean polished digital quality. Soft luminous coloring with airy gradients, warm pastel palette. Rose pink, lavender, cream, champagne gold, pale skin with rosy undertones. Gradient hair highlights, satin and velvet clothing texture, gem-like jewelry sparkle. Soft diffused romantic glow, backlighting with ethereal halos, golden hour quality. 8 head proportion, elegant idealized, large sparkling eyes, extremely slender figures. Romantic fantasy, dreamy and aspirational, opulent settings.",
+      "constraint": "Must maintain soft luminous coloring and refined linework. No harsh cel-shading. No thick impasto. No gritty textures. No horror elements. Keep romantic and elegant. No photorealistic. No text overlay.",
+      "dna_length": 662,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "韩国Webtoon现代风": {
+      "name": "韩国Webtoon现代风",
+      "name_en": "Korean Webtoon Modern",
+      "category": "韩漫",
+      "keywords": "干净·时尚·竖屏",
+      "suggested_genres": [
+        "校园",
+        "都市",
+        "言情",
+        "悬疑"
+      ],
+      "source": "新增",
+      "dna": "Modern Korean webtoon style, clean and trendy digital illustration. Clean precise digital linework with consistent weight, vector-like clarity. No unnecessary texture or noise, polished and smooth. Vibrant but controlled color palette, high saturation gradients. Fashionable character design with contemporary hairstyles and streetwear. Detailed clothing renders with fabric texture and fold logic. Soft but directional lighting, gentle gradients with subtle cel-shading influence. Modern UI-adjacent aesthetic, clean composition with strategic use of negative space. 7.5-8 head proportion, attractive and stylish, idealized but contemporary. Fresh and modern, young and trendy, social media aesthetic quality.",
+      "constraint": "Must maintain clean digital linework and modern trendy aesthetic. No rough textures. No retro analog effects. No dark gothic tones. Keep polished contemporary quality. No text overlay.",
+      "dna_length": 710,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "哥特暗黑风": {
+      "name": "哥特暗黑风",
+      "name_en": "Gothic Dark Fantasy",
+      "category": "插画概念",
+      "keywords": "明暗对比·哥特建筑·暗色调",
+      "suggested_genres": [
+        "哥特",
+        "暗黑",
+        "西幻",
+        "悬疑"
+      ],
+      "source": "Phase4原生",
+      "dna": "Gothic dark fantasy art style. Chiaroscuro lighting with extreme contrast between deep shadows and single light sources. Dark desaturated palette: black, crimson, antique gold, deep purple. Ornate Gothic architecture with pointed arches and stained glass. Atmospheric fog and dust particles in light beams. Moody mysterious ominous atmosphere. Intricate filigree patterns on surfaces. Baroque decorative details. Painted with visible brushwork, oil-painting texture.",
+      "constraint": "Must maintain gothic dark fantasy aesthetic. No bright cheerful colors. No flat cel-shading. No cartoon style. Keep chiaroscuro contrast. No text overlay.",
+      "dna_length": 466,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "赛博朋克霓虹": {
+      "name": "赛博朋克霓虹",
+      "name_en": "Cyberpunk Neon",
+      "category": "插画概念",
+      "keywords": "霓虹·雨夜反射·高科技低生活",
+      "suggested_genres": [
+        "赛博朋克",
+        "科幻",
+        "都市"
+      ],
+      "source": "Phase4原生",
+      "dna": "Cyberpunk style illustration. Neon ambiance with glowing cyan, magenta, and electric blue lights. Rain-slicked surfaces with colorful reflections. Holographic displays and digital UI elements floating in air. Dark urban night environment with multiple colored light sources. High-tech low-life atmosphere. Rim lighting in neon colors on character edges. Volumetric lighting through fog and rain. Semi-realistic digital painting with sharp focus on foreground.",
+      "constraint": "Must maintain cyberpunk neon aesthetic. No natural daylight. No warm earthy tones. No medieval elements. Keep neon color palette. No text overlay.",
+      "dna_length": 459,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "迪士尼皮克斯3D": {
+      "name": "迪士尼皮克斯3D",
+      "name_en": "Disney Pixar 3D",
+      "category": "插画概念",
+      "keywords": "3D渲染·SSS皮肤·温暖氛围",
+      "suggested_genres": [
+        "童话",
+        "冒险",
+        "合家欢",
+        "奇幻"
+      ],
+      "source": "Phase4原生",
+      "dna": "Disney Pixar 3D animation style. Unreal Engine 5 render quality with ray tracing. Subsurface scattering on skin for warm translucent effect. Stylized but appealing character proportions, large expressive eyes with multi-layered reflections. Global illumination with warm cozy lighting. Rich material textures: fabric, wood, metal all distinctly rendered with PBR quality. Vibrant but harmonious color palette. Soft bokeh background with depth of field. Polished commercial animation look, every frame film-quality.",
+      "constraint": "Must maintain Pixar 3D animation quality. No 2D cel-shading. No photorealistic. No dark horror tones. Keep warm appealing lighting. No text overlay.",
+      "dna_length": 514,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "蒸汽朋克黄铜": {
+      "name": "蒸汽朋克黄铜",
+      "name_en": "Steampunk Brass",
+      "category": "插画概念",
+      "keywords": "黄铜·齿轮·蒸汽",
+      "suggested_genres": [
+        "蒸汽朋克",
+        "维多利亚",
+        "冒险",
+        "科幻"
+      ],
+      "source": "Phase4原生",
+      "dna": "Steampunk aesthetic illustration. Brass copper and bronze metallic surfaces everywhere. Visible gears cogs pipes and steam mechanisms. Warm sepia-toned palette: brass gold, copper green, aged brown, steam white. Victorian industrial revolution atmosphere. Volumetric steam and smoke effects. Intricate mechanical details with ray tracing reflections on metal. Oil-painting texture with visible brushwork on non-metal surfaces. Moody warm lighting from gas lamps and furnaces.",
+      "constraint": "Must maintain steampunk aesthetic. No modern technology. No neon colors. No clean futuristic surfaces. Keep brass and copper metallic palette. No text overlay.",
+      "dna_length": 475,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "暗黑奇幻油画": {
+      "name": "暗黑奇幻油画",
+      "name_en": "Dark Fantasy Oil Painting",
+      "category": "插画概念",
+      "keywords": "厚涂笔触·概念图·史诗感",
+      "suggested_genres": [
+        "暗黑奇幻",
+        "史诗",
+        "西幻",
+        "战争"
+      ],
+      "source": "Phase4原生",
+      "dna": "Dark fantasy oil painting style, concept art quality. Thick impasto brushwork with visible paint texture. Dramatic chiaroscuro lighting from single sources. Deep rich palette: dark crimson, burnt orange, deep teal, ash gray. Epic mysterious atmosphere with god rays through clouds. ArtStation trending quality. Detailed environment with atmospheric perspective. Rim light on character for dramatic silhouette. Painted by master digital artist.",
+      "constraint": "Must maintain dark fantasy oil painting quality. No flat anime coloring. No bright pastel. No cartoon style. Keep thick brushwork texture. No text overlay.",
+      "dna_length": 443,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    },
+    "浮世绘风": {
+      "name": "浮世绘风",
+      "name_en": "Ukiyo-e",
+      "category": "插画概念",
+      "keywords": "平面色块·粗线条·江户美学",
+      "suggested_genres": [
+        "和风",
+        "历史",
+        "文艺",
+        "奇幻"
+      ],
+      "source": "Phase4原生",
+      "dna": "Japanese ukiyo-e woodblock print style. Flat color areas with bold black outlines. Distinct wave patterns and traditional Japanese decorative motifs. Limited palette: indigo blue, vermilion red, buff cream, black. Visible wood grain texture on print surface. Stylized cloud and wave patterns in background. Asymmetric composition with diagonal energy. Crisp clean line work with no gradient shading. Edo period aesthetic, elegant and disciplined.",
+      "constraint": "Must maintain ukiyo-e woodblock print style. No photorealistic rendering. No smooth gradients. No 3D rendering. Keep flat colors and bold outlines. No text overlay.",
+      "dna_length": 446,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase6_grade": null,
+      "phase7_grade": "B+",
+      "phase7_lighting": "LT3_flat_atmospheric",
+      "phase7_composition": "CT1_scale_contrast",
+      "phase7_note": "LT3保护成功，色块+粗线+装饰云纹存活"
+    },
+    "国风水墨仙侠": {
+      "name": "国风水墨仙侠",
+      "name_en": "Chinese Ink Xianxia",
+      "category": "插画概念",
+      "keywords": "水墨·留白·写意",
+      "suggested_genres": [
+        "仙侠",
+        "武侠",
+        "古风",
+        "文艺"
+      ],
+      "source": "Phase4原生",
+      "dna": "Chinese ink wash painting style with xianxia fantasy elements. Expressive brush strokes with varying ink density. Limited palette: deep black ink, charcoal gray, with cinnabar red and jade green accents. Rice paper texture visible throughout. Misty atmospheric perspective with fading ink tones. Calligraphic line quality on character outlines. Splatter and bleed effects for texture. Large areas of deliberate white space. Poetic and philosophical mood, ethereal and mystical.",
+      "constraint": "Must maintain Chinese ink wash painting aesthetic. No full-color digital painting. No thick oil texture. No anime style. Keep ink-based limited palette and brush stroke quality. No text overlay.",
+      "dna_length": 477,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase6_grade": null,
+      "phase7_grade": "B+",
+      "phase7_lighting": "LT3_flat_atmospheric",
+      "phase7_composition": "CT1_scale_contrast",
+      "phase7_note": "LT3保护成功，笔墨晕染+留白+松树 motif存活"
+    },
+    "穆夏新艺术": {
+      "name": "穆夏新艺术",
+      "name_en": "Art Nouveau Mucha",
+      "category": "插画概念",
+      "keywords": "装饰·花卉·优雅曲线",
+      "suggested_genres": [
+        "文艺",
+        "女性向",
+        "历史",
+        "奇幻"
+      ],
+      "source": "Phase4原生",
+      "dna": "Alphonse Mucha Art Nouveau illustration style. Flowing organic decorative lines with whiplash curves. Botanical and floral ornamental borders framing the composition. Warm muted pastel palette: peach, sage green, golden ochre, lavender. Flat decorative coloring with subtle gradients. Elongated elegant feminine proportions. Halos and circular decorative motifs behind characters. Mosaic-like color blocks in background. Fin de siecle elegance, ornamental and luxurious.",
+      "constraint": "Must maintain Art Nouveau Mucha decorative style. No photorealistic. No modern anime. No dark horror tones. Keep flowing ornamental linework. No text overlay.",
+      "dna_length": 470,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT2_soft_luminous",
+      "phase6_grade": null
+    },
+    "维多利亚版画": {
+      "name": "维多利亚版画",
+      "name_en": "Victorian Engraving",
+      "category": "插画概念",
+      "keywords": "铜版·单色·时代感",
+      "suggested_genres": [
+        "历史",
+        "恐怖",
+        "正剧",
+        "维多利亚"
+      ],
+      "source": "Phase1转化",
+      "dna": "19th century Victorian steel engraving and woodcut illustration style. Fine dense engraving lines with parallel hatching and cross-hatching. No solid black areas, everything built from line density. Uniform line width, mechanical precision, textured shading through line spacing. Visible paper grain texture with slight sepia tone. Monochrome or limited duotone: sepia and black, warm cream background with dark brown ink. Occasional single muted color overlay like antique red or faded blue. Hand-tinted antique print quality. High contrast rendered through line density, shadows as dense cross-hatching. Late Victorian illustration proportions, slightly stiff formal poses, realistic anatomy.",
+      "constraint": "Must be in steel engraving or woodcut style. No smooth digital rendering. No painterly. No modern comic style. No anime. No full color. Keep sepia or monochrome palette. No text overlay.",
+      "dna_length": 694,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase6_grade": null
+    },
+    "废土末日": {
+      "name": "废土末日",
+      "name_en": "Post-Apocalyptic Wasteland",
+      "category": "插画概念",
+      "keywords": "破败·粗粝·求生",
+      "suggested_genres": [
+        "末日",
+        "废土",
+        "生存",
+        "科幻"
+      ],
+      "source": "Phase1转化",
+      "dna": "Post-apocalyptic wasteland comic style, gritty survival aesthetic. Rough sketchy linework with irregular broken lines, deliberately incomplete and haggard strokes. Heavy cross-hatching for texture, visible eraser and correction marks. Grime and dirt texture built into lines. Desaturated dusty palette: rust brown, olive drab, ash gray, faded khaki. Low saturation with occasional rust-orange or toxic-green accents. Sun-bleached and weather-worn color quality, dirt and grime overlay on all surfaces. Harsh overexposed sunlight or deep darkness, dust-filled volumetric light shafts. Bleached-out highlights with no detail, deep shadows with no ambient light. Realistic proportions with gaunt weathered features, emaciated or heavily scarred bodies.",
+      "constraint": "Must maintain rough sketchy linework and desaturated dusty palette. Keep extreme high-contrast lighting. No clean polished look. No bright colors. No pretty or romantic elements. No futuristic sleek sci-fi. No text overlay.",
+      "dna_length": 749,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase6_grade": null
+    }
+  },
+  "composition_templates": {
+    "CT1_scale_contrast": {
+      "name": "尺度操控",
+      "name_en": "Scale Contrast",
+      "desc": "Composition: Vast environment dominates the frame, character is small in the lower third as a scale reference. Negative space above with atmospheric texture and depth. Character faces away from viewer, looking toward the distant horizon. Extreme wide shot, environment as primary subject, figure as narrative anchor.",
+      "best_for": "史诗/电影感风格，环境叙事为主的场景",
+      "best_styles": [
+        "新海诚电影风",
+        "大友克洋硬核",
+        "暗黑奇幻油画",
+        "吉卜力治愈风",
+        "天野喜孝幻想"
+      ],
+      "phase6_grade": {
+        "新海诚电影风": "A",
+        "天野喜孝幻想": "B+",
+        "伊藤潤二": "C",
+        "凡妮塔斯": "D"
+      }
+    },
+    "CT2_silhouette_back": {
+      "name": "剪影悬念",
+      "name_en": "Silhouette Suspense",
+      "desc": "Composition: Character shown from behind in three-quarter back view, face partially obscured by shadow and hair. Tight cropping on upper body. Mystery through concealment. Single light source from front creating dramatic backlit silhouette. Rim lighting on shoulders and hair edges. Figure as viewing proxy, audience sees what character sees.",
+      "best_for": "神秘/氛围感风格，角色代入感强的场景",
+      "best_styles": [
+        "新海诚电影风",
+        "伊藤潤二",
+        "哥特暗黑风",
+        "黑执事",
+        "暗黑悬疑高对比"
+      ],
+      "phase6_grade": {
+        "新海诚电影风": "A",
+        "伊藤潤二": "B",
+        "天野喜孝幻想": "B",
+        "凡妮塔斯": "D"
+      }
+    }
+  },
+  "lighting_templates": {
+    "LT1_subtractive": {
+      "name": "减法照明",
+      "name_en": "Subtractive Lighting",
+      "desc": "Lighting: Subtractive lighting, 80% of image in deep atmospheric shadow. Only key features selectively illuminated. Edge rim lighting on silhouette. Darkness as active narrative presence, not absence. Multi-layer fog and atmospheric haze creating depth. Cold dominant palette with single warm focal point ≤10% of frame.",
+      "best_for": "暗黑/哥特/恐怖/赛博风格，与暗色场景天然兼容",
+      "compatible_styles": [
+        "新海诚电影风",
+        "哥特暗黑风",
+        "暗黑奇幻油画",
+        "赛博朋克霓虹",
+        "赛博边缘行者",
+        "大友克洋硬核",
+        "废土末日",
+        "暗黑悬疑高对比",
+        "韩漫暗黑厚涂",
+        "黑执事",
+        "圣魔之血",
+        "蒸汽朋克黄铜",
+        "伊藤潤二"
+      ],
+      "warning": "会吞噬水彩/柔美风格，凡妮塔斯使用此模板获得D档(完全风格崩溃)",
+      "phase6_validated": true
+    },
+    "LT2_soft_luminous": {
+      "name": "柔光通透",
+      "name_en": "Soft Luminous Lighting",
+      "desc": "Lighting: Soft luminous lighting with gentle diffused glow. Light emanates from within the image, characters remain visible and readable. Warm ambient light with cool shadow undertones. Backlighting with ethereal halos, golden hour quality. Bokeh and light particles. No crushed blacks, shadows retain color information. Luminous shadows, preserving figure readability even in dark scenes.",
+      "best_for": "水彩/柔美/治愈/明亮风格，保护柔美画风不被暗色场景吞噬",
+      "compatible_styles": [
+        "凡妮塔斯",
+        "少女水彩言情",
+        "吉卜力治愈风",
+        "天野喜孝幻想",
+        "轻小说插画风",
+        "韩漫华丽言情",
+        "穆夏新艺术",
+        "日系赛璐珞",
+        "京都动画萌系",
+        "轻喜剧Q版",
+        "韩国Webtoon现代风",
+        "新国潮风",
+        "迪士尼皮克斯3D",
+        "90年代复古动漫",
+        "日系热血战斗",
+        "伪厚涂半厚涂",
+        "国漫玄幻厚涂"
+      ],
+      "warning": "不适用于纯暗黑风格，会削弱黑暗氛围",
+      "phase6_validated": false,
+      "note": "v4.0新增模板，Phase 7验证通过：成功拯救凡妮塔斯水彩风格(D→B)，轻小说插画风获A档",
+      "phase7_validated": true
+    },
+    "LT3_flat_atmospheric": {
+      "name": "平光漫射",
+      "name_en": "Flat Atmospheric Lighting",
+      "desc": "Lighting: Flat even illumination with minimal directional lighting. Light distributed uniformly across the scene, no dramatic shadows. Atmospheric depth through color and mist rather than light/shadow contrast. Subtle ambient occlusion only. Medium-key lighting, neither high nor low contrast. Natural diffuse light like overcast sky or soft window light. Texture and line quality are primary visual carriers, not lighting drama.",
+      "best_for": "平面/传统媒介风格(浮世绘/水墨/版画)，光影不应抢夺线条和色块的表达权",
+      "compatible_styles": [
+        "浮世绘风",
+        "国风水墨仙侠",
+        "维多利亚版画"
+      ],
+      "warning": "不适用于需要光影戏剧性的风格",
+      "phase6_validated": false,
+      "note": "v4.0新增模板，Phase 7验证通过：浮世绘B+(色块粗线存活)，水墨B+(笔墨晕染留白存活)",
+      "phase7_validated": true
+    }
+  },
+  "style_compatibility_guide": {
+    "description": "风格-模板兼容性矩阵，基于Phase 6测试结果和风格特性推断",
+    "groups": {
+      "A_dark_cinematic": {
+        "name": "暗黑电影系",
+        "lighting": "LT1_subtractive",
+        "compositions": [
+          "CT2_silhouette_back",
+          "CT1_scale_contrast"
+        ],
+        "styles": [
+          "新海诚电影风",
+          "哥特暗黑风",
+          "暗黑奇幻油画",
+          "赛博朋克霓虹",
+          "赛博边缘行者",
+          "大友克洋硬核",
+          "废土末日",
+          "暗黑悬疑高对比",
+          "韩漫暗黑厚涂",
+          "黑执事",
+          "圣魔之血",
+          "蒸汽朋克黄铜"
+        ]
+      },
+      "B_soft_luminous": {
+        "name": "柔美通透系",
+        "lighting": "LT2_soft_luminous",
+        "compositions": [
+          "CT2_silhouette_back",
+          "CT1_scale_contrast"
+        ],
+        "styles": [
+          "凡妮塔斯",
+          "少女水彩言情",
+          "吉卜力治愈风",
+          "轻小说插画风",
+          "韩漫华丽言情",
+          "穆夏新艺术",
+          "日系赛璐珞",
+          "京都动画萌系",
+          "轻喜剧Q版",
+          "韩国Webtoon现代风",
+          "新国潮风",
+          "迪士尼皮克斯3D",
+          "90年代复古动漫",
+          "日系热血战斗",
+          "伪厚涂半厚涂",
+          "国漫玄幻厚涂"
+        ]
+      },
+      "C_special": {
+        "name": "特殊系",
+        "notes": "需要风格专属的场景和光影处理",
+        "styles": {
+          "伊藤潤二": {
+            "lighting": "LT1_subtractive",
+            "composition": "CT2_silhouette_back",
+            "note": "需恐怖专属场景提示词，通用暗黑场景无法触发伊藤潤二风格"
+          },
+          "天野喜孝幻想": {
+            "lighting": "LT1_subtractive 或 LT2_soft_luminous",
+            "composition": "CT1_scale_contrast",
+            "note": "两种光影均可，LT1偏暗黑氛围，LT2偏空灵唯美"
+          },
+          "港漫武侠风": {
+            "lighting": "LT1_subtractive",
+            "composition": "CT1_scale_contrast",
+            "note": "高对比硬光配合写实肌肉表现"
+          },
+          "硬朗武侠历史": {
+            "lighting": "LT1_subtractive",
+            "composition": "CT1_scale_contrast",
+            "note": "粗糙硬光配合刻刀线条"
+          },
+          "都市赛博风": {
+            "lighting": "LT1_subtractive",
+            "composition": "CT2_silhouette_back",
+            "note": "霓虹色彩rim light"
+          },
+          "浮世绘风": {
+            "lighting": "LT3_flat_atmospheric",
+            "composition": "CT1_scale_contrast",
+            "note": "平光保护色块和线条表达"
+          },
+          "国风水墨仙侠": {
+            "lighting": "LT3_flat_atmospheric",
+            "composition": "CT1_scale_contrast",
+            "note": "平光保护水墨晕染表达"
+          },
+          "维多利亚版画": {
+            "lighting": "LT3_flat_atmospheric",
+            "composition": "CT2_silhouette_back",
+            "note": "平光保护线刻密度表达"
+          }
+        }
+      }
+    }
+  }
+}
