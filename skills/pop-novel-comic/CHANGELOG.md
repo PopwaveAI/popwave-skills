@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## v4.3.1 | 2026-08-02
+
+### 排版质量修复 — 张力布局强制规则 + 赛道画风门禁 + webtoon关键词清除
+
+**背景**：6组对照测试（诡异人生+深渊主宰各3组）发现：(1) agent在恐怖/高潮场景中默认选择"1大2小"等分布局，排版平庸；(2) 恐怖赛道选了韩漫厚涂画风，太精致漂亮撑不起压迫感；(3) "webtoon"关键词虽非排版丢失根因，但语义与分格指令冲突，仍建议移除。
+
+**一、step1-director.md 新增🔒张力布局强制规则** `steps/step1-director.md` §7.3：
+- 4类场景强制要求张力布局：恐怖/灵异/悬疑（禁等分）、高潮/名场面（禁等分多格）、精神动摇（禁对称）、渐进揭示（禁压缩单格）
+- 一话中张力布局最低占比：恐怖/悬疑赛道≥50%页面
+- §7.7自检新增3项检查：恐怖场景张力布局、高潮页非等分、均衡布局占比
+
+**二、step0-init.md 新增赛道×画风匹配门禁** `steps/step0-init.md` §3.1：
+- 5类赛道禁配画风表：恐怖赛道禁韩漫厚涂/少女水彩、修仙禁赛博/水彩等
+- 门禁逻辑：首选画风在禁配列表→自动切换到应推荐画风
+- 用户可强制选择禁配画风，但Agent必须在门禁0提示风险
+
+**三、webtoon关键词清除** `references/art-style-pool.md` + `references/storyboard-guide.md`：
+- 韩漫半写实厚涂Seedream执行串：`Korean webtoon semi-realistic painterly` → `Korean semi-realistic painterly`
+- 参考作品名：`Solo Leveling webtoon` → `Solo Leveling`
+- 消除"webtoon"（竖向连续滚动）与分格指令的语义冲突
+
 ## v4.3.0 | 2026-08-02
 
 ### 翻页阅读器 — 从长滚动 HTML 改为按页呈现

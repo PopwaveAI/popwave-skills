@@ -75,7 +75,7 @@
 | **适用赛道** | 热血战斗、系统流、暗黑奇幻、末日生存、都市异能 |
 | **视觉特征** | 弱线/无线，全厚涂色块塑形，戏剧性 rim light（轮廓光），蓝紫冷调色阶，偏写实 7.5-8 头身，五官立体窄脸，竖屏滚动构图 |
 | **锚定串** | `韩式网漫半写实厚涂风格，全厚涂上色，戏剧性轮廓光，冷蓝紫色阶，写实比例，电影感光影，精致背景细节` |
-| **Seedream 执行串** | `Korean webtoon semi-realistic painterly style, no visible lineart with full painterly color shaping, dramatic rim lighting, cool blue-purple color palette, realistic 7.5-8 head proportions with sharp facial features, cinematic lighting with detailed backgrounds. Art style similar to Solo Leveling webtoon` |
+| **Seedream 执行串** | `Korean semi-realistic painterly style, no visible lineart with full painterly color shaping, dramatic rim lighting, cool blue-purple color palette, realistic 7.5-8 head proportions with sharp facial features, cinematic lighting with detailed backgrounds. Art style similar to Solo Leveling` |
 | **风格保真约束** | `Use full painterly coloring without visible lineart. Maintain dramatic rim lighting. Keep cool blue-purple palette. No flat cel-shading. No anime-style bold outlines. No cute chibi proportions.` |
 | **AI 复现** | ⭐⭐ 中等。有大量 Solo Leveling LoRA 可参考，复现度高 |
 | **不适合** | 轻松日常、少女言情（太写实太冷）、国风修仙（缺少东方笔触感） |
