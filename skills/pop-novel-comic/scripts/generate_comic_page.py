@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-pop-novel-comic 逐页漫画生成脚本 v4.0
-- 基于 Seedream API 逐页生成漫画页面（每页一张包含多格的完整漫画图）
+pop-novel-comic 逐页漫画生成脚本 v4.5.0
+- ThreadPoolExecutor 8线程高并发生成（Seedream API限制500图/分钟，8线程安全）
 - 支持角色定妆图参考（图生图模式，保证角色一致性）
 - 格式保真（JPEG magic bytes检测→PNG转码）
 - 自动重试（3次，指数退避 3s/6s/9s）
@@ -27,6 +27,7 @@ import sys
 import time
 import urllib.request
 import urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from io import BytesIO
 
 # ============ 配置区（使用前修改） ============
@@ -35,6 +36,9 @@ API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
 API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
 MODEL = "doubao-seedream-5-0-pro-260628"
 SIZE = "1728x2304"
+
+# 并发线程数（Seedream API限制500图/分钟=8.3图/秒，8线程安全）
+CONCURRENCY = 8
 
 # 最大重试次数
 MAX_RETRIES = 3
@@ -206,7 +210,7 @@ def generate_page(page, output_path):
 
 def main():
     print("=" * 60)
-    print(f"pop-novel-comic 逐页漫画生成 v4.0 (串行模式)")
+    print(f"pop-novel-comic 逐页漫画生成 v4.5.0 (8并发模式)")
     print("=" * 60)
 
     # 确定输出目录
@@ -228,18 +232,32 @@ def main():
         else:
             print(f"  {page['id']}: 无（文生图）")
 
-    print(f"\n开始生成 {len(PAGES)} 页（串行模式）...\n")
+    print(f"\n开始生成 {len(PAGES)} 页（并发数={CONCURRENCY}）...\n")
 
     start_time = time.time()
 
-    # 串行逐页生成
+    # 高并发逐页生成
     results = []
-    for page in PAGES:
-        output_path = os.path.join(out_dir, f"{page['id']}.png")
-        result = generate_page(page, output_path)
-        results.append(result)
+    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
+        futures = {}
+        for page in PAGES:
+            output_path = os.path.join(out_dir, f"{page['id']}.png")
+            future = executor.submit(generate_page, page, output_path)
+            futures[future] = page
+
+        for future in as_completed(futures):
+            page = futures[future]
+            try:
+                result = future.result()
+                results.append(result)
+            except Exception as e:
+                print(f"  [崩溃] {page['id']}: {e}", file=sys.stderr)
+                results.append({"id": page["id"], "success": False, "path": None})
 
     elapsed = time.time() - start_time
+
+    # 按页号排序结果
+    results.sort(key=lambda r: r["id"])
 
     # 汇总
     print("\n" + "=" * 60)
@@ -253,6 +271,7 @@ def main():
 
     print(f"\n成功: {success_count}/{len(PAGES)}")
     print(f"耗时: {elapsed:.1f}秒 (平均 {elapsed/max(len(PAGES),1):.1f}秒/页)")
+    print(f"并发效率: 理论串行 ~{elapsed*CONCURRENCY:.0f}秒 -> 实际 {elapsed:.0f}秒")
 
     # 保存元数据
     meta = {
@@ -260,6 +279,7 @@ def main():
         "success": success_count,
         "failed": len(PAGES) - success_count,
         "elapsed_seconds": round(elapsed, 1),
+        "concurrency": CONCURRENCY,
         "model": MODEL,
         "pages": results,
     }
