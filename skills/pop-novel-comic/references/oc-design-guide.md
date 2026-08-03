@@ -1,7 +1,11 @@
 # OC 双角度定妆图设计指南
 
 > Step 0 角色定妆图生成的核心参考。定妆图是跨章角色一致性的根基——画错了，后面全错。
-> **铁律：定妆图画风必须对齐 M1 画风基准（`art-style-baseline.md` 元尊V1底盘），禁止用独立/老龄风格串。** 定妆照是图生图的参考真相源，选错画风会污染全书画风。见 `guides/pe-test-sop.md` §1.1 + §4.4。
+> **铁律：定妆图画风必须对齐所选 M1 画风基准（`art-style-baseline.md` §三-b 定妆照画风串），禁止用独立/老龄风格串。** 定妆照是图生图的参考真相源，选错画风会污染全书画风。见 `guides/pe-test-sop.md` §1.1 + §4.4。
+>
+> **v7.2.0 核心变化（立绘画风跟随所选基准）**：画风库已从"唯一基准元尊V1"升级为"多画风基准池"（`art-style-baseline.md` §一 赛道→画风映射表）。**立绘的画风底盘 = 所选基准的定妆照画风串，不再写死元尊V1。** 仙侠/玄幻/史诗赛道 → 厚涂玄幻定妆照串；国漫玄幻/古风赛道 → 元尊V1定妆照串；赛博朋克 → 待入库赛博画风。**画风跟小说类型走，不锁单一基准。**
+>
+> **v7.2.0 立绘质量升级（高精度立绘模板）**：老板定调"立绘 OC 图基本决定成品漫画质量"。立绘是图生图链条的参考真相源，精度 = 全书质量上限。立绘必须用 §高精度立绘升级 的 4 块结构（锁构图+光源+材质+硬约束）逐项锁定，杜绝廉价AI感，作为全书质量上限。
 
 ## 为什么是双角度+版本号
 
@@ -91,12 +95,71 @@ WebSearch: "{小说名} {角色名} 漫画 插画 二创"
 
 > 每角色至少1个视觉符号锚点，写入提示词的「标志性特征」段位。
 
-### 正面立绘提示词
+## 高精度立绘升级（v7.2.0 老板定调：立绘 OC 图基本决定成品漫画质量）
 
-> **画风底盘必填**：第一行填入 `art-style-baseline.md` §三-b 的定妆照画风串（元尊V1 + 题材配色）。禁止用独立/老龄风格串（如 Solo Leveling 厚涂串）。
+> **立绘是参考真相源，精度 = 全书质量上限。** 廉价立绘往下游扩散，全书跟着廉价；高精度立绘才撑得起 S 级名场面。基础模板（§双角度定妆图提示词模板）只锁"角色长什么样"，高精度模板在此基础上**逐项锁定 4 块硬约束**，把廉价AI感彻底封死。
+
+### 4 块结构（每张立绘必须全部具备）
+
+| 块 | 锁什么 | 落地方式 | 反例（廉价感） |
+|:---|:-------|:---------|:----------------|
+| **① 锁构图** | 机位/占幅/景别固定，不漂移 | `Full body character design sheet, front view, character centered occupying 75% of frame, simple light gray background` | 构图随意、人物忽大忽小、背景花哨抢戏 |
+| **② 锁光源** | 主光方向+辅光固定，皮肤/金属/布料反光一致 | `Soft frontal key light from upper-left, subtle cool rim light on hair edges, gentle bounce fill from below` | 无明确光源、塑料反光、阴影乱跑 |
+| **③ 锁材质** | 皮肤/布料/金属/发丝逐材质写实，拒绝贴图感 | `Skin with visible pores and natural sheen; fabric with realistic drape, thickness and fold shadows; metal with hard specular highlights; hair with individual strand volume and layered movement` | 皮肤光滑无质感、布料贴图、金属伪发光 |
+| **④ 锁硬约束** | 结构正确性+美型档位，封死畸形 | `Exactly one character. Exactly five fingers per hand. No duplicated limbs. No chibi proportions. No text.` + 美型档位关键词（见 §定妆图质量基准） | 六指、畸形手、比例崩坏、廉价AI油光 |
+
+### 高精度立绘提示词模板（正面）
+
+> **画风底盘必填**：第一行参考图见注释。**格式 = 基础模板 + 4块硬约束逐项强化**。画质标记用 `High quality professional character design illustration, highly detailed, masterpiece, best quality`（厚涂玄幻基准可加 `cinematic concept art`）。
 
 ```
-[元尊V1画风串 + 题材配色，见 art-style-baseline.md §三-b].
+[所选基准定妆照画风串 + 题材配色，见 art-style-baseline.md §三-b].
+
+CHARACTER DESIGN SHEET, FRONT VIEW, HIGH-PRECISION:
+A {年龄} {性别} with {体型}. {发型发色}, {瞳色眼型}, {脸型} face with {面部特征}. Wearing {服装分层描述}. {标志性特征}. {表情}.
+
+COMPOSITION: {美型档位} Full body character design sheet, front view, character centered occupying 75% of frame, simple light gray background, clear vertical silhouette.
+
+LIGHTING: Soft frontal key light from upper-left, subtle cool rim light on hair edges, gentle bounce fill from below, directional shadow consistent across the whole figure.
+
+TEXTURE: Skin with visible pores and natural sheen; fabric with realistic drape, thickness and fold shadows; {金属/皮革/丝绸等材质} with correct specular behavior; hair with individual strand volume and layered movement.
+
+DETAIL: High quality professional character design illustration, highly detailed, masterpiece, best quality, attractive face with expressive eyes, defined bone structure, elaborate detailed costume.
+
+{风格保真约束}.
+Exactly one character. Exactly five fingers per hand. No duplicated limbs. No chibi proportions. No text. No cheap plastic skin. No flat texture. No watermark.
+```
+
+### 高精度立绘提示词模板（侧面）
+
+> 与正面同结构，仅把"锁构图"段换成侧面轮廓锁定，其余 3 块（光源/材质/硬约束）与正面完全一致，保证双角度画风统一。
+
+```
+[所选基准定妆照画风串 + 题材配色，见 art-style-baseline.md §三-b].
+
+CHARACTER DESIGN SHEET, SIDE PROFILE VIEW, HIGH-PRECISION:
+The SAME character as reference image. {发型侧面轮廓描述}, {鼻型侧面轮廓}, {下颌线}, {服装侧面剪影}. {标志性特征侧面可见}. {表情}.
+
+COMPOSITION: {美型档位} Full body character design sheet, exact side profile view (90 degrees), character centered occupying 75% of frame, simple light gray background, clean jawline and hairline silhouette.
+
+LIGHTING: Soft frontal key light from upper-left, subtle cool rim light on hair edges, gentle bounce fill from below, directional shadow consistent across the whole figure.
+
+TEXTURE: Skin with visible pores and natural sheen; fabric with realistic drape, thickness and fold shadows; hair with individual strand volume and layered movement.
+
+DETAIL: High quality professional character design illustration, highly detailed, masterpiece, best quality, sharp jawline, expressive eye visible in profile.
+
+{风格保真约束}.
+Exactly one character. Exactly five fingers per hand. No duplicated limbs. No chibi proportions. No text. No cheap plastic skin. No flat texture. No watermark.
+```
+
+> **高精度模板 vs 基础模板**：容量允许时一律用高精度模板（4块硬约束）。基础模板仅作快速草案/一次性配角时用。**主角/重要配角/需跨章复用的角色 = 必用高精度模板。**
+
+### 正面立绘提示词
+
+> **画风底盘必填**：第一行填入所选基准的定妆照画风串（`art-style-baseline.md` §三-b，按赛道取：仙侠/玄幻/史诗→厚涂玄幻定妆照串，国漫玄幻/古风→元尊V1定妆照串）。禁止用独立/老龄风格串（如 Solo Leveling 厚涂串）。
+
+```
+[所选基准定妆照画风串 + 题材配色，见 art-style-baseline.md §三-b].
 
 CHARACTER DESIGN SHEET, FRONT VIEW:
 A {年龄} {性别} with {体型}. {发型发色}, {瞳色眼型}, {脸型} face with {面部特征}. Wearing {服装分层描述}. {标志性特征}. {表情}.
@@ -113,10 +176,10 @@ Exactly one character. No duplicated limbs. Exactly five fingers per hand. No ch
 
 ### 侧面立绘提示词
 
-> **画风底盘必填**：第一行同样填入元尊V1画风串 + 题材配色，与正面一致，保证双角度画风统一。
+> **画风底盘必填**：第一行同样填入所选基准定妆照画风串 + 题材配色，与正面一致，保证双角度画风统一。
 
 ```
-[元尊V1画风串 + 题材配色，见 art-style-baseline.md §三-b].
+[所选基准定妆照画风串 + 题材配色，见 art-style-baseline.md §三-b].
 
 CHARACTER DESIGN SHEET, SIDE PROFILE VIEW:
 The SAME character as reference image. {发型侧面轮廓描述}, {鼻型侧面轮廓}, {下颌线}, {服装侧面剪影}. {标志性特征侧面可见}. {表情}.
