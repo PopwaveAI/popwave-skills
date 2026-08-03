@@ -1,0 +1,17 @@
+{
+  "id": "pop-visual-shared",
+  "version": "1.3.0",
+  "displayName": "视觉共享底层资产",
+  "description": "视觉 skill 群的共享底层资产层。提供被 cover/oc/style/comic 复用的统一组件：Seedream 生成脚本、Pinterest 参考搜索脚本、统一提示词指南、画风DNA库引用协议。不直接生成图片，消除多 skill 间重复维护与版本分化。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": []
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false
+  },
+  "tags": ["视觉设计", "共享底座"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

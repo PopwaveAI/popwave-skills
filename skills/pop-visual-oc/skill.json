@@ -1,0 +1,17 @@
+{
+  "id": "pop-visual-oc",
+  "version": "1.5.1",
+  "displayName": "网文角色立绘生成",
+  "description": "当用户说'人设图/角色图/OC/立绘/角色卡'或需要角色视觉设计时启用。从小说原文系统性采样角色信息，生成角色档案，支持系列化输出（形态演变/核心场景/群像关系）。调用 Seedream API 生成图片。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-visual-oc", "人设图", "角色图", "OC", "立绘", "角色卡"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["营销与推荐", "视觉生成"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

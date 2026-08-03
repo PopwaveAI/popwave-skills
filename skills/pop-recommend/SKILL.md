@@ -37,7 +37,7 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 | `SKILL.md` | 每次run强制注入 | SOP骨架+三阶段价值扫描方法论+红线 |
 | `steps/step2.md` | Step1完成后读取 | 评审生成（消费5个JSON→review.json） |
 | `steps/step3.md` | Step2完成后读取 | HTML渲染（9页推书卡设计语言） |
-| `references/page-layout-guide.md` | Step3渲染时参考 | 9页布局设计指南 |
+| `references/recommend-layout-guide.md` | Step3渲染时参考 | 9页布局设计指南 |
 | `templates/*.tpl.json` | Step1-2产出时复制填充 | JSON模板（structure-map/anchor-pool/reading-metrics/review） |
 | `templates/recommend-card.tpl.html` | Step3渲染时使用 | HTML推书卡模板 |
 

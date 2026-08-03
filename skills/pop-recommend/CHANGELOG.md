@@ -35,7 +35,7 @@
 - **Step 2 评审生成**：合并 v1.5.3 的 public-review-input + review-draft 两个JSON为一个 review.json
 - **Step 3 HTML渲染**：模板与数据分离，禁止内联JSON到 `<script>` 标签
 - 5个产出模板：structure-map / anchor-pool / reading-metrics / review / recommend-card
-- 1个参考文档：page-layout-guide（推书卡9页布局指南）
+- 1个参考文档：recommend-layout-guide（推书卡9页布局指南，原名 page-layout-guide 以与 pop-visual-comic 同名文件区分）
 
 ### 修复
 - 砍掉 arc-summaries 的6个"待补充"字段（character_state_changes / relationship_changes / new_rules / setups / payoffs / pacing_observations）

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视觉项目总控</title>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --muted: #999999;
+    --line: #E0E0E0;
+    --accent: #D72D2D;
+    --accent2: #D72D2D;
+    --base: #111111;
+    --done: #111111;
+    --pending: #CCCCCC;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 0 40px; }
+
+  /* ===== Masthead ===== */
+  .masthead {
+    border-bottom: 3px solid var(--ink);
+    padding: 48px 0 32px;
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .masthead-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .masthead-phase {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 10px;
+  }
+  .masthead h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .masthead .meta {
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .masthead .meta strong { color: var(--ink); font-weight: 600; }
+
+  /* ===== Section ===== */
+  .section {
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* ===== Brief ===== */
+  .brief-row {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .brief-row .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 160px;
+    flex-shrink: 0;
+    padding: 14px 0;
+  }
+  .brief-row .value {
+    font-size: 14px;
+    color: var(--ink);
+    padding: 14px 0;
+    flex: 1;
+  }
+
+  /* ===== Phase Timeline ===== */
+  .phase-timeline {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 4px 0 8px;
+  }
+  .phase-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 88px;
+    position: relative;
+  }
+  .phase-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid var(--pending);
+    background: var(--bg);
+    color: var(--pending);
+    z-index: 1;
+    transition: all 0.2s;
+  }
+  .phase-circle.base { border-color: var(--base); color: var(--base); }
+  .phase-circle.done {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+  .phase-circle.current {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .phase-line {
+    flex: 1;
+    height: 1px;
+    min-width: 20px;
+    background: var(--line);
+    margin-top: 15px;
+  }
+  .phase-line.done { background: var(--ink); }
+  .phase-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .phase-label.active { color: var(--accent); }
+  .phase-tag {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 2px;
+    letter-spacing: 0.1em;
+  }
+  .phase-tag.base { color: var(--base); }
+  .phase-tag.derived { color: var(--accent); }
+
+  /* ===== Next Step ===== */
+  .next-step-box {
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    background: #FAFAFA;
+  }
+  .next-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .next-step-action {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ===== Grid ===== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .readiness-block {
+    padding: 0 24px 0 0;
+  }
+  .readiness-block + .readiness-block {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+  .readiness-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
+  }
+  .status-item:last-child { border-bottom: none; }
+  .status-badge { font-size: 14px; font-weight: 700; }
+
+  /* ===== Table ===== */
+  .outputs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .outputs-table th {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink);
+  }
+  .outputs-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .outputs-table tr:last-child td { border-bottom: none; }
+  .outputs-table .file-path {
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ===== Folder Tree ===== */
+  .folder-tree {
+    font-family: "SF Mono", "Consolas", "Courier New", monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .folder-tree .dir { color: var(--ink); font-weight: 700; }
+
+  /* ===== Footer ===== */
+  .footer {
+    padding: 32px 0;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 3px solid var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ========== Masthead ========== -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="masthead-label">Visual Control</span>
+      <span class="masthead-phase">Mode: <!--STATE:mode -->fresh<!--/STATE:mode --> · Phase <!--STATE:phase -->init<!--/STATE:phase --></span>
+    </div>
+    <h1><!--STATE:project_name -->未命名项目<!--/STATE:project_name --></h1>
+    <div class="meta">
+      <span>小说 / <strong><!--STATE:book_name -->待指定<!--/STATE:book_name --></strong></span>
+      <span>赛道 / <strong><!--STATE:genre -->待指定<!--/STATE:genre --></strong></span>
+      <span>创建 / <strong><!--STATE:created_at -->--<!--/STATE:created_at --></strong></span>
+      <span>更新 / <strong><!--STATE:updated_at -->--<!--/STATE:updated_at --></strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 01 Project Brief ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">项目简介</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">书名</span>
+      <span class="value"><!--STATE:book_name -->待指定<!--/STATE:book_name --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">赛道</span>
+      <span class="value"><!--STATE:genre -->待指定<!--/STATE:genre --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">画风基准</span>
+      <span class="value"><!--STATE:style_base -->待Phase 1指定<!--/STATE:style_base --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">核心角色</span>
+      <span class="value"><!--STATE:core_char -->待Phase 2指定<!--/STATE:core_char --></span>
+    </div>
+  </div>
+
+  <!-- ========== 02 Phase Progress ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Phase 进度</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="phase-timeline">
+      <div class="phase-item">
+        <div class="phase-circle base pending" id="ph-0">0</div>
+        <div class="phase-label" id="lb-0">读小说</div>
+        <div class="phase-tag base">基建</div>
+      </div>
+      <div class="phase-line" id="ln-0"></div>
+      <div class="phase-item">
+        <div class="phase-circle base pending" id="ph-1">1</div>
+        <div class="phase-label" id="lb-1">定画风</div>
+        <div class="phase-tag base">基建</div>
+      </div>
+      <div class="phase-line" id="ln-1"></div>
+      <div class="phase-item">
+        <div class="phase-circle base pending" id="ph-2">2</div>
+        <div class="phase-label" id="lb-2">人物形象</div>
+        <div class="phase-tag base">基建</div>
+      </div>
+      <div class="phase-line" id="ln-2"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-3">3</div>
+        <div class="phase-label" id="lb-3">封面</div>
+        <div class="phase-tag derived">派生</div>
+      </div>
+      <div class="phase-line" id="ln-3"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-4">4</div>
+        <div class="phase-label" id="lb-4">OC</div>
+        <div class="phase-tag derived">派生</div>
+      </div>
+      <div class="phase-line" id="ln-4"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-5">5</div>
+        <div class="phase-label" id="lb-5">场景</div>
+        <div class="phase-tag derived">派生</div>
+      </div>
+      <div class="phase-line" id="ln-5"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-6">6</div>
+        <div class="phase-label" id="lb-6">漫画</div>
+        <div class="phase-tag derived">派生</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 03 Next Step ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">下一步</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="next-step-box">
+      <div class="next-step-label">Action</div>
+      <div class="next-step-action"><!--STATE:next_step -->Phase 0: 读小说提取视觉资产<!--/STATE:next_step --></div>
+    </div>
+  </div>
+
+  <!-- ========== 04 Readiness ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">就绪状态</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="grid-2">
+      <div class="readiness-block">
+        <div class="readiness-title">基建就绪（必做）</div>
+        <div class="status-item">资产提取 <span class="status-badge"><!--STATE:base_0 -->❌<!--/STATE:base_0 --></span></div>
+        <div class="status-item">画风基准 <span class="status-badge"><!--STATE:base_1 -->❌<!--/STATE:base_1 --></span></div>
+        <div class="status-item">人物身份卡 <span class="status-badge"><!--STATE:base_2 -->❌<!--/STATE:base_2 --></span></div>
+      </div>
+      <div class="readiness-block">
+        <div class="readiness-title">派生就绪（按需）</div>
+        <div class="status-item">封面图 <span class="status-badge"><!--STATE:deriv_0 -->❌<!--/STATE:deriv_0 --></span></div>
+        <div class="status-item">人物OC <span class="status-badge"><!--STATE:deriv_1 -->❌<!--/STATE:deriv_1 --></span></div>
+        <div class="status-item">场景图 <span class="status-badge"><!--STATE:deriv_2 -->❌<!--/STATE:deriv_2 --></span></div>
+        <div class="status-item">漫画 <span class="status-badge"><!--STATE:deriv_3 -->❌<!--/STATE:deriv_3 --></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 05 Recent Outputs ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">最近产出</span>
+      <span class="section-rule"></span>
+    </div>
+    <table class="outputs-table">
+      <thead><tr><th>阶段</th><th>产出文件</th><th>时间</th></tr></thead>
+      <tbody>
+<!--STATE:outputs_start-->
+        <tr><td colspan="3" style="color:var(--muted)">暂无产出</td></tr>
+<!--STATE:outputs_end-->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 06 Folder Structure ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">项目空间结构</span>
+      <span class="section-rule"></span>
+    </div>
+<div class="folder-tree"><span class="dir">项目根/</span>
+├── 视觉项目总控.html        pipeline 唯一状态文件
+├── <span class="dir">正文/</span>               小说原文（chXXX.txt）
+├── <span class="dir">素材/</span>
+│   ├── <span class="dir">视觉资产/</span>        Phase 0 资产提取
+│   │   ├── [角色名]角色档案.md
+│   │   ├── 场景资产表.md
+│   │   ├── 视觉符号库.md
+│   │   ├── IP视觉DNA.md
+│   │   └── [角色名]视觉身份卡.md   Phase 2 基建真源
+│   ├── <span class="dir">风格/</span>            Phase 1 画风决策
+│   │   └── 画风决策.md
+│   ├── <span class="dir">视觉/</span>            Phase 3/4/5 派生产出
+│   │   ├── 封面-{书}-v1.png
+│   │   ├── OC-{角色}-v1.png
+│   │   └── 场景-{名}-v1.png
+│   └── <span class="dir">ref-cache/</span>       Pinterest参考图缓存
+└── <span class="dir">漫画/</span>              Phase 6 漫画产出
+    ├── assets/characters/
+    ├── 漫画角色库.md
+    └── 第1章/...</div>
+  </div>
+
+  <!-- ========== Footer ========== -->
+  <div class="footer">
+    pop-visual-pipeline · 视觉项目总控 · 自动生成请勿手动编辑
+  </div>
+
+</div>
+</body>
+</html>
