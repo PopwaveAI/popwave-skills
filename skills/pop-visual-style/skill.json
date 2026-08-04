@@ -1,8 +1,8 @@
 {
   "id": "pop-visual-style",
-  "version": "1.4.2",
+  "version": "1.6.0",
   "displayName": "通用文生图",
-  "description": "当用户说'画一张图/生成图片/文生图'或需要纯文生图时启用。管理36种画风DNA库+3光照模板+6段式提示词结构，调用Seedream API生成图片。作为cover/oc/comic skill的共享画风层。",
+  "description": "当用户说'画一张图/生成图片/文生图'或需要纯文生图时启用。管理37种画风DNA库（含IP命名试点）+3光照模板+6段式提示词结构，调用Seedream API生成图片。作为cover/oc/comic skill的共享画风层。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-visual-style", "文生图", "画图", "生成图片", "画风库"]

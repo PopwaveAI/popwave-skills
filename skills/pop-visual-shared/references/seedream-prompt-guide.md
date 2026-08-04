@@ -112,16 +112,16 @@ HARD CONSTRAINTS（硬约束）
 
 ## 四、画风 DNA 库引用
 
-> 画风 DNA 统一沉淀到 `pop-visual-style/references/style-dna-library.json`，含 36 种画风（二次元17 / 国漫6 / 韩漫3 / 插画概念10），每种含 `dna` + `constraint` + `recommended_lighting` + `recommended_composition` 四字段。构图/光影模板见 `pop-visual-style/references/lighting-composition-templates.md`（CT1/CT2 构图 + LT1/LT2/LT3 光影 + 兼容性矩阵）。
+> 画风 DNA 统一沉淀到 `pop-visual-style/references/style-dna-library.json`，含 36 种画风（二次元12 / 国漫5 / 韩漫3 / 插画概念16），每种含 `dna` + `constraint` + `recommended_lighting` + `recommended_composition` 四字段。构图/光影模板见 `pop-visual-style/references/lighting-composition-templates.md`（CT1/CT2 构图 + LT1/LT2/LT3 光影 + 兼容性矩阵）。
 
 ### 从 style-dna-library.json 取字段
 
 ```json
 {
-  "凡妮塔斯": {
-    "dna": "Art style by Jun Mochizuki...",     // → 第2段
-    "constraint": "Must maintain watercolor...", // → 第2段
-    "recommended_lighting": "LT2_soft_luminous", // → 第4段
+  "赛博边缘行者": {
+    "dna": "Art style from Cyberpunk Edgerunners by Studio Trigger...", // → 第2段
+    "constraint": "Must maintain bold outlines and cel-shaded coloring...", // → 第2段
+    "recommended_lighting": "LT1_subtractive", // → 第4段
     "recommended_composition": "CT2_silhouette_back" // → 第3段
   }
 }

@@ -1,0 +1,17 @@
+{
+  "id": "pop-comic-test",
+  "version": "1.0.0",
+  "displayName": "画风三组测试",
+  "description": "当用户说'测画风/画风测试/三组测试/画风能不能用'时启用。对 style-dna-library 的画风做三组固定内容测试（场景/角色/多格剧情），逐画风验证 DNA 是否被 Seedream 稳定执行，产出通过判定表。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-comic-test", "画风测试", "三组测试", "测画风"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["营销与推荐", "视觉生成"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

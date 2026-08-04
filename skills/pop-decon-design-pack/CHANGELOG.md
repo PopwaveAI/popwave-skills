@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## v6.2.0 | 2026-08-04
+
+### 双模式统一改为30章合并批处理
+
+- **核心变化**：从「单章1次API调用」改为「30章合并1次API调用」（30张合并白描），降低API调用成本约30%
+- **precision/fast 双模式统一走 `scripts/slim_card_batch.py --mode`**，废弃原「precision走delegate_task 3章/批、fast走DS API 10并发」的分离方式
+- **slim_card_batch.py 重构**：
+  - 新增 `--mode`（fast白描卡/precision设计包）与 `--batch-size`（默认30）
+  - 30章合并一次调用，一次产出30张卡/设计包
+  - 新增两套系统提示词（fast 4段式 / precision 3层+1区）
+  - 按 `# chXXX「标题」`（fast）/ `# 设计包 — chXXX「标题」`（precision）标记拆分写入独立文件
+  - missing 章节自动列清单供重跑
+- **step-2-batch-process.md**：双模式均改为30章合并批处理，更新命令与参数、性能表、质量红线（新增❌9 30章合并遗漏）
+- **batch-scaling.md**：重写为30章合并策略，新增成本对比表（187次调用→7次，~96%调用次数减少）
+- **slim-card-format-spec.md**：处理方式更新为30章合并，v4对比表处理方式行同步
+- **版本三处一致**：SKILL.md + skill.json + CHANGELOG.md 统一为 6.2.0
+
 ## v6.1.0 | 2026-07-22
 
 ### 按规范重写 SKILL.md

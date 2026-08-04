@@ -1,7 +1,8 @@
-# Step 2: 逐章设计包提取（双模式）
+# Step 2: 30章合并批处理提取（双模式）
 
-> **方向**：逐章单文件提取。根据 execution.mode 选择 precision（v4设计包3层+1区）或 fast（瘦身白描卡4段式）。
+> **方向**：30章合并一次调用，逐章单文件提取。根据 execution.mode 选择 precision（v4设计包3层+1区）或 fast（瘦身白描卡4段式）。
 > **核心约束**：这是拆书管线唯一的**质量瓶颈**。设计包/白描卡烂 = volume/setting 全烂。宁退不回。
+> **v6.2.0 核心变化**：从「单章 1 次调用」改为「30 章合并 1 次调用」，双模式统一走 `slim_card_batch.py`，降低 API 调用成本约 30%。
 
 ---
 
@@ -9,8 +10,8 @@
 
 | 维度 | precision mode | fast mode |
 |:-----|:---------------|:----------|
-| **读什么** | 单章 `_temp/chapters/chXXX.txt` | 同左，或直接读全文 TXT |
-| **做什么** | LLM 调用提取 3层+1区 | DS API 并发提取 4段白描卡 |
+| **读什么** | 全文 TXT（脚本自动按章分割） | 同左 |
+| **做什么** | `slim_card_batch.py --mode precision` 30章合并提取 3层+1区 | `slim_card_batch.py --mode fast` 30章合并提取 4段白描卡 |
 | **产出** | `写作资产/设计包v4/chXXX-设计包.md` | `写作资产/白描卡/chXXX.md` |
 | **门禁** | 3层+1区结构完整 | 事件白描+关键数据+爽点钩子三段存在 |
 
@@ -29,7 +30,60 @@ execution.mode 已指定？
 
 ## Step 2A: precision mode（v4 设计包）
 
-> 以下为 precision mode 流程，与原 step-2 一致。
+> 以下为 precision mode 流程。使用 `slim_card_batch.py --mode precision`，30章合并批处理。
+
+### 处理方式
+
+**30章合并一次调用**，使用 `scripts/slim_card_batch.py`：
+
+```bash
+# 全书 precision 模式，30章合并
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision
+
+# 指定卷
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --volume "第一卷"
+
+# 测试前10章
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --max-chapters 10
+
+# 调整每批章数（默认30）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --batch-size 30
+```
+
+**参数说明**：
+| 参数 | 默认值 | 说明 |
+|:-----|:-------|:-----|
+| --input | （必填） | 小说 TXT 文件路径 |
+| --output | 写作资产/白描卡 | 输出目录（precision 建议 `写作资产/设计包v4/`） |
+| --mode | fast | `precision` = 设计包v4（3层+1区） |
+| --batch-size | 30 | 每批合并章数（30章合并白描） |
+| --encoding | gbk | TXT 文件编码（自动检测回退） |
+| --volume | 全书 | 只处理指定卷（如 "第一卷"） |
+| --workers | 3 | 并发批数（每批是30章大调用，不宜过高） |
+| --max-chapters | 无限制 | 最多处理章数（用于测试） |
+| --api-key | 环境变量 | DeepSeek API Key |
+| --model | deepseek-v4-flash | 模型名 |
+
+### v4 格式
+
+每份设计包为独立文件 `chXXX-设计包.md`，3层+1区结构（详见 `references/v3-format-quick-reference.md`）：
+
+```markdown
+# 设计包 — chXXX「章节标题」
+
+## 1. beat链 (L1beat链层) - 表格格式
+| # | beat | 类型 | scene | POV | 参与角色 | 原文证据 |
+（至少8个beat，原文证据列只写定位指针，🔒 标记关键对白/数据）
+
+## 2. 爽点设计 (L2爽点层)
+- 情绪弧线 / 爽点机制 / 章末钩子(L1-L5)
+
+## 3. 角色与人设 (L3角色层)
+- 登场角色行为锚定 / 关键对白(语气+潜台词)
+
+## 4. 设定/物品提取区 (S1)
+- 本章新揭示的世界设定、力量体系、规则、物品
+```
 
 ### 不同章型的beat粒度
 
@@ -43,38 +97,15 @@ execution.mode 已指定？
 | **过渡/日常** | 赶路、修炼、日常 | 3-5 | 每段日常/每段修炼 = 一个beat |
 | **高潮/转折** | 重大beat、多线汇合 | 10-15 | 可拆到每人每线一个beat |
 
-### 单章提取模式
-
-每章独立处理，不跨章聚合。delegate_task 批次大小硬上限：**3章/批**。
-
-### v4 格式
-
-格式规范详见 `references/v3-format-quick-reference.md`（v4版）。
-
-**⚠️ 格式规范注入硬约束**：每个 delegate_task 的 context body 必须物理嵌入格式快照全文。
-
-### beat链格式
-
-beat必须放在表格中（7列，删除字数估计）：
-
-```markdown
-| # | beat | 类型 | scene | POV | 参与角色 | 原文证据 |
-|:-:|:-----|:----|:-----|:----|:---------|:---------|
-```
-
-### LLM 调用：完整 Prompt
-
-详见原 step-2 的 Prompt 模板（precision mode 不变）。
-
 ### 质量检验（precision mode）
 
-每章 LLM 返回后，agent 必须执行 7 项质量检查。全部通过才能写入文件。
+每批返回后，脚本自动按 `# 设计包 — chXXX「标题」` 标记拆分写入独立文件。agent 必须抽检后 10%（至少 3 章）执行 7 项质量检查，全部通过才能视为完成。
 
 ---
 
 ## Step 2B: fast mode（瘦身白描卡）
 
-> 以下为 fast mode 流程，使用 DS API 并发处理。
+> 以下为 fast mode 流程。使用 `slim_card_batch.py --mode fast`，30章合并批处理。
 
 ### 1. 格式规范
 
@@ -93,10 +124,10 @@ POV: xxx | 章型: xxx | 原文: XXXX字
 
 ### 2. 处理方式
 
-**DS API 并发处理**，使用 `scripts/slim_card_batch.py`：
+**30章合并一次调用**，使用 `scripts/slim_card_batch.py`：
 
 ```bash
-# 基本用法
+# 基本用法（默认 fast + 30章合并）
 python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/"
 
 # 指定卷
@@ -105,8 +136,8 @@ python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/
 # 测试前10章
 python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --max-chapters 10
 
-# 自定义并发数
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --workers 5
+# 自定义每批章数
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --batch-size 30
 ```
 
 **参数说明**：
@@ -114,20 +145,22 @@ python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/
 |:-----|:-------|:-----|
 | --input | （必填） | 小说 TXT 文件路径 |
 | --output | 写作资产/白描卡 | 输出目录 |
+| --mode | fast | `fast` = 瘦身白描卡（4段式） |
+| --batch-size | 30 | 每批合并章数（30章合并白描） |
 | --encoding | gbk | TXT 文件编码（自动检测回退） |
 | --volume | 全书 | 只处理指定卷（如 "第一卷"） |
-| --workers | 10 | 并发数 |
+| --workers | 3 | 并发批数（每批是30章大调用，不宜过高） |
 | --max-chapters | 无限制 | 最多处理章数（用于测试） |
 | --api-key | 环境变量 | DeepSeek API Key |
 | --model | deepseek-v4-flash | 模型名 |
 
 ### 3. 失败重试
 
-脚本内置 2 次自动重试。仍失败的章节会在汇总报告中列出，可单独重跑：
+脚本内置 2 次自动重试。仍失败/缺失的章节会在汇总报告中列出，可单独重跑：
 
 ```bash
-# 重跑失败章节（降低并发数提高成功率）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --workers 3
+# 重跑缺失章节（降低并发数提高成功率）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --workers 2
 ```
 
 ### 4. 产出目录
@@ -142,6 +175,7 @@ python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/
 ├── 设计包v4/                   ← precision mode 产出（如使用）
 │   ├── ch001-设计包.md
 │   └── ...
+└── 设计包-汇总报告.md          ← precision 处理统计
 ```
 
 ### 5. 质量卡尺（fast mode，5项）
@@ -154,13 +188,14 @@ python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/
 | 4 | 钩子标注 | 有钩子或合理省略 | 缺钩子且无说明 -1 |
 | 5 | 字数控制 | ≤500字 | >500字 -1 |
 
-### 6. 实测性能参考
+### 6. 实测性能参考（30章合并）
 
-| 量级 | 并发数 | 耗时 | 压缩比 | 实测验证 |
-|:-----|:------:|:-----|:------:|:---------|
-| 10 章 | 10 | ~15s | ~11% | ✅ |
-| 187 章 | 10 | ~3 分钟 | 11.3% | ✅ 深渊主宰第一卷 |
-| 678 章（全书） | 10 | ~12 分钟 | ~8% | 预估 |
+| 量级 | 批数 | 每批章数 | 并发批 | 耗时 | 压缩比 | 实测验证 |
+|:-----|:----:|:-------:|:------:|:-----|:------:|:---------|
+| 10 章 | 1 | 30 | 1 | ~20s | ~11% | ✅ |
+| 30 章 | 1 | 30 | 1 | ~60s | ~11% | ✅ |
+| 187 章 | 7 | 30 | 3 | ~3-4 分钟 | ~11% | ✅ 深渊主宰第一卷 |
+| 678 章（全书） | 23 | 30 | 3 | ~12 分钟 | ~8% | 预估 |
 
 ---
 
@@ -175,14 +210,14 @@ python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/
 | ❌5 | **结构不完整** — precision: 3层+1区; fast: 事件白描+关键数据+爽点钩子三段 |
 | ❌6 | **广告混入** — 设计包/白描卡中混入非正文内容 → 退回 |
 | ❌7 | **多章合并或命名违规** — precision: chXXX-设计包.md; fast: chXXX.md |
-| ❌8 | **delegate_task预算违规（precision）** — 未预拆分就委派/批次超3章/格式规范未物理嵌入 |
-| ❌9 | **fast mode API Key 缺失** — 未设置 DEEPSEEK_API_KEY 环境变量且未传 --api-key |
+| ❌8 | **API Key 缺失** — 未设置 DEEPSEEK_API_KEY 环境变量且未传 --api-key |
+| ❌9 | **30章合并遗漏** — 单批输出缺失章节（脚本标记 missing）→ 重跑缺失批次 |
 
 ---
 
 ## 版本
 
-v6.0.0 | 2026-07-14 | 双模式：新增 Step 2B（fast mode 瘦身白描卡），原 precision mode 内容保留为 Step 2A
+v6.2.0 | 2026-08-04 | 双模式统一改为30章合并批处理：precision/fast 均走 `slim_card_batch.py --mode`，每批30章一次调用，降低 API 成本约30%
 
 ---
 

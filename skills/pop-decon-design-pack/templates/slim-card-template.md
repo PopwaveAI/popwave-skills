@@ -1,7 +1,7 @@
 # chXXX 瘦身白描卡模板（fast mode）
 
 > 产出路径: `写作资产/白描卡/chXXX.md`
-> 生产方式: pop-decon-design-pack v6.0.0 (fast mode)
+> 生产方式: pop-decon-design-pack v6.2.0 (fast mode, 30章合并批处理)
 > 格式权威来源: `references/slim-card-format-spec.md`
 > 下游消费者: pop-decon-volume → pop-decon-setting（归纳消费，不直接供 prose-render）
 
@@ -9,7 +9,7 @@
 
 ## 模板说明
 
-瘦身白描卡 = 从原文提取的 4 段式压缩卡，DS API 并发处理，全书压缩比 ~11%。
+瘦身白描卡 = 从原文提取的 4 段式压缩卡，DS API 30章合并批处理，全书压缩比 ~11%。
 
 **核心原则**：
 - 事件白描必须覆盖全部核心转折（不可遗漏）

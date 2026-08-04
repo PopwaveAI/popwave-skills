@@ -4,7 +4,7 @@
 
 ## 1. 读取画风DNA库
 
-读取 `references/style-dna-library.json`，获取36种画风。
+读取 `references/style-dna-library.json`，获取37种画风（含IP命名试点「双城之战」）。
 
 ## 2. 筛选推荐
 
@@ -49,8 +49,8 @@ python ../pop-visual-shared/scripts/pinterest_search.py "画风关键词" --limi
 
 **兼容性检查**（铁律❌3）：
 - 查 `references/lighting-composition-templates.md` 兼容性矩阵
-- 柔美风格（凡妮塔斯/少女水彩/吉卜力等）→ 必须用LT2，禁止LT1
-- 平面风格（浮世绘/水墨/版画）→ 必须用LT3
+- 柔美风格（少女水彩/轻小说/日系赛璐珞等）→ 必须用LT2，禁止LT1
+- 平面风格（扁平矢量/波普/极简线条）→ 必须用LT3
 - 暗黑风格 → 用LT1
 
 ## 6. 输出

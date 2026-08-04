@@ -5,7 +5,7 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 
 # pop-decon-design-pack · 章节设计包
 
-> Phase 1 of 拆书管线。双模式逐章提取设计包，不跨章聚合。v6.1.0
+> Phase 1 of 拆书管线。双模式30章合并批处理逐章提取设计包。v6.2.0
 
 ## 做什么
 
@@ -15,10 +15,10 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 
 ### 双模式
 
-| 模式 | execution.mode | 格式 | 单章字数 | 压缩比 | 适用场景 |
-|:-----|:-------------|:-----|:---------|:------:|:---------|
-| 精度模式 | `precision`（默认） | v4 设计包（3层+1区） | 1-2K | 80-100% | 精品拆书/拆书为写/prose-render |
-| 快速模式 | `fast` | 瘦身白描卡（4段式） | 150-400 | ~11% | 大规模拆书/快速验证/全书骨架 |
+| 模式 | execution.mode | 格式 | 单章字数 | 压缩比 | 处理方式 | 适用场景 |
+|:-----|:-------------|:-----|:---------|:------:|:---------|:---------|
+| 精度模式 | `precision`（默认） | v4 设计包（3层+1区） | 1-2K | 80-100% | `slim_card_batch.py --mode precision` 30章合并 | 精品拆书/拆书为写/prose-render |
+| 快速模式 | `fast` | 瘦身白描卡（4段式） | 150-400 | ~11% | `slim_card_batch.py --mode fast` 30章合并 | 大规模拆书/快速验证/全书骨架 |
 
 **模式选择**：章数 > 100 且不需要 prose-render 直接消费 → fast；否则 precision。
 
@@ -30,7 +30,7 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 |:-----|:-----|:-----|:-----|:----------|
 | 0 | 源文件获取 | `{书名}.txt` | 无源文件→退回 | `steps/step-0-source-acquire.md` |
 | 1 | ETL+拆分 | `_temp/chapters/chXXX.txt` | 章数不匹配→退回 | `steps/step-1-etl-split.md` |
-| 2 | 逐章提取（双模式） | precision: `设计包v4/chXXX.md` / fast: `白描卡/chXXX.md` | 结构完整 | `steps/step-2-batch-process.md` |
+| 2 | 30章合并提取（双模式） | precision: `设计包v4/chXXX-设计包.md` / fast: `白描卡/chXXX.md` | 结构完整 | `steps/step-2-batch-process.md` |
 | 3 | 验证（双模式） | 验证报告 | 全覆盖 | `steps/step-3-verify.md` |
 
 ## 红线
@@ -47,15 +47,14 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 |:-----|:----------|:----------|
 | `steps/step-0-source-acquire.md` | Step 0 源文件获取时 | 源文件获取流程 |
 | `steps/step-1-etl-split.md` | Step 1 按章拆分时 | ETL+拆分流程 |
-| `steps/step-2-batch-process.md` | Step 2 提取设计包时 | 逐章提取流程（双模式） |
+| `steps/step-2-batch-process.md` | Step 2 提取设计包时 | 30章合并提取流程（双模式） |
 | `steps/step-3-verify.md` | Step 3 验证产出时 | 验证流程（双模式） |
 | `references/设计包v3-格式规范.md` | 精度模式理解设计包格式时 | v4格式规范（precision） |
 | `references/slim-card-format-spec.md` | 快速模式理解白描卡格式时 | 瘦身白描卡格式规范（fast） |
 | `references/v3-format-quick-reference.md` | 嵌入delegate_task context时 | v4格式快照 |
 | `references/precision-anchor-format.md` | 理解scene/POV/🔒/感官锚点时 | 精度锚点格式 |
 | `references/chinese-novel-etl.md` | 中文TXT拆分时 | 中文网文ETL |
-| `references/batch-scaling.md` | ≥50章并行提取时 | 批量提取策略 |
-| `references/token-budget-delegate.md` | delegate_task上下文预算时 | token预算指南 |
+| `references/batch-scaling.md` | ≥50章并行提取时 | 30章合并批处理策略 |
 | `references/post-hoc-format-normalization.md` | 首行格式漂移修复时 | 格式归一化 |
 | `references/cn-novel-format-injection-failure.md` | 多批次格式不一致时 | 格式注入失败案例 |
 | `templates/fact-skeleton.md` | precision模式产出时 | v4设计包模板 |
@@ -65,4 +64,4 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 
 ## 版本
 
-v6.1.0 | 2026-07-22 | 按规范重写 SKILL.md：补全做什么/怎么操作/强弱加载声明，合并双速查表为文件目录引导，版本只留最新 → [CHANGELOG.md](CHANGELOG.md)
+v6.2.0 | 2026-08-04 | 双模式统一改为30章合并批处理：precision/fast 均走 `slim_card_batch.py --mode`，每批30章一次调用，降低API成本约30% → [CHANGELOG.md](CHANGELOG.md)

@@ -25,7 +25,7 @@
   },
   "pages_dir": "output",
   "output_html": "index.html",
-  "footer": "popwave",
+  "slogan": "popwave.cn 让创意一键落地",
   "pages": [
     {
       "file": "page1.png",
@@ -60,7 +60,8 @@
 | `seal.position` | string | 否 | 印章位置（`bottom-right` / `top-right`），默认 `bottom-right` |
 | `pages_dir` | string | 是 | 页面图片目录（相对路径，通常为 `output`） |
 | `output_html` | string | 是 | 输出 HTML 文件名（通常为 `index.html`） |
-| `footer` | string | 否 | 页脚品牌信息（默认 `popwave`） |
+| `footer` | string | 否 | 页脚信息（默认 `未完待续 · popwave.cn 让创意一键落地`），钩子+品牌合并为单行 |
+| `slogan` | string | 否 | 品牌 slogan（默认 `popwave.cn 让创意一键落地`），渲染在标题区第三行 |
 | `pages` | array | 是 | 页面数组，按阅读顺序排列 |
 | `pages[].file` | string | 是 | 页面图片文件名（如 `page1.png`） |
 | `pages[].captions` | array | 否 | 文字叠加数组 |
@@ -198,6 +199,12 @@
       font-size: 13px; opacity: 0.4;
       letter-spacing: 2px;
     }
+    .title-banner .brand-line {
+      margin-top: 14px;
+      font-size: 11px; opacity: 0.35;
+      letter-spacing: 2px;
+      color: #c4b998;
+    }
     .page {
       position: relative;
       margin-bottom: 4px;
@@ -254,6 +261,7 @@
     <div class="title-banner">
       <h1>{章节标题}</h1>
       <div class="subtitle">第{N}章 · {章节名}</div>
+      <div class="brand-line">{slogan}</div>
     </div>
 
     <div class="page">
@@ -278,14 +286,54 @@
       <div class="caption-narration bottom">{旁白文字}</div>
     </div>
 
-    <div class="footer-banner">未完待续 · {footer}</div>
+    <div class="footer-banner">{footer}</div>
 
   </div>
 </body>
 </html>
 ```
 
-> **直接复制模板，替换 `{章节标题}`/`{章节名}`/`pageN.png`/`{旁白文字}`/`{对白文字}` 等占位符即可。** 纯 HTML+CSS，无 JavaScript，向下滚动浏览。
+> **直接复制模板，替换 `{章节标题}`/`{章节名}`/`pageN.png`/`{旁白文字}`/`{对白文字}`/`{slogan}`/`{footer}` 等占位符即可。** 纯 HTML+CSS，无 JavaScript，向下滚动浏览。
+
+## 品牌水印（v7.6.0）
+
+> 2026-08-04 定稿：品牌署名走 HTML 工程化方案（历史已踩坑——提示词融水印不稳定，见 CHANGELOG）。品牌水印**不逐页压**，避免破坏画面冲击力。
+
+### 品牌结构（开头三行 + 结尾单行）
+
+**开头标题区三行**（小说名 / 第X章·章名 / slogan）：
+
+```html
+<div class="title-banner">
+  <h1>{章节标题}</h1>
+  <div class="subtitle">第{N}章 · {章节名}</div>
+  <div class="brand-line">{slogan}</div>
+</div>
+```
+
+**结尾页脚单行**（未完待续 + slogan，不占两行——老板反馈页脚两行过挤）：
+
+```html
+<div class="footer-banner">{footer}</div>
+```
+
+### 默认文案
+
+- **slogan**：`popwave.cn 让创意一键落地`（老板定稿，标题区第三行）
+- **footer**：`未完待续 · popwave.cn 让创意一键落地`（页脚单行）
+- 通过 `slogan` / `footer` 字段自定义
+
+### 文案要点
+
+- 不用 `powered by`（太像开源软件署名/技术声明）
+- slogan 点出"让创意一键落地"的 AI 自动代劳卖点，品牌 `popwave.cn` 前置
+- 结尾 `未完待续` 是追读钩子，与 slogan 合并单行，避免两行过挤
+
+### 设计原则
+
+- **不逐页压角标**：长条滚动漫画是沉浸阅读，每页压水印会破坏画面冲击力（历史踩坑：提示词融水印 → 不稳定，改走 HTML）
+- **不抢剧情**：品牌只放标题区与页脚，不在画面区，不遮挡关键画面
+- **低调克制**：低透明度 + 与暗色背景融合，不喧宾夺主
 
 ## 文化元素叠加（可选）
 

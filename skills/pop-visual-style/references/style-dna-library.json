@@ -1,18 +1,19 @@
 {
   "metadata": {
-    "version": "4.1",
-    "description": "画风DNA生产库 - v4.1，6段式提示词+构图/光影模板库+Phase 7验证，36种画风全覆盖",
+    "version": "5.1",
+    "description": "画风DNA生产库 - v5.1，IP命名试点：新增「双城之战」独立画风（IP参考图重建），37种画风（汰换传统媒介、新增美漫/全生态数字画风/IP画风）",
     "format": "dna + constraint + recommended_composition + recommended_lighting, 每条DNA≤800字符，指令性写法",
     "prompt_structure": "6段式: [质量触发词] + Art style: [dna] [constraint] + [构图策略] + [光影叙事] + [场景] + [人物≤100字]",
     "quality_trigger": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed",
     "optimized_for": "Seedream 5.0 Pro, 纯文生图, 3:4竖版, 英文提示词",
-    "total_styles": 36,
+    "total_styles": 37,
     "categories": {
-      "二次元": 17,
-      "国漫": 6,
+      "二次元": 12,
+      "国漫": 5,
       "韩漫": 3,
-      "插画概念": 10
+      "插画概念": 17
     },
+    "curation_note": "v5.1试点：以IP命名画风。新增「双城之战（手绘厚涂电影感）」独立条目，从IP参考图重建DNA（手绘糙边+色块内部渐变+主观色彩分区+2D/3D混合），与「现代电影感美漫」(Marvel系)并存。v5.0清洗：汰换7个传统媒介/低还原画风(伊藤潤二/维多利亚版画/浮世绘/国风水墨/凡妮塔斯/吉卜力/圣魔之血)，合并3组重复(赛博三合一/黑执事+圣魔之血/港漫+硬朗武侠)，新增10个已验证画风(4美漫+6全生态)。筛选原则：Seedream保真档位优先，淘汰模拟物理媒介，鼓励数字媒介全视觉生态",
     "tested_phases": {
       "Phase 0": "提示词结构验证 → 结构A(4段式·画风优先)为最优解",
       "Phase 1": "20种画风基线测试",
@@ -20,7 +21,8 @@
       "Phase 4": "8种强辨识度画风验证，全部成功",
       "Phase 5": "36种画风全量验证，0失败，辨识度评估完成",
       "Phase 6": "6段式提示词升级测试，5风格×2构图=10张，新海诚达Pinterest级A档，凡妮塔斯D档失败(水彩被暗色吞噬)",
-      "Phase 7": "LT2柔光通透/LT3平光漫射验证，8张全成功。凡妮塔斯D→B拯救成功，浮世绘/水墨LT3保护成功B+，轻小说A档"
+      "Phase 7": "LT2柔光通透/LT3平光漫射验证，8张全成功。凡妮塔斯D→B拯救成功，浮世绘/水墨LT3保护成功B+，轻小说A档",
+      "Phase 8": "全视觉生态扩容验证：美漫4风格(极简线稿93.3%/电影感92%/经典漫威8/10/概念艺术78) + 全生态6风格(波普90/低多边形92/电影海报87/超现实8.7/扁平矢量4.35/极简线条84.1)，10/10全成功"
     },
     "key_learnings": [
       "极简人物描述(100字)显著释放画风表达空间",
@@ -36,34 +38,15 @@
       "LT3平光漫射成功保护平面/传统媒介风格：浮世绘B+(色块+粗线存活)，水墨B+(笔墨晕染+留白存活)",
       "轻小说插画风+LT2获得A档，柔光通透与理想化角色设计天然适配",
       "吉卜力风格+LT2仅C+，问题不在光影而在场景——暗黑哥特场景与吉卜力温暖田园气质冲突",
-      "光影模板与风格的兼容性矩阵验证完成：LT1(暗黑系)/LT2(柔美系)/LT3(平面系)三分法有效"
+      "光影模板与风格的兼容性矩阵验证完成：LT1(暗黑系)/LT2(柔美系)/LT3(平面系)三分法有效",
+      "画风收集突破漫画圈：Seedream还原度取决于媒介(数字vs传统)而非题材(漫画/概念/滤镜)。数字媒介全生态画风(矢量/3D/图形设计)高保真还原，传统物理媒介(水墨/线刻/铜版)被抹平",
+      "美漫风格验证：极简线稿93.3%(Sin City/Hellboy级)、电影感美漫92%、经典漫威8/10，数字印刷感(网点/硬边/限制色板)是美漫在Seedream还原的关键",
+      "全生态画风验证：波普90/低多边形92/电影海报87/超现实8.7/扁平矢量4.35/极简线条84.1，全部通过，证明AI时代漫画画风可来自全视觉生态"
     ],
     "composition_templates_count": 2,
     "lighting_templates_count": 3
   },
   "styles": {
-    "凡妮塔斯": {
-      "name": "凡妮塔斯",
-      "name_en": "Vanitas no Carte",
-      "category": "二次元",
-      "keywords": "水彩·华丽·蒸汽朋克",
-      "suggested_genres": [
-        "西幻",
-        "诡秘",
-        "悬疑"
-      ],
-      "source": "Phase1转化",
-      "dna": "Art style by Jun Mochizuki from Vanitas no Carte manga, Victorian steampunk gothic aesthetic. Delicate flowing line art with varying line weight, fine detailed strokes for facial features. Soft watercolor-like coloring with ethereal semi-transparent washes, gentle gradient shading. Pale skin tones with subtle pink undertones, vivid accent colors: deep crimson, sapphire blue, antique gold. Colors bleed into each other like wet watercolor on paper. Soft diffused lighting with warm amber undertones, moonlit scenes with ethereal blue-silver highlights. 7.5 head proportion, large expressive eyes, small pointed chin, slender graceful figures. Romantic melancholy with gothic undertones, whimsical yet haunting, fairy-tale quality hinting at hidden darkness.",
-      "constraint": "Must maintain watercolor-like softness and delicate linework. No photorealistic rendering. No thick oil impasto. No 3D render. No harsh cel-shading. Keep ethereal manga aesthetic. No text overlay.",
-      "dna_length": 759,
-      "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT2_soft_luminous",
-      "phase6_grade": "D(LT1减法照明)",
-      "phase7_grade": "B(LT2柔光通透拯救)",
-      "phase7_lighting": "LT2_soft_luminous",
-      "phase7_composition": "CT1_scale_contrast",
-      "phase7_note": "D→B拯救成功，水彩质感存活"
-    },
     "黑执事": {
       "name": "黑执事",
       "name_en": "Black Butler",
@@ -79,24 +62,6 @@
       "constraint": "Must maintain clean precise linework and cel-shaded coloring. No watercolor. No soft painterly blending. No photorealistic. No cartoonish. Keep sharp contrast and dark gothic elegance. No text overlay.",
       "dna_length": 796,
       "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT1_subtractive",
-      "phase6_grade": null
-    },
-    "圣魔之血": {
-      "name": "圣魔之血",
-      "name_en": "Trinity Blood",
-      "category": "二次元",
-      "keywords": "极繁·巴洛克·宗教",
-      "suggested_genres": [
-        "暗黑奇幻",
-        "哥特",
-        "西幻"
-      ],
-      "source": "Phase1转化",
-      "dna": "Art style by THORES Shibamoto from Trinity Blood, extravagant baroque-gothic aesthetic. Ultra-detailed ornate linework with intricate patterns, fine hatching and cross-hatching. Decorative borders and filigree motifs on every surface. Deep saturated palette: ecclesiastical crimson, papal purple, antique gold. Gold leaf-like accents, rich jewel tones, metallic and stained-glass color effects. Brocade and embroidery texture on clothing, gradient shading with visible brushwork. Dramatic theatrical lighting, divine light from above, stained glass window light. 8 head proportion, elongated elegant, sharp aristocratic features, extremely slender. Ecclesiastical decadence, ritualistic grandeur, vampire aristocracy meets Catholic iconography.",
-      "constraint": "Must maintain extremely ornate detail level. No minimalist backgrounds. No modern anime style. No photorealistic. No flat coloring. Every surface needs detail. Keep ecclesiastical decadent gothic aesthetic. No text overlay.",
-      "dna_length": 744,
-      "recommended_composition": "CT1_scale_contrast",
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": null
     },
@@ -195,47 +160,6 @@
       "phase7_lighting": "LT2_soft_luminous",
       "phase7_composition": "CT1_scale_contrast",
       "phase7_note": "马卡龙色板出色，水彩模拟良好"
-    },
-    "伊藤潤二": {
-      "name": "伊藤潤二",
-      "name_en": "Junji Ito Horror",
-      "category": "二次元",
-      "keywords": "线刻·病态·怪诞",
-      "suggested_genres": [
-        "恐怖",
-        "克苏鲁",
-        "心理"
-      ],
-      "source": "Phase1转化",
-      "dna": "Art style by Junji Ito, grotesque detailed horror manga aesthetic. Extremely precise obsessive linework, fine dense hatching for shadows and texture. Meticulous detail in every element, organic forms become mechanical through line density. Primarily black and white with selective color accents, desaturated sickly tones. Pale gray-green skin, washed-out colors, only accent is deep crimson blood. Flat unsettling lighting, everything unnaturally illuminated, no comfortable darkness. Clinical harsh light revealing every disturbing detail, shadows as fine line hatching. Realistic proportions, deliberately normal, subtle wrongness growing on inspection. Cosmic horror, existential dread, obsessive detail creating claustrophobic unease.",
-      "constraint": "Must maintain obsessive precise linework and hatching. No smooth digital rendering. No painterly. No cel-shading. No anime style. Keep desaturated sickly color palette. No romantic or beautiful aesthetic. No text overlay.",
-      "dna_length": 738,
-      "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT1_subtractive",
-      "phase6_grade": "B"
-    },
-    "吉卜力治愈风": {
-      "name": "吉卜力治愈风",
-      "name_en": "Studio Ghibli",
-      "category": "二次元",
-      "keywords": "手绘·水彩·治愈田园",
-      "suggested_genres": [
-        "奇幻",
-        "治愈",
-        "冒险",
-        "日常"
-      ],
-      "source": "新增",
-      "dna": "Studio Ghibli animation style, Hayao Miyazaki aesthetic, hand-drawn watercolor backgrounds. Soft pencil-like linework with organic warmth, gentle and flowing. Lush watercolor backgrounds with visible brush texture, translucent color layers. Natural palette: forest greens, sky blues, warm earth tones, soft golden light. Moderate saturation, warm nostalgic grading, no harsh neon or extreme contrast. Diffuse natural lighting, dappled sunlight, golden hour warmth. Wind and movement in every scene, grass swaying, hair blowing, clouds drifting. 7 head proportion, round gentle faces, soft expressive eyes, natural body types. Whimsical and warm, nature and spirituality coexist, steampunk machinery in pastoral fantasy.",
-      "constraint": "Must maintain hand-drawn watercolor quality and warm natural palette. No photorealistic 3D render. No dark horror tones. No sharp angular linework. No high saturation neon. Keep gentle organic aesthetic. No text overlay.",
-      "dna_length": 719,
-      "recommended_composition": "CT1_scale_contrast",
-      "recommended_lighting": "LT2_soft_luminous",
-      "phase6_grade": null,
-      "phase7_grade": "C+",
-      "phase7_lighting": "LT2_soft_luminous",
-      "phase7_composition": "CT1_scale_contrast",
-      "phase7_note": "风格未完全触发，暗黑场景与吉卜力气质冲突"
     },
     "新海诚电影风": {
       "name": "新海诚电影风",
@@ -355,25 +279,6 @@
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": "B+"
     },
-    "港漫武侠风": {
-      "name": "港漫武侠风",
-      "name_en": "Hong Kong Comic",
-      "category": "二次元",
-      "keywords": "写实·水墨彩稿·拳拳到肉",
-      "suggested_genres": [
-        "武侠",
-        "格斗",
-        "热血",
-        "黑道"
-      ],
-      "source": "新增",
-      "dna": "Hong Kong comic style, Wong Yuk-long and Ma Wing-shing aesthetic. Detailed realistic anatomy with exaggerated musculature, every vein and muscle fiber visible. Brush ink outlines with calligraphic quality, thick and thin variation from brush pressure. Lavish oil-painting-like coloring over ink lines, rich and saturated. Extreme action poses with exaggerated dynamics, bodies twisted mid-strike. Speed lines and impact effects, force visualization radiating from contact points. Dense panel composition with thin gutters, rapid sequential action. High contrast lighting, dramatic spotlights on key combat moments. 8 head proportion, hyper-masculine heroes, chiseled jawlines, intense glares. Martial arts world, jianghu honor and betrayal, raw physical power.",
-      "constraint": "Must maintain realistic anatomy with exaggerated muscles and brush ink outlines. No cute chibi proportions. No flat cel-shading. No soft watercolor. Keep high contrast and dynamic action. No text overlay.",
-      "dna_length": 760,
-      "recommended_composition": "CT1_scale_contrast",
-      "recommended_lighting": "LT1_subtractive",
-      "phase6_grade": null
-    },
     "伪厚涂半厚涂": {
       "name": "伪厚涂半厚涂",
       "name_en": "Semi-Thick Painting",
@@ -444,24 +349,6 @@
       "dna": "Dark suspense manga style, bold black solid outline lines with large area shadow blackening. Rough aggressive linework, minimal detail, maximum contrast, ink splatter and bleed. Low-saturation desaturated tones, blood-red and sickly-green as accent colors. Heavy black shadows with no detail, sickly pale skin tones, intentionally ugly palette. Extreme high-contrast lighting, single harsh light source, deep black shadows consuming the frame. Bleached-out highlights on faces, unnatural oppressive lighting. Slightly exaggerated proportions, sharp angular gaunt faces, deep set eyes with dark circles. Gritty urban horror, supernatural investigation, constant dread and paranoia.",
       "constraint": "Maintain bold black solid lines and extreme high-contrast lighting. Keep desaturated palette with accent colors only. No bright cheerful tones. No soft gradient shading. No pretty anime style. No text overlay.",
       "dna_length": 680,
-      "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT1_subtractive",
-      "phase6_grade": null
-    },
-    "都市赛博风": {
-      "name": "都市赛博风",
-      "name_en": "Urban Cyberpunk Chinese Comic",
-      "category": "国漫",
-      "keywords": "霓虹·硬朗·数据流",
-      "suggested_genres": [
-        "都市异能",
-        "系统流",
-        "科幻"
-      ],
-      "source": "Phase1转化",
-      "dna": "Urban cyberpunk Chinese manga style, modern hard lineart with neon cyan-magenta palette. Clean precise digital linework, mechanical precision in tech elements, sharp angular urban lines. Neon cyan-magenta-electric blue palette, screen glow and lens flare effects. Deep urban night blacks and dark purples, glowing UI and data stream particles. High saturation accents against dark backgrounds, holographic and translucent effects. Multiple colored light sources, strong colored rim lights, deep shadows with minimal ambient. Glowing reflections on wet pavement, screen-bloom on faces. 7.5 head proportion, semi-realistic, modern stylish features, fashionable urban types. Modern metropolis with supernatural undercurrents, technology and mysticism intertwined.",
-      "constraint": "Maintain modern hard lineart and neon cyan-blue palette. Include cyberpunk UI elements. No historical or ancient elements. No soft watercolor. No pastel colors. No text overlay.",
-      "dna_length": 760,
       "recommended_composition": "CT2_silhouette_back",
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": null
@@ -560,24 +447,6 @@
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": null
     },
-    "赛博朋克霓虹": {
-      "name": "赛博朋克霓虹",
-      "name_en": "Cyberpunk Neon",
-      "category": "插画概念",
-      "keywords": "霓虹·雨夜反射·高科技低生活",
-      "suggested_genres": [
-        "赛博朋克",
-        "科幻",
-        "都市"
-      ],
-      "source": "Phase4原生",
-      "dna": "Cyberpunk style illustration. Neon ambiance with glowing cyan, magenta, and electric blue lights. Rain-slicked surfaces with colorful reflections. Holographic displays and digital UI elements floating in air. Dark urban night environment with multiple colored light sources. High-tech low-life atmosphere. Rim lighting in neon colors on character edges. Volumetric lighting through fog and rain. Semi-realistic digital painting with sharp focus on foreground.",
-      "constraint": "Must maintain cyberpunk neon aesthetic. No natural daylight. No warm earthy tones. No medieval elements. Keep neon color palette. No text overlay.",
-      "dna_length": 459,
-      "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT1_subtractive",
-      "phase6_grade": null
-    },
     "迪士尼皮克斯3D": {
       "name": "迪士尼皮克斯3D",
       "name_en": "Disney Pixar 3D",
@@ -635,52 +504,6 @@
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": null
     },
-    "浮世绘风": {
-      "name": "浮世绘风",
-      "name_en": "Ukiyo-e",
-      "category": "插画概念",
-      "keywords": "平面色块·粗线条·江户美学",
-      "suggested_genres": [
-        "和风",
-        "历史",
-        "文艺",
-        "奇幻"
-      ],
-      "source": "Phase4原生",
-      "dna": "Japanese ukiyo-e woodblock print style. Flat color areas with bold black outlines. Distinct wave patterns and traditional Japanese decorative motifs. Limited palette: indigo blue, vermilion red, buff cream, black. Visible wood grain texture on print surface. Stylized cloud and wave patterns in background. Asymmetric composition with diagonal energy. Crisp clean line work with no gradient shading. Edo period aesthetic, elegant and disciplined.",
-      "constraint": "Must maintain ukiyo-e woodblock print style. No photorealistic rendering. No smooth gradients. No 3D rendering. Keep flat colors and bold outlines. No text overlay.",
-      "dna_length": 446,
-      "recommended_composition": "CT1_scale_contrast",
-      "recommended_lighting": "LT3_flat_atmospheric",
-      "phase6_grade": null,
-      "phase7_grade": "B+",
-      "phase7_lighting": "LT3_flat_atmospheric",
-      "phase7_composition": "CT1_scale_contrast",
-      "phase7_note": "LT3保护成功，色块+粗线+装饰云纹存活"
-    },
-    "国风水墨仙侠": {
-      "name": "国风水墨仙侠",
-      "name_en": "Chinese Ink Xianxia",
-      "category": "插画概念",
-      "keywords": "水墨·留白·写意",
-      "suggested_genres": [
-        "仙侠",
-        "武侠",
-        "古风",
-        "文艺"
-      ],
-      "source": "Phase4原生",
-      "dna": "Chinese ink wash painting style with xianxia fantasy elements. Expressive brush strokes with varying ink density. Limited palette: deep black ink, charcoal gray, with cinnabar red and jade green accents. Rice paper texture visible throughout. Misty atmospheric perspective with fading ink tones. Calligraphic line quality on character outlines. Splatter and bleed effects for texture. Large areas of deliberate white space. Poetic and philosophical mood, ethereal and mystical.",
-      "constraint": "Must maintain Chinese ink wash painting aesthetic. No full-color digital painting. No thick oil texture. No anime style. Keep ink-based limited palette and brush stroke quality. No text overlay.",
-      "dna_length": 477,
-      "recommended_composition": "CT1_scale_contrast",
-      "recommended_lighting": "LT3_flat_atmospheric",
-      "phase6_grade": null,
-      "phase7_grade": "B+",
-      "phase7_lighting": "LT3_flat_atmospheric",
-      "phase7_composition": "CT1_scale_contrast",
-      "phase7_note": "LT3保护成功，笔墨晕染+留白+松树 motif存活"
-    },
     "穆夏新艺术": {
       "name": "穆夏新艺术",
       "name_en": "Art Nouveau Mucha",
@@ -698,25 +521,6 @@
       "dna_length": 470,
       "recommended_composition": "CT2_silhouette_back",
       "recommended_lighting": "LT2_soft_luminous",
-      "phase6_grade": null
-    },
-    "维多利亚版画": {
-      "name": "维多利亚版画",
-      "name_en": "Victorian Engraving",
-      "category": "插画概念",
-      "keywords": "铜版·单色·时代感",
-      "suggested_genres": [
-        "历史",
-        "恐怖",
-        "正剧",
-        "维多利亚"
-      ],
-      "source": "Phase1转化",
-      "dna": "19th century Victorian steel engraving and woodcut illustration style. Fine dense engraving lines with parallel hatching and cross-hatching. No solid black areas, everything built from line density. Uniform line width, mechanical precision, textured shading through line spacing. Visible paper grain texture with slight sepia tone. Monochrome or limited duotone: sepia and black, warm cream background with dark brown ink. Occasional single muted color overlay like antique red or faded blue. Hand-tinted antique print quality. High contrast rendered through line density, shadows as dense cross-hatching. Late Victorian illustration proportions, slightly stiff formal poses, realistic anatomy.",
-      "constraint": "Must be in steel engraving or woodcut style. No smooth digital rendering. No painterly. No modern comic style. No anime. No full color. Keep sepia or monochrome palette. No text overlay.",
-      "dna_length": 694,
-      "recommended_composition": "CT2_silhouette_back",
-      "recommended_lighting": "LT3_flat_atmospheric",
       "phase6_grade": null
     },
     "废土末日": {
@@ -737,6 +541,218 @@
       "recommended_composition": "CT1_scale_contrast",
       "recommended_lighting": "LT1_subtractive",
       "phase6_grade": null
+    },
+    "经典漫威美漫": {
+      "name": "经典漫威美漫",
+      "name_en": "Classic Marvel Comic",
+      "category": "插画概念",
+      "keywords": "粗线·硬边色块·英雄比例",
+      "suggested_genres": [
+        "超级英雄",
+        "都市异能",
+        "动作",
+        "暗黑"
+      ],
+      "source": "Phase8新增",
+      "dna": "Art style of classic Marvel Comics, Jim Lee and Joe Madureira era American comic book. Bold confident ink outlines with dynamic line weight, thick heroic outlines. Clean flat cel-shading with strong 2-3 tone shadow blocks, high contrast. Vibrant saturated superhero palette: hero red, navy blue, gold, bold primaries. Halftone dot and screen texture on shaded areas. 8 head proportion, exaggerated heroic muscular figures, square jaw, dynamic action poses. Dramatic high-contrast lighting, bold rim light, epic cinematic composition.",
+      "constraint": "Keep bold ink outlines and flat cel-shading. Halftone texture. No painterly blending. No anime style. No realistic photography. No watercolor. No text overlay.",
+      "dna_length": 720,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "8/10"
+    },
+    "现代电影感美漫": {
+      "name": "现代电影感美漫",
+      "name_en": "Cinematic Modern American Comic",
+      "category": "插画概念",
+      "keywords": "半写实·电影调色·跨媒介",
+      "suggested_genres": [
+        "暗黑",
+        "都市",
+        "动作",
+        "悬疑"
+      ],
+      "source": "Phase8新增",
+      "dna": "Art style of modern Marvel cinematic comic tie-in art, Alex Ross influenced digital painting. Semi-realistic painterly rendering with clean confident structural lines. Digital painting with visible brushwork and rich cinematic color grading. Muted-to-vibrant controlled palette with teal-and-orange accents. Cinematic lighting with dramatic contrast, atmospheric depth. Realistic-but-heroic proportions, grounded weight. Golden hour and dramatic rim lighting, epic cinematic composition.",
+      "constraint": "Keep semi-realistic painterly rendering with clean lines. Cinematic color grading. No anime style. No flat cel-shading. No cartoonish. No photorealistic. No text overlay.",
+      "dna_length": 620,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "92%"
+    },
+    "双城之战（手绘厚涂电影感）": {
+      "name": "双城之战（手绘厚涂电影感）",
+      "name_en": "Arcane Hand-Painted Thick Paint",
+      "category": "插画概念",
+      "keywords": "手绘糙边·厚涂·青橙·2D/3D混合",
+      "suggested_genres": [
+        "暗黑",
+        "都市",
+        "动作",
+        "蒸汽朋克",
+        "权谋"
+      ],
+      "source": "IP参考图重建",
+      "dna": "Art style of Arcane League of Legends by Fortiche Studio, hand-painted cinematic thick paint. Painterly rendering with deliberately rough hand-drawn edges, color blocks with broken irregular borders instead of clean vector lines. Thick-paint color flatting with gradients INSIDE each color block, not blended at boundaries. Subjective color zoning on faces: forehead warm yellow, cheekbones pink-orange, eye sockets purple, jaw/neck cool blue. Film teal-orange contrast with saturated cool shadows and warm highlights. 2D hand-painting mixed with 3D rendering feel, visible brush texture. Slightly exaggerated proportions, large expressive eyes, stylized recognizable faces, asymmetric design. Steampunk industrial city, hand-crafted imperfect cinematic feel.",
+      "constraint": "Keep rough hand-drawn edges and thick-paint color flatting. Gradients inside color blocks, not boundary blending. Subjective color zoning on faces. No clean vector lines. No anime cel-shading. No photorealistic. No smooth airbrushing. Keep painterly imperfect cinematic feel. No text overlay.",
+      "dna_length": 780,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": null,
+      "ip_source": "双城之战 Arcane",
+      "ip_notes": "试点IP命名画风。从Pinterest参考图(画风教程+角色特写)重建DNA，手绘糙边+色块内部渐变+主观色彩分区+2D/3D混合。对比「现代电影感美漫」(Marvel系)差异显著，需独立条目。"
+    },
+    "美漫极简线稿": {
+      "name": "美漫极简线稿",
+      "name_en": "American Minimal Line Art",
+      "category": "插画概念",
+      "keywords": "粗黑线·限制色板·网点",
+      "suggested_genres": [
+        "暗黑",
+        "悬疑",
+        "罪恶都市",
+        "恐怖"
+      ],
+      "source": "Phase8新增",
+      "dna": "Art style of modern American alternative comics, bold minimalist linework style. Thick confident black ink outlines with flat clean color fills. Graphic poster-like composition, strong silhouette shapes. Limited bold palette: black, red, white, one accent. Flat cel coloring with no gradients, graphic halftone washes. 7.5 head proportion, angular stylized faces, bold expressive poses. Strong graphic design sensibility, high contrast.",
+      "constraint": "Keep bold minimal ink outlines and flat graphic color fills. Halftone washes. No painterly rendering. No anime. No soft gradients. No text overlay.",
+      "dna_length": 560,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "93.3%"
+    },
+    "好莱坞概念艺术": {
+      "name": "好莱坞概念艺术",
+      "name_en": "Hollywood Concept Art",
+      "category": "插画概念",
+      "keywords": "体积光·大气透视·电影氛围",
+      "suggested_genres": [
+        "科幻",
+        "史诗",
+        "暗黑",
+        "动作"
+      ],
+      "source": "Phase8新增",
+      "dna": "Art style of Hollywood blockbuster film concept art, trending on ArtStation for cinematic sci-fi drama. Rich painterly rendering with strong atmospheric depth and color grading. Cinematic volumetric lighting, atmospheric haze, dramatic contrast. Muted cinematic palette with glowing accent colors. Semi-realistic grounded proportions. Epic narrative composition, focus on mood and atmosphere over detail.",
+      "constraint": "Keep cinematic concept art painterly rendering. Volumetric lighting and atmosphere. No comic style. No anime. No flat cel-shading. No text overlay.",
+      "dna_length": 520,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "78/100"
+    },
+    "电影院线海报": {
+      "name": "电影院线海报",
+      "name_en": "Cinematic Movie Poster",
+      "category": "插画概念",
+      "keywords": "戏剧构图·垂直压迫·片名空间",
+      "suggested_genres": [
+        "史诗",
+        "暗黑",
+        "科幻",
+        "所有"
+      ],
+      "source": "Phase8新增",
+      "dna": "Modern Hollywood thriller movie poster art, theatrical key art style. Dramatic cinematic composition with strong center focus, bold typography-negative space balance. Rich painterly rendering with cinematic color grading, deep contrast. Compressed atmospheric depth, volumetric fog, single dramatic light source. Muted-to-vibrant controlled palette with strong focal accent. Heroic silhouettes against vast environments, scale contrast. Semi-realistic grounded proportions, expressive faces under dramatic light. Moodier than standard poster, high emotional impact, premium box-office quality.",
+      "constraint": "Keep cinematic movie poster rendering. Dramatic composition. No comic style. No anime. No flat cel-shading. No text overlay. Keep painterly cinematic quality.",
+      "dna_length": 700,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "87%"
+    },
+    "扁平矢量插画": {
+      "name": "扁平矢量插画",
+      "name_en": "Flat Vector Illustration",
+      "category": "插画概念",
+      "keywords": "几何色块·微渐变·时尚感",
+      "suggested_genres": [
+        "都市",
+        "现代",
+        "言情",
+        "时尚"
+      ],
+      "source": "Phase8新增",
+      "dna": "Modern flat vector illustration style, trending on Behance for editorial fashion design. Clean sharp geometric shapes, smooth bezier curves, no texture. Bold limited color palette with flat color blocks, no gradients. Strong silhouette shapes, simplified forms. Graphic design sensibility, abstract and minimal. Modern trendy aesthetic, high fashion editorial, striking composition. Flat poster-like clarity, professional print quality.",
+      "constraint": "Keep flat vector shapes and clean geometry. No texture. No gradients. No painterly. No photorealistic. No 3D. No text overlay. Keep minimal graphic style.",
+      "dna_length": 560,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase8_grade": "4.35/5"
+    },
+    "波普艺术": {
+      "name": "波普艺术",
+      "name_en": "Pop Art",
+      "category": "插画概念",
+      "keywords": "网点·原色·图形冲击",
+      "suggested_genres": [
+        "都市",
+        "悬疑",
+        "动作",
+        "连环画"
+      ],
+      "source": "Phase8新增",
+      "dna": "Andy Warhol and Roy Lichtenstein pop art style, bold graphic comic-inspired aesthetic. Thick black outlines with halftone dot patterns, ben-day dots. Flat saturated primary colors: red, yellow, blue, black. Bold high contrast, graphic poster quality. Magazine and advertisement aesthetic, celebrity pop culture. Flat printing reproduction, roster color blocks. Repetitive graphic motifs, bold stencil-like shapes. High impact, commercial graphic design.",
+      "constraint": "Keep pop art halftone dots and bold flat colors. No painterly. No photorealistic. No 3D. Keep graphic comic-adjacent style. No text overlay.",
+      "dna_length": 520,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase8_grade": "90/100"
+    },
+    "超现实梦境": {
+      "name": "超现实梦境",
+      "name_en": "Surreal Dreamscape",
+      "category": "插画概念",
+      "keywords": "空间悖论·时间异化·梦境",
+      "suggested_genres": [
+        "奇幻",
+        "心理",
+        "悬疑",
+        "克苏鲁"
+      ],
+      "source": "Phase8新增",
+      "dna": "Surrealist digital art style, Salvador Dali and Rene Magritte inspired dreamscape. Impossible dreamlike juxtapositions, melting and floating objects. Rich dreamlike atmosphere with soft volumetric light. Ethereal muted palette with vivid surreal accents. Metaphysical impossible architecture, floating monoliths, sky inversion. Dreamlike symbolism, subconscious imagery. Painterly rendering with luminous depth. Intellectual surrealism, high concept art.",
+      "constraint": "Keep surrealist dreamlike imagery and painterly rendering. No realistic literal scene. No comic style. No anime. Keep dreamlike symbolic quality. No text overlay.",
+      "dna_length": 540,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "8.7/10"
+    },
+    "低多边形3D": {
+      "name": "低多边形3D",
+      "name_en": "Low Poly 3D",
+      "category": "插画概念",
+      "keywords": "几何面片·平面着色·游戏感",
+      "suggested_genres": [
+        "科幻",
+        "游戏",
+        "动作",
+        "冒险"
+      ],
+      "source": "Phase8新增",
+      "dna": "Low poly 3D render style, geometric faceted aesthetic from modern indie game art. Deliberately faceted mesh surfaces, triangular planes, visible polygon edges. Flat-shaded or simple gradient lighting with faceted shadows. Muted-to-vibrant palette with color variation across facets. Minimalist geometric composition, stylized simplified forms. Clean modern game-ready aesthetic, soft ambient occlusion. Trendy on ArtStation, appealing abstract 3D quality.",
+      "constraint": "Keep low poly faceted geometry and flat-shaded lighting. No smooth high-poly. No photorealistic. No painterly. No anime. No text overlay. Keep geometric minimal style.",
+      "dna_length": 540,
+      "recommended_composition": "CT1_scale_contrast",
+      "recommended_lighting": "LT1_subtractive",
+      "phase8_grade": "92%"
+    },
+    "极简线条插画": {
+      "name": "极简线条插画",
+      "name_en": "Minimal Line Art",
+      "category": "插画概念",
+      "keywords": "单线·留白·极简",
+      "suggested_genres": [
+        "文艺",
+        "悬疑",
+        "都市",
+        "神秘"
+      ],
+      "source": "Phase8新增",
+      "dna": "Minimalist one-line concept art style, trending on Instagram for modern minimal design. Single continuous flowing line art, graceful unbroken strokes. Negative space dominant, minimal ink on clean background. Elegant abstract forms, subtle emotion through line curvature. Muted monochrome palette: black ink, paper white, one muted accent. Zen-like simplicity, refined sophisticated minimalism. Decorative line art quality, premium editorial aesthetic.",
+      "constraint": "Keep continuous minimal line art and dominant negative space. No filled shapes. No painterly. No photorealistic. No comic. No text overlay. Keep minimal elegant line aesthetic.",
+      "dna_length": 510,
+      "recommended_composition": "CT2_silhouette_back",
+      "recommended_lighting": "LT3_flat_atmospheric",
+      "phase8_grade": "84.1%"
     }
   },
   "composition_templates": {
@@ -749,14 +765,16 @@
         "新海诚电影风",
         "大友克洋硬核",
         "暗黑奇幻油画",
-        "吉卜力治愈风",
-        "天野喜孝幻想"
+        "天野喜孝幻想",
+        "经典漫威美漫",
+        "好莱坞概念艺术",
+        "电影院线海报",
+        "超现实梦境",
+        "低多边形3D"
       ],
       "phase6_grade": {
         "新海诚电影风": "A",
-        "天野喜孝幻想": "B+",
-        "伊藤潤二": "C",
-        "凡妮塔斯": "D"
+        "天野喜孝幻想": "B+"
       }
     },
     "CT2_silhouette_back": {
@@ -766,16 +784,18 @@
       "best_for": "神秘/氛围感风格，角色代入感强的场景",
       "best_styles": [
         "新海诚电影风",
-        "伊藤潤二",
         "哥特暗黑风",
         "黑执事",
-        "暗黑悬疑高对比"
+        "暗黑悬疑高对比",
+        "美漫极简线稿",
+        "现代电影感美漫",
+        "扁平矢量插画",
+        "波普艺术",
+        "极简线条插画"
       ],
       "phase6_grade": {
         "新海诚电影风": "A",
-        "伊藤潤二": "B",
-        "天野喜孝幻想": "B",
-        "凡妮塔斯": "D"
+        "天野喜孝幻想": "B"
       }
     }
   },
@@ -789,18 +809,22 @@
         "新海诚电影风",
         "哥特暗黑风",
         "暗黑奇幻油画",
-        "赛博朋克霓虹",
         "赛博边缘行者",
         "大友克洋硬核",
         "废土末日",
         "暗黑悬疑高对比",
         "韩漫暗黑厚涂",
         "黑执事",
-        "圣魔之血",
         "蒸汽朋克黄铜",
-        "伊藤潤二"
+        "经典漫威美漫",
+        "现代电影感美漫",
+        "美漫极简线稿",
+        "好莱坞概念艺术",
+        "电影院线海报",
+        "超现实梦境",
+        "低多边形3D"
       ],
-      "warning": "会吞噬水彩/柔美风格，凡妮塔斯使用此模板获得D档(完全风格崩溃)",
+      "warning": "会吞噬水彩/柔美风格，此类风格应改用LT2柔光通透模板",
       "phase6_validated": true
     },
     "LT2_soft_luminous": {
@@ -809,9 +833,7 @@
       "desc": "Lighting: Soft luminous lighting with gentle diffused glow. Light emanates from within the image, characters remain visible and readable. Warm ambient light with cool shadow undertones. Backlighting with ethereal halos, golden hour quality. Bokeh and light particles. No crushed blacks, shadows retain color information. Luminous shadows, preserving figure readability even in dark scenes.",
       "best_for": "水彩/柔美/治愈/明亮风格，保护柔美画风不被暗色场景吞噬",
       "compatible_styles": [
-        "凡妮塔斯",
         "少女水彩言情",
-        "吉卜力治愈风",
         "天野喜孝幻想",
         "轻小说插画风",
         "韩漫华丽言情",
@@ -829,22 +851,22 @@
       ],
       "warning": "不适用于纯暗黑风格，会削弱黑暗氛围",
       "phase6_validated": false,
-      "note": "v4.0新增模板，Phase 7验证通过：成功拯救凡妮塔斯水彩风格(D→B)，轻小说插画风获A档",
+      "note": "v4.0新增模板，Phase 7验证通过：成功拯救水彩风格(D→B)，轻小说插画风获A档",
       "phase7_validated": true
     },
     "LT3_flat_atmospheric": {
       "name": "平光漫射",
       "name_en": "Flat Atmospheric Lighting",
       "desc": "Lighting: Flat even illumination with minimal directional lighting. Light distributed uniformly across the scene, no dramatic shadows. Atmospheric depth through color and mist rather than light/shadow contrast. Subtle ambient occlusion only. Medium-key lighting, neither high nor low contrast. Natural diffuse light like overcast sky or soft window light. Texture and line quality are primary visual carriers, not lighting drama.",
-      "best_for": "平面/传统媒介风格(浮世绘/水墨/版画)，光影不应抢夺线条和色块的表达权",
+      "best_for": "平面/矢量/图形风格，光影不应抢夺线条和色块的表达权",
       "compatible_styles": [
-        "浮世绘风",
-        "国风水墨仙侠",
-        "维多利亚版画"
+        "扁平矢量插画",
+        "波普艺术",
+        "极简线条插画"
       ],
       "warning": "不适用于需要光影戏剧性的风格",
       "phase6_validated": false,
-      "note": "v4.0新增模板，Phase 7验证通过：浮世绘B+(色块粗线存活)，水墨B+(笔墨晕染留白存活)",
+      "note": "v4.0新增模板，Phase 7验证通过：保护平面画风线条与色块表达",
       "phase7_validated": true
     }
   },
@@ -862,15 +884,21 @@
           "新海诚电影风",
           "哥特暗黑风",
           "暗黑奇幻油画",
-          "赛博朋克霓虹",
           "赛博边缘行者",
           "大友克洋硬核",
           "废土末日",
           "暗黑悬疑高对比",
           "韩漫暗黑厚涂",
           "黑执事",
-          "圣魔之血",
-          "蒸汽朋克黄铜"
+          "蒸汽朋克黄铜",
+          "经典漫威美漫",
+          "现代电影感美漫",
+          "双城之战（手绘厚涂电影感）",
+          "美漫极简线稿",
+          "好莱坞概念艺术",
+          "电影院线海报",
+          "超现实梦境",
+          "低多边形3D"
         ]
       },
       "B_soft_luminous": {
@@ -881,9 +909,7 @@
           "CT1_scale_contrast"
         ],
         "styles": [
-          "凡妮塔斯",
           "少女水彩言情",
-          "吉卜力治愈风",
           "轻小说插画风",
           "韩漫华丽言情",
           "穆夏新艺术",
@@ -903,45 +929,15 @@
         "name": "特殊系",
         "notes": "需要风格专属的场景和光影处理",
         "styles": {
-          "伊藤潤二": {
-            "lighting": "LT1_subtractive",
-            "composition": "CT2_silhouette_back",
-            "note": "需恐怖专属场景提示词，通用暗黑场景无法触发伊藤潤二风格"
-          },
           "天野喜孝幻想": {
             "lighting": "LT1_subtractive 或 LT2_soft_luminous",
             "composition": "CT1_scale_contrast",
             "note": "两种光影均可，LT1偏暗黑氛围，LT2偏空灵唯美"
           },
-          "港漫武侠风": {
-            "lighting": "LT1_subtractive",
-            "composition": "CT1_scale_contrast",
-            "note": "高对比硬光配合写实肌肉表现"
-          },
           "硬朗武侠历史": {
             "lighting": "LT1_subtractive",
             "composition": "CT1_scale_contrast",
             "note": "粗糙硬光配合刻刀线条"
-          },
-          "都市赛博风": {
-            "lighting": "LT1_subtractive",
-            "composition": "CT2_silhouette_back",
-            "note": "霓虹色彩rim light"
-          },
-          "浮世绘风": {
-            "lighting": "LT3_flat_atmospheric",
-            "composition": "CT1_scale_contrast",
-            "note": "平光保护色块和线条表达"
-          },
-          "国风水墨仙侠": {
-            "lighting": "LT3_flat_atmospheric",
-            "composition": "CT1_scale_contrast",
-            "note": "平光保护水墨晕染表达"
-          },
-          "维多利亚版画": {
-            "lighting": "LT3_flat_atmospheric",
-            "composition": "CT2_silhouette_back",
-            "note": "平光保护线刻密度表达"
           }
         }
       }

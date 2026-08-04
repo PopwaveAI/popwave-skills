@@ -56,6 +56,7 @@ SIZE = "1125x1500"          # 画风测试默认尺寸（竖版，兼容定标�
 MAX_PIXELS = 2360000        # Seedream 5.0 Pro 计费临界：超 236 万像素输出图报价翻倍，须所有出图 ≤ 上限
 CONCURRENCY = 8              # 并发线程数（Seedream 500 图/分钟，8 线程安全）
 MAX_RETRIES = 3              # 指数退避重试次数
+API_TIMEOUT = int(os.environ.get("SEEDREAM_TIMEOUT", "300"))  # 单次生成超时(秒)，Seedream 5.0 Pro 单图可达80s+，并发排队更久，120s 易误判超时
 
 # 固定质量触发词（画风测试用，非写实词——写实词会推高厚涂倾向）
 QUALITY_TRIGGER = "High quality anime comic illustration, highly detailed, professional manga art, clean lineart, crisp colors."
@@ -233,7 +234,7 @@ def generate_one(variant, output_path, seed):
     for attempt in range(MAX_RETRIES):
         try:
             req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=120) as resp:
+            with urllib.request.urlopen(req, timeout=API_TIMEOUT) as resp:
                 result = json.loads(resp.read().decode("utf-8"))
             data_list = result.get("data", [])
             if not data_list:
