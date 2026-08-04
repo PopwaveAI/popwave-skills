@@ -28,9 +28,9 @@ description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。按
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
 | 改写文本 | `steps/step-1-execute.md` | 用户交付需要改写的文本时 |
-| 查技法定义 | `references/技法工具箱.md` | 不确定某个技法的具体用法时 |
-| 查效果数据 | `references/技法工具箱.md` | 需要了解每项技法的朱雀降幅时 |
-| 查高风险文体 | `references/技法工具箱.md` | 遇到动作描写/人物出场/日常内心场景时 |
+| 查技法定义 | `references/techniques.md` | 不确定某个技法的具体用法时 |
+| 查效果数据 | `references/techniques.md` | 需要了解每项技法的朱雀降幅时 |
+| 查高风险文体 | `references/techniques.md` | 遇到动作描写/人物出场/日常内心场景时 |
 
 ## 版本
 

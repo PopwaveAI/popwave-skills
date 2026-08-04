@@ -21,7 +21,7 @@
 
 **每处操作必须叠至少 2 层技法。** 最优组合：A1感官过滤 + A2判断插入 + B1内心独白 + B3联想发散（四层叠）。
 
-在改写前，使用 `Get-Content -Encoding UTF8 -Raw references/技法工具箱.md` 加载完整技法定义。
+在改写前，使用 `Get-Content -Encoding UTF8 -Raw references/techniques.md` 加载完整技法定义。
 
 ### L3 全滤示例
 
@@ -59,7 +59,7 @@
 
 ## ⛔ 加载门禁 + 下一步指引
 
-> 在执行改写前，必须先加载 `references/技法工具箱.md`。
+> 在执行改写前，必须先加载 `references/techniques.md`。
 >
-> 加载指令：`Get-Content -Encoding UTF8 -Raw references/技法工具箱.md`
+> 加载指令：`Get-Content -Encoding UTF8 -Raw references/techniques.md`
 > 什么时候加载：Step 3 开始改写之前必须加载
