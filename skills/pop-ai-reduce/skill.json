@@ -1,0 +1,17 @@
+{
+  "id": "pop-ai-reduce",
+  "version": "3.0.0",
+  "displayName": "网文降AI检测率",
+  "description": "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。基于12轮朱雀实测的分层叠层改写引擎，目标朱雀≤0.50。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-ai-reduce", "降AI", "去AI味", "降朱雀"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["写作管线", "降AI"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
