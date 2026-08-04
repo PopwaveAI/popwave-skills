@@ -1,5 +1,18 @@
 # CHANGELOG — pop-visual-character
 
+## v1.3.0 | 2026-08-04
+
+### 澄清：定妆照 vs 立绘OC（角色生产参考 vs 展示作品）
+
+老板定调：定妆照和立绘OC是两回事——立绘OC有图有字有各种文化元素，定妆照是纯生产参考（前后不是同一个版本所以有gap）。
+
+- SKILL.md 新增「定妆照 vs 立绘OC」说明节：定妆照=纯生产参考图（无文字/无装饰/无文化元素），立绘OC=带文字+文化元素的展示作品，二者职责不同不可混用
+- SKILL.md 新增铁律 ❌8 **定妆照是纯生产材料**：禁止混合OC展示功能
+- `steps/step3-character-tuning.md` 新增「定妆照 = 纯生产参考图」小节：禁止文字/装饰元素/文化元素，只需纯净角色本体
+- `steps/step3-character-tuning.md` 组装提示词追加硬约束：`no text, no letters, no characters, no watermark, no decorative elements`
+- `steps/step3-character-tuning.md` 红线新增"定妆照必须纯净"
+- 版本同步：SKILL.md / skill.json 至 v1.3.0
+
 ## v1.2.0 | 2026-08-04
 
 ### 新增：三把锁差异化纪律（角色差异化核心方法）
