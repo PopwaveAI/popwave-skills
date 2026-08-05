@@ -1,0 +1,22 @@
+{
+  "id": "short-opening-designer",
+  "version": "1.0.0",
+  "displayName": "开篇设计器",
+  "description": "当用户确定脑洞后进入开篇设计时启用。卖点主轴→6种导语公式择最优→黄金三句→完整导语→付费钩子策略。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["开篇设计", "导语"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["短篇创作", "开篇设计"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}
