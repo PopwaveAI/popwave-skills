@@ -248,35 +248,31 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 | resolution | `1080p` | 1080p |
 | camera_fixed | `false` | 允许运镜 |
 
-## 5. 执行 API 脚本
+## 5. 执行生图（image_generate 工具）
 
-### 5.1 检查环境
+> 生图不再调用 `generate.py` 直连 API（已移除内置 API Key），统一改用 `image_generate` 工具。图生图时传参考图路径，保证参考点策略生效。
 
-API Key 已内置在 `../pop-visual-shared/scripts/generate.py` 中，无需手动设置环境变量。如需覆盖，可设置 `ARK_API_KEY` 环境变量。
+### 5.1 文生图（无参考图）
 
-### 5.2 执行生成
-
-**纯文生图（无参考图）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --output "素材/视觉/封面-v1.png"
+```text
+image_generate(prompt='提示词内容', size='1125x1500', output='素材/视觉/封面-v1.png')
 ```
 
-**图生图（有参考图，按参考点策略）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<base64数据>" --output "素材/视觉/封面-v1.png"
+### 5.2 图生图（有参考图，按参考点策略）
+
+```text
+image_generate(prompt='提示词内容', size='1125x1500', ref_image='素材/视觉/参考图.png', output='素材/视觉/封面-v1.png')
 ```
 
-**多图参考（多张参考图各取不同参考点）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<图A>" --image "data:image/png;base64,<图B>" --output "素材/视觉/封面-v1.png"
-```
+### 5.3 多图参考（多张参考图各取不同参考点）
 
-**视频生成（Seedance）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py video --prompt "提示词内容" --model doubao-seedance-1-0-pro-250428 --ratio 3:4 --duration 5 --output "素材/视觉/封面-v1.mp4"
-```
+按工具能力传入多张参考图路径，提示词中说明各图参考点，输出到 `素材/视觉/封面-v1.png`。
 
-### 5.3 输出目录
+### 5.4 视频生成（Seedance）
+
+视频生成不在 `image_generate` 工具范围。如需封面动态化，见 `generate.py video` 子命令（需显式设置 `ARK_API_KEY` 环境变量，本脚本不内置 key）。
+
+### 5.5 输出目录
 
 确保输出目录存在：`素材/视觉/`，如不存在则创建。
 

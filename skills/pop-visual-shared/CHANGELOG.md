@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.4.0（2026-08-05）
+
+### 升级：生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `generate.py` image 子命令彻底改为**任务导出**模式（`export_image_task`）：不再直连 `images/generations` API，不内置任何 key，只导出单条任务（id/prompt/size/ref_images/output_path）供主 agent 用 `image_generate` 工具生成
+- `batch_test.py` 改为**任务清单导出**：移除 `API_URL`/`API_KEY`/`MODEL`/HTTP 直连，`export_tasks()` 导出 `generation_tasks.json`；保留 `_assert_size_safe` 尺寸校验与 `pe-log.json` 可复现日志
+- `generate.py` video 子命令（Seedance）保留但**不再内置 key**，必须显式设置 `ARK_API_KEY` 环境变量，否则拒绝执行
+- 移除内置 Seedream key `b597f4e5-2370-...`；Pinterest 的 BRIGHTDATA key 保持不变（未授权改动）
+- 消费方（cover/oc/style/comic/character）的 step 文档与 SKILL.md 统一更新为 `image_generate` 工具流程
+
 ## v1.3.0（2026-08-04）
 
 ### 新增：出图尺寸硬上限（防止报价翻倍）

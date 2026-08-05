@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.5.0 | 2026-08-05
+
+### 生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `steps/step2-generate.md` §5：由「执行 API 脚本」改为 `image_generate` 工具调用（文生图/图生图/多图参考），移除 `generate.py` 直连与内置 key 说明
+- `SKILL.md` 模型说明表：改为「静态图片走 `image_generate` 工具，无 API Key；视频走 `generate.py video` 需显式设置 `ARK_API_KEY`」
+- `skill.json` 描述：移除「调用 Seedream/Seedance API」
+- 版本同步：SKILL.md / skill.json 至 v1.5.0
+
 ## v1.4.1 | 2026-08-04
 
 ### 出图尺寸硬上限（防止报价翻倍）

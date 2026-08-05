@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.7.0 | 2026-08-05
+
+### 生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `scripts/generate_comic_page.py`：改为导出 `generation_tasks.json`（每页 id/prompt/size/ref_images/output_path），移除 HTTP 直连与内置 key，由主 agent 用 `image_generate` 工具逐张生成
+- `scripts/generate_storyboard.py`：改为导出分镜任务清单，移除直连与内置 key
+- `scripts/update_char_asset.py`：改为导出增量定妆任务清单，移除直连与内置 key
+- `steps/step3-production-review.md` §2：改为「任务清单导出 + image_generate 工具」流程
+- `references/oc-design-guide.md` 生成命令：改为 `image_generate` 工具调用
+- `SKILL.md` 前置条件：移除 `ARK_API_KEY` 环境变量要求，改为「生图走 image_generate 工具，无需 API Key」
+- 版本同步：SKILL.md / skill.json 至 v7.7.0
+
 ## v7.6.0 | 2026-08-04
 
 ### 0基础读者可读性（解决"不知道第一话讲了什么"）

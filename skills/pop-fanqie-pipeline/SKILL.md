@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.4.0：新增导入/续写模式（Step 0）。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.5.0：全链路质量升级（world/plot/write/character/review）。
 
 ## 做什么
 
@@ -60,6 +60,6 @@ Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道�
 
 ## 版本
 
-v3.4.0 | 2026-07-24 | 新增导入/续写模式（Step 0），支持已有历史资料/正文时跳过从零初始化 → [CHANGELOG.md](CHANGELOG.md)
+v3.5.0 | 2026-08-05 | 全链路质量升级：world/plot/write/character/review五大skill同步从起点汲取质量增益经验 → [CHANGELOG.md](CHANGELOG.md)
 
-v3.3.0 | 2026-07-22 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为7条含读取协议 → CHANGELOG.md
+v3.4.0 | 2026-07-24 | 新增导入/续写模式（Step 0），支持已有历史资料/正文时跳过从零初始化 → CHANGELOG.md

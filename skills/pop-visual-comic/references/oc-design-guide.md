@@ -208,23 +208,16 @@ Exactly one character. No duplicated limbs. Exactly five fingers per hand. No ch
 
 ### 生成命令
 
-```powershell
-$env:ARK_API_KEY="{API_KEY}"
+> 不再使用 `generate.py` 直连生图 API（已移除内置 API Key）。改为组装提示词后，直接用 `image_generate` 工具生成。
 
-# 正面立绘
-python "{pop-visual-shared路径}/scripts/generate.py" image `
-  --prompt '{正面提示词}' `
-  --model doubao-seedream-5-0-pro-260628 `
-  --size 1125x1500 `
-  --output "{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png"
+**正面立绘**（文生图）：
+```text
+image_generate(prompt='{正面提示词}', size='1125x1500', output='{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png')
+```
 
-# 侧面立绘（传正面立绘作参考）
-python "{pop-visual-shared路径}/scripts/generate.py" image `
-  --prompt '{侧面提示词}' `
-  --model doubao-seedream-5-0-pro-260628 `
-  --size 1125x1500 `
-  --image "data:image/png;base64,{正面立绘base64}" `
-  --output "{漫画项目}/assets/characters/char-{角色名}-v{N}-side.png"
+**侧面立绘**（图生图，传正面立绘作参考保证同一人）：
+```text
+image_generate(prompt='{侧面提示词}', size='1125x1500', ref_image='{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png', output='{漫画项目}/assets/characters/char-{角色名}-v{N}-side.png')
 ```
 
 ## 版本管理

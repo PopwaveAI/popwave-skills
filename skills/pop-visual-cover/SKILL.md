@@ -5,7 +5,7 @@ description: "当用户说'网文封面/小说封面/场景图/视觉设计'或�
 
 # pop-visual-cover
 
-> 网文封面与场景视觉资产生成器。两种起点，同一个终点。v1.4.1
+> 网文封面与场景视觉资产生成器。两种起点，同一个终点。v1.5.0
 
 ## 做什么
 
@@ -21,10 +21,10 @@ description: "当用户说'网文封面/小说封面/场景图/视觉设计'或�
 
 ## 模型说明
 
-| 模型 | 用途 | API 端点 | 默认 |
-|:-----|:-----|:---------|:----:|
-| Seedream 5.0 Pro | 静态图片 | `POST /api/v3/images/generations` | ✅ |
-| Seedance 1.0 Pro | 动态视频 | `POST /api/v3/contents/generations/tasks` | ❌ |
+| 生成内容 | 工具/方式 | 说明 |
+|:-----|:---------|:-----|
+| 静态图片（Seedream 5.0 Pro） | `image_generate` 工具 | 文生图/图生图/多图输入，无 API Key |
+| 动态视频（Seedance 1.0 Pro） | `generate.py video` | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
 
 Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图、图生图、多图输入。文字用双引号包裹。
 

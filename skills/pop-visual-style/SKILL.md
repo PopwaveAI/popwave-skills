@@ -5,7 +5,7 @@ description: "当用户说'画一张图/生成图片/文生图'或需要纯文�
 
 # pop-visual-style
 
-> 通用文生图引擎 + 画风DNA库。纯文生图，一键出图。v1.6.0
+> 通用文生图引擎 + 画风DNA库。纯文生图，一键出图。v1.7.0
 
 ## 做什么
 
@@ -27,10 +27,10 @@ description: "当用户说'画一张图/生成图片/文生图'或需要纯文�
 
 ## 模型说明
 
-| 模型 | 用途 | API 端点 | 默认 |
-|:-----|:-----|:---------|:----:|
-| Seedream 5.0 Pro | 静态图片 | `POST /api/v3/images/generations` | ✅ |
-| Seedance 1.0 Pro | 动态视频 | `POST /api/v3/contents/generations/tasks` | ❌ |
+| 生成内容 | 工具/方式 | 说明 |
+|:-----|:---------|:-----|
+| 静态图片（Seedream 5.0 Pro） | `image_generate` 工具 | 文生图/图生图/多图输入，无 API Key |
+| 动态视频（Seedance 1.0 Pro） | `generate.py video` | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
 
 Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图、图生图、多图输入。文字用双引号包裹。
 

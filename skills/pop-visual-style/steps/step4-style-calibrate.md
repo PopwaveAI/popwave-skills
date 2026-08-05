@@ -62,23 +62,24 @@ a simple quiet interior, warm wooden room, soft window light from the left, a wo
 - **精调变体**：`--config 变体.json`，每个变体可单独改 `dna`/`constraint`/`lighting`（用于"只改一个子维度"的回炉迭代）。
 - 画风 DNA 放第 2 段由脚本固定模板保证（铁律❌2）；构图/光照取自该画风 `recommended_*`（兼容性检查铁律❌3）。
 
-## 3. 并发批量生成定标图（一次出多张变体）
+## 3. 批量导出定标任务（一次出多张变体）
 
-> **默认并发 8 线程**（Seedream 500图/分钟，8线程安全）。一次出一批变体，比单张串行快一个数量级。
+> 走固定脚本 `batch_test.py` **导出任务清单**，再由 `image_generate` 工具逐条生成。一次出一批变体，脚本只负责组装+校验，不直连 API。
 
 ```powershell
-# 画风×项目角色联合测试（推荐，验证画风能否撑起项目主角）
-python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" --character-image "素材/李周巍OC-v1.png" --out-dir 素材/视觉 --concurrency 8 --seed 20260803
+# 画风×项目角色联合测试（推荐，验证画风能否撑起项目主角）→ 导出 generation_tasks.json
+python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" --character-image "素材/李周巍OC-v1.png" --out-dir 素材/视觉 --seed 20260803
 
-# 从 DNA 库按画风名批量测（无角色时用中性素材，仅排查画风本身）
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --out-dir 素材/视觉 --concurrency 8 --seed 20260803
+# 从 DNA 库按画风名批量测（无角色时用中性素材，仅排查画风本身）→ 导出 generation_tasks.json
+python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --out-dir 素材/视觉 --seed 20260803
 
-# 精调变体（定制 variant 的 dna/constraint/lighting）
-python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标变体.json --out-dir 素材/视觉 --concurrency 8
+# 精调变体（定制 variant 的 dna/constraint/lighting）→ 导出 generation_tasks.json
+python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标变体.json --out-dir 素材/视觉 --seed 20260803
 ```
 
 - `--seed` 固定随机种子，保证复现（下游图生图用同 seed 不漂移）。
-- 输出：每个变体一张图（`{out-dir}/seed-{seed}/{画风名}.png`）+ 自动 `pe-log.json`（含固定素材/模板/每个变体完整 prompt，可复现）。
+- 输出：`generation_tasks.json`（每个变体一个任务，含 prompt/size/ref_images/output_path）+ `pe-log.json`（含固定素材/模板/每个变体完整 prompt，可复现）。
+- **生成**：读 `generation_tasks.json`，对每条任务用 `image_generate` 工具生成（有 ref_images 时传参考图），输出到各任务 output_path，即 `{out-dir}/seed-{seed}/{画风名}.png`。
 - 从结果中选达标变体作为候选定标图；**不达标回炉只改该变体 JSON 的一个子维度，再跑同脚本，不重写调用。**
 
 ## 4. 🚪 门禁：画风定标验收 + 稳定复现验证

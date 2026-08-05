@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 """
-pop-visual-comic 逐页漫画生成脚本 v4.5.0
-- ThreadPoolExecutor 8线程高并发生成（Seedream API限制500图/分钟，8线程安全）
-- 支持角色定妆图参考（图生图模式，保证角色一致性）
-- 格式保真（JPEG magic bytes检测→PNG转码）
-- 自动重试（3次，指数退避 3s/6s/9s）
-- 生成元数据JSON
+pop-visual-comic 逐页漫画任务清单导出脚本 v5.0.0
+================================================
+生图改为由主 agent 调用 `image_generate` 工具完成，本脚本不再直调任何 HTTP API、不再内置 API Key。
 
-用法:
+职责：
+  1. 从下方 PAGES 列表读取每页的 id + prompt + ref_images + size
+  2. 做文字控制占位符（NEG<DIALOGUE>/NEG<TEXT>）替换 + 尺寸安全校验
+  3. 解析角色定妆图参考路径（REF_IMAGES 字段）
+  4. 导出 `generation_tasks.json`（每页一条任务：id/prompt/size/ref_images/output_path）
+  5. 打印"请用 image_generate 工具逐张生成"的指引
+
+主 agent 用法：
   1. 修改下方 PAGES 列表（每页的 id + prompt + ref_images + 可选 size）
-  2. 修改 OUTPUT_DIR 为输出目录
-  3. 修改 CHAR_ASSETS_DIR 为定妆图根目录
-  4. 运行: python generate_comic_page.py
-
-环境变量:
-  ARK_API_KEY - 火山引擎方舟 API Key
+  2. 修改 OUTPUT_DIR / CHAR_ASSETS_DIR
+  3. 运行: python generate_comic_page.py
+  4. 读取生成的第{N}章/output/generation_tasks.json
+  5. 对每条任务调用 image_generate 工具（prompt/text=任务prompt, size=任务size, output=任务output_path，参考图按工具能力传入）
+  6. 生成后用 ensure_png_format 校验（本脚本已内置校验函数）
 
 依赖:
   pip install Pillow
@@ -24,27 +27,13 @@ import base64
 import json
 import os
 import sys
-import time
-import urllib.request
-import urllib.error
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from io import BytesIO
 
 # ============ 配置区（使用前修改） ============
 
-API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
-API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
-MODEL = "doubao-seedream-5-0-pro-260628"
 SIZE = "1125x1500"           # 竖版漫画页（总像素 169 万 ≤ 236 万上限）
-MAX_PIXELS = 2360000         # Seedream 5.0 Pro 计费临界：超 236 万像素输出图报价翻倍，所有出图必须 ≤ 上限
+MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
 
-# 并发线程数（Seedream API限制500图/分钟=8.3图/秒，8线程安全）
-CONCURRENCY = 8
-
-# 最大重试次数
-MAX_RETRIES = 3
-
-# 输出目录
+# 输出目录（章节级）
 OUTPUT_DIR = r"第1章/output"
 
 # 定妆图根目录（项目级，跨章复用）
@@ -84,34 +73,7 @@ TEXT_CONTROL_STRONG = (
     "no dial numerals, no roman numerals. Pure visual imagery only, no readable characters anywhere."
 )
 
-# ============ 执行区（无需修改） ============
-
-
-def image_to_data_uri(path):
-    """读取图片文件转为 data URI"""
-    with open(path, "rb") as f:
-        raw = f.read()
-    b64 = base64.b64encode(raw).decode()
-    # 检测实际格式
-    if raw[:3] == b'\xff\xd8\xff':
-        return f"data:image/jpeg;base64,{b64}"
-    return f"data:image/png;base64,{b64}"
-
-
-def ensure_png_bytes(img_bytes):
-    """检测字节流的实际格式，若为JPEG则转码为PNG字节流。返回PNG字节流。"""
-    if img_bytes[:2] == b'\xff\xd8':  # JPEG magic bytes
-        try:
-            from PIL import Image
-        except ImportError:
-            return img_bytes  # 无法转码，返回原始字节
-        img = Image.open(BytesIO(img_bytes))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        buf = BytesIO()
-        img.save(buf, format="PNG")
-        return buf.getvalue()
-    return img_bytes
+# ============ 通用工具 ============
 
 
 def _assert_size_safe(size):
@@ -135,7 +97,7 @@ def _assert_size_safe(size):
     if pixels > MAX_PIXELS:
         print(
             f"  [错误] 尺寸 {size} = {pixels} 像素，超过上限 {MAX_PIXELS} 像素"
-            f"（Seedream 5.0 Pro 超 236 万像素报价翻倍），已中止。",
+            f"（超 236 万像素计费翻倍），已中止。",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -143,7 +105,6 @@ def _assert_size_safe(size):
 
 def resolve_ref_image(ref_name):
     """根据定妆图文件名查找完整路径"""
-    # 尝试多个路径
     candidates = [
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
         os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
@@ -151,198 +112,94 @@ def resolve_ref_image(ref_name):
     ]
     for path in candidates:
         if os.path.exists(path):
-            return path
+            return path.replace("\\", "/")
     print(f"  [警告] 定妆图未找到: {ref_name}", file=sys.stderr)
     return None
 
 
-def generate_page(page, output_path):
-    """生成单页漫画，支持多张参考图（image参数传第一张定妆图）。
-    使用 b64_json 直接返回图片数据。支持自动重试和格式保真。"""
-    # 文字控制占位符替换（2026-08-03 实测锁定，见 references/content-layer.md §六）
-    #   NEG<DIALOGUE> -> 对话场景（禁气泡，防伪对话乱字）
-    #   NEG<TEXT>     -> 非对话场景（逐字禁文字）
-    prompt = page["prompt"]
-    prompt = prompt.replace("NEG<DIALOGUE>", TEXT_CONTROL_DIALOGUE)
-    prompt = prompt.replace("NEG<TEXT>", TEXT_CONTROL_STRONG)
-
-    prompt_len = len(prompt)
-    if prompt_len > 2200:
-        print(f"  [警告] {page['id']} 提示词过长: {prompt_len} 字符")
-
-    size = page.get("size", SIZE)
-    _assert_size_safe(size)
-    payload = {
-        "model": MODEL,
-        "prompt": prompt,
-        "size": size,
-        "watermark": False,
-        "response_format": "b64_json",
-    }
-
-    # 解析参考图列表，image参数传第一张定妆图（Seedream API目前只支持单张image参数）
-    ref_images = page.get("ref_images", [])
-    resolved_refs = []
-    for ref_name in ref_images:
-        ref_path = resolve_ref_image(ref_name)
-        if ref_path:
-            resolved_refs.append(ref_path)
-
-    if resolved_refs:
-        payload["image"] = image_to_data_uri(resolved_refs[0])
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}",
-    }
-
-    data = json.dumps(payload).encode("utf-8")
-
-    for attempt in range(MAX_RETRIES):
+def ensure_png_format(path):
+    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。"""
+    if not os.path.exists(path):
+        return
+    with open(path, "rb") as f:
+        header = f.read(8)
+    if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
         try:
-            req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=120) as response:
-                result = json.loads(response.read().decode("utf-8"))
-
-            data_list = result.get("data", [])
-            if not data_list:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: 未返回图片数据", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            item = data_list[0]
-            if "error" in item:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: {item['error']}", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            b64_data = item.get("b64_json")
-            if not b64_data:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: 未返回b64_json", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            # 解码base64 + 格式保真
-            img_bytes = base64.b64decode(b64_data)
-            img_bytes = ensure_png_bytes(img_bytes)
-
-            with open(output_path, "wb") as f:
-                f.write(img_bytes)
-
-            file_size = len(img_bytes) / 1024
-            ref_info = f" refs={','.join(os.path.basename(r) for r in resolved_refs)}" if resolved_refs else " 文生图"
-            print(f"  [OK] {page['id']} ({file_size:.0f}KB{ref_info}, prompt={prompt_len}字符)")
-            return {
-                "id": page["id"],
-                "success": True,
-                "path": output_path,
-                "refs": [os.path.basename(r) for r in resolved_refs],
-                "size": page.get("size", SIZE),
-            }
-
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8") if e.fp else ""
-            print(f"  [错误] {page['id']} 尝试{attempt+1}: HTTP {e.code} - {error_body[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-        except Exception as e:
-            print(f"  [错误] {page['id']} 尝试{attempt+1}: {str(e)[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-
-    print(f"  [失败] {page['id']} 所有{MAX_RETRIES}次尝试均失败", file=sys.stderr)
-    return {
-        "id": page["id"],
-        "success": False,
-        "path": output_path,
-        "refs": [os.path.basename(r) for r in resolved_refs],
-        "size": page.get("size", SIZE),
-    }
+            from PIL import Image
+        except ImportError:
+            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {path}", file=sys.stderr)
+            return
+        img = Image.open(path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = path + ".tmp"
+        img.save(tmp, "PNG", optimize=True)
+        os.replace(tmp, path)
+        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
 
 
-def main():
-    print("=" * 60)
-    print(f"pop-visual-comic 逐页漫画生成 v4.5.0 (8并发模式)")
-    print("=" * 60)
-
-    # 确定输出目录
+def export_tasks():
+    """把 PAGES 列表导出为 generation_tasks.json，供主 agent 用 image_generate 工具逐张生成。"""
     out_dir = OUTPUT_DIR
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
-    # 检查定妆图可用性
+    tasks = []
     print("\n定妆图映射检查:")
     for page in PAGES:
+        # 文字控制占位符替换
+        prompt = page["prompt"]
+        prompt = prompt.replace("NEG<DIALOGUE>", TEXT_CONTROL_DIALOGUE)
+        prompt = prompt.replace("NEG<TEXT>", TEXT_CONTROL_STRONG)
+        if len(prompt) > 2200:
+            print(f"  [警告] {page['id']} 提示词过长: {len(prompt)} 字符")
+
+        size = page.get("size", SIZE)
+        _assert_size_safe(size)
+
+        # 解析参考图路径
         ref_images = page.get("ref_images", [])
-        if ref_images:
-            ref_paths = []
-            for ref_name in ref_images:
-                ref_path = resolve_ref_image(ref_name)
-                ref_paths.append(os.path.basename(ref_path) if ref_path else f"{ref_name}(缺失)")
-            print(f"  {page['id']}: {', '.join(ref_paths)}")
+        resolved_refs = []
+        for ref_name in ref_images:
+            ref_path = resolve_ref_image(ref_name)
+            if ref_path:
+                resolved_refs.append(ref_path)
+
+        output_path = os.path.join(out_dir, f"{page['id']}.png").replace("\\", "/")
+        tasks.append({
+            "id": page["id"],
+            "prompt": prompt,
+            "size": size,
+            "ref_images": resolved_refs,
+            "output_path": output_path,
+        })
+        if resolved_refs:
+            print(f"  {page['id']}: refs={', '.join(os.path.basename(r) for r in resolved_refs)}  size={size}")
         else:
-            print(f"  {page['id']}: 无（文生图）")
+            print(f"  {page['id']}: 文生图  size={size}")
 
-    print(f"\n开始生成 {len(PAGES)} 页（并发数={CONCURRENCY}）...\n")
-
-    start_time = time.time()
-
-    # 高并发逐页生成
-    results = []
-    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
-        futures = {}
-        for page in PAGES:
-            output_path = os.path.join(out_dir, f"{page['id']}.png")
-            future = executor.submit(generate_page, page, output_path)
-            futures[future] = page
-
-        for future in as_completed(futures):
-            page = futures[future]
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"  [崩溃] {page['id']}: {e}", file=sys.stderr)
-                results.append({"id": page["id"], "success": False, "path": None})
-
-    elapsed = time.time() - start_time
-
-    # 按页号排序结果
-    results.sort(key=lambda r: r["id"])
-
-    # 汇总
-    print("\n" + "=" * 60)
-    print("生成汇总:")
-    success_count = 0
-    for r in results:
-        status = "OK" if r["success"] else "FAIL"
-        print(f"  [{status}] {r['id']} -> {r.get('path', 'N/A')}")
-        if r["success"]:
-            success_count += 1
-
-    print(f"\n成功: {success_count}/{len(PAGES)}")
-    print(f"耗时: {elapsed:.1f}秒 (平均 {elapsed/max(len(PAGES),1):.1f}秒/页)")
-    print(f"并发效率: 理论串行 ~{elapsed*CONCURRENCY:.0f}秒 -> 实际 {elapsed:.0f}秒")
-
-    # 保存元数据
+    # 导出任务清单
     meta = {
         "total_pages": len(PAGES),
-        "success": success_count,
-        "failed": len(PAGES) - success_count,
-        "elapsed_seconds": round(elapsed, 1),
-        "concurrency": CONCURRENCY,
-        "model": MODEL,
-        "pages": results,
+        "generator": "generate_comic_page.py v5.0.0",
+        "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
+        "tasks": tasks,
     }
-    meta_path = os.path.join(out_dir, "generation_meta.json")
+    meta_path = os.path.join(out_dir, "generation_tasks.json")
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=2)
-    print(f"\n元数据已保存: {meta_path}")
+
+    print("\n" + "=" * 60)
+    print(f"已导出 {len(tasks)} 条生图任务 → {meta_path.replace(os.sep, '/')}")
+    print("=" * 60)
+    print("\n主 agent 请按以下方式用 image_generate 工具逐张生成：")
+    print("  对 generation_tasks.json 中每条任务：")
+    print("    image_generate(prompt=<任务prompt>, size=<任务size>, output=<任务output_path>)")
+    print("  图生图（有 ref_images 时）：按 image_generate 工具能力传入参考图，保证角色一致性。")
+    print("  生成完成后本脚本的 ensure_png_format 可校验格式，必要时手动转码。")
+    return meta_path
 
 
 if __name__ == "__main__":
-    main()
+    export_tasks()

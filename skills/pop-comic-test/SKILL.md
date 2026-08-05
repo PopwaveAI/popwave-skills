@@ -5,7 +5,7 @@ description: "当用户说'测画风/画风测试/三组测试/画风能不能�
 
 # pop-comic-test
 
-> 画风三组测试引擎。用固定三组模板（场景/角色/多格剧情）逐画风验证 DNA 执行力，产出"画风能不能用"的通过判定。v1.0.0
+> 画风三组测试引擎。用固定三组模板（场景/角色/多格剧情）逐画风验证 DNA 执行力，产出"画风能不能用"的通过判定。v1.1.0
 
 ## 这个 Skill 做什么
 
@@ -33,7 +33,8 @@ description: "当用户说'测画风/画风测试/三组测试/画风能不能�
 
 ### Step 3: 批量生成 → `../pop-visual-shared/scripts/batch_test.py`
 - 用 `--config` 指定生成的 config，`--out-dir` 指定输出，`--seed` 固定种子
-- 并发批量生成三张图（T1_scene / T2_character / T3_comic）
+- `batch_test.py` 导出三张图的任务清单（T1_scene / T2_character / T3_comic）到 `generation_tasks.json`
+- 主 agent 读任务清单，用 `image_generate` 工具逐条生成（生图统一走 `image_generate`，不直连 API）
 - 自动落盘 `pe-log.json`
 
 ### Step 4: 判定 + 汇总 → 结果表

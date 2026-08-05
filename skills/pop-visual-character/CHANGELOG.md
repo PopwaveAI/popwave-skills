@@ -1,5 +1,14 @@
 # CHANGELOG — pop-visual-character
 
+## v1.4.0 | 2026-08-05
+
+### 生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `steps/step3-character-tuning.md` §3：由 `generate.py` 直连调用改为 `image_generate` 工具调用，移除内置 key 说明
+- 版本同步：SKILL.md / skill.json 至 v1.4.0
+
 ## v1.3.0 | 2026-08-04
 
 ### 澄清：定妆照 vs 立绘OC（角色生产参考 vs 展示作品）

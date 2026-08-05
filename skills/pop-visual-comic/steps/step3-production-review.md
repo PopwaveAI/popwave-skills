@@ -19,9 +19,9 @@ Step 3 是**执行+收尾**——按 Step 2 的图纸施工，生成漫画页，
 
 > 无变化的章节跳过此步骤。
 
-## 2. 8并发生成
+## 2. 生图（任务清单导出 + image_generate 工具）
 
-> `generate_comic_page.py` 使用 ThreadPoolExecutor 8线程高并发（实测6.8x提速）。内置3次指数退避重试和 JPEG→PNG 格式保真。
+> `generate_comic_page.py` **不再直连生图 API，也不内置任何 API Key**。它只负责：从 `PAGES` 解析每页提示词与参考图 → 校验尺寸 → 导出 `output/generation_tasks.json`，由主 agent 用 `image_generate` 工具逐张生成（图生图时传参考图保证角色一致）。
 
 ### 配置生成脚本
 
@@ -43,14 +43,21 @@ CHAR_ASSETS_DIR = r"assets/characters"
 
 > **提示词从 storyboard.md 复制，不重新组装。**
 
-### 执行生成
+### 导出任务清单
 
 ```powershell
-$env:ARK_API_KEY="{API_KEY}"
 python "{本skill路径}/scripts/generate_comic_page.py"
 ```
 
-输出：`output/page1.png` ~ `output/pageN.png` + `generation_meta.json`
+输出：`output/generation_tasks.json`（含每页 id/prompt/size/ref_images/output_path）。
+
+### 用 image_generate 工具逐张生成
+
+读取 `output/generation_tasks.json`，对每条任务调用 `image_generate` 工具：
+- 有 `ref_images` 时按工具能力传入参考图路径（图生图，保证角色一致）
+- 输出到任务的 `output_path`（`output/page1.png` ~ `output/pageN.png`）
+
+生成完成后校验图片格式（扩展名与实际字节一致，JPEG 需转码为真 PNG）。
 
 ## 3. 长条滚动 HTML
 

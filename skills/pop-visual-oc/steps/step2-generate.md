@@ -155,21 +155,20 @@ HARD CONSTRAINTS:
 | response_format | `b64_json` | 直接返回base64，避免URL下载问题 |
 | image | 无 | 参考图 data URI（有参考图时传入） |
 
-## 4. 执行 API 脚本
+## 4. 执行生图（image_generate 工具）
 
-### 4.1 检查环境
+> 生图不再调用 `generate.py` 直连 API（已移除内置 API Key），统一改用 `image_generate` 工具。图生图时传参考图路径。
 
-API Key 已内置在 `../pop-visual-shared/scripts/generate.py` 中。如需覆盖，可设置 `ARK_API_KEY` 环境变量。
+### 4.1 文生图（无参考图）
 
-### 4.2 执行生成
-
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "[高精度提示词]" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --output "素材/[角色名]OC-v1.png"
+```text
+image_generate(prompt='[高精度提示词]', size='1125x1500', output='素材/[角色名]OC-v1.png')
 ```
 
-有参考图时：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "[高精度提示词]" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<base64数据>" --output "素材/[角色名]OC-v1.png"
+### 4.2 图生图（有参考图）
+
+```text
+image_generate(prompt='[高精度提示词]', size='1125x1500', ref_image='素材/[参考图].png', output='素材/[角色名]OC-v1.png')
 ```
 
 ### 4.3 输出目录

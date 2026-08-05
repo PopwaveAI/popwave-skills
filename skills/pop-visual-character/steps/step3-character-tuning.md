@@ -44,8 +44,10 @@
 
 ## 3. 生成定妆图
 
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "定妆提示词" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "画风定标图" --output "素材/视觉/角色定妆-{角色名}-v1.png"
+> 生图统一走 `image_generate` 工具，不再调用 `generate.py` 直连 API（无内置 API Key）。
+
+```text
+image_generate(prompt='定妆提示词', size='1125x1500', ref_image='画风定标图', output='素材/视觉/角色定妆-{角色名}-v1.png')
 ```
 
 > 定妆图可传画风定标图作参考（图生图），保证画风与定标一致。

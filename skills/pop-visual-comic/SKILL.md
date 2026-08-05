@@ -35,13 +35,13 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 模型说明
 
-| 模型 | 版本 | 用途 | 模型 ID |
-|:-----|:-----|:-----|:--------|
-| Seedream | 5.0 Pro | **定妆+漫画页（默认）** | `doubao-seedream-5-0-pro-260628` |
-| Seedream | 5.0 lite | 定妆+漫画页（速度优先，降级备选） | `doubao-seedream-5-0-lite-260128` |
+| 生成内容 | 工具/方式 | 说明 |
+|:-----|:---------|:-----|
+| 定妆+漫画页（默认 Pro） | `image_generate` 工具 | 文生图/图生图/多图输入，无 API Key |
+| 定妆+漫画页（速度优先，降级 lite） | `image_generate` 工具 | 仅在用户明确要求速度优先时切换 |
 
 > **默认使用 Pro 模型**，不要使用 lite 降级模型。仅在用户明确要求速度优先时才切换 lite。
-> 复用 `pop-visual-shared` 的 API 脚本和提示词指南。
+> 生图统一走 `image_generate` 工具，脚本只导出 `generation_tasks.json` 由主 agent 逐条生成，不直连 API。
 
 ## 怎么运作
 
@@ -160,12 +160,12 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 1. Python 3.8+ + Pillow（图片转码/压缩/拼接）
 2. 浏览器 + Python http.server（HTML 漫画页面预览）
 3. Playwright（截长图，可选：`pip install playwright && playwright install chromium`）
-4. `ARK_API_KEY` 环境变量（火山引擎方舟 API Key）
+4. 生图走 `image_generate` 工具（无需任何 API Key。脚本只导出任务清单，不直连生图 API）
 5. 小说项目已存在（含角色库.md 或 主角设计.md）
 6. 输出目录可写
 
 ## 版本
 
-**当前版本**：v7.6.0 | 2026-08-04
+**当前版本**：v7.7.0 | 2026-08-05
 
 > 完整版本历史见 `CHANGELOG.md`。

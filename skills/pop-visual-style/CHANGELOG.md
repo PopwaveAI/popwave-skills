@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.7.0 — 2026-08-05
+
+### 生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `steps/step3-generate.md`：由「执行 API 脚本」改为 `image_generate` 工具调用，移除 `generate.py` 直连与内置 key 说明
+- `steps/step4-style-calibrate.md` §3：由「并发批量生成」改为「`batch_test.py` 导出 `generation_tasks.json` + `image_generate` 工具逐条生成」
+- `SKILL.md` 模型说明表：改为「静态图片走 `image_generate` 工具，无 API Key；视频走 `generate.py video` 需显式设置 `ARK_API_KEY`」
+- `skill.json` 描述：移除「调用 Seedream API」
+- 版本同步：SKILL.md / skill.json 至 v1.7.0
+
 ## v1.6.0 — 2026-08-04
 
 ### 试点：以 IP 命名画风（新增「双城之战」独立画风）
