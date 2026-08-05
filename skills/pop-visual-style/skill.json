@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-style",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "displayName": "通用文生图",
   "description": "当用户说'画一张图/生成图片/文生图'或需要纯文生图时启用。管理37种画风DNA库（含IP命名试点）+3光照模板+6段式提示词结构。生图统一走 image_generate 工具（不直连 API、无内置 API Key）。作为cover/oc/comic skill的共享画风层。",
   "entry": "SKILL.md",

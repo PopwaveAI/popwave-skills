@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.8.0 — 2026-08-05
+
+### 画风定标按 intent 档位分支（不默认全量门禁）
+
+老板审视全链路发现——画风定标写死"Pipeline 语境下必做"，只想做封面/OC 的用户也被迫跑完整门禁 + 稳定复现。改造成 intent 档位分支：
+
+- `SKILL.md` Step 4：新增档位分支——`comic`/`full` → 完整定标必做（门禁+稳定复现）；`cover`/`oc` → 降为 **agent 自检分支**（自查辨识度/配色/光影/无文字，不设强制用户门禁、不强制稳定复现，定标图达标即标记 `✅ 已认可` 供下游作画风参考）；独立纯文生图跳过
+- `SKILL.md` 跨skill引用协议第6条：补 intent 档位说明
+- `steps/step4-style-calibrate.md` 何时用：改为按 intent 档位分支；下一步补定妆深度档位提示
+- 版本同步：SKILL.md / skill.json 至 v1.8.0
+
 ## v1.7.0 — 2026-08-05
 
 ### 生图改走 image_generate 工具，移除内置 API Key

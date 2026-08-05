@@ -1,5 +1,15 @@
 # CHANGELOG — pop-visual-character
 
+## v1.5.0 | 2026-08-05
+
+### 定妆按 intent 档位精简（不默认全量双角度）
+
+老板审视全链路发现——对象定妆写死"Pipeline 语境下必做"，只想做封面/OC 的用户也被迫跑双角度定妆 + 完整门禁。改造成 intent 档位分支：
+
+- `SKILL.md` Step 3：新增档位分支——`comic`/`full` → 完整定妆必做（正/侧双角度 + 门禁）；`cover`/`oc` → 轻量定妆可选（基建到身份卡即可派生，不强制双角度；如需参考图渲染单张，agent 自查达标标 `✅ 已认可`）；只做身份设计跳过
+- `steps/step3-character-tuning.md` 何时用：改为按 intent 档位分支；下一步补派生层路由档位提示
+- 版本同步：SKILL.md / skill.json 至 v1.5.0
+
 ## v1.4.0 | 2026-08-05
 
 ### 生图改走 image_generate 工具，移除内置 API Key

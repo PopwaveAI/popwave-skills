@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.6.0 | 2026-08-05
+
+### 消费链路对齐：cover 意图 = 轻量基建
+
+老板审视全链路发现——cover 消费链路未声明档位，需明确 cover 意图只需基建到身份卡即可派生，不强制双角度定妆：
+
+- `SKILL.md` Step 0-Scene 新增档位说明：Pipeline 语境下 cover 只需身份卡（轻量档），**不强制双角度定妆**；如需角色参考图用 character 单张定妆图
+- 版本同步：SKILL.md / skill.json 至 v1.6.0
+
 ## v1.5.0 | 2026-08-05
 
 ### 生图改走 image_generate 工具，移除内置 API Key

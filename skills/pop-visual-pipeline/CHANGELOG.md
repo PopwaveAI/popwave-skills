@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## v1.2.0 (2026-08-05)
+
+### 意图闸口前置 + 基建档位路由（不默认推漫画）
+
+**背景**：老板审视全链路发现——pipeline 基建完成后没有"派生意图询问"机制，agent 默认往漫画推；且基建深度一刀切全量，只想做封面/OC 的用户也白白跑完整 5 闸口。
+
+**改动**：
+
+**一、`steps/step0-init.md` §1.5 意图闸口（前置）**
+
+- 初始化时先问本次目标 intent（cover/oc/comic/full/asset-only），写入总控 `<!--STATE:intent -->`
+- 未明确意图时回问用户，不默认漫画
+- 由 intent 决定基建档位：cover/oc 轻量（到身份卡即可派生），comic/full 完整（含双角度定妆）
+
+**二、`steps/step1-import.md` §2.5 意图闸口（import 时确认）**
+
+- 总控 intent 为空时用 AskUserQuestion 确认，已确认则沿用
+
+**三、`steps/step2-route.md` 按 intent 路由**
+
+- 路由表新增 intent 档位分流表（cover→3/5，oc→4，comic→6，full→loop，asset-only→停 phase0）
+- §5 继续路由逻辑按 intent 判断基建深度与派生去向，不自动进漫画
+
+**四、`SKILL.md`**
+
+- Phase 路由表新增"意图闸口（前置）"+"基建档位（按 intent）"说明
+- 新增红线#6：意图闸口前置，不默认推漫画
+- 版本至 v1.2.0
+
+**五、`templates/视觉项目总控.html`**
+
+- Masthead 与项目简介新增 `intent` STATE 字段展示
+
+**六、版本同步**
+
+- `SKILL.md` / `skill.json` / `CHANGELOG.md` 至 v1.2.0
+
+> 效果：意图前置后，pipeline 基建完成后按用户真实目标路由，封面/OC 用户不再被默认带进漫画完整基建。
+
 ## v1.1.0 (2026-08-04)
 
 ### 升级：基建产出签核为基线资产

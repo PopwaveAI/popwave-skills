@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.1.0 (2026-08-05)
+
+### 资产提取按 intent 档位定深（不默认全量）
+
+老板审视全链路发现——asset 无档位意识，任何意图都全量提取，只想做封面的用户也白白跑深度角色档案。改造成 intent 定深：
+
+- `SKILL.md`：Step 0 产出规划改「按 intent 档位定深」；消费路由表改为按 intent（cover/oc/comic/full/asset-only）+ 基建档位标注
+- `steps/step0-detect.md` §4：新增 §4.0 读取 intent 档位定深表；§4.1 产出组合表对齐 intent；§4.2 角色名单按 intent 划定（cover 只提封面角色精简版）
+- `steps/step1-extract.md` §7：消费路由对齐 intent 档位
+- 规则统一：`comic`/`full` 全量深度；`cover` 场景+符号为主、角色精简；`oc` 角色档案深度、场景精简；`asset-only` 只提指定资产不进派生层
+- 版本同步：SKILL.md / skill.json 至 v1.1.0
+
 ## v1.0.0 (2026-07-30)
 
 从 `pop-visual-base` 拆分体系中新建的基建 skill。专注从小说原文提取结构化视觉资产，供下游视觉 skill 群消费。

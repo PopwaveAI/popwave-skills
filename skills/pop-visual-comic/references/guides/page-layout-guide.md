@@ -152,6 +152,60 @@
 
 > 如果导演卡标注"无（画面自说）"，`captions` 留空数组 `[]`。
 
+## 条漫格间留白区（Gap Zone）—— 条漫旁白/内心戏的家
+
+> **条漫模式**（漫画状态.md 模式=条漫）时启用。老板校准：真实条漫的旁白/内心戏**写在切格之间的留白区**，不叠在画面上。详见 `layout-baseline-webtoon.md` §2.7。
+
+**实现**：切格图片之间插入纯色留白 div，文字写在留白区里。默认黑底（暗黑题材）/ 白底（清新题材）。
+
+```css
+/* 格间留白区 */
+.gap-zone {
+  background: #000;                 /* 黑底（暗黑题材）/ 白底 #f7f5f0 清新题材 */
+  padding: 40px 26px;
+  text-align: center;
+}
+.gap-zone .gap-narration {
+  color: #c4b998;                    /* 旁白金色 */
+  font-size: 15px; line-height: 2.0;
+  letter-spacing: 1px;
+  max-width: 420px; margin: 0 auto;
+}
+.gap-zone .gap-os {
+  color: #8a9bb5;                    /* 内心戏蓝灰色 */
+  font-size: 14px; line-height: 1.9;
+  font-style: italic;
+  max-width: 420px; margin: 0 auto;
+}
+.gap-zone.tall { padding: 90px 26px; }  /* 情绪停顿/沉默张力：加大留白 */
+```
+
+**HTML 结构**（切格图与留白区交错）：
+
+```html
+<div class="page">
+  <img src="output/C1.png" alt="C1">
+</div>
+
+<div class="gap-zone">
+  <div class="gap-narration">暴雨后的贫民区，泥泞恶臭。索伦抱着希斯冰凉的尸体，走向墓园。</div>
+</div>
+
+<div class="page">
+  <img src="output/C2.png" alt="C2">
+</div>
+
+<div class="gap-zone tall">
+  <div class="gap-os">他仍记得，诸神黄昏那崩塌的天穹。</div>
+</div>
+```
+
+**规范**：
+- 留白区文字类型：旁白（`.gap-narration`，讲因果）/ 内心戏 OS（`.gap-os`，给动机）
+- 情绪停顿/沉默张力用 `.gap-zone.tall`（加大留白，模拟"被迫等待"）
+- **留白区是节奏工具，克制使用**——不是每个切格后都插，只在需要停顿/交代处
+- 切格画面内的对白气泡仍用 `.caption-dialogue`；**画面内不出现旁白/OS 文字**
+
 ## 避让规则
 
 文字叠加不得遮挡画面关键信息：

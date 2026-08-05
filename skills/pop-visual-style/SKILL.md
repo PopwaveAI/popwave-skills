@@ -5,7 +5,7 @@ description: "当用户说'画一张图/生成图片/文生图'或需要纯文�
 
 # pop-visual-style
 
-> 通用文生图引擎 + 画风DNA库。纯文生图，一键出图。v1.7.0
+> 通用文生图引擎 + 画风DNA库。纯文生图，一键出图。v1.8.0
 
 ## 做什么
 
@@ -60,16 +60,16 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 - 执行 `../pop-visual-shared/scripts/generate.py`
 - 保存图片 + 回写提示词记录
 
-### Step 4: 画风定标 → `steps/step4-style-calibrate.md`（Pipeline 语境下必做）
+### Step 4: 画风定标（按 intent 档位分支）→ `steps/step4-style-calibrate.md`
 
 - **画风×项目角色联合测试**：画风定标默认用**项目主角**当测试素材（`--character` + `--character-image` 图生图保证角色一致），验证"画风能否撑起本项目角色"，而非用中性素材测"画风通用底色"（v1.4.1 升级）
 - 走固定脚本 `../pop-visual-shared/scripts/batch_test.py` **并发批量**（固定 6 段式模板 + 默认 8 线程 + 自动 PE 日志），一次出多张变体；变量隔离，唯一变量是画风
 - 让画风第一次被眼睛看到，验证 DNA 是否被 Seedream 准确执行
-- **🚪 门禁：画风定标验收**（辨识度/配色/光影/无文字）
-- **稳定复现验证（核心）**：同 seed + 同脚本重跑对比，确认画风稳定而非单次运气
-- 用户认可 → **冻结画风三字段为基线资产**（`素材/风格/画风决策.md` 标 `✅ 已认可`，记录 seed + 参考图路径）
+- **档位分支（按 intent）**：
+  - `comic`/`full` → **完整定标（必做）**：🚪 **画风定标验收门禁**（辨识度/配色/光影/无文字）+ **稳定复现验证**（同 seed 复现对比），用户认可 → **冻结画风三字段为基线资产**（`素材/风格/画风决策.md` 标 `✅ 已认可`，记录 seed + 参考图路径）
+  - `cover`/`oc` → **降为 agent 自检分支**：agent 自查辨识度/配色/光影/无文字即可，**不设强制用户门禁**；定标图可单张，达标即标记 `✅ 已认可` 供下游作画风参考，**不强制稳定复现验证**
+  - 独立纯文生图时 → **跳过本步**（Step 1→2→3 直接出图）
 - 未认可 / 未稳定复现 → 回炉微调 DNA 片段（只改变体一个子维度），不冻结、不放行下游
-- 独立纯文生图时**跳过本步**（Step 1→2→3 直接出图）
 
 ## ❌ 铁律
 
@@ -96,11 +96,11 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | Pinterest 参考图搜索 | `../pop-visual-shared/scripts/pinterest_search.py` | Step 1 |
 | 提示词组装流程 | `steps/step2-prompt-build.md` | Step 2 |
 | 生成执行 | `steps/step3-generate.md` | Step 3 |
-| 画风定标（Pipeline 必做） | `steps/step4-style-calibrate.md` | Step 4 |
+| 画风定标（按 intent 档位分支） | `steps/step4-style-calibrate.md` | Step 4 |
 | 固定画风测试脚本（并发批量） | `../pop-visual-shared/scripts/batch_test.py` | Step 4 |
 | 生成图片 | `../pop-visual-shared/scripts/generate.py` | Step 3 |
 
-> **环境**：Python 3.8+ + requests。API Key 内置在脚本中。
+> **环境**：Python 3.8+ + requests。生图统一走 `image_generate` 工具（不直连 API、无内置 API Key）。
 
 ## 跨skill引用协议
 
@@ -111,5 +111,5 @@ cover/oc/comic skill引用本skill画风层时：
 3. **构图参考**：取 `recommended_composition` 字段，作为构图设计参考（不替代各skill自己的构图体系）
 4. **提示词组装**：各skill用自己的结构层（V3/4块/三字段），画风段从DNA库取
 5. **画风前置原则**：纯文生图场景，画风DNA放提示词前段；图生图场景按参考点策略处理
-6. **画风基线资产**：Pipeline 语境下，画风经定标认可后冻结为基线（`素材/风格/画风决策.md` 标 `✅ 已认可`），下游只消费冻结的画风三字段 + 定标图，禁止各自发明新画风
+6. **画风基线资产**：Pipeline 语境下，画风经定标认可后冻结为基线（`素材/风格/画风决策.md` 标 `✅ 已认可`），下游只消费冻结的画风三字段 + 定标图，禁止各自发明新画风。**按 intent 档位**：`comic`/`full` 必须完整定标门禁+稳定复现；`cover`/`oc` 走 agent 自检分支，定标图达标即标记认可，供下游作画风参考
 7. **稳定复现**：下游复现画风时用**冻结的 seed** + 参考图（image 参数），保证画风稳定复现不漂移。seed 和参考图路径从 `画风决策.md` 读取

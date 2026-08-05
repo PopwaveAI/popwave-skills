@@ -26,7 +26,11 @@
 - 若项目已有散落资产但无总控 → 读取模板生成总控，按清点结果填充 STATE
 - 若已有总控 → 直接读取，更新为最新状态
 
-### 3. 落地 Phase 决策
+### 2.5 🚪 意图闸口（import 时确认档位）
+
+> 若总控 `intent` 字段为空或未确认，用 `AskUserQuestion` 询问本次目标（cover/oc/comic/full/asset-only，见 step0-init §1.5 意图表）。已确认则沿用，不重复问。
+
+## 3. 落地 Phase 决策
 
 按清点结果判断当前 phase：
 

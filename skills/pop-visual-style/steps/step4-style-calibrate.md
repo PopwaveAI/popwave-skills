@@ -4,10 +4,13 @@
 >
 > **v1.4.1 关键升级（画风×项目角色联合测试）**：老板实测发现固定中性素材测不出"画风能否撑起项目角色"（玄鉴仙族用中性"现代青年+木屋"测画风，测不出"黑金甲衣+金瞳"主角的适配度）。**画风定标默认用项目主角当测试素材，而非中性素材。** 用 `--character` + `--character-image` 传项目角色（图生图保证角色一致）。
 
-## 何时用
+## 何时用（按 intent 档位分支）
 
 - 本 skill 独立纯文生图：**跳过本步**（Step 1→2→3 直接出图）。
-- **Pipeline 语境下（Phase 1 定画风）**：**必做**。选完画风后、进入 character（Phase 2）前，先定标验证。
+- **Pipeline 语境下（Phase 1 定画风）**，按 `视觉项目总控.html` 的 `intent` 档位分支：
+  - `comic`/`full` → **完整定标（必做）**：走完整门禁 + 稳定复现验证（见下文 Step 4/5），进入 character（Phase 2）前先定标。
+  - `cover`/`oc` → **agent 自检分支**：出定标图后 agent 自查辨识度/配色/光影/无文字即可，**不设强制用户门禁、不强制稳定复现**；达标即标记 `✅ 已认可` 供下游作画风参考。
+- > Pipeline 未建总控（独立模式）时，按用户当次意图判定：明确做漫画/连载 → 完整档；做封面/OC → 自检分支。
 
 ## 核心原则
 
@@ -129,7 +132,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标�
 
 ## 下一步
 
-→ 完成。Pipeline 语境下进入 Phase 2（`pop-visual-character`）设计人物。
+→ 完成。Pipeline 语境下进入 Phase 2（`pop-visual-character`）设计人物身份卡（定妆深度按 intent 档位：`comic`/`full` 完整双角度，`cover`/`oc` 单张或跳过）。
 
 ## 红线
 

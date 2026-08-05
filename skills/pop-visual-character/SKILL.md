@@ -5,7 +5,7 @@ description: "当用户说'设计人物形象/人设/角色形象/角色视觉�
 
 # pop-visual-character
 
-> 人物形象设计 · 营销专家基建层。角色档案→角色视觉身份卡。v1.4.0
+> 人物形象设计 · 营销专家基建层。角色档案→角色视觉身份卡。v1.5.0
 
 ## 做什么
 
@@ -53,14 +53,15 @@ description: "当用户说'设计人物形象/人设/角色形象/角色视觉�
 - 落盘 `素材/视觉资产/[角色名]视觉身份卡.md`
 - 通知下游可直接消费
 
-### Step 3: 角色定妆 → `steps/step3-character-tuning.md`（Pipeline 语境下必做）
+### Step 3: 角色定妆（按 intent 档位分支）→ `steps/step3-character-tuning.md`
 
-- 用**选定画风 + 身份卡冻结提示词**渲染 1 张角色定妆图（身份不变，只验证渲染）
+- 用**选定画风 + 身份卡冻结提示词**渲染角色定妆图（身份不变，只验证渲染）
 - 让身份设计第一次被眼睛看到，验证角色在大图上是否成立
-- **🚪 门禁：角色定妆验收**（剪影层/色彩签名/记忆锚点/反类型化/画风一致）
-- 用户认可 → **冻结身份卡为基线资产**（身份卡标 `✅ 已认可`）
+- **档位分支（按 intent）**：
+  - `comic`/`full` → **完整定妆（必做）**：渲染**正/侧双角度**定妆图（跨章一致性），🚪 **角色定妆验收门禁**（剪影层/色彩签名/记忆锚点/反类型化/画风一致），用户认可 → **冻结身份卡为基线资产**（身份卡标 `✅ 已认可`）
+  - `cover`/`oc` → **轻量定妆（可选）**：基建到身份卡（Step 0→1→2）即可派生，**不强制双角度定妆**；如需封面/OC 角色参考图，渲染**单张**定妆图即可，agent 自查达标标 `✅ 已认可`
+  - 只做身份设计（不渲染）时 → **跳过本步**（Step 0→1→2 出身份卡即完成）
 - 未认可 → 回身份卡升级版本，**禁止在渲染层硬凑**
-- 只做身份设计（不渲染）时**跳过本步**（Step 0→1→2 出身份卡即完成）
 
 ## ❌ 铁律
 
@@ -82,7 +83,7 @@ description: "当用户说'设计人物形象/人设/角色形象/角色视觉�
 | 读输入（档案+画风） | `steps/step0-read-input.md` | Step 0 |
 | 身份设计（三把锁+五问+金字塔+锚点分级+反类型化+撕裂感） | `steps/step1-design-identity.md` | Step 1 |
 | 确认+落盘 | `steps/step2-confirm-save.md` | Step 2 |
-| 角色定妆（Pipeline 必做） | `steps/step3-character-tuning.md` | Step 3 |
+| 角色定妆（按 intent 档位分支） | `steps/step3-character-tuning.md` | Step 3 |
 | 高级角色设计方法论（核心） | `references/advanced-character-design.md` | Step 1 必读 |
 | 角色视觉身份卡模板 | `templates/visual-identity-card.tpl.md` | Step 1 |
 | 画风DNA库（按赛道选基准） | `skills/pop-visual-style/references/style-dna-library.json` | Step 0 |
@@ -96,6 +97,6 @@ description: "当用户说'设计人物形象/人设/角色形象/角色视觉�
 
 ## 版本
 
-**当前版本**：v1.4.0 | 2026-08-05
+**当前版本**：v1.5.0 | 2026-08-05
 
 > 完整版本历史见 `CHANGELOG.md`。
