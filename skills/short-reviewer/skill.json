@@ -1,0 +1,24 @@
+{
+  "id": "short-reviewer",
+  "version": "1.0.0",
+  "displayName": "短篇评审器",
+  "description": "当正文草稿完成后进入质量评审时启用。9维评分+亮点/不足+分维诊断+AI味儿参考+修改建议+总结。不直接修改正文，只诊断问题并给出改进方向。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["评审", "诊断"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false,
+    "shell": false
+  },
+  "tags": ["短篇创作", "质量评审"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "short-idea-refiner",
+  "version": "1.0.0",
+  "displayName": "脑洞提炼器",
+  "description": "当用户说'想不出写什么/有个模糊想法/帮我想个脑洞'时启用。模糊想法→脑洞一句话+热点参考。分路径A(有想法)/路径B(只有方向)/路径C(带例文)。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["脑洞提炼", "脑洞"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["短篇创作", "创意生成"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}
