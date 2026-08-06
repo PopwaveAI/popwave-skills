@@ -148,8 +148,8 @@ Phase 0 只做两件事：**定画风、定OC**。这两件事是全系列一致
 | 漫画角色库.md | `templates/漫画角色库.md.tpl` | 全角色四层结构（规格表+冻结提示词+双角度资产+决策日志） |
 | 漫画快照.md | `templates/漫画快照.md.tpl` | 冻结风格锚定串+角色清单+空章节清单 |
 | 漫画状态.md | `templates/漫画状态.md.tpl` | 初始状态：当前章=第1章 |
-| 视觉沉淀.md | 无模板（空文件） | 等待 Step 3 append |
+| 视觉沉淀.md | 无模板（空文件） | 等待 Step 2 append |
 
 确认 `assets/characters/` 目录已有全部角色的双角度定妆图。
 
-> Phase 0 完成后，进入 Step 1（读取 `steps/step1-scene-breakdown.md`）。
+> Phase 0 完成后，进入 Step 1（读取 `steps/step1-director-card.md`）执行导演卡创作。
