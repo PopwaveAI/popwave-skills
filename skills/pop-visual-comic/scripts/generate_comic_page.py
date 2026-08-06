@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
 """
-pop-visual-comic 逐页/逐切漫画任务清单导出脚本 v5.1.0
+pop-visual-comic 逐页漫画任务清单导出脚本 v5.2.0
 ================================================
 生图改为由主 agent 调用 `image_generate` 工具完成，本脚本不再直调任何 HTTP API、不再内置 API Key。
 
 职责：
-  1. 从下方 PAGES 列表读取每页/每切的 id + prompt + ref_images + size
+  1. 从下方 PAGES 列表读取每页的 id + prompt + ref_images + size
   2. 做文字控制占位符（NEG<DIALOGUE>/NEG<TEXT>）替换 + 尺寸安全校验
   3. 解析角色定妆图参考路径（REF_IMAGES 字段）
   4. 导出 `generation_tasks.json`（每页一条任务：id/prompt/size/ref_images/output_path）
   5. 打印"请用 image_generate 工具逐张生成"的指引
 
-双模式：
-  - 页漫（MODE="page"，默认）：PAGES 每项 = 一页（内嵌多格），size 默认 1125x1500
-  - 条漫（MODE="webtoon"）：PAGES 每项 = 一个切格（单格，高度随切格类型变）。
-    每项可写 "cut_type": "WT-1~5"（见 WEBTOON_CUT_SIZES，自动映射尺寸），或直接写 size 覆盖。
+页漫模式（唯一模式）：
+  PAGES 每项 = 一页（内嵌多格），size 默认 1125x1500。
+  条漫模式已剥离（v7.13.0 老板校准），本脚本不再支持切格 cut_type。
 
 主 agent 用法：
-  1. 修改 MODE（页漫/条漫）+ 下方 PAGES 列表（每项的 id + prompt + ref_images + 可选 size/cut_type）
+  1. 修改下方 PAGES 列表（每项的 id + prompt + ref_images + 可选 size）
   2. 修改 OUTPUT_DIR / CHAR_ASSETS_DIR
   3. 运行: python generate_comic_page.py
   4. 读取生成的第{N}章/output/generation_tasks.json
@@ -35,21 +34,11 @@ import sys
 
 # ============ 配置区（使用前修改） ============
 
-# 双模式：页漫 "page"（默认，每页内嵌多格）/ 条漫 "webtoon"（每切格单格一屏）
+# 页漫模式（唯一模式），每页内嵌多格
 MODE = "page"
 
 SIZE = "1125x1500"           # 页漫默认尺寸（总像素 169 万 ≤ 236 万上限）
 MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
-
-# 条漫切格类型库（见 references/layout-baseline-webtoon.md §四 WT-1~5）
-# WT-3 跨屏长切 1125x2000 = 225 万 ≤ 上限；若需更长降宽到 900（900x2500=225 万）
-WEBTOON_CUT_SIZES = {
-    "WT-1": "1125x1500",   # 标准切 / 一屏，一个完整叙事节拍
-    "WT-2": "1125x900",    # 节奏切 / 半屏，快节奏
-    "WT-3": "1125x2000",   # 跨屏长切 / 高潮大场面（1.3 屏）
-    "WT-4": "1125x1500",   # 全景切 / 横向大场景建立
-    "WT-5": "1125x1500",   # 特写切 / 情绪钉
-}
 
 # 输出目录（章节级）
 OUTPUT_DIR = r"第1章/output"
@@ -57,7 +46,7 @@ OUTPUT_DIR = r"第1章/output"
 # 定妆图根目录（项目级，跨章复用）
 CHAR_ASSETS_DIR = r"assets/characters"
 
-# 页面列表（每页是一张包含多格的完整漫画图；条漫模式下每项 = 一个切格）
+# 页面列表（每页是一张包含多格的完整漫画图）
 PAGES = [
     {
         "id": "page1",
@@ -70,10 +59,8 @@ PAGES = [
                   "NEG<TEXT>",  # 见下方 text_control 常量，生成时替换为锁定负面词
         "ref_images": ["char-苏午-v1.png"],  # 角色定妆图参考（可多张）
         "size": "1125x1500",  # 可选，默认用 SIZE（总像素须 ≤236万）
-        # 条漫模式可选：cut_type 从 WT-1~5 选，自动映射尺寸（写则覆盖 size）
-        # "cut_type": "WT-1",
     },
-    # ... 更多页/切请自行添加
+    # ... 更多页请自行添加
 ]
 
 # ===== 文字控制负面词（2026-08-03 实测锁定，见 references/content-layer.md §六）=====
@@ -175,20 +162,8 @@ def export_tasks():
         if len(prompt) > 2200:
             print(f"  [警告] {page['id']} 提示词过长: {len(prompt)} 字符")
 
-        # 尺寸：条漫模式按 cut_type 映射，否则用 size，再回退默认 SIZE
-        cut_type = page.get("cut_type")
-        if MODE == "webtoon":
-            if cut_type:
-                if cut_type not in WEBTOON_CUT_SIZES:
-                    print(f"  [错误] {page['id']} 未知切格类型: {cut_type}（应为 WT-1~5）", file=sys.stderr)
-                    sys.exit(1)
-                size = WEBTOON_CUT_SIZES[cut_type]
-                print(f"  {page['id']}: 条漫切格 {cut_type} → size={size}")
-            else:
-                size = page.get("size", SIZE)
-                print(f"  {page['id']}: 条漫切格（size 手动指定）→ size={size}")
-        else:
-            size = page.get("size", SIZE)
+        # 尺寸：页漫模式每页用 size，再回退默认 SIZE
+        size = page.get("size", SIZE)
         _assert_size_safe(size)
 
         # 解析参考图路径
@@ -216,7 +191,7 @@ def export_tasks():
     meta = {
         "total_pages": len(PAGES),
         "mode": MODE,
-        "generator": "generate_comic_page.py v5.1.0",
+        "generator": "generate_comic_page.py v5.2.0",
         "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
         "tasks": tasks,
     }

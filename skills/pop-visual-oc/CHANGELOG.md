@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.9.0 | 2026-08-06
+
+### 修复：OC 提示词禁止携带 no text（身份卡冻结提示词污染）
+
+老板发现——OC 消费身份卡冻结提示词时，把「定妆图专用」的 `no text, no letters, no characters, no watermark, no decorative elements, no border, no seal` 原样带进了 OC 提示词，压制 EXACT TYPOGRAPHY，导致立绘渲染不出文字，退化成定妆照。
+
+- `steps/step2-generate.md` 新增 §2.2.1「消费身份卡冻结提示词：去 no text，加 EXACT TYPOGRAPHY」：剥离文字禁止词 → 保留人物本体描述 → 补回 EXACT TYPOGRAPHY 六层信息架构 → 校验无文字禁止词残留
+- `steps/step2-generate.md` 自检新增 2 项：无文字禁止词残留 + EXACT TYPOGRAPHY 完整
+- `SKILL.md` 新增铁律 ❌7「OC 提示词禁止携带 no text」；Step 2 描述补充剥离 no text / 补回 EXACT TYPOGRAPHY 的要求
+- 版本同步：SKILL.md / skill.json 至 v1.9.0
+
 ## v1.8.0 | 2026-08-05
 
 ### 消费链路对齐：oc 意图 = 轻量~中基建

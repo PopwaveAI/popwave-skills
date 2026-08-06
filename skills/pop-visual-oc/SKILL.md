@@ -5,7 +5,7 @@ description: "当用户说'人设图/角色图/OC/立绘/角色卡'或需要角�
 
 # pop-visual-oc
 
-> 网文角色立绘生成器。角色调研→设计方案→生成。v1.8.0
+> 网文角色立绘生成器。角色调研→设计方案→生成。v1.9.0
 
 ## 做什么
 
@@ -85,8 +85,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 
 ### Step 2: 生成资产 → `steps/step2-generate.md`
 
-- 读取确认方案 + 角色档案
-- 翻译为高精度提示词（4块结构：LOCKED COMPOSITION→ENVIRONMENT AND LIGHTING→EXACT TYPOGRAPHY→HARD CONSTRAINTS）
+- 读取确认方案 + 角色档案 + 身份卡
+- 翻译为高精度提示词（4块结构：LOCKED COMPOSITION→ENVIRONMENT AND LIGHTING→EXACT TYPOGRAPHY→HARD CONSTRAINTS）；**消费身份卡冻结提示词时必须剥离其中 no text/no letters/no characters 等文字禁止词（定妆图专用），补回 EXACT TYPOGRAPHY 块写入六层信息架构**
 - 执行 API → 保存图片 → 回写记录
 - **系列化循环**：冻结核心特征（眼瞳/轮廓/气质），变化服饰/场景/姿态/年龄，循环生成
 
@@ -112,6 +112,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | ❌4 | **设计方案必须落盘** — 角色档案、设计方案和提示词写入 `素材/` | 无法迭代优化和系列扩展 |
 | ❌5 | **立绘必须含文字+文化元素** — 纯图不算立绘，必须包含角色名+定场诗/人设简介等文字层，并叠加题诗/书法/钤印/装饰等文化元素；这是立绘OC与定妆照的本质区别 | 退化为普通素材/定妆照，丢失展示属性 |
 | ❌6 | **必须使用最新版本定妆图** — OC 渲染前校验定妆图版本，禁止沿用旧版本参考图；身份卡升级后必须用最新版重新生成 | 角色本体与展示作品跨版本 gap，两张图对不上 |
+| ❌7 | **OC 提示词禁止携带 no text** — 身份卡冻结提示词是定妆图专用（含 `no text/no letters/no characters` 等文字禁止词），组装 OC 提示词时必须剥离这些文字禁止词，并补回 EXACT TYPOGRAPHY 块 | 文字被压制，立绘退化成定妆照，丢失展示属性 |
 
 ## 速查表
 

@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v7.13.0 | 2026-08-06
+
+### 剥离条漫模式，专注页漫
+
+**背景**：老板校准——条漫表达不达预期，**暂时剥离条漫模式**，skill 主流程只走页漫。条漫基准库已归档保留（`references/_webtoon-archive/layout-baseline-webtoon.md`），未删除；后续若重启条漫，将其移回 `references/` 并恢复条漫引用即可。
+
+**改动**：
+
+- `SKILL.md`：移除双模式，改为"页漫模式（唯一模式）"，核心管线/模型说明/速查表/铁律同步收敛；版本至 v7.13.0
+- `steps/step0-init.md`：移除定模式选择，模式固定为页漫（一页多格，YZ-1~8 分页）
+- `steps/step2-director-card.md`：移除 §3.7 条漫模式整节及引用
+- `steps/step3-production-review.md`：移除条漫模式生图/格间留白区引用
+- `scripts/generate_comic_page.py`：移除条漫 MODE 与 WEBTOON_CUT_SIZES/WT-1~5 切格逻辑，纯页漫单模式（v5.2.0）
+- `references/guides/page-layout-guide.md`：移除"条漫格间留白区（Gap Zone）"整章
+- `references/guides/director-card-template.md`：移除切格/留白区等条漫用词，统一为页/格表述
+- `references/layout-baseline-webtoon.md`：归档至 `references/_webtoon-archive/`
+- `skill.json`：描述更新为单页漫模式，版本至 v7.13.0
+
+> v7.12.0 导演卡三级对齐门禁保留不变：①原文保真（S级保真率≥80%）→②画面×旁白自洽→③因果链通读。先对原文再对自洽否则会"自洽地错"。
+
 ## v7.12.0 | 2026-08-06
 
 ### 导演卡三级对齐门禁（重构 v7.11.0 自评门禁）

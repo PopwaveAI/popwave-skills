@@ -59,6 +59,20 @@ Character consistency locks:
 以上特征在系列图中必须保持一致。
 ```
 
+### 2.2.1 消费身份卡冻结提示词：去 no text，加 EXACT TYPOGRAPHY
+
+OC 以身份卡为角色本体（Step 0.5），会读取身份卡的「冻结提示词」。但**该冻结提示词是定妆图专用**，内含 `no text, no letters, no characters, no watermark, no decorative elements, no border, no seal`——定妆图要纯参考图，OC 立绘必须含文字。
+
+> **矛盾**：若把身份卡冻结提示词原样拼进 OC 提示词，「no text」会压制 EXACT TYPOGRAPHY，导致立绘渲染不出文字，退化成定妆照。
+
+**组装 OC 提示词时的处理规则**：
+1. **剥离**：删掉冻结提示词中的文字禁止约束 `no text, no letters, no characters, no watermark, no decorative elements, no border, no seal`（这些属于定妆图，不属于 OC）
+2. **保留**：冻结提示词中的人物本体描述（外貌/服饰/特征/姿态/气质/锚点）原样保留，作为 LOCKED COMPOSITION 的角色外观来源
+3. **补回**：EXACT TYPOGRAPHY 块必须完整写入六层信息架构（角色名+身份→称号→小传→题诗→书法大字→钤印），见 §2.3
+4. **校验**：最终 OC 提示词中**不得残留任何 no text / no letters / no characters 类文字禁止词**，否则文字渲染被压制
+
+> 一句话：身份卡冻结提示词提供"这个人长什么样"，EXACT TYPOGRAPHY 提供"图上要出现哪些字"。两者必须并存，且文字禁止词绝不进入 OC。
+
 ### 2.3 文字层翻译
 
 将六层信息架构翻译为 EXACT TYPOGRAPHY 块：
@@ -244,6 +258,8 @@ image_generate(prompt='[高精度提示词]', size='1125x1500', ref_image='素�
 - [ ] **模式B**：放开吸收公式声明吸收范围+4块结构，画风维度放权（不写配色），仅排除场景内容+人物长相
 - [ ] **模式C**：完整4块结构，控制全部维度
 - [ ] 冻结特征已嵌入 HARD CONSTRAINTS（或模式A的替换描述中）
+- [ ] **无文字禁止词残留**：消费身份卡冻结提示词时已剥离 `no text / no letters / no characters / no watermark / no decorative elements / no border / no seal`，最终提示词不含任何文字禁止词
+- [ ] **EXACT TYPOGRAPHY 完整**：模式B/模式C 的提示词含 EXACT TYPOGRAPHY 块，六层信息架构均用双引号包裹并指定字体和位置
 - [ ] 六层文字均用双引号包裹，指定字体和位置
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）
 - [ ] API 脚本执行成功，图片已保存

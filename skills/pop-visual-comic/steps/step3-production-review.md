@@ -22,7 +22,6 @@ Step 3 是**执行+收尾**——按 Step 2 的图纸施工，生成漫画页，
 ## 2. 生图（任务清单导出 + image_generate 工具）
 
 > `generate_comic_page.py` **不再直连生图 API，也不内置任何 API Key**。它只负责：从 `PAGES` 解析每页提示词与参考图 → 校验尺寸 → 导出 `output/generation_tasks.json`，由主 agent 用 `image_generate` 工具逐张生成（图生图时传参考图保证角色一致）。
-> **条漫模式**：脚本顶部 `MODE = "webtoon"`，PAGES 每项 = 一个切格（单格一屏），每项写 `cut_type: "WT-1~5"` 自动映射尺寸（见 `references/layout-baseline-webtoon.md` §四）。
 
 ### 配置生成脚本
 
@@ -62,8 +61,7 @@ python "{本skill路径}/scripts/generate_comic_page.py"
 
 ## 3. 长条滚动 HTML
 
-> **必读 `references/guides/page-layout-guide.md`** — 长条滚动完整 HTML 模板、文字叠加 CSS、**条漫格间留白区（Gap Zone）实现**（§条漫格间留白区）。
-> **条漫模式**：切格图片之间插入 `.gap-zone` 留白区承载旁白/内心戏（HTML 承载，不叠画面），切格画面内的对白用 `.caption-dialogue` 气泡。
+> **必读 `references/guides/page-layout-guide.md`** — 长条滚动完整 HTML 模板、文字叠加 CSS。
 
 ### 编写页面配置 JSON
 
