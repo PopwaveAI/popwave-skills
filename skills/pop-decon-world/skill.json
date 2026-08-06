@@ -1,0 +1,18 @@
+{
+  "id": "pop-decon-world",
+  "version": "1.0.0",
+  "displayName": "世界观拆解",
+  "description": "当拆书时用户说'世界观/设定/地理/势力/历史/物种/物品'时启用。消费章节白描+力量体系(可选)→产出世界观拆解：地理+历史+物种+势力+物品。",
+  "tags": [
+    "拆书与分析"
+  ],
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-prd",
+  "expert": "pop-decon",
+  "activation": { "slashCommands": ["世界观", "设定", "地理", "势力"] },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

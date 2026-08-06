@@ -1,0 +1,18 @@
+{
+  "id": "pop-decon-power",
+  "version": "1.0.0",
+  "displayName": "力量体系拆解",
+  "description": "当拆书时用户说'力量/境界/战斗/升级/体系'时启用。消费章节白描→产出力量体系拆解：力量定义+境界金字塔+主角升级路线+战斗体系。",
+  "tags": [
+    "拆书与分析"
+  ],
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-character",
+  "expert": "pop-decon",
+  "activation": { "slashCommands": ["力量", "境界", "战斗", "升级"] },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}
