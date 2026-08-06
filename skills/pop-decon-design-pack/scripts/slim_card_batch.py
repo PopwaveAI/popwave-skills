@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-瘦身白描卡/设计包 30章合并批处理脚本
+瘦身白描卡/设计包批处理脚本（质量模式 / 性能模式）
 
-核心变化 (v6.2.0):
-- 从"单章 1 次 API 调用"改为"30 章合并 1 次 API 调用"（30张合并白描）
-- 每批合并 30 章原文，一次调用产出 30 张白描卡/设计包，降低 API 调用成本约 30%
-- 通过 --batch-size 控制每批章数，--mode 控制输出格式（fast 白描卡 / precision 设计包）
+v6.3.0 核心变化:
+- 新增「处理方式」维度 --strategy，与输出格式 --mode 正交：
+  * quality（质量模式）    = 单章逐章处理，每章 1 次 API 调用，精度最高
+  * performance（性能模式）= 30章合并，1 次调用产出 30 张，成本最低
+- 每次任务开启前，调用方必须与用户确认选用哪种策略，并说明两种模式的得失
+  （见 steps/step-2-batch-process.md 的「模式确认」环节）
 
 用法:
   python slim_card_batch.py --input <小说.txt> --output <输出目录> [选项]
@@ -14,27 +16,28 @@
 参数:
   --input       小说 TXT 文件路径（必填）
   --output      输出目录（默认: 写作资产/白描卡/）
-  --mode        fast=瘦身白描卡 / precision=设计包v4（默认: fast）
-  --batch-size  每批合并章数（默认: 30）
+  --mode        输出格式: fast=瘦身白描卡 / precision=设计包v4（默认: fast）
+  --strategy    处理方式: quality=单章逐章 / performance=30章合并（默认: performance）
+  --batch-size  每批合并章数（performance 模式，默认 30；quality 模式恒为 1）
+  --workers     并发数（quality 默认 10 并发章 / performance 默认 3 并发批）
   --encoding    TXT 文件编码（默认: gbk，可选 utf-8）
   --volume      只处理指定卷（如 "第一卷"，默认处理全书）
-  --workers     并发批数（默认: 3）
   --max-chapters  最多处理章数（用于测试，默认无限制）
   --api-key     DeepSeek API Key（默认从环境变量或内置）
   --model       模型名（默认: deepseek-v4-flash）
 
 示例:
-  # 全书 fast 模式，30章合并
-  python slim_card_batch.py --input 深渊主宰.txt --output ./白描卡/ --mode fast
+  # performance 模式（30章合并），fast 瘦身白描卡
+  python slim_card_batch.py --input 深渊主宰.txt --output ./白描卡/ --strategy performance
 
-  # 只处理第一卷，precision 模式，30章合并
-  python slim_card_batch.py --input 深渊主宰.txt --output ./设计包v4/ --mode precision --volume "第一卷"
+  # quality 模式（单章逐章），precision 设计包
+  python slim_card_batch.py --input 深渊主宰.txt --output ./设计包v4/ --mode precision --strategy quality
 
-  # 测试前10章（1批）
+  # performance 模式，precision 设计包，只处理第一卷
+  python slim_card_batch.py --input 深渊主宰.txt --output ./设计包v4/ --mode precision --strategy performance --volume "第一卷"
+
+  # 测试前10章
   python slim_card_batch.py --input 深渊主宰.txt --output ./白描卡/ --max-chapters 10
-
-  # 单章逐章（旧行为，batch-size=1）
-  python slim_card_batch.py --input 深渊主宰.txt --output ./白描卡/ --batch-size 1
 """
 
 import json
@@ -50,13 +53,16 @@ import urllib.error
 DEFAULT_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEFAULT_API_URL = "https://api.deepseek.com/chat/completions"
 DEFAULT_MODEL = "deepseek-v4-flash"
-DEFAULT_WORKERS = 3  # 每批是30章合并大调用，并发不宜过高
 DEFAULT_BATCH_SIZE = 30
 MAX_RETRIES = 2
-TIMEOUT = 300  # 30章合并大调用，超时放宽
+# 质量模式并发章数 / 性能模式并发批数
+QUALITY_WORKERS = 10
+PERFORMANCE_WORKERS = 3
+TIMEOUT_QUALITY = 120
+TIMEOUT_PERFORMANCE = 300  # 30章合并大调用，超时放宽
 
 # ===== 系统提示词：fast mode（瘦身白描卡）=====
-SYSTEM_PROMPT_FAST = """你是一个专业的小说拆解助手。你的任务是将合并输入的多章小说原文，逐章压缩为瘦身白描卡。
+SYSTEM_PROMPT_FAST = """你是一个专业的小说拆解助手。你的任务是将输入的小说原文，逐章压缩为瘦身白描卡。
 
 ## 输入格式
 输入会携带一个或多个连续章节，每章用 `===== 第N章 标题 =====` 分隔。
@@ -112,7 +118,7 @@ POV: xxx | 章型: xxx | 原文: XXXX字
 - 交锋: 战斗/对抗/智斗"""
 
 # ===== 系统提示词：precision mode（v4设计包 3层+1区）=====
-SYSTEM_PROMPT_PRECISION = """你是一个专业的小说拆解助手。你的任务是将合并输入的多章小说原文，逐章提炼为 v4 设计包（3层+1区结构）。
+SYSTEM_PROMPT_PRECISION = """你是一个专业的小说拆解助手。你的任务是将输入的小说原文，逐章提炼为 v4 设计包（3层+1区结构）。
 
 ## 输入格式
 输入会携带一个或多个连续章节，每章用 `===== 第N章 标题 =====` 分隔。
@@ -211,19 +217,23 @@ def split_chapters(content, volume_filter=None):
 
 
 def build_batch_prompt(batch, mode):
-    """将一批章节合并为单个 prompt。batch: [(num, title, text, line_num), ...]"""
+    """将一批章节合并为单个 prompt（单章时 batch 只有 1 章）。batch: [(num, title, text, line_num), ...]"""
     parts = []
     for ch_num, ch_title, ch_text, _ in batch:
         parts.append(f"===== 第{ch_num}章 {ch_title} =====\n{ch_text}")
     combined = "\n\n".join(parts)
+    n = len(batch)
+    if n == 1:
+        prompt_type = "瘦身白描卡" if mode == "fast" else "v4 设计包"
+        return f"以下是小说第{batch[0][0]}章（{batch[0][1]}）的原文，请输出{prompt_type}：\n\n{combined}"
     if mode == "fast":
-        return f"以下是小说连续 {len(batch)} 章（{batch[0][1]} 至 {batch[-1][1]}）的原文，请逐章输出瘦身白描卡，共 {len(batch)} 张：\n\n{combined}"
+        return f"以下是小说连续 {n} 章（{batch[0][1]} 至 {batch[-1][1]}）的原文，请逐章输出瘦身白描卡，共 {n} 张：\n\n{combined}"
     else:
-        return f"以下是小说连续 {len(batch)} 章（{batch[0][1]} 至 {batch[-1][1]}）的原文，请逐章输出 v4 设计包，共 {len(batch)} 份：\n\n{combined}"
+        return f"以下是小说连续 {n} 章（{batch[0][1]} 至 {batch[-1][1]}）的原文，请逐章输出 v4 设计包，共 {n} 份：\n\n{combined}"
 
 
-def call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, retry=0):
-    """调用 DS API 处理一批（30章合并）"""
+def call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, timeout, retry=0):
+    """调用 DS API 处理一批（单章或30章合并）"""
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": batch_prompt}
@@ -247,7 +257,7 @@ def call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, r
 
     start = time.time()
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             result = json.loads(resp.read().decode("utf-8"))
             elapsed = time.time() - start
             content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
@@ -264,7 +274,7 @@ def call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, r
         elapsed = time.time() - start
         if retry < MAX_RETRIES:
             time.sleep(3)
-            return call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, retry + 1)
+            return call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, timeout, retry + 1)
         return {
             "content": "",
             "elapsed": elapsed,
@@ -275,7 +285,7 @@ def call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, r
 
 
 def parse_cards(content, mode):
-    """解析批量输出为 {chapter_num: card_text}。返回 (cards_dict, missing_count)"""
+    """解析批量输出为 {chapter_num: card_text}。返回 (cards_dict, match_count)"""
     if mode == "fast":
         marker_re = re.compile(r'^#\s*ch(\d+)[「\[]', re.MULTILINE)
     else:
@@ -294,16 +304,20 @@ def parse_cards(content, mode):
 
 def process_batch(args_tuple):
     """处理一批章节（用于线程池）。args_tuple 见 main 中的构造。"""
-    (batch, batch_index, output_dir, api_key, api_url, model, mode, max_tokens) = args_tuple
+    (batch, batch_index, output_dir, api_key, api_url, model, mode, max_tokens, timeout) = args_tuple
 
     batch_prompt = build_batch_prompt(batch, mode)
     system_prompt = SYSTEM_PROMPT_FAST if mode == "fast" else SYSTEM_PROMPT_PRECISION
-    result = call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens)
+    result = call_api(batch_prompt, system_prompt, api_key, api_url, model, max_tokens, timeout)
 
     batch_nums = [ch[0] for ch in batch]
     written = []
     if result["content"]:
-        cards, _ = parse_cards(result["content"], mode)
+        cards, match_count = parse_cards(result["content"], mode)
+        # 质量模式单章：若模型未按标记输出，整段视为该章内容
+        if len(batch) == 1 and match_count == 0:
+            ch_num = batch[0][0]
+            cards[ch_num] = result["content"].strip()
         for ch in batch:
             ch_num = ch[0]
             card_text = cards.get(ch_num)
@@ -320,10 +334,14 @@ def process_batch(args_tuple):
     out_chars = len(result["content"])
     ratio = (out_chars / batch_input_chars * 100) if batch_input_chars > 0 else 0
     status = "OK" if result["content"] else "FAIL"
-    print(f"  [批{batch_index}] {status} {result['elapsed']:.1f}s | "
-          f"ch{batch_nums[0]:03d}-ch{batch_nums[-1]:03d} | "
-          f"原文{batch_input_chars}字 → 产出{out_chars}字 ({ratio:.1f}%) | "
-          f"写入{len(written)}/{len(batch)}章", flush=True)
+    if len(batch) == 1:
+        print(f"  [ch{batch_nums[0]:03d}] {status} {result['elapsed']:.1f}s | "
+              f"原文{batch_input_chars}字 → 产出{out_chars}字 ({ratio:.1f}%)", flush=True)
+    else:
+        print(f"  [批{batch_index}] {status} {result['elapsed']:.1f}s | "
+              f"ch{batch_nums[0]:03d}-ch{batch_nums[-1]:03d} | "
+              f"原文{batch_input_chars}字 → 产出{out_chars}字 ({ratio:.1f}%) | "
+              f"写入{len(written)}/{len(batch)}章", flush=True)
 
     return {
         "batch_index": batch_index,
@@ -337,16 +355,18 @@ def process_batch(args_tuple):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="瘦身白描卡/设计包 30章合并批处理")
+    parser = argparse.ArgumentParser(description="瘦身白描卡/设计包批处理（质量/性能模式）")
     parser.add_argument("--input", required=True, help="小说 TXT 文件路径")
     parser.add_argument("--output", default="写作资产/白描卡", help="输出目录")
     parser.add_argument("--mode", default="fast", choices=["fast", "precision"],
                         help="fast=瘦身白描卡 / precision=设计包v4（默认 fast）")
-    parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE,
-                        help=f"每批合并章数（默认 {DEFAULT_BATCH_SIZE}）")
+    parser.add_argument("--strategy", default="performance", choices=["quality", "performance"],
+                        help="quality=单章逐章 / performance=30章合并（默认 performance）")
+    parser.add_argument("--batch-size", type=int, default=None,
+                        help=f"每批合并章数（performance 默认 {DEFAULT_BATCH_SIZE}；quality 恒为 1）")
     parser.add_argument("--encoding", default="gbk", help="TXT 文件编码（默认 gbk）")
     parser.add_argument("--volume", default=None, help="只处理指定卷（如 '第一卷'）")
-    parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS, help=f"并发批数（默认 {DEFAULT_WORKERS}）")
+    parser.add_argument("--workers", type=int, default=None, help="并发数（quality 默认10 / performance 默认3）")
     parser.add_argument("--max-chapters", type=int, default=None, help="最多处理章数")
     parser.add_argument("--api-key", default=DEFAULT_API_KEY, help="DeepSeek API Key")
     parser.add_argument("--model", default=DEFAULT_MODEL, help="模型名")
@@ -356,9 +376,20 @@ def main():
         print("错误: 未提供 API Key。请设置 DEEPSEEK_API_KEY 环境变量或使用 --api-key 参数。")
         return
 
-    if args.batch_size < 1:
-        print("错误: --batch-size 必须 >= 1")
-        return
+    # 根据 strategy 确定 batch_size / workers / timeout
+    if args.strategy == "quality":
+        batch_size = 1
+        workers = args.workers if args.workers else QUALITY_WORKERS
+        timeout = TIMEOUT_QUALITY
+        if args.batch_size is not None and args.batch_size != 1:
+            print("提示: quality 模式为单章逐章，--batch-size 强制为 1。", flush=True)
+    else:  # performance
+        batch_size = args.batch_size if args.batch_size else DEFAULT_BATCH_SIZE
+        workers = args.workers if args.workers else PERFORMANCE_WORKERS
+        timeout = TIMEOUT_PERFORMANCE
+        if batch_size < 1:
+            print("错误: --batch-size 必须 >= 1")
+            return
 
     os.makedirs(args.output, exist_ok=True)
 
@@ -399,22 +430,22 @@ def main():
     print(f"  原文总字数: {total_original}", flush=True)
 
     # 分批
-    batches = [chapters_to_process[i:i + args.batch_size]
-               for i in range(0, len(chapters_to_process), args.batch_size)]
-    print(f"  分批: {len(batches)} 批 × {args.batch_size}章/批", flush=True)
+    batches = [chapters_to_process[i:i + batch_size]
+               for i in range(0, len(chapters_to_process), batch_size)]
+    print(f"  策略: {args.strategy} | 分批: {len(batches)} 批 × {batch_size}章/批", flush=True)
 
     max_tokens = 12000 if args.mode == "fast" else 50000
 
-    print(f"\n开始合并批处理 (模式={args.mode}, 并发批数={args.workers}, 每批{args.batch_size}章)...", flush=True)
+    print(f"\n开始处理 (模式={args.mode}, 策略={args.strategy}, 并发={workers}, 每批{batch_size}章)...", flush=True)
     start_time = time.time()
 
     tasks = [(batch, idx, args.output, args.api_key,
               "https://api.deepseek.com/chat/completions", args.model,
-              args.mode, max_tokens)
+              args.mode, max_tokens, timeout)
              for idx, batch in enumerate(batches)]
 
     results = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {executor.submit(process_batch, task): task for task in tasks}
         for future in concurrent.futures.as_completed(futures):
             results.append(future.result())
@@ -443,15 +474,15 @@ def main():
         print(f"  压缩比: {total_output/total_input*100:.1f}%", flush=True)
     print(f"  平均单批耗时: {avg_time:.1f}s", flush=True)
     print(f"  总耗时: {total_time:.1f}s ({total_time/60:.1f}分钟)", flush=True)
-    print(f"  每批章数: {args.batch_size}", flush=True)
+    print(f"  策略: {args.strategy} | 每批章数: {batch_size}", flush=True)
     print(f"  模式: {args.mode}", flush=True)
     print(f"{'='*60}", flush=True)
 
     if missing_chapters:
         print(f"\n缺失章节（{len(missing_chapters)}）: {missing_chapters}", flush=True)
         print(f"重试命令: python slim_card_batch.py --input '{args.input}' "
-              f"--output '{args.output}' --mode {args.mode} --batch-size {args.batch_size} "
-              f"--workers {max(1, args.workers - 1)}", flush=True)
+              f"--output '{args.output}' --mode {args.mode} --strategy {args.strategy} "
+              f"--workers {max(1, workers - 1)}", flush=True)
 
     summary_name = "白描卡-汇总报告.md" if args.mode == "fast" else "设计包-汇总报告.md"
     summary_path = os.path.join(os.path.dirname(args.output), summary_name)
@@ -459,11 +490,12 @@ def main():
         f.write(f"# {'白描卡' if args.mode == 'fast' else '设计包'}处理汇总报告\n\n")
         f.write(f"## 统计概览\n\n")
         f.write(f"| 指标 | 数值 |\n|:-----|:-----|\n")
-        f.write(f"| 模式 | {args.mode} |\n")
+        f.write(f"| 输出模式 | {args.mode} |\n")
+        f.write(f"| 处理策略 | {args.strategy} |\n")
         f.write(f"| 总章数 | {len(chapters_to_process)} |\n")
         f.write(f"| 写入章数 | {len(all_written)} |\n")
         f.write(f"| 总批数 | {len(results)} |\n")
-        f.write(f"| 每批章数 | {args.batch_size} |\n")
+        f.write(f"| 每批章数 | {batch_size} |\n")
         f.write(f"| 成功/失败批 | {len(results) - len(fail_batches)}/{len(fail_batches)} |\n")
         f.write(f"| 原文总字数 | {total_input:,} |\n")
         f.write(f"| 产出总字数 | {total_output:,} |\n")
@@ -471,7 +503,7 @@ def main():
             f.write(f"| 压缩比 | {total_output/total_input*100:.1f}% |\n")
         f.write(f"| 平均单批耗时 | {avg_time:.1f}s |\n")
         f.write(f"| 总耗时 | {total_time:.1f}s ({total_time/60:.1f}分钟) |\n")
-        f.write(f"| 并发批数 | {args.workers} |\n\n")
+        f.write(f"| 并发数 | {workers} |\n\n")
 
         f.write(f"## 逐批统计\n\n")
         f.write(f"| 批 | 章范围 | 写入/总数 | 耗时 | 状态 |\n")

@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v6.3.0 | 2026-08-06
+
+### 新增「质量模式 / 性能模式」双处理方式维度
+
+- **核心变化**：新增第二维度 `execution.strategy`（处理方式），与 `execution.mode`（输出格式）正交——形成「质量模式（单章逐章）/ 性能模式（30章合并）」×「precision/fast」双维度矩阵
+- **质量模式（quality）**：单章逐章处理，每章 1 次 API 调用，精度最高、跨章不串扰；成本高（187章=187次）、耗时 ~35-45 分钟
+- **性能模式（performance）**：30章合并，1 次调用产出 30 张，成本最低（187章=7次，省约30%）、耗时 ~3-4 分钟；后段章节因长上下文质量略降
+- **任务开启前强制模式确认**：`steps/step-2-batch-process.md` 新增「0. 任务开启前：模式确认」环节，必须先向用户展示两种处理方式与两种输出格式的得失表，取得用户明确选择（strategy+mode）后才能继续；新增红线❌10「未确认模式擅自执行」
+- **slim_card_batch.py**：新增 `--strategy` 参数（quality/performance），quality 强制 batch_size=1 + 10并发 + 120s超时，performance 默认 batch_size=30 + 3并发批 + 300s超时
+- **SKILL.md**：升级为双维度表（输出格式 × 处理方式），任务开启前先确认模式
+- **skill.json**：description 同步双维度说明，版本 6.2.0→6.3.0
+- **版本三处一致**：SKILL.md + skill.json + CHANGELOG.md 统一为 6.3.0
+
 ## v6.2.0 | 2026-08-04
 
 ### 双模式统一改为30章合并批处理

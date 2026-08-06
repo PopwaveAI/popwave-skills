@@ -1,8 +1,8 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "displayName": "章节设计包",
-  "description": "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用。双模式：precision(v4设计包3层+1区) / fast(瘦身白描卡4段式)，统一30章合并批处理。产出供下游volume/setting消费。",
+  "description": "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用。双维度：输出格式 precision(v4设计包3层+1区)/fast(瘦身白描卡4段式) × 处理方式 quality(单章逐章)/performance(30章合并)。任务开启前强制确认模式并说明得失。产出供下游volume/setting消费。",
   "tags": [
     "拆书与分析"
   ],

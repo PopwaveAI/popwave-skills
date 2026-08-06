@@ -1,31 +1,56 @@
-# 设计包批量处理：30章合并批处理策略
+# 设计包批量处理：质量模式 / 性能模式
 
-> 适用场景：拆书管线 Phase 1 逐章提取。v6.2.0 起双模式统一采用 **30章合并批处理**：每批读入 30 章原文，一次 API 调用产出 30 张白描卡/设计包，降低 API 调用成本约 30%。
+> 适用场景：拆书管线 Phase 1 逐章提取。v6.3.0 起采用双维度架构：
+> **输出格式（precision设计包 / fast瘦身白描卡）× 处理方式（quality单章逐章 / performance 30章合并）**。
 >
-> ⚠️ **上下文预算硬约束（v6.2.0+）**：30章合并的输入 ~100-150K 字符（约 30-45K tokens），需使用 DeepSeek 长上下文模型（deepseek-v4-flash）。每批输出 30 张卡，fast 模式 ~10K 字符，precision 模式 ~30-60K 字符。**批大小超过 30 章将导致后段输出质量下降**，详见 `references/slim-card-format-spec.md`。
+> ⚠️ **任务开启前强制确认**：每次拆书必须先向用户展示两种处理方式的得失表，取得明确选择（strategy+mode）后才能继续，禁止擅自默认（详见 `steps/step-2-batch-process.md` 的「0. 任务开启前：模式确认」）。
 
-## 双模式策略选择
+## 双维度矩阵
 
-| 模式 | 处理方式 | 187章耗时 | 压缩比 | 适用场景 |
-|:-----|:---------|:---------|:------:|:---------|
-| **precision** | `slim_card_batch.py --mode precision` 30章合并 | ~10-15 分钟 | 80-100% | 精品拆书/prose-render直接消费 |
-| **fast** | `slim_card_batch.py --mode fast` 30章合并 | ~3-4 分钟 | ~11% | 大规模拆书/快速验证/全书骨架 |
+| 输出格式 ↓ \ 处理方式 → | 🎯 quality（质量模式） | ⚡ performance（性能模式，默认） |
+|:---|:---|:---|
+| **precision**（v4设计包 3层+1区） | 单章逐章精拆，每章独立上下文，精度最高 | 30章合并，1次/30章，成本低、后段略粗 |
+| **fast**（瘦身白描卡 4段式） | 单章逐章压缩，每章独立上下文 | 30章合并，1次/30章，成本最低 |
 
-**选择规则**：章数 > 100 且不需要 prose-render 直接消费 → fast；否则 precision。
+## 处理方式选择（execution.strategy）
 
-## 统一处理方式（双模式）
+| 维度 | 🎯 quality（质量模式） | ⚡ performance（性能模式） |
+|:-----|:----------------------|:--------------------------|
+| **处理方式** | 单章逐章，每章 1 次 API 调用 | 30章合并，1 次调用产出 30 张 |
+| **精度** | 每章独立上下文，精度最高，跨章不串扰 | 30章共享上下文，后段质量略降 |
+| **成本** | 高（187章=187次调用） | 低（187章=7次调用，省约30%） |
+| **耗时** | 187章 ~35-45分钟 | 187章 ~3-4分钟 |
+| **适用** | 精品拆书/拆书为写/prose-render直接消费 / 关键章节精拆 | 大规模拆书/快速验证/全书骨架 / 成本敏感 |
 
-两个模式均使用同一个脚本 `scripts/slim_card_batch.py`，仅 `--mode` 不同：
+**得失一句话**：
+- 质量模式**得精度、失成本与速度**——每章独立上下文、无跨章串扰，适合逐章精读。
+- 性能模式**得成本与速度、失部分精度**——30章合并一次调用，后段章节细节略粗，适合先跑全书骨架再精修关键章。
+
+## 命令示例
 
 ```bash
-# fast（瘦身白描卡，4段式）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --mode fast --batch-size 30
+# 质量模式：单章逐章（fast 瘦身白描卡）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --strategy quality
 
-# precision（v4设计包，3层+1区）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --batch-size 30
+# 性能模式：30章合并（fast 瘦身白描卡，默认）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --strategy performance
+
+# 质量模式：单章逐章（precision 设计包）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --strategy quality
+
+# 性能模式：30章合并（precision 设计包）
+python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --strategy performance
 ```
 
-### 批次数计算
+### 脚本参数（v6.3.0）
+
+| 参数 | quality | performance |
+|:-----|:--------|:------------|
+| --batch-size | 恒为 1 | 默认 30 |
+| --workers | 默认 10 并发章 | 默认 3 并发批 |
+| 超时 | 120s | 300s |
+
+### 批次数计算（performance 模式）
 
 ```python
 import math
@@ -45,8 +70,8 @@ batches = math.ceil(total_chapters / batch_size)
 
 1. **读取全文**：自动编码检测（gbk→gb18030→utf-8→utf-8-sig→big5）
 2. **按章分割**：正则 `第(\d+)章` 识别章节边界
-3. **分批**：每 30 章为一批，合并原文为单一 prompt（`===== 第N章 标题 =====` 分隔）
-4. **并发调用**：每批 1 次 API，`--workers` 并行批数（默认 3）
+3. **分批**：quality=每批1章 / performance=每30章一批，合并原文为单一 prompt（`===== 第N章 标题 =====` 分隔）
+4. **并发调用**：quality=10并发章 / performance=每批1次API、3并发批
 5. **解析产出**：按 `# chXXX「标题」`（fast）/ `# 设计包 — chXXX「标题」`（precision）标记拆分，逐章写入独立文件
 6. **汇总报告**：输出缺失章节清单，供重跑
 
@@ -109,14 +134,15 @@ done
 | 100 章 | 4 | 30 | 3 | ~10-15 分钟 | 80-100% | 预估 |
 | 187 章 | 7 | 30 | 3 | ~15-20 分钟 | 80-100% | 预估 |
 
-**成本对比（v6.1.0 vs v6.2.0）**：
+**成本对比（quality vs performance，187章）**：
 
-| 维度 | 旧版（单章调用） | 新版（30章合并） | 节省 |
-|:-----|:----------------|:----------------|:-----|
+| 维度 | 🎯 quality（单章逐章） | ⚡ performance（30章合并） | 节省 |
+|:-----|:----------------------|:----------------------------|:-----|
 | 187章 API 调用次数 | 187 次 | 7 次 | ~96% |
 | 单批 overhead（system prompt+指令） | 187 次重复 | 7 次重复 | ~96% |
 | 估算 API 成本 | 基准 | 约 70% | ~30% |
-| 187章耗时 | ~3 分钟（10并发） | ~3-4 分钟（3并发批） | 持平 |
+| 187章耗时 | ~35-45 分钟（10并发） | ~3-4 分钟（3并发批） | ~90% |
+| 精度 | 最高（跨章不串扰） | 后段略降 | — |
 
 ## 质量门禁实测数据（30章合并后）
 
