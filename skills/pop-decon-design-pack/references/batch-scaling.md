@@ -1,54 +1,52 @@
-# 设计包批量处理：质量模式 / 性能模式
+# 设计包批量处理：质量模式 / 性能模式（子 agent 派发）
 
-> 适用场景：拆书管线 Phase 1 逐章提取。v6.3.0 起采用双维度架构：
-> **输出格式（precision设计包 / fast瘦身白描卡）× 处理方式（quality单章逐章 / performance 30章合并）**。
+> 适用场景：拆书管线 Phase 1 逐章提取。v6.4.0 起采用双维度架构：
+> **输出格式（precision设计包 / fast瘦身白描卡）× 处理方式（quality每章1子agent / performance每30章1子agent合并）**。
 >
 > ⚠️ **任务开启前强制确认**：每次拆书必须先向用户展示两种处理方式的得失表，取得明确选择（strategy+mode）后才能继续，禁止擅自默认（详见 `steps/step-2-batch-process.md` 的「0. 任务开启前：模式确认」）。
+>
+> ⚠️ **v6.4.0 执行方式**：从「脚本直连 DS API」改为「**派发子 agent 执行**」。主 agent 派发子 agent，每个子 agent 读取 `_temp/chapters/` 原文章节、产出白描卡/设计包。无 DEEPSEEK_API_KEY 依赖，已删除 slim_card_batch.py。
 
 ## 双维度矩阵
 
 | 输出格式 ↓ \ 处理方式 → | 🎯 quality（质量模式） | ⚡ performance（性能模式，默认） |
 |:---|:---|:---|
-| **precision**（v4设计包 3层+1区） | 单章逐章精拆，每章独立上下文，精度最高 | 30章合并，1次/30章，成本低、后段略粗 |
-| **fast**（瘦身白描卡 4段式） | 单章逐章压缩，每章独立上下文 | 30章合并，1次/30章，成本最低 |
+| **precision**（v4设计包 3层+1区） | 每章1子agent精拆，每章独立上下文，精度最高 | 每30章1子agent合并产出，成本低、后段略粗 |
+| **fast**（瘦身白描卡 4段式） | 每章1子agent压缩，每章独立上下文 | 每30章1子agent合并产出，成本最低 |
 
 ## 处理方式选择（execution.strategy）
 
 | 维度 | 🎯 quality（质量模式） | ⚡ performance（性能模式） |
 |:-----|:----------------------|:--------------------------|
-| **处理方式** | 单章逐章，每章 1 次 API 调用 | 30章合并，1 次调用产出 30 张 |
+| **派发方式** | 每章 1 个子 agent 逐章精拆 | 每 30 章 1 个子 agent 合并产出 |
 | **精度** | 每章独立上下文，精度最高，跨章不串扰 | 30章共享上下文，后段质量略降 |
-| **成本** | 高（187章=187次调用） | 低（187章=7次调用，省约30%） |
+| **成本** | 高（187章=187个子agent） | 低（187章=7个子agent，省约30%） |
 | **耗时** | 187章 ~35-45分钟 | 187章 ~3-4分钟 |
 | **适用** | 精品拆书/拆书为写/prose-render直接消费 / 关键章节精拆 | 大规模拆书/快速验证/全书骨架 / 成本敏感 |
 
 **得失一句话**：
 - 质量模式**得精度、失成本与速度**——每章独立上下文、无跨章串扰，适合逐章精读。
-- 性能模式**得成本与速度、失部分精度**——30章合并一次调用，后段章节细节略粗，适合先跑全书骨架再精修关键章。
+- 性能模式**得成本与速度、失部分精度**——30章合并一次产出，后段章节细节略粗，适合先跑全书骨架再精修关键章。
 
-## 命令示例
+## 派发方式
 
-```bash
-# 质量模式：单章逐章（fast 瘦身白描卡）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --strategy quality
+两种模式均通过**派发子 agent**执行，仅派发粒度不同：
 
-# 性能模式：30章合并（fast 瘦身白描卡，默认）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/白描卡/" --strategy performance
+```text
+# quality（质量模式）：每章 1 个子 agent
+每子agent: 读 _temp/chapters/chXXX.txt → 产出 写作资产/白描卡/chXXX.md（或设 计包v4/chXXX-设计包.md）
 
-# 质量模式：单章逐章（precision 设计包）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --strategy quality
-
-# 性能模式：30章合并（precision 设计包）
-python scripts/slim_card_batch.py --input "{书名}.txt" --output "写作资产/设计包v4/" --mode precision --strategy performance
+# performance（性能模式）：每 30 章 1 个子 agent
+每子agent: 读 _temp/chapters/chXXX-chYYY.txt（连续30章）→ 逐章产出30张卡/设计包
 ```
 
-### 脚本参数（v6.3.0）
+### 派发参数（v6.4.0）
 
 | 参数 | quality | performance |
 |:-----|:--------|:------------|
-| --batch-size | 恒为 1 | 默认 30 |
-| --workers | 默认 10 并发章 | 默认 3 并发批 |
-| 超时 | 120s | 300s |
+| 每子agent覆盖章数 | 1 章 | 30 章（最后一批按实际） |
+| 主agent派发数量（187章） | 187 | 7 |
+| 可并行度 | 高（可并行派发） | 中（可并行派发） |
 
 ### 批次数计算（performance 模式）
 
@@ -66,14 +64,13 @@ batches = math.ceil(total_chapters / batch_size)
 - 最后一批可能不足 30 章（ch181-187），直接按实际章数处理
 - 不跨卷对齐（卷边界由 Phase 2 识别）
 
-### 脚本内部流程
+### 子 agent 派发流程
 
-1. **读取全文**：自动编码检测（gbk→gb18030→utf-8→utf-8-sig→big5）
-2. **按章分割**：正则 `第(\d+)章` 识别章节边界
-3. **分批**：quality=每批1章 / performance=每30章一批，合并原文为单一 prompt（`===== 第N章 标题 =====` 分隔）
-4. **并发调用**：quality=10并发章 / performance=每批1次API、3并发批
-5. **解析产出**：按 `# chXXX「标题」`（fast）/ `# 设计包 — chXXX「标题」`（precision）标记拆分，逐章写入独立文件
-6. **汇总报告**：输出缺失章节清单，供重跑
+1. **ETL 前置**：Step 1 已按章拆分到 `_temp/chapters/chXXX.txt`
+2. **切分批**：quality=每批1章 / performance=每30章一批
+3. **派发子 agent**：每个子 agent 读本批原文章节，逐章产出白描卡/设计包（任务包见 step-2 的 Step 2A-3 / 2B-3）
+4. **绝对路径写入**：子 agent 必须用绝对路径产出，避免落盘到临时目录
+5. **主 agent 汇总验证**：对比 `_temp/chapters/` 与产出目录文件数，缺失则只重派缺失批次
 
 ## 命名归一化（precision mode）
 
