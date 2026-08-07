@@ -16,6 +16,10 @@
 
 ---
 
+> **分格线统一规范（铁律）**：全模板分格线统一为**细黑线**（`thin black gutter`），颜色锁死 `black`，禁止混用 `Thick`/`white` 或其他颜色。所有模板指令中的分格线措辞一律为 `thin black gutters`（或 `thin black gutter`），如遇 `Thick` 或未锁色，一律改为细黑线。
+>
+> **⚠️ 唯一例外 YZ-5**：`YZ-5 全幅+内嵌·宏观微观页` 的前景叠压格用白色粗框浮于背景上，刻意制造 Z 轴层次（见第十七行"关键发现"第2条），**属于前景面板的叠压边界，不是普通格间分格线**，允许保留。除 YZ-5 前景叠压外，其余所有模板的格间分格线一律细黑线。
+
 ## 二、元尊真实分页的三大规律（先读这个）
 
 1. **非对称是默认，对称是例外**。元尊几乎没有均分网格，全是"一大格主导 + 若干小格"的非对称结构，视觉重心永远落在情绪爆发格。
@@ -43,7 +47,7 @@
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page with one large vertical panel on the left (60% height) and two smaller panels side by side at the bottom (40% height). Thick black gutters between all panels.
+A vertical webtoon comic page with one large vertical panel on the left (60% height) and two smaller panels side by side at the bottom (40% height). Thin black gutters between all panels.
 ```
 
 **叙事功能**：大格承载"发生了什么"，两小格承载"谁在承受/反应"。用于危机爆发、力量觉醒、灾难降临。
@@ -68,7 +72,7 @@ A vertical webtoon comic page with one large vertical panel on the left (60% hei
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thick black gutters between all panels.
+A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thin black gutters between all panels.
 ```
 
 **叙事功能**：上格建立场景，下左窄条承载对话/独白（视觉信息少，节奏慢），下右大格承载视觉冲击（道具/揭示/情绪爆发）。**窄条对大格 = 对话的"静"对画面的"动"。**
@@ -95,7 +99,7 @@ A vertical webtoon comic page with a wide horizontal panel at the top (full widt
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page with a left column of 3 stacked panels (60% width) and a large full-height panel on the right (40% width). Left column: top panel 60% height, middle panel 20% height, bottom panel 20% height. Right panel occupies the full page height. Inside the right panel, a small inset panel in the upper-left corner (15% of the right panel). Thick black gutters.
+A vertical webtoon comic page with a left column of 3 stacked panels (60% width) and a large full-height panel on the right (40% width). Left column: top panel 60% height, middle panel 20% height, bottom panel 20% height. Right panel occupies the full page height. Inside the right panel, a small inset panel in the upper-left corner (15% of the right panel). Thin black gutters.
 ```
 
 **叙事功能**：左侧三格逐步累积信息（场景→人物→线索），右侧全幅格集中爆发情绪（大特写/关键画面）。**"量变→质变"的视觉隐喻**。内嵌子格将"线索源头"与"情绪载体"并置，建立因果。
@@ -120,7 +124,7 @@ A vertical webtoon comic page with a left column of 3 stacked panels (60% width)
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page divided into two tall vertical panels side by side: a wide panel on the left (60% width) and a narrow panel on the right (40% width). Both panels span the full page height. Thick black gutter between them.
+A vertical webtoon comic page divided into two tall vertical panels side by side: a wide panel on the left (60% width) and a narrow panel on the right (40% width). Both panels span the full page height. Thin black gutter between them.
 ```
 
 **叙事功能**：左宽格承载"真相/事件"（大画面），右窄格承载"主角反应"（特写）。**"发生的事"对"承受的人"**。窄格天然压迫感，强化主角震惊。
@@ -174,7 +178,7 @@ A vertical webtoon comic page with a large full-page background panel of a grand
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page divided into 3 vertical columns (30% / 40% / 30% width). Left column: a small vertical panel at top, a large panel in the middle, a horizontal strip at bottom. Middle column: a tall vertical panel at top, a shorter vertical panel below. Right column: one tall full-height vertical panel. Thick black gutters between all panels.
+A vertical webtoon comic page divided into 3 vertical columns (30% / 40% / 30% width). Left column: a small vertical panel at top, a large panel in the middle, a horizontal strip at bottom. Middle column: a tall vertical panel at top, a shorter vertical panel below. Right column: one tall full-height vertical panel. Thin black gutters between all panels.
 ```
 
 **叙事功能**：三列物理性分区 = 三阶段情绪（左=祥瑞/事件，中=对比/设定，右=阴谋/反转）。**色彩逐列过渡**（金→蓝→水墨黑白）强化"光明→揭秘→阴谋"曲线。右列全高水墨条带是"隔离黑暗真相"的物理边界。
@@ -199,7 +203,7 @@ A vertical webtoon comic page divided into 3 vertical columns (30% / 40% / 30% w
 
 **分格指令（锁定）**：
 ```
-A vertical webtoon comic page with a left column (45% width) showing a full-height character portrait, and a right section (55% width) with 4 panels: two full-width horizontal panels on top (each 25% height), and two smaller vertical panels side by side at the bottom (each 50% width). Thick black gutters.
+A vertical webtoon comic page with a left column (45% width) showing a full-height character portrait, and a right section (55% width) with 4 panels: two full-width horizontal panels on top (each 25% height), and two smaller vertical panels side by side at the bottom (each 50% width). Thin black gutters.
 ```
 
 **叙事功能**：话首/关键页专用。左封面区承担"角色名片+章节标识"，右四格承担叙事推进。**"2+2阶梯式"**：上两格全宽（铺垫）→ 下两格分裂（爆发/揭示）。

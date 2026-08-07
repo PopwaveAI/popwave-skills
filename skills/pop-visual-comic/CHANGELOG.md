@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.17.2 | 2026-08-07
+
+### 统一漫画格间分格线（细黑线，消除白黑交替）
+
+**根因**：用户实测出图时漫画格子的分隔线**一会白一会黑**。源头是排版基准库 `references/layout-baseline.md` 各模板分格线措辞不统一——YZ-7 用 `Thick black gutters`、YZ-5 用 `Thick framing`，其余已用细黑线，Seedream 对厚重/未锁色的格线随机解读成白线或黑线。
+
+**改动**：
+
+- `references/layout-baseline.md`：新增「**分格线统一规范（铁律）**」——全模板格间分格线锁死**细黑线**（`thin black gutter`），颜色锁死 `black`，禁止混用 `Thick`/`white`；YZ-7 分格指令由 `Thick black gutters` 改为 `thin black gutters`
+- `references/layout-baseline.md`：明确**唯一例外 YZ-5**——前景叠压格用白粗框浮于背景制造 Z 轴层次，属叠压边界非格间分格线，允许保留；除 YZ-5 前景叠压外一律细黑线
+- `SKILL.md` / `skill.json`：版本至 v7.17.2
+
+> v7.17.1 单 turn 批量出图修复、v7.17.0 按页切图+逐页品牌水印、v7.16.2 水印工程兜底均保留不变。
+
 ## v7.17.1 | 2026-08-07
 
 ### 修复批量出图中断（单 turn 批量连续调用 image_generate）
