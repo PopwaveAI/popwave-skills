@@ -124,7 +124,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标�
 
 | 消费方 | 用途 |
 |:-------|:-----|
-| `pop-visual-character` | 作为角色定妆图的画风基准（同款画风 + 同 seed 渲染） |
+| `pop-visual-art-bible` | 作为美术设定集画风篇的画风基准（首消费方，定全宇宙色彩基调） |
 | `pop-visual-cover` / `pop-visual-oc` | 作为封面/OC 的风格参考图（image 参数 + 同 seed） |
 | `pop-visual-comic` | 作为漫画页的风格基准（同 seed 保证画风不漂移） |
 
@@ -132,7 +132,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标�
 
 ## 下一步
 
-→ 完成。Pipeline 语境下进入 Phase 2（`pop-visual-character`）设计人物身份卡（定妆深度按 intent 档位：`comic`/`full` 完整双角度，`cover`/`oc` 单张或跳过）。
+→ 完成。Pipeline 语境下进入 Phase 2（`pop-visual-art-bible`）产出美术设定集（定妆深度按 intent 档位：`comic`/`full` 完整双角度，`cover`/`oc` 单张或跳过）。
 
 ## 红线
 

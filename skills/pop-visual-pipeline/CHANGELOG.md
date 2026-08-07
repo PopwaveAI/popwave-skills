@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v2.0.0 (2026-08-08)
+
+### Art Bible 路由改造（character → art-bible）
+
+**背景**：老板定调一阶段 L1 重构——`character` 改名升级为 `pop-visual-art-bible`（Art Bible · 美术设定集），产出 `素材/美术设定集.md`（画风/人物/场景/符号/一致性五篇合一）为全 IP 宇宙视觉唯一真源。pipeline 作为路由方需同步指向新引擎。
+
+**改动**：
+
+- `skill.json`：`skills` 数组 `pop-visual-character` → `pop-visual-art-bible`；description 同步"产美术设定集"；版本至 v2.0.0
+- Phase 2 路由：`pop-visual-art-bible` 产出 `素材/美术设定集.md`（五篇合一 + 复现资产），不再产出离散 `视觉身份卡`
+- 基建就绪门禁升级：派生层前验证 `素材/美术设定集.md` + `画风决策.md` 均签核 ✅ 已认可
+- 派生层消费协议：cover/oc/comic 只消费美术设定集，禁止各自重建人物/场景/符号/画风
+- 下游 `pop-visual-comic` 基建签核快速路径同步指向美术设定集
+
+> 效果：一阶段 L1 基建统一成"一部美术设定集"，派生层只消费它，杜绝"三处各画各的"。
+
 ## v1.2.0 (2026-08-05)
 
 ### 意图闸口前置 + 基建档位路由（不默认推漫画）

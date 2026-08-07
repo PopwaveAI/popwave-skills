@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pop-visual-comic 按页导出分享图脚本 v1.0
-- Playwright 逐页截图 index.html 中每个 .page 容器（保留文字叠加层）
+pop-visual-comic 按页导出分享图脚本 v1.1
+- Playwright 逐页截图 index.html 中每个 .page + .info-page 容器（保留文字叠加层）
 - Pillow 在每张底部追加品牌水印条（popwave.cn 让创意一键落地）
-- 输出到 <章节目录>/分享/page{NN}.png
+- 同时生成整条 HTML 长图（逐元素截图拼接，非 full_page），与分页一起放入 分享/
+- 输出到 <章节目录>/分享/page{NN}.png + <章节目录>/分享/长图-{章节名}.png
 
 背景：2026-08-07 老板校准——交付 HTML 后只产整条长图，但用户分享是"一张一张图去分享"。
 故新增按页切图：每页独立一张分享图（带文字叠加），且每页底部压品牌水印。
+2026-08-07 老板再加：分享图与整条 HTML 长图都要放进 分享/ 文件夹，统一管理。
 
 用法:
   python export_pages.py <HTML文件路径> [输出目录] [视口宽度]
@@ -89,6 +91,72 @@ def _add_watermark_bar(img):
     return result.convert('RGB')
 
 
+def _extract_title(html_path):
+    """从 HTML 标题标签提取章节名（用于长图命名）。"""
+    import re
+    title = '漫画'
+    try:
+        with open(html_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        m = re.search(r'<title>(.*?)</title>', content, re.S)
+        if m:
+            t = m.group(1).strip()
+            if t:
+                title = t
+    except Exception:
+        pass
+    return title
+
+
+def _export_long_image(page, html_path, out_dir, width):
+    """逐元素截图拼接整条 HTML 长图（title-banner + .page/.info-page + footer-banner），输出到 分享/。
+
+    逐元素截图 + Pillow 拼接，避免浏览器 full_page 全页截图在长页面底部质量退化。
+    """
+    import io as _io
+
+    # 收集要拼进长图的顶层元素（按文档顺序）
+    sel = page.evaluate("""
+        () => {
+            const els = [];
+            document.querySelectorAll('.title-banner, .page, .info-page, .footer-banner').forEach(el => {
+                if (el.offsetHeight > 0) els.push(el);
+            });
+            return els.length;
+        }
+    """)
+    if sel == 0:
+        print('  [长图] 未找到可拼接元素，跳过', file=sys.stderr)
+        return None
+
+    pieces = page.query_selector_all('.title-banner, .page, .info-page, .footer-banner')
+    images = []
+    for el in pieces:
+        el.scroll_into_view_if_needed()
+        page.wait_for_timeout(80)
+        shot = el.screenshot()
+        images.append(Image.open(_io.BytesIO(shot)).convert('RGB'))
+
+    max_w = max(img.width for img in images)
+    total_h = sum(img.height for img in images)
+
+    canvas = Image.new('RGB', (max_w, total_h), (13, 13, 18))
+    y = 0
+    for img in images:
+        x = (max_w - img.width) // 2
+        canvas.paste(img, (x, y))
+        y += img.height
+
+    # 长图底部追加品牌水印条（与逐页一致）
+    canvas = _add_watermark_bar(canvas)
+
+    title = _extract_title(html_path)
+    out_path = os.path.join(out_dir, f'长图-{title}.png')
+    canvas.save(out_path, 'PNG', optimize=True)
+    print(f'\n[长图] HTML 整条长图已保存: {os.path.basename(out_path)} {canvas.width}x{canvas.height}px')
+    return out_path
+
+
 def export_pages(html, out_dir, width=820):
     os.makedirs(out_dir, exist_ok=True)
 
@@ -118,13 +186,13 @@ def export_pages(html, out_dir, width=820):
         """, timeout=30000)
         page.wait_for_timeout(1200)
 
-        # 定位所有 .page 容器
-        page_els = page.query_selector_all('.page')
+        # 定位所有页面容器（漫画页 .page + 信息页 .info-page，含文字叠加层）
+        page_els = page.query_selector_all('.page, .info-page')
         if not page_els:
-            print('[错误] 未在 HTML 中找到 .page 容器', file=sys.stderr)
+            print('[错误] 未在 HTML 中找到 .page / .info-page 容器', file=sys.stderr)
             sys.exit(1)
 
-        print(f'检测到 {len(page_els)} 个页面容器，逐页导出...')
+        print(f'检测到 {len(page_els)} 个页面容器（含信息页），逐页导出...')
         saved = []
         for i, el in enumerate(page_els, 1):
             el.scroll_into_view_if_needed()
@@ -137,10 +205,18 @@ def export_pages(html, out_dir, width=820):
             saved.append(out_path)
             print(f'  [{i:02d}/{len(page_els):02d}] {os.path.basename(out_path)} {img.width}x{img.height}px OK')
 
+        # 生成 HTML 整条长图，与分页一起放入 分享/ 目录
+        long_path = _export_long_image(page, html, out_dir, width)
+
         browser.close()
 
     print(f'\n按页导出完成: {len(saved)} 页 -> {os.path.abspath(out_dir)}')
-    return saved
+    if long_path:
+        print(f'长图导出完成: {os.path.basename(long_path)} -> {os.path.abspath(out_dir)}')
+    result = list(saved)
+    if long_path:
+        result.append(long_path)
+    return result
 
 
 def main():

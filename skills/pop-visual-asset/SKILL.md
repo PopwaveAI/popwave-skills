@@ -1,6 +1,6 @@
 ---
 name: pop-visual-asset
-description: "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'或需要在做OC/漫画/封面前先从原文提取素材时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA），供 pop-visual-oc、pop-visual-comic、pop-visual-cover 消费。兼容写作专家项目和独立小说项目，支持增量更新。"
+description: "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'或需要在做美术设定集/OC/漫画/封面前先从原文提取素材时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA），供 pop-visual-art-bible（L1 基建）→ 再经美术设定集下发给 oc/comic/cover 消费。兼容写作专家项目和独立小说项目，支持增量更新。"
 ---
 
 # pop-visual-asset
@@ -52,16 +52,18 @@ description: "当用户说'提取角色档案/提取场景资产/提取视觉符
 
 ### 消费路由（按 intent 档位）
 
-资产就绪后，按 intent 档位路由到消费 skill，不进派生层时停在 asset：
+资产就绪后，**Pipeline 语境下优先路由到 `pop-visual-art-bible`（L1 基建第三引擎）**，由 art-bible 汇总成美术设定集（唯一真源）后再下发给派生层 oc/cover/comic。不进派生层时停在 asset：
 
 | intent | 路由到 | 读取哪些资产 | 基建档位 |
 |:---------|:-------|:------------|:---------|
-| `cover` | `pop-visual-cover` | 场景资产表 + 视觉符号库（+ 封面涉及角色档案） | 轻量 |
-| `oc` | `pop-visual-oc` | 角色档案（深度） | 轻量~中 |
-| `comic` | `pop-visual-comic` | 角色档案（深度）+ 场景资产表 | 完整 |
-| `full` | 按需 loop cover/oc/comic | 全部产出 | 完整 |
-| `asset-only` | 停止 | 资产已就绪供后续使用 | 最轻 |
+| `asset-only` | 停止 | 资产已就绪供 art-bible 使用 | 最轻 |
+| `cover` | `pop-visual-art-bible`（轻量）→ cover | 场景资产表 + 视觉符号库（+ 封面涉及角色档案） | 轻量 |
+| `oc` | `pop-visual-art-bible`（轻量~中）→ oc | 角色档案（深度） | 轻量~中 |
+| `comic` | `pop-visual-art-bible`（完整）→ comic | 角色档案（深度）+ 场景资产表 | 完整 |
+| `full` | `pop-visual-art-bible`（完整）→ 按需 loop cover/oc/comic | 全部产出 | 完整 |
 
+> **L1 汇总铁律**：asset 的产出是给 **art-bible** 消费的（L1 内），不是直接给派生层。派生层（oc/cover/comic）只消费 art-bible 产出的美术设定集，禁止各自直接从 asset 重建人物/场景/符号。独立模式（无 pipeline/无 art-bible 语境）时，才允许 oc/cover 直接读 asset 资产。
+>
 > **定深原则**：intent 决定"提什么、提多深"。`comic`/`full` 走全量深度提取；`cover` 以场景+符号为主、角色档案只提封面涉及角色；`oc` 以角色档案为主、场景可精简；`asset-only` 只提用户指定资产不进派生层。
 >
 > **独立模式**：不在 pipeline 语境时，按用户当次需求（见 step0-detect §4 表格）判定，规则一致。

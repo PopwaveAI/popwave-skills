@@ -23,7 +23,7 @@ description: "当用户说'人设图/角色图/OC/立绘/角色卡'或需要角�
 
 ## 定妆照 vs 立绘OC（核心区分）
 
-| 维度 | `pop-visual-character` 定妆照 | `pop-visual-oc` 立绘OC |
+| 维度 | `pop-visual-art-bible` 定妆照 | `pop-visual-oc` 立绘OC |
 |:-----|:------------------------------|:-----------------------|
 | 本质 | 纯生产参考图 | 展示作品/角色名片 |
 | 用途 | 给 oc/cover/comic 做图生图参考 | 给读者看的角色展示 |
@@ -59,18 +59,18 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 
 > 详见 `../pop-visual-shared/references/character-research-guide.md` 调研方法论（唯一权威源）。
 
-### Step 0.5: 消费角色视觉身份卡（基建层）
+### Step 0.5: 消费美术设定集·人物篇（基建层）
 
-**角色本体身份以 `pop-visual-character` 产出的「角色视觉身份卡」为唯一真源**。检查 `素材/视觉资产/[角色名]视觉身份卡.md`：
+**角色本体身份以 `pop-visual-art-bible` 产出的「美术设定集·人物篇」为唯一真源**。检查 `素材/美术设定集.md`：
 
-- **存在** → 直接读取，作为角色本体（剪影/色彩/细节/记忆锚点/冻结提示词），本 skill 只负责在此之上做六层排版+杂志版氛围渲染，**禁止重建角色身份**。
-- **不存在** → 提示先跑 `pop-visual-character` 产出身份卡，再回来做 OC 渲染。OC 渲染本身不产出身份。
+- **存在** → 直接读取人物篇，作为角色本体（剪影/色彩/细节/记忆锚点/冻结提示词），本 skill 只负责在此之上做六层排版+杂志版氛围渲染，**禁止重建角色身份**。
+- **不存在** → 提示先跑 `pop-visual-art-bible` 产出美术设定集，再回来做 OC 渲染。OC 渲染本身不产出身份。
 
-> **版本一致性校验（防 gap）**：身份卡经定妆认可后冻结并记录**定妆图版本**（如 `char-苏午-v2.png`）。OC 渲染前必须读取该版本，**禁止使用旧版本定妆图**。若身份卡/定妆图版本已升级（v2→v3），OC 必须用最新版重新生成，不得沿用旧版参考图——否则会造成角色本体与展示作品跨版本 gap。
+> **版本一致性校验（防 gap）**：美术设定集经定妆认可后冻结并记录**定妆图版本**（如 `char-苏午-v2.png`）。OC 渲染前必须读取该版本，**禁止使用旧版本定妆图**。若美术设定集/定妆图版本已升级（v2→v3），OC 必须用最新版重新生成，不得沿用旧版参考图——否则会造成角色本体与展示作品跨版本 gap。
 
-> 身份与渲染分离：身份卡定了"长什么样"（唯一真源），OC 只定"怎么摆进杂志版式"（渲染）。
+> 身份与渲染分离：美术设定集定了"长什么样"（唯一真源），OC 只定"怎么摆进杂志版式"（渲染）。
 
-> **档位说明（oc 意图 = 轻量~中基建）**：Pipeline 语境下 oc 只需基建到身份卡即可派生，**不强制双角度定妆**；如需角色参考图，用 character 产出的**单张**定妆图作图生图参考（版本一致性校验❌6 仍生效）。
+> **档位说明（oc 意图 = 轻量~中基建）**：Pipeline 语境下 oc 只需基建到美术设定集即可派生，**不强制双角度定妆**；如需角色参考图，用 art-bible 产出的**单张**定妆图作图生图参考（版本一致性校验❌6 仍生效）。
 
 ### Step 1: 设计方案 → `steps/step1-design.md`
 
@@ -85,8 +85,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 
 ### Step 2: 生成资产 → `steps/step2-generate.md`
 
-- 读取确认方案 + 角色档案 + 身份卡
-- 翻译为高精度提示词（4块结构：LOCKED COMPOSITION→ENVIRONMENT AND LIGHTING→EXACT TYPOGRAPHY→HARD CONSTRAINTS）；**消费身份卡冻结提示词时必须剥离其中 no text/no letters/no characters 等文字禁止词（定妆图专用），补回 EXACT TYPOGRAPHY 块写入六层信息架构**
+- 读取确认方案 + 角色档案 + 美术设定集·人物篇
+- 翻译为高精度提示词（4块结构：LOCKED COMPOSITION→ENVIRONMENT AND LIGHTING→EXACT TYPOGRAPHY→HARD CONSTRAINTS）；**消费美术设定集·人物篇冻结提示词时必须剥离其中 no text/no letters/no characters 等文字禁止词（定妆图专用），补回 EXACT TYPOGRAPHY 块写入六层信息架构**
 - 执行 API → 保存图片 → 回写记录
 - **系列化循环**：冻结核心特征（眼瞳/轮廓/气质），变化服饰/场景/姿态/年龄，循环生成
 
@@ -111,8 +111,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | ❌3 | **系列一致性** — 系列图中角色的核心特征必须冻结（眼瞳色/轮廓/气质），只变化服饰/场景/姿态/年龄 | 同一角色不同图认不出来 |
 | ❌4 | **设计方案必须落盘** — 角色档案、设计方案和提示词写入 `素材/` | 无法迭代优化和系列扩展 |
 | ❌5 | **立绘必须含文字+文化元素** — 纯图不算立绘，必须包含角色名+定场诗/人设简介等文字层，并叠加题诗/书法/钤印/装饰等文化元素；这是立绘OC与定妆照的本质区别 | 退化为普通素材/定妆照，丢失展示属性 |
-| ❌6 | **必须使用最新版本定妆图** — OC 渲染前校验定妆图版本，禁止沿用旧版本参考图；身份卡升级后必须用最新版重新生成 | 角色本体与展示作品跨版本 gap，两张图对不上 |
-| ❌7 | **OC 提示词禁止携带 no text** — 身份卡冻结提示词是定妆图专用（含 `no text/no letters/no characters` 等文字禁止词），组装 OC 提示词时必须剥离这些文字禁止词，并补回 EXACT TYPOGRAPHY 块 | 文字被压制，立绘退化成定妆照，丢失展示属性 |
+| ❌6 | **必须使用最新版本定妆图** — OC 渲染前校验定妆图版本，禁止沿用旧版本参考图；美术设定集升级后必须用最新版重新生成 | 角色本体与展示作品跨版本 gap，两张图对不上 |
+| ❌7 | **OC 提示词禁止携带 no text** — 美术设定集·人物篇冻结提示词是定妆图专用（含 `no text/no letters/no characters` 等文字禁止词），组装 OC 提示词时必须剥离这些文字禁止词，并补回 EXACT TYPOGRAPHY 块 | 文字被压制，立绘退化成定妆照，丢失展示属性 |
 
 ## 速查表
 
@@ -123,8 +123,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | 设计方案+系列化 | `steps/step1-design.md` | Step 1 |
 | 生成+高精度提示词 | `steps/step2-generate.md` | Step 2 |
 | 立绘设计方法论（六层信息+布局模板） | `references/mode-character.md` | Step 1 |
-| 角色本体身份（角色视觉身份卡，唯一真源） | `素材/视觉资产/[角色名]视觉身份卡.md` | Step 0.5 |
-| 高级角色设计方法论（剪影/色彩/细节三层+反类型化+撕裂感） | `skills/pop-visual-character/references/advanced-character-design.md` | Step 1 |
+| 角色本体身份（美术设定集·人物篇，唯一真源） | `素材/美术设定集.md` | Step 0.5 |
+| 高级角色设计方法论（剪影/色彩/细节三层+反类型化+撕裂感） | `skills/pop-visual-art-bible/references/advanced-character-design.md` | Step 1 |
 | 提示词写法+高精度模板 | `../pop-visual-shared/references/seedream-prompt-guide.md` §三 | Step 2 |
 | 画风DNA库（36种+光照兼容性） | `skills/pop-visual-style/references/style-dna-library.json` | Step 2 |
 | 光照-构图模板+兼容性矩阵 | `skills/pop-visual-style/references/lighting-composition-templates.md` | Step 2 |
