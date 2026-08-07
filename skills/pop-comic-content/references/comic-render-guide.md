@@ -91,14 +91,16 @@ set(document.querySelector('[data-sub="1-2"]'), app(t,2.8,3.5)*out(t,4.4,4.8), '
 
 ## 渲染与混音命令
 
+**出片默认走「浏览器自播 + 录屏」（方案 B，`scripts/record_video.py`）**：HTML 编排稿按真实时间自播，Playwright 录成 WebM 再转 MP4，不落千张 PNG，快一个数量级。逐帧方案（`render_frames.py`）仅用于预览校验构图。
+
 ```bash
-# 预览校验（必须带 --w/--h 竖版）
+# 预览校验（必须带 --w/--h 竖版，逐帧模式抓关键帧）
 python scripts/render_frames.py --html index.html --out preview --mode preview --times 0.5,2.0,4.0,7.0 --w 1080 --h 1920
-# 全量渲染（必须带 --w/--h 竖版）
-python scripts/render_frames.py --html index.html --out frames --mode full --fps 30 --start 0 --end <总时长> --w 1080 --h 1920
-# 合成无音轨视频
-python scripts/encode.py --frames frames --out 成品.mp4 --fps 30
+# 全量出片（方案 B：录屏，主路径）
+python scripts/record_video.py --html index.html --out 成品.mp4 --duration <总时长> --w 1080 --h 1920 --preset veryfast
 # 混入配音（按时间轴定位，时间来自时间轴设计）
 python scripts/mix_audio.py --video 成品.mp4 --audio-dir audio \
   --offsets "seg01.mp3=3.0,seg02.mp3=8.9,..." --out 成品-配音.mp4
 ```
+
+> 录屏方案通过注入自播时钟驱动已有的 `window.render(t)`，不改动画逻辑，画面与逐帧方案一致。`--preset veryfast` 最快 / `fast` / `medium` 质量更好，`--crf 18` 保画质。实测 57s 竖版视频全程 ~86s 出片（逐帧方案光渲染就 7-10 分钟）。

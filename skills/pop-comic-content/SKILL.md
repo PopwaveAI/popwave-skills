@@ -5,7 +5,7 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 
 # pop-comic-content
 
-> 漫画 → 内容物料 skill。**模型读图自理解**漫画页（图片为主，`页面配置.json` 文字兜底）→ 一键产出三件套：**口播脚本**（视频配音用）+ **种草/安利笔记**（小红书/公众号）+ **短视频推广文案**（标题/封面/话题/简介话术）。**（可选）出片**：把确认后的口播脚本 + 漫画页图组装成竖版短视频（图片+Ken Burns+字幕+火山灿灿配音+**BGM 选曲植入**）。**图片优先用 `分享/` 成品图**（有字/水印），无则回退 `output/` 生图。**先读图后产出**，产出一套后停下来等老板确认。v0.5.0
+> 漫画 → 内容物料 skill。**模型读图自理解**漫画页（图片为主，`页面配置.json` 文字兜底）→ 一键产出三件套：**口播脚本**（视频配音用）+ **种草/安利笔记**（小红书/公众号）+ **短视频推广文案**（标题/封面/话题/简介话术）。**（可选）出片**：把确认后的口播脚本 + 漫画页图组装成竖版短视频（图片+Ken Burns+字幕+火山灿灿配音+**BGM 选曲植入**）。**图片优先用 `分享/` 成品图**（有字/水印），无则回退 `output/` 生图。**先读图后产出**，产出一套后停下来等老板确认。v0.6.0
 
 **核心定位**：把已成稿的漫画页（page1~N.png + 页面配置.json + OC/封面）转化为**可投放市场的内容物料**，服务"让更多人看到这部漫画"的推广目标。文本三件套是主产出；出片为可选项（复用 pop-video-brand 的确定性渲染引擎，画面适配漫画竖版）。
 
@@ -32,7 +32,7 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 | 读图理解（画面+剧情） | 模型多模态读图 | 主 agent 直接 Read 漫画页，产出逐页画面白描 + 剧情因果锚点 |
 | 内容创作 | DeepSeek/主 agent | 复用漫画剧情与卖点，按平台语法产出口碑内容 |
 | TTS 配音（可选） | 火山灿灿 2.0（`scripts/tts_generate.py`） | key 固化在 `scripts/.env`（`VOLC_ARK_API_KEY`），自动读取 |
-| 出片渲染（可选） | HTML+Playwright+ffmpeg | 复用 brand 的 `render_frames.py` + `encode.py`，画面用漫画页 |
+| 出片渲染（可选） | 浏览器自播+录屏（`scripts/record_video.py`） | HTML 编排稿自播，Playwright 录成 WebM 转 MP4，不落千张 PNG |
 | 导出归档 | 主 agent 写文件 | 三件套+视频写入 `{项目}/内容/` 与 `{项目}/视频/` |
 
 > 出片是**确定性渲染**（HTML+Playwright+ffmpeg），不走 AI 视频（Seedance/GenerateVideo）。若老板只要文本三件套，Step 3/4/5 可跳过。
@@ -70,8 +70,8 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 ### Step 4: 出片渲染（可选）→ `steps/step4-render.md`
 
 - HTML 动效时间线（**用 `分享/` 成品图** + Ken Burns + 字幕，竖版 1080×1920，`references/comic-render-guide.md`）
-- Playwright 逐帧渲染（`render_frames.py`，先 preview 校验再 full）
-- ffmpeg 合成无音轨视频（`encode.py`）
+- **预览校验**：`render_frames.py` 抓关键帧逐张审查构图（铁律）
+- **全量出片**：`record_video.py` 浏览器自播 + 录屏转 MP4（不落 PNG，快一个数量级）
 
 ### Step 5: 混音（可选）→ `steps/step5-mix.md`
 
@@ -128,8 +128,9 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 | 动效渲染写法 | `references/comic-render-guide.md` | Step 4 写 HTML 时读取 |
 | BGM 选曲指南 | `references/bgm-guide.md` | Step 5 选 BGM 时读取 |
 | TTS 脚本 | `scripts/tts_generate.py` | Step 3 配音时执行 |
-| 渲染脚本 | `scripts/render_frames.py` | Step 4 执行 |
-| 合成脚本 | `scripts/encode.py` | Step 4 执行 |
+| 渲染脚本 | `scripts/record_video.py` | Step 4 录屏出片时执行 |
+| 预览脚本 | `scripts/render_frames.py` | Step 4 抓预览帧校验时执行 |
+| 合成脚本 | `scripts/encode.py` | 备用（逐帧方案合成时用） |
 | 混音脚本 | `scripts/mix_audio.py` | Step 5 执行 |
 
 ## 前置条件
@@ -142,6 +143,6 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 
 ## 版本
 
-**当前版本**：v0.5.0 | 2026-08-07
+**当前版本**：v0.6.0 | 2026-08-07
 
 > 完整版本历史见 `CHANGELOG.md`。

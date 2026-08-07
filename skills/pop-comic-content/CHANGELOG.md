@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.6.0 | 2026-08-07
+
+出片从「逐帧截图拼 MP4」升级为「浏览器自播 + 录屏」，性能提升一个数量级。
+
+### 背景
+原方案 `render_frames.py` 逐帧调用 `render(t)` 截图 PNG 再合成，本质等于"把 PPT 每一帧固化成图片"，吃性能。实测绯红第一章（57s@30fps）光渲染 1710 帧就要 7-10 分钟以上。
+
+### 新增
+- **`scripts/record_video.py`（方案 B 主路径）**：给已有 `render(t)` 的 HTML 注入自播时钟（`requestAnimationFrame` 按真实时间驱动），Playwright `record_video` 边播边录成 WebM，再转 MP4。**不落千张 PNG**，录屏时长 ≈ 动画时长。
+- `--preset` 参数（veryfast/fast/medium）控制转码速度与质量，`--crf 18` 保画质。
+
+### 修改
+- `steps/step4-render.md`：出片主路径改为 `record_video.py` 录屏；`render_frames.py` 降级为**预览校验构图**用途（抓关键帧）。
+- `references/comic-render-guide.md`：渲染命令改为录屏主路径 + 逐帧预览，写入实测数据。
+- `SKILL.md` / `skill.json`：版本升至 v0.6.0，模型说明、Step 4、速查表同步。
+
+### 实测验证（绯红第一章 57s 竖版）
+- 方案 B 录屏 + 转码全程 ~86s 出片（录屏 60.5s + 转码 25.4s）。
+- 产物 probe 校验：1080×1920 竖版、30fps、H.264、57.87s。
+- 抽帧核查封面/分镜/字幕渲染正常，与逐帧方案画面一致。
+- 对比：原逐帧方案光渲染 300 帧就 ~2 分钟（约 0.4s/帧），全量 1710 帧需 7-10 分钟以上。
+
 ## v0.5.0 | 2026-08-07
 
 把流程用到的 API key 固化进 skill，运行无需手动传 key。
