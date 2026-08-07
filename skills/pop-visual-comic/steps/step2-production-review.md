@@ -123,7 +123,20 @@ cd "{漫画项目}/第{N}章"
 python -m http.server 8000
 ```
 
-### 截图分享（可选）
+### 按页导出分享图（必做，每页独立 + 底部品牌水印）
+
+> **老板定稿（2026-08-07）**：分享是"一张一张图去分享"，不只看整条长图。故 HTML 交付后**必须按页切图**——每页独立一张分享图（保留文字叠加层），且**每一页底部压品牌水印条**。
+
+```powershell
+python "{本skill路径}/scripts/export_pages.py" "{漫画项目}/第{N}章/index.html"
+# 默认输出到 {漫画项目}/第{N}章/分享/page01.png ~ page0N.png
+```
+
+脚本逻辑：Playwright 逐页截图 `.page` 容器（保留旁白/OS/台词叠加层）→ Pillow 底部追加品牌水印条（暗红分隔线 + `popwave.cn 让创意一键落地`）。
+
+**产出校验**：`分享/` 目录页面数 = 导演卡页数；每张图底部必有品牌水印条。缺失即打回——禁止发无品牌水印的分页分享图。
+
+### 截图分享（可选，整条长图）
 
 ```powershell
 python "{本skill路径}/scripts/screenshot_comic.py" "{漫画项目}/第{N}章/index.html" "{漫画项目}/第{N}章/长图-{章节名}.png"
@@ -137,6 +150,7 @@ python "{本skill路径}/scripts/screenshot_comic.py" "{漫画项目}/第{N}章/
 | 图片格式 | 全部真PNG（magic bytes `89 50 4E 47`） |
 | HTML 已生成 | index.html 落盘，图片引用路径正确 |
 | **品牌水印** | **index.html 必含品牌三要素：标题区第三行 slogan `popwave.cn 让创意一键落地` + 页脚 footer `未完待续 · popwave.cn 让创意一键落地`（见 `references/guides/page-layout-guide.md` §品牌水印）。缺失即打回，禁止发无品牌水印的漫画** |
+| **按页分享图** | **`分享/` 目录已生成 page01~N.png，页数=导演卡页数；每张底部必有品牌水印条（`popwave.cn 让创意一键落地`）。缺失即打回** |
 | storyboard.md | 分镜脚本已落盘 |
 | 导演卡 | 第{N}章/导演卡.md 已落盘 |
 

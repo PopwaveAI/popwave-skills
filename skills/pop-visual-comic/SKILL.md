@@ -5,7 +5,9 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-visual-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（场景采摘+导演卡、提示词产出、管角色库、记状态），Seedream 做画师（连续出多格漫画页），HTML 做长条滚动展示+文字叠加层。**页漫模式**。v7.16.2
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（场景采摘+导演卡、提示词产出、管角色库、记状态），Seedream 做画师（连续出多格漫画页），HTML 做长条滚动展示+文字叠加层。**页漫模式**。v7.17.0
+
+**v7.17.0 核心变化（按页切图 + 逐页品牌水印）**：老板校准——只在交付 HTML/整条长图，但用户分享是"一张一张图去分享"。新增 `scripts/export_pages.py`（Playwright 逐页截图 `.page` 容器保留文字叠加层 + Pillow 底部追加品牌水印条），HTML 交付后**必做按页导出**到 `分享/page01~N.png`，每张底部压 `popwave.cn 让创意一键落地` 品牌水印条。Step 2 产出检查新增「按页分享图」必检项。
 
 **v7.16.2 核心变化（品牌水印工程兜底）**：老板确认——水印不独立成 step（避免碎片化步数），转"模板强制 + 注入脚本"双保险。新增 `scripts/inject_watermark.py`（幂等注入+校验），Step 2 生成 HTML 后强制调用，无论 agent 是否手写简化版都自动补品牌水印并校验，校验不通过 exit 1 禁止发布。配合 v7.16.1 铁律 ❌8。
 
@@ -76,7 +78,8 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 - 增量定妆图（如有变化）→ **连续出完全部页**（generate_comic_page.py 导出任务清单 + image_generate 逐张生成，**中途不逐页检查/汇报/等确认**）
 - **长条滚动 HTML**（漫画页图片+文字叠加，纯 HTML+CSS 零 JS）
-- **截图分享**（可选）
+- **按页导出分享图**（必做）：`export_pages.py` 逐页截图 `.page` 容器 + 底部品牌水印条 → `分享/page01~N.png`（用户一张张分享用）
+- **截图分享**（可选）：整条长图 `screenshot_comic.py`
 - **产出检查** + **感染力评审**（五维：叙事流/页面节奏/情绪钉子/角色一致性/扫描测试）——**全部页生成完统一审核，且不读图**（模型无视觉能力，全部基于导演卡 + storyboard + 页面配置.json 文本层核验；画面质量交用户目检）
 - 记忆沉淀：append 视觉沉淀.md + 更新 漫画快照.md + 漫画状态.md
 
@@ -109,6 +112,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 │   ├── 页面配置.json             # Step 2 文字叠加配置
 │   ├── output/page1~N.png      # 漫画页（Seedream 直出，每页含多格）
 │   ├── index.html               # HTML 漫画页面（漫画页图+文字叠加）
+│   ├── 分享/page01~N.png        # 按页导出分享图（文字叠加+底部品牌水印，一张张分享用）
 │   └── 长图-{章节名}.png         # 截长图（Playwright 截图，分享用）
 └── 第2章/...
 ```
@@ -137,6 +141,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 增量更新角色定妆图 | `scripts/update_char_asset.py` | Step 2 角色外观变化时 |
 | **逐页生成漫画** | `scripts/generate_comic_page.py` | **Step 2 逐页生成漫画页时执行** |
 | 截长图（分享用） | `scripts/screenshot_comic.py` | Step 2 文字叠加后执行 |
+| **按页导出分享图（一张张分享用）** | `scripts/export_pages.py` | **Step 2 生成 HTML 后必做** |
 | 查 Seedream 提示词写法 | `../pop-visual-shared/references/seedream-prompt-guide.md` | 写提示词前必读 |
 | 调用 Seedream API | `../pop-visual-shared/scripts/generate.py` | 生成单张图片时执行 |
 | **查画风基准库（按赛道选基准+换题材配色）** | `references/art-style-baseline.md` | **Step 0 定画风时必读** |
@@ -165,6 +170,6 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 版本
 
-**当前版本**：v7.15.0 | 2026-08-06
+**当前版本**：v7.17.0 | 2026-08-07
 
 > 完整版本历史见 `CHANGELOG.md`。
