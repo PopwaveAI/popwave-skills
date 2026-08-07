@@ -51,15 +51,20 @@ python "{本skill路径}/scripts/generate_comic_page.py"
 
 输出：`output/generation_tasks.json`（含每页 id/prompt/size/ref_images/output_path）。
 
-### 用 image_generate 工具逐张生成
+### 用 image_generate 工具批量生成（单 turn 一次发完，禁止逐张等完成）
 
-读取 `output/generation_tasks.json`，对每条任务调用 `image_generate` 工具：
+读取 `output/generation_tasks.json`，**在一个回复里一次性连续调用全部页的 `image_generate` 工具**：
+- 对每条任务调用一次 `image_generate`（prompt=任务prompt，size=任务size，output=任务output_path）
 - 有 `ref_images` 时按工具能力传入参考图路径（图生图，保证角色一致）
-- 输出到任务的 `output_path`（`output/page1.png` ~ `output/pageN.png`）
+- **关键字：连续调用，不等待单张完成**——把本章所有页（含增量定妆图）的 `image_generate` 全部在**同一个回复里发出**
 
-> **🔑 连续出完全部页，中途不逐页检查/汇报/等确认**：一次性把本章所有页（含增量定妆图）全部生成完，**不逐页停下来看图、不逐页向用户汇报、不逐页等确认**。全部页生成完毕后，统一进入 §4 产出检查 + §5 感染力评审。中途任何单页失败只记录，不中断整章流程（等全部页收齐后一并处理）。
+> **⚠️ 为什么必须单 turn 发完（不要逐张等完成）**：`image_generate` 是**异步工具**，每次调用立即返回任务 id 并结束当前 turn，等生成完成后再唤醒 agent。若逐张调用——发第一张→结束 turn→重复守卫警告"已有 active task 别再次调用"→醒来只收到第一张→**后续页全部漏掉**（这就是"只出第一张/跑一半中断"的根因）。系统支持同一 session 多个生图任务排队，**只要每页 prompt 不同就不会触发重复守卫**，所以：
+> 1. 在**一个回复**内连续发出全部页的 `image_generate` 调用（每页 prompt 各异）
+> 2. 全部发出后结束 turn，让所有任务在后台排队、逐个投递
+> 3. 收到所有页的完成结果后，统一进入 §4 产出检查 + §5 感染力评审
+> 4. 中途任何单页失败/failed 只记录，不中断整章流程（等全部页收齐后一并处理）
 
-生成完成后校验图片格式（扩展名与实际字节一致，JPEG 需转码为真 PNG），格式校验也是**全部页收齐后统一做**，不逐页校验。
+写完后校验：**全部页收齐后统一做格式校验**（扩展名与实际字节一致，JPEG 需转码为真 PNG），**不逐页校验**。若某页因超时/失败未收到，补发该页的单次 `image_generate` 调用。
 
 ## 3. 长条滚动 HTML
 

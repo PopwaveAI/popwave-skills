@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-comic",
-  "version": "7.17.0",
+  "version": "7.17.1",
   "displayName": "网文转漫画",
   "description": "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成/漫画连载'时启用。Pipeline 化漫画连载管理器：初始化画风+双角度OC→导演卡定稿（含场景采摘）→生成审核。页漫模式（一页多格，YZ-1~8分页）。v7.17.0 按页切图+逐页品牌水印：新增 scripts/export_pages.py（Playwright 逐页截图 .page 容器保留文字叠加层 + Pillow 底部追加品牌水印条），HTML 交付后必做按页导出到 分享/page01~N.png，每张底部压'popwave.cn 让创意一键落地'。v7.16.2 品牌水印工程兜底：新增 scripts/inject_watermark.py（幂等注入+校验），Step 2 生成 HTML 后强制调用，自动补标题区 slogan 'popwave.cn 让创意一键落地'+页脚 footer，校验不通过 exit 1 禁止发布。v7.16.1 新增铁律❌8（index.html 必按模板生成品牌水印，禁止手写简化版绕过）。v7.16.0 修复'为压缩而压缩丢剧情'：关键旁白放宽至30字+门禁③改测实际渲染文字层。v7.12.0 三级对齐门禁+v7.14.0 删除读图自检保留。",
   "entry": "SKILL.md",
