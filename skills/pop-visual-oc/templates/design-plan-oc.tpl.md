@@ -5,7 +5,7 @@
 - **小说标题**：{{title}}
 - **角色名**：{{character_name}}
 - **角色称号**：{{character_title}}
-- **立绘档位**：{{tier}}（基础版/加强版）
+- **立绘档位**：{{tier}}（基础版/加强版/设定卡传播版）
 - **画幅比例**：{{ratio}}
 - **输出尺寸**：{{size}}
 
@@ -38,6 +38,19 @@
 | 第4层 | {{poem}} | {{position_4}} | {{font_4}} |
 | 第5层 | {{calligraphy}} | {{position_5}} | {{font_5}} |
 | 第6层 | {{seal}} | {{position_6}} | {{font_6}} |
+
+## 模块化信息（设定卡传播版）
+
+| 模块 | 内容 | 位置 | 字体/质感 |
+|:-----|:-----|:-----|:---------|
+| 属性栏 | {{attr_bar}} | {{attr_position}} | {{attr_font}} |
+| 配色板 | {{palette}} | {{palette_position}} | 无文字，仅色块 |
+| 表情差分 | {{expressions}} | {{expr_position}} | {{expr_font}} |
+| 花语象征 | {{flower}} | {{flower_position}} | {{flower_font}} |
+| 境界徽章 | {{badge}} | {{badge_position}} | {{badge_font}} |
+| 语录 | {{quote}} | {{quote_position}} | {{quote_font}} |
+
+> 设定卡传播版总模块≤7，文字均≤15字，宁减模块保清晰。
 
 ## 布局模板
 
