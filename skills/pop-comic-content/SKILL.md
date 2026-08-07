@@ -1,11 +1,11 @@
 ---
 name: pop-comic-content
-description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/漫画口播脚本/漫画短视频文案/读图产内容/漫画做成视频'时启用。模型读图自理解漫画页与OC/封面→一键产出可投放内容物料：口播脚本+种草/安利笔记+短视频推广文案，可选出片（图片+Ken Burns+字幕+火山灿灿配音）。读图为主，页面配置.json文字兜底。"
+description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/漫画口播脚本/漫画短视频文案/读图产内容/漫画做成视频/漫画BGM/漫画配乐'时启用。模型读图自理解漫画页与OC/封面→一键产出可投放内容物料三件套（口播脚本+种草/安利笔记+短视频推广文案），可选出片（图片+Ken Burns+字幕+火山灿灿配音+BGM选曲植入）。图片优先用分享成品图（有字/水印），无则回退生图。读图为主页面配置/导演卡文字兜底，先读图后产出。"
 ---
 
 # pop-comic-content
 
-> 漫画 → 内容物料 skill。**模型读图自理解**漫画页（图片为主，`页面配置.json` 文字兜底）→ 一键产出三件套：**口播脚本**（视频配音用）+ **种草/安利笔记**（小红书/公众号）+ **短视频推广文案**（标题/封面/话题/简介话术）。**（可选）出片**：把确认后的口播脚本 + 漫画页图组装成竖版短视频（图片+Ken Burns+字幕+火山灿灿配音）。**先读图后产出**，产出一套后停下来等老板确认。v0.3.0
+> 漫画 → 内容物料 skill。**模型读图自理解**漫画页（图片为主，`页面配置.json` 文字兜底）→ 一键产出三件套：**口播脚本**（视频配音用）+ **种草/安利笔记**（小红书/公众号）+ **短视频推广文案**（标题/封面/话题/简介话术）。**（可选）出片**：把确认后的口播脚本 + 漫画页图组装成竖版短视频（图片+Ken Burns+字幕+火山灿灿配音+**BGM 选曲植入**）。**图片优先用 `分享/` 成品图**（有字/水印），无则回退 `output/` 生图。**先读图后产出**，产出一套后停下来等老板确认。v0.4.0
 
 **核心定位**：把已成稿的漫画页（page1~N.png + 页面配置.json + OC/封面）转化为**可投放市场的内容物料**，服务"让更多人看到这部漫画"的推广目标。文本三件套是主产出；出片为可选项（复用 pop-video-brand 的确定性渲染引擎，画面适配漫画竖版）。
 
@@ -41,9 +41,9 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 
 ### Step 0: 收集素材 → `steps/step0-collect.md`
 
-- 扫描漫画章目录：`output/page1~N.png` + `页面配置.json` + 可选 `导演卡.md`
+- 扫描漫画章目录：**优先 `分享/page01~N.png` 成品图（有字/水印），无则回退 `output/page1~N.png` 生图** + `页面配置.json` + 可选 `导演卡.md`
 - 定位 OC/封面图（种草笔记与推广文案的视觉素材）
-- 产出 `素材清单.md`
+- 产出 `素材清单.md`（含每页图片来源标注：分享/output）
 
 ### Step 1: 读图理解 → `steps/step1-understand.md`
 
@@ -69,12 +69,13 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 
 ### Step 4: 出片渲染（可选）→ `steps/step4-render.md`
 
-- HTML 动效时间线（图片+Ken Burns+字幕，竖版 1080×1920，`references/comic-render-guide.md`）
+- HTML 动效时间线（**用 `分享/` 成品图** + Ken Burns + 字幕，竖版 1080×1920，`references/comic-render-guide.md`）
 - Playwright 逐帧渲染（`render_frames.py`，先 preview 校验再 full）
 - ffmpeg 合成无音轨视频（`encode.py`）
 
 ### Step 5: 混音（可选）→ `steps/step5-mix.md`
 
+- **BGM 选曲植入**（`references/bgm-guide.md`，按赛道×情绪选曲，如悬疑配青衣/fever pitch）
 - 配音轨按**时间轴定位**混入视频（`scripts/mix_audio.py`，adelay+amix），配音对齐对应字幕时间点
 - 可选 BGM（0.15 不压人声），产出 `成品-配音.mp4`
 
@@ -125,6 +126,7 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 | 导出归档 | `steps/step6-export.md` | Step 6 开始时读取 |
 | 口碑方法论 | `references/content-method.md` | Step 2 创作时读取 |
 | 动效渲染写法 | `references/comic-render-guide.md` | Step 4 写 HTML 时读取 |
+| BGM 选曲指南 | `references/bgm-guide.md` | Step 5 选 BGM 时读取 |
 | TTS 脚本 | `scripts/tts_generate.py` | Step 3 配音时执行 |
 | 渲染脚本 | `scripts/render_frames.py` | Step 4 执行 |
 | 合成脚本 | `scripts/encode.py` | Step 4 执行 |
@@ -140,6 +142,6 @@ description: "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/�
 
 ## 版本
 
-**当前版本**：v0.3.0 | 2026-08-07
+**当前版本**：v0.4.0 | 2026-08-07
 
 > 完整版本历史见 `CHANGELOG.md`。
