@@ -24,6 +24,11 @@ _projects/
 # IDE/tool config
 .trae/
 
+# Secrets — real API keys live in skill-local .env, never committed
+.env
+skills/*/scripts/.env
+skills/*/.env
+
 # Temp directory
 .tmp/
 

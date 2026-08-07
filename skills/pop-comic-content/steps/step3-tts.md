@@ -6,7 +6,8 @@
 
 - 老板已确认 `口播脚本.md`（Step 2 产出）
 - 火山语音控制台已开通「豆包语音合成大模型」，已有 **X-Api-Key**
-- 若尚无 Key：提示老板到 `https://console.volcengine.com/voice` → 开通豆包语音合成大模型 → 「API Key 管理」复制 X-Api-Key
+- **Key 已固化在 skill 里**：`scripts/.env` 写入 `VOLC_ARK_API_KEY=<X-Api-Key>`（脚本自动读取，运行无需手动传 key）。若该文件不存在，复制 `scripts/.env.example` 为 `.env` 并填入真实 key
+- 若老板尚未提供 key：提示到 `https://console.volcengine.com/voice` → 开通豆包语音合成大模型 → 「API Key 管理」复制 X-Api-Key，填入 `scripts/.env`
 
 ## 操作
 
@@ -15,10 +16,10 @@
 2. **逐句生成**（用 `scripts/tts_generate.py`，复用 brand 的火山方案）：
    ```bash
    python scripts/tts_generate.py \
-     --api-key <X-Api-Key> \
      --text "口播句文案" \
      --out "{项目}/视频/audio/seg01.mp3"
    ```
+   > key 自动读取，无需传 `--api-key`。读取优先级：命令行 `--api-key` > 环境变量 `VOLC_ARK_API_KEY` > `scripts/.env`。若三种都缺，脚本会报错并提示配置方式。
    - 每句一个 `seg{N}.mp3`
    - 默认音色已是灿灿（`--speaker` 可换其他音色，如 `zh_female_zhixingnv_uranus_bigtts` 知性女声）
    - 语速/音量/音调可用 `--speech-rate/--loudness-rate/--pitch-rate` 微调

@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.5.0 | 2026-08-07
+
+把流程用到的 API key 固化进 skill，运行无需手动传 key。
+
+### 新增
+- **key 固化机制**：新增 `scripts/.env`（已 gitignore 排除，不会入库）固化火山语音 X-Api-Key（`VOLC_ARK_API_KEY`），并新增 `scripts/.env.example` 模板供参考。
+- **key 自动读取**：`scripts/tts_generate.py` 新增 `resolve_api_key()`，按优先级解析 key：命令行 `--api-key` > 环境变量 `VOLC_ARK_API_KEY` > `scripts/.env`。`--api-key` 由必填改为可选，缺省自动读取，三种都缺时报错并提示配置方式。
+
+### 修改
+- `steps/step3-tts.md`：前置改为「key 已固化在 `scripts/.env`」，配音命令去掉 `--api-key` 参数，说明读取优先级。
+- `SKILL.md` / `skill.json`：版本升至 v0.5.0，TTS 行与前置条件补 key 固化说明。
+- `.gitignore`：新增排除 `.env`、`skills/*/scripts/.env`、`skills/*/.env`，防止真实 key 入库。
+
+### 验证
+- 用老板提供的火山 X-Api-Key 实测：脚本不传 `--api-key`，自动读取 `.env` 成功合成 4.37s 测试配音，key 有效、固化机制跑通。
+
 ## v0.4.0 | 2026-08-07
 
 新增两大能力：**BGM 选曲植入** + **素材来源优先顺序优化**。

@@ -7,9 +7,15 @@
 前置：火山语音控制台开通「豆包语音合成大模型」，申请 X-Api-Key（新版控制台单头鉴权）。
 接口：POST https://openspeech.bytedance.com/api/v3/tts/create   model=seed-audio-1.0
 
+key 读取优先级（自上而下，命中即用）：
+  1. 命令行 --api-key
+  2. 环境变量 VOLC_ARK_API_KEY
+  3. 本脚本同目录 .env 中的 VOLC_ARK_API_KEY=...
+  （.env 已 gitignore，不会入库；key 固化在 skill 里，运行无需手动传）
+
 用法：
   python tts_generate.py \
-    --api-key <X-Api-Key> \
+    [--api-key <X-Api-Key>] \
     --text "要合成的文案" \
     --out "out.mp3" \
     [--speaker zh_female_cancan_uranus_bigtts] \
@@ -24,6 +30,27 @@ import urllib.request
 
 URL = "https://openspeech.bytedance.com/api/v3/tts/create"
 DEFAULT_SPEAKER = "zh_female_cancan_uranus_bigtts"  # 知性灿灿 2.0（默认）
+ENV_KEY_NAME = "VOLC_ARK_API_KEY"
+
+
+def resolve_api_key(cli_key=None):
+    """按优先级解析火山 X-Api-Key：命令行 > 环境变量 > 脚本同目录 .env。"""
+    if cli_key and cli_key.strip():
+        return cli_key.strip()
+    env = os.environ.get(ENV_KEY_NAME)
+    if env and env.strip():
+        return env.strip()
+    # 脚本同目录 .env（key 固化在 skill 里，gitignore 排除）
+    dotenv = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.exists(dotenv):
+        import re
+        for line in open(dotenv, encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                if k.strip() == ENV_KEY_NAME:
+                    return v.strip().strip('"').strip("'")
+    return None
 
 
 def synth(api_key, text, out_path, speaker=None,
@@ -83,7 +110,8 @@ def _sleep(s):
 
 def main():
     p = argparse.ArgumentParser(description="pop-video-brand 火山语音 TTS 配音")
-    p.add_argument("--api-key", required=True, help="火山语音 X-Api-Key")
+    p.add_argument("--api-key", default=None,
+                   help="火山语音 X-Api-Key（可选；缺省自动读环境变量 VOLC_ARK_API_KEY 或脚本同目录 .env）")
     p.add_argument("--text", required=True, help="要合成的文案")
     p.add_argument("--out", required=True, help="输出 MP3 路径")
     p.add_argument("--speaker", default=DEFAULT_SPEAKER, help="音色,默认知性灿灿2.0")
@@ -93,8 +121,16 @@ def main():
     p.add_argument("--retries", type=int, default=3, help="失败重试")
     args = p.parse_args()
 
+    api_key = resolve_api_key(args.api_key)
+    if not api_key:
+        print("[错误] 未找到火山 X-Api-Key。请任选其一：\n"
+              f"  1) 传 --api-key <KEY>\n"
+              f"  2) 设环境变量 {ENV_KEY_NAME}\n"
+              f"  3) 在脚本同目录 .env 写入 {ENV_KEY_NAME}=<KEY>", file=sys.stderr)
+        sys.exit(2)
+
     os.makedirs(os.path.dirname(os.path.abspath(args.out)) or ".", exist_ok=True)
-    ok = synth(args.api_key, args.text, args.out, args.speaker,
+    ok = synth(api_key, args.text, args.out, args.speaker,
                args.speech_rate, args.loudness_rate, args.pitch_rate, args.retries)
     sys.exit(0 if ok else 1)
 
