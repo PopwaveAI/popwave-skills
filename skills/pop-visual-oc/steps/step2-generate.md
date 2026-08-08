@@ -265,7 +265,7 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 
 1. **读取模板**：`skills/pop-visual-oc/templates/album-card.tpl.html`（画册页样板，含 CSS 装裱 + `{{变量}}` 占位）
 2. **填主视觉**：将 §4.1/§4.2 生成的无文字主视觉复制到 `素材/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
-3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）
+3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）。**文案必须按 `references/mode-album-html.md` §文案设计规范 公式填写**——定位线≤14字、箴言有代价/反转、机制人话可复述、象征键=具象物；**组装前必过文案稳定性四问（有钩子/讲清机制/无黑话/圈外人3秒懂），任一不通过回写修正后再组装，禁止带介绍句风格的无钩子文案**
 4. **调排版**：按 `mode-album-html.md` §排版语言对齐精致度——渐变文字、双线边框、四角金印、图框金色托线、色块 swatch；信息区全部在图框之外（铁律 A3）
 5. **本地预览**：主视觉与 HTML 同目录，`python -m http.server` 本地预览确认排版
 6. **截成长图**：用 `scripts/screenshot_album.py` 把画册页截成高清长图（交付形态，与漫画同构）
@@ -379,6 +379,7 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 - [ ] **无文字禁止词残留**：消费美术设定集对应篇冻结提示词时已剥离 `no text / no letters / no characters / no watermark / no decorative elements / no border / no seal`，最终提示词不含任何文字禁止词（**仅前三档位**；HTML 档位见下）
 - [ ] **EXACT TYPOGRAPHY 完整**：模式B/模式C 的提示词含 EXACT TYPOGRAPHY 块，信息架构均用双引号包裹并指定字体和位置（**仅前三档位**）
 - [ ] **HTML 组装档位专项**：主视觉提示词**含** `no text, no letters, no words, no characters, no captions, no labels`（铁律 A2），不补 EXACT TYPOGRAPHY；主视觉为独立 `<figure>` 图框主体（A1），信息区全部在图框之外（A3）；已用 `album-card.tpl.html` 组装画册页，品牌水印已内嵌 HTML footer，**未运行 `watermark.py`**
+- [ ] **文案稳定性四问通过（v3.4.0）**：定位线≤14字点出核心悖论；箴言有代价/反转是台词非介绍句；机制人话可复述无黑话；象征键=具象物、值=意味着什么。任一不通过已回写修正（对标「借香他化」成功成品）
 - [ ] **画册页长图已截图**：`screenshot_album.py` 已执行，长图（`-长图.png`）完整含顶部标题区+主视觉+信息区+品牌水印，四段不缺（HTML 组装档位必做）
 - [ ] **人物卡 HTML 专项（铁律 P1-P3）**：人物卡主视觉零文字零标签零色板（P1），角色名/称号/属性/色板/台词/题诗/小传/表情差分全由 HTML 承载；信息区全部在图框外（P2）；角色占画面≥60%（P3）
 - [ ] **设定卡传播版模块完整**：EXACT TYPOGRAPHY 块按模块声明，总模块≤7，文字均≤15字，无超量导致乱码风险
