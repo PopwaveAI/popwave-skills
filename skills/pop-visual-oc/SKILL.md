@@ -5,7 +5,7 @@ description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地
 
 # pop-visual-oc
 
-> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v3.4.0
+> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v3.5.0
 
 ## 做什么
 
@@ -121,7 +121,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 2. **② HTML 画册页**：用 `album-card.tpl.html` 组装——顶部标题区（系列名/类型标签/实体名鎏金大字/定位）+ 中央独立图框主视觉 + 图外信息区（箴言/核心气质/等级色板/象征词条）+ footer 品牌水印
 3. **③ 截成长图**：用 `scripts/screenshot_album.py` 把画册页截成高清长图（`-长图.png`，Playwright 整页 + deviceScaleFactor=2，与漫画 `screenshot_comic.py` 同构），交付可传播长图
 
-**人物卡专项（v3.3.0 铁律 P1-P3）**：人物卡是信息量最大的类型，**HTML 组装版必须承载角色名/称号/属性栏/配色板/花语/台词/题诗/小传/表情差分全部模块**，主视觉只画角色本人（零文字零标签零色板）。三铁律：P1 主视觉零文字零标签零色板；P2 信息区全部在图框外；P3 角色是绝对主角（≥60% 画面）。详见 `mode-character.md` §人物卡 HTML 组装版。
+**人物卡专项（v3.3.0 铁律 P1-P3 + v3.5.0 多表达图格）**：人物卡是信息量最大的类型，**HTML 组装版必须承载角色名/称号/属性栏/配色板/花语/台词/题诗/小传/表情差分全部模块**，主视觉只画角色本人（零文字零标签零色板）。**v3.5.0 起默认启用多表达图格**——主视觉之下挂载 2-5 个表达图格（多状态/多视角/日常向），打破"单张主视觉+文字"的单调，对标参考表的"主视觉+多图格"结构。三铁律：P1 主视觉零文字零标签零色板；P2 信息区全部在图框外；P3 角色是绝对主角（≥60% 画面）。方法论见 `references/mode-character-multi.md`，三版式模板见 `templates/album-character.tpl.html`。详见 `mode-character.md` §人物卡 HTML 组装版。
 
 **品牌水印**：HTML 档位**不走 `watermark.py`**，水印已作为 HTML footer 内嵌（`popwave.cn 让创意一键落地`），比图片水印更清晰可控。
 
@@ -166,6 +166,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | 生成+高精度提示词 | `steps/step2-generate.md` | Step 2 |
 | 立绘设计方法论（六层信息+布局模板） | `references/mode-character.md` | Step 1 |
 | **人物卡 HTML 组装版（铁律P1-P3，字/色板/tag全由HTML承载）** | `references/mode-character.md`「人物卡 HTML 组装版」章节 | Step 1/2 |
+| **人物卡多表达图格（多状态/多视角/日常向,三版式模板）** | `references/mode-character-multi.md` | Step 1/2 |
+| **人物卡多表达样板（主视觉+图格区+信息区,三版式一体）** | `templates/album-character.tpl.html` | Step 2 组装 |
 | 设定卡传播版方法论（模块化信息+花语库+AI画风减法） | `references/mode-character.md`「设定卡传播版」章节 | Step 1 |
 | 设定实体卡方法论（势力/地理/规则/场景模块化信息） | `references/mode-setting-cards.md` | Step 1 |
 | **HTML组装版·画册页范式（三条铁律+排版语言）** | `references/mode-album-html.md` | Step 1/2 |

@@ -261,10 +261,10 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 
 ### 4.5 HTML 组装档位：组装画册页成品（两步之第二步）
 
-生成无文字主视觉后，用 `templates/album-card.tpl.html` 组装 HTML 画册页成品：
+生成无文字主视觉后，用 `templates/album-card.tpl.html`（规则/势力/地理/场景卡）或 `templates/album-character.tpl.html`（**人物卡多表达**）组装 HTML 成成品：
 
-1. **读取模板**：`skills/pop-visual-oc/templates/album-card.tpl.html`（画册页样板，含 CSS 装裱 + `{{变量}}` 占位）
-2. **填主视觉**：将 §4.1/§4.2 生成的无文字主视觉复制到 `素材/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
+1. **读取模板**：`skills/pop-visual-oc/templates/album-card.tpl.html`（画册页样板）或 `album-character.tpl.html`（人物卡多表达样板，含 CSS 装裱 + `{{变量}}` 占位）
+2. **填主视觉**：将生成的无文字主视觉复制到 `素材/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
 3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）。**文案必须按 `references/mode-album-html.md` §文案设计规范 公式填写**——定位线≤14字、箴言有代价/反转、机制人话可复述、象征键=具象物；**组装前必过文案稳定性四问（有钩子/讲清机制/无黑话/圈外人3秒懂），任一不通过回写修正后再组装，禁止带介绍句风格的无钩子文案**
 4. **调排版**：按 `mode-album-html.md` §排版语言对齐精致度——渐变文字、双线边框、四角金印、图框金色托线、色块 swatch；信息区全部在图框之外（铁律 A3）
 5. **本地预览**：主视觉与 HTML 同目录，`python -m http.server` 本地预览确认排版
@@ -273,9 +273,9 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 
 > **画册页三铁律（mode-album-html.md）**：①A1 图是主角，HTML 是装裱（禁止图铺满当 background）；②A2 主视觉零文字（AI 不画字，文案全由 HTML 承载）；③A3 信息区在图框之外，不压图主体。
 
-#### 4.5.0 人物卡 HTML 组装专项（v3.3.0 铁律 P1-P3）
+#### 4.5.0 人物卡 HTML 组装专项（v3.3.0 铁律 P1-P3 + v3.5.0 多表达图格）
 
-人物卡是信息量最大的类型，**HTML 组装版必须承载角色名/称号/属性栏/配色板/花语/台词/题诗/小传/表情差分全部模块**，主视觉只画角色本人（铁律 P1）。按 `references/mode-character.md` §人物卡 HTML 组装版 + `mode-album-html.md` §人物卡专项组装：
+人物卡是信息量最大的类型，**HTML 组装版必须承载角色名/称号/属性栏/配色板/花语/台词/题诗/小传/表情差分全部模块**，主视觉只画角色本人（铁律 P1）。**v3.5.0 起默认启用多表达图格**（主视觉 + 表达图格区，打破单图单调）。按 `references/mode-character-multi.md` + `references/mode-character.md` §人物卡 HTML 组装版 + `mode-album-html.md` §人物卡专项组装，用 `templates/album-character.tpl.html`：
 
 1. **主视觉**：纯净人物立绘（零文字零标签零色板，角色占画面≥60%）
 2. **顶部标题区**：系列名 / 「人物设定卡」标签 / 角色名（鎏金大字）/ 身份定位
@@ -288,6 +288,13 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 9. **小传**：60-100字微型人物志（HTML 精确排版，可竖排或分栏）
 10. **表情差分**：2-4 个表情小图（可选，图框旁）
 11. **品牌水印**：footer 内嵌
+
+**多表达图格区（v3.5.0，人物卡增强）**：
+1. 读 `templates/album-character.tpl.html`，按 Step 1 确认的图格类型设 `variant_type=state/view/daily`（state 2列竖图 / view 4列方图 / daily 3列横图）
+2. 每格替换为 `<div class="variant"><span class="idx">n</span><span class="stat">状态类型</span><img src="图格路径"><span class="lbl">标签</span></div>`
+3. **图格零文字**：图格与主视觉一样是无文字纯图（提示词保留 no text），状态名/视角名/场景标注全由 HTML 承载
+4. **一致性锚点**：所有图格同一张脸（眼瞳/轮廓/气质/关键配饰），是同一角色的不同切面，不是两个角色
+5. 图格不单独叠水印，整体卡 footer 水印即可
 
 > **人物卡三铁律**：P1 主视觉零文字零标签零色板；P2 信息区全部在图框外；P3 角色是绝对主角（≥60% 画面）。违反任一即打回重做。
 
@@ -382,6 +389,7 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 - [ ] **文案稳定性四问通过（v3.4.0）**：定位线≤14字点出核心悖论；箴言有代价/反转是台词非介绍句；机制人话可复述无黑话；象征键=具象物、值=意味着什么。任一不通过已回写修正（对标「借香他化」成功成品）
 - [ ] **画册页长图已截图**：`screenshot_album.py` 已执行，长图（`-长图.png`）完整含顶部标题区+主视觉+信息区+品牌水印，四段不缺（HTML 组装档位必做）
 - [ ] **人物卡 HTML 专项（铁律 P1-P3）**：人物卡主视觉零文字零标签零色板（P1），角色名/称号/属性/色板/台词/题诗/小传/表情差分全由 HTML 承载；信息区全部在图框外（P2）；角色占画面≥60%（P3）
+- [ ] **多表达图格（v3.5.0，人物卡）**：主视觉下有 2-5 个表达图格；图格类型/版式正确（`variant_type=state/view/daily` 与图格比例匹配）；图格零文字（提示词保留 no text）；图格标注（序号/状态类型/标签）全由 HTML 承载；所有图格同一张脸（一致性锚点），不是两个角色
 - [ ] **设定卡传播版模块完整**：EXACT TYPOGRAPHY 块按模块声明，总模块≤7，文字均≤15字，无超量导致乱码风险
 - [ ] **规则卡有原文依据**：主视觉载体（器物/天象/纹路）来自美术设定集规则篇，无凭空发明符号
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）
