@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{entity_name}} · {{type}}设定卡</title>
+<style>
+:root{
+  --gold:{{accent}};
+  --gold2:{{accent2}};
+  --ink:#F2F2F5;
+  --muted:#B9BFCD;
+  --dim:#7E8496;
+  --line:{{accent_line}};
+  --line-soft:{{accent_line_soft}};
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background:#06070C;color:var(--ink);font-size:14px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;padding:44px 16px;
+}
+.wrap{width:100%;max-width:640px;margin:0 auto}
+
+/* ===== 外层装裱：HTML 是更大的外围一层，包裹住图 ===== */
+.frame{
+  background:
+    radial-gradient(700px 340px at 80% -10%, {{accent_glow}}, transparent 60%),
+    radial-gradient(520px 300px at 5% 108%, {{accent2_glow}}, transparent 60%),
+    linear-gradient(180deg,#0E1018,#0A0C12);
+  border:1px solid var(--line-soft);
+  border-radius:22px;
+  padding:34px;
+  position:relative;
+}
+/* 内层细线框 */
+.frame::before{
+  content:'';position:absolute;inset:10px;border:1px solid var(--line-soft);
+  border-radius:15px;pointer-events:none;
+}
+/* 四角印 */
+.corner{position:absolute;width:26px;height:26px;border:2px solid var(--line);opacity:.7}
+.corner.tl{top:16px;left:16px;border-right:none;border-bottom:none;border-top-left-radius:9px}
+.corner.tr{top:16px;right:16px;border-left:none;border-bottom:none;border-top-right-radius:9px}
+.corner.bl{bottom:16px;left:16px;border-right:none;border-top:none;border-bottom-left-radius:9px}
+.corner.br{bottom:16px;right:16px;border-left:none;border-top:none;border-bottom-right-radius:9px}
+
+/* ===== 顶部标题区 ===== */
+.head{text-align:center;padding:6px 0 26px;position:relative;z-index:1}
+.head .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.series-tag{
+  font-size:10.5px;letter-spacing:2px;color:var(--gold);
+  border:1px solid var(--line);padding:4px 12px;border-radius:20px;
+}
+.type-tag{
+  font-size:10.5px;font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(135deg,var(--gold),{{accent3}});color:{{tag_fg}};
+  padding:4px 12px;border-radius:5px;
+}
+.entity-name{
+  font-size:52px;font-weight:900;letter-spacing:.14em;line-height:1.05;
+  background:linear-gradient(120deg,{{grad_c1}},{{accent}} 48%,{{grad_c3}});
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 4px 20px {{accent_glow}});
+}
+.positioning{
+  margin-top:12px;font-size:14px;letter-spacing:.4em;color:var(--gold2);font-weight:600;
+}
+.rule-line{width:80px;height:1px;margin:16px auto 0;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+
+/* ===== 图主体：独立画框，图有完整边界 ===== */
+.figure{
+  position:relative;z-index:1;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.6);
+  margin:0;
+}
+.figure img{display:block;width:100%;height:auto;object-fit:cover}
+/* 图框下方金色细托线 */
+.figure::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+
+/* ===== 底部信息区 ===== */
+.info{
+  position:relative;z-index:1;padding:26px 8px 0;
+  display:flex;flex-direction:column;gap:22px;
+}
+.creed{text-align:center}
+.creed .q{
+  font-size:17px;letter-spacing:.15em;color:{{creed_color}};font-weight:700;line-height:1.9;
+  text-shadow:0 2px 14px {{accent_glow}};
+}
+.creed .src{margin-top:6px;font-size:10.5px;color:var(--dim);letter-spacing:.25em}
+.divide{height:1px;background:linear-gradient(to right,transparent,rgba(232,190,108,.35),transparent)}
+
+.core{display:flex;gap:14px;align-items:flex-start}
+.core .tag{
+  flex-shrink:0;font-size:10.5px;font-weight:800;color:var(--gold);letter-spacing:.2em;
+  border:1px solid var(--line);padding:3px 9px;border-radius:5px;margin-top:3px;
+}
+.core p{font-size:13px;line-height:1.9;color:var(--muted);letter-spacing:.03em}
+.core p b{color:var(--gold);font-weight:700}
+
+/* 色板/等级阵列 */
+.ranks{display:grid;grid-template-columns:repeat({{rank_cols}},1fr);gap:10px}
+.rank{text-align:center;padding:12px 6px 10px;border-radius:12px;background:rgba(14,16,24,.6);border:1px solid rgba(255,255,255,.08);transition:.18s}
+.rank:hover{border-color:var(--line);transform:translateY(-2px)}
+.rank .swatch{
+  width:30px;height:30px;margin:0 auto 8px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.16);position:relative;
+  box-shadow:inset 0 -6px 12px rgba(0,0,0,.3);
+}
+.rank .swatch::after{content:'';position:absolute;top:0;left:0;right:0;height:42%;background:rgba(255,255,255,.2);border-radius:7px 7px 2px 2px}
+.rank .name{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.1em}
+.rank .desc{font-size:10px;color:var(--dim);letter-spacing:.08em;margin-top:2px}
+/* 色块值：每项一条 .robe-xxx 自定义 */
+
+/* 象征两栏词条 */
+.symbols{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+.sym{display:flex;align-items:baseline;gap:10px}
+.sym .k{font-size:10.5px;font-weight:800;color:var(--gold);letter-spacing:.15em;flex-shrink:0}
+.sym .v{font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+
+/* 品牌水印 */
+.brand{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:11px;letter-spacing:.2em;color:rgba(185,191,205,.55);padding-top:4px;
+  margin-top:6px;
+}
+.brand b{
+  font-weight:800;background:linear-gradient(120deg,#F5ECD8,var(--gold));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+@media(max-width:520px){
+  body{padding:20px 9px}
+  .frame{padding:22px}
+  .frame::before{inset:7px}
+  .entity-name{font-size:38px}
+  .ranks{grid-template-columns:{{rank_cols_mobile}}}
+  .info{padding:20px 2px 0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+
+    <!-- 顶部标题区 -->
+    <div class="head">
+      <div class="topbar">
+        <span class="series-tag">{{series_name}}</span>
+        <span class="type-tag">{{type}}设定卡</span>
+      </div>
+      <div class="entity-name">{{entity_name}}</div>
+      <div class="positioning">{{positioning}}</div>
+      <div class="rule-line"></div>
+    </div>
+
+    <!-- 图主体：独立画框 -->
+    <figure class="figure">
+      <img src="{{visual_path}}" alt="{{entity_name}}主视觉">
+    </figure>
+
+    <!-- 底部信息区 -->
+    <div class="info">
+      <div class="creed">
+        <div class="q">{{creed}}</div>
+        <div class="src">{{creed_src}}</div>
+      </div>
+
+      <div class="divide"></div>
+
+      <div class="core">
+        <span class="tag">{{core_tag}}</span>
+        <p>{{core_text}}</p>
+      </div>
+
+      <div class="ranks">
+        <!-- 示例：每项一行
+        <div class="rank"><span class="swatch robe-1"></span><div class="name">一层</div><div class="desc">说明</div></div>
+        -->
+        {{rank_items}}
+      </div>
+
+      <div class="symbols">
+        <!-- 示例：每项一个词条
+        <div class="sym"><span class="k">键</span><span class="v">值</span></div>
+        -->
+        {{symbol_items}}
+      </div>
+
+      <div class="brand">popwave.cn <b>让创意一键落地</b></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

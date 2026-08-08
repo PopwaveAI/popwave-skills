@@ -13,6 +13,8 @@ Step 2 的核心是**根据参考图使用方式选择正确的提示词策略**
 
 对于系列化产出，通过冻结核心特征+变化变量特征，确保同一设定在不同图中保持一致。
 
+> **HTML 组装档位**（第四档位，画册页）：不走"AI 渲染文字"，而是**两步分工**——①AI 生成一张**无文字主视觉**（图是主角）；②用 `templates/album-card.tpl.html` 组装 HTML 画册页（HTML 是装裱和排版）。详见 `references/mode-album-html.md`。本档位适用文案多/正式推广物料。**主视觉提示词必须保留 no text / no letters（铁律 A2），与 ❌7 剥离逻辑相反，见 §2.5。**
+
 ## 1. 读取确认方案
 
 读取 `素材/视觉设计方案.md` 中的记录，提取：
@@ -68,7 +70,9 @@ OC 以美术设定集对应篇为设定本体（Step 1.2），会读取对应篇
 
 > **矛盾**：若把对应篇冻结提示词原样拼进 OC 提示词，「no text」会压制 EXACT TYPOGRAPHY，导致卡渲染不出文字。
 
-**组装 OC 提示词时的处理规则**：
+> **⚠️ 档位分流**：如下规则只适用于**前三个档位**（基础版/加强版/设定卡传播版，AI 渲染文字）。**HTML 组装档位恰恰相反**——主视觉必须保留 `no text, no letters`（铁律 A2），跳到 §2.5，不补 EXACT TYPOGRAPHY。
+
+**组装 OC 提示词时的处理规则（前三个档位）**：
 1. **剥离**：删掉冻结提示词中的文字禁止约束 `no text, no letters, no characters, no watermark, no decorative elements, no border, no seal`（这些属于复现图，不属于 OC）
 2. **保留**：冻结提示词中的设定本体描述（人物外貌/势力美学/地理空间/规则外显/场景基调）原样保留，作为 LOCKED COMPOSITION 的主视觉来源
 3. **补回**：EXACT TYPOGRAPHY 块必须完整写入信息架构，见 §2.3
@@ -177,6 +181,35 @@ HARD CONSTRAINTS:
 
 > **技术注意**：`image` 参数必须使用 data URI 格式 `data:image/png;base64,<base64数据>`。多图参考时每张图分别标注参考范围。
 
+### 2.5 HTML 组装档位：无文字主视觉生成（画册页）
+
+> **必读 `references/mode-album-html.md`**（画册页范式 + 三条铁律 + 排版语言）。
+
+HTML 组装档位**不生成带文字的成品图，只生成一张无文字主视觉**。文字全部由 HTML 承载。主视觉提示词与前三档位**相反**——必须保留 no text。
+
+**主视觉提示词组装**（沿用 §2.1 4块结构，但 EXACT TYPOGRAPHY 块替换为文字禁止约束）：
+
+```
+[LOCKED COMPOSITION]
+锁定构图：主视觉主体（从美术设定集对应篇冻结提示词取设定本体描述）、站位/层次、视角、画面分割。这张图是画册页的主角，构图完整、边界清晰，四周留出呼吸空间。
+
+[ENVIRONMENT AND LIGHTING]
+环境与光影：背景场景、光源方向、色温、明暗分配、氛围粒子。
+
+[文字禁止（替代 EXACT TYPOGRAPHY）]
+no text, no letters, no words, no characters, no captions, no labels, no watermark, no logo. 画面纯净无任何文字元素。
+
+[HARD CONSTRAINTS]
+硬约束：负面约束（禁止多指/残肢/面部扭曲等）+ 一致性约束（冻结特征清单，见 §2.2）。
+```
+
+**三条铁律约束（mode-album-html.md）**：
+- **A1 图是主角**：主视觉构图要"够格当主角"——主体饱满、层次清晰、有独立画框的完整边界，供 HTML 装裱
+- **A2 主视觉零文字**：提示词必须含 `no text, no letters, no words, no characters, no captions, no labels`，禁止 AI 在图上画任何字
+- **A3 信息区在图外**：主视觉四周留出呼吸空间，供 HTML 放置标题区/信息区，不压图主体
+
+> **与 ❌7 的关系**：❌7 规定「OC 提示词禁止携带 no text」是针对**前三档位**（AI 渲染文字）。HTML 组装档位是**唯一例外**——它的文字由 HTML 渲染，主视觉反而必须 no text。两条规则各自成立，互不冲突。
+
 ## 3. 确定参数
 
 | 参数 | 默认值 | 说明 |
@@ -219,6 +252,21 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 - **幂等**：脚本通过元数据标记自动跳过已含水印的图，重复运行不叠加
 - 若需调整位置/透明度：`--pos 左下 --alpha 60`（一般用默认即可）
 - 校验：跑完后二次运行 `watermark.py <图>` 应输出"已含水印，跳过"，确认水印已加
+
+> ⚠️ **HTML 组装档位不走 `watermark.py`**：品牌水印已作为 HTML footer 内嵌（`popwave.cn 让创意一键落地`），比图片水印更清晰更可控。**跳过 §4.4，直接走 §4.5 HTML 组装。**
+
+### 4.5 HTML 组装档位：组装画册页成品（两步之第二步）
+
+生成无文字主视觉后，用 `templates/album-card.tpl.html` 组装 HTML 画册页成品：
+
+1. **读取模板**：`skills/pop-visual-oc/templates/album-card.tpl.html`（画册页样板，含 CSS 装裱 + `{{变量}}` 占位）
+2. **填主视觉**：将 §4.1/§4.2 生成的无文字主视觉复制到 `素材/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
+3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）
+4. **调排版**：按 `mode-album-html.md` §排版语言对齐精致度——渐变文字、双线边框、四角金印、图框金色托线、色块 swatch；信息区全部在图框之外（铁律 A3）
+5. **本地预览**：主视觉与 HTML 同目录，`python -m http.server` 本地预览确认排版
+6. **落地**：HTML 复制到 `素材/[类型][实体名]-画册页.html`，footer 品牌水印已内嵌
+
+> **画册页三铁律（mode-album-html.md）**：①A1 图是主角，HTML 是装裱（禁止图铺满当 background）；②A2 主视觉零文字（AI 不画字，文案全由 HTML 承载）；③A3 信息区在图框之外，不压图主体。
 
 ## 5. 系列化循环
 
@@ -288,8 +336,9 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 - [ ] **模式B**：放开吸收公式声明吸收范围+4块结构，画风维度放权（不写配色），仅排除场景内容+主体长相
 - [ ] **模式C**：完整4块结构，控制全部维度
 - [ ] 冻结特征已嵌入 HARD CONSTRAINTS（或模式A的替换描述中）
-- [ ] **无文字禁止词残留**：消费美术设定集对应篇冻结提示词时已剥离 `no text / no letters / no characters / no watermark / no decorative elements / no border / no seal`，最终提示词不含任何文字禁止词
-- [ ] **EXACT TYPOGRAPHY 完整**：模式B/模式C 的提示词含 EXACT TYPOGRAPHY 块，信息架构均用双引号包裹并指定字体和位置
+- [ ] **无文字禁止词残留**：消费美术设定集对应篇冻结提示词时已剥离 `no text / no letters / no characters / no watermark / no decorative elements / no border / no seal`，最终提示词不含任何文字禁止词（**仅前三档位**；HTML 档位见下）
+- [ ] **EXACT TYPOGRAPHY 完整**：模式B/模式C 的提示词含 EXACT TYPOGRAPHY 块，信息架构均用双引号包裹并指定字体和位置（**仅前三档位**）
+- [ ] **HTML 组装档位专项**：主视觉提示词**含** `no text, no letters, no words, no characters, no captions, no labels`（铁律 A2），不补 EXACT TYPOGRAPHY；主视觉为独立 `<figure>` 图框主体（A1），信息区全部在图框之外（A3）；已用 `album-card.tpl.html` 组装画册页，品牌水印已内嵌 HTML footer，**未运行 `watermark.py`**
 - [ ] **设定卡传播版模块完整**：EXACT TYPOGRAPHY 块按模块声明，总模块≤7，文字均≤15字，无超量导致乱码风险
 - [ ] **规则卡有原文依据**：主视觉载体（器物/天象/纹路）来自美术设定集规则篇，无凭空发明符号
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）
