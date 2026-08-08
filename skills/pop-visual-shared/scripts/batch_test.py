@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pop-visual-shared 固定画风测试脚本（batch_test.py）v1.2
+pop-visual-shared 固定画风测试脚本（batch_test.py）v1.4
 ========================================================
 把画风测试固化成"固定 SOP + 任务清单导出"，杜绝每次测试全新设计、不稳定、慢的问题。
 
@@ -9,7 +9,8 @@ pop-visual-shared 固定画风测试脚本（batch_test.py）v1.2
 由主 agent 用 image_generate 工具逐条生成（图生图时传参考图保证角色一致）。
 
 固定什么（不随测试变）：
-  - 默认测试素材（标准角色 + 标准场景，变量隔离，见 style step4）
+  - 测试素材（默认用【小说次要视觉锚点】——场景/路人/NPC/战斗片段，见 style step4；
+    未传时兜底用脚本内置中性素材）
   - 固定 6 段式提示词模板（[质量触发词] + Art style + 构图 + 光影 + 场景 + 角色）
   - 固定质量触发词 / 固定默认尺寸
   - 固定输出目录结构（{out_dir}/{种子}/{id}.png）
@@ -18,7 +19,6 @@ pop-visual-shared 固定画风测试脚本（batch_test.py）v1.2
 只随测试变（填变体即可）：
   - 画风变体列表（每个变体 = 画风 dna + constraint，或直接完整 prompt）
   - 可选 seed（固定后同 seed 复现对比）
-  - **可选项目角色（--character 文字 / --character-image 参考图）**：画风×项目角色联合测试
 
 用法：
   1) 从 DNA 库按名字批量测（推荐）：
@@ -27,14 +27,20 @@ pop-visual-shared 固定画风测试脚本（batch_test.py）v1.2
   2) 自定义变体（JSON 文件）：
      python batch_test.py --config test_variants.json --out-dir 素材/测试
   3) 复现验证：用同一 seed 再跑一次，输出落在同目录，对比画风是否稳定一致
-  4) **画风×项目角色联合测试（推荐，验证画风能否撑起角色）**：
-     python batch_test.py --style-names "国漫玄幻厚涂" \
-         --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" \
-         --character-image "素材/李周巍OC-v1.png" \
-         --out-dir 素材/风格测试 --seed 20260804
 
 生图方式：本脚本只导出任务，不调用任何 API。主 agent 读取 generation_tasks.json，
 对每条任务调用 image_generate 工具（有 ref_images 时传参考图），输出到任务的 output_path。
+
+⚠️ v1.4（画风定标素材 = 小说次要视觉锚点）：
+画风定标测试素材默认用【和小说相关但无关紧要的次要元素】——某个战斗场景/地点、
+路人/NPC/龙套。这类元素：和小说强相关 → 保留画风的 project 代入感；无关紧要 →
+不承担角色形象验收（画风满意但形象不满的问题不会出现）。变量隔离仍成立：素材一次确定、
+固定使用，唯一变量是画风。
+- `--scene`：小说场景/地点/战斗场景英文描述 → 替换所有变体的场景段
+- `--side`：路人/NPC/龙套英文描述 → 替换所有变体的角色段（非主角，不需一致性，纯文生图）
+- 未传 --scene/--side → 兜底用脚本内置中性素材
+- `--character`/`--character-image` 已废弃（主角形象归 pop-visual-art-bible/oc 环节，
+  画风定标不用主角，避免混入"形象是否满意"的变量）
 
 依赖:
   pip install Pillow (仅尺寸校验/格式校验用，可选)
@@ -175,7 +181,7 @@ def build_prompt(variant):
     ).strip()
 
 
-def export_tasks(variants, run_dir, seed, character_text, character_image_path):
+def export_tasks(variants, run_dir, seed, test_mode):
     """组装并导出 generation_tasks.json。不发起任何 API 调用。"""
     os.makedirs(run_dir, exist_ok=True)
 
@@ -185,16 +191,12 @@ def export_tasks(variants, run_dir, seed, character_text, character_image_path):
         prompt = build_prompt(v)
         _assert_size_safe(v.get("size", SIZE))
 
-        ref_images = []
-        if character_image_path and os.path.exists(character_image_path):
-            ref_images.append(os.path.abspath(character_image_path).replace("\\", "/"))
-
         out_path = os.path.join(run_dir, f"{vid}.png").replace("\\", "/")
         tasks.append({
             "id": vid,
             "prompt": prompt,
             "size": v.get("size", SIZE),
-            "ref_images": ref_images,
+            "ref_images": [],
             "output_path": out_path,
         })
 
@@ -202,7 +204,7 @@ def export_tasks(variants, run_dir, seed, character_text, character_image_path):
         "total": len(tasks),
         "generator": "batch_test.py (固定画风测试 SOP)",
         "seed": seed,
-        "test_mode": "画风×项目角色联合测试" if (character_text or character_image_path) else "标准素材(变量隔离)",
+        "test_mode": test_mode,
         "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
         "tasks": tasks,
     }
@@ -279,12 +281,23 @@ def main():
     parser.add_argument("--config", help="自定义变体 JSON 文件路径")
     parser.add_argument("--out-dir", required=True, help="输出目录（自动建 {out_dir}/{种子}）")
     parser.add_argument("--seed", type=int, default=None, help="固定随机种子（同 seed 复现对比）")
-    parser.add_argument("--character", default=None, help="项目角色描述（英文或中文，替换标准测试角色，用于画风×角色联合测试）")
-    parser.add_argument("--character-image", default=None, help="项目角色参考图路径（图生图，保证角色一致性）")
+    parser.add_argument("--scene", default=None, help="[小说次要视觉锚点] 小说场景/地点/战斗场景英文描述，替换变体场景段（与小说相关、无关紧要，v1.4）")
+    parser.add_argument("--side", default=None, help="[小说次要视觉锚点] 小说路人/NPC/龙套英文描述，替换变体角色段（与小说相关、无关紧要，v1.4）")
+    parser.add_argument("--character", default=None, help="[已废弃] 项目角色描述（画风定标不用主角，主角形象归 art-bible/oc）")
+    parser.add_argument("--character-image", default=None, help="[已废弃] 项目角色参考图路径（v1.4 起不再使用）")
     args = parser.parse_args()
 
     if not args.style_names and not args.config:
         parser.error("必须提供 --style-names 或 --config")
+
+    # v1.4 起：画风定标素材用【小说次要视觉锚点】（场景/路人/NPC），不用主角、不用中性素材
+    #   --scene 小说场景/地点/战斗场景描述 → 替换所有变体的场景段
+    #   --side   路人/NPC/龙套描述 → 替换所有变体的角色段（非主角，不需一致性，纯文生图）
+    #   --character/--character-image 已废弃（主角形象归 art-bible/oc，画风定标不用主角）
+    if args.character or args.character_image:
+        print("[警告] v1.4 起画风定标不用主角，--character/--character-image 已废弃，已忽略并回退到小说场景素材(或中性兜底)", file=sys.stderr)
+        args.character = None
+        args.character_image = None
 
     # 解析变体
     if args.style_names:
@@ -297,20 +310,30 @@ def main():
         print("错误：变体列表为空", file=sys.stderr)
         sys.exit(1)
 
-    # 注入项目角色（画风×角色联合测试）
-    # 若传了 --character，用项目角色替换全部变体的角色段；若传了 --character-image，作图生图参考
-    if args.character:
+    # 注入小说次要视觉锚点（场景/路人），替换所有变体对应段
+    if args.scene:
         for v in variants:
-            v["character"] = args.character
+            v["scene"] = args.scene
+    if args.side:
+        for v in variants:
+            v["character"] = args.side
+
+    # 计算测试素材模式
+    if args.scene or args.side:
+        asset_parts = []
+        if args.scene:
+            asset_parts.append("场景")
+        if args.side:
+            asset_parts.append("路人")
+        test_mode = "小说次要视觉锚点(" + "+".join(asset_parts) + ")"
+    else:
+        test_mode = "中性素材(兜底)"
 
     # 打印固定 SOP 摘要
     print("=" * 60)
     print(f"固定画风测试 SOP (seed={args.seed})")
     print(f"尺寸: {SIZE}")
-    if args.character or args.character_image:
-        print(f"测试素材: 项目角色{'(参考图)' if args.character_image else ''} + 标准场景（画风×角色联合测试）")
-    else:
-        print(f"测试素材: 标准角色 + 标准场景（变量隔离）")
+    print(f"测试素材: {test_mode}")
     print(f"变体数: {len(variants)}")
     print("=" * 60)
 
@@ -318,17 +341,17 @@ def main():
     run_dir = args.out_dir if args.seed is None else os.path.join(args.out_dir, f"seed-{args.seed}")
 
     # 导出任务清单（唯一动作，不发起任何 API 调用）
-    meta_path = export_tasks(variants, run_dir, args.seed, args.character, args.character_image)
+    meta_path = export_tasks(variants, run_dir, args.seed, test_mode)
 
     # 固定 PE 日志（可复现的根基）
     log = {
-        "sop": "固定画风测试 SOP v1.2",
+        "sop": "固定画风测试 SOP v1.4",
         "date": time.strftime("%Y-%m-%d %H:%M:%S"),
         "size": SIZE,
         "seed": args.seed,
-        "test_mode": "画风×项目角色联合测试" if (args.character or args.character_image) else "标准素材(变量隔离)",
-        "character_desc": args.character,
-        "character_image": args.character_image,
+        "test_mode": test_mode,
+        "scene_desc": args.scene,
+        "side_desc": args.side,
         "fixed_character": FIXED_CHARACTER,
         "fixed_scene": FIXED_SCENE,
         "quality_trigger": QUALITY_TRIGGER,

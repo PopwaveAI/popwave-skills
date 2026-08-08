@@ -1,8 +1,8 @@
 # Step 4: 画风定标（Pipeline 语境下必做）
 
-> 画风是"只能靠视觉验证"的抽象资产。本步用**画风×项目角色 + 固定模板**渲染定标图，验证两件事：① 画风 DNA 是否被准确执行；② 画风能否撑起**本项目的角色**（画风×角色适配度）。用户认可后**冻结为基线资产**。未认可不冻结、不放行下游。
+> 画风是"只能靠视觉验证"的抽象资产。本步用**小说次要视觉锚点 + 固定模板**渲染定标图，只验证一件事：**画风 DNA 是否被准确执行**。用户认可后**冻结为基线资产**。未认可不冻结、不放行下游。
 >
-> **v1.4.1 关键升级（画风×项目角色联合测试）**：老板实测发现固定中性素材测不出"画风能否撑起项目角色"（玄鉴仙族用中性"现代青年+木屋"测画风，测不出"黑金甲衣+金瞳"主角的适配度）。**画风定标默认用项目主角当测试素材，而非中性素材。** 用 `--character` + `--character-image` 传项目角色（图生图保证角色一致）。
+> **v1.9.0 关键回归（画风定标素材 = 小说次要视觉锚点）**：老板定调——画风定标**不用主要人物形象当测试素材**（画风可能满意、但形象不满意，且本 skill 不是为设计人物而生）；但也**不用与小说无关的中性材料**（ahament 代入感会弱很多）。**画风定标默认用【和小说相关但无关紧要的次要元素**——某个战斗场景/地点、路人/NPC/龙套。这类元素：和小说强相关 → 保留代入感；无关紧要 → 不承担角色形象验收。**主角/主要角色归 `pop-visual-art-bible`/`oc` 环节，用已冻结画风去渲染承担。**
 
 ## 何时用（按 intent 档位分支）
 
@@ -14,50 +14,50 @@
 
 ## 核心原则
 
-### 变量隔离（画风×项目角色）
-画风定标的唯一变量是**画风**。测试角色固定（用本项目主角）、构图固定、光照固定，才能判断"画风 DNA 是否被准确执行" + "画风能否撑起这个角色"。**禁止换角色、禁止换素材。**
+### 素材关联（用小说次要元素，保留代入感）
+画风定标的测试素材**从小说提取次要视觉锚点**——某个战斗场景/地点（`--scene`）、路人/NPC/龙套（`--side`）。这类元素**和小说强相关**（画出来的画面有 project 代入感 ahament），又**无关紧要**（画风满意但形象不满的问题不会出现，因为不是要打磨的角色）。**禁止用主角/主要角色**——形象是否满意归角色设计环节，画风 skill 不负责。
+
+### 变量隔离（素材固定，只验画风）
+画风定标的唯一变量是**画风**。测试素材**一次确定、固定使用**（用 `--scene`/`--side` 注入后不换），构图固定、光照固定，才能判断"画风 DNA 是否被准确执行"。**素材固定后禁止中途换素材**——那会把"画风问题"和"素材适配度问题"混为一谈。角色形象是否满意不是本 skill 的职责。
 
 ### 稳定复现（工作流主线）
 定标不只验证"这一张对不对"，还要验证"**能不能稳定复现**"。用**固定 seed + 同一提示词**复现，确认画风结果稳定，而非单次运气。**只有稳定复现的画风才冻结为基线。**
 
-## 1. 测试素材（画风×项目角色，默认用项目主角）
+## 1. 测试素材（小说次要视觉锚点，变量隔离）
 
-> **画风定标默认用项目主角做测试素材**（验证画风×角色适配度）。若项目尚未定角色（Phase 0 未产出），回退到脚本内置标准测试角色（仅排查画风本身是否被执行）。
+> **画风定标默认用【小说次要视觉锚点】**（和小说相关但无关紧要的元素），只验画风本身是否被执行。**禁止用主角/主要角色做测试素材**——画风可能满意但形象不满意，而形象是否满意归 `pop-visual-art-bible`/`oc` 环节，用已冻结的画风去渲染承担。
 
-**项目主角**（从 Phase 0 角色档案/定妆图取，英文描述人物段）：
-```
-[项目主角的英文描述，如：Li Zhouwei, an imperial warlord in black-gold ornate armor with purple-feathered mantle, golden pupils, holding a long halberd, imposing regal bearing]
-```
+**从小说提取次要视觉锚点（两类，任选其一或组合）**：
 
-**标准测试角色**（回退，英文，中性人设，可体现画风）：
+- **场景类**（`--scene`，英文）：某个战斗场景/地点/环境片段，能体现画风光影与氛围。示例：
 ```
-a young adult standing half-body portrait, neutral calm expression, simple dark hair, plain white inner shirt under a muted earthy jacket, natural skin texture, facing camera, no accessories, no text
+abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text
 ```
-
-**标准场景**（英文，简单中性，可体现画风光影）：
+- **人物类**（`--side`，英文）：路人/NPC/龙套，非主角、不需一致性、纯文生图。示例：
 ```
-a simple quiet interior, warm wooden room, soft window light from the left, a wooden table and a potted plant, calm atmosphere, no people, no text
+an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text
 ```
 
-> 项目主角素材已内置判断逻辑：传 `--character` 即用项目角色，否则回退标准角色。**默认用项目角色，禁止用中性素材测画风适配度。**
+> 若小说暂无可提取的合适次要元素（如排期未定），可兜底用脚本内置中性素材（`--scene`/`--side` 不传）。这批中性素材已内置于 `batch_test.py`。
 
 ## 2. 组装定标提示词（走固定 SOP，不每次全新设计）
 
 > **画风定标必须走固定脚本 `../pop-visual-shared/scripts/batch_test.py`**（固定测试素材 + 固定 6 段式模板 + 并发批量 + 自动 PE 日志）。禁止现场手写提示词、手动单张生成——那是"每次全新设计"，不稳定又慢。
 
-### 2.1 测试素材（脚本内置，勿改）
+### 2.1 测试素材（小说次要视觉锚点，脚本注入）
 
-**标准测试角色**（英文，中性人设，可体现画风）：
+**从小说提取次要视觉锚点**（场景类 `--scene` / 人物类 `--side`，英文），作为测试素材注入：
+
+- **场景类**（某个战斗场景/地点/环境片段，体现画风光影氛围）：
 ```
-a young adult standing half-body portrait, neutral calm expression, simple dark hair, plain white inner shirt under a muted earthy jacket, natural skin texture, facing camera, no accessories, no text
+abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text
+```
+- **人物类**（路人/NPC/龙套，非主角、不需一致性、纯文生图）：
+```
+an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text
 ```
 
-**标准场景**（英文，简单中性，可体现画风光影）：
-```
-a simple quiet interior, warm wooden room, soft window light from the left, a wooden table and a potted plant, calm atmosphere, no people, no text
-```
-
-> 测试素材是**变量隔离铁律**：画风定标的唯一变量是画风。**画风×项目角色联合测试时**，用 `--character` 传项目角色描述 + `--character-image` 传定妆图/OC图（图生图保证角色一致），替换标准角色。这批素材已内置于 `batch_test.py`，无需手动维护。
+> 测试素材是**变量隔离铁律**：画风定标的唯一变量是画风。素材**一次确定、固定使用**（`--scene`/`--side` 注入后不换）。**禁止传 `--character`/`--character-image` 引入主角/主要角色**——画风定标不用主角，人物形象是否满意归角色设计环节。
 
 ### 2.2 按画风批量取变体
 
@@ -70,18 +70,20 @@ a simple quiet interior, warm wooden room, soft window light from the left, a wo
 > 走固定脚本 `batch_test.py` **导出任务清单**，再由 `image_generate` 工具逐条生成。一次出一批变体，脚本只负责组装+校验，不直连 API。
 
 ```powershell
-# 画风×项目角色联合测试（推荐，验证画风能否撑起项目主角）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" --character-image "素材/李周巍OC-v1.png" --out-dir 素材/视觉 --seed 20260803
+# 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）→ 导出 generation_tasks.json
+python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --out-dir 素材/视觉 --seed 20260803
 
-# 从 DNA 库按画风名批量测（无角色时用中性素材，仅排查画风本身）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --out-dir 素材/视觉 --seed 20260803
+# 只用场景类（无路人）测画风
+python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 素材/视觉 --seed 20260803
 
-# 精调变体（定制 variant 的 dna/constraint/lighting）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标变体.json --out-dir 素材/视觉 --seed 20260803
+# 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 导出 generation_tasks.json
+python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标变体.json --scene "..." --side "..." --out-dir 素材/视觉 --seed 20260803
 ```
 
+- **测试素材 = 小说次要视觉锚点**（`--scene` 场景/`--side` 路人），和小说强相关、无关紧要；不传则兜底用脚本内置中性素材。
+- **禁止传 `--character`/`--character-image`**：画风定标不用主角/主要角色（画风可能满意但形象不满意，形象归角色设计环节）。
 - `--seed` 固定随机种子，保证复现（下游图生图用同 seed 不漂移）。
-- 输出：`generation_tasks.json`（每个变体一个任务，含 prompt/size/ref_images/output_path）+ `pe-log.json`（含固定素材/模板/每个变体完整 prompt，可复现）。
+- 输出：`generation_tasks.json`（每个变体一个任务，含 prompt/size/ref_images/output_path）+ `pe-log.json`（含测试素材/模板/每个变体完整 prompt，可复现）。
 - **生成**：读 `generation_tasks.json`，对每条任务用 `image_generate` 工具生成（有 ref_images 时传参考图），输出到各任务 output_path，即 `{out-dir}/seed-{seed}/{画风名}.png`。
 - 从结果中选达标变体作为候选定标图；**不达标回炉只改该变体 JSON 的一个子维度，再跑同脚本，不重写调用。**
 
@@ -137,7 +139,8 @@ python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标�
 ## 红线
 
 - 定标必须走固定脚本 `batch_test.py`（固定素材+固定模板+并发批量），禁止现场手写提示词、单张串行
-- 定标图必须用固定测试素材（变量隔离），禁止换素材
+- 定标图必须用**小说次要视觉锚点**（`--scene` 场景/`--side` 路人），和小说强相关、无关紧要；不传兜底用中性素材
+- **禁止用主角/主要角色测画风**——画风可能满意但形象不满意，画风 skill 只验画风，人物形象归 `pop-visual-art-bible`/`oc` 环节
 - **必须验证稳定复现**（同 seed 复现对比），未稳定复现不冻结
 - 未认可不冻结、不放行下游
 - 画风基线冻结后下游只消费，禁止各自发明

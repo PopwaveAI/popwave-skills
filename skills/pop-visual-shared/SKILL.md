@@ -5,14 +5,14 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 
 # pop-visual-shared
 
-> 视觉 skill 群的**共享底层资产层**。v1.5.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
+> 视觉 skill 群的**共享底层资产层**。v1.6.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
 
 ## 这个 Skill 做什么
 
 把散落在 cover / oc / style / comic 中**重复、分化、过时**的底层资产收敛到一处，作为唯一权威源：
 
 - `scripts/generate.py`：生图任务导出脚本（image 子命令只导出任务，不直连 API；video 子命令需显式设置 `ARK_API_KEY`）
-- `scripts/batch_test.py`：**固定画风测试脚本**（固定测试素材+固定6段式模板+导出任务清单+自动PE日志，画风测试唯一标准入口；v1.2.0 支持画风×项目角色联合测试 `--character` + `--character-image`）
+- `scripts/batch_test.py`：**固定画风测试脚本**（默认用小说次要视觉锚点素材——`--scene` 场景/`--side` 路人，和小说强相关、无关紧要，只验画风；不传则兜底内置中性素材。固定6段式模板+导出任务清单+自动PE日志，画风测试唯一标准入口；v1.4 `--character`/`--character-image` 已废弃，主角形象归 art-bible/oc）
 - `scripts/pinterest_search.py`：Pinterest 参考图搜索脚本（原 3 份字节相同副本去重）
 - `scripts/watermark.py`：**品牌水印脚本**（图片一级像素级注入，生图落地后叠加半透明 `popwave.cn`；工程化后处理，不进提示词避免污染 Seedream 文生图；幂等）
 - `references/seedream-prompt-guide.md`：统一提示词指南（合并 6 段式 + V3 + 高精度 4 块 + Seedance，消除 4 份分化副本）
