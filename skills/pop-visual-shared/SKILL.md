@@ -5,7 +5,7 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 
 # pop-visual-shared
 
-> 视觉 skill 群的**共享底层资产层**。v1.4.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
+> 视觉 skill 群的**共享底层资产层**。v1.5.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
 
 ## 这个 Skill 做什么
 
@@ -14,6 +14,7 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 - `scripts/generate.py`：生图任务导出脚本（image 子命令只导出任务，不直连 API；video 子命令需显式设置 `ARK_API_KEY`）
 - `scripts/batch_test.py`：**固定画风测试脚本**（固定测试素材+固定6段式模板+导出任务清单+自动PE日志，画风测试唯一标准入口；v1.2.0 支持画风×项目角色联合测试 `--character` + `--character-image`）
 - `scripts/pinterest_search.py`：Pinterest 参考图搜索脚本（原 3 份字节相同副本去重）
+- `scripts/watermark.py`：**品牌水印脚本**（图片一级像素级注入，生图落地后叠加半透明 `popwave.cn`；工程化后处理，不进提示词避免污染 Seedream 文生图；幂等）
 - `references/seedream-prompt-guide.md`：统一提示词指南（合并 6 段式 + V3 + 高精度 4 块 + Seedance，消除 4 份分化副本）
 - 画风 DNA 库引用协议：`style-dna-library.json` 与 `lighting-composition-templates.md` 仍归属 `pop-visual-style`（其域资产），本 skill 定义跨 skill 引用协议
 
@@ -24,6 +25,7 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 | 生图任务导出脚本 | `scripts/generate.py` | 本 skill（共享） |
 | **固定画风测试脚本** | `scripts/batch_test.py` | 本 skill（共享） |
 | Pinterest 参考搜索脚本 | `scripts/pinterest_search.py` | 本 skill（共享） |
+| **品牌水印脚本** | `scripts/watermark.py` | 本 skill（共享） |
 | 统一提示词指南 | `references/seedream-prompt-guide.md` | 本 skill（共享） |
 | 画风 DNA 库 | `pop-visual-style/references/style-dna-library.json` | pop-visual-style（域资产） |
 | 构图/光影模板库 | `pop-visual-style/references/lighting-composition-templates.md` | pop-visual-style（域资产） |
@@ -33,10 +35,11 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 其他视觉 skill 需要共享组件时，**禁止复制文件到本地**，统一引用本 skill 路径：
 
 ```
-生成脚本：   skills/pop-visual-shared/scripts/generate.py
+生成脚本：  skills/pop-visual-shared/scripts/generate.py
 固定测试脚本：skills/pop-visual-shared/scripts/batch_test.py
-搜索脚本：   skills/pop-visual-shared/scripts/pinterest_search.py
-提示词指南： skills/pop-visual-shared/references/seedream-prompt-guide.md
+搜索脚本：  skills/pop-visual-shared/scripts/pinterest_search.py
+水印脚本：  skills/pop-visual-shared/scripts/watermark.py
+提示词指南：skills/pop-visual-shared/references/seedream-prompt-guide.md
 ```
 
 调用时按实际 skills 根目录解析上述相对路径。需要画风 DNA 时，读取 `pop-visual-style/references/style-dna-library.json`。

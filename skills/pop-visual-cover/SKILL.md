@@ -57,6 +57,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 - **参考点→提示词策略**：用户选了什么参考点，提示词就在那个维度**放弃控制权**
 - 翻译为 Seedream/Seedance 提示词 → 执行 API → 保存图片 → 回写记录
 - 降级机制：太像→收窄参考点；放权维度失控→降级为控制
+- **品牌水印（必做）**：封面是**对外展示产出**，落地后用共享脚本叠加半透明 `popwave.cn`：`python skills/pop-visual-shared/scripts/watermark.py '<图路径>'`（幂等，二次运行输出"已含水印，跳过"）
 
 ### 迭代模式（快速路径）
 
@@ -79,6 +80,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | ❌3 | **参考点放权一致性** — 用户选了什么参考点，提示词就在那个维度放弃控制权（画风参考=放开吸收，只排除具体场景内容+人物长相，禁止堆"不参考"清单） | 提示词与参考图矛盾 |
 | ❌4 | **设计方案必须落盘** — 选图记录、参考点、设计方案和提示词写入 `素材/视觉设计方案.md` | 无法迭代优化 |
 | ❌5 | **场景图必须经过理解管线** — 用户提供原文时，必须经过原文解构→上下文补全→叙事瞬间选取→门禁A | 理解偏差，精确地画错画面 |
+| ❌6 | **对外产出必加品牌水印** — 封面/场景图落地后必须运行 `watermark.py` 叠加 `popwave.cn`（幂等，二次运行输出"已含水印，跳过"）；禁止跳过此步 | 发布图无溯源，品牌曝光丢失 |
 
 ## 速查表
 
@@ -96,7 +98,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | 提示词写法+控制公式 | `../pop-visual-shared/references/seedream-prompt-guide.md` | Step 2 |
 | 画风DNA库（36种+光照兼容性） | `skills/pop-visual-style/references/style-dna-library.json` | Step 2 |
 | 光照-构图模板+兼容性矩阵 | `skills/pop-visual-style/references/lighting-composition-templates.md` | Step 2 |
-| 生成图片 | `../pop-visual-shared/scripts/generate.py` | Step 2 |
+| 生成图片 | `image_generate` 工具 | Step 2 |
+| 叠加品牌水印（必做） | `../pop-visual-shared/scripts/watermark.py` | Step 2 落地后 |
 | 搜 Pinterest | `../pop-visual-shared/scripts/pinterest_search.py` | Step 0 |
 | 设计方案模板 | `templates/design-plan.tpl.md` | Step 1 |
 

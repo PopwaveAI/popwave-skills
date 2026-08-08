@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>漫画插画专家 · 专属引导</title>
+<style>
+:root{
+  --bg:#0B0B0F;--bg2:#131318;--bg3:#1C1C24;
+  --ink:#F2F2F5;--muted:#9A9AA6;--dim:#6B6B78;
+  --accent:#A78BFA;--accent2:#F0C96B;/* 紫主+金VIP */
+  --rule:#26262E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);font-size:14px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* ===== Hero ===== */
+.hero{position:relative;padding:90px 0 72px;overflow:hidden}
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(680px 340px at 78% -10%, rgba(167,139,250,.16), transparent 60%),
+    radial-gradient(520px 300px at 8% 110%, rgba(240,201,107,.10), transparent 60%);
+}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:22px}
+.vip-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,#FFD84D,#FFA000);color:#3E2700;
+  font-size:11px;font-weight:800;letter-spacing:.5px;padding:3px 10px;border-radius:5px;
+}
+.vip-tag span{font-size:10px}
+.hero h1{font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1.08;margin-bottom:18px}
+.hero h1 .grad{background:linear-gradient(120deg,#C4B5FD,#F0C96B);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:18px;color:var(--muted);max-width:640px;margin-bottom:34px;font-weight:400}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 30px;border-radius:10px;border:none;cursor:pointer;
+  background:linear-gradient(120deg,#8B5CF6,#A78BFA);color:#fff;
+  font-size:15px;font-weight:700;transition:.2s;text-decoration:none;
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(139,92,246,.35)}
+.cta-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 26px;border-radius:10px;border:1px solid var(--rule);
+  color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;
+  background:transparent;transition:.2s;text-decoration:none;
+}
+.cta-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-stats{display:flex;gap:40px;margin-top:52px;flex-wrap:wrap}
+.hstat .n{font-size:26px;font-weight:800;color:var(--accent);line-height:1}
+.hstat .l{font-size:11px;color:var(--dim);margin-top:6px;letter-spacing:.5px}
+
+/* ===== Sections ===== */
+.sec{padding:64px 0;border-top:1px solid var(--rule)}
+.sec-head{margin-bottom:30px;display:flex;align-items:baseline;gap:14px}
+.sec-num{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:2px}
+.sec-title{font-size:26px;font-weight:800;letter-spacing:-.01em}
+.sec-head .sec-desc{font-size:13px;color:var(--muted);margin-left:auto;max-width:420px;text-align:right}
+
+/* ===== 场景 ===== */
+.sce-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.sce-card{
+  background:var(--bg2);border:1px solid var(--rule);border-radius:14px;
+  padding:24px 26px;transition:.2s;position:relative;overflow:hidden;
+}
+.sce-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+.sce-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.sce-num{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:1px;margin-bottom:10px}
+.sce-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.sce-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ===== Showcase ===== */
+.show-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.show-card{
+  background:var(--bg2);border:1px solid var(--rule);border-radius:16px;overflow:hidden;transition:.2s;
+}
+.show-card.wide{grid-column:1/-1}
+.show-card:hover{border-color:var(--accent);box-shadow:0 12px 34px rgba(0,0,0,.35)}
+.show-img{position:relative;background:var(--bg3);overflow:hidden}
+.show-img img{display:block;width:100%;object-fit:cover;transition:transform .5s ease}
+.show-card:hover .show-img img{transform:scale(1.02)}
+.show-img.vertical{height:520px}
+.show-img.vertical img{height:100%}
+.show-img.wide{height:340px}
+.show-img.wide img{height:100%}
+.show-body{padding:18px 22px}
+.show-body .st{font-size:15px;font-weight:700;margin-bottom:4px}
+.show-body .sd{font-size:12.5px;color:var(--muted);line-height:1.55}
+.show-body .tag-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.tag{font-size:10.5px;padding:2px 9px;border-radius:4px;background:var(--bg3);color:var(--muted);border:1px solid var(--rule)}
+
+/* ===== 工作流 ===== */
+.flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:8px}
+.flow-step{flex:1;min-width:150px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.flow-node{
+  width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:#fff;flex-shrink:0;
+  background:linear-gradient(135deg,#8B5CF6,#A78BFA);
+  box-shadow:0 4px 14px rgba(139,92,246,.3);
+}
+.flow-body{margin-top:12px;padding:0 6px}
+.flow-body .fn{font-size:14px;font-weight:700;margin-bottom:4px}
+.flow-body .fd{font-size:12px;color:var(--muted);line-height:1.5}
+.flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:18px;flex-shrink:0;width:30px;padding-top:14px}
+.flow-loop{
+  margin-top:18px;padding:10px 20px;
+  border:1px dashed var(--accent);border-radius:10px;
+  font-size:12.5px;color:var(--accent);font-weight:600;text-align:center;
+  background:rgba(139,92,246,.06);
+}
+
+/* ===== 开始引导 ===== */
+.start{
+  background:linear-gradient(140deg,rgba(139,92,246,.12),rgba(240,201,107,.06));
+  border:1px solid var(--rule);border-radius:18px;
+  padding:48px 40px;text-align:center;
+}
+.start h3{font-size:26px;font-weight:800;margin-bottom:12px}
+.start p{font-size:14px;color:var(--muted);max-width:620px;margin:0 auto 28px}
+.start .cmd{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--bg);border:1px solid var(--rule);border-radius:10px;
+  padding:14px 24px;font-family:monospace;font-size:13px;color:var(--accent);
+  margin-bottom:26px;max-width:100%;
+}
+.start .hint{font-size:12px;color:var(--dim)}
+
+footer{padding:30px 0;text-align:center;color:var(--dim);font-size:11px;border-top:1px solid var(--rule)}
+
+@media(max-width:820px){
+  .hero h1{font-size:36px}
+  .show-grid{grid-template-columns:1fr}
+  .show-img.vertical{height:400px}
+  .show-img.wide{height:260px}
+  .sec-head{flex-direction:column;gap:6px}
+  .sec-head .sec-desc{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="vip-tag"><span>★</span>VIP 专家</span> 视觉管线 · 网文漫画化</div>
+    <h1>把小说变成<br>能追更的<span class="grad">漫画连载</span></h1>
+    <p class="sub">漫画插画专家负责整条视觉工程——从网文正文到成品漫画页，逐章产出多格漫画、台词旁白、分页长图，跨章保持人设与画风铁律一致。</p>
+    <div class="hero-actions">
+      <a class="cta" href="#start">开始一部漫画
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      <a class="cta-ghost" href="#showcase">先看成品效果</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">3</div><div class="l">管线步骤</div></div>
+      <div class="hstat"><div class="n">100%</div><div class="l">人设/画风一致</div></div>
+      <div class="hstat"><div class="n">多格</div><div class="l">页漫直出</div></div>
+      <div class="hstat"><div class="n">VIP</div><div class="l">首个专属专家</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 场景介绍 ===== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div class="sec-title">它适合你做什么</div>
+      <div class="sec-desc">一个专家，把"小说"变成"能发出去追更的漫画"，你只要出想法。</div>
+    </div>
+    <div class="sce-grid">
+      <div class="sce-card">
+        <div class="sce-num">SCENARIO A</div>
+        <div class="sce-title">网文转漫画连载</div>
+        <div class="sce-desc">已有小说正文，想逐章漫画化。它读章节→拆场景→设计分镜→出多格漫画页，一章一章连载。</div>
+      </div>
+      <div class="sce-card">
+        <div class="sce-num">SCENARIO B</div>
+        <div class="sce-title">人设画风不漂移</div>
+        <div class="sce-desc">AI 画漫画最大的坑是角色越画越不像。它用定妆图+冻结提示词+双角度立绘，跨章锁定同一张脸、同一套画风。</div>
+      </div>
+      <div class="sce-card">
+        <div class="sce-num">SCENARIO C</div>
+        <div class="sce-title">0基础也能读</div>
+        <div class="sce-desc">每格配旁白/台词/内心OS，因果链通读门禁把关——没看过原著的读者，光看图+字就能看懂剧情。</div>
+      </div>
+      <div class="sce-card">
+        <div class="sce-num">SCENARIO D</div>
+        <div class="sce-title">直接可分享</div>
+        <div class="sce-desc">产出分页分享图 + 整条长图，带品牌水印，一张张发朋友圈/抖音/小红书，或整条投 B 站。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase ===== -->
+<section class="sec" id="showcase">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div class="sec-title">真实成品 Showcase</div>
+      <div class="sec-desc">以下均来自《深渊主宰》连载实测产出，未做二次精修。</div>
+    </div>
+    <div class="show-grid">
+      <div class="show-card wide">
+        <div class="show-img wide">
+          <img src="showcase/demo-整章长图-墓园区.png" alt="整章长图-墓园区">
+        </div>
+        <div class="show-body">
+          <div class="st">整章长图 ·《墓园区》</div>
+          <div class="sd">一整个章节的成品长图，10 个分镜串联完整叙事弧——从世界观建立、情绪爆发到情感闭环。可直接整条分享，验证"一章到底能画多完整"。</div>
+          <div class="tag-row"><span class="tag">整章输出</span><span class="tag">10 分镜</span><span class="tag">叙事闭环</span><span class="tag">可直接分享</span></div>
+        </div>
+      </div>
+      <div class="show-card">
+        <div class="show-img vertical">
+          <img src="showcase/demo-整章长图-复仇.png" alt="整章长图-复仇">
+        </div>
+        <div class="show-body">
+          <div class="st">高光章 ·《复仇》</div>
+          <div class="sd">戏剧张力拉满的一章：能量爆发、生死离别、史诗收尾。验证它在名场面上的镜头调度能力。</div>
+          <div class="tag-row"><span class="tag">名场面</span><span class="tag">高张力</span><span class="tag">电影级镜头</span></div>
+        </div>
+      </div>
+      <div class="show-card">
+        <div class="show-img vertical">
+          <img src="showcase/demo-单幅-守护精灵.png" alt="单幅-守护精灵">
+        </div>
+        <div class="show-body">
+          <div class="st">情感格 ·《守护》</div>
+          <div class="sd">大留白 + 伦勃朗光，一张静格传递"隐忍的温柔"。验证它在氛围、光影、情感浓度上的上限。</div>
+          <div class="tag-row"><span class="tag">大留白</span><span class="tag">伦勃朗光</span><span class="tag">情感浓度</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 工作流 ===== -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div class="sec-title">它怎么运作</div>
+      <div class="sec-desc">三步工程流，每章自动循环，你只需在关键节点确认。</div>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-node">0</div>
+        <div class="flow-body"><div class="fn">初始化</div><div class="fd">消费美术设定集，双角度定妆，冻结人设与画风</div></div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="flow-node">1</div>
+        <div class="flow-body"><div class="fn">导演卡</div><div class="fd">读章节→拆采摘表→设计分镜→产出提示词</div></div>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="flow-node">2</div>
+        <div class="flow-body"><div class="fn">生成+审核</div><div class="fd">批量出页→叠加文字→审核→导出分享图长图</div></div>
+      </div>
+    </div>
+    <div class="flow-loop">写完一章 → 生成 → 审核 → 进下一章 · 人设画风全程锁定</div>
+  </div>
+</section>
+
+<!-- ===== 开始引导 ===== -->
+<section class="sec" id="start">
+  <div class="wrap">
+    <div class="start">
+      <h3>现在就开一部漫画</h3>
+      <p>你只需要告诉我一句话——想画哪个故事。剩下的定妆、分镜、生成、排版、审核，专家一整套接管。</p>
+      <div class="cmd"># 最佳开口：把小说正文/书名丢给我，说"做漫画"</div>
+      <div class="hint">已读过原文 → 直接说"这部小说做漫画"；只有想法 → 先说你的故事设定，我会先帮你把视觉地基打好。</div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">popwave.cn 让创意一键落地 · 漫画插画专家专属引导</div></footer>
+
+</body>
+</html>
