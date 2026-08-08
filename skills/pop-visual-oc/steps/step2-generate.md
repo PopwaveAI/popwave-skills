@@ -266,9 +266,27 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）
 4. **调排版**：按 `mode-album-html.md` §排版语言对齐精致度——渐变文字、双线边框、四角金印、图框金色托线、色块 swatch；信息区全部在图框之外（铁律 A3）
 5. **本地预览**：主视觉与 HTML 同目录，`python -m http.server` 本地预览确认排版
-6. **落地**：HTML 复制到 `素材/[类型][实体名]-画册页.html`，footer 品牌水印已内嵌
+6. **截成长图**：用 `scripts/screenshot_album.py` 把画册页截成高清长图（交付形态，与漫画同构）
+7. **落地**：HTML 复制到 `素材/[类型][实体名]-画册页.html`，footer 品牌水印已内嵌；长图落地到 `素材/[类型][实体名]-画册页-长图.png`
 
 > **画册页三铁律（mode-album-html.md）**：①A1 图是主角，HTML 是装裱（禁止图铺满当 background）；②A2 主视觉零文字（AI 不画字，文案全由 HTML 承载）；③A3 信息区在图框之外，不压图主体。
+
+#### 4.5.1 画册页截成长图（必做，交付形态）
+
+画册页是长图文案载体，**HTML 组装完成后必须截成一张高清长图**（与漫画 `screenshot_comic.py` 同构）：
+
+```
+python skills/pop-visual-oc/scripts/screenshot_album.py \
+  '素材/[类型][实体名]-画册页.html' \
+  '素材/[类型][实体名]-画册页-长图.png'
+```
+
+- 高清：Playwright 整页 `full_page` + `deviceScaleFactor=2`（默认 680px 视口 ×2 → 1360px 宽长图），底部质量不退化
+- 自动等图：自动移除 lazy loading + 等待所有 `<img>` 完全加载后再截图
+- 输出：PNG 无损长图（`-长图.png`），与 HTML 同目录落地
+- 可选：`SCREENSHOT_WIDTH` 调视口宽、`SCREENSHOT_SCALE` 调倍率
+
+> **失败中断**：若长图缺顶部标题区/主视觉/信息区/品牌水印任一区段，视为截图失败，修正 HTML 后重截，禁止带残缺长图交付。
 
 ## 5. 系列化循环
 
@@ -341,6 +359,7 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 - [ ] **无文字禁止词残留**：消费美术设定集对应篇冻结提示词时已剥离 `no text / no letters / no characters / no watermark / no decorative elements / no border / no seal`，最终提示词不含任何文字禁止词（**仅前三档位**；HTML 档位见下）
 - [ ] **EXACT TYPOGRAPHY 完整**：模式B/模式C 的提示词含 EXACT TYPOGRAPHY 块，信息架构均用双引号包裹并指定字体和位置（**仅前三档位**）
 - [ ] **HTML 组装档位专项**：主视觉提示词**含** `no text, no letters, no words, no characters, no captions, no labels`（铁律 A2），不补 EXACT TYPOGRAPHY；主视觉为独立 `<figure>` 图框主体（A1），信息区全部在图框之外（A3）；已用 `album-card.tpl.html` 组装画册页，品牌水印已内嵌 HTML footer，**未运行 `watermark.py`**
+- [ ] **画册页长图已截图**：`screenshot_album.py` 已执行，长图（`-长图.png`）完整含顶部标题区+主视觉+信息区+品牌水印，四段不缺（HTML 组装档位必做）
 - [ ] **设定卡传播版模块完整**：EXACT TYPOGRAPHY 块按模块声明，总模块≤7，文字均≤15字，无超量导致乱码风险
 - [ ] **规则卡有原文依据**：主视觉载体（器物/天象/纹路）来自美术设定集规则篇，无凭空发明符号
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）

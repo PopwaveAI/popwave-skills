@@ -5,7 +5,7 @@ description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地
 
 # pop-visual-oc
 
-> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v3.1.0
+> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v3.2.0
 
 ## 做什么
 
@@ -119,6 +119,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 **两步分工**（不走 AI 渲染文字）：
 1. **① 无文字主视觉**：**必须由 pop 直出（`image_generate` 工具）**——老板验收定调，本地直出（GenerateImage）画面质量远不及 pop 直出 Seedream（构图/质感/文字意境/信息层级皆逊色）。从美术设定集对应篇冻结提示词取设定本体，提示词**保留 no text**（铁律 A2）。无 `image_generate` 时暂停等待 pop 直出，或请用户提供 pop 直出图，**禁止擅自用本地工具出图**
 2. **② HTML 画册页**：用 `album-card.tpl.html` 组装——顶部标题区（系列名/类型标签/实体名鎏金大字/定位）+ 中央独立图框主视觉 + 图外信息区（箴言/核心气质/等级色板/象征词条）+ footer 品牌水印
+3. **③ 截成长图**：用 `scripts/screenshot_album.py` 把画册页截成高清长图（`-长图.png`，Playwright 整页 + deviceScaleFactor=2，与漫画 `screenshot_comic.py` 同构），交付可传播长图
 
 **品牌水印**：HTML 档位**不走 `watermark.py`**，水印已作为 HTML footer 内嵌（`popwave.cn 让创意一键落地`），比图片水印更清晰可控。
 
@@ -164,6 +165,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 | 设定实体卡方法论（势力/地理/规则/场景模块化信息） | `references/mode-setting-cards.md` | Step 1 |
 | **HTML组装版·画册页范式（三条铁律+排版语言）** | `references/mode-album-html.md` | Step 1/2 |
 | **画册页样板（无文字主视觉+HTML装裱排版）** | `templates/album-card.tpl.html` | Step 2 |
+| **画册页长图截图（交付形态）** | `scripts/screenshot_album.py` | Step 2 落地后 |
 | 角色本体身份（美术设定集·人物篇，唯一真源） | `素材/美术设定集.md` | Step 0.5 |
 | 高级角色设计方法论（剪影/色彩/细节三层+反类型化+撕裂感） | `skills/pop-visual-art-bible/references/advanced-character-design.md` | Step 1 |
 | 提示词写法+高精度模板 | `../pop-visual-shared/references/seedream-prompt-guide.md` §三 | Step 2 |

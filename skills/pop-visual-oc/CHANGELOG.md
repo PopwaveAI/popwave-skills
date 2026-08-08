@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v3.2.0 | 2026-08-08
+
+### 新增画册页长图截图能力（HTML 最终交付形态）
+
+老板定调："和 comic 一样，出的 HTML 最终要截成一个长图。" 画册页是长图文案载体，HTML 组装完成后必须截成一张高清长图交付推广，与漫画管线 `screenshot_comic.py` 同构。
+
+- **`scripts/screenshot_album.py`（新建）**：画册页长图截图脚本——Playwright 整页 `full_page` 截图 + `deviceScaleFactor=2`（默认 680px 视口 ×2 → 1360px 宽高清长图），自动移除 lazy loading + 等待所有 `<img>` 完全加载后再截图，输出 PNG 无损长图（`-长图.png`）
+- **`references/mode-album-html.md`（扩展）**：工作流新增第③步"截成长图"小节，含用法、高清原理、自动等图、输出、校验
+- **step2 扩展**：§4.5 组装流程新增第⑥步截图 + 第⑦步落地（HTML+长图）；新增 §4.5.1 画册页截成长图（必做，交付形态）；自检新增"画册页长图已截图"项
+- **SKILL.md 扩展**：HTML 组装版由"两步分工"扩为"三步分工"（①主视觉→②HTML→③截成长图）；速查表新增 `screenshot_album.py`；版本至 v3.2.0
+- **版本同步**：SKILL.md / skill.json 至 v3.2.0；skill.json 描述补充"落地后截成高清长图"
+
+---
+
 ## v3.1.0 | 2026-08-08
 
 ### 新增第四档位：HTML组装版·画册页（推广素材终极形态）

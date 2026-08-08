@@ -95,10 +95,27 @@ Step 2 生成（两步）
   ├─ ① AI 生成无文字主视觉（image_generate，剥离 no text）
   ├─ ② 用 album-card.tpl.html 模板组装画册页（填主视觉路径 + 文案）
   ├─ 本地预览（python -m http.server）→ 用户确认
+  ├─ ③ 截成长图（screenshot_album.py）→ 交付可传播长图
   └─ 落地：复制到 `素材/`，品牌水印 已内嵌在 HTML footer
 ```
 
 > **关键差异**：前三个档位是"一张图"（AI 出成品图）；本档位是"一张图 + 一个 HTML 文件"（AI 出主视觉，HTML 组装成品）。**HTML 组装档位不需要 `watermark.py` 叠加**——品牌水印已作为 HTML footer 内嵌，比图片水印更清晰更可控。
+
+### ③ 画册页截成长图（交付形态）
+
+画册页是长图文案载体，**交付时必须截成一张高清长图**（与漫画同构，`screenshot_comic.py` 的 OC 版）。使用 `scripts/screenshot_album.py`：
+
+```
+python skills/pop-visual-oc/scripts/screenshot_album.py \
+  '素材/[类型][实体名]-画册页.html' \
+  '素材/[类型][实体名]-画册页-长图.png'
+```
+
+- **高清**：Playwright 整页 `full_page` 截图 + `deviceScaleFactor=2`（默认 680px 视口 ×2 倍 → 1360px 宽长图），底部质量不退化
+- **自动等图**：自动移除 lazy loading + 等待所有 `<img>` 完全加载后再截图，避免主视觉没渲染出来就截
+- **输出**：PNG 无损长图（`-长图.png`），与 HTML 同目录落地
+- **可选**：`SCREENSHOT_WIDTH` 调视口宽、`SCREENSHOT_SCALE` 调倍率（一般用默认即可）
+- **校验**：长图应完整含顶部标题区 + 主视觉 + 信息区 + 品牌水印 footer，四段都不缺才算成功
 
 ## 与三档位的关系
 
