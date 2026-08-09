@@ -1,6 +1,6 @@
 {
   "id": "pop-decon",
-  "version": "22.1.0",
+  "version": "22.2.0",
   "displayName": "拆书专家入口",
   "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书专家入口：下载txt→章节白描→征询用户要拆哪些维度→按需路由到对应拆解skill。不常驻调度。",
   "tags": [
@@ -8,6 +8,18 @@
   ],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
+  "skills": [
+    "tool-download-webnovel",
+    "pop-decon-design-pack",
+    "pop-decon-plot",
+    "pop-decon-romance",
+    "pop-decon-character",
+    "pop-decon-power",
+    "pop-decon-world",
+    "pop-decon-beat",
+    "pop-decon-style",
+    "pop-decon-prd"
+  ],
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true

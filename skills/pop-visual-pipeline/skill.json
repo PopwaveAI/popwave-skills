@@ -1,7 +1,7 @@
 {
   "id": "pop-visual-pipeline",
   "name": "pop-visual-pipeline",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "小说视觉化总控管线。读视觉项目总控.html→按Phase 0-6路由调度各visual子skill（asset/style/art-bible/cover/oc/comic）。基建层（读小说→定画风→产美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出。意图闸口前置——按 intent 决定基建档位（cover/oc 轻量、comic/full 完整），不默认推漫画。落盘三态（成品/测试/_过程）见 references/落盘规范.md，任何派生产出按生命周期落盘。首次对话引导统一收归本 pipeline（references/onboarding-guide.md）。pipeline只做路由不干活。",
   "skills": ["pop-visual-asset", "pop-visual-style", "pop-visual-art-bible", "pop-visual-cover", "pop-visual-oc", "pop-visual-comic"],
   "activation": {

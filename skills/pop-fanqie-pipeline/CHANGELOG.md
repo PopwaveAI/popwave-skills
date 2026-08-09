@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v3.7.0 (2026-08-10)
+
+### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表
+
+**背景**：老板定调——pipeline 是整个专家的入口和调度器，机器层面（skill.json）应有一份"我能调哪些 skill"的统一清单，后台配置系统才能读取。此前番茄 skill.json 无 `skills` 字段，清单只散落在 SKILL.md 的 Phase 路由表。
+
+**改动**：
+
+- `skill.json`：新增 `skills` 完整可调度清单（seed/world/plot/character/write/review/dna-style/research/download-webnovel）
+- `SKILL.md`：新增「📦 可调度 Skill 清单（素材表）」区块——每个 skill 的定位 + 何时调用，标注复用项
+- 版本至 v3.7.0
+
 ## v3.6.0 (2026-08-09)
 
 ### 新增首次对话引导（onboarding）

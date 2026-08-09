@@ -5,7 +5,7 @@ description: "当用户说'拆书/解构/分析/对标/提取模板'时启用。
 
 # pop-decon · 拆书专家入口
 
-> 拆书专家入口：下载 txt → 章节白描 → 征询拆解维度 → 按需路由。不常驻调度。v22.1.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向想学写作技巧的作者）。v22.0.0
+> 拆书专家入口：下载 txt → 章节白描 → 征询拆解维度 → 按需路由。不常驻调度。v22.2.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v22.1.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向想学写作技巧的作者）。v22.0.0
 
 ## 做什么
 
@@ -48,6 +48,23 @@ pop-decon (下载 → 白描 → 征询维度 → 路由)
 > 用户第一次触发拆书专家（无任何拆书项目、非续写场景）时，**先输出 `references/onboarding-guide.md` 的引导语内容**给用户建立认知，再进入 Step 0 下载。
 >
 > 展示方式：在回复中**直接粘贴 `references/onboarding-guide.md` 全文**（声明本次为功能介绍+引导、未执行 skill 任务），用 1-2 句口头补充"报书名+想学那块就开始"。若用户已明确要拆，可跳过引导直接干活。
+
+## 📦 可调度 Skill 清单（素材表）
+
+> 本拆书专家入口与调度器，可调度的子 skill 总清单如下（与 `skill.json` 的 `skills` 数组一致）。拆书维度 skill 按需路由，**部分 skill 会被其他专家复用**（如 `tool-download-webnovel` / `pop-decon-design-pack`）。
+
+| Skill | 定位 | 何时调用 |
+|:--|:--|:--|
+| `tool-download-webnovel` | 下载源书 txt | Step 0 |
+| `pop-decon-design-pack` | 全维度批量拆解（ETL/格式） | 批量拆书 |
+| `pop-decon-plot` | 拆剧情线（主线/支线/暗线/卷纲/转折） | 征询后按需 |
+| `pop-decon-romance` | 拆情感线（CP/暧昧/信任/背叛/羁绊） | 征询后按需 |
+| `pop-decon-character` | 拆人物（角色卡+弧线+动机+成长） | 征询后按需 |
+| `pop-decon-power` | 拆力量体系（力量/升级/战斗） | 征询后按需 |
+| `pop-decon-world` | 拆世界观（地理/历史/物种/势力/物品） | 征询后按需 |
+| `pop-decon-beat` | 拆爽点体验（名场面/读者体验/爽点分布） | 征询后按需 |
+| `pop-decon-style` | 拆文风（对白/笔触，对接 pop-shared-dna） | 征询后按需 |
+| `pop-decon-prd` | 全书立项设计（消费各维度产出） | 征询后按需 |
 
 ## 红线
 

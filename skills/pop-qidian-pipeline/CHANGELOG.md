@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v3.11.0 | 2026-08-10
+
+### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表
+
+**背景**：老板定调——pipeline 是整个专家的入口和调度器，机器层面（skill.json）应有一份"我能调哪些 skill"的统一清单，后台配置系统（专家管理的"可用 Skill 范围"列）才能读取。此前只散落在 SKILL.md 的 Phase 路由表，机器读不到。
+
+**改动**：
+
+- `skill.json`：`skills` 由 `["SKILL.md"]` 改为完整可调度清单（seed/world/dna-style/character/plot/write/review/research/download-webnovel）
+- `SKILL.md`：新增「📦 可调度 Skill 清单（素材表）」区块——每个 skill 的定位 + 何时调用，标注复用项（`pop-dna-style`/`pop-research`/`tool-download-webnovel` 被多个专家共用）
+- 版本至 v3.11.0
+
 ## v3.10.0 | 2026-08-09
 
 ### 新增首次对话引导（onboarding）

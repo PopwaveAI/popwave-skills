@@ -5,7 +5,7 @@ description: "当用户说'视觉管线/视觉pipeline/小说视觉化/做视觉
 
 # pop-visual-pipeline
 
-> 小说视觉化总控管线。Phase 0→6路由调度。把 7 个 visual 子 skill 串成一条工程流：**基建层（查原文→定画风→产出美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出**。**意图闸口前置——先确认本次目标（封面/OC/漫画），按 intent 决定基建档位，不默认推漫画**。**首次对话引导统一收归本 pipeline（`references/onboarding-guide.md`，C 端口吻，面向作者/漫画人/同人爱好者）**。v2.3.0
+> 小说视觉化总控管线。Phase 0→6路由调度。把 7 个 visual 子 skill 串成一条工程流：**基建层（查原文→定画风→产出美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出**。**意图闸口前置——先确认本次目标（封面/OC/漫画），按 intent 决定基建档位，不默认推漫画**。**首次对话引导统一收归本 pipeline（`references/onboarding-guide.md`，C 端口吻，面向作者/漫画人/同人爱好者）**。v2.4.0：SKILL.md 新增「📦 可调度 Skill 清单」。
 
 ---
 
@@ -45,6 +45,21 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 > **基建档位（按 intent）**：`cover`/`oc` 意图只需基建到"美术设定集"（phase2）即可派生，**不强制 phase2 完整复现（双角度定妆/场景定妆）**（那是 comic/full 完整档才需要）。`comic`/`full` 意图才走完整基建（深度资产+画风定标+美术设定集+完整复现）。
 
 > **派生层触发规则（按 intent）**：Phase 3-6 不是线性顺序，**由 intent 决定去哪里**——`cover`→Phase3/5，`oc`→Phase4，`comic`→Phase6，`full`→loop 3-6，`asset-only`→停在 phase0。无论哪个，都先检查基建就绪门禁 + 达到所需档位深度。
+
+---
+
+## 📦 可调度 Skill 清单（素材表）
+
+> 本 pipeline 整个专家入口与调度器，可调度的子 skill 总清单如下（与 `skill.json` 的 `skills` 数组一致）。视觉 group 是**小说漫画专家的一部分**而非独立专家，这些 skill 按 Phase 路由表调度，**部分 skill 会被其他专家复用**。
+
+| Skill | 定位 | Phase |
+|:--|:--|:--|
+| `pop-visual-asset` | 查原文，提取角色/场景/符号资产 | 0 |
+| `pop-visual-style` | 定画风基准+配色+风格串 | 1 |
+| `pop-visual-art-bible` | 产《美术设定集》（全下游唯一真源） | 2 |
+| `pop-visual-cover` | 封面/场景图 | 3/5 |
+| `pop-visual-oc` | 立绘/OC | 4 |
+| `pop-visual-comic` | 整章漫画连载 | 6 |
 
 ---
 

@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v2.4.0 (2026-08-10)
+
+### SKILL.md 新增可调度 Skill 清单（素材表）
+
+**背景**：老板定调——pipeline 是整个专家的入口和调度器，应有一份"我能调哪些 skill"的统一清单。视觉 skill.json 已有 `skills` 数组，SKILL.md 补齐同内容的人读表格，与其余 pipeline 格式对齐。
+
+**改动**：
+
+- `SKILL.md`：新增「📦 可调度 Skill 清单（素材表）」区块——asset/style/art-bible/cover/oc/comic 六个 skill 的定位 + Phase，标注视觉 group 是小说漫画专家的一部分而非独立专家
+- `skill.json`：`skills` 数组已存在不改动
+- 版本至 v2.4.0
+
 ## v2.3.0 (2026-08-09)
 
 ### onboarding 引导语 C 端口吻重写（去技术化、场景化）

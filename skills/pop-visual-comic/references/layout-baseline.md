@@ -377,6 +377,37 @@ A vertical manga comic page with a large dark empty negative space occupying the
 
 ---
 
+### YZ-INFO：信息页·半文半图（图文同页） ★★★★★
+
+> **信息页专用模板（v7.22.0）**：上半 50% = Seedream 单格大图（画风统一/漫画沉浸），下半 50% = HTML 文字块（文字层物理上由 HTML 承载，Seedream 不画可读文字）。**禁止纯 HTML 搭整页**——那会让信息页像网页插进漫画滚动流。图文同页不可分离。
+
+```
+┌─────────────────────┐
+│                     │
+│  上半 50%（Seedream） │  ← 单格全宽大图·全出血
+│  与设定相关的象征画面  │     意象/场景/象征
+│                     │
+├─────────────────────┤
+│                     │
+│  下半 50%（HTML）     │  ← 文字块：2-4 条分条信息
+│  分条信息1 …         │     每条 ≤80 字
+│  分条信息2 …         │     直接摘原文/浓缩
+│                     │
+└─────────────────────┘
+```
+
+**上半 Seedream 分格指令（锁定）**：
+```
+A vertical webtoon comic page with only the upper half (50% height) occupied by a single full-width full-bleed comic art panel without any borders or gutters, the lower half left as empty plain blank space with no panels, no gutters, no borders, reserved purely as a clean background for text overlay.
+```
+
+**叙事功能**：上半画面提供视觉锚点（读者先"看到"再"读到"），下半文字承载浓密信息（世界观/背景/长原文）。**图文同页不可分离**——画面让读者不划走，文字讲清设定。
+**节奏**：上半慢（画面沉浸）→ 下半中（信息消化）。穿插铁律：前后必须各有漫画页，禁止连续 2 个信息页，占页数 ≤30%。
+
+> **注意**：YZ-INFO 只锁上半 Seedream 的指令。下半文字块由 HTML 后处理承载，**不进 Seedream**，不参与分格。上半画面必须是与设定相关的意象/场景/象征，非纯色块。
+
+---
+
 ## 四、模板选择速查表
 
 | 页类型 | 元尊模板 | 格数 | 叙事语法 |
@@ -394,6 +425,7 @@ A vertical manga comic page with a large dark empty negative space occupying the
 | 动作溢出页 | YZ-11 破框贯穿 | 1格 | 拳/兵刃破框出血，情绪溢出画格 |
 | 对立对谈页 | YZ-12 对称 | 2格 | 完全对称=势均力敌的对峙/对谈 |
 | 章末余韵页 | YZ-13 留白 | 2区 | 上部大面积留白+底部单帧钩子 |
+| 信息页·半文半图 | YZ-INFO | 图文1:1 | 上半Seedream单格大图锚点+下半HTML文字块 |
 
 ## 五、Seedream 复现实测结论
 
@@ -423,7 +455,7 @@ A vertical manga comic page with a large dark empty negative space occupying the
 
 | 我要 | 读什么 |
 |:-----|:------|
-| 选分页结构 | 本文件 §三 13种模板 |
+| 选分页结构 | 本文件 §三 13种模板 + YZ-INFO |
 | 判断页类型用哪个模板 | 本文件 §四 速查表 |
 | 分格指令（锁定） | 各模板"分格指令"段，直接复制 |
 | 排版如何进提示词 | director-card-template → 6段式PE第3段 |

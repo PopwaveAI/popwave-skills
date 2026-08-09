@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.6.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向番茄向网文作者）。v3.5.0：全链路质量升级（world/plot/write/character/review）。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.6.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向番茄向网文作者）。v3.5.0：全链路质量升级（world/plot/write/character/review）。
 
 ## 做什么
 
@@ -35,6 +35,22 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 | 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md |
 
 Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道调研第一优先级独立启动。Phase 5通过→phase4+ch+1，打回→phase4重写。
+
+## 📦 可调度 Skill 清单（素材表）
+
+> 本 pipeline 整个专家入口与调度器，可调度的子 skill 总清单如下（与 `skill.json` 的 `skills` 数组一致）。这些 skill 按 Phase 路由表调度，**部分 skill 会被其他专家复用**（如 `pop-dna-style` / `pop-research` / `tool-download-webnovel`）。
+
+| Skill | 定位 | 何时调用 |
+|:--|:--|:--|
+| `pop-fanqie-seed` | 种子创意+首章 | Phase 1 |
+| `pop-fanqie-world` | 世界构筑（全书设定） | Phase 2 |
+| `pop-fanqie-plot` | 剧情白描 | Phase 3 |
+| `pop-fanqie-character` | 角色库 | Phase 3.5 |
+| `pop-fanqie-write` | 正文渲染 | Phase 4 |
+| `pop-fanqie-review` | 审核+沉淀 | Phase 5 |
+| `pop-dna-style` | 文风综合重构 | Phase 0 |
+| `pop-research` | 赛道调研/decon-lite/采风 | Phase 0 |
+| `tool-download-webnovel` | 下载对标书 | Phase 0 |
 
 ## 🚪 首次对话引导（onboarding）
 

@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.11.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -40,6 +40,24 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 6 | pop-qidian-review v3.4.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md+review-沉淀.md+current-state.md（项目根） |
 
 > Phase 0-1并行设计、产出真实性门禁、下载失败中断、主agent执行指南、Phase 5/6执行细节、Phase 1-4交互模式等规则见 `steps/step2.md`
+
+---
+
+## 📦 可调度 Skill 清单（素材表）
+
+> 本 pipeline 整个专家入口与调度器，可调度的子 skill 总清单如下（与 `skill.json` 的 `skills` 数组一致）。这些 skill 按 Phase 路由表调度，**部分 skill 会被其他专家复用**（如 `pop-dna-style` / `pop-research` / `tool-download-webnovel`）。
+
+| Skill | 定位 | 何时调用 |
+|:--|:--|:--|
+| `pop-qidian-seed` | 立项创意（骨架/力量/主角/创意） | Phase 0-2 |
+| `pop-qidian-world` | 世界构筑（全书设定） | Phase 3 |
+| `pop-dna-style` | 文风综合重构（笔触/画风/需求） | Phase 3→3.5 |
+| `pop-qidian-character` | 角色库 | Phase 3.5 |
+| `pop-qidian-plot` | 卷纲+章锚点 | Phase 4 |
+| `pop-qidian-write` | 正文渲染 | Phase 5 |
+| `pop-qidian-review` | 审核+沉淀 | Phase 6 |
+| `pop-research` | 赛道调研/decon-lite/采风 | Phase 0 |
+| `tool-download-webnovel` | 下载对标书 | Phase 0 |
 
 ---
 
