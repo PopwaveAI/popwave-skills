@@ -5,7 +5,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 # pop-visual-comic
 
-> 网文漫画连载管线。DeepSeek 做编剧和项目管理（场景采摘+导演卡、提示词产出、管角色库、记状态），Seedream 做画师（连续出多格漫画页），HTML 做长条滚动展示+文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风/人物。** v7.21.0
+> 网文漫画连载管线。DeepSeek 做编剧和项目管理（场景采摘+导演卡、提示词产出、管角色库、记状态），Seedream 做画师（连续出多格漫画页），HTML 做长条滚动展示+文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风/人物。** v7.22.0
 
 ## 这个 Skill 做什么
 
@@ -73,9 +73,11 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 🚪 首次对话引导（onboarding）
 
-> 用户第一次触发本专家（无任何漫画项目、非续写场景）时，**先展示 `templates/onboarding.html`** 给用户建立认知 + 制造"哇效果"，再进入 Step 0。
+> 视觉专家的首次对话引导**由 `pop-visual-pipeline` 统一负责**（`references/onboarding-guide.md`，介绍整套视觉工程 + 意图闸口）。本派生层不单独引导——用户第一次触发视觉专家时从总入口进入，由 pipeline 引导后按其 intent 路由到本漫画环节。
 >
-> 展示方式：在回复中附带本地预览链接（`http://localhost:XXXX/onboarding.html`）。`onboarding.html` 是**单文件自包含**（showcase 图已压缩为 base64 内嵌，共约 0.5MB，**不依赖本地 `showcase/` 目录，发给任何用户都不裂图**）。若用户已明确要开做，可跳过展示直接干活。
+> 若用户直接触发本专家且确认为首次对话（无漫画项目、非续写），也可复用 pipeline 的 `../pop-visual-pipeline/references/onboarding-guide.md` 引导语作总入口介绍，再进入 Step 0。
+>
+> `templates/onboarding.html` 为可选的视觉版展示（单文件 base64 内嵌约 0.5MB，发给任何用户不裂图），仅在需"哇效果"视觉演示时使用。
 
 ## 记忆机制
 
@@ -149,6 +151,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 | 查改编策略+选帧+转化方案+名场面 | `references/guides/adaptation-guide.md` | Step 1 改编分析时必读 |
 | **查0基础读者可读性（三层文字法+开场引子+断点诊断）** | `references/guides/adaptation-guide.md` §0基础读者可读性 | **Step 1 设计文字层时必读** |
 | **查0基础可读性审稿门禁（无纯画面无文字页）** | `steps/step2-production-review.md` §5.1 | **Step 2 审核时必读** |
+| **首次对话引导（由 pipeline 统一负责，本派生层复用）** | `../pop-visual-pipeline/references/onboarding-guide.md` | **首次触发视觉专家时（pipeline 总入口）输出** |
 | **查测试 SOP（画风/排版入库唯一门禁，画风走固定脚本 batch_test.py 并发批量）** | `references/guides/pe-test-sop.md` | **画风/排版入库前必读** |
 | **查排版基准库（元尊YZ-1~8已验证分页）** | `references/layout-baseline.md` | **Step 1 选分页结构时强制必读** |
 | **查内容层（整页系统+L/C/F镜语+情绪映射+三重锁定+台词气泡）** | `references/content-layer.md` | **Step 1 页面设计+镜语分配+提示词产出时强制必读** |
@@ -167,6 +170,6 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 ## 版本
 
-**当前版本**：v7.21.0 | 2026-08-08
+**当前版本**：v7.22.0 | 2026-08-09
 
 > 完整版本历史见 `CHANGELOG.md`。

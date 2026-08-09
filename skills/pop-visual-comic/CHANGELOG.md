@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v7.22.0 | 2026-08-09
+
+### onboarding 引导语迁移到 pipeline 总入口（本派生层复用）
+
+**背景**：老板定调——首次对话引导是视觉专家「总入口」该做的事，应放 `pop-visual-pipeline` 层（介绍整套视觉工程 + 意图闸口），而非单个派生层各管各的。
+
+**改动**：
+
+- 删除本库 `references/onboarding-guide.md`，引导语**迁移至 pipeline 层** `../pop-visual-pipeline/references/onboarding-guide.md`（重写为总入口视角：pipeline+3层基建+4派生形态+意图闸口）
+- `SKILL.md`：onboarding 区块改为**由 pipeline 统一负责**，本派生层直接触发时复用 pipeline 引导语；速查表条目指向 pipeline
+- 保留 `templates/onboarding.html` 单文件自包含视觉版（base64 内嵌约 0.5MB，不裂图），仅需"哇效果"时使用
+
 ## v7.21.1 | 2026-08-09
 
 ### onboarding 单文件自包含改造（base64 内嵌，杜绝裂图）

@@ -11,31 +11,33 @@
 
 ## 操作
 
-1. **读取口播文案**：从 `口播脚本.md` 拆成逐句（每句对应一个场景/页）。
+1. **读取口播文案**：从 `口播脚本.md` 拆成逐句（每句对应一个场景/页），并**在每句前嵌入情绪指令**（全角括号 `（低沉，恐惧地）` `（松了口气，温暖）` `（神秘，压低）` 等）。封面钩子句配 `（低沉，神秘地）`。seed-audio-1.0 是自然语言驱动的音频大模型，括号指令用于调节语气节奏且**不会被念出来**（ASR 验证过）。
 
-2. **逐句生成**（用 `scripts/tts_generate.py`，复用 brand 的火山方案）：
+2. **整段合成**（用 `scripts/tts_generate.py`，复用 brand 的火山方案），把含情绪指令的全文一次送入：
    ```bash
    python scripts/tts_generate.py \
-     --text "口播句文案" \
-     --out "{项目}/视频/audio/seg01.mp3" \
-     --speech-rate 20
+     --text "$(cat 口播全文含情绪指令.txt)" \
+     --out "{项目}/视频/audio/v{版本}/full_voice.mp3" \
+     --speech-rate 5
    ```
    > key 自动读取，无需传 `--api-key`。读取优先级：命令行 `--api-key` > 环境变量 `VOLC_ARK_API_KEY` > `scripts/.env`。若三种都缺，脚本会报错并提示配置方式。
-   - 每句一个 `seg{N}.mp3`
+   - **整段一次合成**（含封面钩子句 + 正文全部），避免逐句拼接割裂/语速不均
    - 默认音色已是灿灿（`--speaker` 可换其他音色，如 `zh_female_zhixingnv_uranus_bigtts` 知性女声）
-   - **统一 `--speech-rate +20`**（v0.8 铁律）：全批固定同一语速，避免逐句独立合成导致的语速不均/偏慢。必要时 `--loudness-rate/--pitch-rate` 微调
+   - **统一 `--speech-rate +5`**（v0.11 终稿）：+8 仍偏快且抹平情绪，+5 更从容自然，让情绪指令有发挥空间。必要时 `--loudness-rate/--pitch-rate` 微调
 
-3. **记录每句时长**：用 imageio-ffmpeg 的 ffmpeg 或 ffprobe 读时长，产出 `时长清单.json`（seq / page / file / duration_sec / text / emotion）。
+3. **ASR 对齐**：用 faster-whisper（small, word_timestamps）对整段音频做词级时间戳，并按**纯文本（去掉情绪指令）**的汉字序列映射到每句，产出 `audio/v{版本}/对齐.json`（seq / start / end / duration / text）。封面句为 seq0，正文各段依次。
+   - 对齐用纯文本，因为情绪指令不进语音、不占时长
 
 ## 产出
 
-- `{项目}/视频/audio/seg{N}.mp3`（分句配音）
-- `{项目}/视频/audio/时长清单.json`
+- `{项目}/视频/audio/v{版本}/full_voice.mp3`（整段配音，含情绪表现）
+- `{项目}/视频/audio/v{版本}/对齐.json`（seq / start / end / duration / text）
 
 ## 完成判定
 
-- [ ] 每句文案都有对应 mp3
-- [ ] 时长清单含全部句的 seq/page/file/duration_sec
+- [ ] 整段配音一次合成成功（无逐句拼接割裂）
+- [ ] 对齐.json 含全部句（封面 seq0 + 正文各段）的 seq/start/end/duration
+- [ ] 语速 +5，情绪指令生效（听感有起伏变化，无指令被念出）
 - [ ] 总时长与每页场景时长偏差可接受（口播不超画面太多）
 
-> 失败处理：某句失败只重试该句，不中断整批。重试仍失败则改用 `--speaker` 换备用音色或对文案做口语化微调。
+> 失败处理：整段合成失败重试整段；反复失败则改用 `--speaker` 换备用音色，或对文案情绪指令做口语化微调。

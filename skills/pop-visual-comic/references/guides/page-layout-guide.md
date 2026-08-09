@@ -117,13 +117,13 @@
 
 ### 对白气泡（dialogue）
 
-**用途**：角色台词。圆角白色半透明气泡。
+**用途**：角色台词。圆角白色气泡。
 
 **视觉规范**：
 - 最大宽度 45%（不遮挡画面主体）
-- 白色半透明背景（rgba(255,255,255,0.92)）
+- **接近实色白底（rgba(255,255,255,0.97)）**——浅色/高亮画面上气泡仍清晰成型，不融进背景
+- **深色文字 + 白色描边**（color #1a1a1a + text-shadow 白边）——深字带白描边，在亮画面上与画面分隔，醒目
 - 圆角 12px
-- 深色文字（#1a1a1a）
 - 字号 14px，行高 1.6
 
 ```css
@@ -131,10 +131,11 @@
   position: absolute;
   max-width: 45%;
   padding: 10px 14px;
-  background: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.97);   /* 接近实色白底，浅色画面不融背景 */
   border-radius: 12px;
   font-size: 14px; line-height: 1.6;
   color: #1a1a1a;
+  text-shadow: 0 0 2px rgba(255,255,255,0.9), 0 1px 3px rgba(0,0,0,0.25);  /* 白描边+轻投影 */
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .caption-dialogue.top-left { top: 12%; left: 5%; }

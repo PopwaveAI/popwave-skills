@@ -70,7 +70,10 @@ def main():
 
     workdir = os.path.dirname(os.path.abspath(args.out)) or "."
     os.makedirs(workdir, exist_ok=True)
-    tmp_html = os.path.join(workdir, "_selfplay.html")
+    # 自播 HTML 必须写到 HTML 原同目录：HTML 里的相对资源（如 panels/P1-1.png）
+    # 是相对 index.html 所在目录解析的，写错目录会导致图片全部 404 破图。
+    html_dir = os.path.dirname(os.path.abspath(args.html)) or "."
+    tmp_html = os.path.join(html_dir, "_selfplay.html")
     inject_selfplay(args.html, tmp_html)
 
     video_dir = os.path.join(workdir, "_rec")
