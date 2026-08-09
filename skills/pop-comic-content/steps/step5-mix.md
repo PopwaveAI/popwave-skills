@@ -11,15 +11,17 @@
 
 ## 操作
 
+> 落盘命名遵循 `pop-visual-pipeline/references/落盘规范.md` §3.1b：成品视频版本化+`-final`。
+
 1. **选曲（BGM 能力）**：按漫画**赛道** + 主要**情绪段**，从 `references/bgm-guide.md` 的「赛道 × 情绪 → 参考曲目」表选定 BGM。示例：悬疑赛道钩子段可配 `青衣`（国风戏腔悬疑感），紧张/高潮段可配 `fever pitch`（电子狂热感）。把 BGM 文件放到 `{项目}/视频/bgm/bgm-*.mp3`。
 
 2. **按时间轴定位混入**（用 `scripts/mix_audio.py`，本质是 ffmpeg adelay+amix）：
    ```bash
    python scripts/mix_audio.py \
-     --video 成品.mp4 \
+     --video 第{N}章-v1.mp4 \
      --audio-dir audio \
      --offsets "seg01.mp3=3.0,seg02.mp3=8.9,seg03.mp3=16.2,..." \
-     --out 成品-配音.mp4 \
+     --out 第{N}章-配音-v1-final.mp4 \
      [--bgm {项目}/视频/bgm/bgm-悬疑-青衣.mp3 --bgm-vol 0.15 --voice-vol 1.1]
    ```
    - `--offsets` 每项 `文件名=起始秒`，逗号分隔，与配音段落一一对应
@@ -30,7 +32,8 @@
 
 ## 产出
 
-- `{项目}/视频/成品-配音.mp4`（最终视频）
+- `{项目}/视频/第{N}章-配音-v{版本}-final.mp4`（最终视频，确认后交付）
+- `{项目}/视频/第{N}章-v{版本}.mp4`（Step 4 无音轨中间版，进 `_过程/` 或保留为候选）
 - `{项目}/视频/bgm/bgm-*.mp3`（选定的 BGM）
 
 ## 完成判定

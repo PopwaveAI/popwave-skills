@@ -16,7 +16,8 @@
 
 按 `references/comic-render-guide.md` 写单页 HTML（1080×1920 竖版）：
 - 每页一个 `.scene`，画面主体是漫画页图片
-- Ken Burns 推拉 + 字幕淡入淡出（用 `references/comic-render-guide.md` 的辅助函数）
+- **逐页展示模板**：按口播脚本每句的 `template` 字段套用 `references/scene-template.md` 的锁死模板（`tplT1~T5` 函数 + 聚焦点/字幕位置），禁止自由发挥动效参数
+- 字幕淡入淡出（用 `references/comic-render-guide.md` 的辅助函数）
 - **每条字幕必须有出场淡出**（`app(进场)*out(出场)`，本页第二条字幕进场前先淡出第一条），禁止只写进场——否则同页两条字幕重叠
 - 每页时长 = 该页口播总时长 + 0.5s 余量（从 `时长清单.json` 累加）
 - 产出 `index.html` + `assets/`（拷贝漫画页）
@@ -34,24 +35,25 @@ python scripts/render_frames.py --html index.html --out preview --mode preview -
 ### 3. 全量出片（方案 B：录屏，主路径）
 
 ```bash
-python scripts/record_video.py --html index.html --out 成品.mp4 --duration <总时长> --w 1080 --h 1920 --preset veryfast
+python scripts/record_video.py --html index.html --out 第{N}章-v1.mp4 --duration <总时长> --w 1080 --h 1920 --preset veryfast
 ```
 
 - `--duration` = 动画总时长（`时长清单.json` 累加出的总秒数）
 - 录屏时长 ≈ 动画时长（57s 视频全程 ~86s 出片），不落中间 PNG
 - 转码 `--preset veryfast`（快）/ `fast` / `medium`（质量更好），`--crf 18` 保画质
-- 产物 `成品.mp4` 为无音轨 H.264 竖版视频（Step 5 混音）
+- 产物 `第{N}章-v{版本}.mp4` 为无音轨 H.264 竖版中间候选（Step 5 混音后产出 `第{N}章-配音-v{版本}-final.mp4`，命名遵循落盘规范 §3.1b）
 
 ## 产出
 
 - `{项目}/视频/index.html` + `assets/`
-- `{项目}/视频/preview/`（预览校验帧）
-- `{项目}/视频/成品.mp4`（无音轨）
+- `{项目}/视频/preview/`（预览校验帧，过程）
+- `{项目}/视频/第{N}章-v{版本}.mp4`（无音轨中间候选）
 
 ## 完成判定
 
 - [ ] 预览帧逐张校验通过（构图/字幕/无溢出）
-- [ ] 录屏出片成功，成品.mp4 已生成（probe 校验分辨率 1080×1920 / 时长 / fps 30）
+- [ ] 每页展示模板与口播脚本 template 字段一致，聚焦点/字幕位置正确
+- [ ] 录屏出片成功，`第{N}章-v{版本}.mp4` 已生成（probe 校验分辨率 1080×1920 / 时长 / fps 30）
 - [ ] 画面与预览帧一致（字幕不重叠、无溢出）
 
 > 出片是确定性渲染（HTML+Playwright+ffmpeg），不走 AI 视频。若老板只要文本三件套，本步可跳过。录屏方案只在 HTML 注入自播时钟，不改 `render(t)` 逻辑，与逐帧方案产出画面一致。

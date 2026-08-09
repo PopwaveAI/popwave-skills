@@ -13,7 +13,7 @@
    - `output/page1~N.png`（漫画页，主力幻灯片）
    - `页面配置.json`（每页文字锚点，脚本骨架）
    - `index.html`（可选，HTML 美学参考）
-   - OC/封面图（可选，开场用，通常在 `素材/视觉/` 或 `漫画/assets/characters/`）
+   - OC/封面图（可选，开场用，通常在 `成品/` 或 `漫画/assets/characters/`）
 
 2. **读取 `页面配置.json`**，提取每页文字锚点到一个清单：
 
