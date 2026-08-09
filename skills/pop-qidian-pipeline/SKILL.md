@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -40,6 +40,14 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 6 | pop-qidian-review v3.4.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md+review-沉淀.md+current-state.md（项目根） |
 
 > Phase 0-1并行设计、产出真实性门禁、下载失败中断、主agent执行指南、Phase 5/6执行细节、Phase 1-4交互模式等规则见 `steps/step2.md`
+
+---
+
+## 🚪 首次对话引导（onboarding）
+
+> 用户第一次触发起点网文专家（无任何写作项目、非续写场景）时，**先输出 `references/onboarding-guide.md` 的引导语内容**给用户建立认知，再进入 Step 0 意图深问。
+>
+> 展示方式：在回复中**直接粘贴 `references/onboarding-guide.md` 全文**（声明本次为功能介绍+引导、未执行 skill 任务），用 1-2 句口头补充"报书号+想法就开始"。若用户已明确要开做，可跳过引导直接干活。
 
 ---
 

@@ -5,7 +5,7 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 
 # pop-recommend
 
-> 推书营销专家。从小说原文→读者推书卡（给新读者的无剧透推荐）。v1.2.0
+> 推书营销专家。从小说原文→读者推书卡（给新读者的无剧透推荐）。v1.3.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向想给书做安利的博主/作者）。v1.2.0
 
 ## 做什么
 
@@ -21,6 +21,12 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 - **Step 1** 三阶段价值扫描（内化）→ ETL精简版(编码归一+章节分割+元数据,禁止逐章摘要)→Phase1骨架扫描(首章+每卷首尾+尾章≈15-20章,产出structure-map.json)→Phase2锚点深读(highlight/controversy/character/relationship章≈10-15章,产出anchor-pool.json+evidence-ledger.json)→Phase3阅感采样(全书均匀采样5-8章,6维度量化打分,产出reading-metrics.json) → 5个JSON落盘工作稿/
 - **Step 2** 评审生成 → `steps/step2.md`（消费5个JSON生成review.json，spoiler三级控制safe/mild/major只消费safe+mild）
 - **Step 3** HTML渲染 → `steps/step3.md`（9页独立设计语言：Cinematic Poster/Swiss Grid/Magazine Editorial等，产出{书名}-读者推书-v1.html）
+
+## 🚪 首次对话引导（onboarding）
+
+> 用户第一次触发推书营销专家（无任何推书项目、非续写场景）时，**先输出 `references/onboarding-guide.md` 的引导语内容**给用户建立认知，再进入 Step 1 三阶段扫描。
+>
+> 展示方式：在回复中**直接粘贴 `references/onboarding-guide.md` 全文**（声明本次为功能介绍+引导、未执行 skill 任务），用 1-2 句口头补充"报书名就开始"。若用户已明确要推书，可跳过引导直接干活。
 
 ## 红线
 
@@ -42,5 +48,7 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 | `templates/recommend-card.tpl.html` | Step3渲染时使用 | HTML推书卡模板 |
 
 ## 版本
+
+v1.3.0 | 2026-08-09 | 新增首次对话引导（references/onboarding-guide.md，C 端口吻） → CHANGELOG.md
 
 v1.2.0 | 2026-07-22 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为5条含读取协议 → CHANGELOG.md

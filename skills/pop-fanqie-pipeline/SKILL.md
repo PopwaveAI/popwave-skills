@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.5.0：全链路质量升级（world/plot/write/character/review）。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.6.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向番茄向网文作者）。v3.5.0：全链路质量升级（world/plot/write/character/review）。
 
 ## 做什么
 
@@ -35,6 +35,12 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 | 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md |
 
 Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道调研第一优先级独立启动。Phase 5通过→phase4+ch+1，打回→phase4重写。
+
+## 🚪 首次对话引导（onboarding）
+
+> 用户第一次触发番茄网文专家（无任何写作项目、非续写场景）时，**先输出 `references/onboarding-guide.md` 的引导语内容**给用户建立认知，再进入 Step 0 意图深问。
+>
+> 展示方式：在回复中**直接粘贴 `references/onboarding-guide.md` 全文**（声明本次为功能介绍+引导、未执行 skill 任务），用 1-2 句口头补充"报书号+想法就开始"。若用户已明确要开做，可跳过引导直接干活。
 
 ## 红线
 
