@@ -17,12 +17,13 @@
    ```bash
    python scripts/tts_generate.py \
      --text "口播句文案" \
-     --out "{项目}/视频/audio/seg01.mp3"
+     --out "{项目}/视频/audio/seg01.mp3" \
+     --speech-rate 20
    ```
    > key 自动读取，无需传 `--api-key`。读取优先级：命令行 `--api-key` > 环境变量 `VOLC_ARK_API_KEY` > `scripts/.env`。若三种都缺，脚本会报错并提示配置方式。
    - 每句一个 `seg{N}.mp3`
    - 默认音色已是灿灿（`--speaker` 可换其他音色，如 `zh_female_zhixingnv_uranus_bigtts` 知性女声）
-   - 语速/音量/音调可用 `--speech-rate/--loudness-rate/--pitch-rate` 微调
+   - **统一 `--speech-rate +20`**（v0.8 铁律）：全批固定同一语速，避免逐句独立合成导致的语速不均/偏慢。必要时 `--loudness-rate/--pitch-rate` 微调
 
 3. **记录每句时长**：用 imageio-ffmpeg 的 ffmpeg 或 ffprobe 读时长，产出 `时长清单.json`（seq / page / file / duration_sec / text / emotion）。
 

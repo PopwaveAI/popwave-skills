@@ -54,14 +54,16 @@
 > 生图统一走 `image_generate` 工具，不直连 API（无内置 API Key）。
 
 ```text
-人物定妆：image_generate(prompt='人物冻结提示词', size='1125x1500', ref_image='画风定标图', output='素材/视觉/角色定妆-{角色名}-v1.png')
-场景定妆：image_generate(prompt='场景冻结提示词', size='1500x1125', ref_image='画风定标图', output='素材/视觉/场景定妆-{场景名}-v1.png')
-势力视觉：image_generate(prompt='势力冻结提示词', size='1500x1125', ref_image='画风定标图', output='素材/视觉/势力视觉-{势力名}-v1.png')
-地理视觉：image_generate(prompt='地理冻结提示词', size='1500x1125', ref_image='画风定标图', output='素材/视觉/地理视觉-{地名}-v1.png')
-规则视觉：image_generate(prompt='规则冻结提示词', size='1500x1125', ref_image='画风定标图', output='素材/视觉/规则视觉-{规则名}-v1.png')
+人物定妆：image_generate(prompt='人物冻结提示词', size='1125x1500', ref_image='画风定标图', output='测试/复现/复现-{角色名}-v1.png')
+场景定妆：image_generate(prompt='场景冻结提示词', size='1500x1125', ref_image='画风定标图', output='测试/复现/复现-{场景名}-v1.png')
+势力视觉：image_generate(prompt='势力冻结提示词', size='1500x1125', ref_image='画风定标图', output='测试/复现/复现-{势力名}-v1.png')
+地理视觉：image_generate(prompt='地理冻结提示词', size='1500x1125', ref_image='画风定标图', output='测试/复现/复现-{地名}-v1.png')
+规则视觉：image_generate(prompt='规则冻结提示词', size='1500x1125', ref_image='画风定标图', output='测试/复现/复现-{规则名}-v1.png')
 ```
 
 > 可传画风定标图作参考（图生图），保证画风与定标一致。
+
+> **📁 落盘三态（见 `../pop-visual-pipeline/references/落盘规范.md`）**：复现候选图统一输出到 `测试/复现/`（确保目录存在）。**§4 门禁认可后**，把达标复现图复制到 `成品/复现/`（加 `-final`），并把成品路径记入 `素材/美术设定集.md` 复现资产索引——下游 oc/comic/cover 做 `ref_image` 一律读该成品路径，禁止引用 `测试/` 候选。
 
 > **⚠️ 复现图禁止加品牌水印**：复现图是给下游 oc/comic/cover 做图生图 `ref_image` 的生产参考图。加了 `popwave.cn` 会被 Seedream 当画面内容带进下游正式成品，导致水印层层污染。水印只在**对外展示产出**（OC 立绘/封面/漫画页）落地后叠加，见各派生 skill。
 

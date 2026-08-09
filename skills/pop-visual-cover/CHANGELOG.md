@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.7.0 | 2026-08-09
+
+### 落盘三态对齐（候选→测试/封面，记录→_过程/提示词记录）
+
+按 `pop-visual-pipeline/references/落盘规范.md`：封面/场景候选图从 `素材/视觉/` 迁到 `测试/封面/`，确认后复制到 `成品/封面/`（加 `-final`）；设计记录 `素材/视觉设计方案.md` 迁到 `_过程/提示词记录.md`。`step0-research/step0-scene-understand/step1-design/step2-generate` 与 `SKILL.md` ❌4 同步。
+
 ## v1.6.0 | 2026-08-05
 
 ### 消费链路对齐：cover 意图 = 轻量基建

@@ -75,7 +75,7 @@ description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生�
 
 > 用户第一次触发本专家（无任何漫画项目、非续写场景）时，**先展示 `templates/onboarding.html`** 给用户建立认知 + 制造"哇效果"，再进入 Step 0。
 >
-> 展示方式：在回复中附带本地预览链接（`http://localhost:XXXX/onboarding.html`，showcase 图在同目录 `showcase/` 下），并用 1-2 句口头补充"它能做什么、怎么开始"。若用户已明确要开做，可跳过展示直接干活。
+> 展示方式：在回复中附带本地预览链接（`http://localhost:XXXX/onboarding.html`）。`onboarding.html` 是**单文件自包含**（showcase 图已压缩为 base64 内嵌，共约 0.5MB，**不依赖本地 `showcase/` 目录，发给任何用户都不裂图**）。若用户已明确要开做，可跳过展示直接干活。
 
 ## 记忆机制
 

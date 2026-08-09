@@ -259,7 +259,7 @@ OC 设计方案不是"从零画一个设定"，是**基于设定档案的立体�
 
 ### 7.2 落盘
 
-将方案对齐结果追加到 `素材/视觉设计方案.md`，读取 `templates/design-plan-oc.tpl.md` 模板填写。
+将方案对齐结果追加到 `_过程/提示词记录.md`，读取 `templates/design-plan-oc.tpl.md` 模板填写。
 
 ## 8. 进入 Step 2
 

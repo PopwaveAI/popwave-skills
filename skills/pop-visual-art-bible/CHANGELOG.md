@@ -1,5 +1,11 @@
 # CHANGELOG — pop-visual-art-bible
 
+## v2.3.0 | 2026-08-09
+
+### 复现资产落盘三态对齐
+
+按 `pop-visual-pipeline/references/落盘规范.md`：复现候选图输出到 `测试/复现/`，门禁认可后复制到 `成品/复现/`（加 `-final`）并记入美术设定集复现资产索引，下游 ref_image 一律读成品路径。`step3-reproduce-assets.md` 的 image_generate 输出与 `art-bible.tpl.md` 定妆/示例图路径全部改为三态。
+
 ## v2.2.0 | 2026-08-08
 
 ### 美术设定集扩为八篇：新增势力/地理/规则三篇（世界观推广素材视觉真源）

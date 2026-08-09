@@ -1,15 +1,15 @@
-# 漫画页动效渲染写法（图片为主体 + Ken Burns + 字幕）
+# 漫画页动效渲染写法（逐格阅读 + 字幕）
 
-> pop-comic-content 出片动效用「JS 驱动逐帧渲染」：单页 HTML 暴露 `window.render(t)`，agent 逐帧设时间并截图。**画面主体是漫画页图片**（整页 PNG），叠加 Ken Burns 推拉 + 字幕淡入，不用 CSS keyframes（无法精确对齐帧）、不做品宣式 HTML 元素搭建。
+> pop-comic-content 出片动效用「JS 驱动逐帧渲染」：单页 HTML 暴露 `window.render(t)`，agent 逐帧设时间渲染。**v0.8 起画面主体是漫画分格裁剪**（按`分镜标注.json`裁剪格子，横向胶片 + 相机平移），叠加字幕淡入，**不用 scale 缩放**（漫画是分格叙事，缩放破坏格子与阅读节奏）。具体逐格阅读相机写法见 `references/scene-template.md`，本文件讲通用辅助函数、时间轴与命令。
 
 ## 与 pop-video-brand 渲染的差异
 
 | 维度 | pop-video-brand（品宣） | pop-comic-content（漫画） |
 |:--|:--|:--|
-| 画面主体 | HTML 元素搭建（文字+UI截图） | **整张漫画页图片** |
+| 画面主体 | HTML 元素搭建（文字+UI截图） | **漫画分格裁剪（panel）** |
 | 画布 | 1920×1080 横版 | **1080×1920 竖版** |
-| 动效 | 元素位移/缩放 | **Ken Burns 推拉 + 字幕淡入** |
-| 分镜 | HTML 场景切换 | 每页漫画图切换 |
+| 动效 | 元素位移/缩放 | **格间平移滚动 + 字幕淡入** |
+| 分镜 | HTML 场景切换 | 逐格阅读相机（translateX） |
 
 ## 页面骨架（竖版 1080×1920）
 
@@ -50,31 +50,17 @@ function set(el,o,tr){if(el){el.style.opacity=o;el.style.transform=tr;}}
 
 ## render(t) 状态赋值
 
-**Ken Burns 推拉**：图片从 scale 1.0 → 1.12 缓动，轻微上移（模拟镜头推进）。
+**逐格阅读相机**：见 `references/scene-template.md`——横向胶片 strip + `translateX` 格间平移过渡（ease 缓动 0.45s），**不用 scale**。字幕按口播时间窗淡入淡出，**每条字幕必须带出场淡出**（`app(进场)*out(出场)`），本页第二条字幕进场前先淡出第一条，否则两条叠加重叠。
 
 ```js
-function kenburns(img, t, start, dur){
-  var p = clamp((t-start)/dur, 0, 1);
-  var s = 1.0 + 0.12 * ease(p);
-  var ty = -0.15 * 1920 * (s - 1) * p;   // 轻微上移
-  set(img, app(t,start,start+0.3)*out(t,start+dur-0.3,start+dur),
-      'scale('+s+') translateY('+ty+'px)');
-}
+// 字幕生命周期（模板无关，统一规则）
+// sub-a：进场 app(t,0.5,1.2) * 出场 out(t,2.3,2.7)，驻留期责对齐配音段
+set(document.querySelector('[data-sub="a"]'), app(t,0.5,1.2)*out(t,2.3,2.7), '');
+// sub-b：在 sub-a 出场后进场，避免重叠
+set(document.querySelector('[data-sub="b"]'), app(t,2.8,3.5)*out(t,4.4,4.8), '');
 ```
 
-**每页场景**：`scene` 整页淡入/淡出，图片做 Ken Burns，字幕按时间点淡入淡出。**每条字幕必须带出场淡出**（`app(进场)*out(出场)`），本页第二条字幕进场前先淡出第一条，否则两条叠加重叠。
-
-```js
-// 第1页 0-5s（示例；实际每页时长=该页口播总时长+余量）
-kenburns(document.querySelector('.scene[data-page="1"] img'), t, 0, 5);
-set(document.querySelector('.scene[data-page="1"]'), 1, '');
-// sub-1-1：0.5 进场，2.5 淡出（在 sub-1-2 进场前收起）
-set(document.querySelector('[data-sub="1-1"]'), app(t,0.5,1.2)*out(t,2.3,2.7), '');
-// sub-1-2：2.8 进场，4.5 淡出（页末随场景收起）
-set(document.querySelector('[data-sub="1-2"]'), app(t,2.8,3.5)*out(t,4.4,4.8), '');
-```
-
-> 字幕生命周期公式：`app(进场起,进场止) * out(淡出起,淡出止)`。进场止 → 淡出起 之间为字幕驻留期（对齐配音段时长），淡出起设在下一条进场前 0.3-0.5s。
+> 字幕生命周期公式：`app(进场起,进场止) * out(淡出起,淡出止)`。进场止 → 淡出起 之间为字幕驻留期（对齐配音段时长），淡出起设在下一条进场前 0.3s。**v0.8 起字幕按时间窗显示**（`t>=start && t<=end`），禁止用格子 id 匹配字幕 id（两者本就不同）。
 
 ## 时间轴设计（每页时长 = 该页口播总时长 + 0.5s 余量）
 
@@ -83,11 +69,12 @@ set(document.querySelector('[data-sub="1-2"]'), app(t,2.8,3.5)*out(t,4.4,4.8), '
 
 ## 常见坑
 
-- 图片 `object-fit:contain` 但要 `width/height:100%` 铺满，Ken Burns 在 transform 上做，禁止改变布局尺寸。
+- 分格裁剪用 `object-fit:cover` 填满，禁止改变布局尺寸；相机在 strip 的 `translateX` 上做，**禁用 scale**。
 - **渲染必须显式传 `--w 1080 --h 1920`**：`render_frames.py` 默认横版 1920×1080，漏传会把竖版 HTML 裁成横版。
 - 只改 `opacity` 与 `transform`，保证 Playwright 截图即时生效。
-- 图片用相对路径 `assets/page{N}.png`，与 index.html 同目录。
+- 格子截图用相对路径 `panels/{格id}.png`，与 index.html 同目录。
 - 中文字体必须显式设置（`Noto Sans CJK SC` / `WenQuanYi Micro Hei`）。
+- **字幕按时间窗显示，勿用格子 id 匹配字幕 id**（v0.8 修过此坑，匹配永远不中导致字幕永不显示）。
 
 ## 渲染与混音命令
 

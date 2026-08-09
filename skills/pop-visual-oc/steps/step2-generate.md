@@ -17,7 +17,7 @@ Step 2 的核心是**根据参考图使用方式选择正确的提示词策略**
 
 ## 1. 读取确认方案
 
-读取 `素材/视觉设计方案.md` 中的记录，提取：
+读取 `_过程/提示词记录.md` 中的记录，提取：
 - 设定档案路径（按类型）
 - 选定的形态/场景
 - 信息架构内容（六层 or 模块化，按类型）
@@ -231,25 +231,25 @@ no text, no letters, no words, no characters, no captions, no labels, no waterma
 ### 4.1 文生图（无参考图）
 
 ```text
-image_generate(prompt='[高精度提示词]', size='1125x1500', output='素材/[类型][实体名]卡-v1.png')
+image_generate(prompt='[高精度提示词]', size='1125x1500', output='测试/{类型}/{类型}-{实体名}-v1.png')
 ```
 
 ### 4.2 图生图（有参考图）
 
 ```text
-image_generate(prompt='[高精度提示词]', size='1125x1500', ref_image='素材/[参考图].png', output='素材/[类型][实体名]卡-v1.png')
+image_generate(prompt='[高精度提示词]', size='1125x1500', ref_image='成品/复现/复现-{实体}-vN-final.png', output='测试/{类型}/{类型}-{实体名}-v1.png')
 ```
 
-### 4.3 输出目录
+### 4.3 输出目录与成品确认
 
-确保输出目录存在，如不存在则创建。设定实体卡建议放 `素材/` 项目级展示资产。
+**落盘三态（见 `../pop-visual-pipeline/references/落盘规范.md`）**：OC/设定卡**候选图**统一输出到 `测试/{类型}/`（`{类型}` = 人物/势力/地理/规则/场景，确认不存在则创建）。**用户确认后**，把达标图复制到 `成品/{类型}/`（加 `-final`）。未确认前一律留在 `测试/`，禁止直接落成品。
 
 ### 4.4 叠加品牌水印（必做）
 
 OC 卡是**对外展示产出**，图片落地后用共享水印脚本叠加半透明 `popwave.cn` 小字水印（工程化后处理，**不进提示词**，避免污染 Seedream 文生图）：
 
 ```
-python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]卡-v1.png'
+python skills/pop-visual-shared/scripts/watermark.py '测试/{类型}/{类型}-{实体名}-v1.png'
 ```
 
 - 默认：右下角，alpha=80（约31%不透明，低调可见）
@@ -264,12 +264,12 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 生成无文字主视觉后，用 `templates/album-card.tpl.html`（规则/势力/地理/场景卡）或 `templates/album-character.tpl.html`（**人物卡多表达**）组装 HTML 成成品：
 
 1. **读取模板**：`skills/pop-visual-oc/templates/album-card.tpl.html`（画册页样板）或 `album-character.tpl.html`（人物卡多表达样板，含 CSS 装裱 + `{{变量}}` 占位）
-2. **填主视觉**：将生成的无文字主视觉复制到 `素材/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
+2. **填主视觉**：将生成的无文字主视觉复制到 `测试/{类型}/`，替换模板中的图片路径占位符；主视觉作为独立 `<figure>` 图框主体（铁律 A1）
 3. **填文案**：按 Step 1 门禁B 确认的信息架构，替换标题区/信息区占位符（实体名、定位、箴言、核心气质、等级色板、象征词条、类型标签、系列名）。**文案必须按 `references/mode-album-html.md` §文案设计规范 公式填写**——定位线≤14字、箴言有代价/反转、机制人话可复述、象征键=具象物；**组装前必过文案稳定性四问（有钩子/讲清机制/无黑话/圈外人3秒懂），任一不通过回写修正后再组装，禁止带介绍句风格的无钩子文案**
 4. **调排版**：按 `mode-album-html.md` §排版语言对齐精致度——渐变文字、双线边框、四角金印、图框金色托线、色块 swatch；信息区全部在图框之外（铁律 A3）
 5. **本地预览**：主视觉与 HTML 同目录，`python -m http.server` 本地预览确认排版
 6. **截成长图**：用 `scripts/screenshot_album.py` 把画册页截成高清长图（交付形态，与漫画同构）
-7. **落地**：HTML 复制到 `素材/[类型][实体名]-画册页.html`，footer 品牌水印已内嵌；长图落地到 `素材/[类型][实体名]-画册页-长图.png`
+7. **落地（成品态）**：HTML 复制到 `成品/画册页/{类型}-{实体名}-画册页.html`，footer 品牌水印已内嵌；长图落地到 `成品/画册页/{类型}-{实体名}-画册页-长图.png`
 
 > **画册页三铁律（mode-album-html.md）**：①A1 图是主角，HTML 是装裱（禁止图铺满当 background）；②A2 主视觉零文字（AI 不画字，文案全由 HTML 承载）；③A3 信息区在图框之外，不压图主体。
 
@@ -304,8 +304,8 @@ python skills/pop-visual-shared/scripts/watermark.py '素材/[类型][实体名]
 
 ```
 python skills/pop-visual-oc/scripts/screenshot_album.py \
-  '素材/[类型][实体名]-画册页.html' \
-  '素材/[类型][实体名]-画册页-长图.png'
+  '成品/画册页/{类型}-{实体名}-画册页.html' \
+  '成品/画册页/{类型}-{实体名}-画册页-长图.png'
 ```
 
 - 高清：Playwright 整页 `full_page` + `deviceScaleFactor=2`（默认 680px 视口 ×2 → 1360px 宽长图），底部质量不退化
@@ -352,7 +352,7 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 
 ## 7. 回写提示词记录
 
-生成完成后，在 `素材/视觉设计方案.md` 末尾追加（含类型字段）：
+生成完成后，在 `_过程/提示词记录.md` 末尾追加（含类型字段）：
 
 ```markdown
 ## 提示词记录
@@ -420,4 +420,4 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 | 不像参考图风格 | 模式B吸收不足 | 放开吸收范围，删掉"仅排除"限制；或切换为模式A |
 | 参考图风格没体现 | 提示词太详细压过参考图 | 精简提示词，在放权维度删除描述词 |
 
-> 迭代模式（快速路径）：用户要求修改已生成图时跳过 Step 0/1，直接读 `素材/视觉设计方案.md` 上一版方案，进入 §2-§9 修改对应维度重新生成。
+> 迭代模式（快速路径）：用户要求修改已生成图时跳过 Step 0/1，直接读 `_过程/提示词记录.md` 上一版方案，进入 §2-§9 修改对应维度重新生成。

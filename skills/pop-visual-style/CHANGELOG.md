@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.11.0 — 2026-08-09
+
+### 落盘三态对齐（定标候选→测试/画风定标）
+
+按 `pop-visual-pipeline/references/落盘规范.md` 对齐落盘：定标候选图从 `素材/视觉/` 迁到 `测试/画风定标/`，认可冻结后复制到 `素材/风格/`（基建真源）。`step3-generate.md` / `step4-style-calibrate.md` 的 `image_generate` 输出与 `batch_test.py` 的 `--out-dir` 全部改为 `测试/画风定标/`，变体 JSON 归 `_过程/脚本任务/`。
+
 ## v1.10.0 — 2026-08-09
 
 ### 画风×内容解耦（治本，防画风污染实际内容）

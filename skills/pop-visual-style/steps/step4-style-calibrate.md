@@ -71,13 +71,13 @@ an old street vendor in worn robes, weathered face, standing by a wooden stall u
 
 ```powershell
 # 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --out-dir 素材/视觉 --seed 20260803
+python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --out-dir 测试/画风定标 --seed 20260803
 
 # 只用场景类（无路人）测画风
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 素材/视觉 --seed 20260803
+python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
 
 # 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标变体.json --scene "..." --side "..." --out-dir 素材/视觉 --seed 20260803
+python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/定标变体.json --scene "..." --side "..." --out-dir 测试/画风定标 --seed 20260803
 ```
 
 - **测试素材 = 小说次要视觉锚点**（`--scene` 场景/`--side` 路人），和小说强相关、无关紧要；不传则兜底用脚本内置中性素材。
@@ -106,7 +106,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config 素材/视觉/定标�
 
 用**同一提示词 + 同一 seed** 再跑一次固定脚本，对比两张是否一致。`batch_test.py` 输出目录按 `seed-{seed}` 分级，同 seed 重跑即落在同目录，天然形成复现对比：
 
-- 复现生成：`python ../pop-visual-shared/scripts/batch_test.py --style-names "画风名" --out-dir 素材/视觉 --seed 20260803`（同 seed 重跑）
+- 复现生成：`python ../pop-visual-shared/scripts/batch_test.py --style-names "画风名" --out-dir 测试/画风定标 --seed 20260803`（同 seed 重跑，输出到 `测试/画风定标/`）
 - 对比判据：同一 seed 目录下，本次与上次的画风辨识度、配色、光影是否**稳定一致**（允许构图微差，但画风铁定）
 
 **未稳定复现不冻结。** 若复现结果画风漂移，说明提示词对 seed 敏感，需调整 DNA 或提示词（只改变体一个子维度），直到稳定复现。

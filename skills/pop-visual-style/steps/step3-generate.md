@@ -28,19 +28,21 @@
 > 生图统一走 `image_generate` 工具，不再调用 `generate.py` 直连 API（无内置 API Key）。
 
 ```text
-image_generate(prompt='提示词内容', size='1125x1500', output='素材/视觉/生成-v1.png')
+image_generate(prompt='提示词内容', size='1125x1500', output='测试/画风定标/{画风}-v1.png')
 ```
 
 图生图模式（有参考图时）：
 ```text
-image_generate(prompt='提示词内容', size='1125x1500', ref_image='素材/视觉/参考图.png', output='素材/视觉/生成-v1.png')
+image_generate(prompt='提示词内容', size='1125x1500', ref_image='测试/画风定标/参考图.png', output='测试/画风定标/{画风}-v1.png')
 ```
 
 > **画风定标/批量测试**：走固定脚本 `batch_test.py`（导出 `generation_tasks.json`），再由 `image_generate` 工具逐条生成，见 step4。
 
 ## 3. 输出目录
 
-确保输出目录存在：`素材/视觉/`，如不存在则创建。
+**落盘三态（见 `../pop-visual-pipeline/references/落盘规范.md`）**：定标候选图统一输出到 `测试/画风定标/`，确保目录存在（不存在则创建）。**认可冻结后**复制到 `素材/风格/`（基建真源），并在 `画风决策.md` 记录冻结路径——`测试/` 内不标 final，`素材/风格/` 内为冻结定标真源。
+
+> ⚠️ 定标图禁止加品牌水印（见 §1 铁律），且 `测试/画风定标/` 属可清理态，冻结到 `素材/风格/` 才算定稿。
 
 ## 4. 回写提示词记录
 

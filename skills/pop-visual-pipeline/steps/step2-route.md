@@ -24,15 +24,15 @@
 
 对照 SKILL.md Phase 路由表，路由到对应子 skill：
 
-| phase | 调度 skill | 产出 |
+| phase | 调度 skill | 产出（落盘位置，见 `references/落盘规范.md`） |
 |:------|:-----------|:-----|
 | `init` | `pop-visual-asset` | `素材/视觉资产/` |
-| `phase1` | `pop-visual-style` | `素材/风格/画风决策.md` |
-| `phase2` | `pop-visual-art-bible` | `素材/美术设定集.md` |
-| `phase3` | `pop-visual-cover` | `素材/视觉/封面-{书}-v1.png` |
-| `phase4` | `pop-visual-oc` | `素材/视觉/OC-{角色}-v1.png` |
-| `phase5` | `pop-visual-cover`(场景) | `素材/视觉/场景-{名}-v1.png` |
-| `phase6` | `pop-visual-comic` | `漫画/` |
+| `phase1` | `pop-visual-style` | `素材/风格/画风决策.md`（定标候选→`测试/画风定标/`） |
+| `phase2` | `pop-visual-art-bible` | `素材/美术设定集.md`（复现候选→`测试/复现/`） |
+| `phase3` | `pop-visual-cover` | 候选→`测试/封面/`，确认→`成品/封面/` |
+| `phase4` | `pop-visual-oc` | 候选→`测试/{类型}/`，确认→`成品/{类型}/` |
+| `phase5` | `pop-visual-cover`(场景) | 候选→`测试/场景/`，确认→`成品/场景/` |
+| `phase6` | `pop-visual-comic` | `漫画/`（自体系） |
 
 **基建就绪门禁**：进入派生层（phase3-6）前，必须验证 `素材/美术设定集.md` 存在且签核为 ✅ 已认可。缺失 = 报错中止，提示先跑基建。
 
