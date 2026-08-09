@@ -14,6 +14,8 @@ Step 2 的核心是**根据参考图使用方式选择正确的提示词策略**
 对于系列化产出，通过冻结核心特征+变化变量特征，确保同一设定在不同图中保持一致。
 
 > **HTML 组装档位**（第四档位，画册页）：不走"AI 渲染文字"，而是**两步分工**——①AI 生成一张**无文字主视觉**（图是主角）；②用 `templates/album-card.tpl.html` 组装 HTML 画册页（HTML 是装裱和排版）。详见 `references/mode-album-html.md`。本档位适用文案多/正式推广物料。**主视觉提示词必须保留 no text / no letters（铁律 A2），与 ❌7 剥离逻辑相反，见 §2.5。**
+>
+> **3A 设定集档位**（第五档位，终极形态）：HTML 组装版的升级，对标 3A 美术设定集信息丰富度。用 `templates/album-3a-*.tpl.html` 组装（多视图 / 细节特写引线 / 01-07编号 / 专属印章 / 文化沉浸 / 角落篆刻水印），详见 `references/mode-3a-setting-collection.md`。细节用 `scripts/crop_details.py` 裁图，见 §4.6。
 
 ## 1. 读取确认方案
 
@@ -315,6 +317,27 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 
 > **失败中断**：若长图缺顶部标题区/主视觉/信息区/品牌水印任一区段，视为截图失败，修正 HTML 后重截，禁止带残缺长图交付。
 
+#### 4.6 3A 设定集档位：组装（v3.7.0，第五档位）
+
+> **必读 `references/mode-3a-setting-collection.md`**（六结构 + 六项验收）。3A 设定集是 HTML 组装版的升级，继承三铁律 A1/A2/A3。
+
+当档位为 **3A 设定集**时，在 §4.5 画册页组装基础上，用 `templates/album-3a-*.tpl.html`（按类型选 character/faction/geo/rule/scene）组装，额外完成 3A 六结构：
+
+1. **多视图网格**：将 Step 1 确认的多视图清单填入 `.variants` 区（每格 `<div class="variant"><span class="idx">n</span><span class="stat">状态</span><img src="图格路径"><span class="lbl">标签</span></div>`）。素材复用存量视觉或 `crop_details.py` 裁图。
+2. **细节特写**：先跑 `crop_details.py` 从存量主视觉裁细节局部图，再填 `.detail-grid`（每格 `<div class="detail-cell"><img src="detail-xxx.jpg"><span class="dline"></span></div>`）+ `.detail-tag` 标签。**铁律❌16：细节必须复用存量视觉裁图，禁止为特写另起 AI 生图。**
+   ```
+   python skills/pop-visual-oc/scripts/crop_details.py \
+     '<主视觉图>' '<输出目录>' --config crop_xxx.json
+   ```
+3. **01-07 编号模块**：信息区 `.mod` 全部带 `.mod-idx` 编号徽标（模块映射见 `mode-3a-setting-collection.md` §结构3）。可缺省到 5 字段，编号连续跳过。
+4. **专属印章**：按 Step 1 设计的印章填入 `.seal`（人名朱文/族徽/地标徽记/规则符印/场景图腾，`.seal.plain` 为白文）。
+5. **文化沉浸**：`.poem-col` 竖排题诗 + `.meander` 几何纹饰 + `.sub-eng`/`.mod-sub` 中英双语标签。
+6. **角落篆刻水印**：右下角 `.colophon` 已经内嵌 `popwave` 篆刻签名章。**铁律❌15：3A 档位禁用底部横条/像素水印，必须用角落篆刻章。不走 `watermark.py`。**
+
+**画风多元适配**：通过替换模板 `:root` 的 CSS 变量（`--gold/--gold2/--accent3/--line/--seal-ink/--glow`）切换整套配色，一套模板适配不同赛道画风（仙侠=青碧/黛青，都市=雾蓝/冷灰，科幻=电蓝/紫）。
+
+组装完成后同样用 `scripts/screenshot_album.py` 截长图交付（见 §4.5.1），验收 3A 六项（见 `mode-3a-setting-collection.md` §验收清单）。
+
 ## 5. 系列化循环
 
 如果 Step 1 规划了系列图，在第一张生成完成后进入循环：
@@ -393,6 +416,7 @@ python skills/pop-visual-oc/scripts/screenshot_album.py \
 - [ ] **设定卡传播版模块完整**：EXACT TYPOGRAPHY 块按模块声明，总模块≤7，文字均≤15字，无超量导致乱码风险
 - [ ] **规则卡有原文依据**：主视觉载体（器物/天象/纹路）来自美术设定集规则篇，无凭空发明符号
 - [ ] HARD CONSTRAINTS 包含负面约束（禁止多指/残肢/文字乱码）
+- [ ] **3A 设定集专项（v3.7.0）**：含多视图网格（非单图）；≥2 个细节特写用 `crop_details.py` 裁图（铁律❌16，未另起 AI 生图）；信息区全部 01-07 编号模块；每实体有专属印章；文化元素（题诗/纹饰/双语）到位；水印为角落篆刻签名章（铁律❌15，未用底部横条水印）；用 `album-3a-*.tpl.html` 组装；长图已截图并过 3A 六项验收
 - [ ] image_generate 执行成功，图片已保存
 - [ ] **品牌水印已叠加**：每张落地图运行 `watermark.py`，二次运行输出"已含水印，跳过"（幂等校验）
 - [ ] 系列图一致性检查通过（如需）

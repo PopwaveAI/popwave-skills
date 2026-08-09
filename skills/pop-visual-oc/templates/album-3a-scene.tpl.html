@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{entity_name}} · 场景·3A设定集</title>
+<style>
+/* =====================================================================
+   album-3a-scene.tpl.html · 场景 3A 设定集变体
+   继承 base 结构，本文件差异：
+   - 多视图：高光多帧（view_cols=3）
+   - 细节：关键元素/氛围局部特写
+   - 01-07 模块：定位/氛围/关键元素/构图/所处情节/象征/情境一句话
+   - 印章：场景图腾（方章）
+   ===================================================================== */
+:root{--gold:{{accent}};--gold2:{{accent2}};--accent3:{{accent3}};--ink:#F2F2F5;--muted:#B9BFCD;--dim:#7E8496;
+  --line:{{accent_line}};--line-soft:{{accent_line_soft}};--seal-ink:{{seal_ink}};--glow:{{accent_glow}}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;background:#06070C;color:var(--ink);font-size:14px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;display:flex;justify-content:center;padding:48px 18px}
+.wrap{width:100%;max-width:760px;margin:0 auto}
+.frame{background:radial-gradient(760px 360px at 82% -10%,{{accent_glow}},transparent 60%),
+  radial-gradient(560px 320px at 4% 108%,{{accent2_glow}},transparent 60%),linear-gradient(180deg,#0E1018,#0A0C12);
+  border:1px solid var(--line-soft);border-radius:24px;padding:38px;position:relative}
+.frame::before{content:'';position:absolute;inset:11px;border:1px solid var(--line-soft);border-radius:17px;pointer-events:none}
+.corner{position:absolute;width:28px;height:28px;border:2px solid var(--line);opacity:.75}
+.corner.tl{top:17px;left:17px;border-right:none;border-bottom:none;border-top-left-radius:10px}
+.corner.tr{top:17px;right:17px;border-left:none;border-bottom:none;border-top-right-radius:10px}
+.corner.bl{bottom:17px;left:17px;border-right:none;border-top:none;border-bottom-left-radius:10px}
+.corner.br{bottom:17px;right:17px;border-left:none;border-top:none;border-bottom-right-radius:10px}
+
+.head{text-align:center;padding:6px 0 24px;position:relative;z-index:1}
+.head .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.series-tag{font-size:10.5px;letter-spacing:2.5px;color:var(--gold);border:1px solid var(--line);padding:4px 14px;border-radius:20px}
+.type-tag{font-size:11px;font-weight:800;letter-spacing:.6px;background:linear-gradient(135deg,var(--gold),{{accent3}});color:{{tag_fg}};padding:4px 14px;border-radius:5px}
+.entity-name{font-size:54px;font-weight:900;letter-spacing:.13em;line-height:1.05;
+  background:linear-gradient(120deg,{{grad_c1}},var(--gold) 48%,{{grad_c3}});
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 4px 22px {{accent_glow}})}
+.positioning{margin-top:12px;font-size:14px;letter-spacing:.42em;color:var(--gold2);font-weight:600}
+.sub-eng{margin-top:6px;font-size:10px;letter-spacing:.3em;color:var(--dim)}
+.rule-line{width:90px;height:1px;margin:16px auto 0;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+
+.figure{position:relative;z-index:1;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.6);margin:0}
+.figure img{display:block;width:100%;height:auto;object-fit:cover}
+.figure::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.main-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px 16px 10px;
+  background:linear-gradient(to top,rgba(6,7,12,.9),transparent);font-size:12px;letter-spacing:.34em;color:var(--gold);font-weight:700;text-align:center}
+
+.variants{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;position:relative;z-index:1}
+.variant{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:rgba(14,16,24,.6);transition:.18s}
+.variant:hover{border-color:var(--line);transform:translateY(-2px)}
+.variant img{display:block;width:100%;height:auto;object-fit:cover}
+.variant .lbl{position:absolute;left:0;right:0;bottom:0;padding:14px 10px 9px;font-size:10.5px;letter-spacing:.2em;color:var(--ink);font-weight:700;
+  background:linear-gradient(to top,rgba(6,7,12,.9),transparent)}
+.variant .idx{position:absolute;top:8px;left:8px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:#0A0C12;background:linear-gradient(135deg,var(--gold),{{accent3}})}
+.variant .stat{position:absolute;top:0;right:0;padding:4px 9px;font-size:9.5px;letter-spacing:.15em;font-weight:800;
+  background:rgba(6,7,12,.72);color:var(--gold);border-bottom-left-radius:9px}
+
+.detail-wrap{position:relative;z-index:1;margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:rgba(14,16,24,.5)}
+.detail-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:10.5px;letter-spacing:.24em;color:var(--gold);font-weight:800}
+.detail-head .mod-idx{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--gold),{{accent3}});color:#0A0C12;
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.detail-strip{position:relative}
+.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px}
+.detail-cell{position:relative;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,.10)}
+.detail-cell img{display:block;width:100%;height:auto;object-fit:cover}
+.detail-cell .dline{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:1px;height:14px;background:var(--line)}
+.detail-tag{position:relative;z-index:2;text-align:center;font-size:10px;letter-spacing:.14em;color:var(--gold);font-weight:700;padding:4px 2px 11px}
+
+.info{position:relative;z-index:1;padding:26px 6px 0;display:flex;flex-direction:column;gap:14px}
+.mod{border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:16px 18px;background:rgba(14,16,24,.42);transition:.18s}
+.mod:hover{border-color:var(--line-soft);transform:translateY(-1px)}
+.mod-head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.mod-idx{flex-shrink:0;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),{{accent3}});color:#0A0C12;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.mod-title{font-size:13px;font-weight:800;letter-spacing:.3em;color:var(--gold)}
+.mod-sub{font-size:9.5px;letter-spacing:.2em;color:var(--dim);margin-left:auto}
+.mod-body{font-size:13px;line-height:1.95;color:var(--muted);letter-spacing:.03em}
+.mod-body b{color:var(--gold);font-weight:700}
+
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:7px 18px}
+.kv-item{display:flex;align-items:baseline;gap:10px}
+.kv-item .k{font-size:10.5px;font-weight:800;color:var(--gold);letter-spacing:.15em;flex-shrink:0}
+.kv-item .v{font-size:12.5px;color:var(--muted)}
+
+.creed{text-align:center;padding:4px 0}
+.creed .q{font-size:17px;letter-spacing:.15em;color:#E9C98C;font-weight:700;line-height:1.9;text-shadow:0 2px 14px {{accent_glow}}}
+.creed .src{margin-top:4px;font-size:10px;color:var(--dim);letter-spacing:.25em}
+
+.culture{position:relative;padding:18px 0 6px;text-align:center}
+.meander{display:flex;justify-content:center;gap:8px;margin-bottom:12px;opacity:.45}
+.meander i{display:block;width:26px;height:10px;border-top:2px solid var(--gold);border-bottom:1px solid var(--gold);position:relative}
+.meander i::before{content:'';position:absolute;left:9px;top:0;width:2px;height:10px;background:var(--gold)}
+.poem-col{display:inline-flex;flex-direction:column-reverse;gap:2px;max-height:190px;flex-wrap:wrap;writing-mode:vertical-rl;direction:rtl;padding:0 6px}
+.poem-col .ln{font-size:15px;letter-spacing:.32em;color:var(--gold2);font-weight:700;line-height:1.9}
+.poem-col .ln small{font-size:9px;letter-spacing:.2em;color:var(--dim);font-weight:400}
+.poem-src{margin-top:10px;font-size:9.5px;letter-spacing:.24em;color:var(--dim)}
+
+.seal-block{display:flex;align-items:center;gap:16px;justify-content:center;padding:6px 0}
+.seal{flex-shrink:0;width:64px;height:64px;border:2px solid var(--seal-ink);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;color:var(--seal-ink);font-size:17px;font-weight:900;letter-spacing:.16em;line-height:1.1;text-align:center;
+  background:rgba(142,47,42,.05);box-shadow:inset 0 0 0 3px rgba(142,47,42,.12)}
+.seal.plain{color:#F2F2F5;background:var(--seal-ink);box-shadow:inset 0 0 0 3px rgba(242,242,245,.25)}
+.seal-caption{font-size:10.5px;letter-spacing:.22em;color:var(--gold2);font-weight:700;line-height:1.8}
+.seal-caption small{display:block;font-size:9px;color:var(--dim);letter-spacing:.16em;font-weight:400}
+
+.colophon{position:absolute;right:26px;bottom:22px;z-index:3;display:flex;flex-direction:column;align-items:center;opacity:.5;transition:.2s}
+.colophon:hover{opacity:.9}
+.colophon .avor{width:46px;height:46px;border:1.5px solid var(--seal-ink);border-radius:6px;display:flex;align-items:center;justify-content:center;
+  color:var(--seal-ink);font-size:13px;font-weight:900;letter-spacing:.1em;background:rgba(142,47,42,.04)}
+.colophon .cap{font-size:8px;letter-spacing:.2em;color:var(--dim);margin-top:4px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.figure{animation:fadeUp .7s ease both}
+.variants,.detail-wrap{animation:fadeUp .9s .08s ease both}
+.info{animation:fadeUp 1s .16s ease both}
+
+@media(max-width:560px){
+  body{padding:22px 10px}
+  .frame{padding:24px}
+  .frame::before{inset:7px}
+  .entity-name{font-size:38px}
+  .variants{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:repeat(2,1fr)}
+  .info{padding:20px 2px 0}
+  .kv{grid-template-columns:1fr}
+  .colophon{right:16px;bottom:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+
+    <div class="head">
+      <div class="topbar">
+        <span class="series-tag">{{series_name}}</span>
+        <span class="type-tag">场景 · 3A设定集</span>
+      </div>
+      <div class="entity-name">{{entity_name}}</div>
+      <div class="positioning">{{positioning}}</div>
+      {{sub_eng}}
+      <div class="rule-line"></div>
+    </div>
+
+    <figure class="figure">
+      <img src="{{visual_path}}" alt="{{entity_name}}主视觉">
+      <div class="main-cap">{{main_cap}}</div>
+    </figure>
+
+    <!-- 高光多帧 -->
+    <div class="variants">
+      {{variant_items}}
+    </div>
+
+    <!-- 关键元素/氛围细节 -->
+    <div class="detail-wrap">
+      <div class="detail-head"><span class="mod-idx">02</span>细节特写 · 关键元素 / 氛围局部</div>
+      <div class="detail-strip">
+        <div class="detail-grid">
+          {{detail_items}}
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      <!-- 01 定位 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">01</span><span class="mod-title">定位</span>
+          <span class="mod-sub">{{position_sub}}</span></div>
+        <div class="mod-body">{{position_text}}</div>
+      </div>
+
+      <!-- 03 氛围基调 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">03</span><span class="mod-title">氛围基调</span>
+          <span class="mod-sub">{{aura_sub}}</span></div>
+        <div class="creed"><div class="q">{{aura_text}}</div><div class="src">{{aura_src}}</div></div>
+      </div>
+
+      <!-- 04 关键元素 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">04</span><span class="mod-title">关键元素</span>
+          <span class="mod-sub">{{element_sub}}</span></div>
+        <div class="kv">
+          {{element_items}}
+        </div>
+      </div>
+
+      <!-- 05 构图 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">05</span><span class="mod-title">构图骨架</span>
+          <span class="mod-sub">{{composition_sub}}</span></div>
+        <div class="mod-body">{{composition_text}}</div>
+      </div>
+
+      <!-- 06 所处情节 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">06</span><span class="mod-title">所处情节</span>
+          <span class="mod-sub">{{plot_sub}}</span></div>
+        <div class="mod-body">{{plot_text}}</div>
+      </div>
+
+      <!-- 07 情境一句话 -->
+      <div class="mod">
+        <div class="mod-head"><span class="mod-idx">07</span><span class="mod-title">情境一句话</span>
+          <span class="mod-sub">{{one_line_sub}}</span></div>
+        <div class="creed"><div class="q">{{one_line_text}}</div><div class="src">{{one_line_src}}</div></div>
+      </div>
+    </div>
+
+    <!-- 场景图腾方章 -->
+    <div class="seal-block">
+      <div class="seal {{seal_style}}">{{seal_text}}</div>
+      <div class="seal-caption">{{seal_caption}}<small>{{seal_sub}}</small></div>
+    </div>
+
+    <!-- 题诗 -->
+    <div class="culture">
+      <div class="meander"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="poem-col">
+        {{poem_lines}}
+      </div>
+      <div class="poem-src">{{poem_src}}</div>
+    </div>
+
+    <div class="colophon">
+      <div class="avor">pop<br>wave</div>
+      <div class="cap">让创意一键落地</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
