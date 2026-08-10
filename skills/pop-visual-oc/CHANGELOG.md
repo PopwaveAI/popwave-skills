@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## v5.0.0 | 2026-08-10
+
+### 唯一大范式：字槽混合式（废弃旧 HTML 拼接路径）
+
+老板定调："旧路径我建议先干掉，那个有点像网页设计，但我们用户目前用不上，就用这版本新的。" 诊断根因——旧的一图流（mask 融入画布）与画册页/3A（长滚动 HTML 装裱）本质是"网页设计"思维，图与 HTML 拼接生硬割裂（V3 验证暴露：边缘不融合、不像同一张图）。本版把 skill 收敛为**唯一大范式：字槽混合式**——AI 底图直出完整构图（画面主体 + 短书法题字 + 印章 + 预留字槽留白块），HTML 只在预留字槽补长效文字，整图截图即成品。图与字在设计阶段协同规划（先定字槽，再按字槽出图，再在字槽补字）。
+
+- **`references/layout.md`（重写）**：由"两种版面形态"改为**唯一大范式**——字槽混合式 A1-A4 四铁律（A1 图是主角 / A2 字槽规划先行 / A3 信息区不压图 / A4 文字分工守则）；文字分工表（短书法字 AI 直出 vs 长效文字 HTML 补）；字槽规划维度（Step 1 必答）；**跨赛道赛道 token 包**（古风/赛博朋克/都市现代/科幻/暗黑）+ **画风库联动映射**（`style-dna-library.json` category → 模板 data-track）；画幅与截图；字槽规划要点（Step 2 落进提示词）；技术脚本
+- **`references/content.md`（更新）**：顶部范式说明改为字槽混合式；新增**字体系统**（本机已确认中文字体 + font-family 回退写法 + 字体选择规则，铁律❌7）
+- **`templates/ocr-1flow.tpl.html`（新建，替代 album-1flow + album-deep 两套旧模板）**：字槽混合式唯一模板——AI 底图铺满画布 + 字槽 overlay（CSS 变量 `--slot-x/-y/-w` 定位对齐底图留白块）+ 本机书法字体补长效文字；**`body[data-track="..."]` 内置 5 套赛道 token 包**（古风/赛博朋克/都市现代/科幻/暗黑，字体/配色/装饰随赛道切换）；五类内容一张模板
+- **`templates/album-1flow.tpl.html` / `album-deep.tpl.html`（删除）**：废弃旧 HTML 拼接路径（网页设计思维，图与 HTML 割裂）
+- **step0 新增需求确认**：生成前先问内容类型/用途传播场景/画风偏好/是否参考图/画幅比例，避免返工
+- **step1 重写**：新增字槽规划（核心，出图前必答）+ **选赛道 + 画风库联动**（按画风库 category 映射模板 data-track 赛道 token）+ 成图效果预估（组装前用 HTML 骨架占位预估最终成品）+ 文字分工标注
+- **step2 重写**：生成含字槽底图（提示词明确预留字槽空白块 + 画风库 DNA 回填 + AI 直出短书法字）→ HTML 在字槽补长效文字（赛道 token 应用）→ 整图截图；自检新增字槽干净/字槽对齐/短书法字 AI 直出项
+- **`templates/design-plan-oc.tpl.md`（重写）**：新增字槽规划表 + 文字分工列 + 成图效果预估 + 赛道 token/画风库字段
+- **SKILL.md 重构**：唯一大范式 + **跨赛道说明**；铁律收敛为 4A + ❌1-❌9（新增 ❌9 跨赛道必选赛道 token）；速查表模板入口改 `ocr-1flow.tpl.html`
+- **版本同步**：SKILL.md / skill.json 至 v5.0.0；skill.json 移除"画册页/3A设定集/一图流"旧触发词
+
+---
+
+## v4.0.0 | 2026-08-10
+
+### 整体重构：合并冗余为两篇方法论 + 两套模板（全 OC 统一大范式）
+
+老板定调："整体性审视一下这个 skill，非常冗杂，reference/template/step 都很混乱。一图流本身得到认可，要求 ocskill 产出的所有图都达到一图流质量。" 诊断根因——六篇 mode-* 方法论互相重叠、十套模板碎片化、step 冗长重复。本版把整个 skill 收敛为**一套大范式 + 两篇方法论 + 两套模板 + 三个瘦身 step**。
+
+- **`references/layout.md`（新建，替代 mode-1flow/mode-album-html/mode-3a-setting-collection）**：版面范式总纲——大范式三铁律 A1/A2/A3（全 OC 统一）；两种版面形态（一图流单屏 / 深度设定集长滚动）；画风 CSS 变量切换；两条技术脚本
+- **`references/content.md`（新建，替代 mode-character/mode-setting-cards/mode-character-multi）**：内容方法论——五类信息架构 + 文案 SOP（钩子架构三明治 + 稳定性四问）+ 视觉系统（印章/题诗/小传/花语/画风做减法）
+- **`templates/album-1flow.tpl.html`（新建，替代 album-1flow-scene.tpl.html）**：一图流通用模板，CSS 变量驱动五类+画风，mask 融入画布
+- **`templates/album-deep.tpl.html`（新建，替代 album-3a-base + 五变体 + album-card + album-character）**：深度设定集单文件两态（mode=album 画册页 / mode=3a 3A增强），`{{type}}` 驱动五类信息架构
+- **step0/step1/step2 全部瘦身**：从冗长重复改为自导电骨架，引用核心方法论而非重复内容；档位收敛为三种版面形态（一图流/深度·album/深度·3a）
+- **`templates/design-plan-oc.tpl.md` 瘦身**：按版面形态选信息架构，公式集中在 content.md
+- **SKILL.md 重构**：骨架式（做什么→SOP→铁律→速查表）；铁律收敛为 3A + 10 条（移除冗余，❌7 no text 剥离逻辑不再需要——全 OC 统一零文字大范式）
+- **版本同步**：SKILL.md / skill.json 至 v4.0.0；新增"一图流" slash 命令
+
+---
+
 ## v3.7.0 | 2026-08-10
 
 ### 3A 设定系列档位：对标 3A 美术设定集的信息丰富度（五档位 + 通用/稳定/多元适配）

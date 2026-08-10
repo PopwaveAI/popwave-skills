@@ -41,26 +41,114 @@ SIZE = "1125x1500"           # 页漫默认尺寸（总像素 169 万 ≤ 236 �
 MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
 
 # 输出目录（章节级）
-OUTPUT_DIR = r"第1章/output"
+OUTPUT_DIR = r"d:\popwave-skills\第3章\output"
 
-# 定妆图根目录（项目级，跨章复用）
-CHAR_ASSETS_DIR = r"assets/characters"
+# 定妆图根目录（跨章复用，字符图实际存放位置）
+CHAR_ASSETS_DIR = r"C:\Users\AWMPRO\.openclaw-novel-buddy\media\tool-image-generation"
 
 # 页面列表（每页是一张包含多格的完整漫画图）
 PAGES = [
     {
         "id": "page1",
-        "prompt": "A vertical manga comic page with 4 panels arranged in a 2x2 grid. "
-                  "Panel 1: A thin girl crouches before a broken stove, stirring porridge. "
-                  "Panel 2: Close-up of her face, firelight illuminating her tired eyes. "
-                  "Panel 3: She walks through a muddy street carrying a basket. "
-                  "Panel 4: A tall merchant grabs her wrist at a market stall. "
-                  "Dark fantasy semi-realistic manga style, watercolor texture, muted tones with warm firelight accents. "
-                  "NEG<TEXT>",  # 见下方 text_control 常量，生成时替换为锁定负面词
-        "ref_images": ["char-苏午-v1.png"],  # 角色定妆图参考（可多张）
-        "size": "1125x1500",  # 可选，默认用 SIZE（总像素须 ≤236万）
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical manga comic page with a top section of three small compressed horizontal panels stacked tightly (each about 15% height, total 45%) and one large full-width horizontal panel at the bottom (55% height). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. Morning dim cold sunlight filtering through an oil-paper window, a gnarled tree shadow cast on the window like a ghost, a lean 24-year-old man lying on a rough bed in a small clay-stove hut, messy black short hair, pale sickly face, worn gray-brown coarse cotton clothes.\n"
+                  "Panel 2: EXTREME CLOSE-UP. extreme negative space, minimal composition. A translucent blue glowing semi-transparent system panel floating in the dark air, abstract luminous light patterns, one small brilliant cold light dot at the center, vast empty darkness around it.\n"
+                  "Panel 3: CLOSE-UP, high angle looking down. vulnerable composition. The lean man's closed eyes, brows slightly furrowed in deep concentration, pale sickly face under soft morning light, subtle blue glow reflecting on his skin.\n"
+                  "Panel 4: WIDE SHOT, low angle. diagonal composition. In a dark void, a straight luminous path abruptly splits into a side branch, the lean man's gray-clothed silhouette leaping into the branch, blue energy bloom, glowing particles, dynamic surging lines.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png"],
+        "size": "1125x1500",
     },
-    # ... 更多页请自行添加
+    {
+        "id": "page2",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a large full-page background panel of a grand scene (65% height). Two smaller foreground panels overlap on top of the background: a medium square panel in the lower-left and a small panel in the lower-right. The foreground panels have distinct borders to separate them from the background. Thick framing.\n"
+                  "Panel 1: EXTREME WIDE SHOT, high angle looking down. vulnerable composition. In a vast dark void, a straight luminous time-line path abruptly splits into an IF branch with a subtle warm color shift, a tiny gray silhouette of a man plunging into the branch, cold volumetric fog drifting, boundless cosmic emptiness.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing through a window. The lean gray-clothed man opening his eyes, everything unchanged, still lying on the rough bed in the clay-stove hut, soft morning light on his face.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. Steam and warmth rising from a steaming bowl of thin porridge seen through a gap in the window, warm ambient glow against the cold dim room, a few floating dust motes catching light.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page3",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. A rough wooden table with three bowls of thin porridge; the center bowl (a lean gray-clothed man's) is thick with beans, rice and wild greens, while the two side bowls hold nearly clear broth. The lean man seated holding his bowl, a plump soft woman and a thin 6-year-old girl with two small buns seated opposite.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, diagonal composition. The plump soft woman with black hair in a simple bun gently scolding her daughter, warm caring earnest expression, gesturing toward the father's bowl.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. The thin 6-year-old girl with two small buns and big hungry eyes staring at the beans in her father's bowl, drooling, longing sorrowful expression, warm glow on her hollow cheeks.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page4",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with only the upper half (50% height) occupied by a single full-width full-bleed comic art panel without any borders or gutters, the lower half left as empty plain blank space with no panels, no gutters, no borders, reserved purely as a clean background for text overlay.\n"
+                  "Panel 1: EXTREME WIDE SHOT, high angle looking down. vulnerable composition. A vast cotton field at dusk on barren outskirts, a tiny lone figure with a hoe standing small in the field, distant dark silhouettes of a wealthy estate's cotton mill, oppressive heavy dark sky, cold volumetric haze, desolate and stifling atmosphere.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": [],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page5",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a left column of 3 stacked panels (60% width) and a large full-height panel on the right (40% width). Left column: top panel 60% height, middle panel 20% height, bottom panel 20% height. Right panel occupies the full page height. Inside the right panel, a small inset panel in the upper-left corner (15% of the right panel). Thin black gutters.\n"
+                  "Panel 1: MEDIUM CLOSE-UP, diagonal composition. The plump woman slapping a pair of chopsticks on the table in feigned anger, the thin 6-year-old girl flinching, lowering her head in apology, family meal scene.\n"
+                  "Panel 2: EXTREME CLOSE-UP. extreme negative space. The lean man's hand picking a few beans from his bowl and placing them into the girl's bowl, warm light.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. The small girl's little hand picking the beans back into her father's bowl, gentle determined gesture.\n"
+                  "Panel 4: CLOSE-UP, eye level. framing, warm ambient glow. The thin 6-year-old girl breaking into a tearful bright smile, eyes shining with both sorrow and love, silvery tears on her hollow cheeks, warm halo light, emotional peak, luminous glow highlights.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page6",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with one large vertical panel on the left (60% height) and two smaller panels side by side at the bottom (40% height). Thin black gutters between all panels.\n"
+                  "Panel 1: SILHOUETTE SHOT, high angle looking down. A plump woman's silhouette walking toward a cotton mill in pale morning light, back view, small lonely figure, distant cotton mill, cold haze, quiet and weary.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing through a doorway. The thin 6-year-old girl with two small buns sitting in the room practicing embroidery, carefully stitching a small flower on a cloth, focused and earnest.\n"
+                  "Panel 3: MEDIUM SHOT, eye level. rule of thirds. The lean gray-clothed man sitting alone in the room, thoughtful distant expression, gazing off into the light, quiet solitude.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page7",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a large full-page background panel of a grand scene (65% height). Two smaller foreground panels overlap on top of the background: a medium square panel in the lower-left and a small panel in the lower-right. The foreground panels have distinct borders to separate them from the background. Thick framing.\n"
+                  "Panel 1: WIDE SHOT, eye level. extreme negative space. Night, the clay-stove hut with dim flickering candlelight, a curtain separating two beds, a small girl sleeping on the far side, cold night atmosphere, faint fog, quiet and intimate.\n"
+                  "Panel 2: SILHOUETTE SHOT. foreground silhouette occluding view, layered depth. Two figures lying close together under a quilt, soft silhouettes partially hidden by the draped curtain, dim candlelight casting gentle shadows, tasteful and restrained intimacy, focus on mood not explicit content.\n"
+                  "Panel 3: CLOSE-UP, eye level. warm ambient glow. In the darkness, the plump woman's face showing a delighted warm smile, eyes soft, realizing her husband has recovered, warm luminescent glow in the dark.\n"
+                  "IMPORTANT: 2 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page8",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. At night, the lean man and plump woman lying close together under the quilt talking silently, window showing dark cold night, faint fog, intimate but restrained, peaceful.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing. The plump woman speaking seriously, solemn earnest expression, telling a grave matter, cold blue hint of mood.\n"
+                  "Panel 3: EXTREME CLOSE-UP. visual juxtaposition, two contrasting elements side by side in frame. The plump woman's playful cunning teasing smile, a spark of girlish mischief in her eyes, subtle dark mysterious shadow looming behind her, contrast between her light teasing and the dark hint.\n"
+                  "IMPORTANT: 2 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png"],
+        "size": "1125x1500",
+    },
 ]
 
 # ===== 文字控制负面词（2026-08-03 实测锁定，见 references/content-layer.md §六）=====

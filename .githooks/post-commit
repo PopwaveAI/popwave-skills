@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+echo "Running post-commit sync (push + popwave/trae mirror)..."
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo "npm is required to run post-commit sync."
+  exit 0
+fi
+
+# --post-commit: only push + sync, no commit (avoids recursive hook trigger)
+npm run --silent publish:post >/dev/null 2>&1 || npm run publish:post || true
+
+exit 0
