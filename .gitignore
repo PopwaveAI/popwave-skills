@@ -83,3 +83,8 @@ Popwave品宣视频*.mp4
 番茄现状盘点.md
 IP宇宙构筑-skill体系顶层设计.md
 P0粮种评估报告.md
+
+# Bug diagnostic runs & AI-flavor test artifacts (kept locally, not in skill repo)
+bug排查/
+ai-flavor-test/
+popwave-移动端-隧道穿透-技术方案.md
