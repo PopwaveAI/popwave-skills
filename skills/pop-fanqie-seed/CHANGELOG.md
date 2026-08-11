@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v13.20.0 (2026-08-11)
+
+### 新增知识地图 + 触发锚定 + 目录名统一
+
+**背景**：reference 是"可选读物"，agent 默认跳过。试点解法：SKILL.md 加知识地图（强注入必到），写崩级 reference 在 step 内绑触发条件。
+
+**改动**：
+- **SKILL.md**：新增「🗺️ 知识地图」区块——reference 读取索引（design-guide🔴写崩级 / synopsis/dna-example/showcase🟡提品级）；目录名 `reference/`→`references/` 统一
+- **steps/step2.md**：2e 故事纲领加触发锚定（必读 design-guide.md🔴）；番茄简介加触发锚定（建议读 synopsis-guide.md🟡）
+- **skill.json**：version 13.19.0→13.20.0
+
+---
+
 ## v13.19.0 (2026-07-23)
 
 ### step1.md瘦身优化

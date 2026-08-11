@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.9.0：知识地图试点（reference 读取索引）。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
 
 ## 做什么
 
@@ -79,9 +79,16 @@ Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道�
 | `steps/step2.md` | 路由时读取 | Phase路由规则+state更新+脚本调用 |
 | `scripts/generate-state-html.py` | 每次更新state.md后运行 | 读取state.md→生成project-state.html |
 | `templates/project-state.html.tpl` | 脚本自动使用 | HTML可视化模板 |
+| `references/onboarding-guide.md` | 用户第一次触发（首次对话引导）时 | C端口吻引导语——「🚪 首次对话引导」区块强触发输出全文 |
+
+## 🗺️ 知识地图（reference 读取索引）
+
+> pipeline 只有 1 个 reference，且为强触发式（首次对话引导），无需分级。**看就记住，别读全文**。
+
+| 参考 | 级别 | 什么时候必须读（触发条件） |
+|:--|:--|:--|
+| `references/onboarding-guide.md` | 🔴强触发 | **用户第一次触发番茄专家时必读**——SKILL.md「首次对话引导」区块声明输出全文，建立作者认知 |
 
 ## 版本
 
-v3.5.0 | 2026-08-05 | 全链路质量升级：world/plot/write/character/review五大skill同步从起点汲取质量增益经验 → [CHANGELOG.md](CHANGELOG.md)
-
-v3.4.0 | 2026-07-24 | 新增导入/续写模式（Step 0），支持已有历史资料/正文时跳过从零初始化 → CHANGELOG.md
+v3.9.0 | 2026-08-11 | 知识地图试点：速查表补 onboarding-guide 条目 + 新增知识地图区块 → [CHANGELOG.md](CHANGELOG.md)

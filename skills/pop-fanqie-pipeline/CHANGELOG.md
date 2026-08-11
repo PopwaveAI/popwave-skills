@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v3.9.0 (2026-08-11)
+
+### 知识地图试点
+
+**背景**：reference 是"可选读物"，agent 默认跳过。pipeline 作为调度器，补统一知识地图区块。
+
+**改动**：
+- **SKILL.md**：速查表补 `references/onboarding-guide.md` 条目；新增「🗺️ 知识地图」区块（onboarding-guide🔴强触发）；版本描述更新 v3.8.0→v3.9.0
+- **skill.json**：version 3.8.0→3.9.0，description 补知识地图
+
+---
+
 ## v3.8.0 (2026-08-11)
 
 ### 小说快照 → 剧情白描流水账
