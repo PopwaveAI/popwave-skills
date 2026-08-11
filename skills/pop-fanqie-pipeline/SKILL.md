@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.6.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向番茄向网文作者）。v3.5.0：全链路质量升级（world/plot/write/character/review）。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
 
 ## 做什么
 

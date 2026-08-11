@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-write",
-  "version": "8.5.0",
+  "version": "8.6.0",
   "displayName": "番茄正文渲染",
-  "description": "当用户说'番茄write/番茄写作/写正文'时启用。章型骨架驱动结构，状态驱动连续性，笔触DNA驱动笔触，2000-2500字/章。6种章型7节拍骨架+3类16种微观技法索引+三态协议。",
+  "description": "当用户说'番茄write/番茄写作/写正文'时启用。章型骨架驱动结构，状态驱动连续性，笔触DNA驱动笔触，2000-2500字/章。6种章型7节拍骨架+3类16种微观技法索引+三态协议+剧情白描流水账长线锚。",
   "tags": ["正文写作"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-write", "番茄write", "番茄写作"] },
