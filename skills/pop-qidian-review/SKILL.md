@@ -16,7 +16,7 @@ description: 起点章节审核引擎。当用户说"审稿""审核""review"时�
 | 产出文件 | 核心内容 |
 |:--|:--|
 | `审核/chNNN-审核报告.md` | 四步审核结论+gap清单+好看度4问+反向补强建议+主角变化+钩子追踪 |
-| `current-state.md`（更新） | 下一章硬推进+人物状态+燃料队列+伏笔债务+DNA执行包 |
+| `current-state.md`（更新） | 上一章白描（回溯锚）+信息差+钩子回收+禁止漂移+DNA执行包 |
 | `审核/小说快照.md`（replace） | 全书累计视图：进度/涌现设定/角色状态总表/剧情线/读者已知信息池/待回收伏笔 |
 | `审核/review-沉淀.md`（追加） | 每章审稿判断+问题+修正规则（append-only） |
 
@@ -37,7 +37,7 @@ AI味检测（15项patterns+高疲劳词3级+结构性4项+自检）+ 笔触DNA 
 审完正文后反向评估：大纲/施工卡、设定库、角色卡、燃料库是否足以指导下一章创作。产出补强建议清单。
 
 ### Step 4：剧情沉淀 → `steps/step-2-commit.md`
-输出审核报告+更新current-state（归档旧版→写新版）+更新小说快照（replace）+追加review-沉淀日志。
+输出审核报告+更新current-state（白描驱动版，归档旧版→写新版）+更新小说快照（replace+三档压缩）+追加review-沉淀日志。
 
 ### Reconstruct模式：批量回溯审核 → `steps/step-reconstruct.md`
 导入/续写模式触发。对已有正文逐章回溯审核（采样策略），生成current-state+小说快照+review-沉淀，为续写提供状态基础。
@@ -70,4 +70,4 @@ AI味检测（15项patterns+高疲劳词3级+结构性4项+自检）+ 笔触DNA 
 
 ## 版本
 
-v3.5.0 | 2026-07-26 | AI味检测升级：7项→15项patterns+高疲劳词3级+结构性4项+自检 → [CHANGELOG.md](CHANGELOG.md)
+v3.6.0 | 2026-08-11 | current-state白描化：回溯交给剧情白描+信息差+钩子回收+禁止漂移，小说快照三档压缩防膨胀 → [CHANGELOG.md](CHANGELOG.md)
