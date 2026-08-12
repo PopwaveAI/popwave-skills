@@ -1,12 +1,10 @@
----
-name: short-platform-orientation
-description: "当用户说'选平台/平台定位/投哪个平台'或在短篇创作流程刚开始需要确定目标平台时启用。对比各大短篇平台的调性、字数、付费模式和热门品类，结合作者题材和目标深度匹配最适合的1-2个平台。"
----
 # short-platform-orientation
-> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v1.0.0
+> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v1.0.1
+
 ## 做什么
 输入：作者意向（题材倾向/核心目标/现有想法，可能全空）
-输出：平台定位卡片 + 传递 idea-refiner 的流转上下文
+输出：平台定位卡片 + 传递 idea-refiner 的流转上下文 + **项目总览.md（首次生成）**
+
 ## 怎么操作（SOP骨架）
 > execution.mode: 串行 | 强保障：本 SKILL.md 由 host 层每次 run 强制注入 | 弱保障：steps/ 需 agent 主动 Read
 
@@ -14,7 +12,37 @@ description: "当用户说'选平台/平台定位/投哪个平台'或在短篇�
 |:-----|:-----|:-----|:----------|
 | Step 1 | 快速摸底（3问），如果作者已带明确意向则跳过 | 题材/目标/想法就绪 | `steps/step1-survey.md` |
 | Step 2 | 平台深度匹配。基于题材+意图展开1-2个最适合的平台，其余简述 | 平台匹配分析 | `steps/step2-match.md` |
-| Step 3 | 输出定位卡片 + 流转上下文。文章性质由平台自动推导 | `step1-平台定位.md` | `steps/step3-output.md` |
+| Step 3 | 输出定位卡片 + 流转上下文 + **创建/初始化项目总览.md** | `step1-平台定位.md` + `项目总览.md` | `steps/step3-output.md` |
+
+## 项目总览.md 模板
+
+首次执行 Step 3 时必须创建 `项目总览.md`，后续所有 Step 按此格式更新：
+
+```markdown
+# 项目总览
+
+> 更新日期：YYYY-MM-DD ｜ 当前阶段：Step N 名称
+
+## 流程进度
+
+<!-- STAGE_TABLE_START -->
+| ID | Step | 状态 | 摘要 |
+|:--|:--|:--|:--|
+| S1 | 平台定位 | 🟡 | — |
+| S2 | 脑洞提炼 | ⬜ | — |
+| S3 | 开篇设计 | ⬜ | — |
+| S4 | 剧情结构 | ⬜ | — |
+| S5 | 正文生成 | ⬜ | — |
+| S6 | 评审 | ⬜ | — |
+<!-- STAGE_TABLE_END -->
+```
+
+**状态约束：**
+- 仅三种：`⬜` 未开始 / `🟡` 进行中 / `✅` 完成
+- **有且仅有 1 个 Step 为 🟡**
+- `STAGE_TABLE_START` 和 `STAGE_TABLE_END` 标记不可删除
+- ID（S1-S6）不可改动
+- 如用户跳过某 Step，标记为 `✅ 已跳过`，不可留 `⬜`
 
 ## 平台 × 性质推导
 | 平台 | 自动性质 |
@@ -41,10 +69,10 @@ description: "当用户说'选平台/平台定位/投哪个平台'或在短篇�
 |:-----|:----------|:----------|
 | `steps/step1-survey.md` | Step 1 摸底 | 3问流程+跳过条件 |
 | `steps/step2-match.md` | Step 2 匹配 | 平台展开维度+对比表格 |
-| `steps/step3-output.md` | Step 3 输出 | 定位卡片格式+流转上下文 |
+| `steps/step3-output.md` | Step 3 输出 | 定位卡片格式+流转上下文+项目总览模板 |
 | `references/platform-rules.md` | 匹配时 | 各平台规则/调性/字数/付费 |
 | `references/genre-guide.md` | 匹配时 | 各题材在平台的表现 |
 | `templates/platform-card.tpl.md` | 输出时 | 定位卡片模板 |
 
 ## 版本
-v1.0.0 | 2026-08-04 | 初始版本
+v1.0.1 | 2026-08-12 | 新增项目总览.md模板（含STAGE_TABLE标记块用于总控层解析）
