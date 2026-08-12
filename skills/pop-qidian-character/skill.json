@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-character",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "displayName": "起点 Character",
-  "description": "起点角色库引擎。v2.0.0：输入从seed骨架文件改为立项/01-立项PRD.md「人物」方向句，新增金手指展开职责（设计/金手指.md）。v1.2.0：新增Step 0交互式角色库决策。消费PRD人物方向句+world力量体系+动力引擎→展开主角+金手指+按分幕塑造角色库。",
+  "description": "起点角色库引擎。v2.1.0：新增全书角色版图前置步骤（主角弧线终点+核心配角+跨卷反派+势力关系网），广度先行深度递归。v2.0.0：输入从seed骨架文件改为立项/01-立项PRD.md「人物」方向句，新增金手指展开职责（设计/金手指.md）。v1.2.0：新增Step 0交互式角色库决策。消费PRD人物方向句+world力量体系+动力引擎→展开主角+金手指+全书角色版图+按分幕塑造角色库。",
   "tags": ["角色"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-character", "起点character", "建角色库"] },

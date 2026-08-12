@@ -31,10 +31,10 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 0-Stage1 | 深问四层（赛道/标签/参考书/现有设定） | state=init/phase0 | 素材/用户意图.md |
 | 0-Stage2 | ①拆书任务（download→dna-style→decon-lite） ②seed Step1-3交互（灵感→种子碰撞→立项PRD）。主agent依次执行拆书任务，同时推进seed交互 | Stage1完成 | 素材/（赛道调研.md+文风锚定.md v1+decon-lite-{书名}.md+downloads/{书名}.txt） + 立项/01-立项PRD.md（种子候选） |
 | 1 | pop-qidian-seed v13.0.0（Step1灵感收集→Step2种子碰撞+六要素骨架→Step3立项PRD定型） | 灵感就绪 | 立项/01-立项PRD.md（六要素：世界/力量体系/人物/起因/经过/结果） |
-| 3 | pop-qidian-world v5.0.0（交互→主agent加载skill执行生成世界设定） | PRD六要素就绪 | 设计/世界决策表.md+设计/力量体系.md+设计/动力引擎.md+设计/全书设定/（10个最小闭环文件） |
+| 3 | pop-qidian-world v5.1.0（交互→主agent加载skill执行生成世界设定） | PRD六要素就绪 | 设计/世界决策表.md+设计/力量体系.md+设计/动力引擎.md+设计/全书设定/（10个最小闭环文件） |
 | 3→3.5 | pop-dna-style v1.4.0 Stage 2（主agent加载skill执行DNA综合重构） | 全书设定文件就绪 | 素材/文风锚定.md v2（笔触层+世界画风层+用户需求层） |
-| 3.5 | pop-qidian-character v2.0.0（交互→主agent加载skill执行生成角色库） | 全书设定+力量体系+动力引擎就绪 | 设计/角色库/角色库决策表.md+角色库.md+设计/金手指.md |
-| 4 | pop-qidian-plot v5.0.0（交互→主agent加载skill执行生成卷纲+章锚点） | PRD+全书设定+角色库+金手指就绪 | 设计/主线.md+设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md |
+| 3.5 | pop-qidian-character v2.1.0（交互→主agent加载skill执行生成角色库） | 全书设定+力量体系+动力引擎就绪 | 设计/角色库/角色库决策表.md+角色库.md+设计/金手指.md |
+| 4 | pop-qidian-plot v5.1.0（交互→主agent加载skill执行生成卷纲+章锚点） | PRD+全书设定+角色库+金手指就绪 | 设计/主线.md+设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md |
 | 5 | pop-qidian-write v3.8.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
 | 6 | pop-qidian-review v3.7.0 | 正文产出 | 审核/chNNN-审核报告.md+产出/白描卡/chNNN.md+产出/剧情累计卡.md |
 
