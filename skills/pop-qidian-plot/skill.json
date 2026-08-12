@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-plot",
-  "version": "4.5.0",
+  "version": "5.0.0",
   "displayName": "剧情设计器",
-  "description": "起点剧情设计器。v4.5.0：新增幕级套路决策层（演绎框架/内容引擎/卷内递进/章配比/高潮钩子，三书实证），分幕设计前必走五步。v4.4.0：删事实快照，已发生剧情由review双文件（白描卡+剧情累计卡）承接。v4.3.0：新增Step 0交互式卷纲决策（R1-R5，5轮），产出卷纲决策表.md。v4.2.0：按skill-create规范重写。",
+  "description": "起点剧情设计器。v5.0.0：输入改为消费立项/01-立项PRD.md「起因/经过/结果」方向句，plot自己展开主线（设计/主线.md），主角信息从character产出（角色库+金手指）消费。v4.5.0：新增幕级套路决策层，分幕设计前必走五步。v4.4.0：删事实快照。v4.3.0：新增Step 0交互式卷纲决策。",
   "tags": ["剧情与正文"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-plot", "剧情白描"] },

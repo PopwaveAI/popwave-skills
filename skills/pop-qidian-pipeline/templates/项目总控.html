@@ -331,14 +331,9 @@
       <div class="phase-line" id="ln-0"></div>
       <div class="phase-item">
         <div class="phase-circle pending" id="ph-1">1</div>
-        <div class="phase-label" id="lb-1">Seed骨架</div>
+        <div class="phase-label" id="lb-1">Seed立项</div>
       </div>
       <div class="phase-line" id="ln-1"></div>
-      <div class="phase-item">
-        <div class="phase-circle pending" id="ph-2">2</div>
-        <div class="phase-label" id="lb-2">Seed主角</div>
-      </div>
-      <div class="phase-line" id="ln-2"></div>
       <div class="phase-item">
         <div class="phase-circle pending" id="ph-3">3</div>
         <div class="phase-label" id="lb-3">World血肉</div>
@@ -396,25 +391,32 @@
         <div class="status-item">decon-lite <span class="status-badge"><!--STATE:deck_4 -->❌<!--/STATE:deck_4 --></span></div>
       </div>
       <div class="readiness-block">
-        <div class="readiness-title">骨架就绪</div>
-        <div class="status-item">力量体系 <span class="status-badge"><!--STATE:skel_0 -->❌<!--/STATE:skel_0 --></span></div>
-        <div class="status-item">动力引擎 <span class="status-badge"><!--STATE:skel_1 -->❌<!--/STATE:skel_1 --></span></div>
-        <div class="status-item">骨架自洽 <span class="status-badge"><!--STATE:skel_2 -->❌<!--/STATE:skel_2 --></span></div>
+        <div class="readiness-title">立项就绪</div>
+        <div class="status-item">立项PRD（六要素） <span class="status-badge"><!--STATE:prd_0 -->❌<!--/STATE:prd_0 --></span></div>
       </div>
     </div>
     <div class="grid-2" style="margin-top:0;">
       <div class="readiness-block" style="padding-top:0;">
-        <div class="readiness-title">主角就绪</div>
-        <div class="status-item">主角设计 <span class="status-badge"><!--STATE:prot_0 -->❌<!--/STATE:prot_0 --></span></div>
-        <div class="status-item">金手指 <span class="status-badge"><!--STATE:prot_1 -->❌<!--/STATE:prot_1 --></span></div>
-        <div class="status-item">爽感矛盾 <span class="status-badge"><!--STATE:prot_2 -->❌<!--/STATE:prot_2 --></span></div>
+        <div class="readiness-title">世界就绪</div>
+        <div class="status-item">力量体系 <span class="status-badge"><!--STATE:skel_0 -->❌<!--/STATE:skel_0 --></span></div>
+        <div class="status-item">动力引擎 <span class="status-badge"><!--STATE:skel_1 -->❌<!--/STATE:skel_1 --></span></div>
+        <div class="status-item">全书设定 <span class="status-badge"><!--STATE:flesh_0 -->❌<!--/STATE:flesh_0 --></span></div>
       </div>
       <div class="readiness-block" style="padding-top:0;">
-        <div class="readiness-title">血肉就绪</div>
-        <div class="status-item">全书设定 <span class="status-badge"><!--STATE:flesh_0 -->❌<!--/STATE:flesh_0 --></span></div>
-        <div class="status-item">DNA综合 <span class="status-badge"><!--STATE:flesh_1 -->❌<!--/STATE:flesh_1 --></span></div>
+        <div class="readiness-title">角色就绪</div>
+        <div class="status-item">金手指 <span class="status-badge"><!--STATE:prot_0 -->❌<!--/STATE:prot_0 --></span></div>
         <div class="status-item">角色库 <span class="status-badge"><!--STATE:flesh_2 -->❌<!--/STATE:flesh_2 --></span></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:0;">
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">剧情就绪</div>
+        <div class="status-item">主线 <span class="status-badge"><!--STATE:main_0 -->❌<!--/STATE:main_0 --></span></div>
         <div class="status-item">卷纲 <span class="status-badge"><!--STATE:flesh_3 -->❌<!--/STATE:flesh_3 --></span></div>
+      </div>
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">文风就绪</div>
+        <div class="status-item">DNA综合 <span class="status-badge"><!--STATE:flesh_1 -->❌<!--/STATE:flesh_1 --></span></div>
       </div>
     </div>
   </div>
@@ -445,19 +447,21 @@
     </div>
 <div class="folder-tree"><span class="dir">项目根/</span>
 ├── 项目总控.html             pipeline 唯一状态文件
-├── <span class="dir">素材/</span>              Phase 0 产出
+├── <span class="dir">素材/</span>              Phase 0-1 产出
 │   ├── 用户意图.md
 │   ├── 赛道调研.md
+│   ├── 灵感收集.md           seed Step1
+│   ├── 种子碰撞.md           seed Step2
 │   ├── 文风锚定.md            DNA v1→v2 综合重构
 │   ├── decon-lite-{书名}.md   research 拆书9表
 │   └── downloads/{书名}.txt
-├── <span class="dir">设计/</span>              Phase 1-4 产出
-│   ├── 立项决策表.md          Phase 0-1 seed（S0-S5决策）
-│   ├── 力量体系.md            Phase 1 seed
-│   ├── 动力引擎.md            Phase 1 seed
-│   ├── 创意候选PK.md          Phase 1 seed（中间文件）
-│   ├── 创意.md               Phase 1 seed
-│   ├── 主角设计.md            Phase 2 seed
+├── <span class="dir">立项/</span>              Phase 1 seed（六要素立项）
+│   └── 01-立项PRD.md          立项 PRD（world/character/plot 消费）
+├── <span class="dir">设计/</span>              Phase 3-4 产出
+│   ├── 力量体系.md            Phase 3 world（Step0.5展开）
+│   ├── 动力引擎.md            Phase 3 world（Step0.5展开）
+│   ├── 金手指.md              Phase 3.5 character
+│   ├── 主线.md                Phase 4 plot
 │   ├── 世界决策表.md          Phase 3 world Step0
 │   ├── <span class="dir">全书设定/</span>      Phase 3 world（10个最小闭环文件）
 │   │   ├── 世界设计原则.md

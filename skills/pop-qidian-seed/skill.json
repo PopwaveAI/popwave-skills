@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-seed",
-  "version": "10.0.0",
+  "version": "13.0.0",
   "displayName": "起点 Seed",
-  "description": "起点立项引擎。v10.0.0：创意发散重构为'先王道立项、后新奇钩子'两轮（王道为骨猎奇为味）。第一轮王道立项（起点/终局/主剧情路线+核心矛盾+敌人阶梯，双递进+王道续航判定），第二轮新奇钩子订枝叶。完整版本历史见CHANGELOG.md。",
+  "description": "起点立项引擎。v13.0.0：7步→3步极简立项（Step1灵感收集[问答+调研+种子候选]→Step2种子碰撞[六要素骨架+PK]→Step3立项PRD定型[六要素故事]），产出收敛为单份立项/01-立项PRD.md，seed只立项不产设计，后续由world/character/plot各自完善成工程级方案。完整版本历史见CHANGELOG.md。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-seed", "做种子"] },
