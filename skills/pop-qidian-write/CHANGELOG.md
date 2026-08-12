@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v3.8.0 (2026-08-12)
+
+### 剧情记录双文件收束：write 回溯锚改为 白描卡 + 剧情累计卡
+
+**背景**：老板定调——剧情记录只保留「白描卡 + 剧情累计卡」，废除 current-state.md / 小说快照.md / review-沉淀.md / 压缩归档/ 等冗余文档。write 作为回溯卡消费方，同步对齐。
+
+**改动**：
+- **SKILL.md**：输入与 Step 1 从 `current-state.md`（回溯锚）改为 `产出/白描卡/ch{NNN-1}.md`（上一章白描卡，回溯锚）+ `产出/剧情累计卡.md`（钩子台账/角色当前状态/读者已知池/禁止漂移）；红线2「禁止漂移」改指剧情累计卡
+- **steps/step-1-consume.md**：§1.2 改为上一章白描卡（事件白描/关键数据/爽点·钩子/本章DNA执行包）+ 新增 §1.2b 剧情累计卡（钩子台账/角色状态/读者已知池/进度）；DNA触发源改为上一章白描卡执行包；写作包字段按双文件重构；execution.mode formal 判定与门禁改指双文件
+- **steps/step-2-write.md**：钩子吞并/对话锚点/新增事实/移交 review 全部改指 剧情累计卡 + 白描卡
+- **templates/chapter-record.tpl.md**：已读输入与下一步改指双文件
+- **agents/openai.yaml**：short_description 更新
+- **skill.json**：version 3.7.0→3.8.0，description 补双文件回溯锚
+
 ## v3.7.0 (2026-08-12)
 
 ### 新增知识地图 + 触发锚定

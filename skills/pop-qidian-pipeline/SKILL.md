@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.11.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.12.0：剧情记录双文件收束——Phase 4删事实快照、Phase 6产出白描卡+剧情累计卡。v3.11.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
 
 ---
 
@@ -35,9 +35,9 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 3 | pop-qidian-world v4.4.0（交互→主agent加载skill执行生成世界设定） | 骨架+主角+ch001就绪 | 设计/世界决策表.md+设计/全书设定/（10个最小闭环文件） |
 | 3→3.5 | pop-dna-style v1.4.0 Stage 2（主agent加载skill执行DNA综合重构） | 全书设定文件就绪 | 素材/文风锚定.md v2（笔触层+世界画风层+用户需求层） |
 | 3.5 | pop-qidian-character v1.2.0（交互→主agent加载skill执行生成角色库） | 全书设定就绪 | 设计/角色库/角色库决策表.md+角色库.md |
-| 4 | pop-qidian-plot v4.3.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md+产出/正文/事实快照-幕NNN.md |
-| 5 | pop-qidian-write v3.5.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
-| 6 | pop-qidian-review v3.4.0 | 正文产出 | 审核/review-chXXX.md+小说快照.md+review-沉淀.md+current-state.md（项目根） |
+| 4 | pop-qidian-plot v4.4.0（交互→主agent加载skill执行生成卷纲+章锚点） | 设定+角色库就绪 | 设计/第一卷剧情/卷纲决策表.md+卷纲.md+章锚点表.md |
+| 5 | pop-qidian-write v3.8.0 | 剧情+角色库+主角就绪 | 正文/chXXX.txt |
+| 6 | pop-qidian-review v3.7.0 | 正文产出 | 审核/chNNN-审核报告.md+产出/白描卡/chNNN.md+产出/剧情累计卡.md |
 
 > Phase 0-1并行设计、产出真实性门禁、下载失败中断、主agent执行指南、Phase 5/6执行细节、Phase 1-4交互模式等规则见 `steps/step2.md`
 

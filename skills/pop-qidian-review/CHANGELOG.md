@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v3.7.0 (2026-08-12)
+
+### 剧情记录双文件收束：白描卡 + 剧情累计卡，废除冗余文档
+
+**背景**：老板定调——剧情记录只保留「白描卡（单章历史）+ 剧情累计卡（全书累计视图）」，废除 current-state.md / 小说快照.md / review-沉淀.md / 压缩归档/ 等冗余文档。
+
+**改动**：
+- **SKILL.md**：产出表改为 审核报告 + 白描卡（新增）+ 剧情累计卡（replace）；Step 4 与 Reconstruct 描述改双文件；红线7 改为「双文件每章必更新」；速查表模板指向 chapter-card.tpl.md + accumulate-card.tpl.md
+- **steps/step-2-commit.md**：已改造为双文件落盘（产出本章白描卡 + replace 更新剧情累计卡，明确"未产出任何旧文档"检查项）
+- **steps/step-reconstruct.md**：已改造为逐章白描卡 + 剧情累计卡生成模式
+- **steps/step-1-audit.md**：formal 前提与对话个性区分改指 白描卡/剧情累计卡
+- **templates/**：删除 current-state.tpl.md，新增 chapter-card.tpl.md + accumulate-card.tpl.md
+- **agents/openai.yaml**：display_name 从"涌现 Review"改"起点 Review"，short_description 更新
+- **skill.json**：version 3.6.0→3.7.0，description 改双文件叙事记录
+
 ## v3.6.0 (2026-08-11)
 
 ### current-state 白描化 + 小说快照三档压缩

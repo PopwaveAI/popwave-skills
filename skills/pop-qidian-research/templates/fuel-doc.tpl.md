@@ -1,8 +1,8 @@
 ---
 doc_type: research
-role: 可入场燃料池和题材机制来源；供 review/ledger 筛选进 current-state，不作为 write 直接输入
+role: 可入场燃料池和题材机制来源；供 review 筛选进剧情累计卡，不作为 write 直接输入
 read_policy: full-if-targeted
-compression: allow-into-current-state
+compression: allow-into-剧情累计卡
 primary_consumer: review
 source_of_truth: true
 last_updated: YYYY-MM-DD
@@ -26,7 +26,7 @@ execution.mode: formal|draft|trial
 | 燃料 | 已读范围/来源 | 短复述 | 本项目转译 | 不照搬 |
 | --- | --- | --- | --- | --- |
 
-## 可筛入 current-state 的近期燃料
+## 可筛入剧情累计卡的近期燃料
 -
 
 ## 中期保留燃料

@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v3.12.0 | 2026-08-12
+
+### 剧情记录双文件收束：Phase 4 删事实快照、Phase 6 产出白描卡+剧情累计卡
+
+**背景**：老板定调——剧情记录只保留「白描卡 + 剧情累计卡」，废除 current-state.md / 小说快照.md / review-沉淀.md / 压缩归档/ / 事实快照-幕NNN.md 等冗余文档。pipeline 作为调度总控同步收束产出与目录。
+
+**改动**：
+- **SKILL.md**：Phase 4 产出删 `产出/正文/事实快照-幕NNN.md`（改为剧情累计卡承接）；Phase 6 产出改 `审核/chNNN-审核报告.md + 产出/白描卡/chNNN.md + 产出/剧情累计卡.md`；Phase 5 write / Phase 6 review 版本对齐（v3.8.0 / v3.7.0）
+- **templates/项目总控.html**：文件夹树改双文件——`产出/白描卡/chNNN.md` + `产出/剧情累计卡.md`，审核/ 只留审核报告，删 current-state/小说快照/review-沉淀/事实快照
+- **steps/step1.md**：初始化目录 `产出/正文/` → `产出/白描卡/`（review双文件落盘目录），自检清单与质量门同步
+- **steps/step2.md**：Phase 6 执行流程改双文件产出；review reconstruct 执行指南改逐章白描卡+剧情累计卡，明确"未产出任何旧文档"
+- **steps/step0-import.md**：归位表/缺口分析/落地决策/reconstruct 产出/降级续写全部改指 白描卡+剧情累计卡
+- **skill.json**：version 3.11.0→3.12.0，description 更新
+
 ## v3.11.0 | 2026-08-10
 
 ### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表

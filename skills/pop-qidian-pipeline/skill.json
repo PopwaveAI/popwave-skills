@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "3.11.0",
-  "description": "起点管线总控。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0同步）。v3.7.0：Phase 3→3.5新增DNA综合重构调度。完整版本历史见CHANGELOG.md。",
+  "version": "3.12.0",
+  "description": "起点管线总控。v3.12.0：剧情记录双文件收束——Phase 4删事实快照、Phase 6产出白描卡+剧情累计卡。v3.11.0：skill.json补可调度Skill清单。v3.10.0：首次对话引导。完整版本历史见CHANGELOG.md。",
   "entry": "SKILL.md",
   "tags": ["管线与总控"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
