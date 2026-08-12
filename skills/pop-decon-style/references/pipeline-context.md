@@ -22,7 +22,7 @@
 
 | 输入 | 来源 | 输出 | 下游 |
 |:-----|:-----|:-----|:-----|
-| 章节白描（必）+ 原文采样 | pop-decon-design-pack / `_temp/chapters/` | 文风采样 + 文风DNA档案 + 对白风格 | pop-decon-prd、pop-shared-dna 复用 |
+| 章节白描（必）+ 原文采样 | pop-decon-design-pack / `_temp/chapters/` | 文风采样 + 文风DNA档案 + 对白风格 | pop-decon-prd |
 
 ## 铁律
 

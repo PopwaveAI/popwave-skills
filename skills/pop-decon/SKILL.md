@@ -32,7 +32,7 @@ pop-decon (下载 → 白描 → 征询维度 → 路由)
     ├── pop-decon-power     力量体系（力量/升级/战斗）
     ├── pop-decon-world     世界观（地理/历史/物种/势力/物品）
     ├── pop-decon-beat      爽点体验（名场面/读者体验/爽点分布）
-    ├── pop-decon-style     文风（对白/笔触，对接pop-shared-dna）
+    ├── pop-decon-style     文风（对白/笔触，复用文风DNA蒸馏方法论）
     └── pop-decon-prd       全书立项设计（消费各维度产出）
 ```
 
@@ -63,7 +63,7 @@ pop-decon (下载 → 白描 → 征询维度 → 路由)
 | `pop-decon-power` | 拆力量体系（力量/升级/战斗） | 征询后按需 |
 | `pop-decon-world` | 拆世界观（地理/历史/物种/势力/物品） | 征询后按需 |
 | `pop-decon-beat` | 拆爽点体验（名场面/读者体验/爽点分布） | 征询后按需 |
-| `pop-decon-style` | 拆文风（对白/笔触，对接 pop-shared-dna） | 征询后按需 |
+| `pop-decon-style` | 拆文风（对白/笔触，复用文风DNA蒸馏方法论） | 征询后按需 |
 | `pop-decon-prd` | 全书立项设计（消费各维度产出） | 征询后按需 |
 
 ## 红线

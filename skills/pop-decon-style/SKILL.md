@@ -1,16 +1,16 @@
 ---
 name: pop-decon-style
-description: "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启用。消费章节白描+原文→产出文风拆解：文风DNA档案，对接pop-shared-dna方法论。"
+description: "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启用。消费章节白描+原文→产出文风拆解：文风DNA档案，复用文风DNA蒸馏方法论。"
 ---
 # pop-decon-style · 文风拆解
 
-> 拆书独立维度 skill。从章节白描+原文拆解文风：文风DNA档案，复用 pop-shared-dna 方法论。v1.0.0
+> 拆书独立维度 skill。从章节白描+原文拆解文风：文风DNA档案，复用文风DNA蒸馏方法论。v1.0.0
 
 ## 做什么
 
 | 输入 | 来源 | 输出 | 下游 |
 |:-----|:-----|:-----|:-----|
-| 章节白描（必）+ 原文采样 | pop-decon-design-pack / `_temp/chapters/` | `设计/文风DNA档案.md` | pop-decon-prd、pop-shared-dna 复用 |
+| 章节白描（必）+ 原文采样 | pop-decon-design-pack / `_temp/chapters/` | `设计/文风DNA档案.md` | pop-decon-prd |
 
 ## 怎么操作
 
@@ -37,9 +37,10 @@ description: "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启
 | `steps/step-1-sampling.md` | Step 1 | 原文采样方法 |
 | `steps/step-2-dna-extract.md` | Step 2 | 文风DNA提取 |
 | `steps/step-3-dialogue.md` | Step 3 | 对白风格提炼 |
-| `references/methodology.md` | 需要方法论时 | pop-shared-dna 文风方法论 |
 | `references/pipeline-context.md` | 需要管线上下文时 | 维度skill在拆书体系的位置 |
+| `pop-dna-style/references/methodology.md` | 需要方法论时 | 文风DNA蒸馏方法论 |
+| `pop-dna-style/references/style-dna-profile.md` | 需要模板时 | 精简模板（操作特征+精选原文+场景卡矩阵） |
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：文风独立拆解维度 skill，对接 pop-shared-dna 方法论 → [CHANGELOG.md](CHANGELOG.md)
+v1.0.0 | 2026-08-06 | 新建：文风独立拆解维度 skill，复用文风DNA蒸馏方法论 → [CHANGELOG.md](CHANGELOG.md)

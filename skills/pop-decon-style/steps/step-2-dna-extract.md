@@ -10,7 +10,7 @@
 ## 数据来源
 
 - 文风采样（Step 1 产出）— 证据
-- pop-shared-dna 方法论（`references/methodology.md`）— 提取框架
+- 文风DNA蒸馏方法论（`pop-dna-style/references/methodology.md`）— 提取框架
 
 ## 产出
 
@@ -50,7 +50,7 @@
 - [ ] 四个笔触层维度都有提取
 - [ ] 每维度有原文证据引用
 - [ ] 未混入世界观专属要素
-- [ ] 与 pop-shared-dna 方法论一致
+- [ ] 与文风DNA蒸馏方法论一致
 
 ---
 

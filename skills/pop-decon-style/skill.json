@@ -2,7 +2,7 @@
   "id": "pop-decon-style",
   "version": "1.0.0",
   "displayName": "文风拆解",
-  "description": "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启用。消费章节白描+原文→产出文风拆解：文风DNA档案，对接pop-shared-dna方法论。",
+  "description": "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启用。消费章节白描+原文→产出文风拆解：文风DNA档案，复用文风DNA蒸馏方法论。",
   "tags": [
     "拆书与分析"
   ],

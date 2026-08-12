@@ -21,6 +21,9 @@ _projects/
 .tmp-deconstruction/
 武林半侠传.txt
 
+# Refactor backup snapshots (original versions already in git history)
+_备份_全量/
+
 # IDE/tool config
 .trae/
 

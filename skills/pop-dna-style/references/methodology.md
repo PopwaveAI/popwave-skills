@@ -1,6 +1,6 @@
-﻿# 文风DNA蒸馏方法论文档
+# 文风DNA蒸馏方法论文档
 
-> 本文档记录 pop-shared-dna 的核心方法论、从开源项目借鉴的设计思路、以及实验验证建议。
+> 本文档是 pop-dna-style 的核心方法论：从开源项目借鉴的设计思路、8维/场景卡分析框架的理论基础、验证方法与已知限制。
 
 ---
 
@@ -11,11 +11,11 @@
 **核心洞察**：通过精心设计的 System Prompt，让 Claude 模仿另一种 AI 的思维方式（o1 的链式推理）。
 
 **迁移到文风模仿**：
-| Thinking-Claude 的做法 | pop-shared-dna 的迁移 |
+| Thinking-Claude 的做法 | 文风DNA的迁移 |
 |------------------------|----------------|
 | 分析 o1 的思维方式特征 | 分析目标作者的写作风格特征 |
-| 提取关键思维特征词 | 提取 7 维风格特征 |
-| 编码为结构化 block | 编码为风格档案 + Prompt |
+| 提取关键思维特征词 | 提取风格特征维度 |
+| 编码为结构化 block | 编码为操作特征 + 精选原文 |
 | System Prompt 附加指令 | 注入给 Agent 作为风格指令 |
 
 **关键设计原则提取**：
@@ -43,7 +43,7 @@ Round 1：分析
 
 Round 2：Profile 生成
   → 用分析报告填入 template
-  → 产出：结构化的风格档案（style-dna-profile）
+  → 产出：结构化的风格档案（文风DNA）
 
 Round 3：风格写作
   → 加载风格档案的写前规则作为写作指令
@@ -71,7 +71,7 @@ brief（用户需求）
   → 发布（输出成品）
 ```
 
-pop-shared-dna 集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
+文风DNA集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
 
 ### 1.4 三层文风DNA框架（pop-writer-chapter → pop-writer-prose）
 
@@ -83,7 +83,7 @@ Layer 2：叙事策略指令（信息怎么讲出来）
 Layer 3：文风DNA / 叙事哲学（作者为什么这样写）
 ```
 
-**pop-shared-dna 的定位**：主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 pop-writer-chapter 处理，产出设计包供 pop-writer-prose 消费。
+**定位**：文风DNA主要涵盖 **Layer 2 + Layer 3** 的提取和应用。Layer 1（事实骨架）由 plot/设计包处理，供 write 消费。
 
 ---
 
@@ -118,7 +118,7 @@ Layer 3：文风DNA / 叙事哲学（作者为什么这样写）
 
 ## 四、风格档案的复用场景
 
-提取完成的文风DNA档案（style-dna-profile）可用于以下场景：
+提取完成的文风DNA档案可用于以下场景：
 
 | 场景 | 用法 | 效果预期 |
 |------|------|---------|
@@ -164,4 +164,4 @@ B 组：注入 style-mimic-prompt 的 Agent 产出
 
 ---
 
-*references/methodology.md v1.0 | 文风DNA蒸馏方法论文档*
+*references/methodology.md | 文风DNA蒸馏方法论文档*

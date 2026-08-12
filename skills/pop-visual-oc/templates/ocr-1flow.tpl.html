@@ -2,176 +2,121 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>{{entity_name}} · 字槽混合式设定卡</title>
+<title>{{name}} · OC 顶部聚字卡</title>
 <style>
 /* =====================================================================
-   ocr-1flow.tpl.html · 字槽混合式设定卡（全 OC 唯一模板）
-   范式（layout.md）：AI 底图直出完整构图（画面主体 + 短书法题字 + 印章 + 预留字槽/留白块），
-   HTML 只在预留字槽里补长效文字，整图截图即成品。
-   文字分工：
-     - 短书法字（标题/印章/器物标签，每处≤4字）→ AI 直出，融入画面
-     - 长效文字（金句/小传/词条/落款）→ HTML 在预留字槽补
-   跨赛道：body[data-track="赛道"] 切换整套文字风格 token（字体/配色/装饰/排版）。
-            古风=default，赛博朋克/都市现代/科幻/暗黑 覆盖变量。
-   用法：SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py <本文件> <out.png>
-   关键：底图必须按字槽规划预留空白块（铁律 A2/A3），HTML overlay 只落在留白区，不压图主体。
+   ocr-1flow.tpl.html · OC 唯一模板（立绘优先 · 顶部聚字 · V6）
+   ---------------------------------------------------------------------
+   范式：AI 底图只出【纯立绘零文字】（G1），占画面≥60%，人物居中下部、
+        顶部留≥40%纯净背景。HTML 只在【顶部纯背景区】叠少量核心文字
+        （类型/名字/称号/一句金句，G2），底部留一个小印章。整图截图即成品。
+   四律：G1 AI 零文字 / G2 文字顶部聚 / G3 字不压人物 / G4 字少而精
+   用法：改 {{变量}} + :root 变量（字色/印章/画布），截图即成品。
+   截图：SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py <html> <out.png>
    ===================================================================== */
-  :root{
-    /* 画布尺寸（默认 2:3 竖版 1125×1500；4:3 改 1500×1125，16:9 改 1500×844） */
-    --cv-w:1125px;
-    --cv-h:1500px;
-    /* 字槽位置（必须与底图预留留白块对齐，Step 1 定） */
-    --slot-x:670px;      /* 字槽左上 x */
-    --slot-y:90px;       /* 字槽左上 y */
-    --slot-w:410px;      /* 字槽宽 */
-    /* ===== 赛道 token（古风 default）===== */
-    --track-title-font:"Kaiti SC","STKaiti","KaiTi",serif;   /* 金句/标题 */
-    --track-body-font:"FangSong","STFangSong","仿宋",serif;  /* 正文 */
-    --track-label-font:"Kaiti SC","LiSu","STLiti",serif;     /* 词条名 */
-    --ink:#2a2118;        /* 主文字（深墨） */
-    --muted:#4a3a28;      /* 次级文字 */
-    --em:#8a1f1f;         /* 强调/印章红 */
-    --gold:#7a5a3a;       /* 鎏金/次强调 */
-    --seal-bg:var(--em);  /* 印章底 */
-    --seal-fg:#f5ecd9;    /* 印章字 */
-    --divider:rgba(42,33,24,.4);  /* 分隔线色 */
-  }
-  /* ===== 赛博朋克 ===== */
-  body[data-track="cyberpunk"]{
-    --track-title-font:"Impact","Arial Black","Microsoft YaHei",sans-serif;
-    --track-body-font:"Consolas","Microsoft YaHei",sans-serif;
-    --track-label-font:"Consolas","Microsoft YaHei",sans-serif;
-    --ink:#e8f6ff;        /* 主文字（霓虹白） */
-    --muted:#8ab8c9;      /* 次级文字 */
-    --em:#ff2d95;         /* 强调（霓虹粉） */
-    --gold:#00e5ff;       /* 次强调（电蓝） */
-    --seal-bg:#ff2d95;
-    --seal-fg:#071018;
-    --divider:rgba(232,246,255,.35);
-  }
-  /* ===== 都市现代 ===== */
-  body[data-track="urban"]{
-    --track-title-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-    --track-body-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-    --track-label-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-    --ink:#1f2733;        /* 主文字（深灰） */
-    --muted:#5c6b7d;      /* 次级文字 */
-    --em:#4a7ba6;         /* 强调（雾蓝） */
-    --gold:#8a97a5;       /* 次强调（冷灰） */
-    --seal-bg:#4a7ba6;
-    --seal-fg:#f5f7fa;
-    --divider:rgba(31,39,51,.3);
-  }
-  /* ===== 科幻 ===== */
-  body[data-track="scifi"]{
-    --track-title-font:"OCR A Extended","Consolas","Microsoft YaHei",sans-serif;
-    --track-body-font:"Consolas","Microsoft YaHei",sans-serif;
-    --track-label-font:"OCR A Extended","Consolas","Microsoft YaHei",sans-serif;
-    --ink:#eaf2ff;        /* 主文字（电白） */
-    --muted:#7f9cc0;      /* 次级文字 */
-    --em:#2f7bff;         /* 强调（电蓝） */
-    --gold:#9b5cff;       /* 次强调（紫） */
-    --seal-bg:#2f7bff;
-    --seal-fg:#040a18;
-    --divider:rgba(234,242,255,.35);
-  }
-  /* ===== 暗黑 ===== */
-  body[data-track="dark"]{
-    --track-title-font:"Georgia","Times New Roman","Kaiti SC",serif;
-    --track-body-font:"Palatino Linotype","Kaiti SC",serif;
-    --track-label-font:"Georgia","Kaiti SC",serif;
-    --ink:#e8dcc8;        /* 主文字（暗金白） */
-    --muted:#9a8a6f;      /* 次级文字 */
-    --em:#b3222a;         /* 强调（暗红） */
-    --gold:#c9a05a;       /* 次强调（暗金） */
-    --seal-bg:#b3222a;
-    --seal-fg:#f2e8d8;
-    --divider:rgba(232,220,200,.35);
-  }
+:root{
+  --cv-w:1125px;            /* 画布宽（对应底图比例） */
+  --cv-h:1500px;            /* 画布高 */
+  /* 顶部文字字色：从底图顶部留白区实际取色微调（浅底用深墨，深底用浅金） */
+  --ink:#241a12;            /* 名字/主字 */
+  --em:#8a1f1f;             /* 强调字（称号关键词/金句点睛） */
+  --gold:#6a4a20;           /* 类型标签/印章点缀 */
+  --muted:#4a3a28;          /* 副标题弱化 */
+  /* 顶部文字区（顶部聚字，人物头顶下方留装修） */
+  --pad-top:60px;
+  --em-size:60px;           /* 名字字号 */
+  --sub-size:22px;          /* 称号字号 */
+  --kicker-size:17px;       /* 类型标签字号 */
+  --creed-size:26px;        /* 金句字号 */
+  /* 底部印章（避开人物下摆） */
+  --seal-size:64px;
+  --seal-color:#8a1f1f;
+  --seal-x:auto;            /* auto=靠右；可设 left/right + 偏移 */
+  --seal-align:right;
+  --seal-offset:56px;
+  --seal-bottom:48px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:var(--cv-w);height:var(--cv-h);overflow:hidden;}
+body{
+  position:relative;
+  font-family:"Kaiti SC","STKaiti","KaiTi","Noto Serif CJK SC",serif;
+  -webkit-font-smoothing:antialiased;
+  background:#000;
+}
+/* AI 底图：纯立绘零文字，占满画布 */
+.base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{width:var(--cv-w);height:var(--cv-h);overflow:hidden;}
-  body{position:relative;font-family:var(--track-body-font);-webkit-font-smoothing:antialiased;}
+/* ===== 顶部聚字区（文字只落顶部纯背景，不压人物） ===== */
+.top{
+  position:absolute;top:var(--pad-top);left:0;right:0;
+  text-align:center;z-index:2;
+  padding:0 48px;
+}
+.top .kicker{
+  font-size:var(--kicker-size);letter-spacing:.5em;color:var(--gold);
+  margin-bottom:18px;font-weight:600;
+}
+.top h1{
+  font-size:var(--em-size);color:var(--ink);font-weight:bold;
+  letter-spacing:.18em;line-height:1.15;
+  text-shadow:0 2px 6px rgba(255,255,255,.35);
+}
+.top .rule{
+  width:120px;height:1px;margin:18px auto 0;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+.top .sub{
+  margin-top:16px;font-size:var(--sub-size);color:var(--em);
+  letter-spacing:.3em;font-weight:600;
+}
+/* 金句（可选，钩子） */
+.top .creed{
+  margin-top:20px;font-size:var(--creed-size);color:var(--muted);
+  letter-spacing:.12em;line-height:1.6;
+  font-family:"FangSong","STFangsong","仿宋",serif;
+}
+.top .creed b{color:var(--em);font-weight:600;}
 
-  /* 底图：AI 直出完整构图，铺满画布 */
-  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
-
-  /* ===== 字槽 overlay：只落在预留留白块，不压图主体 ===== */
-  .overlay{position:absolute;left:var(--slot-x);top:var(--slot-y);width:var(--slot-w);color:var(--ink);}
-
-  /* 引首章 + 题头 */
-  .head{display:flex;align-items:center;gap:18px;margin-bottom:30px;}
-  .head .leadseal{width:52px;height:52px;background:var(--seal-bg);color:var(--seal-fg);
-    font-size:19px;font-weight:bold;display:flex;align-items:center;justify-content:center;
-    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 2px 6px rgba(40,20,5,.2);flex:none;}
-  .head .kicker{font-size:20px;color:var(--gold);letter-spacing:4px;border-bottom:1px solid var(--divider);padding-bottom:6px;}
-
-  /* 金句：无标点直书，大字 */
-  .creed{margin-bottom:8px;}
-  .creed .q{font-size:60px;color:var(--ink);letter-spacing:6px;line-height:1.7;
-    font-weight:bold;text-shadow:0 1px 0 rgba(255,255,255,.35);font-family:var(--track-title-font);}
-  .creed .q em{font-style:normal;color:var(--em);}
-  .creed .src{font-size:22px;color:var(--gold);margin-top:6px;letter-spacing:3px;text-align:right;padding-right:10px;}
-
-  /* 分隔 */
-  .divider{height:34px;margin:2px 0 4px;position:relative;}
-  .divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
-    background:linear-gradient(90deg,transparent,var(--divider),transparent);}
-
-  /* 小传/词条本文 */
-  .core{font-size:23px;color:var(--muted);line-height:2;letter-spacing:1.5px;margin-bottom:6px;}
-  .core .k{color:var(--em);font-weight:bold;font-family:var(--track-title-font);}
-
-  .divider.d2{height:30px;}
-
-  /* 属性/象征词条：错落排布，非对齐表格 */
-  .sym{margin-top:4px;}
-  .sym .row{display:flex;align-items:baseline;margin-bottom:14px;}
-  .sym .row:first-child{margin-left:0;}
-  .sym .row:nth-child(2){margin-left:34px;}
-  .sym .row:nth-child(3){margin-left:8px;}
-  .sym .row:nth-child(4){margin-left:52px;}
-  .sym .n{font-size:28px;color:var(--em);font-weight:bold;letter-spacing:3px;font-family:var(--track-label-font);flex:none;margin-right:16px;}
-  .sym .d{font-size:20px;color:var(--muted);letter-spacing:2px;border-bottom:1px solid var(--divider);padding-bottom:3px;}
-
-  /* 落款：传统款识 */
-  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:34px;}
-  .foot .name{font-size:26px;color:var(--ink);letter-spacing:5px;font-weight:bold;font-family:var(--track-title-font);}
-  .foot .zhu{font-size:17px;color:var(--gold);letter-spacing:2px;}
-  .foot .seal{width:72px;height:72px;background:var(--seal-bg);color:var(--seal-fg);
-    font-size:21px;font-weight:bold;display:flex;align-items:center;justify-content:center;
-    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 3px 8px rgba(40,20,5,.25);}
+/* ===== 底部印章（一个，避开人物下摆） ===== */
+.sealpos{
+  position:absolute;bottom:var(--seal-bottom);z-index:2;
+  text-align:center;
+  left:auto;right:var(--seal-offset);
+}
+.sealpos[data-align="left"]{left:var(--seal-offset);right:auto;}
+.seal{
+  width:var(--seal-size);height:var(--seal-size);
+  border:2px solid var(--seal-color);color:var(--seal-color);
+  background:rgba(255,255,255,.25);
+  font-size:20px;font-weight:bold;letter-spacing:.12em;
+  display:flex;align-items:center;justify-content:center;
+  transform:rotate(-3deg);
+  box-shadow:inset 0 0 0 3px rgba(138,31,31,.12),0 3px 8px rgba(0,0,0,.18);
+}
+.sealpos .cap{
+  margin-top:8px;font-size:12px;letter-spacing:.3em;color:var(--muted);
+}
 </style>
 </head>
-<body data-track="{{track}}">
-  <!-- 底图：AI 直出完整构图（主体 + 短书法题字 + 印章 + 预留字槽留白） -->
-  <img class="base" src="{{visual_path}}" alt="{{entity_name}}">
+<body>
+  <!-- AI 底图：纯立绘零文字，占满画布 -->
+  <img class="base" src="{{visual_path}}" alt="{{name}}">
 
-  <!-- 字槽 overlay：只填长效文字，落在预留留白块 -->
-  <div class="overlay">
-    <div class="head">
-      <div class="leadseal">{{lead_seal}}</div>
-      <div class="kicker">{{kicker}}</div>
-    </div>
+  <!-- 顶部聚字区（文字只落顶部纯背景） -->
+  <div class="top">
+    <div class="kicker">{{kicker}}</div>
+    <h1>{{name}}</h1>
+    <div class="rule"></div>
+    <div class="sub">{{subtitle}}</div>
+    <!-- 金句（可选，钩子；无则不填整个块） -->
+    <div class="creed">{{creed}}</div>
+  </div>
 
-    <div class="creed">
-      <div class="q">{{creed_q}}</div>
-      <div class="src">{{creed_src}}</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="core">{{core_body}}</div>
-
-    <div class="divider d2"></div>
-
-    <div class="sym">{{sym_rows}}</div>
-
-    <div class="foot">
-      <div class="name">{{foot_name}}</div>
-      <div class="zhu">{{foot_zhu}}</div>
-      <div class="seal">{{foot_seal}}</div>
-    </div>
+  <!-- 底部印章（一个专属印章，印文≤4字） -->
+  <div class="sealpos" data-align="{{seal_align}}">
+    <div class="seal">{{seal}}</div>
+    <div class="cap">{{seal_cap}}</div>
   </div>
 </body>
 </html>
