@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.9.0：知识地图试点（reference 读取索引）。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.10.0：剧情记录双文件收束（导入/反推/判定改双文件，废current-state）。v3.9.0：知识地图试点（reference 读取索引）。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
 
 ## 做什么
 
@@ -32,7 +32,7 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 | 3 | Plot叙事白描 | pop-fanqie-plot | 设计/第一卷剧情/剧情白描.md |
 | 3.5 | Character角色库 | pop-fanqie-character | 设计/角色库/角色库.md |
 | 4 | Write正文渲染(**子agent**) | pop-fanqie-write | 正文/chXXX.txt |
-| 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md |
+| 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md + 双文件（剧情白描流水账.md + 剧情累计卡.md） |
 
 Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道调研第一优先级独立启动。Phase 5通过→phase4+ch+1，打回→phase4重写。
 
@@ -91,4 +91,4 @@ Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道�
 
 ## 版本
 
-v3.9.0 | 2026-08-11 | 知识地图试点：速查表补 onboarding-guide 条目 + 新增知识地图区块 → [CHANGELOG.md](CHANGELOG.md)
+v3.10.0 | 2026-08-12 | 剧情记录双文件收束：导入/反推/判定改双文件（流水账白描卡+剧情累计卡），废 current-state → [CHANGELOG.md](CHANGELOG.md)
