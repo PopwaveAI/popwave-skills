@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>黑天佛陀大殿 · 一图流设定卡</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:858px;height:1287px;overflow:hidden;}
+  body{
+    font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif;
+    background:#05060a;color:#e8e4da;position:relative;
+    -webkit-font-smoothing:antialiased;
+  }
+  .bg{position:absolute;inset:0;
+    background:
+      radial-gradient(420px 300px at 50% 108%, rgba(192,57,43,.16), transparent 62%),
+      radial-gradient(300px 200px at 12% 6%, rgba(201,160,90,.05), transparent 60%),
+      radial-gradient(260px 190px at 88% 8%, rgba(90,122,154,.06), transparent 60%),
+      linear-gradient(180deg,#06070c,#0a0c12 60%,#07070a);
+  }
+  .bg::before{content:'';position:absolute;inset:0;opacity:.5;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1.5px 1.5px at 40% 60%, rgba(255,255,255,.35), transparent),
+      radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,.3), transparent),
+      radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,.35), transparent);
+    background-size:560px 560px;
+  }
+  .main{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:74%;z-index:1;
+    -webkit-mask-image:radial-gradient(ellipse 72% 70% at center, black 58%, transparent 97%);
+    mask-image:radial-gradient(ellipse 72% 70% at center, black 58%, transparent 97%);
+  }
+  .main img{display:block;height:100%;width:auto;}
+  .head{position:absolute;top:34px;left:0;right:0;text-align:center;z-index:2;}
+  .head .kicker{font-size:11px;letter-spacing:.55em;color:#c9a05a;margin-bottom:10px;}
+  .head h1{font-size:54px;font-weight:900;letter-spacing:.22em;line-height:1.1;color:#f2ede0;
+    text-shadow:0 0 30px rgba(201,160,90,.35),0 2px 8px rgba(0,0,0,.8);}
+  .head .sub{margin-top:8px;font-size:12px;letter-spacing:.5em;color:#8b93a1;font-weight:600;}
+  .head .rule{width:120px;height:1px;margin:14px auto 0;background:linear-gradient(to right,transparent,#c9a05a,transparent);}
+  .vpoem{position:absolute;writing-mode:vertical-rl;z-index:2;
+    font-family:"Kaiti SC","STKaiti","KaiTi",serif;letter-spacing:.4em;line-height:2;}
+  .vpoem.big{font-size:20px;color:#e8e4da;text-shadow:0 0 14px rgba(0,0,0,.9);}
+  .vpoem.small{font-size:14px;color:#b9bfcd;}
+  .vpoem b{color:#c0392b;font-weight:600;}
+  .vpoem .gold{color:#c9a05a;}
+  .vpoem.left{left:34px;top:150px;}
+  .vpoem.right{right:34px;top:150px;}
+  .symbols{position:absolute;left:0;right:0;bottom:96px;z-index:2;
+    display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+  .sym{font-size:11px;letter-spacing:.3em;color:#c9a05a;
+    border:1px solid rgba(201,160,90,.35);padding:6px 14px;border-radius:20px;
+    background:rgba(6,7,10,.5);}
+  .sym.fill{color:#e8e4da;border-color:rgba(192,57,43,.5);}
+  .sealpos{position:absolute;right:40px;bottom:150px;z-index:2;text-align:center;}
+  .seal{width:52px;height:52px;border:2px solid #c0392b;color:#c0392b;
+    font-family:"Kaiti SC","STKaiti",serif;font-size:14px;letter-spacing:.12em;
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(-3deg);margin:0 auto 8px;
+    box-shadow:inset 0 0 0 3px rgba(192,57,43,.15);}
+  .sealpos .cap{font-size:9px;letter-spacing:.3em;color:#8b93a1;}
+  .brand{position:absolute;left:0;right:0;bottom:26px;text-align:center;z-index:2;
+    font-size:10px;letter-spacing:.3em;color:rgba(185,191,205,.5);}
+  .brand b{font-weight:800;background:linear-gradient(120deg,#f5ecd8,#c9a05a);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="main"><img src="file:///C:/Users/AWMPRO/.trae-cn/work/6a78c56c0b0262215efb67e6/3a-sheet/黑天佛陀大殿-主视觉-v1.jpg" alt="黑天佛陀大殿"></div>
+  <div class="head">
+    <div class="kicker">黑 暗 佛 门 · 压 迫 性 神 佛 空 间</div>
+    <h1>黑天佛陀大殿</h1>
+    <div class="sub">香 火 窥 欲 · 他 化 的 暗 面</div>
+    <div class="rule"></div>
+  </div>
+  <div class="vpoem small left">众生渺渺<br>俯首是囚</div>
+  <div class="vpoem big right">佛面低垂<br>慈悲<b>含狞</b><br>一炷香火<br>照见<span class="gold">欲心</span></div>
+  <div class="symbols">
+    <span class="sym fill">香火</span><span class="sym">佛面</span><span class="sym">红袍僧</span><span class="sym">殿柱</span><span class="sym">红灯</span>
+  </div>
+  <div class="sealpos">
+    <div class="seal">修罗<br>佛门</div>
+    <div class="cap">F005 · ch31</div>
+  </div>
+  <div class="brand">popwave.cn <b>让创意一键落地</b></div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>索伦 · 字槽混合式设定卡</title>
+<style>
+  :root{
+    --cv-w:1125px;
+    --cv-h:1500px;
+    --slot-x:690px;
+    --slot-y:520px;
+    --slot-w:400px;
+    --track-title-font:"Georgia","Times New Roman","Kaiti SC",serif;
+    --track-body-font:"Palatino Linotype","Kaiti SC",serif;
+    --track-label-font:"Georgia","Kaiti SC",serif;
+    --ink:#e8dcc8;
+    --muted:#9a8a6f;
+    --em:#b3222a;
+    --gold:#c9a05a;
+    --seal-bg:#b3222a;
+    --seal-fg:#f2e8d8;
+    --divider:rgba(232,220,200,.35);
+  }
+  body[data-track="dark"]{
+    --track-title-font:"Georgia","Times New Roman","Kaiti SC",serif;
+    --track-body-font:"Palatino Linotype","Kaiti SC",serif;
+    --track-label-font:"Georgia","Kaiti SC",serif;
+    --ink:#e8dcc8;
+    --muted:#9a8a6f;
+    --em:#b3222a;
+    --gold:#c9a05a;
+    --seal-bg:#b3222a;
+    --seal-fg:#f2e8d8;
+    --divider:rgba(232,220,200,.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:var(--cv-w);height:var(--cv-h);overflow:hidden;}
+  body{position:relative;font-family:var(--track-body-font);-webkit-font-smoothing:antialiased;}
+  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .overlay{position:absolute;left:var(--slot-x);top:var(--slot-y);width:var(--slot-w);color:var(--ink);}
+  .head{display:flex;align-items:center;gap:18px;margin-bottom:30px;}
+  .head .leadseal{width:52px;height:52px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:19px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 2px 6px rgba(40,20,5,.2);flex:none;}
+  .head .kicker{font-size:20px;color:var(--gold);letter-spacing:4px;border-bottom:1px solid var(--divider);padding-bottom:6px;}
+  .creed{margin-bottom:8px;}
+  .creed .q{font-size:52px;color:var(--ink);letter-spacing:4px;line-height:1.6;
+    font-weight:bold;text-shadow:0 1px 0 rgba(255,255,255,.15);font-family:var(--track-title-font);}
+  .creed .q em{font-style:normal;color:var(--em);}
+  .creed .src{font-size:20px;color:var(--gold);margin-top:4px;letter-spacing:3px;text-align:right;padding-right:10px;}
+  .divider{height:30px;margin:2px 0 4px;position:relative;}
+  .divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--divider),transparent);}
+  .core{font-size:21px;color:var(--muted);line-height:1.9;letter-spacing:1px;margin-bottom:6px;}
+  .core .k{color:var(--em);font-weight:bold;font-family:var(--track-title-font);}
+  .divider.d2{height:26px;}
+  .sym{margin-top:4px;}
+  .sym .row{display:flex;align-items:baseline;margin-bottom:13px;}
+  .sym .row:first-child{margin-left:0;}
+  .sym .row:nth-child(2){margin-left:30px;}
+  .sym .row:nth-child(3){margin-left:8px;}
+  .sym .row:nth-child(4){margin-left:46px;}
+  .sym .n{font-size:26px;color:var(--em);font-weight:bold;letter-spacing:2px;font-family:var(--track-label-font);flex:none;margin-right:14px;}
+  .sym .d{font-size:19px;color:var(--muted);letter-spacing:1px;border-bottom:1px solid var(--divider);padding-bottom:3px;}
+  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:30px;}
+  .foot .name{font-size:26px;color:var(--ink);letter-spacing:5px;font-weight:bold;font-family:var(--track-title-font);}
+  .foot .zhu{font-size:16px;color:var(--gold);letter-spacing:2px;}
+  .foot .seal{width:72px;height:72px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:21px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 3px 8px rgba(40,20,5,.25);}
+</style>
+</head>
+<body data-track="dark">
+  <img class="base" src="索伦-v1.jpg" alt="索伦">
+  <div class="overlay">
+    <div class="head">
+      <div class="leadseal">影</div>
+      <div class="kicker">深渊主宰 · 半精灵</div>
+    </div>
+    <div class="creed">
+      <div class="q">「以此刀，<em>换君临深渊</em>。」</div>
+      <div class="src">索伦</div>
+    </div>
+    <div class="divider"></div>
+    <div class="core"><span class="k">万象无常牌：</span>贫窟盗贼索伦，借命运牌局窥破诸神——以阴影为刃，弑敌成神，守序邪恶，为护妹妹不惜踏碎诸天。</div>
+    <div class="divider d2"></div>
+    <div class="sym">
+      <div class="row"><span class="n">万象牌</span><span class="d">命运牌局·主宰之源</span></div>
+      <div class="row"><span class="n">弯刀匕刃</span><span class="d">阴影之刃·弑神之器</span></div>
+      <div class="row"><span class="n">薇薇安</span><span class="d">羁绊执念·逆鳞</span></div>
+      <div class="row"><span class="n">血门</span><span class="d">命运之路·登神之梯</span></div>
+    </div>
+    <div class="foot">
+      <div class="name">索伦</div>
+      <div class="zhu">深渊主宰</div>
+      <div class="seal">索伦</div>
+    </div>
+  </div>
+</body>
+</html>

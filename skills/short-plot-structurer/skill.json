@@ -1,0 +1,22 @@
+{
+  "id": "short-plot-structurer",
+  "version": "1.0.0",
+  "displayName": "剧情结构器",
+  "description": "当用户完成开篇设计后进入剧情结构设计时启用。推荐模板→弧线设计→角色设计→骨架卡片。先定剧情再配角色（角色服务于剧情）。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["剧情结构", "大纲"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["短篇创作", "剧情结构"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}

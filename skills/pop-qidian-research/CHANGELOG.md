@@ -1,5 +1,17 @@
 # CHANGELOG — pop-qidian-research
 
+## v4.5.0 — 2026-08-12
+
+### 燃料筛入目标对齐剧情累计卡
+
+**背景**：剧情记录双文件收束——review 只产出「白描卡（单章历史）+ 剧情累计卡（全书累计视图）」，废除 current-state.md。research 燃料文档原以"筛入 current-state"为目标，需同步为剧情累计卡。
+
+**改动**：
+- **templates/fuel-doc.tpl.md**：元数据 role/compression 从"筛入 current-state"改为"筛入剧情累计卡"；章节标题"可筛入 current-state 的近期燃料"→"可筛入剧情累计卡的近期燃料"
+- **steps/step-1-find.md**：燃料分级"近期可用"从"筛入 current-state"改为"筛入剧情累计卡"
+- **steps/step-2-output.md**：落盘清单与回复格式的 current-state 引用同步改为剧情累计卡
+- **skill.json**：version 4.4.0→4.5.0，description 更新
+
 ## v4.3.0 — 2026-07-22
 
 ### 新增 decon-plot 剧情拆解档（第五档）

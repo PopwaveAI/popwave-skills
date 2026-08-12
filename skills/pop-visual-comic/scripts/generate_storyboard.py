@@ -1,48 +1,35 @@
 #!/usr/bin/env python3
 """
-pop-visual-comic 批量分镜生成脚本 v3.0
-- ThreadPoolExecutor 高并发生成（默认8线程，Seedream API限制500图/分钟）
-- 自动重试（3次，指数退避）
-- 格式保真（JPEG magic bytes检测→PNG转码）
-- 按帧映射角色定妆图（多角色参考图）
-- 生成元数据JSON
+pop-visual-comic 分镜任务清单导出脚本 v4.0.0
+================================================
+生图改为由主 agent 调用 `image_generate` 工具完成，本脚本不再直调任何 HTTP API、不再内置 API Key。
 
-用法:
-  1. 修改下方 FRAMES 列表（每帧的 id + prompt + 可选 size）
+职责：
+  1. 从下方 FRAMES 列表读取每帧的 id + prompt + 可选 size
+  2. 校验尺寸安全
+  3. 解析每帧的角色定妆图参考路径（FRAME_REFS）
+  4. 导出 `generation_tasks.json`（每帧一条任务：id/prompt/size/ref_images/output_path）
+  5. 打印"请用 image_generate 工具逐张生成"的指引
+
+主 agent 用法：
+  1. 修改下方 FRAMES 列表（每帧的 id + prompt）
   2. 修改 FRAME_REFS 映射每帧的角色定妆图路径（None=无角色帧）
   3. 修改 OUTPUT_DIR 为输出目录
   4. 运行: python generate_storyboard.py
-
-环境变量:
-  ARK_API_KEY - 火山引擎方舟 API Key
+  5. 读取 generation_tasks.json，对每条任务调用 image_generate 工具生成
 
 依赖:
-  pip install requests Pillow
+  pip install Pillow
 """
 
-import base64
 import json
 import os
 import sys
-import time
-import urllib.request
-import urllib.error
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from io import BytesIO
 
 # ============ 配置区（使用前修改） ============
 
-API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
-API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
-MODEL = "doubao-seedream-5-0-pro-260628"
 SIZE = "1125x1500"           # 分镜帧（总像素 169 万 ≤ 236 万上限）
-MAX_PIXELS = 2360000         # Seedream 5.0 Pro 计费临界：超 236 万像素输出图报价翻倍，所有出图必须 ≤ 上限
-
-# 并发线程数（Seedream API限制500图/分钟=8.3图/秒，8线程安全）
-CONCURRENCY = 8
-
-# 最大重试次数
-MAX_RETRIES = 3
+MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
 
 # 输出目录（章节级）
 OUTPUT_DIR = r"第1章/output"
@@ -74,54 +61,7 @@ FRAME_REFS = {
     # "frame4": None,  # 无角色帧
 }
 
-# ============ 执行区（无需修改） ============
-
-
-def image_to_data_uri(path):
-    """读取图片文件转为 data URI"""
-    with open(path, "rb") as f:
-        b64 = base64.b64encode(f.read()).decode()
-    # 检测实际格式
-    f.seek(0)
-    header = f.read(8)
-    if header[:3] == b'\xff\xd8\xff':
-        return f"data:image/jpeg;base64,{b64}"
-    return f"data:image/png;base64,{b64}"
-
-
-def ensure_png_format(path):
-    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。"""
-    with open(path, "rb") as f:
-        header = f.read(8)
-    if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
-        try:
-            from PIL import Image
-        except ImportError:
-            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {path}", file=sys.stderr)
-            return
-        img = Image.open(path)
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        tmp = path + ".tmp"
-        img.save(tmp, "PNG", optimize=True)
-        os.replace(tmp, path)
-        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
-
-
-def ensure_png_bytes(img_bytes):
-    """检测字节流的实际格式，若为JPEG则转码为PNG字节流。返回PNG字节流。"""
-    if img_bytes[:2] == b'\xff\xd8':  # JPEG magic bytes
-        try:
-            from PIL import Image
-        except ImportError:
-            return img_bytes  # 无法转码，返回原始字节
-        img = Image.open(BytesIO(img_bytes))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        buf = BytesIO()
-        img.save(buf, format="PNG")
-        return buf.getvalue()
-    return img_bytes
+# ============ 通用工具 ============
 
 
 def _assert_size_safe(size):
@@ -145,7 +85,7 @@ def _assert_size_safe(size):
     if pixels > MAX_PIXELS:
         print(
             f"  [错误] 尺寸 {size} = {pixels} 像素，超过上限 {MAX_PIXELS} 像素"
-            f"（Seedream 5.0 Pro 超 236 万像素报价翻倍），已中止。",
+            f"（超 236 万像素计费翻倍），已中止。",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -156,7 +96,6 @@ def resolve_ref_image(frame_id):
     ref_name = FRAME_REFS.get(frame_id)
     if not ref_name:
         return None
-    # 尝试多个路径
     candidates = [
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
         os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
@@ -164,167 +103,84 @@ def resolve_ref_image(frame_id):
     ]
     for path in candidates:
         if os.path.exists(path):
-            return path
+            return path.replace("\\", "/")
     print(f"  [警告] 定妆图未找到: {ref_name}，该帧将使用文生图", file=sys.stderr)
     return None
 
 
-def generate_frame(frame, output_path):
-    """生成单帧分镜，自动选择参考图。使用 b64_json 直接返回图片数据。
-    支持自动重试和格式保真。"""
-    prompt_len = len(frame["prompt"])
-    if prompt_len > 2200:
-        print(f"  [警告] {frame['id']} 提示词过长: {prompt_len} 字符")
-
-    size = frame.get("size", SIZE)
-    _assert_size_safe(size)
-    payload = {
-        "model": MODEL,
-        "prompt": frame["prompt"],
-        "size": size,
-        "watermark": False,
-        "response_format": "b64_json",
-    }
-
-    # 按帧映射角色参考图
-    ref_path = resolve_ref_image(frame["id"])
-    if ref_path:
-        payload["image"] = image_to_data_uri(ref_path)
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}",
-    }
-
-    data = json.dumps(payload).encode("utf-8")
-
-    for attempt in range(MAX_RETRIES):
+def ensure_png_format(path):
+    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。"""
+    if not os.path.exists(path):
+        return
+    with open(path, "rb") as f:
+        header = f.read(8)
+    if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
         try:
-            req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=120) as response:
-                result = json.loads(response.read().decode("utf-8"))
-
-            data_list = result.get("data", [])
-            if not data_list:
-                print(f"  [错误] {frame['id']} 尝试{attempt+1}: 未返回图片数据", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            item = data_list[0]
-            if "error" in item:
-                print(f"  [错误] {frame['id']} 尝试{attempt+1}: {item['error']}", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            b64_data = item.get("b64_json")
-            if not b64_data:
-                print(f"  [错误] {frame['id']} 尝试{attempt+1}: 未返回b64_json", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            # 解码base64 + 格式保真
-            img_bytes = base64.b64decode(b64_data)
-            img_bytes = ensure_png_bytes(img_bytes)
-
-            with open(output_path, "wb") as f:
-                f.write(img_bytes)
-
-            file_size = len(img_bytes) / 1024
-            ref_info = f" ref={os.path.basename(ref_path)}" if ref_path else " 文生图"
-            print(f"  [OK] {frame['id']} ({file_size:.0f}KB{ref_info}, prompt={prompt_len}字符)")
-            return {"id": frame["id"], "success": True, "path": output_path}
-
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8") if e.fp else ""
-            print(f"  [错误] {frame['id']} 尝试{attempt+1}: HTTP {e.code} - {error_body[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-        except Exception as e:
-            print(f"  [错误] {frame['id']} 尝试{attempt+1}: {str(e)[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-
-    print(f"  [失败] {frame['id']} 所有{MAX_RETRIES}次尝试均失败", file=sys.stderr)
-    return {"id": frame["id"], "success": False, "path": output_path}
+            from PIL import Image
+        except ImportError:
+            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {path}", file=sys.stderr)
+            return
+        img = Image.open(path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = path + ".tmp"
+        img.save(tmp, "PNG", optimize=True)
+        os.replace(tmp, path)
+        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
 
 
-def main():
-    print("=" * 60)
-    print(f"pop-visual-comic 批量分镜生成 v3.0 (并发={CONCURRENCY})")
-    print("=" * 60)
-
-    # 确定输出目录
+def export_tasks():
+    """把 FRAMES 列表导出为 generation_tasks.json，供主 agent 用 image_generate 工具逐张生成。"""
     out_dir = OUTPUT_DIR
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
-    # 检查定妆图可用性
+    tasks = []
     print("\n定妆图映射检查:")
     for frame in FRAMES:
+        prompt = frame["prompt"]
+        if len(prompt) > 2200:
+            print(f"  [警告] {frame['id']} 提示词过长: {len(prompt)} 字符")
+
+        size = frame.get("size", SIZE)
+        _assert_size_safe(size)
+
         ref_path = resolve_ref_image(frame["id"])
+        refs = [ref_path] if ref_path else []
+
+        output_path = os.path.join(out_dir, f"{frame['id']}.png").replace("\\", "/")
+        tasks.append({
+            "id": frame["id"],
+            "prompt": prompt,
+            "size": size,
+            "ref_images": refs,
+            "output_path": output_path,
+        })
+
         status = os.path.basename(ref_path) if ref_path else "无（文生图）"
-        print(f"  {frame['id']}: {status}")
+        print(f"  {frame['id']}: {status}  size={size}")
 
-    print(f"\n开始生成 {len(FRAMES)} 帧（并发数={CONCURRENCY}）...\n")
-
-    start_time = time.time()
-
-    # 高并发生成
-    results = []
-    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
-        futures = {}
-        for i, frame in enumerate(FRAMES):
-            output_path = os.path.join(out_dir, f"{frame['id']}.png")
-            future = executor.submit(generate_frame, frame, output_path)
-            futures[future] = frame
-
-        for future in as_completed(futures):
-            frame = futures[future]
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"  [崩溃] {frame['id']}: {e}", file=sys.stderr)
-                results.append({"id": frame["id"], "success": False, "path": None})
-
-    elapsed = time.time() - start_time
-
-    # 按帧号排序结果
-    results.sort(key=lambda r: r["id"])
-
-    # 汇总
-    print("\n" + "=" * 60)
-    print("生成汇总:")
-    success_count = 0
-    for r in results:
-        status = "OK" if r["success"] else "FAIL"
-        print(f"  [{status}] {r['id']} -> {r.get('path', 'N/A')}")
-        if r["success"]:
-            success_count += 1
-
-    print(f"\n成功: {success_count}/{len(FRAMES)}")
-    print(f"耗时: {elapsed:.1f}秒 (平均 {elapsed/max(len(FRAMES),1):.1f}秒/帧)")
-    print(f"并发效率: 理论串行 ~{elapsed*CONCURRENCY:.0f}秒 -> 实际 {elapsed:.0f}秒")
-
-    # 保存元数据
     meta = {
         "total_frames": len(FRAMES),
-        "success": success_count,
-        "failed": len(FRAMES) - success_count,
-        "elapsed_seconds": round(elapsed, 1),
-        "concurrency": CONCURRENCY,
-        "model": MODEL,
-        "frames": results,
+        "generator": "generate_storyboard.py v4.0.0",
+        "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
+        "tasks": tasks,
     }
-    meta_path = os.path.join(out_dir, "generation_meta.json")
+    meta_path = os.path.join(out_dir, "generation_tasks.json")
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=2)
-    print(f"\n元数据已保存: {meta_path}")
+
+    print("\n" + "=" * 60)
+    print(f"已导出 {len(tasks)} 条生图任务 → {meta_path.replace(os.sep, '/')}")
+    print("=" * 60)
+    print("\n主 agent 请按以下方式用 image_generate 工具逐张生成：")
+    print("  对 generation_tasks.json 中每条任务：")
+    print("    image_generate(prompt=<任务prompt>, size=<任务size>, output=<任务output_path>)")
+    print("  图生图（有 ref_images 时）：按 image_generate 工具能力传入参考图，保证角色一致性。")
+    print("  生成完成后用 ensure_png_format 校验格式，必要时手动转码。")
+    return meta_path
 
 
 if __name__ == "__main__":
-    main()
+    export_tasks()

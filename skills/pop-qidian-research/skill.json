@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-research",
-  "version": "4.4.0",
+  "version": "4.5.0",
   "displayName": "涌现 Research",
-  "description": "起点调研引擎。v4.4.0：新增原文存在性前置门禁，decon-lite/decon-plot采样前必须验证参考书txt存在，禁止基于记忆/书评/评论重构。",
+  "description": "起点调研引擎。v4.5.0：燃料筛入目标对齐剧情累计卡。v4.4.0：新增原文存在性前置门禁，decon-lite/decon-plot采样前必须验证参考书txt存在，禁止基于记忆/书评/评论重构。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": {

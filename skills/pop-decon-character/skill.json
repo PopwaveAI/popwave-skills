@@ -1,0 +1,18 @@
+{
+  "id": "pop-decon-character",
+  "version": "1.0.0",
+  "displayName": "人物角色拆解",
+  "description": "当拆书时用户说'人物/角色/人设/弧线/成长'时启用。消费章节白描+剧情线(可选)→产出人物角色拆解：角色卡+弧线+动机+成长。",
+  "tags": [
+    "拆书与分析"
+  ],
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-prd",
+  "expert": "pop-decon",
+  "activation": { "slashCommands": ["人物", "角色", "人设", "弧线"] },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

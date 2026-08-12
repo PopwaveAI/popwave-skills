@@ -200,7 +200,7 @@ python "../pop-visual-shared/scripts/pinterest_search.py" "[英文表达]" --max
 
 ### 3.4 落盘
 
-将选图+参考点结果追加到 `素材/视觉设计方案.md`：
+将选图+参考点结果追加到 `_过程/提示词记录.md`：
 
 ```markdown
 ## 选图与参考点记录

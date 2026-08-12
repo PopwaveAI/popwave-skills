@@ -31,7 +31,7 @@ Get-Content -Encoding UTF8 -Raw templates/mechanics-doc.tpl.md
 - 资料覆盖声明（已读 / 用户描述 / 模型推断 / 禁止外推）
 - 本书涌现燃料表（燃料 / 来源 / 可触发事件 / 主角操作点 / 可外显爽点 / 风险）
 - 外部燃料表（燃料 / 已读范围 / 短复述 / 本项目转译 / 不照搬）
-- 可筛入 current-state 的近期燃料 / 中期保留燃料 / 禁用燃料
+- 可筛入剧情累计卡的近期燃料 / 中期保留燃料 / 禁用燃料
 - Content Mechanics 分流建议表（指向 content-mechanics.md）
 
 ### 3. 落盘 content-mechanics.md
@@ -53,7 +53,7 @@ execution.mode：{formal|draft|trial}
 
 {燃料条数、主燃料摘要、content-mechanics 落盘条数}
 
-下一步：建议执行 pop-qidian-review 初始化/更新 current-state，把近期燃料筛入。
+下一步：建议执行 pop-qidian-review 更新剧情累计卡，把近期燃料筛入。
 ```
 
 ## 质量门

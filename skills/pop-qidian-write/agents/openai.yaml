@@ -1,3 +1,3 @@
 interface:
   display_name: "起点 Write"
-  short_description: "按current-state和文风锚定.md写正文"
+  short_description: "按上一章白描卡、剧情累计卡和文风锚定.md写正文"

@@ -1,8 +1,8 @@
 {
   "id": "pop-dna-style",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "displayName": "文风DNA提取与综合重构",
-  "description": "文风DNA提取与综合重构。v1.4.0：新增Stage 2综合重构模式，Phase 3完成后用世界画风+用户需求重构Stage 1笔触层，产出三层综合终版文风锚定.md。v1.3.0：原文存在性前置门禁。",
+  "description": "文风DNA提取与综合重构。v1.5.0：产出格式升级为「操作特征+精选原文」精简版，与文风库同构，write全量加载无压力。v1.4.0：新增Stage 2综合重构模式。v1.3.0：原文存在性前置门禁。",
   "tags": ["创意与研究"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-dna-style", "文风DNA", "DNA重构"] },

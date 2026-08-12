@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.4.0：新增导入/续写模式（Step 0）。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.10.0：剧情记录双文件收束（导入/反推/判定改双文件，废current-state）。v3.9.0：知识地图试点（reference 读取索引）。v3.8.0：小说快照改为剧情白描流水账（review append-only，write长线锚）。v3.7.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。
 
 ## 做什么
 
@@ -32,9 +32,31 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 | 3 | Plot叙事白描 | pop-fanqie-plot | 设计/第一卷剧情/剧情白描.md |
 | 3.5 | Character角色库 | pop-fanqie-character | 设计/角色库/角色库.md |
 | 4 | Write正文渲染(**子agent**) | pop-fanqie-write | 正文/chXXX.txt |
-| 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md |
+| 5 | Review审核+沉淀 | pop-fanqie-review | 审核/review-chXXX.md + 双文件（剧情白描流水账.md + 剧情累计卡.md） |
 
 Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道调研第一优先级独立启动。Phase 5通过→phase4+ch+1，打回→phase4重写。
+
+## 📦 可调度 Skill 清单（素材表）
+
+> 本 pipeline 整个专家入口与调度器，可调度的子 skill 总清单如下（与 `skill.json` 的 `skills` 数组一致）。这些 skill 按 Phase 路由表调度，**部分 skill 会被其他专家复用**（如 `pop-dna-style` / `pop-research` / `tool-download-webnovel`）。
+
+| Skill | 定位 | 何时调用 |
+|:--|:--|:--|
+| `pop-fanqie-seed` | 种子创意+首章 | Phase 1 |
+| `pop-fanqie-world` | 世界构筑（全书设定） | Phase 2 |
+| `pop-fanqie-plot` | 剧情白描 | Phase 3 |
+| `pop-fanqie-character` | 角色库 | Phase 3.5 |
+| `pop-fanqie-write` | 正文渲染 | Phase 4 |
+| `pop-fanqie-review` | 审核+沉淀 | Phase 5 |
+| `pop-dna-style` | 文风综合重构 | Phase 0 |
+| `pop-research` | 赛道调研/decon-lite/采风 | Phase 0 |
+| `tool-download-webnovel` | 下载对标书 | Phase 0 |
+
+## 🚪 首次对话引导（onboarding）
+
+> 用户第一次触发番茄网文专家（无任何写作项目、非续写场景）时，**先输出 `references/onboarding-guide.md` 的引导语内容**给用户建立认知，再进入 Step 0 意图深问。
+>
+> 展示方式：在回复中**直接粘贴 `references/onboarding-guide.md` 全文**（声明本次为功能介绍+引导、未执行 skill 任务），用 1-2 句口头补充"报书号+想法就开始"。若用户已明确要开做，可跳过引导直接干活。
 
 ## 红线
 
@@ -57,9 +79,16 @@ Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道�
 | `steps/step2.md` | 路由时读取 | Phase路由规则+state更新+脚本调用 |
 | `scripts/generate-state-html.py` | 每次更新state.md后运行 | 读取state.md→生成project-state.html |
 | `templates/project-state.html.tpl` | 脚本自动使用 | HTML可视化模板 |
+| `references/onboarding-guide.md` | 用户第一次触发（首次对话引导）时 | C端口吻引导语——「🚪 首次对话引导」区块强触发输出全文 |
+
+## 🗺️ 知识地图（reference 读取索引）
+
+> pipeline 只有 1 个 reference，且为强触发式（首次对话引导），无需分级。**看就记住，别读全文**。
+
+| 参考 | 级别 | 什么时候必须读（触发条件） |
+|:--|:--|:--|
+| `references/onboarding-guide.md` | 🔴强触发 | **用户第一次触发番茄专家时必读**——SKILL.md「首次对话引导」区块声明输出全文，建立作者认知 |
 
 ## 版本
 
-v3.4.0 | 2026-07-24 | 新增导入/续写模式（Step 0），支持已有历史资料/正文时跳过从零初始化 → [CHANGELOG.md](CHANGELOG.md)
-
-v3.3.0 | 2026-07-22 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为7条含读取协议 → CHANGELOG.md
+v3.10.0 | 2026-08-12 | 剧情记录双文件收束：导入/反推/判定改双文件（流水账白描卡+剧情累计卡），废 current-state → [CHANGELOG.md](CHANGELOG.md)

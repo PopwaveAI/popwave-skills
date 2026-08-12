@@ -7,7 +7,7 @@
 >
 > **v7.2.0 立绘质量升级（高精度立绘模板）**：老板定调"立绘 OC 图基本决定成品漫画质量"。立绘是图生图链条的参考真相源，精度 = 全书质量上限。立绘必须用 §高精度立绘升级 的 4 块结构（锁构图+光源+材质+硬约束）逐项锁定，杜绝廉价AI感，作为全书质量上限。
 >
-> **v7.4.0 立绘差异化升级（高级角色设计层）**：老板反馈"部分立绘廉价没特色、千篇一律"。根因是"美型"只解决画得好看、不解决画得独特。**本 guide 的七维度规格表 + 高精度4块模板是"画得对"的底盘，`pop-visual-character` 的 `advanced-character-design.md` 是"画得独特"的高级层**——注入角色设计金字塔（剪影/色彩/细节三层）、反类型化、符号与行为撕裂感、从原著提取视觉锚点（五问提取法）。**所有主角/重要配角立绘，在组装七维度规格表时必须先读 `pop-visual-character/references/advanced-character-design.md`**，用"偏科"思维写规格表，禁止落入"黑发+白T+卫衣+牛仔裤+标准网感脸"的平均值陷阱。**角色本体身份以 `pop-visual-character` 产出的「角色视觉身份卡」为唯一真源，本 guide 只负责在身份卡之上做双角度定妆渲染。**
+> **v7.4.0 立绘差异化升级（高级角色设计层）**：老板反馈"部分立绘廉价没特色、千篇一律"。根因是"美型"只解决画得好看、不解决画得独特。**本 guide 的七维度规格表 + 高精度4块模板是"画得对"的底盘，`pop-visual-art-bible` 的 `advanced-character-design.md` 是"画得独特"的高级层**——注入角色设计金字塔（剪影/色彩/细节三层）、反类型化、符号与行为撕裂感、从原著提取视觉锚点（五问提取法）。**所有主角/重要配角立绘，在组装七维度规格表时必须先读 `pop-visual-art-bible/references/advanced-character-design.md`**，用"偏科"思维写规格表，禁止落入"黑发+白T+卫衣+牛仔裤+标准网感脸"的平均值陷阱。**角色本体身份以 `pop-visual-art-bible` 产出的「美术设定集·人物篇」为唯一真源，本 guide 只负责在美术设定集之上做双角度定妆渲染。**
 
 ## 为什么是双角度+版本号
 
@@ -208,23 +208,16 @@ Exactly one character. No duplicated limbs. Exactly five fingers per hand. No ch
 
 ### 生成命令
 
-```powershell
-$env:ARK_API_KEY="{API_KEY}"
+> 不再使用 `generate.py` 直连生图 API（已移除内置 API Key）。改为组装提示词后，直接用 `image_generate` 工具生成。
 
-# 正面立绘
-python "{pop-visual-shared路径}/scripts/generate.py" image `
-  --prompt '{正面提示词}' `
-  --model doubao-seedream-5-0-pro-260628 `
-  --size 1125x1500 `
-  --output "{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png"
+**正面立绘**（文生图）：
+```text
+image_generate(prompt='{正面提示词}', size='1125x1500', output='{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png')
+```
 
-# 侧面立绘（传正面立绘作参考）
-python "{pop-visual-shared路径}/scripts/generate.py" image `
-  --prompt '{侧面提示词}' `
-  --model doubao-seedream-5-0-pro-260628 `
-  --size 1125x1500 `
-  --image "data:image/png;base64,{正面立绘base64}" `
-  --output "{漫画项目}/assets/characters/char-{角色名}-v{N}-side.png"
+**侧面立绘**（图生图，传正面立绘作参考保证同一人）：
+```text
+image_generate(prompt='{侧面提示词}', size='1125x1500', ref_image='{漫画项目}/assets/characters/char-{角色名}-v{N}-front.png', output='{漫画项目}/assets/characters/char-{角色名}-v{N}-side.png')
 ```
 
 ## 版本管理

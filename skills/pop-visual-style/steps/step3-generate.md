@@ -1,15 +1,13 @@
 # Step 3: 执行生成
 
-> 确定参数 → 执行API → 保存图片 → 回写记录
+> 确定参数 → 用 image_generate 工具生成 → 保存图片 → 回写记录
 
 ## 1. 确定参数
 
-| 参数 | 默认值 | 说明 |
+| 参数 | 值 | 说明 |
 |:-----|:-------|:-----|
-| model | `doubao-seedream-5-0-pro-260628` | Seedream 5.0 Pro |
-| size | 按画幅选择 | 见速查表 |
+| 尺寸 | 按画幅选择 | 见速查表 |
 | watermark | `false` | 不加水印 |
-| response_format | `url` | 返回URL，脚本自动下载 |
 
 ### 尺寸速查
 
@@ -21,22 +19,30 @@
 | 16:9 | 1500x844 | 宽屏 |
 | 9:16 | 844x1500 | 竖版海报 |
 
-> **铁律：所有出图总像素 ≤ 236 万（Seedream 5.0 Pro 计费临界，超限报价翻倍）。** 上表全部安全（最大 1500x1500=225 万）。`generate.py` 内置 `assert_size_safe` 校验，超限报错中止。
+> **铁律：所有出图总像素 ≤ 236 万（Seedream 5.0 Pro 计费临界，超限报价翻倍）。** 上表全部安全（最大 1500x1500=225 万）。用 `image_generate` 工具生成时按此尺寸传参，超限需人工拦截。
+
+> **⚠️ 画风定标图禁止加品牌水印**：定标图是给下游做图生图 `ref_image` 的生产参考。加了 `popwave.cn` 会被 Seedream 当画面内容带进下游正式成品，导致水印层层污染。水印只在**对外展示产出**（OC 立绘/封面/漫画页）落地后叠加。
 
 ## 2. 执行生成
 
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --output "素材/视觉/生成-v1.png"
+> 生图统一走 `image_generate` 工具，不再调用 `generate.py` 直连 API（无内置 API Key）。
+
+```text
+image_generate(prompt='提示词内容', size='1125x1500', output='测试/画风定标/{画风}-v1.png')
 ```
 
 图生图模式（有参考图时）：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<base64数据>" --output "素材/视觉/生成-v1.png"
+```text
+image_generate(prompt='提示词内容', size='1125x1500', ref_image='测试/画风定标/参考图.png', output='测试/画风定标/{画风}-v1.png')
 ```
+
+> **画风定标/批量测试**：走固定脚本 `batch_test.py`（导出 `generation_tasks.json`），再由 `image_generate` 工具逐条生成，见 step4。
 
 ## 3. 输出目录
 
-确保输出目录存在：`素材/视觉/`，如不存在则创建。
+**落盘三态（见 `../pop-visual-pipeline/references/落盘规范.md`）**：定标候选图统一输出到 `测试/画风定标/`，确保目录存在（不存在则创建）。**认可冻结后**复制到 `素材/风格/`（基建真源），并在 `画风决策.md` 记录冻结路径——`测试/` 内不标 final，`素材/风格/` 内为冻结定标真源。
+
+> ⚠️ 定标图禁止加品牌水印（见 §1 铁律），且 `测试/画风定标/` 属可清理态，冻结到 `素材/风格/` 才算定稿。
 
 ## 4. 回写提示词记录
 

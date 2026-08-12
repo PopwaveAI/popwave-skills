@@ -66,7 +66,7 @@
 | `pages[].file` | string | 是 | 页面图片文件名（如 `page1.png`） |
 | `pages[].captions` | array | 否 | 文字叠加数组 |
 | `captions[].type` | string | 是 | `narration`（旁白条）/ `dialogue`（对白气泡） |
-| `captions[].text` | string | 是 | 文字内容（直接使用小说原文，≤15字/条） |
+| `captions[].text` | string | 是 | 文字内容（直接使用小说原文，旁白≤80字/条，对白≤15字/条） |
 | `captions[].position` | string | 是 | 定位（见下方位置规范） |
 
 ### 位置规范
@@ -75,11 +75,15 @@
 |:-----------|:---------|:---------|
 | `bottom` | narration | 底部全宽渐变遮罩条 |
 | `top` | narration | 顶部全宽渐变遮罩条 |
+| `side-top` | narration | 顶部侧边窄条（左上，避开人脸/对白） |
+| `side-bottom` | narration | 底部侧边窄条（左下，避开人脸/对白） |
 | `top-left` | dialogue | 左上角气泡 |
 | `top-right` | dialogue | 右上角气泡 |
 | `bottom-left` | dialogue | 左下角气泡 |
 | `bottom-right` | dialogue | 右下角气泡 |
 | `center` | dialogue | 居中气泡（少用） |
+
+> **铁律（v7.20.0）**：旁白条类名**只用 `top` / `bottom` / `side-top` / `side-bottom`**，CSS 必须为这四个类定义定位规则。**禁用 `top-left` / `top-right` 作为旁白条类名**（这两个类只给对白气泡用）——旁白条若用无定位规则的类名，会因缺少 `top` 锚点而错位落到页面底部之外（第4章 P1/P6 实测踩坑）。
 
 ## 文字叠加类型
 
@@ -113,13 +117,13 @@
 
 ### 对白气泡（dialogue）
 
-**用途**：角色台词。圆角白色半透明气泡。
+**用途**：角色台词。圆角白色气泡。
 
 **视觉规范**：
 - 最大宽度 45%（不遮挡画面主体）
-- 白色半透明背景（rgba(255,255,255,0.92)）
+- **接近实色白底（rgba(255,255,255,0.97)）**——浅色/高亮画面上气泡仍清晰成型，不融进背景
+- **深色文字 + 白色描边**（color #1a1a1a + text-shadow 白边）——深字带白描边，在亮画面上与画面分隔，醒目
 - 圆角 12px
-- 深色文字（#1a1a1a）
 - 字号 14px，行高 1.6
 
 ```css
@@ -127,10 +131,11 @@
   position: absolute;
   max-width: 45%;
   padding: 10px 14px;
-  background: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.97);   /* 接近实色白底，浅色画面不融背景 */
   border-radius: 12px;
   font-size: 14px; line-height: 1.6;
   color: #1a1a1a;
+  text-shadow: 0 0 2px rgba(255,255,255,0.9), 0 1px 3px rgba(0,0,0,0.25);  /* 白描边+轻投影 */
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .caption-dialogue.top-left { top: 12%; left: 5%; }
@@ -152,17 +157,92 @@
 
 > 如果导演卡标注"无（画面自说）"，`captions` 留空数组 `[]`。
 
+## 信息页渲染（半文半图，v7.18.0）
+
+> 信息页 = 一半漫画图 + 一半文字块，**图文同页不可分离**（禁止纯文字无图的信息卡）。上漫画下文字，文字承载浓密世界观/背景，画面提供视觉锚点。信息页设计与穿插节奏由导演卡 `step1-director-card.md` §3.1c 规划。
+
+### 页面配置 JSON 结构
+
+信息页在 `pages` 数组中用 `"type": "info"` 标记，独占一页：
+
+```json
+{
+  "file": "info_page1.png",
+  "type": "info",
+  "info": {
+    "heading": "是谁·是谁的夜",
+    "title": "他继承的，不止是身体",
+    "body": [
+      "克莱恩·莫雷蒂——鲁恩王国阿霍瓦郡廷根市人，霍伊大学历史系刚毕业。",
+      "父亲是皇家陆军上士，牺牲在南大陆；母亲是黑夜女神信徒，也已离世。",
+      "他有一个哥哥班森、一个妹妹梅丽莎，一家人挤在出租公寓里，家境拮据。"
+    ]
+  }
+}
+```
+
+### HTML 渲染结构
+
+```html
+<div class="info-page">
+  <div class="info-art">
+    <img src="output/info_page1.png" alt="设定配图">
+  </div>
+  <div class="info-text">
+    <div class="info-heading">是谁·是谁的夜</div>
+    <div class="info-title">他继承的，不止是身体</div>
+    <div class="info-body">
+      <p>克莱恩·莫雷蒂——鲁恩王国阿霍瓦郡廷根市人……</p>
+      <p>……</p>
+    </div>
+  </div>
+</div>
+```
+
+### 视觉规范
+
+```css
+.info-page { position:relative; margin-bottom:4px; }
+.info-art { width:100%; }
+.info-art img { display:block; width:100%; height:auto; }
+.info-text {
+  padding: 24px 22px 30px;
+  background: linear-gradient(180deg, #151312 0%, #1a1714 100%);
+  border-top: 1px solid #3a342c;
+}
+.info-heading { font-size:12px; letter-spacing:3px; color:#8a7a5c; margin-bottom:8px; }
+.info-title { font-size:20px; font-weight:700; color:#c4b998; letter-spacing:2px; margin-bottom:14px; }
+.info-body p { font-size:15px; line-height:2.0; color:#e8e2d6; margin-bottom:10px; text-align:justify; }
+```
+
+**要点**：上半图片 `info-art` 只放画面（提示词已含负面约束无文字），下半文字块 `info-text` 承载 2-4 条分条信息（每条≤80字）。文字块不透明衬底，保证长文可读，不与漫画图叠压。
+
+### 信息页 JSON 字段说明
+
+| 字段 | 类型 | 说明 |
+|:-----|:-----|:-----|
+| `pages[].type` | string | `"info"` 标记为信息页；省略则按普通漫画页渲染 |
+| `pages[].info.heading` | string | 信息页小标（栏目名，如"人物·夜之国"） |
+| `pages[].info.title` | string | 信息页大标题（一句话点题） |
+| `pages[].info.body` | array | 分条文字，每条 ≤80 字，2-4 条 |
+
+> **铁律**：信息页必须有图（`info-art` 不可为空）。信息页前后必须各有漫画页，禁止连续 2 个信息页。信息页占全章页数 ≤30%。
+
 ## 避让规则
 
-文字叠加不得遮挡画面关键信息：
+文字叠加不得遮挡画面关键信息，尤其**角色脸部**：
 
 | 规则 | 说明 |
 |:-----|:-----|
-| 避让人物面部 | 对白气泡不得覆盖角色脸部区域 |
-| 避让动作焦点 | 旁白条放在底部/顶部，不覆盖画面中心动作 |
+| 避让人物面部 | 对白/旁白不得覆盖角色脸部区域 |
+| 旁白条只占边缘 | 顶部/底部旁白条高度 ≤6%，只放 `top`/`bottom`/`side-top`/`side-bottom` 四类，不覆盖画面中心动作 |
+| 对白气泡放角落 | 只放四角，max-width 45%，不压脸 |
+| 禁用无规则类名 | 旁白条禁用 `top-left`/`top-right`（那是对白类），否则错位落底部之外 |
 | 大单页慎用文字 | 名场面画面自说，除非导演卡明确标注旁白 |
 | 旁白条 ≤3 行 | 超过 3 行用导演卡拆分为多页或精简旁白 |
 | 对白气泡 ≤15 字 | 超长对白拆分为多个气泡或精简 |
+
+> **文字安全区（v7.20.0）**：导演卡设计页面时，为每页预留**顶部 6% + 底部 6% 文字安全带**。角色脸部/关键动作放在画面中部，旁白条只放在安全带内——从源头避免"文字压脸"。若某页角色脸必须贴近上/下边缘，则该页旁白改用 `side-top`/`side-bottom` 窄条或干脆不放该位置。
 
 ## 完整 HTML 模板（长条滚动）
 
@@ -216,17 +296,31 @@
     .caption-narration {
       position: absolute;
       left: 0; right: 0;
-      padding: 36px 20px 14px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+      padding: 22px 20px 12px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 45%, transparent 100%);
       font-size: 15px; line-height: 1.9;
       text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
     }
     .caption-narration.top {
       top: 0; bottom: auto;
-      padding: 14px 20px 36px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+      padding: 12px 20px 22px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 45%, transparent 100%);
     }
     .caption-narration.bottom { bottom: 0; }
+    .caption-narration.side-top {
+      top: 0; bottom: auto; left: 0; right: auto;
+      max-width: 72%;
+      padding: 12px 20px 22px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 45%, transparent 100%);
+      border-radius: 0 0 10px 0;
+    }
+    .caption-narration.side-bottom {
+      bottom: 0; left: 0; right: auto;
+      max-width: 72%;
+      padding: 22px 20px 12px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 45%, transparent 100%);
+      border-radius: 0 10px 0 0;
+    }
     .caption-dialogue {
       position: absolute;
       max-width: 45%;

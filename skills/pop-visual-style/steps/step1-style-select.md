@@ -46,6 +46,7 @@ python ../pop-visual-shared/scripts/pinterest_search.py "画风关键词" --limi
 取选定画风的：
 - `recommended_lighting` → 光照模板（LT1/LT2/LT3）
 - `recommended_composition` → 构图模板（CT1/CT2）
+- `content_theme` → **该画风原生题材的默认内容层**（供 Step 2 场景段兜底；跨题材时由用户场景覆盖）
 
 **兼容性检查**（铁律❌3）：
 - 查 `references/lighting-composition-templates.md` 兼容性矩阵
@@ -57,7 +58,8 @@ python ../pop-visual-shared/scripts/pinterest_search.py "画风关键词" --limi
 
 记录到项目文件（`素材/画风选择记录.md`）：
 - 选定画风名+类别+keywords
-- dna + constraint
+- dna + constraint（**纯技法层，禁止混入内容**）
+- content_theme（原生题材默认内容层）
 - recommended_lighting + recommended_composition
 - 兼容性检查结果
 

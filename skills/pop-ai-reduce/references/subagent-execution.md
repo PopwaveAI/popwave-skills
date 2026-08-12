@@ -59,6 +59,10 @@
 {原文目录下「正文-降AI味版本」文件夹完整路径}
 双文件入夹，原文不动。
 
+【输出位置】
+{原文目录下新建的「正文-降AI味版本」文件夹完整路径}
+产出双文件（纯正文 + 分析报告）都写入此文件夹，绝不覆盖原文。
+
 【执行指令】
 1. 用 Get-Content -Encoding UTF8 -Raw 读取 steps/pipeline-execute.md 和 templates/rewrite-output.md
 2. 按 pipeline-execute.md 执行：Step 1（朱雀预估）→ Step 2a（节奏比例规划）→ Step 2（段落分层）→ Step 3（叠层改写）→ Step 4（句长检查）→ Step 5（双文件输出）

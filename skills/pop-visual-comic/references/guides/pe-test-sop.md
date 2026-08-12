@@ -4,20 +4,20 @@
 > 对应基线库：画风 → `../art-style-baseline.md`（画风PE库）；排版 → `../layout-baseline.md`（排版PE库）。
 > 本文件只管"怎么测、怎么记、怎么判、怎么入库"，不写画风内容，也不写排版内容。
 
-## 〇、固定 SOP 铁律（v1.6 新增，老板定调）
+## 〇、固定 SOP 铁律（v1.8 新增，老板定调）
 
 > **测试不是每次全新设计，是复用同一套固定脚本跑变体。** 每次测试都现场组装提示词、重定参数 = 不稳定 + 慢。必须走固定 SOP。
 >
-> **v1.6 关键升级（画风×项目角色联合测试）**：老板实测发现"固定中性素材"无法验证画风能否撑起项目角色（玄鉴仙族用中性"现代青年+木屋"测画风，测不出"黑金甲衣+金瞳"主角的适配度）。**画风测试默认用项目真实角色当测试素材，而非中性素材。**
+> **v1.8 关键回归（画风测试素材 = 小说次要视觉锚点）**：老板定调——画风测试**不应用主要人物形象做测试素材**（画风可能满意、但形象不满意，且画风/测试 skill 不是为设计人物而生）；但也**不用与小说无关的中性材料**（ahament 代入感会弱很多）。**画风测试默认用【和小说相关但无关紧要的次要元素**——某个战斗场景/地点（`--scene`）、路人/NPC/龙套（`--side`）。这类元素：和小说强相关 → 保留代入感；无关紧要 → 不承担角色形象验收。**主角/主要角色归 art-bible/oc 环节，用已冻结画风去渲染承担。**
 
 | # | 铁律 | 违反后果 |
 |:-:|:-----|:---------|
 | 🧪1 | **复用固定脚本 `batch_test.py`** — 画风测试必须用 `../pop-visual-shared/scripts/batch_test.py`（固定模板+并发批量+自动PE日志），禁止现场手写提示词、手动单张生成 | 每次测试变量不隔离、不稳定、慢 |
-| 🧪2 | **画风测试默认用项目角色做测试素材（画风×角色联合测试）** — 用 `--character "角色描述"` + `--character-image "参考图"` 传项目真实角色（图生图保证角色一致），验证"画风能否撑起这个角色"。**禁止再用中性素材测画风**（测不出画风×角色适配度）。仅排查"画风本身是否被执行"时才用中性素材（`--character` 不传） | 画风与项目角色脱节，测出的是"画风通用底色"而非"画风×角色适配" |
+| 🧪2 | **画风测试默认用小说次要视觉锚点** — `--scene`（战斗场景/地点）+ `--side`（路人/NPC/龙套）注入测试素材，和小说强相关、无关紧要，验证"画风 DNA 是否被执行"。**禁止传 `--character`/`--character-image` 引入主角/主要角色**（画风可能满意但形象不满意，人物形象归 art-bible/oc）；不传则兜底用脚本内置中性素材 | 用主角 → 混入角色形象变量，分不清是画风问题还是形象问题；用与小说无关的中性素材 → ahament 代入感弱 |
 | 🧪3 | **默认并发 8 线程** — 批量测变体用 `--concurrency 8`（Seedream 500图/分钟，8线程安全），一次出多张变体；禁止串行逐张跑 | 10张测试从30分钟拖到串行，慢 |
 | 🧪4 | **测变体 = 填 `--style-names` 或 `--config`，其余全固定** — 需要测新画风就加画风名/变体，不需要重写脚本或重定参数 | 测试逻辑漂移，无法复现对比 |
 
-**一句话**：画风测试 = `python batch_test.py --style-names "画风A,画风B" --character "项目主角描述" --character-image "定妆图/OC图" --out-dir 素材/测试 --seed 20260804`，跑完看 PE 日志 + 图，看"画风×角色"是否达标后入库。**不达标回炉只改一个子维度，再跑同一脚本。**
+**一句话**：画风测试 = `python batch_test.py --style-names "画风A,画风B" --scene "<战斗场景>" --side "<路人>" --out-dir 素材/测试 --seed 20260804`，跑完看 PE 日志 + 图，看"画风"是否达标后入库。**不达标回炉只改一个子维度，再跑同一脚本。**
 
 > 排版测试（M2）与 OC 对齐（M4）因涉及格几何/参考图，暂不纳入 batch_test.py，仍按 §二 控制变量法手工执行。
 
@@ -84,17 +84,16 @@
 - 同一轮内不要同时测 M1 和 M2——两个变量同时变，无法归因。
 - 轮次之间优先继承上一轮胜出的变体作为本轮固定层，形成收敛链。
 
-**画风（M1）并发落地（固定 SOP + 画风×角色联合测试）**：
+**画风（M1）并发落地（固定 SOP + 小说次要视觉锚点只验画风）**：
 ```powershell
-# 画风×项目角色联合测试（推荐，验证画风能否撑起角色）
-python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" --character-image "素材/李周巍OC-v1.png" --out-dir 素材/测试 --concurrency 8 --seed 20260804
+# 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）
+python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --out-dir 素材/测试 --concurrency 8 --seed 20260804
 
-# 从 DNA 库按画风名批量测（无角色时用中性素材，仅排查画风本身）
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --out-dir 素材/测试 --concurrency 8 --seed 20260804
-
-# 自定义变体（JSON 文件，每个变体可精调 dna/constraint/lighting）
+# 自定义变体（JSON 文件，每个变体可精调 dna/constraint/lighting；脚本注入的 scene/side 覆盖变体同名段）
 python ../pop-visual-shared/scripts/batch_test.py --config 素材/测试/test_variants.json --out-dir 素材/测试 --concurrency 8
 ```
+
+> **禁止传 `--character`/`--character-image`**：画风测试不用主角/主要角色（画风可能满意但形象不满意，人物形象归 art-bible/oc）。测试素材 = 小说次要视觉锚点（`--scene` 场景/`--side` 路人），和小说强相关、无关紧要；不传则兜底用脚本内置中性素材。
 
 > 输出：每个变体一张图 + 自动 `pe-log.json`（含固定模板/角色/每个变体完整 prompt，可复现）。**不达标回炉只改变体 JSON 的一个子维度，再跑同脚本，不重写调用。**
 

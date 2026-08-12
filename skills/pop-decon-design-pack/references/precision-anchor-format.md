@@ -34,7 +34,7 @@
 scene: combat_stealth
 ```
 
-可取的值见 `pop-shared-dna` 的场景卡矩阵。如果beat不是纯战斗/纯对话等单一类型，取主要类型。
+可取的值见 `pop-dna-style/references/style-dna-profile.md` 的场景卡矩阵。如果beat不是纯战斗/纯对话等单一类型，取主要类型。
 
 ### 2. POV（感知锚点）
 

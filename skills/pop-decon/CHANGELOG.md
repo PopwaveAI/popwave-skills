@@ -1,5 +1,29 @@
 # CHANGELOG — 02-pop-novel-deconstructor
 
+## v22.2.0 | 2026-08-10
+
+### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表
+
+**背景**：老板定调——pipeline 是整个专家的入口和调度器，机器层面（skill.json）应有一份"我能调哪些 skill"的统一清单。此前拆书只有 `pipeline.upstream/downstream` 声明，与其他 pipeline 的 `skills` 数组格式不统一。
+
+**改动**：
+
+- `skill.json`：新增 `skills` 完整可调度清单（download-webnovel + 9 个拆解维度 skill），保留 `pipeline.upstream/downstream` 不动
+- `SKILL.md`：新增「📦 可调度 Skill 清单（素材表）」区块——每个 skill 的定位 + 何时调用，标注复用项
+- 版本至 v22.2.0
+
+## v22.1.0 | 2026-08-09
+
+### 新增首次对话引导（onboarding）
+
+**背景**：老板定调——每个 C 端专家需要一份面向作者本人（非产品经理/AI 专家）的首次对话引导语，用"你能从一本好书里拆出什么"的场景快速建立认知，而非介绍内部架构。
+
+**改动**：
+
+- 新增 `references/onboarding-guide.md`：C 端口吻引导语（一句话说清 + 你有这些玩法 + 你不用担心 + 就这样开始），覆盖剧情线/感情线/人物/力量体系/世界观/爽点/文风多维拆解
+- `SKILL.md`：新增「🚪 首次对话引导」区块——用户首次触发时直接输出引导语全文，再进 Step 0 下载
+- 版本至 v22.1.0
+
 ## v21.0.0 | 2026-07-31
 
 ### 管线地图+路由建议更新

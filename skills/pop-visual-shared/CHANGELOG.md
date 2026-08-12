@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## v1.6.0（2026-08-08）
+
+### 改造：`batch_test.py` 画风定标素材 = 小说次要视觉锚点
+
+老板定调——画风 skill 不应出主要人物形象测画风（画风可能满意但形象不满意，而画风 skill 不是为设计人物而生）；但也**不用与小说无关的中性材料**（ahament 代入感会弱很多）。**画风定标默认用【和小说相关但无关紧要的次要元素】测画风**——某个战斗场景/地点、路人/NPC/龙套。
+
+- `scripts/batch_test.py` 升级 v1.4：新增 `--scene`（小说场景/地点/战斗场景描述，替换变体场景段）+ `--side`（路人/NPC/龙套描述，替换变体角色段，非主角、不需一致性、纯文生图）；`--character`/`--character-image` 标记废弃（传入即警告并回退）；不传 scene/side 则兜底用脚本内置中性素材；PE 日志 test_mode 记录素材来源
+- PE 日志 SOP 版本至 v1.4；头部文档化素材策略说明
+- 同步 `pop-visual-style` step4/SKILL 铁律❌5（见其 v1.9.0）、`pop-visual-comic` pe-test-sop（v1.8）
+- 版本同步：SKILL.md / skill.json 至 v1.6.0
+
+## v1.5.0（2026-08-08）
+
+### 新增：品牌水印脚本（图片一级像素级注入）
+
+老板要求给所有生图产出叠加合理的 `popwave.cn` 水印，且不进提示词（避免污染 Seedream 文生图质量）。
+
+- 新增 `scripts/watermark.py`：图后处理叠加半透明小字水印（默认右下角，alpha=80 约31%不透明，低调可见）
+- **幂等**：通过元数据标记（PNG tEXt chunk / JPEG comment）判定已含水印，重复运行不叠加；经实测 JPG/PNG 首次加印、二次跳过、dry-run 检测均通过
+- 源码级配置：文字/位置/透明度/字号/边距比例，支持多图批量、`--dry-run` 校验
+- 共享组件清单 + 引用协议 + SKILL.md 速查更新；版本同步至 v1.5.0
+
+## v1.4.0（2026-08-05）
+
+### 升级：生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `generate.py` image 子命令彻底改为**任务导出**模式（`export_image_task`）：不再直连 `images/generations` API，不内置任何 key，只导出单条任务（id/prompt/size/ref_images/output_path）供主 agent 用 `image_generate` 工具生成
+- `batch_test.py` 改为**任务清单导出**：移除 `API_URL`/`API_KEY`/`MODEL`/HTTP 直连，`export_tasks()` 导出 `generation_tasks.json`；保留 `_assert_size_safe` 尺寸校验与 `pe-log.json` 可复现日志
+- `generate.py` video 子命令（Seedance）保留但**不再内置 key**，必须显式设置 `ARK_API_KEY` 环境变量，否则拒绝执行
+- 移除内置 Seedream key `b597f4e5-2370-...`；Pinterest 的 BRIGHTDATA key 保持不变（未授权改动）
+- 消费方（cover/oc/style/comic/character）的 step 文档与 SKILL.md 统一更新为 `image_generate` 工具流程
+
 ## v1.3.0（2026-08-04）
 
 ### 新增：出图尺寸硬上限（防止报价翻倍）

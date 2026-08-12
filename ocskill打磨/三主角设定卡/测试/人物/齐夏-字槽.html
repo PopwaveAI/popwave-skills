@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>齐夏 · 字槽混合式设定卡</title>
+<style>
+  :root{
+    --cv-w:1125px;
+    --cv-h:1500px;
+    --slot-x:700px;
+    --slot-y:520px;
+    --slot-w:390px;
+    --track-title-font:"Georgia","Times New Roman","Microsoft YaHei",serif;
+    --track-body-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --track-label-font:"Georgia","Microsoft YaHei",serif;
+    --ink:#e8f0f6;
+    --muted:#8ea3b8;
+    --em:#c0392b;
+    --gold:#8ab8c9;
+    --seal-bg:#c0392b;
+    --seal-fg:#f2e8d8;
+    --divider:rgba(232,240,246,.3);
+  }
+  body[data-track="dark"]{
+    --track-title-font:"Georgia","Times New Roman","Microsoft YaHei",serif;
+    --track-body-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --track-label-font:"Georgia","Microsoft YaHei",serif;
+    --ink:#e8f0f6;
+    --muted:#8ea3b8;
+    --em:#c0392b;
+    --gold:#8ab8c9;
+    --seal-bg:#c0392b;
+    --seal-fg:#f2e8d8;
+    --divider:rgba(232,240,246,.3);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:var(--cv-w);height:var(--cv-h);overflow:hidden;}
+  body{position:relative;font-family:var(--track-body-font);-webkit-font-smoothing:antialiased;}
+  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .overlay{position:absolute;left:var(--slot-x);top:var(--slot-y);width:var(--slot-w);color:var(--ink);}
+  .head{display:flex;align-items:center;gap:18px;margin-bottom:30px;}
+  .head .leadseal{width:52px;height:52px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:19px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 2px 6px rgba(20,30,40,.2);flex:none;}
+  .head .kicker{font-size:20px;color:var(--gold);letter-spacing:4px;border-bottom:1px solid var(--divider);padding-bottom:6px;}
+  .creed{margin-bottom:8px;}
+  .creed .q{font-size:50px;color:var(--ink);letter-spacing:3px;line-height:1.6;
+    font-weight:bold;text-shadow:0 1px 0 rgba(255,255,255,.1);font-family:var(--track-title-font);}
+  .creed .q em{font-style:normal;color:var(--em);}
+  .creed .src{font-size:20px;color:var(--gold);margin-top:4px;letter-spacing:3px;text-align:right;padding-right:10px;}
+  .divider{height:30px;margin:2px 0 4px;position:relative;}
+  .divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--divider),transparent);}
+  .core{font-size:21px;color:var(--muted);line-height:1.9;letter-spacing:1px;margin-bottom:6px;}
+  .core .k{color:var(--em);font-weight:bold;font-family:var(--track-title-font);}
+  .divider.d2{height:26px;}
+  .sym{margin-top:4px;}
+  .sym .row{display:flex;align-items:baseline;margin-bottom:13px;}
+  .sym .row:first-child{margin-left:0;}
+  .sym .row:nth-child(2){margin-left:30px;}
+  .sym .row:nth-child(3){margin-left:8px;}
+  .sym .row:nth-child(4){margin-left:46px;}
+  .sym .n{font-size:25px;color:var(--em);font-weight:bold;letter-spacing:2px;font-family:var(--track-label-font);flex:none;margin-right:14px;}
+  .sym .d{font-size:19px;color:var(--muted);letter-spacing:1px;border-bottom:1px solid var(--divider);padding-bottom:3px;}
+  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:30px;}
+  .foot .name{font-size:26px;color:var(--ink);letter-spacing:5px;font-weight:bold;font-family:var(--track-title-font);}
+  .foot .zhu{font-size:16px;color:var(--gold);letter-spacing:2px;}
+  .foot .seal{width:72px;height:72px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:21px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 3px 8px rgba(20,30,40,.25);}
+</style>
+</head>
+<body data-track="dark">
+  <img class="base" src="齐夏-v1.jpg" alt="齐夏">
+  <div class="overlay">
+    <div class="head">
+      <div class="leadseal">羊</div>
+      <div class="kicker">十日终焉 · 白羊</div>
+    </div>
+    <div class="creed">
+      <div class="q">「长生不息，<em>换众生离局</em>。」</div>
+      <div class="src">齐夏</div>
+    </div>
+    <div class="divider"></div>
+    <div class="core"><span class="k">回响·生生不息：</span>终焉之地唯一保留全部轮回记忆者——以十日轮回为局，信息即武器，以命布局，换众人逃出终焉。</div>
+    <div class="divider d2"></div>
+    <div class="sym">
+      <div class="row"><span class="n">生生不息</span><span class="d">顶级回响·复活轮回</span></div>
+      <div class="row"><span class="n">入梦</span><span class="d">信念改梦·心境战场</span></div>
+      <div class="row"><span class="n">羊头</span><span class="d">十二生肖·终局布局</span></div>
+      <div class="row"><span class="n">晚安</span><span class="d">与自我道别·执念</span></div>
+    </div>
+    <div class="foot">
+      <div class="name">齐夏</div>
+      <div class="zhu">十日终焉</div>
+      <div class="seal">生生</div>
+    </div>
+  </div>
+</body>
+</html>
