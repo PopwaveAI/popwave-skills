@@ -356,8 +356,7 @@
 ## 后置步骤
 
 幕纲确认后：
-1. 事实快照初始化 → `steps/step-3-snapshot.md`
-2. 分章施工卡 → `steps/step-3-chapters.md`
+1. 分章施工卡 → `steps/step-3-chapters.md`
 
 ---
 

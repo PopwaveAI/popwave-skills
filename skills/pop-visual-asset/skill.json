@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-asset",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "小说视觉资产提取",
   "description": "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'或需要在做OC/漫画/封面前先从原文提取素材时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA），供 pop-visual-oc、pop-visual-comic、pop-visual-cover 消费。兼容写作专家项目和独立小说项目，支持增量更新。",
   "entry": "SKILL.md",

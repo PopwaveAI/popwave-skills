@@ -11,7 +11,10 @@
     "skills:new": "node scripts/new-skill.mjs",
     "skills:validate": "node scripts/validate-skills.mjs",
     "skills:build": "node scripts/build-registry.mjs",
-    "build": "npm run skills:validate && npm run skills:build"
+    "build": "npm run skills:validate && npm run skills:build",
+    "publish": "node scripts/pop-publish.mjs",
+    "publish:sync": "node scripts/pop-publish.mjs --no-git",
+    "publish:post": "node scripts/pop-publish.mjs --post-commit"
   },
   "engines": {
     "node": ">=20.0.0"

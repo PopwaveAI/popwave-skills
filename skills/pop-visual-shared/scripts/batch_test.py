@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 """
-pop-visual-shared 固定画风测试脚本（batch_test.py）v1.0
+pop-visual-shared 固定画风测试脚本（batch_test.py）v1.4
 ========================================================
-把画风测试固化成"固定 SOP + 并发批量"，杜绝每次测试全新设计、不稳定、慢的问题。
+把画风测试固化成"固定 SOP + 任务清单导出"，杜绝每次测试全新设计、不稳定、慢的问题。
+
+核心变化：本脚本不再直连生图 API，也不内置任何 API Key。
+它只负责：解析变体 → 组装固定 6 段式提示词 → 导出 generation_tasks.json，
+由主 agent 用 image_generate 工具逐条生成（图生图时传参考图保证角色一致）。
 
 固定什么（不随测试变）：
-  - 默认测试素材（标准角色 + 标准场景，变量隔离，见 style step4）
+  - 测试素材（默认用【小说次要视觉锚点】——场景/路人/NPC/战斗片段，见 style step4；
+    未传时兜底用脚本内置中性素材）
   - 固定 6 段式提示词模板（[质量触发词] + Art style + 构图 + 光影 + 场景 + 角色）
-  - 固定质量触发词 / 固定模型 / 固定默认尺寸
+  - 固定质量触发词 / 固定默认尺寸
   - 固定输出目录结构（{out_dir}/{种子}/{id}.png）
-  - 固定 PE 日志格式（自动落盘，可复现）
+  - 固定任务清单格式（generation_tasks.json，可复现）
 
 只随测试变（填变体即可）：
   - 画风变体列表（每个变体 = 画风 dna + constraint，或直接完整 prompt）
   - 可选 seed（固定后同 seed 复现对比）
-  - **可选项目角色（--character 文字 / --character-image 参考图）**：画风×项目角色联合测试
 
 用法：
   1) 从 DNA 库按名字批量测（推荐）：
@@ -22,41 +26,36 @@ pop-visual-shared 固定画风测试脚本（batch_test.py）v1.0
          --out-dir 素材/测试 --seed 20260804
   2) 自定义变体（JSON 文件）：
      python batch_test.py --config test_variants.json --out-dir 素材/测试
-  3) 复现验证：用同一 seed 再跑一次，对比画风是否稳定一致
-  4) **画风×项目角色联合测试（推荐，验证画风能否撑起角色）**：
-     python batch_test.py --style-names "国漫玄幻厚涂" \
-         --character "李周巍, 黑金玄纹甲衣, 紫羽王氅, 金瞳, 持长戟" \
-         --character-image "素材/李周巍OC-v1.png" \
-         --out-dir 素材/风格测试 --seed 20260804
+  3) 复现验证：用同一 seed 再跑一次，输出落在同目录，对比画风是否稳定一致
 
-环境变量:
-  ARK_API_KEY - 火山引擎方舟 API Key（默认值已内置）
+生图方式：本脚本只导出任务，不调用任何 API。主 agent 读取 generation_tasks.json，
+对每条任务调用 image_generate 工具（有 ref_images 时传参考图），输出到任务的 output_path。
+
+⚠️ v1.4（画风定标素材 = 小说次要视觉锚点）：
+画风定标测试素材默认用【和小说相关但无关紧要的次要元素】——某个战斗场景/地点、
+路人/NPC/龙套。这类元素：和小说强相关 → 保留画风的 project 代入感；无关紧要 →
+不承担角色形象验收（画风满意但形象不满的问题不会出现）。变量隔离仍成立：素材一次确定、
+固定使用，唯一变量是画风。
+- `--scene`：小说场景/地点/战斗场景英文描述 → 替换所有变体的场景段
+- `--side`：路人/NPC/龙套英文描述 → 替换所有变体的角色段（非主角，不需一致性，纯文生图）
+- 未传 --scene/--side → 兜底用脚本内置中性素材
+- `--character`/`--character-image` 已废弃（主角形象归 pop-visual-art-bible/oc 环节，
+  画风定标不用主角，避免混入"形象是否满意"的变量）
 
 依赖:
-  pip install requests Pillow
+  pip install Pillow (仅尺寸校验/格式校验用，可选)
 """
 
 import argparse
-import base64
 import json
 import os
 import sys
 import time
-import urllib.request
-import urllib.error
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from io import BytesIO
 
 # ============ 固定配置（勿改，除非版本升级） ============
 
-API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
-API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
-MODEL = "doubao-seedream-5-0-pro-260628"
 SIZE = "1125x1500"          # 画风测试默认尺寸（竖版，兼容定标）
 MAX_PIXELS = 2360000        # Seedream 5.0 Pro 计费临界：超 236 万像素输出图报价翻倍，须所有出图 ≤ 上限
-CONCURRENCY = 8              # 并发线程数（Seedream 500 图/分钟，8 线程安全）
-MAX_RETRIES = 3              # 指数退避重试次数
-API_TIMEOUT = int(os.environ.get("SEEDREAM_TIMEOUT", "300"))  # 单次生成超时(秒)，Seedream 5.0 Pro 单图可达80s+，并发排队更久，120s 易误判超时
 
 # 固定质量触发词（画风测试用，非写实词——写实词会推高厚涂倾向）
 QUALITY_TRIGGER = "High quality anime comic illustration, highly detailed, professional manga art, clean lineart, crisp colors."
@@ -140,47 +139,7 @@ def resolve_template(code, mapping):
     return mapping.get(base, "")
 
 
-# ============ 引力工具 ============
-
-def ensure_png_bytes(img_bytes):
-    """检测字节流实际格式，JPEG 则转码为 PNG 字节流。"""
-    if img_bytes[:2] == b'\xff\xd8':
-        try:
-            from PIL import Image
-        except ImportError:
-            return img_bytes
-        img = Image.open(BytesIO(img_bytes))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        buf = BytesIO()
-        img.save(buf, format="PNG")
-        return buf.getvalue()
-    return img_bytes
-
-
-def build_prompt(variant):
-    """按固定 6 段式模板组装单变体提示词。variant 可含 dna/constraint/composition/lighting/character/scene。"""
-    return PROMPT_TEMPLATE.format(
-        quality_trigger=variant.get("quality_trigger", QUALITY_TRIGGER),
-        dna=variant.get("dna", ""),
-        constraint=variant.get("constraint", ""),
-        composition=variant.get("composition", DEFAULT_COMPOSITION),
-        lighting=variant.get("lighting", DEFAULT_LIGHTING),
-        scene=variant.get("scene", FIXED_SCENE),
-        character=variant.get("character", FIXED_CHARACTER),
-    ).strip()
-
-
-def resolve_character_image(path):
-    """把本地角色参考图转为 data URI（图生图参考，保证角色一致）。支持 .png/.jpg/.jpeg。"""
-    if not path or not os.path.exists(path):
-        return None
-    ext = os.path.splitext(path)[1].lower()
-    mime = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg"}.get(ext.lstrip("."), "image/png")
-    with open(path, "rb") as f:
-        b64 = base64.b64encode(f.read()).decode("ascii")
-    return f"data:{mime};base64,{b64}"
-
+# ============ 校验工具 ============
 
 def _assert_size_safe(size):
     """校验尺寸总像素 ≤ MAX_PIXELS。超限直接报错中止。"""
@@ -209,55 +168,59 @@ def _assert_size_safe(size):
         sys.exit(1)
 
 
-def generate_one(variant, output_path, seed):
-    """并发生成单张。返回 {id, success, path, prompt}。"""
-    prompt = build_prompt(variant)
-    size = variant.get("size", SIZE)
-    _assert_size_safe(size)
-    payload = {
-        "model": MODEL,
-        "prompt": prompt,
-        "size": size,
-        "watermark": False,
-        "response_format": "b64_json",
+def build_prompt(variant):
+    """按固定 6 段式模板组装单变体提示词。variant 可含 dna/constraint/composition/lighting/character/scene。"""
+    return PROMPT_TEMPLATE.format(
+        quality_trigger=variant.get("quality_trigger", QUALITY_TRIGGER),
+        dna=variant.get("dna", ""),
+        constraint=variant.get("constraint", ""),
+        composition=variant.get("composition", DEFAULT_COMPOSITION),
+        lighting=variant.get("lighting", DEFAULT_LIGHTING),
+        scene=variant.get("scene", FIXED_SCENE),
+        character=variant.get("character", FIXED_CHARACTER),
+    ).strip()
+
+
+def export_tasks(variants, run_dir, seed, test_mode):
+    """组装并导出 generation_tasks.json。不发起任何 API 调用。"""
+    os.makedirs(run_dir, exist_ok=True)
+
+    tasks = []
+    for v in variants:
+        vid = v.get("id", "v")
+        prompt = build_prompt(v)
+        _assert_size_safe(v.get("size", SIZE))
+
+        out_path = os.path.join(run_dir, f"{vid}.png").replace("\\", "/")
+        tasks.append({
+            "id": vid,
+            "prompt": prompt,
+            "size": v.get("size", SIZE),
+            "ref_images": [],
+            "output_path": out_path,
+        })
+
+    meta = {
+        "total": len(tasks),
+        "generator": "batch_test.py (固定画风测试 SOP)",
+        "seed": seed,
+        "test_mode": test_mode,
+        "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
+        "tasks": tasks,
     }
-    if seed is not None:
-        payload["seed"] = seed
-    # 角色参考图（图生图，保证角色一致性）
-    ref = variant.get("character_image")
-    if ref:
-        payload["image"] = ref
+    meta_path = os.path.join(run_dir, "generation_tasks.json")
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=2)
 
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {API_KEY}"}
-    data = json.dumps(payload).encode("utf-8")
-
-    for attempt in range(MAX_RETRIES):
-        try:
-            req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=API_TIMEOUT) as resp:
-                result = json.loads(resp.read().decode("utf-8"))
-            data_list = result.get("data", [])
-            if not data_list:
-                raise RuntimeError("未返回图片数据")
-            item = data_list[0]
-            if "error" in item:
-                raise RuntimeError(f"API error: {item['error']}")
-            b64 = item.get("b64_json")
-            if not b64:
-                raise RuntimeError("未返回 b64_json")
-            img_bytes = ensure_png_bytes(base64.b64decode(b64))
-            os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, "wb") as f:
-                f.write(img_bytes)
-            size = len(img_bytes) // 1024
-            print(f"  [OK] {variant['id']} ({size}KB, seed={seed})")
-            return {"id": variant["id"], "success": True, "path": output_path, "prompt": prompt}
-        except Exception as e:
-            print(f"  [错误] {variant['id']} 尝试{attempt+1}: {str(e)[:120]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-    print(f"  [失败] {variant['id']} 全部重试失败", file=sys.stderr)
-    return {"id": variant.get("id", "?"), "success": False, "path": output_path, "prompt": prompt}
+    print("\n" + "=" * 60)
+    print(f"已导出 {len(tasks)} 条画风测试任务 → {meta_path.replace(os.sep, '/')}")
+    print("=" * 60)
+    print("\n主 agent 请按以下方式用 image_generate 工具逐条生成：")
+    for t in tasks:
+        ref = "（图生图，参考：" + os.path.basename(t["ref_images"][0]) + "）" if t["ref_images"] else "（文生图）"
+        print(f"  [{t['id']}] size={t['size']} {ref}\n    -> {t['output_path']}")
+    print("\n生成完成后检查图片格式（扩展名与实际字节一致，JPEG 需转码为 PNG）。")
+    return meta_path
 
 
 # ============ 变体解析 ============
@@ -313,18 +276,28 @@ def load_config(path):
 # ============ 主流程 ============
 
 def main():
-    parser = argparse.ArgumentParser(description="固定画风测试 SOP（并发批量）")
+    parser = argparse.ArgumentParser(description="固定画风测试 SOP（任务清单导出，不直连 API）")
     parser.add_argument("--style-names", help="逗号分隔的画风名，从 DNA 库批量取变体")
     parser.add_argument("--config", help="自定义变体 JSON 文件路径")
     parser.add_argument("--out-dir", required=True, help="输出目录（自动建 {out_dir}/{种子}）")
     parser.add_argument("--seed", type=int, default=None, help="固定随机种子（同 seed 复现对比）")
-    parser.add_argument("--concurrency", type=int, default=CONCURRENCY, help="并发线程数")
-    parser.add_argument("--character", default=None, help="项目角色描述（英文或中文，替换标准测试角色，用于画风×角色联合测试）")
-    parser.add_argument("--character-image", default=None, help="项目角色参考图路径（图生图，保证角色一致性）")
+    parser.add_argument("--scene", default=None, help="[小说次要视觉锚点] 小说场景/地点/战斗场景英文描述，替换变体场景段（与小说相关、无关紧要，v1.4）")
+    parser.add_argument("--side", default=None, help="[小说次要视觉锚点] 小说路人/NPC/龙套英文描述，替换变体角色段（与小说相关、无关紧要，v1.4）")
+    parser.add_argument("--character", default=None, help="[已废弃] 项目角色描述（画风定标不用主角，主角形象归 art-bible/oc）")
+    parser.add_argument("--character-image", default=None, help="[已废弃] 项目角色参考图路径（v1.4 起不再使用）")
     args = parser.parse_args()
 
     if not args.style_names and not args.config:
         parser.error("必须提供 --style-names 或 --config")
+
+    # v1.4 起：画风定标素材用【小说次要视觉锚点】（场景/路人/NPC），不用主角、不用中性素材
+    #   --scene 小说场景/地点/战斗场景描述 → 替换所有变体的场景段
+    #   --side   路人/NPC/龙套描述 → 替换所有变体的角色段（非主角，不需一致性，纯文生图）
+    #   --character/--character-image 已废弃（主角形象归 art-bible/oc，画风定标不用主角）
+    if args.character or args.character_image:
+        print("[警告] v1.4 起画风定标不用主角，--character/--character-image 已废弃，已忽略并回退到小说场景素材(或中性兜底)", file=sys.stderr)
+        args.character = None
+        args.character_image = None
 
     # 解析变体
     if args.style_names:
@@ -337,74 +310,53 @@ def main():
         print("错误：变体列表为空", file=sys.stderr)
         sys.exit(1)
 
-    # 注入项目角色（画风×角色联合测试）
-    # 若传了 --character，用项目角色替换全部变体的角色段；若传了 --character-image，作图生图参考
-    character_ref = resolve_character_image(args.character_image) if args.character_image else None
-    if args.character or character_ref:
+    # 注入小说次要视觉锚点（场景/路人），替换所有变体对应段
+    if args.scene:
         for v in variants:
-            if args.character:
-                v["character"] = args.character
-            if character_ref:
-                v["character_image"] = character_ref
+            v["scene"] = args.scene
+    if args.side:
+        for v in variants:
+            v["character"] = args.side
+
+    # 计算测试素材模式
+    if args.scene or args.side:
+        asset_parts = []
+        if args.scene:
+            asset_parts.append("场景")
+        if args.side:
+            asset_parts.append("路人")
+        test_mode = "小说次要视觉锚点(" + "+".join(asset_parts) + ")"
+    else:
+        test_mode = "中性素材(兜底)"
 
     # 打印固定 SOP 摘要
     print("=" * 60)
-    print(f"固定画风测试 SOP (并发={args.concurrency}, seed={args.seed})")
-    print(f"模型: {MODEL} | 尺寸: {SIZE}")
-    if args.character or character_ref:
-        print(f"测试素材: 项目角色{'(参考图)' if character_ref else ''} + 标准场景（画风×角色联合测试）")
-    else:
-        print(f"测试素材: 标准角色 + 标准场景（变量隔离）")
+    print(f"固定画风测试 SOP (seed={args.seed})")
+    print(f"尺寸: {SIZE}")
+    print(f"测试素材: {test_mode}")
     print(f"变体数: {len(variants)}")
     print("=" * 60)
 
     # 输出目录（含种子级，便于复现对比）
     run_dir = args.out_dir if args.seed is None else os.path.join(args.out_dir, f"seed-{args.seed}")
-    os.makedirs(run_dir, exist_ok=True)
 
-    start = time.time()
-
-    # 并发批量生成
-    results = []
-    with ThreadPoolExecutor(max_workers=args.concurrency) as ex:
-        futures = {}
-        for v in variants:
-            vid = v.get("id", "v")
-            out_path = os.path.join(run_dir, f"{vid}.png")
-            fut = ex.submit(generate_one, v, out_path, args.seed)
-            futures[fut] = v
-        for fut in as_completed(futures):
-            try:
-                results.append(fut.result())
-            except Exception as e:
-                vid = futures[fut].get("id", "?")
-                print(f"  [崩溃] {vid}: {e}", file=sys.stderr)
-                results.append({"id": vid, "success": False, "path": None, "prompt": ""})
-
-    elapsed = time.time() - start
-
-    # 汇总
-    ok = sum(1 for r in results if r["success"])
-    print("\n" + "=" * 60)
-    print(f"汇总: 成功 {ok}/{len(results)} | 耗时 {elapsed:.1f}s (串行约 {elapsed*args.concurrency:.0f}s)")
-    for r in results:
-        print(f"  [{'OK' if r['success'] else 'FAIL'}] {r['id']} -> {r.get('path')}")
+    # 导出任务清单（唯一动作，不发起任何 API 调用）
+    meta_path = export_tasks(variants, run_dir, args.seed, test_mode)
 
     # 固定 PE 日志（可复现的根基）
     log = {
-        "sop": "固定画风测试 SOP v1.1",
+        "sop": "固定画风测试 SOP v1.4",
         "date": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "model": MODEL,
         "size": SIZE,
-        "concurrency": args.concurrency,
         "seed": args.seed,
-        "test_mode": "画风×项目角色联合测试" if (args.character or character_ref) else "标准素材(变量隔离)",
-        "character_desc": args.character,
-        "character_image": args.character_image,
+        "test_mode": test_mode,
+        "scene_desc": args.scene,
+        "side_desc": args.side,
         "fixed_character": FIXED_CHARACTER,
         "fixed_scene": FIXED_SCENE,
         "quality_trigger": QUALITY_TRIGGER,
-        "variants": results,
+        "task_manifest": meta_path,
+        "note": "本脚本不调用生图 API，任务清单由主 agent 用 image_generate 工具逐条生成",
     }
     log_path = os.path.join(run_dir, "pe-log.json")
     with open(log_path, "w", encoding="utf-8") as f:

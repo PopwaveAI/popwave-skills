@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{entity_name}} · 字槽混合式设定卡（v5 归档）</title>
+<style>
+/* =====================================================================
+   ocr-1flow.tpl.html · 字槽混合式设定卡（v5.x 归档版，已废弃）
+   范式和 layout.md（v5）为：AI 底图直出完整构图（画面主体 + 短书法题字 + 印章 + 预留字槽/留白块），
+   HTML 只在预留字槽里补长效文字，整图截图即成品。
+   2026-08 老板定稿：AI 写字不可控 → 本模板废弃，改用「立绘+顶部聚字」简化模板。
+   仅作历史参考，不再被 SKILL.md/SOP 引用。
+   ===================================================================== */
+  :root{
+    --cv-w:1125px;
+    --cv-h:1500px;
+    --slot-x:670px;      /* 字槽左上 x */
+    --slot-y:90px;       /* 字槽左上 y */
+    --slot-w:410px;      /* 字槽宽 */
+    --track-title-font:"Kaiti SC","STKaiti","KaiTi",serif;
+    --track-body-font:"FangSong","STFangSong","仿宋",serif;
+    --track-label-font:"Kaiti SC","LiSu","STLiti",serif;
+    --ink:#2a2118;
+    --muted:#4a3a28;
+    --em:#8a1f1f;
+    --gold:#7a5a3a;
+    --seal-bg:var(--em);
+    --seal-fg:#f5ecd9;
+    --divider:rgba(42,33,24,.4);
+  }
+  body[data-track="cyberpunk"]{
+    --track-title-font:"Impact","Arial Black","Microsoft YaHei",sans-serif;
+    --track-body-font:"Consolas","Microsoft YaHei",sans-serif;
+    --track-label-font:"Consolas","Microsoft YaHei",sans-serif;
+    --ink:#e8f6ff;
+    --muted:#8ab8c9;
+    --em:#ff2d95;
+    --gold:#00e5ff;
+    --seal-bg:#ff2d95;
+    --seal-fg:#071018;
+    --divider:rgba(232,246,255,.35);
+  }
+  body[data-track="urban"]{
+    --track-title-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --track-body-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --track-label-font:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --ink:#1f2733;
+    --muted:#5c6b7d;
+    --em:#4a7ba6;
+    --gold:#8a97a5;
+    --seal-bg:#4a7ba6;
+    --seal-fg:#f5f7fa;
+    --divider:rgba(31,39,51,.3);
+  }
+  body[data-track="scifi"]{
+    --track-title-font:"OCR A Extended","Consolas","Microsoft YaHei",sans-serif;
+    --track-body-font:"Consolas","Microsoft YaHei",sans-serif;
+    --track-label-font:"OCR A Extended","Consolas","Microsoft YaHei",sans-serif;
+    --ink:#eaf2ff;
+    --muted:#7f9cc0;
+    --em:#2f7bff;
+    --gold:#9b5cff;
+    --seal-bg:#2f7bff;
+    --seal-fg:#040a18;
+    --divider:rgba(234,242,255,.35);
+  }
+  body[data-track="dark"]{
+    --track-title-font:"Georgia","Times New Roman","Kaiti SC",serif;
+    --track-body-font:"Palatino Linotype","Kaiti SC",serif;
+    --track-label-font:"Georgia","Kaiti SC",serif;
+    --ink:#e8dcc8;
+    --muted:#9a8a6f;
+    --em:#b3222a;
+    --gold:#c9a05a;
+    --seal-bg:#b3222a;
+    --seal-fg:#f2e8d8;
+    --divider:rgba(232,220,200,.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:var(--cv-w);height:var(--cv-h);overflow:hidden;}
+  body{position:relative;font-family:var(--track-body-font);-webkit-font-smoothing:antialiased;}
+  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .overlay{position:absolute;left:var(--slot-x);top:var(--slot-y);width:var(--slot-w);color:var(--ink);}
+  .head{display:flex;align-items:center;gap:18px;margin-bottom:30px;}
+  .head .leadseal{width:52px;height:52px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:19px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 2px 6px rgba(40,20,5,.2);flex:none;}
+  .head .kicker{font-size:20px;color:var(--gold);letter-spacing:4px;border-bottom:1px solid var(--divider);padding-bottom:6px;}
+  .creed{margin-bottom:8px;}
+  .creed .q{font-size:60px;color:var(--ink);letter-spacing:6px;line-height:1.7;
+    font-weight:bold;text-shadow:0 1px 0 rgba(255,255,255,.35);font-family:var(--track-title-font);}
+  .creed .q em{font-style:normal;color:var(--em);}
+  .creed .src{font-size:22px;color:var(--gold);margin-top:6px;letter-spacing:3px;text-align:right;padding-right:10px;}
+  .divider{height:34px;margin:2px 0 4px;position:relative;}
+  .divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--divider),transparent);}
+  .core{font-size:23px;color:var(--muted);line-height:2;letter-spacing:1.5px;margin-bottom:6px;}
+  .core .k{color:var(--em);font-weight:bold;font-family:var(--track-title-font);}
+  .divider.d2{height:30px;}
+  .sym{margin-top:4px;}
+  .sym .row{display:flex;align-items:baseline;margin-bottom:14px;}
+  .sym .row:first-child{margin-left:0;}
+  .sym .row:nth-child(2){margin-left:34px;}
+  .sym .row:nth-child(3){margin-left:8px;}
+  .sym .row:nth-child(4){margin-left:52px;}
+  .sym .n{font-size:28px;color:var(--em);font-weight:bold;letter-spacing:3px;font-family:var(--track-label-font);flex:none;margin-right:16px;}
+  .sym .d{font-size:20px;color:var(--muted);letter-spacing:2px;border-bottom:1px solid var(--divider);padding-bottom:3px;}
+  .foot{display:flex;align-items:center;justify-content:space-between;margin-top:34px;}
+  .foot .name{font-size:26px;color:var(--ink);letter-spacing:5px;font-weight:bold;font-family:var(--track-title-font);}
+  .foot .zhu{font-size:17px;color:var(--gold);letter-spacing:2px;}
+  .foot .seal{width:72px;height:72px;background:var(--seal-bg);color:var(--seal-fg);
+    font-size:21px;font-weight:bold;display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 2px rgba(245,236,217,.6),0 3px 8px rgba(40,20,5,.25);}
+</style>
+</head>
+<body data-track="{{track}}">
+  <img class="base" src="{{visual_path}}" alt="{{entity_name}}">
+  <div class="overlay">
+    <div class="head">
+      <div class="leadseal">{{lead_seal}}</div>
+      <div class="kicker">{{kicker}}</div>
+    </div>
+    <div class="creed">
+      <div class="q">{{creed_q}}</div>
+      <div class="src">{{creed_src}}</div>
+    </div>
+    <div class="divider"></div>
+    <div class="core">{{core_body}}</div>
+    <div class="divider d2"></div>
+    <div class="sym">{{sym_rows}}</div>
+    <div class="foot">
+      <div class="name">{{foot_name}}</div>
+      <div class="zhu">{{foot_zhu}}</div>
+      <div class="seal">{{foot_seal}}</div>
+    </div>
+  </div>
+</body>
+</html>

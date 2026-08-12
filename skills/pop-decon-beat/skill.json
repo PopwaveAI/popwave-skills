@@ -1,0 +1,18 @@
+{
+  "id": "pop-decon-beat",
+  "version": "1.0.0",
+  "displayName": "爽点体验拆解",
+  "description": "当拆书时用户说'爽点/名场面/读者体验/节奏/爽点分布'时启用。消费章节白描+剧情线(可选)→产出爽点体验拆解：名场面库+读者体验曲线+爽点分布。",
+  "tags": [
+    "拆书与分析"
+  ],
+  "entry": "SKILL.md",
+  "upstream": "pop-decon-design-pack",
+  "downstream": "pop-decon-prd",
+  "expert": "pop-decon",
+  "activation": { "slashCommands": ["爽点", "名场面", "读者体验"] },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

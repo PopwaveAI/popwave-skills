@@ -23,7 +23,7 @@ import requests
 import argparse
 
 # ============ API配置 ============
-DS_API_KEY = "sk-5a3654e4aa2e4eefa08abe3d0e0231f5"
+DS_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")  # 不内置 key，必须显式设置环境变量
 DS_BASE_URL = "https://api.deepseek.com/v1"
 DS_MODEL = "deepseek-v4-flash"
 
@@ -179,6 +179,9 @@ def process_chapter(file_path, auto=False):
             return False
 
     print(f"\n调用API裁剪中...")
+    if not DS_API_KEY:
+        print("❌ 裁剪失败: 未设置 DEEPSEEK_API_KEY 环境变量（本脚本不内置 key）")
+        return False
     try:
         trimmed_body = call_ds_for_trim(body, actual_count)
         new_count = count_chinese_chars(trimmed_body)

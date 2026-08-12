@@ -1,8 +1,8 @@
 {
   "id": "pop-fanqie-world",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "displayName": "番茄世界构筑引擎",
-  "description": "当用户说'番茄world/番茄世界构筑/世界构筑'时启用。从创意生长世界，产出全书设定供给plot层。力量体系四层结构驱动地图/势力/危机。",
+  "description": "当用户说'番茄world/番茄世界构筑/世界构筑'时启用。从创意生长世界，产出全书设定供给plot层。力量体系四层结构驱动地图/势力/危机，新增战斗可写性约束+维度好坏标准+分段落盘检查点+势力攀登标注+轻量原则推导。",
   "tags": ["世界构筑"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-world", "番茄world", "番茄世界构筑"] },

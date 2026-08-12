@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## v3.12.0 | 2026-08-12
+
+### 剧情记录双文件收束：Phase 4 删事实快照、Phase 6 产出白描卡+剧情累计卡
+
+**背景**：老板定调——剧情记录只保留「白描卡 + 剧情累计卡」，废除 current-state.md / 小说快照.md / review-沉淀.md / 压缩归档/ / 事实快照-幕NNN.md 等冗余文档。pipeline 作为调度总控同步收束产出与目录。
+
+**改动**：
+- **SKILL.md**：Phase 4 产出删 `产出/正文/事实快照-幕NNN.md`（改为剧情累计卡承接）；Phase 6 产出改 `审核/chNNN-审核报告.md + 产出/白描卡/chNNN.md + 产出/剧情累计卡.md`；Phase 5 write / Phase 6 review 版本对齐（v3.8.0 / v3.7.0）
+- **templates/项目总控.html**：文件夹树改双文件——`产出/白描卡/chNNN.md` + `产出/剧情累计卡.md`，审核/ 只留审核报告，删 current-state/小说快照/review-沉淀/事实快照
+- **steps/step1.md**：初始化目录 `产出/正文/` → `产出/白描卡/`（review双文件落盘目录），自检清单与质量门同步
+- **steps/step2.md**：Phase 6 执行流程改双文件产出；review reconstruct 执行指南改逐章白描卡+剧情累计卡，明确"未产出任何旧文档"
+- **steps/step0-import.md**：归位表/缺口分析/落地决策/reconstruct 产出/降级续写全部改指 白描卡+剧情累计卡
+- **skill.json**：version 3.11.0→3.12.0，description 更新
+
+## v3.11.0 | 2026-08-10
+
+### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表
+
+**背景**：老板定调——pipeline 是整个专家的入口和调度器，机器层面（skill.json）应有一份"我能调哪些 skill"的统一清单，后台配置系统（专家管理的"可用 Skill 范围"列）才能读取。此前只散落在 SKILL.md 的 Phase 路由表，机器读不到。
+
+**改动**：
+
+- `skill.json`：`skills` 由 `["SKILL.md"]` 改为完整可调度清单（seed/world/dna-style/character/plot/write/review/research/download-webnovel）
+- `SKILL.md`：新增「📦 可调度 Skill 清单（素材表）」区块——每个 skill 的定位 + 何时调用，标注复用项（`pop-dna-style`/`pop-research`/`tool-download-webnovel` 被多个专家共用）
+- 版本至 v3.11.0
+
+## v3.10.0 | 2026-08-09
+
+### 新增首次对话引导（onboarding）
+
+**背景**：老板定调——每个 C 端专家需要一份面向作者本人（非产品经理/AI 专家）的首次对话引导语，用"你能把小说写成什么"的场景快速建立认知，而非介绍内部架构。
+
+**改动**：
+
+- 新增 `references/onboarding-guide.md`：C 端口吻引导语（一句话说清 + 你有这些玩法 + 你不用担心 + 就这样开始），覆盖立项/世界观/逐章成文/自查把关四类玩法
+- `SKILL.md`：新增「🚪 首次对话引导」区块——用户首次触发时直接输出引导语全文，再进 Step 0 意图深问
+- 版本至 v3.10.0
+
 ## v3.9.0 | 2026-07-29
 
 ### 文件全景图对齐——修复残留引用+补全产出列+HTML模板更新

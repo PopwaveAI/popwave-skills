@@ -1,8 +1,8 @@
 {
   "id": "pop-qidian-plot",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "displayName": "剧情设计器",
-  "description": "起点剧情设计器。v4.3.0：新增Step 0交互式卷纲决策（R1-R5，5轮），产出卷纲决策表.md。v4.2.0：按skill-create规范重写。v4.1.0：卷纲改名+起承转合+章锚点表简化+精彩度五问。",
+  "description": "起点剧情设计器。v4.4.0：删事实快照，已发生剧情由review双文件（白描卡+剧情累计卡）承接。v4.3.0：新增Step 0交互式卷纲决策（R1-R5，5轮），产出卷纲决策表.md。v4.2.0：按skill-create规范重写。",
   "tags": ["剧情与正文"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-plot", "剧情白描"] },

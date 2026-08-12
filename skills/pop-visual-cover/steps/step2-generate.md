@@ -12,7 +12,7 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 
 ## 1. 读取确认方案
 
-读取 `素材/视觉设计方案.md` 中的记录，提取：
+读取 `_过程/提示词记录.md` 中的记录，提取：
 
 - 视觉类型（封面/场景图/素材）
 - 画幅与尺寸
@@ -248,37 +248,45 @@ Step 2 的核心不是"写提示词"，是**根据用户在门禁A选的参考�
 | resolution | `1080p` | 1080p |
 | camera_fixed | `false` | 允许运镜 |
 
-## 5. 执行 API 脚本
+## 5. 执行生图（image_generate 工具）
 
-### 5.1 检查环境
+> 生图不再调用 `generate.py` 直连 API（已移除内置 API Key），统一改用 `image_generate` 工具。图生图时传参考图路径，保证参考点策略生效。
 
-API Key 已内置在 `../pop-visual-shared/scripts/generate.py` 中，无需手动设置环境变量。如需覆盖，可设置 `ARK_API_KEY` 环境变量。
+### 5.1 文生图（无参考图）
 
-### 5.2 执行生成
-
-**纯文生图（无参考图）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --output "素材/视觉/封面-v1.png"
+```text
+image_generate(prompt='提示词内容', size='1125x1500', output='测试/封面/封面-{书}-v1.png')
 ```
 
-**图生图（有参考图，按参考点策略）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<base64数据>" --output "素材/视觉/封面-v1.png"
+### 5.2 图生图（有参考图，按参考点策略）
+
+```text
+image_generate(prompt='提示词内容', size='1125x1500', ref_image='成品/复现/复现-{实体}-vN-final.png', output='测试/封面/封面-{书}-v1.png')
 ```
 
-**多图参考（多张参考图各取不同参考点）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py image --prompt "提示词内容" --model doubao-seedream-5-0-pro-260628 --size 1125x1500 --image "data:image/png;base64,<图A>" --image "data:image/png;base64,<图B>" --output "素材/视觉/封面-v1.png"
+### 5.3 多图参考（多张参考图各取不同参考点）
+
+按工具能力传入多张参考图路径，提示词中说明各图参考点，输出到 `测试/封面/封面-{书}-v1.png`。
+
+### 5.4 视频生成（Seedance）
+
+视频生成不在 `image_generate` 工具范围。如需封面动态化，见 `generate.py video` 子命令（需显式设置 `ARK_API_KEY` 环境变量，本脚本不内置 key）。
+
+### 5.5 输出目录与成品确认
+
+**落盘三态（见 `../pop-visual-pipeline/references/落盘规范.md`）**：封面/场景**候选图**统一输出到 `测试/封面/`（确认不存在则创建）。**用户确认后**，把达标图复制到 `成品/封面/`（加 `-final`）。未确认前一律留在 `测试/`，禁止直接落成品。
+
+### 5.6 叠加品牌水印（必做）
+
+图片落地后，用共享水印脚本叠加半透明 `popwave.cn` 小字水印（工程化后处理，**不进提示词**，避免污染 Seedream 文生图）：
+
+```
+python skills/pop-visual-shared/scripts/watermark.py '测试/封面/封面-{书}-v1.png'
 ```
 
-**视频生成（Seedance）**：
-```powershell
-python ../pop-visual-shared/scripts/generate.py video --prompt "提示词内容" --model doubao-seedance-1-0-pro-250428 --ratio 3:4 --duration 5 --output "素材/视觉/封面-v1.mp4"
-```
-
-### 5.3 输出目录
-
-确保输出目录存在：`素材/视觉/`，如不存在则创建。
+- 默认：右下角，alpha=80（约31%不透明，低调可见）
+- **幂等**：脚本通过元数据标记自动跳过已含水印的图，重复运行不叠加
+- 校验：跑完后二次运行 `watermark.py <图>` 应输出"已含水印，跳过"，确认水印已加
 
 ## 6. 降级机制
 
@@ -296,7 +304,7 @@ python ../pop-visual-shared/scripts/generate.py video --prompt "提示词内容"
 
 ## 7. 回写提示词记录
 
-生成完成后，在 `素材/视觉设计方案.md` 末尾追加：
+生成完成后，在 `_过程/提示词记录.md` 末尾追加：
 
 ```markdown
 ## 提示词记录
@@ -318,8 +326,9 @@ python ../pop-visual-shared/scripts/generate.py video --prompt "提示词内容"
 - [ ] **参考点放权维度检查**：用户选了"色系"→提示词中无颜色词；用户选了"构图"→提示词中无布局词
 - [ ] 提示词用自然语言连贯描述，非关键词堆叠
 - [ ] API 脚本执行成功，图片/视频已保存
-- [ ] 提示词记录已回写到设计方案文档
-- [ ] 输出文件路径正确（`素材/视觉/`）
+- [ ] **品牌水印已叠加**：每张落地图运行 `watermark.py`，二次运行输出"已含水印，跳过"（幂等校验）
+- [ ] 提示词记录已回写到 `_过程/提示词记录.md`
+- [ ] 候选图落 `测试/封面/`，确认后已复制到 `成品/封面/`（加 `-final`）
 
 ## 9. 迭代
 

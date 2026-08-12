@@ -17,7 +17,7 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 
 ## 怎么操作
 
-> execution.mode: 三阶段串行 | 强保障：本 SKILL.md 由 host 层每次 run 强制注入 | 弱保障：steps/ + reference/ 需 agent 主动 readFile
+> execution.mode: 三阶段串行 | 强保障：本 SKILL.md 由 host 层每次 run 强制注入 | 弱保障：steps/ + references/ 需 agent 主动 readFile
 
 | 阶段 | 做什么 | 产出 | step 文件 |
 |:-----|:-----|:-----|:----------|
@@ -42,6 +42,19 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 13. 全书最大卖点必须收集——1a必问，处置驱动型触发1c-5题材深度调研，禁止逃避"吞噬变强"
 14. 创意不得与番茄Top20核心机制雷同——市场校准的避雷点校验必须执行
 
+## 🗺️ 知识地图（reference 读取索引）
+
+> **每次 run 先扫本表**——有哪些参考、什么时候必须读。写崩级🔴=不读则产出走又好不了，条件必读；提品级🟡=卡壳时选读。**看就记住，别读全文**。
+
+| 参考 | 级别 | 什么时候必须读（触发条件） |
+|:--|:--|:--|
+| `references/design-guide.md` | 🔴写崩级 | **Step2 结构化打磨时必读**——4个产出的具体设计方法（金手指进化/主角反推/世界观骨架/长线线索），缺它产出会走形式 |
+| `references/synopsis-guide.md` | 🟡提品级 | 写番茄简介时读——散文体简介写法+优秀示例 |
+| `references/dna-example.md` | 🟡提品级 | 参考书DNA提取时读——DNA提取示例 |
+| `references/showcase.md` | 🟡提品级 | 查看创意展示格式时读——创意展示案例 |
+
+**判定规则**：🔴写崩级=不读则产出崩坏，Step内已绑定触发；🟡提品级=不读只是少个样例，靠卡壳时自查。
+
 ## 速查表
 
 | 文件 | 读取时机 | 核心内容 |
@@ -49,12 +62,8 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 | `steps/step1.md` | Phase 1 执行时 | 七维底牌+市场调研+改编策略+双轨发散全流程 |
 | `steps/step2.md` | Phase 2 执行时 | 结构化打磨+故事纲领+落盘格式 |
 | `steps/step3.md` | Phase 3 执行时 | 黄金首章创作流程 |
-| `reference/design-guide.md` | 理解创意设计方法时 | 4个产出的具体设计方法 |
-| `reference/dna-example.md` | 参考书DNA提取时 | DNA提取示例 |
-| `reference/synopsis-guide.md` | 写番茄简介时 | 散文体简介指南 |
-| `reference/showcase.md` | 查看创意展示格式时 | 创意展示案例 |
 | `templates/Phase1-模板.md` | Phase 1 需要格式模板时 | 七维底牌摸底表/市场校准清单/题材深度调研/策略组装卡/创意展示格式 |
 
 ## 版本
 
-v13.19.0 | 2026-07-23 | step1.md瘦身：561→213行，5个模板块外移到templates/Phase1-模板.md，压缩冗余描述 → [CHANGELOG.md](CHANGELOG.md)
+v13.20.0 | 2026-08-11 | 新增知识地图（reference 读取索引）+ 目录名 reference/→references/ 统一 → [CHANGELOG.md](CHANGELOG.md)

@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## v1.7.0 | 2026-08-09
+
+### 落盘三态对齐（候选→测试/封面，记录→_过程/提示词记录）
+
+按 `pop-visual-pipeline/references/落盘规范.md`：封面/场景候选图从 `素材/视觉/` 迁到 `测试/封面/`，确认后复制到 `成品/封面/`（加 `-final`）；设计记录 `素材/视觉设计方案.md` 迁到 `_过程/提示词记录.md`。`step0-research/step0-scene-understand/step1-design/step2-generate` 与 `SKILL.md` ❌4 同步。
+
+## v1.6.0 | 2026-08-05
+
+### 消费链路对齐：cover 意图 = 轻量基建
+
+老板审视全链路发现——cover 消费链路未声明档位，需明确 cover 意图只需基建到身份卡即可派生，不强制双角度定妆：
+
+- `SKILL.md` Step 0-Scene 新增档位说明：Pipeline 语境下 cover 只需身份卡（轻量档），**不强制双角度定妆**；如需角色参考图用 character 单张定妆图
+- 版本同步：SKILL.md / skill.json 至 v1.6.0
+
+## v1.5.0 | 2026-08-05
+
+### 生图改走 image_generate 工具，移除内置 API Key
+
+老板要求所有 skill 生图环节改用 `image_generate` 工具，清理硬编码 API Key（Pinterest 搜索保持不动）：
+
+- `steps/step2-generate.md` §5：由「执行 API 脚本」改为 `image_generate` 工具调用（文生图/图生图/多图参考），移除 `generate.py` 直连与内置 key 说明
+- `SKILL.md` 模型说明表：改为「静态图片走 `image_generate` 工具，无 API Key；视频走 `generate.py video` 需显式设置 `ARK_API_KEY`」
+- `skill.json` 描述：移除「调用 Seedream/Seedance API」
+- 版本同步：SKILL.md / skill.json 至 v1.5.0
+
 ## v1.4.1 | 2026-08-04
 
 ### 出图尺寸硬上限（防止报价翻倍）

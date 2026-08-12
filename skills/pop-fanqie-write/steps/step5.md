@@ -17,7 +17,7 @@
 |------|-----|
 | 章号 | chXXX |
 | 章名 | （10字以上的设计章名） |
-| 章型 | opening_shift / confrontation_pressure / combat_reversal / reveal_hook |
+| 章型 | opening_shift / exploration_gain / confrontation_pressure / combat_reversal / high_tier_display / reveal_hook |
 | 字数 | XXXX字 |
 | 核心事件 | （1句话） |
 | 爽感引擎 | （主推+次推） |

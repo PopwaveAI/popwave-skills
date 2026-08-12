@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
 """
-pop-visual-comic 逐页漫画生成脚本 v4.5.0
-- ThreadPoolExecutor 8线程高并发生成（Seedream API限制500图/分钟，8线程安全）
-- 支持角色定妆图参考（图生图模式，保证角色一致性）
-- 格式保真（JPEG magic bytes检测→PNG转码）
-- 自动重试（3次，指数退避 3s/6s/9s）
-- 生成元数据JSON
+pop-visual-comic 逐页漫画任务清单导出脚本 v5.2.0
+================================================
+生图改为由主 agent 调用 `image_generate` 工具完成，本脚本不再直调任何 HTTP API、不再内置 API Key。
 
-用法:
-  1. 修改下方 PAGES 列表（每页的 id + prompt + ref_images + 可选 size）
-  2. 修改 OUTPUT_DIR 为输出目录
-  3. 修改 CHAR_ASSETS_DIR 为定妆图根目录
-  4. 运行: python generate_comic_page.py
+职责：
+  1. 从下方 PAGES 列表读取每页的 id + prompt + ref_images + size
+  2. 做文字控制占位符（NEG<DIALOGUE>/NEG<TEXT>）替换 + 尺寸安全校验
+  3. 解析角色定妆图参考路径（REF_IMAGES 字段）
+  4. 导出 `generation_tasks.json`（每页一条任务：id/prompt/size/ref_images/output_path）
+  5. 打印"请用 image_generate 工具逐张生成"的指引
 
-环境变量:
-  ARK_API_KEY - 火山引擎方舟 API Key
+页漫模式（唯一模式）：
+  PAGES 每项 = 一页（内嵌多格），size 默认 1125x1500。
+  条漫模式已剥离（v7.13.0 老板校准），本脚本不再支持切格 cut_type。
+
+主 agent 用法：
+  1. 修改下方 PAGES 列表（每项的 id + prompt + ref_images + 可选 size）
+  2. 修改 OUTPUT_DIR / CHAR_ASSETS_DIR
+  3. 运行: python generate_comic_page.py
+  4. 读取生成的第{N}章/output/generation_tasks.json
+  5. 对每条任务调用 image_generate 工具（prompt/text=任务prompt, size=任务size, output=任务output_path，参考图按工具能力传入）
+  6. 生成后用 ensure_png_format 校验（本脚本已内置校验函数）
 
 依赖:
   pip install Pillow
@@ -24,47 +31,124 @@ import base64
 import json
 import os
 import sys
-import time
-import urllib.request
-import urllib.error
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from io import BytesIO
 
 # ============ 配置区（使用前修改） ============
 
-API_URL = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
-API_KEY = os.environ.get("ARK_API_KEY", "b597f4e5-2370-4bdf-875f-5ae43e43c52b")
-MODEL = "doubao-seedream-5-0-pro-260628"
-SIZE = "1125x1500"           # 竖版漫画页（总像素 169 万 ≤ 236 万上限）
-MAX_PIXELS = 2360000         # Seedream 5.0 Pro 计费临界：超 236 万像素输出图报价翻倍，所有出图必须 ≤ 上限
+# 页漫模式（唯一模式），每页内嵌多格
+MODE = "page"
 
-# 并发线程数（Seedream API限制500图/分钟=8.3图/秒，8线程安全）
-CONCURRENCY = 8
+SIZE = "1125x1500"           # 页漫默认尺寸（总像素 169 万 ≤ 236 万上限）
+MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
 
-# 最大重试次数
-MAX_RETRIES = 3
+# 输出目录（章节级）
+OUTPUT_DIR = r"d:\popwave-skills\第3章\output"
 
-# 输出目录
-OUTPUT_DIR = r"第1章/output"
-
-# 定妆图根目录（项目级，跨章复用）
-CHAR_ASSETS_DIR = r"assets/characters"
+# 定妆图根目录（跨章复用，字符图实际存放位置）
+CHAR_ASSETS_DIR = r"C:\Users\AWMPRO\.openclaw-novel-buddy\media\tool-image-generation"
 
 # 页面列表（每页是一张包含多格的完整漫画图）
 PAGES = [
     {
         "id": "page1",
-        "prompt": "A vertical manga comic page with 4 panels arranged in a 2x2 grid. "
-                  "Panel 1: A thin girl crouches before a broken stove, stirring porridge. "
-                  "Panel 2: Close-up of her face, firelight illuminating her tired eyes. "
-                  "Panel 3: She walks through a muddy street carrying a basket. "
-                  "Panel 4: A tall merchant grabs her wrist at a market stall. "
-                  "Dark fantasy semi-realistic manga style, watercolor texture, muted tones with warm firelight accents. "
-                  "NEG<TEXT>",  # 见下方 text_control 常量，生成时替换为锁定负面词
-        "ref_images": ["char-苏午-v1.png"],  # 角色定妆图参考（可多张）
-        "size": "1125x1500",  # 可选，默认用 SIZE（总像素须 ≤236万）
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical manga comic page with a top section of three small compressed horizontal panels stacked tightly (each about 15% height, total 45%) and one large full-width horizontal panel at the bottom (55% height). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. Morning dim cold sunlight filtering through an oil-paper window, a gnarled tree shadow cast on the window like a ghost, a lean 24-year-old man lying on a rough bed in a small clay-stove hut, messy black short hair, pale sickly face, worn gray-brown coarse cotton clothes.\n"
+                  "Panel 2: EXTREME CLOSE-UP. extreme negative space, minimal composition. A translucent blue glowing semi-transparent system panel floating in the dark air, abstract luminous light patterns, one small brilliant cold light dot at the center, vast empty darkness around it.\n"
+                  "Panel 3: CLOSE-UP, high angle looking down. vulnerable composition. The lean man's closed eyes, brows slightly furrowed in deep concentration, pale sickly face under soft morning light, subtle blue glow reflecting on his skin.\n"
+                  "Panel 4: WIDE SHOT, low angle. diagonal composition. In a dark void, a straight luminous path abruptly splits into a side branch, the lean man's gray-clothed silhouette leaping into the branch, blue energy bloom, glowing particles, dynamic surging lines.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png"],
+        "size": "1125x1500",
     },
-    # ... 更多页请自行添加
+    {
+        "id": "page2",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a large full-page background panel of a grand scene (65% height). Two smaller foreground panels overlap on top of the background: a medium square panel in the lower-left and a small panel in the lower-right. The foreground panels have distinct borders to separate them from the background. Thick framing.\n"
+                  "Panel 1: EXTREME WIDE SHOT, high angle looking down. vulnerable composition. In a vast dark void, a straight luminous time-line path abruptly splits into an IF branch with a subtle warm color shift, a tiny gray silhouette of a man plunging into the branch, cold volumetric fog drifting, boundless cosmic emptiness.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing through a window. The lean gray-clothed man opening his eyes, everything unchanged, still lying on the rough bed in the clay-stove hut, soft morning light on his face.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. Steam and warmth rising from a steaming bowl of thin porridge seen through a gap in the window, warm ambient glow against the cold dim room, a few floating dust motes catching light.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page3",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. A rough wooden table with three bowls of thin porridge; the center bowl (a lean gray-clothed man's) is thick with beans, rice and wild greens, while the two side bowls hold nearly clear broth. The lean man seated holding his bowl, a plump soft woman and a thin 6-year-old girl with two small buns seated opposite.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, diagonal composition. The plump soft woman with black hair in a simple bun gently scolding her daughter, warm caring earnest expression, gesturing toward the father's bowl.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. The thin 6-year-old girl with two small buns and big hungry eyes staring at the beans in her father's bowl, drooling, longing sorrowful expression, warm glow on her hollow cheeks.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page4",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with only the upper half (50% height) occupied by a single full-width full-bleed comic art panel without any borders or gutters, the lower half left as empty plain blank space with no panels, no gutters, no borders, reserved purely as a clean background for text overlay.\n"
+                  "Panel 1: EXTREME WIDE SHOT, high angle looking down. vulnerable composition. A vast cotton field at dusk on barren outskirts, a tiny lone figure with a hoe standing small in the field, distant dark silhouettes of a wealthy estate's cotton mill, oppressive heavy dark sky, cold volumetric haze, desolate and stifling atmosphere.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": [],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page5",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a left column of 3 stacked panels (60% width) and a large full-height panel on the right (40% width). Left column: top panel 60% height, middle panel 20% height, bottom panel 20% height. Right panel occupies the full page height. Inside the right panel, a small inset panel in the upper-left corner (15% of the right panel). Thin black gutters.\n"
+                  "Panel 1: MEDIUM CLOSE-UP, diagonal composition. The plump woman slapping a pair of chopsticks on the table in feigned anger, the thin 6-year-old girl flinching, lowering her head in apology, family meal scene.\n"
+                  "Panel 2: EXTREME CLOSE-UP. extreme negative space. The lean man's hand picking a few beans from his bowl and placing them into the girl's bowl, warm light.\n"
+                  "Panel 3: EXTREME CLOSE-UP. extreme negative space. The small girl's little hand picking the beans back into her father's bowl, gentle determined gesture.\n"
+                  "Panel 4: CLOSE-UP, eye level. framing, warm ambient glow. The thin 6-year-old girl breaking into a tearful bright smile, eyes shining with both sorrow and love, silvery tears on her hollow cheeks, warm halo light, emotional peak, luminous glow highlights.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page6",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with one large vertical panel on the left (60% height) and two smaller panels side by side at the bottom (40% height). Thin black gutters between all panels.\n"
+                  "Panel 1: SILHOUETTE SHOT, high angle looking down. A plump woman's silhouette walking toward a cotton mill in pale morning light, back view, small lonely figure, distant cotton mill, cold haze, quiet and weary.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing through a doorway. The thin 6-year-old girl with two small buns sitting in the room practicing embroidery, carefully stitching a small flower on a cloth, focused and earnest.\n"
+                  "Panel 3: MEDIUM SHOT, eye level. rule of thirds. The lean gray-clothed man sitting alone in the room, thoughtful distant expression, gazing off into the light, quiet solitude.\n"
+                  "IMPORTANT: 3 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. The small girl has soft black hair in two small buns + big bright eyes + patched coarse cotton child's dress. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png", "char-丫丫-v1-front.png", "char-丫丫-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page7",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a large full-page background panel of a grand scene (65% height). Two smaller foreground panels overlap on top of the background: a medium square panel in the lower-left and a small panel in the lower-right. The foreground panels have distinct borders to separate them from the background. Thick framing.\n"
+                  "Panel 1: WIDE SHOT, eye level. extreme negative space. Night, the clay-stove hut with dim flickering candlelight, a curtain separating two beds, a small girl sleeping on the far side, cold night atmosphere, faint fog, quiet and intimate.\n"
+                  "Panel 2: SILHOUETTE SHOT. foreground silhouette occluding view, layered depth. Two figures lying close together under a quilt, soft silhouettes partially hidden by the draped curtain, dim candlelight casting gentle shadows, tasteful and restrained intimacy, focus on mood not explicit content.\n"
+                  "Panel 3: CLOSE-UP, eye level. warm ambient glow. In the darkness, the plump woman's face showing a delighted warm smile, eyes soft, realizing her husband has recovered, warm luminescent glow in the dark.\n"
+                  "IMPORTANT: 2 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png"],
+        "size": "1125x1500",
+    },
+    {
+        "id": "page8",
+        "prompt": "IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed.\n"
+                  "Art style: Korean webtoon dark fantasy manhwa style, professional thick painting technique. Soft or invisible linework, lineless rendering, forms defined by color and value transitions. Thick digital painting with visible brushwork, cold color palette. Deep blues, slate grays, desaturated crimsons, smooth skin rendering with realistic texture. Cinematic three-point lighting, strong rim lights, cold blue ambient with warm accent. 7.5 head proportion, semi-realistic, realistic features with subtle stylization. Gritty dark fantasy, cinematic and immersive, premium webtoon adaptation quality. Must be thick painted style with visible brushwork. No cel-shading. No anime style. No visible ink outlines. No soft watercolor. No cartoonish. Maintain cold color palette and cinematic quality. No text overlay.\n"
+                  "Layout: A vertical webtoon comic page with a wide horizontal panel at the top (full width, 45% height) and a bottom section split into two panels: a tall narrow vertical panel on the left (25% width) and a large panel on the right (75% width). Thin black gutters between all panels.\n"
+                  "Panel 1: WIDE SHOT, eye level. rule of thirds composition. At night, the lean man and plump woman lying close together under the quilt talking silently, window showing dark cold night, faint fog, intimate but restrained, peaceful.\n"
+                  "Panel 2: MEDIUM CLOSE-UP, eye level. framing. The plump woman speaking seriously, solemn earnest expression, telling a grave matter, cold blue hint of mood.\n"
+                  "Panel 3: EXTREME CLOSE-UP. visual juxtaposition, two contrasting elements side by side in frame. The plump woman's playful cunning teasing smile, a spark of girlish mischief in her eyes, subtle dark mysterious shadow looming behind her, contrast between her light teasing and the dark hint.\n"
+                  "IMPORTANT: 2 distinct characters with triple-locked features. The lean man has messy black short hair + deep dark drooping eyes + worn gray-brown coarse cotton farm clothes. The plump woman has black hair loosely tied in a simple bun + large warm eyes + plain gray-brown coarse cotton woman's clothing. Do NOT change any character's hair color or clothing color between panels.\n"
+                  "NEG<DIALOGUE>",
+        "ref_images": ["char-李玄-v1-front.png", "char-李玄-v1-side.png", "char-孟莹-v1-front.png", "char-孟莹-v1-side.png"],
+        "size": "1125x1500",
+    },
 ]
 
 # ===== 文字控制负面词（2026-08-03 实测锁定，见 references/content-layer.md §六）=====
@@ -84,34 +168,7 @@ TEXT_CONTROL_STRONG = (
     "no dial numerals, no roman numerals. Pure visual imagery only, no readable characters anywhere."
 )
 
-# ============ 执行区（无需修改） ============
-
-
-def image_to_data_uri(path):
-    """读取图片文件转为 data URI"""
-    with open(path, "rb") as f:
-        raw = f.read()
-    b64 = base64.b64encode(raw).decode()
-    # 检测实际格式
-    if raw[:3] == b'\xff\xd8\xff':
-        return f"data:image/jpeg;base64,{b64}"
-    return f"data:image/png;base64,{b64}"
-
-
-def ensure_png_bytes(img_bytes):
-    """检测字节流的实际格式，若为JPEG则转码为PNG字节流。返回PNG字节流。"""
-    if img_bytes[:2] == b'\xff\xd8':  # JPEG magic bytes
-        try:
-            from PIL import Image
-        except ImportError:
-            return img_bytes  # 无法转码，返回原始字节
-        img = Image.open(BytesIO(img_bytes))
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        buf = BytesIO()
-        img.save(buf, format="PNG")
-        return buf.getvalue()
-    return img_bytes
+# ============ 通用工具 ============
 
 
 def _assert_size_safe(size):
@@ -135,7 +192,7 @@ def _assert_size_safe(size):
     if pixels > MAX_PIXELS:
         print(
             f"  [错误] 尺寸 {size} = {pixels} 像素，超过上限 {MAX_PIXELS} 像素"
-            f"（Seedream 5.0 Pro 超 236 万像素报价翻倍），已中止。",
+            f"（超 236 万像素计费翻倍），已中止。",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -143,7 +200,6 @@ def _assert_size_safe(size):
 
 def resolve_ref_image(ref_name):
     """根据定妆图文件名查找完整路径"""
-    # 尝试多个路径
     candidates = [
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
         os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
@@ -151,198 +207,96 @@ def resolve_ref_image(ref_name):
     ]
     for path in candidates:
         if os.path.exists(path):
-            return path
+            return path.replace("\\", "/")
     print(f"  [警告] 定妆图未找到: {ref_name}", file=sys.stderr)
     return None
 
 
-def generate_page(page, output_path):
-    """生成单页漫画，支持多张参考图（image参数传第一张定妆图）。
-    使用 b64_json 直接返回图片数据。支持自动重试和格式保真。"""
-    # 文字控制占位符替换（2026-08-03 实测锁定，见 references/content-layer.md §六）
-    #   NEG<DIALOGUE> -> 对话场景（禁气泡，防伪对话乱字）
-    #   NEG<TEXT>     -> 非对话场景（逐字禁文字）
-    prompt = page["prompt"]
-    prompt = prompt.replace("NEG<DIALOGUE>", TEXT_CONTROL_DIALOGUE)
-    prompt = prompt.replace("NEG<TEXT>", TEXT_CONTROL_STRONG)
-
-    prompt_len = len(prompt)
-    if prompt_len > 2200:
-        print(f"  [警告] {page['id']} 提示词过长: {prompt_len} 字符")
-
-    size = page.get("size", SIZE)
-    _assert_size_safe(size)
-    payload = {
-        "model": MODEL,
-        "prompt": prompt,
-        "size": size,
-        "watermark": False,
-        "response_format": "b64_json",
-    }
-
-    # 解析参考图列表，image参数传第一张定妆图（Seedream API目前只支持单张image参数）
-    ref_images = page.get("ref_images", [])
-    resolved_refs = []
-    for ref_name in ref_images:
-        ref_path = resolve_ref_image(ref_name)
-        if ref_path:
-            resolved_refs.append(ref_path)
-
-    if resolved_refs:
-        payload["image"] = image_to_data_uri(resolved_refs[0])
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}",
-    }
-
-    data = json.dumps(payload).encode("utf-8")
-
-    for attempt in range(MAX_RETRIES):
+def ensure_png_format(path):
+    """检测文件实际格式，若以 .png 保存但实际是 JPEG 则转码为真 PNG。"""
+    if not os.path.exists(path):
+        return
+    with open(path, "rb") as f:
+        header = f.read(8)
+    if header[:3] == b'\xff\xd8\xff':  # JPEG magic bytes
         try:
-            req = urllib.request.Request(API_URL, data=data, headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=120) as response:
-                result = json.loads(response.read().decode("utf-8"))
-
-            data_list = result.get("data", [])
-            if not data_list:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: 未返回图片数据", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            item = data_list[0]
-            if "error" in item:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: {item['error']}", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            b64_data = item.get("b64_json")
-            if not b64_data:
-                print(f"  [错误] {page['id']} 尝试{attempt+1}: 未返回b64_json", file=sys.stderr)
-                if attempt < MAX_RETRIES - 1:
-                    time.sleep(3 * (attempt + 1))
-                continue
-
-            # 解码base64 + 格式保真
-            img_bytes = base64.b64decode(b64_data)
-            img_bytes = ensure_png_bytes(img_bytes)
-
-            with open(output_path, "wb") as f:
-                f.write(img_bytes)
-
-            file_size = len(img_bytes) / 1024
-            ref_info = f" refs={','.join(os.path.basename(r) for r in resolved_refs)}" if resolved_refs else " 文生图"
-            print(f"  [OK] {page['id']} ({file_size:.0f}KB{ref_info}, prompt={prompt_len}字符)")
-            return {
-                "id": page["id"],
-                "success": True,
-                "path": output_path,
-                "refs": [os.path.basename(r) for r in resolved_refs],
-                "size": page.get("size", SIZE),
-            }
-
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8") if e.fp else ""
-            print(f"  [错误] {page['id']} 尝试{attempt+1}: HTTP {e.code} - {error_body[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-        except Exception as e:
-            print(f"  [错误] {page['id']} 尝试{attempt+1}: {str(e)[:100]}", file=sys.stderr)
-            if attempt < MAX_RETRIES - 1:
-                time.sleep(3 * (attempt + 1))
-
-    print(f"  [失败] {page['id']} 所有{MAX_RETRIES}次尝试均失败", file=sys.stderr)
-    return {
-        "id": page["id"],
-        "success": False,
-        "path": output_path,
-        "refs": [os.path.basename(r) for r in resolved_refs],
-        "size": page.get("size", SIZE),
-    }
+            from PIL import Image
+        except ImportError:
+            print(f"  [警告] 文件为JPEG内容但Pillow未安装，无法转码: {path}", file=sys.stderr)
+            return
+        img = Image.open(path)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        tmp = path + ".tmp"
+        img.save(tmp, "PNG", optimize=True)
+        os.replace(tmp, path)
+        print(f"  [格式修正] JPEG → PNG 转码: {os.path.basename(path)}")
 
 
-def main():
-    print("=" * 60)
-    print(f"pop-visual-comic 逐页漫画生成 v4.5.0 (8并发模式)")
-    print("=" * 60)
-
-    # 确定输出目录
+def export_tasks():
+    """把 PAGES 列表导出为 generation_tasks.json，供主 agent 用 image_generate 工具逐张生成。"""
     out_dir = OUTPUT_DIR
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
-    # 检查定妆图可用性
+    tasks = []
     print("\n定妆图映射检查:")
     for page in PAGES:
+        # 文字控制占位符替换
+        prompt = page["prompt"]
+        prompt = prompt.replace("NEG<DIALOGUE>", TEXT_CONTROL_DIALOGUE)
+        prompt = prompt.replace("NEG<TEXT>", TEXT_CONTROL_STRONG)
+        if len(prompt) > 2200:
+            print(f"  [警告] {page['id']} 提示词过长: {len(prompt)} 字符")
+
+        # 尺寸：页漫模式每页用 size，再回退默认 SIZE
+        size = page.get("size", SIZE)
+        _assert_size_safe(size)
+
+        # 解析参考图路径
         ref_images = page.get("ref_images", [])
-        if ref_images:
-            ref_paths = []
-            for ref_name in ref_images:
-                ref_path = resolve_ref_image(ref_name)
-                ref_paths.append(os.path.basename(ref_path) if ref_path else f"{ref_name}(缺失)")
-            print(f"  {page['id']}: {', '.join(ref_paths)}")
+        resolved_refs = []
+        for ref_name in ref_images:
+            ref_path = resolve_ref_image(ref_name)
+            if ref_path:
+                resolved_refs.append(ref_path)
+
+        output_path = os.path.join(out_dir, f"{page['id']}.png").replace("\\", "/")
+        tasks.append({
+            "id": page["id"],
+            "prompt": prompt,
+            "size": size,
+            "ref_images": resolved_refs,
+            "output_path": output_path,
+        })
+        if resolved_refs:
+            print(f"  {page['id']}: refs={', '.join(os.path.basename(r) for r in resolved_refs)}  size={size}")
         else:
-            print(f"  {page['id']}: 无（文生图）")
+            print(f"  {page['id']}: 文生图  size={size}")
 
-    print(f"\n开始生成 {len(PAGES)} 页（并发数={CONCURRENCY}）...\n")
-
-    start_time = time.time()
-
-    # 高并发逐页生成
-    results = []
-    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
-        futures = {}
-        for page in PAGES:
-            output_path = os.path.join(out_dir, f"{page['id']}.png")
-            future = executor.submit(generate_page, page, output_path)
-            futures[future] = page
-
-        for future in as_completed(futures):
-            page = futures[future]
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"  [崩溃] {page['id']}: {e}", file=sys.stderr)
-                results.append({"id": page["id"], "success": False, "path": None})
-
-    elapsed = time.time() - start_time
-
-    # 按页号排序结果
-    results.sort(key=lambda r: r["id"])
-
-    # 汇总
-    print("\n" + "=" * 60)
-    print("生成汇总:")
-    success_count = 0
-    for r in results:
-        status = "OK" if r["success"] else "FAIL"
-        print(f"  [{status}] {r['id']} -> {r.get('path', 'N/A')}")
-        if r["success"]:
-            success_count += 1
-
-    print(f"\n成功: {success_count}/{len(PAGES)}")
-    print(f"耗时: {elapsed:.1f}秒 (平均 {elapsed/max(len(PAGES),1):.1f}秒/页)")
-    print(f"并发效率: 理论串行 ~{elapsed*CONCURRENCY:.0f}秒 -> 实际 {elapsed:.0f}秒")
-
-    # 保存元数据
+    # 导出任务清单
     meta = {
         "total_pages": len(PAGES),
-        "success": success_count,
-        "failed": len(PAGES) - success_count,
-        "elapsed_seconds": round(elapsed, 1),
-        "concurrency": CONCURRENCY,
-        "model": MODEL,
-        "pages": results,
+        "mode": MODE,
+        "generator": "generate_comic_page.py v5.2.0",
+        "note": "用 image_generate 工具逐条生成，输出到每条任务的 output_path",
+        "tasks": tasks,
     }
-    meta_path = os.path.join(out_dir, "generation_meta.json")
+    meta_path = os.path.join(out_dir, "generation_tasks.json")
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=2)
-    print(f"\n元数据已保存: {meta_path}")
+
+    print("\n" + "=" * 60)
+    print(f"已导出 {len(tasks)} 条生图任务 → {meta_path.replace(os.sep, '/')}")
+    print("=" * 60)
+    print("\n主 agent 请按以下方式用 image_generate 工具逐张生成：")
+    print("  对 generation_tasks.json 中每条任务：")
+    print("    image_generate(prompt=<任务prompt>, size=<任务size>, output=<任务output_path>)")
+    print("  图生图（有 ref_images 时）：按 image_generate 工具能力传入参考图，保证角色一致性。")
+    print("  生成完成后本脚本的 ensure_png_format 可校验格式，必要时手动转码。")
+    return meta_path
 
 
 if __name__ == "__main__":
-    main()
+    export_tasks()

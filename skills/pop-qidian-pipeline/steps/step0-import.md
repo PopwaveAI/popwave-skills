@@ -43,8 +43,8 @@
 | *卷纲* / *大纲* / *分幕* | `设计/第一卷剧情/` | `卷纲.md` | Phase 4 |
 | *章锚点* / *章节表* / *章节规划* | `设计/第一卷剧情/` | `章锚点表.md` | Phase 4 |
 | *正文* / *章节* / ch* / 第*章 | `正文/` | `ch{NNN}.txt` | Phase 5 |
-| *快照* / *状态* / *进度* | `审核/` | `小说快照.md` | Phase 6 |
-| *current-state* / *入口包* | 项目根 | `current-state.md` | Phase 6 |
+| *白描卡* / *本章记录* | `产出/白描卡/` | `ch{NNN}.md` | Phase 6 |
+| *剧情累计卡* / *状态* / *快照* / *进度* | `产出/` | `剧情累计卡.md` | Phase 6 |
 
 **操作**：
 1. 匹配不上的文件归入"未分类资产"，询问用户映射到哪个标准位置
@@ -79,7 +79,7 @@
 | Phase 3.5 | 角色库/角色库.md | 存在=✅ |
 | Phase 4 | 第一卷剧情/卷纲.md + 章锚点表.md | 两者都有=✅ |
 | Phase 5 | 正文/ch*.txt | 有正文=✅ |
-| Phase 6 | 审核/小说快照.md + current-state.md | 两者都有=✅ |
+| Phase 6 | 产出/白描卡/ + 产出/剧情累计卡.md | 两者都有=✅ |
 
 **正文进度检测**：如果 `正文/` 有文件，提取最大章节号。例如有 ch001.txt~ch015.txt → current_chapter = ch016（下一章待写）。
 
@@ -93,7 +93,7 @@
 
 | 条件 | mode | 落地Phase | 说明 |
 |:--|:--|:--|:--|
-| 正文有 + 小说快照有 + current-state有 | resume | Phase 5（续写下一章） | 状态完整，直接接续 |
+| 正文有 + 白描卡有 + 剧情累计卡有 | resume | Phase 5（续写下一章） | 状态完整，直接接续 |
 | 正文有 + 状态文件缺失 | resume | 先执行0f调度review reconstruct → Phase 5 | 需补建状态文件 |
 | 正文无 + Phase 4就绪 | import | Phase 5（开始写） | 设定+剧情完整 |
 | 正文无 + Phase 3.5就绪 | import | Phase 4（plot） | 缺剧情 |
@@ -148,7 +148,7 @@ Phase ID对照表（同step2.md）：
 
 | 缺口类型 | 调度skill | reconstruct做什么 | 执行指南 |
 |:--|:--|:--|:--|
-| 有正文 + 缺current-state/小说快照 | review | 批量回溯审核已有正文 → 生成current-state + 小说快照 + review-沉淀 | step2.md「review reconstruct执行指南」 |
+| 有正文 + 缺白描卡/剧情累计卡 | review | 批量回溯审核已有正文 → 生成逐章白描卡 + 剧情累计卡 | step2.md「review reconstruct执行指南」 |
 | 缺Phase 1-4设计文档 | 对应skill（seed/world/character/plot） | 读取已有文件 → 按skill方法论校验+补全 → 输出标准格式 | step2.md「skill reconstruct执行指南」 |
 | 已有设计文档但来源=user-original | 对应skill | 读取已有文件 → 按skill方法论校验 → 标注缺口或确认达标 | 按需调度（用户确认后） |
 
@@ -158,7 +158,7 @@ Phase ID对照表（同step2.md）：
 
 #### 0f-2. review reconstruct（有正文但缺状态文件时执行）
 
-> 触发条件：`正文/` 有文件 且 `审核/小说快照.md` 或 `current-state.md` 不存在
+> 触发条件：`正文/` 有文件 且 `产出/白描卡/` 或 `产出/剧情累计卡.md` 不存在
 
 **主agent必须加载review skill执行**——按review reconstruct模式的SOP执行正文反推。执行指南见 step2.md「review reconstruct执行指南」。
 
@@ -167,9 +167,8 @@ Phase ID对照表（同step2.md）：
 - 采样策略：≤10章全审 / 11-30章最近5章+每5章取1章 / >30章最近5章+第一章+每10章取1章
 - 产出：
   - `审核/chNNN-审核报告.md`（每章一份，简版）
-  - `current-state.md`（最新章位状态，含DNA执行包，来源标记`skill-reconstruct`）
-  - `审核/小说快照.md`（全书累计视图）
-  - `审核/review-沉淀.md`（append，合并所有章的判断）
+  - `产出/白描卡/ch{NNN}.md`（每章一张，单章剧情记录）
+  - `产出/剧情累计卡.md`（replace，全书累计视图）
 
 #### 0f-3. 设计文档补跑（缺设计文档时执行）
 
@@ -185,7 +184,7 @@ Phase ID对照表（同step2.md）：
 | 角色库.md | character | 力量体系+动力引擎+主角+全书设定+已有正文 | 标准角色库 |
 | 卷纲.md+章锚点表.md | plot | 力量体系+动力引擎+主角+全书设定+角色库+已有正文 | 标准卷纲+章锚点表 |
 
-> **注意**：如果用户已有正文但缺卷纲+章锚点表，plot reconstruct模式会从正文反推卷纲。如果用户选择跳过plot直接续写（降级模式），需在current-state.md中手动指定下一章核心事件，write按current-state指导续写。后续可补跑plot生成正式卷纲。
+> **注意**：如果用户已有正文但缺卷纲+章锚点表，plot reconstruct模式会从正文反推卷纲。如果用户选择跳过plot直接续写（降级模式），需在剧情累计卡或章锚点表中手动指定下一章核心事件，write按章锚点表指导续写。后续可补跑plot生成正式卷纲。
 
 #### 0f-4. 补跑建议清单（输出给用户）
 
@@ -193,7 +192,7 @@ Phase ID对照表（同step2.md）：
 ⚠️ 导入模式质量报告：
 - [文件名]：来源={user-original/pipeline-relocated/skill-reconstruct}，状态={✅已验证/⚠️需校验/❌缺失}，建议={正常消费/补跑XX skill}
 - ...
-- current-state.md：来源={skill-reconstruct/缺失}，状态={✅/⚠️/❌}
+- 产出/剧情累计卡.md：来源={skill-reconstruct/缺失}，状态={✅/⚠️/❌}
 ```
 
 用户根据清单决定：

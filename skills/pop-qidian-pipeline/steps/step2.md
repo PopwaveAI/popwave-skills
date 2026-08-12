@@ -400,8 +400,8 @@ Step 0交互决策完成 → 立项决策表落盘
 前置检查：正文/chXXX.txt 存在
 ```
 
-1. 调pop-qidian-review v3.4.0，产出`审核/review-chXXX.md`（四维审核+骨架维度检查）
-2. review Step 4沉淀产出：`current-state.md`更新（项目根） + `审核/小说快照.md`更新（全书累计视图——涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表） + `审核/review-沉淀.md`追加（审稿判断+规则沉淀，append-only）
+1. 调pop-qidian-review v3.7.0，产出`审核/chNNN-审核报告.md`（四步审核+骨架维度检查）
+2. review Step 4沉淀产出：产出本章白描卡（`产出/白描卡/ch{NNN}.md`，只增不改）+ 更新剧情累计卡（`产出/剧情累计卡.md`，replace——钩子台账/角色当前状态/读者已知信息池/禁止漂移）。已废弃 current-state/小说快照/review-沉淀/压缩归档
 3. 通过 → 更新项目总控.html：`phase=phase5`，`chapter=chNNN+1`
 4. 打回 → 更新项目总控.html：`phase=phase5`（重写本章）
 
@@ -419,15 +419,13 @@ Step 0交互决策完成 → 立项决策表落盘
 
 关键红线（必须遵守）：
 - 采样章节必须做完整审核（信息提取+正向符合性简化+正文质量简化），非采样章节只快速提取关键信息
-- current-state.md必须包含DNA执行包（若素材/文风锚定.md存在）和source:skill-reconstruct标记
-- 小说快照.md必须包含全书累计视图（涌现设定/角色状态总表/剧情线进度/读者已知信息池/待回收伏笔总表）
-- review-沉淀.md append一段reconstruct汇总判断，不删改历史
+- 每章产出白描卡（只增不改），剧情累计卡 replace 更新（钩子台账含信息差类型+角色当前状态+读者已知池+禁止漂移）
+- 未产出任何旧文档（current-state/小说快照/review-沉淀/压缩归档）
 
 产出路径:
-- 审核/chNNN-审核报告.md（每个采样章节一份）
-- current-state.md（项目根，含DNA执行包+source标记）
-- 审核/小说快照.md（replace模式）
-- 审核/review-沉淀.md（append）
+- 审核/chNNN-审核报告.md（每个采样章节一份，简版）
+- 产出/白描卡/ch{NNN}.md（每个采样章节一张）
+- 产出/剧情累计卡.md（replace模式，全书累计视图）
 完成后报告：审核章数范围、采样策略、采样章数、总体质量判断。
 
 ### skill reconstruct执行指南（设计文档补跑）
