@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v5.2.0 (2026-08-13) — 势力边界收敛：world只做势力组织，人物归character
+
+> **根因**：world的势力人物.md既做势力组织又做"全书配角"（Step 2j），与character角色库重复（两层皮）。需明确"势力=组织(棋盘)在world，人物=个体(棋子)在character"。
+
+**改动**：
+- **势力人物.md 收紧**：删全书配角（Step 2j），world只产出势力组织+代表人物一句话锚定（谁当家/谁代表）。6c核心人物表删除（属character），6c改核心势力+关系网络
+- **step2-fullbook 删2j全书配角设计**，各卷切片预览 2k→2j
+- **step1-flesh 维度6边界**：新增"world只做势力组织+代表人物，全部'人'的深度塑造归character"说明
+- **step3-output 势力人物.md格式**：组织级（6a/6b/6c势力+关系网络+代表人物一句话），标注"不落角色卡"
+- **character侧同步**：消费world势力人物.md势力骨架填人，全书配角/跨卷反派由character 2c全书角色版图规划
+- **SKILL.md更新**：v5.2.0版本
+- skill.json version 5.1.0→5.2.0
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md）
+
+**核心洞察**：势力是棋盘（world·组织），角色是棋子（character·个体）。world提供的代表人物只是让势力不抽象的一句话锚定，完整人设归character单方产出——消灭两层皮。
+
 ## v5.1.0 (2026-08-13) — W1 拆两层：全书世界格局 + 首卷舞台
 
 ### 原则：广度先行圈定，深度后置深化
