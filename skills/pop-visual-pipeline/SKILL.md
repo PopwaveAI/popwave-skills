@@ -5,7 +5,7 @@ description: "当用户说'视觉管线/视觉pipeline/小说视觉化/做视觉
 
 # pop-visual-pipeline
 
-> 小说视觉化总控管线。Phase 0→6路由调度。把 7 个 visual 子 skill 串成一条工程流：**基建层（查原文→定画风→产出美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出**。**意图闸口前置——先确认本次目标（封面/OC/漫画），按 intent 决定基建档位，不默认推漫画**。**首次对话引导统一收归本 pipeline（`references/onboarding-guide.md`，C 端口吻，面向作者/漫画人/同人爱好者）**。v2.4.0：SKILL.md 新增「📦 可调度 Skill 清单」。
+> 小说视觉化总控管线。Phase 0→6路由调度。把 7 个 visual 子 skill 串成一条工程流：**基建层（查原文→定画风→产出美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出**。**意图闸口前置——先确认本次目标（封面/OC/漫画），按 intent 决定基建档位，不默认推漫画**。**首次对话引导统一收归本 pipeline（`references/onboarding-guide.md`，C 端口吻，面向作者/漫画人/同人爱好者）**。v2.5.0：SKILL.md 新增「📦 可调度 Skill 清单」。
 
 ---
 

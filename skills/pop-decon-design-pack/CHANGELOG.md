@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v6.5.0 | 2026-08-13
+
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v6.5.0
+
 ## v6.4.0 | 2026-08-06
 
 ### 执行方式从「脚本直连 DS API」改为「派发子 agent 执行」

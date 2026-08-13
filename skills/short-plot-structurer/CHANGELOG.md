@@ -1,4 +1,9 @@
 # CHANGELOG — short-plot-structurer
+## v1.1.0 | 2026-08-13
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v1.1.0
+
 ## v1.0.0 | 2026-08-04
 ### 新建 skill：短篇剧情结构器
 - 初始版本。4种结构模板（知乎反转体/番茄单元剧体/经典三幕式/情绪爆发体）

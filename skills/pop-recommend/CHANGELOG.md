@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.3.0 (2026-08-13)
+
+### 元数据同步
+
+- skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步至 v1.3.0。
+
 ## v1.2.0 (2026-07-22)
 
 ### 按Popwave Skill设计规范重写SKILL.md结构

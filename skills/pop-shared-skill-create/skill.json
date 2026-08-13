@@ -1,8 +1,8 @@
 {
   "id": "pop-shared-skill-create",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "displayName": "Skill 设计规范",
-  "description": "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/skill规范'时启用。Popwave Skill 设计规范——SOP骨架/资源分层/scripts代码目录/精简原则/强弱加载保障。",
+  "description": "想创建、改造或修复一个skill时用它。它提供Popwave skill的设计规范，告诉你skill该写成什么样、按什么顺序落盘。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
@@ -16,5 +16,6 @@
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
-  }
+  },
+  "tags": ["番茄长篇网文专家", "小说推书与IP化专家", "起点长篇网文专家", "网文拆书专家", "短篇小说专家"]
 }

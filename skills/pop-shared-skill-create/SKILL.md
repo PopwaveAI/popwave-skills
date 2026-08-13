@@ -44,4 +44,4 @@ description: "当用户说'创建skill/新建skill/加个skill/改造skill/修�
 
 ## 版本
 
-v6.1.0 | 2026-07-09 | 对齐知识工程 PRD：SKILL.md 承载 SOP 骨架，补充一级代码目录 scripts/ → [CHANGELOG.md](CHANGELOG.md)
+v6.2.0 | 2026-08-13 | 对齐知识工程 PRD：SKILL.md 承载 SOP 骨架，补充一级代码目录 scripts/ → [CHANGELOG.md](CHANGELOG.md)

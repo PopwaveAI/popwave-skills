@@ -1,4 +1,9 @@
 # CHANGELOG — short-reviewer
+## v1.1.0 | 2026-08-13
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v1.1.0
+
 ## v1.0.0 | 2026-08-04
 ### 新建 skill：短篇评审器（Popwave规范改造）
 - 初始版本。按Popwave Skill设计规范完整重构

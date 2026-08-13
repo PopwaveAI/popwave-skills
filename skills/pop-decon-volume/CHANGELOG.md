@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v8.1.0 | 2026-08-13
+
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v8.1.0
+
 ## v8.0.0 | 2026-07-31
 
 ### 核心重构：L2单元卡→故事机制DNA+名场面库+读者体验曲线

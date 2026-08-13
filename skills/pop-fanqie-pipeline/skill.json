@@ -1,9 +1,9 @@
 {
   "id": "pop-fanqie-pipeline",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "displayName": "番茄 Pipeline",
-  "description": "当用户说'初始化项目/管线总控/番茄pipeline/导入/续写'时启用。Phase 0→5全链路调度，项目空间标准化，project-state状态可视化。v3.10.0：剧情记录双文件收束（流水账白描卡+剧情累计卡，废current-state）。",
-  "tags": ["管线与总控"],
+  "description": "番茄长篇网文写作的总调度入口：帮你初始化项目、规划目录、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
+  "tags": ["番茄长篇网文专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },
   "skills": [

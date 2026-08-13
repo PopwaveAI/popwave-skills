@@ -1,5 +1,16 @@
 # CHANGELOG — pop-qidian-research
 
+## v4.6.0 — 2026-08-13
+
+### skill.json 面向用户介绍 + 可调用专家标签 + 版本同步
+
+**改动**：
+- **skill.json**：description 改为面向用户介绍、tags 改为可调用专家标签
+- **SKILL.md**：版本号同步至 v4.6.0
+- **CHANGELOG.md**：新增本条版本记录
+
+---
+
 ## v4.5.0 — 2026-08-12
 
 ### 燃料筛入目标对齐剧情累计卡

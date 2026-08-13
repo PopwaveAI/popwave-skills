@@ -1,10 +1,10 @@
 {
   "id": "pop-decon-volume",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "displayName": "故事DNA+名场面+读者体验+卷纲（Phase 2）",
-  "description": "当用户说'聚类/卷幕/cluster'时启用。从叙事白描产出故事机制DNA+名场面库+读者体验曲线+卷纲，产出供下游setting/prd消费。",
+  "description": "拆书第二环，从叙事白描产出故事机制DNA、名场面库、读者体验曲线和卷纲。当你说\"聚类/卷幕\"时启用。",
   "tags": [
-    "拆书与分析"
+    "网文拆书专家"
   ],
   "entry": "SKILL.md",
   "upstream": "pop-decon-design-pack",

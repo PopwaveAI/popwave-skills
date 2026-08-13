@@ -1,9 +1,9 @@
 {
   "id": "pop-qidian-world",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "displayName": "起点世界构筑引擎",
-  "description": "起点世界构筑引擎。v5.2.0：势力边界收敛——势力人物.md删全书配角，world只做势力组织+代表人物一句话锚定，人物深度归character。v5.1.0：W1拆两层——W1a全书世界格局（版图+扩张阶梯对齐阶位）+W1b首卷舞台切分，广度先行深度递归。v5.0.0：输入从seed骨架文件改为立项/01-立项PRD.md方向句，world自己展开力量体系四层+动力引擎六组成（去掉不发明骨架约束）。v4.4.0：产出重构为10个最小闭环文件。消费PRD力量体系+世界方向句→自己展开骨架→推导世界设计原则→因果链推演7维度→最小闭环分类多文件落盘。",
-  "tags": ["世界构筑"],
+  "description": "帮你从立项方案展开完整的全书世界设定，包括力量体系、动力引擎和七大维度的世界规则，为后续剧情和正文打底。适合立项后想把世界搭扎实时用。",
+  "tags": ["起点长篇网文专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-world", "起点world", "起点世界构筑"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },

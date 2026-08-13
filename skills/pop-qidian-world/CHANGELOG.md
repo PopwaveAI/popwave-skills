@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v5.3.0 | 2026-08-13
+
+### skill.json 面向用户介绍 + 可调用专家标签 + 版本同步
+
+**改动**：
+- **skill.json**：description 改为面向用户介绍、tags 改为可调用专家标签
+- **SKILL.md**：版本号同步至 v5.3.0
+- **CHANGELOG.md**：新增本条版本记录
+
+---
+
 ## v5.2.0 (2026-08-13) — 势力边界收敛：world只做势力组织，人物归character
 
 > **根因**：world的势力人物.md既做势力组织又做"全书配角"（Step 2j），与character角色库重复（两层皮）。需明确"势力=组织(棋盘)在world，人物=个体(棋子)在character"。

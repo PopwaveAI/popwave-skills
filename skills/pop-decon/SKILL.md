@@ -5,7 +5,7 @@ description: "当用户说'拆书/解构/分析/对标/提取模板'时启用。
 
 # pop-decon · 拆书专家入口
 
-> 拆书专家入口：下载 txt → 章节白描 → 征询拆解维度 → 按需路由。不常驻调度。v22.2.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v22.1.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向想学写作技巧的作者）。v22.0.0
+> 拆书专家入口：下载 txt → 章节白描 → 征询拆解维度 → 按需路由。不常驻调度。v22.3.0：skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步。v22.2.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v22.1.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向想学写作技巧的作者）。v22.0.0
 
 ## 做什么
 
@@ -88,4 +88,4 @@ pop-decon (下载 → 白描 → 征询维度 → 路由)
 
 ## 版本
 
-v22.0.0 | 2026-08-06 | 重构：从「固定Phase 1→4全量跑」改为「下载→白描→征询拆解维度→按需路由」。拆解维度拆分为独立skill（plot/romance/character/power/world/beat/style），新增情感线skill → [CHANGELOG.md](CHANGELOG.md)
+v22.3.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

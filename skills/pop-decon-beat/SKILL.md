@@ -4,7 +4,7 @@ description: "当拆书时用户说'爽点/名场面/读者体验/节奏/爽点�
 ---
 # pop-decon-beat · 爽点体验拆解
 
-> 拆书独立维度 skill。从章节白描拆解爽点体验：名场面库 + 读者体验曲线 + 爽点分布。v1.0.0
+> 拆书独立维度 skill。从章节白描拆解爽点体验：名场面库 + 读者体验曲线 + 爽点分布。v1.1.0
 
 ## 做什么
 
@@ -39,4 +39,4 @@ description: "当拆书时用户说'爽点/名场面/读者体验/节奏/爽点�
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：爽点体验独立拆解维度 skill，从 pop-decon-volume 拆分 → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

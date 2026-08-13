@@ -1,8 +1,8 @@
 {
   "id": "pop-visual-oc",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "displayName": "网文视觉推广素材生成 · OC设定卡",
-  "description": "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地理卡/规则卡/场景卡/设定卡/传播卡'或需要视觉设计推广素材时启用。OC 不止人物——从小说原文系统性采样设定信息，生成人物/势力/地理/规则/场景五类设定实体卡。全 OC 统一走唯一大范式：立绘优先·顶部聚字（AI 底图只出纯立绘零文字 + HTML 只在顶部纯背景留白区叠少量核心文字 + 底部一印章 + 整图截图即成品）。质量重心从'文字排版'转向'立绘本身'——构图、画风、原文理解、二创注入（好看是第一生产力，小说原文描述不一定好看）。消费 art-bible 美术设定集作为唯一视觉真源。文案按文案SOP公式填写（钩子架构+稳定性三问）保证稳定。生图统一走 image_generate 工具。方法论见 references/layout.md + content.md + 二创-method.md，模板见 templates/ocr-1flow.tpl.html。",
+  "description": "想给小说做人物立绘、势力卡、地理卡、规则卡、场景卡等视觉推广素材时用它。从原文提炼设定，生成好看又带少量文字的设定卡成品图。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-visual-oc", "人设图", "角色图", "OC", "立绘", "角色卡", "设定卡", "传播卡", "势力卡", "地理卡", "规则卡", "场景卡", "世界观卡"]
@@ -11,7 +11,7 @@
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["营销与推荐", "视觉生成"],
+  "tags": ["小说推书与IP化专家"],
   "author": "popwave",
   "license": "UNLICENSED"
 }

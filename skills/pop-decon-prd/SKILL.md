@@ -3,7 +3,7 @@ name: pop-decon-prd
 description: 全书立项设计。当用户说'拆书PRD''立项破解''立项设计'时启用。消费Phase 1-3全产出（故事DNA+名场面+读者体验+设定+角色）→产出立项级文档含逆向破解总结+商业可行性+连载规划+风险预警。
 ---
 # pop-decon-prd
-> 全书立项设计 v1.3.0。Phase 4 of deconstruction，拆书管线最后环节。
+> 全书立项设计 v1.4.0。Phase 4 of deconstruction，拆书管线最后环节。
 
 ## 做什么
 | 输入 | 来源 | 输出 | 下游 |
@@ -41,4 +41,4 @@ description: 全书立项设计。当用户说'拆书PRD''立项破解''立项�
 | templates/book-prd.tpl.md | Step 2产出时 | 立项设计模板 |
 
 ## 版本
-v1.3.0 | 2026-07-31 | 数据收集+综合逻辑更新：消费源从L1-L4改为故事DNA+名场面+读者体验+设定+角色弧线，新增读者体验分析维度 → [CHANGELOG.md](CHANGELOG.md)
+v1.4.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

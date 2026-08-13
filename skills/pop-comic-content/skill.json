@@ -1,8 +1,8 @@
 {
   "id": "pop-comic-content",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "displayName": "漫画内容物料",
-  "description": "当用户说'漫画内容/漫画推广/漫画种草/漫画安利/漫画口播脚本/漫画短视频文案/读图产内容/漫画做成视频/漫画BGM/漫画配乐'时启用。模型读图自理解漫画页与OC/封面→一键产出可投放内容物料三件套（口播脚本+种草/安利笔记+短视频推广文案），可选出片（整页顺序播放+章节封面信息页+xfade淡入淡出+整段火山灿灿配音+情绪指令+不烧字幕）。图片优先用分享成品图（有字/水印）无则回退生图。读图为主页面配置/导演卡文字兜底，先读图后产出，产出后确认再出片/归档。v0.11.0 七步管线：收集→读图理解→内容创作【确认闸门】→配音(可选)→出片(可选)→混音(可选)→导出归档。素材驱动6步创作法（借pop-video-brand骨架），出片走确定性渲染scripts/build_comic_video.py（整页顺序播放+封面信息页+xfade淡入淡出，切页点严格对齐口播段边界，封面从分享长图顶部标题区裁出，禁止Ken Burns缩放，竖版1080x1920，不烧字幕因成品图已内嵌文字），配音整段合成scripts/tts_generate.py（speech-rate+5，文案嵌全角括号情绪指令如（低沉，恐惧地）由seed-audio-1.0自然语言驱动且指令不念出，ASR对齐用纯文本），混音scripts/mix_audio.py按时间轴adelay定位配音，BGM选曲按references/bgm-guide.md赛道×情绪映射（如悬疑配青衣/fever pitch），火山灿灿2.0配音key固化在scripts/.env（VOLC_ARK_API_KEY，脚本自动读取无需手动传）。",
+  "description": "想推广一部漫画、把它做成口播脚本、种草笔记、短视频文案等可投放内容时用它。模型读图理解漫画后一键产出三件套，还能选配配音出片。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-comic-content", "漫画内容", "漫画推广", "漫画种草", "漫画安利", "读图产内容", "漫画做成视频"]
@@ -11,7 +11,7 @@
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["内容创作", "推广营销", "视频"],
+  "tags": ["小说推书与IP化专家"],
   "author": "popwave",
   "license": "UNLICENSED"
 }

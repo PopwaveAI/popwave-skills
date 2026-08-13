@@ -1,5 +1,11 @@
 # CHANGELOG — pop-visual-art-bible
 
+## v2.4.0 | 2026-08-13
+
+### 元数据同步
+
+- skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步至 v2.4.0。
+
 ## v2.3.0 | 2026-08-09
 
 ### 复现资产落盘三态对齐

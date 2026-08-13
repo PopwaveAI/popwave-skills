@@ -5,7 +5,7 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 
 # pop-decon-design-pack · 章节设计包
 
-> Phase 1 of 拆书管线。双维度提取设计包：输出格式（precision/fast）× 处理方式（quality/performance）。全部走子 agent 派发执行。v6.4.0
+> Phase 1 of 拆书管线。双维度提取设计包：输出格式（precision/fast）× 处理方式（quality/performance）。全部走子 agent 派发执行。v6.5.0
 
 ## 做什么
 
@@ -74,4 +74,4 @@ description: "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用�
 
 ## 版本
 
-v6.4.0 | 2026-08-06 | 从「脚本直连 DS API」改为「派发子 agent 执行」，删除 slim_card_batch.py，去除 DEEPSEEK_API_KEY 依赖 → [CHANGELOG.md](CHANGELOG.md)
+v6.5.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

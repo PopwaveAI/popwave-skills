@@ -1,4 +1,9 @@
 # CHANGELOG — short-opening-designer
+## v1.1.0 | 2026-08-13
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v1.1.0
+
 ## v1.0.0 | 2026-08-04
 ### 新建 skill：短篇开篇设计器
 - 初始版本。6种导语公式（悬念前置/情绪爆发/对话开头/身份共鸣/反转/画面切入）

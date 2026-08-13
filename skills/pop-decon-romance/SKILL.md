@@ -4,7 +4,7 @@ description: "当拆书时用户说'情感线/感情线/CP/暧昧/信任/背叛/
 ---
 # pop-decon-romance · 情感线拆解
 
-> 拆书独立维度 skill。从章节白描拆解情感线：CP关系 + 暧昧/信任/背叛/羁绊演变。v1.0.0
+> 拆书独立维度 skill。从章节白描拆解情感线：CP关系 + 暧昧/信任/背叛/羁绊演变。v1.1.0
 
 ## 做什么
 
@@ -41,4 +41,4 @@ description: "当拆书时用户说'情感线/感情线/CP/暧昧/信任/背叛/
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：情感线独立拆解维度 skill → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

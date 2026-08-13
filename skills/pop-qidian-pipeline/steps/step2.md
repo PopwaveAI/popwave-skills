@@ -112,16 +112,16 @@ SearchReplace:
 
 **下载失败中断机制**：下载任务返回失败后，**禁止**执行decon-lite和dna-style。必须向用户报告下载失败并给出三个选项：①换一本可下载的参考书 ②用户手动提供txt文件路径 ③用户明确选择跳过拆书（后续seed基于通用知识生成，需用户确认接受质量降级）。用户未决策前，Phase 0 Stage 2的拆书分支暂停，seed交互分支可继续。
 
-### Phase 1-4执行模式：交互型step主agent执行 + 执行型step子agent派发
+### Phase 1-4执行模式：主agent直接执行所有step
 
-Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后，进入执行型step。
+Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后，进入执行型step，由主agent直接执行。
 
 | Phase | Step 0交互轮次 | 核心必答/可选 | 决策表产出 | 完成后执行 |
 |:--|:--|:--|:--|:--|
-| 1 seed | Step1-3（灵感问答→种子碰撞+六要素PK→立项PRD定型） | Step2-3核心必答 | 立项/01-立项PRD.md | 主agent派发子agent执行Step3立项PRD定型 |
-| 3 world | Step0 W1-W2（2轮）+ Step0.5展开力量体系+动力引擎 | W1核心必答+W2可选 | 设计/世界决策表.md | 主agent派发子agent执行step0.5-3（待改造） |
-| 3.5 character | C1-C2（2轮） | C1核心必答+C2可选 | 设计/角色库/角色库决策表.md | 主agent派发子agent执行金手指+角色库生成（待改造） |
-| 4 plot | R1-R5（5轮） | 前3轮核心必答+后2轮可选 | 设计/第一卷剧情/卷纲决策表.md | 主agent派发子agent执行主线展开+step1-3（待改造） |
+| 1 seed | Step1-3（灵感问答→种子碰撞+六要素PK→立项PRD定型） | Step2-3核心必答 | 立项/01-立项PRD.md | 主agent直接执行Step3立项PRD定型 |
+| 3 world | Step0 W1-W2（2轮）+ Step0.5展开力量体系+动力引擎 | W1核心必答+W2可选 | 设计/世界决策表.md | 主agent直接执行step0.5-3 |
+| 3.5 character | C1-C2（2轮） | C1核心必答+C2可选 | 设计/角色库/角色库决策表.md | 主agent直接执行金手指+角色库生成 |
+| 4 plot | R1-R5（5轮） | 前3轮核心必答+后2轮可选 | 设计/第一卷剧情/卷纲决策表.md | 主agent直接执行主线展开+step1-3 |
 
 **Phase 3.5 Character必须执行**——world完成后必须经过character建角色库，plot和write才能消费角色库。
 
@@ -130,72 +130,44 @@ Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核�
 | step类型 | 执行方式 | 示例 |
 |:--|:--|:--|
 | 交互型 | 主agent直接执行（需与用户多轮对话） | seed step1灵感/step2世界/step3决策轮、world step0决策、character step0决策、plot step0决策 |
-| 执行型 | 主agent派发子agent执行 | seed step3展开轮/step4主线、world step1-3、character step1、plot step1-3 |
+| 执行型 | 主agent直接执行 | seed step3展开轮/step4主线、world step1-3、character step1、plot step1-3 |
 
 **交互型step执行流程**：主agent读取skill SKILL.md+step文件 → 与用户多轮交互（给选项不给空白） → 产出决策表落盘
 
-**执行型step执行流程**（方案3·混合执行）：
-1. 主agent读取skill SKILL.md → 提取红线（3-5条）
-2. 主agent读取对应step文件 → 提炼操作要点（50-100行摘要）
-3. 主agent读取项目输入文件 → 提炼项目上下文摘要
-4. 主agent组装instruction（核心层：红线+操作要点+上下文 / 引用层：文件路径）
-5. 主agent派发子agent（general_purpose_task，research模式）
-6. 子agent按instruction读取skill文件+输入文件 → 执行SOP → 落盘产出
-7. 主agent检查产出 → 更新项目总控 → 衔接下一step
+**执行型step执行流程（主agent直接执行）**：
+1. 主agent读取skill SKILL.md → 提取红线（按红线清单执行）
+2. 主agent读取对应step文件 → 按SOP逐步执行
+3. 主agent读取项目输入文件 → 消费输入
+4. 主agent按SOP执行生成 → 落盘产出
+5. 主agent检查产出 → 更新项目总控 → 衔接下一step
 
 ---
 
-## seed 执行型step子agent派发模板
+## seed 执行型step执行指南（主agent直接执行）
 
-> 主agent按以下模板为seed的每个执行型step组装instruction，派发子agent。每个step一个子agent，子agent执行完返回后主agent检查产出再派发下一个。
+> 主agent直接加载seed skill执行每个执行型step，禁止派发子agent。主agent读取skill SKILL.md+step文件 → 提炼红线+操作要点 → 消费项目输入文件 → 按SOP执行生成并落盘 → 检查产出 → 衔接下一step。
 
-### 通用instruction结构
+### 执行步骤（主agent直接执行）
 
-每个step的instruction包含以下部分：
+1. 读取 `skills/pop-qidian-seed/SKILL.md` → 提取红线
+2. 读取 `skills/pop-qidian-seed/steps/stepX-{name}.md` → 提炼操作要点
+3. 读取输入文件：`素材/灵感收集.md` + `素材/用户意图.md` + `素材/赛道调研.md` + `素材/decon-lite-{书名}.md`（如有）
+4. 按SOP执行生成 → 落盘产出
+5. 检查产出 → 更新项目总控 → 衔接下一step
 
-```
-## 任务
-执行 pop-qidian-seed 的 stepX-{name}（{step名称}），产出 {产出文件路径}。
+### Step3 立项PRD定型（主agent直接执行）
 
-## 执行方式
-1. 读取 skill 文件获取完整SOP：
-   - skills/pop-qidian-seed/SKILL.md（骨架+红线）
-   - skills/pop-qidian-seed/steps/stepX-{name}.md（详细操作）
-2. 按SOP执行，消费输入文件，产出落盘
+**执行时机**：Step1-2完成，种子候选+六要素骨架就绪后
 
-## 红线（必须遵守）
-{主agent从SKILL.md提取的3-5条红线}
-
-## 操作要点摘要
-{主agent从step文件提炼的关键操作，50-100行}
-
-## 项目上下文
-{主agent从项目文件提炼的上下文摘要}
-
-## 输入文件路径
-- {文件1路径}: {用途}
-- {文件2路径}: {用途}
-
-## 产出要求
-- 落盘路径: {路径}
-- 完成后报告: {报告内容}
-```
-
-### Step3 立项PRD定型
-
-**派发时机**：Step1-2完成，种子候选+六要素骨架就绪后
-
-**主agent准备**：
+**执行步骤**：
 1. 读取 `skills/pop-qidian-seed/SKILL.md` → 提取红线
 2. 读取 `skills/pop-qidian-seed/steps/step3-lixiang.md` → 提炼操作要点
 3. 读取 `素材/灵感收集.md` → 提炼用户意图+种子候选摘要
+4. 把Step 2用户最满意的种子，打磨成一份完整的六要素立项PRD（世界[含时间/地点/类型]+力量体系+人物+起因+经过+结果），一个能讲清楚的故事idea，落盘 `立项/01-立项PRD.md`
 
-**instruction要点**：
-- 任务：把Step 2用户最满意的种子，打磨成一份完整的六要素立项PRD（世界[含时间/地点/类型]+力量体系+人物+起因+经过+结果），一个能讲清楚的故事idea
-- 红线：六要素是seed的最终产出；六要素说不清=立项失败；seed只做立项，不产设计/子文档（world/character/plot后续消费PRD里属于它的要素）
-- 输入文件：`素材/灵感收集.md` + `素材/用户意图.md` + `素材/赛道调研.md` + `素材/decon-lite-{书名}.md`（如有）
-- 产出：`立项/01-立项PRD.md`
-- 完成后报告：六要素摘要（世界/力量体系/人物/起因/经过/结果各一句话）
+**红线（必须遵守）**：六要素是seed的最终产出；六要素说不清=立项失败；seed只做立项，不产设计/子文档（world/character/plot后续消费PRD里属于它的要素）
+
+**完成后报告**：六要素摘要（世界/力量体系/人物/起因/经过/结果各一句话）
 
 ### seed 执行型step串联流程
 
@@ -204,16 +176,16 @@ Step1 灵感收集完成 → 素材/灵感收集.md
   ↓
 Step2 种子碰撞（交互·六要素骨架+PK）→ 种子候选
   ↓
-主agent派发 Step3 立项PRD定型 子agent（六要素故事）
-  ↓ 子agent产出 立项/01-立项PRD.md
-主agent读取立项PRD → 呈现给用户 → 用户确认立项 → seed完成
+主agent直接执行 Step3 立项PRD定型（六要素故事）
+  ↓ 产出 立项/01-立项PRD.md
+主agent呈现给用户 → 用户确认立项 → seed完成
   ↓
 主agent检查产出 → 更新项目总控 → 进入Phase 3 world
 ```
 
 ---
 
-## Phase 3/3.5/4 主agent执行指南（待改造为子agent派发模式）
+## Phase 3/3.5/4 主agent执行指南
 
 > 主agent直接加载对应skill执行生成任务。执行前必须读取skill的SKILL.md获取骨架，再按Step加载step文件。
 
