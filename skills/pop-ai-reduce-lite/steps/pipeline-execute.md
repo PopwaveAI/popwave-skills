@@ -144,7 +144,7 @@
 
 全部 4 步执行完成后，按 `templates/rewrite-output.md` 生成双文件输出。
 
-输出位置：`d:\Popwave项目\降AI版本\`，同名文件自动追加 `_v2`、`_v3`。
+输出位置：原文目录下新建 `正文-降AI味版本/`（与主 skill 一致），同名文件自动追加 `_v2`、`_v3`。
 
 ---
 
@@ -153,5 +153,5 @@
 > 在加载下一文件前，禁止产出任何文件。
 >
 > 下一文件：`templates/rewrite-output.md`
-> 加载指令：`Get-Content -Encoding UTF8 -Raw templates/rewrite-output.md`
+> 加载方式：使用宿主提供的文件读取工具读取
 > 什么时候进入下一步：4 步管线执行完毕后。

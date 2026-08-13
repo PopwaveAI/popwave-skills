@@ -1,13 +1,13 @@
 ---
 name: pop-ai-reduce
-description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18技法+比例框架+节奏规划，优先子Agent→超时降级主Agent快速模式。"
+description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层；用户确认要深度去AI后启用本 skill。18技法叠层改写+深度区走神+Step 3.5表层收尾，优先子Agent→超时降级主Agent快速模式。"
 ---
 
 # pop-ai-reduce · 网文降 AI 检测率
 
-> v4.2.3 | 18技法按段落功能协同 + 4步流水线（走神仅限深度区≤5%）
+> v4.3.0 | 深度叠层改写（18技法协同）+ Step 3.5 表层收尾
 >
-> ⚠️ **路由规则**：用户说"降AI/去AI味/降朱雀/润色"→ 默认走本 Skill。如果用户明确说"快速降AI味"或"表层降噪"→ 路由到 `pop-ai-reduce-lite`。
+> ⚠️ **路由规则**：用户说"降AI/去AI味/降朱雀/润色"→ **先走 `pop-ai-reduce-lite` 表层降噪**，跑完询问用户是否需深度。**用户明确确认要深度去AI**（或直接指定"深度去AI"）→ 本 skill 执行深度叠层改写。本 skill **不做自动分流**——表层/深度由用户判断。
 
 ## 执行模式（三级降级梯子）
 
@@ -30,6 +30,7 @@ description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18�
 | 5 | **子Agent超时禁止重试** — 进回收→快速模式 |
 | 6 | **快速模式禁止微调迭代** — 一次写完即交付 |
 | 7 | **产出写入「正文-降AI味版本」文件夹，禁止覆盖原文** — 原文是唯一真源 |
+| 8 | **Step 3.5 表层降噪必做** — 深度改写完成后必须执行（英文引号归零、机械破折号删净，表意破折号限频 ≤1/100字），不因深度通道豁免 |
 
 ## 快速模式止损规则
 
@@ -51,10 +52,10 @@ description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18�
 | 组装子Agent上下文 | `references/subagent-execution.md` | 主Agent收到降AI请求时 |
 | 子Agent超时处理 | `references/fallback-strategy.md` | 子Agent返回超时信号时 |
 | 主Agent快速模式 | `references/fallback-strategy.md` | 回收失败，主Agent亲自执行时 |
-| 改写文本（含节奏规划） | `steps/pipeline-execute.md`（4步：1+2a预估规划 → 2分层 → 3改写 → 4+5检查输出） | 子Agent/主Agent开始改写时 |
+| 改写文本（含节奏规划） | `steps/pipeline-execute.md`（Step 1+2a预估规划 → 2分层 → 3叠层改写 → 3.5表层收尾 → 4+5检查输出） | 子Agent/主Agent开始改写时 |
 | 技法定义与比例约束 | `references/techniques.md` | Step 2a 规划前必须加载 |
 | 输出格式与位置 | `templates/rewrite-output.md` | 生成输出文件时 |
 
 ## 版本
 
-v4.2.3 | 2026-08-13 | 子Agent直接落盘+主Agent轻量校验元数据（不回传全文） → [CHANGELOG.md](CHANGELOG.md)
+v4.3.0 | 2026-08-13 | 深度专用化：路由反转（先走lite表层）+ Step 3.5 表层收尾必做 → [CHANGELOG.md](CHANGELOG.md)
