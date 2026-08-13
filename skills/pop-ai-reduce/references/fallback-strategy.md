@@ -89,10 +89,4 @@ ALWAYS:
 
 ## 上下文组装（快速模式用）
 
-主Agent 快速模式时，在开始改写前先加载技法定义：
-
-```
-Get-Content -Encoding UTF8 -Raw references/techniques.md
-```
-
-然后直接按快速模式 5 步执行。不需要组装子Agent 上下文。
+主Agent 快速模式时，在开始改写前先读取 `references/techniques.md`（使用宿主提供的文件读取工具），然后直接按快速模式 5 步执行。不需要组装子Agent 上下文。

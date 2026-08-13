@@ -53,29 +53,28 @@
   B2 记忆提取(≤5%)：全文1-2次
 核心原则：走神是甜品不是主食。全文用同一种人味=朱雀识别为新规律。
 
-仍建议读取 references/techniques.md 获取完整18种技法定义和比例约束细则。
+建议读取 references/techniques.md 获取完整18种技法定义和比例约束细则（使用宿主提供的文件读取工具）。
 
 【输出位置】
 {原文目录下「正文-降AI味版本」文件夹完整路径}
 双文件入夹，原文不动。
 
-【输出位置】
-{原文目录下新建的「正文-降AI味版本」文件夹完整路径}
-产出双文件（纯正文 + 分析报告）都写入此文件夹，绝不覆盖原文。
-
 【执行指令】
-1. 用 Get-Content -Encoding UTF8 -Raw 读取 steps/pipeline-execute.md 和 templates/rewrite-output.md
-2. 按 pipeline-execute.md 执行：Step 1（朱雀预估）→ Step 2a（节奏比例规划）→ Step 2（段落分层）→ Step 3（叠层改写）→ Step 4（句长检查）→ Step 5（双文件输出）
-3. 输出双文件到【输出位置】
-4. 返回摘要：输出文件路径、朱雀预估对比、深度区位置、技法比例核查、膨胀比
+1. 读取 steps/pipeline-execute.md 和 templates/rewrite-output.md（使用宿主提供的文件读取工具）
+2. 按 pipeline-execute.md 执行（4步）：Step 1+2a（朱雀预估+节奏规划）→ Step 2（段落分层）→ Step 3（叠层改写）→ Step 4+5（句长检查+落盘）
+3. 直接写入双文件到【输出位置】（子Agent 有写文件权限）
+4. 返回结构化元数据（不返回全文）：纯正文路径+字节数+首末行片段；分析报告路径+字节数
 ```
 
-> v4.1.0 变更：技法预注入从"6种速查"升级为"按段落功能匹配的比例框架"，新增 B5/A6/A7/B6/C4/C5 六种技法，明确 B3 走神仅在深度区使用。
+> v4.1.0 变更：技法预注入从"6种速查"升级为"按段落功能匹配的比例框架"。v4.2.3 变更：子Agent 直接落盘，返回元数据供主Agent 轻量校验，不回传全文。
 
-## 子Agent职责（执行 + 输出）
+## 子Agent职责（执行 + 落盘 + 返回元数据）
 
-1. 按 pipeline-execute.md 的 Step 1-5 完整执行（含 Step 2a 节奏规划）
-2. 输出两个文件并返回执行摘要
+1. 按 pipeline-execute.md 的 4 步流水线完整执行（含 Step 1+2a 节奏规划）
+2. **直接写入双文件**到【输出位置】（执行类 purpose 下子Agent 有写权限）
+3. 返回结构化元数据（**不返回全文**，避免长正文回传浪费算力）：
+   - 纯正文：文件路径 + 字节数 + 首行前 20 字 + 末行后 20 字
+   - 分析报告：文件路径 + 字节数
 
 ## 上下文隔离规则
 
@@ -93,13 +92,15 @@
 - [ ] 角色认知体系已标注
 - [ ] 技法比例速查已嵌入上下文
 - [ ] 输出文件夹路径已指定
-- [ ] 已告知子Agent"读 pipeline-execute.md + rewrite-output.md 后执行，必须做 Step 2a"
+- [ ] 已告知子Agent"读 pipeline-execute.md + rewrite-output.md 后执行，必须做 Step 1+2a，直接落盘，返回元数据不回传全文"
+- [ ] 调用子Agent用执行类 purpose（如 implementation），**勿用 implementation-check/background（只读，锁写权限）**
 
-## 返回后主Agent工作
+## 返回后主Agent工作（轻量校验，不搬全文）
 
-子Agent 返回执行摘要后：
-1. 展示两个文件的路径给用户
-2. 简述核心数据（朱雀预估降幅、深度区位置、技法比例核查）
-3. 提醒用户实测验证
+子Agent 返回元数据后，主Agent 轻量校验：
+1. 校验纯正文文件存在（Test-Path）+ 字节数对上（Length）
+2. 校验首末行片段对上（Get-Content -TotalCount 1 / -Tail 1）
+3. 校验通过 → 展示两个文件路径给用户，简述核心数据（朱雀预估降幅、膨胀比）
+4. 校验失败（文件不存在/大小不对）→ 进入 L3 快速模式
 
-**如果子Agent 超时**：进入回收→快速模式流程，**不重试子Agent**。
+**如果子Agent 超时**：进入回收→快速模式流程（`references/fallback-strategy.md`），**不重试子Agent**。
