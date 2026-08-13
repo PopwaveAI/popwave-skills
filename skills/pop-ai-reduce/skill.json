@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "displayName": "网文降AI检测率",
   "description": "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18技法按段落功能协同+节奏规划，走神仅限深度区。三级降级梯子。",
   "entry": "SKILL.md",

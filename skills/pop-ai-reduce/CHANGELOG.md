@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v4.2.3 (2026-08-13)
+
+子Agent 直接落盘 + 主Agent 轻量校验元数据（不回传全文）。
+
+### 修改
+
+- **`subagent-execution.md`**：子Agent 职责从"返回全文给主Agent写"改为"直接写入双文件 + 返回元数据（路径+字节数+首末行片段）"；主Agent 工作改为"轻量校验元数据（Test-Path + Length + 首末片段），失败则进 L3"；新增确认清单项"调用子Agent用执行类 purpose（implementation），勿用 implementation-check/background（只读）"
+- **`SKILL.md`**：执行模式 L1/L2/L3 更新为"直接落盘→返回元数据→轻量校验"
+- **`steps/pipeline-execute.md`**：Step 4+5 子Agent 模式说明改回"直接写文件，返回元数据"
+
+### 背景
+
+v4.2.1 曾将子Agent 改为"返回全文给主Agent写"，但长正文（数千字）全文回传到主Agent 上下文是保真度和算力的双重倒退。且根因是主Agent 调用子Agent 时误用只读 purpose（implementation-check），非子Agent 天生无写权限。改为方案 A：子Agent 直接落盘（内容只过一遍），返回元数据供主Agent 轻量校验（可检测失败、不搬全文）。
+
 ## v4.2.2 (2026-08-13)
 
 措辞修正：多技法协同为主轴，走神降为约束。
