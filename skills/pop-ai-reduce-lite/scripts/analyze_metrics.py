@@ -72,23 +72,23 @@ def metrics(path):
     # 15-25 连击
     max_streak = 0
     cur = 0
+    streak_start = None
     streak_sents = []
     for i, l in enumerate(lens):
         if 15 <= l <= 25:
+            if cur == 0:
+                streak_start = i
             cur += 1
             if cur > max_streak:
                 max_streak = cur
-            if cur >= 3 and (not streak_sents or streak_sents[-1]["end"] != i - 1):
-                streak_sents.append({"start": i, "end": i, "n": 1})
-            if cur >= 3 and streak_sents:
-                last = streak_sents[-1]
-                if last["end"] == i - 1:
-                    last["end"] = i
-                    last["n"] += 1
+            if cur >= 3:
+                if streak_sents and streak_sents[-1]["start"] == streak_start:
+                    streak_sents[-1] = {"start": streak_start, "end": i, "n": cur}
                 else:
-                    streak_sents.append({"start": i, "end": i, "n": 1})
+                    streak_sents.append({"start": streak_start, "end": i, "n": cur})
         else:
             cur = 0
+            streak_start = None
     # 连续单句段
     para_sent_counts = [len(re.findall(r"[。！？；]", p)) for p in paras]
     max_single_para_run = 0
