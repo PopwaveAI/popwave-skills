@@ -1,9 +1,9 @@
 # short-platform-orientation
-> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v1.1.0
+> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v1.2.0
 
 ## 做什么
 输入：作者意向（题材倾向/核心目标/现有想法，可能全空）
-输出：平台定位卡片 + 传递 idea-refiner 的流转上下文 + **项目总览.md（首次生成）**
+输出：平台定位卡片 + 传递 idea-refiner 的流转上下文 + **项目总览.md 完整内容（由主agent创建文件）**
 
 ## 怎么操作（SOP骨架）
 > execution.mode: 串行 | 强保障：本 SKILL.md 由 host 层每次 run 强制注入 | 弱保障：steps/ 需 agent 主动 Read
@@ -12,11 +12,11 @@
 |:-----|:-----|:-----|:----------|
 | Step 1 | 快速摸底（3问），如果作者已带明确意向则跳过 | 题材/目标/想法就绪 | `steps/step1-survey.md` |
 | Step 2 | 平台深度匹配。基于题材+意图展开1-2个最适合的平台，其余简述 | 平台匹配分析 | `steps/step2-match.md` |
-| Step 3 | 输出定位卡片 + 流转上下文 + **创建/初始化项目总览.md** | `step1-平台定位.md` + `项目总览.md` | `steps/step3-output.md` |
+| Step 3 | 输出定位卡片 + 流转上下文 + **返回项目总览.md完整内容** | `step1-平台定位.md` + `项目总览.md` | `steps/step3-output.md` |
 
 ## 项目总览.md 模板
 
-首次执行 Step 3 时必须创建 `项目总览.md`，后续所有 Step 按此格式更新：
+首次执行 Step 3 时必须**返回以下格式的 `项目总览.md` 完整内容给主agent**，后续所有 Step 按此格式返回更新：
 
 ```markdown
 # 项目总览
@@ -75,4 +75,4 @@
 | `templates/platform-card.tpl.md` | 输出时 | 定位卡片模板 |
 
 ## 版本
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+v1.2.0 | 2026-08-13 | 项目总览.md 改为返回完整内容由主agent创建（子agent兼容）
