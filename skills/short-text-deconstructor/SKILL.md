@@ -3,10 +3,20 @@ name: short-text-deconstructor
 description: "当用户上传例文需要拆解学习时启用。拆解例文→结构/角色/开篇/文风/评价。支持选择拆解深度（完整/仅开篇/仅文风/仅题材）。拆解结论直接影响后续Steps的决策。独立于主线流程，随时可调用。"
 ---
 # short-text-deconstructor
-> 短篇拆文分析器。选深度→拆结构→拆角色→拆开篇→拆文风→评价→影响后续。v1.1.0
+> 短篇拆文分析器。选深度→拆结构→拆角色→拆开篇→拆文风→评价→影响后续。v1.2.0
 ## 做什么
 输入：用户上传的例文全文（文本/PDF/截图文本）
 输出：拆解报告（结构分析+角色分析+开篇拆解+文风画像+9维评价+对后续Steps的影响）+ 流向各Step的影响信号
+
+## 子agent文件协作协议（方案B）
+当本 Skill 由子 agent 运行时（受限环境）：
+1. 将拆解报告全文写入临时目录：`{tempDir}/deconstruct-{runId}.md`（tempDir 由主agent在调用时传入）
+2. 不返回报告全文，只返回结构化元数据：
+   ```
+   { "file": "{tempDir}/deconstruct-{runId}.md", "lines": N, "bytes": N, "head": "前16字符", "tail": "后16字符" }
+   ```
+3. 主agent校验：文件存在 + 字节数/行数匹配 + head/tail 匹配 → Move-Item 归位到项目目录
+4. 校验失败：主agent重新调用子agent重试
 ## 定位
 独立于主线 Step 1-6。用户可以在任何阶段触发此 Skill。拆解完成后恢复并应用结论到各步骤。
 ## 怎么操作（SOP骨架）
@@ -66,4 +76,4 @@ description: "当用户上传例文需要拆解学习时启用。拆解例文→
 | `templates/deconstruct-report.tpl.md` | Step 6 输出时 | 拆解报告模板 |
 
 ## 版本
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+v1.2.0 | 2026-08-13 | 新增子agent文件协作协议（方案B：临时落盘+元数据校验+move归位）
