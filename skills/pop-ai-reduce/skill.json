@@ -2,7 +2,7 @@
   "id": "pop-ai-reduce",
   "version": "4.1.0",
   "displayName": "网文降AI检测率",
-  "description": "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18技法+比例框架+节奏规划+深度区集中走神。三级降级梯子。",
+  "description": "写好的网文觉得AI味重、想降朱雀检测率时用它。按比例分配技法改写文本，让文字更像人写的。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-ai-reduce", "降AI", "去AI味", "降朱雀"]
@@ -11,7 +11,7 @@
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["写作管线", "降AI"],
+  "tags": ["番茄长篇网文专家", "起点长篇网文专家", "短篇小说专家"],
   "author": "popwave",
   "license": "UNLICENSED"
 }

@@ -2,8 +2,8 @@
   "id": "pop-qidian-research",
   "version": "4.5.0",
   "displayName": "涌现 Research",
-  "description": "起点调研引擎。v4.5.0：燃料筛入目标对齐剧情累计卡。v4.4.0：新增原文存在性前置门禁，decon-lite/decon-plot采样前必须验证参考书txt存在，禁止基于记忆/书评/评论重构。",
-  "tags": ["创意与研究"],
+  "description": "帮你做写作前的调研：找写作燃料、拆解参考书的力量体系和剧情、做赛道定位分析，为立项和创作提供素材。适合开书前或创作中需要补素材时用。",
+  "tags": ["起点长篇网文专家", "番茄长篇网文专家"],
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-qidian-research", "找燃料", "补燃料"]

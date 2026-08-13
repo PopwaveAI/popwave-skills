@@ -73,7 +73,7 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 1. **读取协议**：每次对话第一件事读项目总控.html获取当前phase→按路由表调度。禁止跳过读html直接干活。
 2. **pipeline只做路由不干活**——所有产出由下游skill生成。pipeline不直接写正文/创意/审核/提取DNA。
 3. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作。
-4. **混合执行模式**——交互型step（底牌摸底/决策交互）由主agent直接执行；执行型step（骨架展开/世界设定/角色库/卷纲/正文/审核）由主agent收集上下文后派发子agent执行。主agent职责：读取skill SKILL.md+step文件→提炼红线+操作要点+项目上下文→组装instruction→派发子agent→检查产出→更新项目总控→衔接下一step。子agent职责：按instruction读取skill文件+输入文件→执行SOP→落盘产出。不依赖harness层skillNames传参。
+4. **主agent直接执行所有step**——所有Phase的交互型与执行型step均由主agent直接执行，禁止派发子agent执行技能生成任务。主agent职责：读取skill SKILL.md+step文件 → 提炼红线+操作要点 → 消费项目输入文件 → 按SOP执行生成并落盘 → 检查产出 → 更新项目总控 → 衔接下一step。不依赖harness层skillNames传参。
 
 ---
 

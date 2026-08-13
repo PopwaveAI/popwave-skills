@@ -2,7 +2,7 @@
   "id": "short-body-generator",
   "version": "1.0.0",
   "displayName": "正文生成器",
-  "description": "当用户完成剧情结构设计后进入正文生成时启用。文风选择→逐段/一键生成正文→去AI味儿。支持用户上传参考文本学习文风，逐段确认覆盖付费钩子特殊处理。",
+  "description": "剧情结构定好后帮你把正文写出来，可选文风、逐段或一键生成，还能去AI味儿。当你完成剧情结构设计、准备写正文时启用。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["生成正文", "写正文"],
@@ -14,7 +14,7 @@
     "network": false,
     "shell": false
   },
-  "tags": ["短篇创作", "正文生成"],
+  "tags": ["短篇小说专家"],
   "author": "popwave",
   "license": "UNLICENSED",
   "loadPolicy": {

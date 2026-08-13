@@ -2,9 +2,9 @@
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
   "version": "3.12.0",
-  "description": "起点管线总控。v3.12.0：剧情记录双文件收束——Phase 4删事实快照、Phase 6产出白描卡+剧情累计卡。v3.11.0：skill.json补可调度Skill清单。v3.10.0：首次对话引导。完整版本历史见CHANGELOG.md。",
+  "description": "起点长篇网文写作的总调度入口：帮你初始化项目、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
   "entry": "SKILL.md",
-  "tags": ["管线与总控"],
+  "tags": ["起点长篇网文专家"],
   "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
   "skills": [
     "pop-qidian-seed",

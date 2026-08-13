@@ -2,7 +2,7 @@
   "id": "short-opening-designer",
   "version": "1.0.0",
   "displayName": "开篇设计器",
-  "description": "当用户确定脑洞后进入开篇设计时启用。卖点主轴→6种导语公式择最优→黄金三句→完整导语→付费钩子策略。",
+  "description": "脑洞确定后帮你设计开篇，从卖点主轴、导语公式到黄金三句、完整导语和付费钩子策略。当你确定脑洞、准备设计开篇时启用。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["开篇设计", "导语"],
@@ -12,7 +12,7 @@
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["短篇创作", "开篇设计"],
+  "tags": ["短篇小说专家"],
   "author": "popwave",
   "license": "UNLICENSED",
   "loadPolicy": {
