@@ -57,4 +57,4 @@ description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18�
 
 ## 版本
 
-v4.2.0 | 2026-08-12 | 合并步骤：6步→4步（-33%轮次），Step 1+2a / Step 4+5 合并 → [CHANGELOG.md](CHANGELOG.md)
+v4.2.2 | 2026-08-13 | 措辞修正：多技法协同为主轴，走神降为约束 → [CHANGELOG.md](CHANGELOG.md)
