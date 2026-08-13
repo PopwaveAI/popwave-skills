@@ -1,0 +1,36 @@
+{
+  "runId": "5f153c42-ba98-4544-8b23-75deaa9c66a9",
+  "eventCounts": {
+    "accepted": 1,
+    "model-trace": 1,
+    "tool": 1,
+    "generate": 1,
+    "file-change": 1,
+    "completed": 1
+  },
+  "toolsTop": {
+    "Popwave Agent": 1
+  },
+  "errors": [],
+  "hasResponseMd": true,
+  "responseSizeBytes": 1166,
+  "inputJsonSizeBytes": 84864,
+  "subagents": [],
+  "usage": {
+    "input": 22447,
+    "output": 722,
+    "cacheRead": 119296,
+    "reasoningTokens": 415,
+    "total": 142465
+  },
+  "model": "popwave/writing-standard",
+  "runtime": "OpenClaw 2026.6.8 (844f405)",
+  "exitCode": 0,
+  "durationMs": 13296,
+  "conversationTitle": "check当前skill的版本号",
+  "conversationKind": "user",
+  "branchPurpose": null,
+  "startedAt": "2026-07-20T23:30:46.234Z",
+  "endedAt": "2026-07-20T23:30:59.705Z",
+  "status": "success"
+}

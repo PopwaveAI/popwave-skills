@@ -1,5 +1,6 @@
----
+﻿---
 id: 爽文剧情设计SOP
+cat: 散件
 version: 1.0.0
 access: free
 updatedAt: 2026-08-10

@@ -1,0 +1,39 @@
+{
+  "runId": "7d56df27-7b15-4ae1-8765-9d33de01e74e",
+  "eventCounts": {
+    "accepted": 1,
+    "model-trace": 11,
+    "tool": 1,
+    "generate": 1,
+    "file-change": 1,
+    "completed": 1
+  },
+  "toolsTop": {
+    "read": 4,
+    "exec": 4,
+    "process": 4,
+    "Popwave Agent": 1
+  },
+  "errors": [],
+  "hasResponseMd": true,
+  "responseSizeBytes": 900,
+  "inputJsonSizeBytes": 86051,
+  "subagents": [],
+  "usage": {
+    "input": 42118,
+    "output": 1459,
+    "cacheRead": 328704,
+    "reasoningTokens": 635,
+    "total": 56000
+  },
+  "model": "popwave/writing-standard",
+  "runtime": "OpenClaw 2026.6.8 (844f405)",
+  "exitCode": 0,
+  "durationMs": 78888,
+  "conversationTitle": "下载参考书《深渊主宰》",
+  "conversationKind": "branch",
+  "branchPurpose": "research",
+  "startedAt": "2026-07-20T23:33:09.016Z",
+  "endedAt": "2026-07-20T23:34:28.098Z",
+  "status": "success"
+}

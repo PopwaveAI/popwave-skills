@@ -1,0 +1,28 @@
+{
+  "runId": "b4483eae-2ffc-457a-b85c-14a770ee78d3",
+  "eventCounts": {
+    "accepted": 1,
+    "tool": 1,
+    "error": 1
+  },
+  "toolsTop": {
+    "Popwave Agent": 1
+  },
+  "errors": [
+    "{'type': 'error', 'at': '2026-07-20T23:28:22.642Z', 'message': '登录状态已失效，请重新登录后重试。', 'detail': '[agent/embedded] embedded run agent end: runId=b4483eae-2ffc-457a-b85c-14a770ee78d3 isError=true model=wr"
+  ],
+  "hasResponseMd": false,
+  "responseSizeBytes": 0,
+  "inputJsonSizeBytes": 83082,
+  "subagents": [],
+  "model": "popwave/writing-standard",
+  "runtime": "OpenClaw 2026.6.8 (844f405)",
+  "exitCode": 1,
+  "durationMs": 2888,
+  "conversationTitle": "check当前skill的版本号",
+  "conversationKind": "user",
+  "branchPurpose": null,
+  "startedAt": "2026-07-20T23:28:19.577Z",
+  "endedAt": "2026-07-20T23:28:22.642Z",
+  "status": "fail"
+}

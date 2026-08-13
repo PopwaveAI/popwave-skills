@@ -1,0 +1,21 @@
+{
+  "runId": "0dff8ede-bad9-414c-94e6-b6ed6121f617",
+  "eventCounts": {
+    "accepted": 1,
+    "model-trace": 2
+  },
+  "toolsTop": {
+    "write": 2
+  },
+  "errors": [],
+  "hasResponseMd": false,
+  "responseSizeBytes": 0,
+  "inputJsonSizeBytes": 112714,
+  "subagents": [],
+  "conversationTitle": "check当前skill的版本号",
+  "conversationKind": "user",
+  "branchPurpose": null,
+  "startedAt": "2026-07-21T00:13:15.367Z",
+  "endedAt": "2026-07-21T00:13:35.142Z",
+  "status": "partial"
+}

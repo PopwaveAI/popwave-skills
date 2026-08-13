@@ -1,0 +1,62 @@
+{
+  "runId": "41508232-938f-4d53-9dd2-b4633a4427e6",
+  "eventCounts": {
+    "accepted": 1,
+    "model-trace": 57,
+    "tool": 8,
+    "generate": 2,
+    "file-change": 1,
+    "completed": 1
+  },
+  "toolsTop": {
+    "exec": 32,
+    "read": 16,
+    "write": 10,
+    "edit": 10,
+    "paopao_subagent_run": 2,
+    "host-subagent": 2,
+    "host-subagent.completed": 2,
+    "Popwave Agent": 2,
+    "host-subagent.tool-request": 1,
+    "host-subagent.resume": 1
+  },
+  "errors": [],
+  "hasResponseMd": true,
+  "responseSizeBytes": 1758,
+  "inputJsonSizeBytes": 126261,
+  "subagents": [
+    "1def3c18-879f-481d-8b3d-df1116f07ccb",
+    "615364d1-f361-4bf3-b591-cc1c84dbf583"
+  ],
+  "usage": {
+    "input": 93705,
+    "output": 9675,
+    "cacheRead": 1840640,
+    "phase": 25828,
+    "workerSinceStartMs": 1095651,
+    "commandName": 2,
+    "commandArgCount": 8,
+    "messageChars": 59931,
+    "model": 59931,
+    "n": 807,
+    "jsonl": 900000,
+    "bytes": 3505,
+    "byte": 2,
+    "txt": 40,
+    "Chinese": 3505,
+    "a": 15,
+    "I": 3434,
+    "Z": 0,
+    "mediaUrl": 141951
+  },
+  "model": "popwave/writing-standard",
+  "runtime": "OpenClaw 2026.6.8 (844f405)",
+  "exitCode": 0,
+  "durationMs": 167448,
+  "conversationTitle": "check当前skill的版本号",
+  "conversationKind": "user",
+  "branchPurpose": null,
+  "startedAt": "2026-07-21T00:27:46.781Z",
+  "endedAt": "2026-07-21T00:34:55.961Z",
+  "status": "success"
+}

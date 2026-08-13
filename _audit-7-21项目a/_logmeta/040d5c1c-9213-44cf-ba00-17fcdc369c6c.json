@@ -1,0 +1,31 @@
+{
+  "runId": "040d5c1c-9213-44cf-ba00-17fcdc369c6c",
+  "eventCounts": {
+    "accepted": 1,
+    "model-trace": 16,
+    "tool": 1,
+    "generate": 1,
+    "completed": 1
+  },
+  "toolsTop": {
+    "popwave-search": 28,
+    "read": 4,
+    "exec": 2,
+    "Popwave Agent": 1
+  },
+  "errors": [],
+  "hasResponseMd": true,
+  "responseSizeBytes": 8645,
+  "inputJsonSizeBytes": 86295,
+  "subagents": [],
+  "model": "popwave/writing-standard",
+  "runtime": "OpenClaw 2026.6.8 (844f405)",
+  "exitCode": 0,
+  "durationMs": 68671,
+  "conversationTitle": "赛道定位调研·西幻",
+  "conversationKind": "branch",
+  "branchPurpose": "research",
+  "startedAt": "2026-07-20T23:34:41.260Z",
+  "endedAt": "2026-07-20T23:35:50.142Z",
+  "status": "success"
+}
