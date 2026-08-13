@@ -5,7 +5,7 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 
 # pop-ai-reduce · 网文降 AI 检测率
 
-> v4.3.0 | 深度叠层改写（18技法协同）+ Step 3.5 表层收尾
+> v4.4.0 | 深度叠层改写（18技法协同）+ Step 3.5 表层收尾 + 内置验证脚本
 >
 > ⚠️ **路由规则**：用户说"降AI/去AI味/降朱雀/润色"→ **先走 `pop-ai-reduce-lite` 表层降噪**，跑完询问用户是否需深度。**用户明确确认要深度去AI**（或直接指定"深度去AI"）→ 本 skill 执行深度叠层改写。本 skill **不做自动分流**——表层/深度由用户判断。
 
@@ -31,6 +31,7 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 | 6 | **快速模式禁止微调迭代** — 一次写完即交付 |
 | 7 | **产出写入「正文-降AI味版本」文件夹，禁止覆盖原文** — 原文是唯一真源 |
 | 8 | **Step 3.5 表层降噪必做** — 深度改写完成后必须执行（英文引号归零、机械破折号删净，表意破折号限频 ≤1/100字），不因深度通道豁免 |
+| 9 | **验证必须用内置脚本，禁止自写** — 指标统计用 `scripts/analyze_metrics.py`，L2 校验用 `scripts/validate_l2.py`。运行时写新脚本 = 试错循环浪费算力（实测 Agent 曾把同一功能重写 4 次） |
 
 ## 快速模式止损规则
 
@@ -55,7 +56,9 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 | 改写文本（含节奏规划） | `steps/pipeline-execute.md`（Step 1+2a预估规划 → 2分层 → 3叠层改写 → 3.5表层收尾 → 4+5检查输出） | 子Agent/主Agent开始改写时 |
 | 技法定义与比例约束 | `references/techniques.md` | Step 2a 规划前必须加载 |
 | 输出格式与位置 | `templates/rewrite-output.md` | 生成输出文件时 |
+| 指标统计（字数/破折号/句长/连击/不是而是） | `scripts/analyze_metrics.py` | Step 4+5 检查、报告数据来源；**禁止自写** |
+| L2 校验（文件存在+字节数+首末行） | `scripts/validate_l2.py` | 子Agent 返回元数据后校验；**禁止自写** |
 
 ## 版本
 
-v4.3.0 | 2026-08-13 | 深度专用化：路由反转（先走lite表层）+ Step 3.5 表层收尾必做 → [CHANGELOG.md](CHANGELOG.md)
+v4.4.0 | 2026-08-13 | 内置验证脚本（analyze_metrics/validate_l2）+ 红线#9 禁止自写 → [CHANGELOG.md](CHANGELOG.md)

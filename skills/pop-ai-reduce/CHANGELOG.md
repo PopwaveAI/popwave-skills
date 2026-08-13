@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v4.4.0 | 2026-08-13
+
+### 内置验证脚本（替代运行时自写）
+
+- **新增 `scripts/analyze_metrics.py`** — 统一指标统计：字数/段落/句长分布/15-25连击定位/极短超长句/破折号密度/英文标点/不是而是/首末行。替代 agent 运行时自写脚本（实测 Agent B 11 分钟内写 14 个验证脚本、同一功能重写 4 次）
+- **新增 `scripts/validate_l2.py`** — L2 轻量校验（文件存在+字节数+首末行片段），替代运行时自写校验
+- **新增红线 #9** — 验证必须用内置脚本，禁止自写
+- **lite 同步** — lite 加红线 ❌6 + scripts/ 目录（共用同一套脚本，口径统一）
+
+### 背景
+
+Run 6a7daa2e 实测：Agent B 在 11 分钟内写了 14 个验证脚本（analyze/analyze_orig/analyze_new/find_run/find_run2/find_run3/check_v2/final_check/interval_*/validate_l2 等），其中 find_run 系列同一功能重写 4 次。运行时写脚本→运行→报错→重写是主要的算力浪费点，且每个 agent 口径不一致导致报告不可比。
+
 ## v4.3.0 | 2026-08-13
 
 ### 深度专用化：路由反转 + Step 3.5 表层收尾

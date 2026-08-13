@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "displayName": "网文降AI检测率（深度版）",
   "description": "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层；用户确认要深度去AI后启用本 skill。18技法叠层改写+深度区走神+Step 3.5表层收尾。三级降级梯子。",
   "entry": "SKILL.md",
@@ -9,7 +9,8 @@
   },
   "permissions": {
     "readProjectFiles": true,
-    "writeProjectFiles": true
+    "writeProjectFiles": true,
+    "shell": true
   },
   "tags": ["番茄长篇网文专家", "起点长篇网文专家", "短篇小说专家"],
   "author": "popwave",
