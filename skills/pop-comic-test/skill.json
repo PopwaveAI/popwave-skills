@@ -1,6 +1,6 @@
 {
   "id": "pop-comic-test",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "画风三组测试",
   "description": "想验证某个画风到底能不能用、稳不稳定时用它。用场景、角色、多格剧情三组固定内容测试画风，产出通过判定表。",
   "entry": "SKILL.md",

@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "displayName": "章节设计包",
   "description": "批量拆书的第一环，把整本书按章拆成设计包或白描卡，供后续各维度拆解使用。当你想大规模拆书、提取设计包或做ETL拆分时启用。",
   "tags": [

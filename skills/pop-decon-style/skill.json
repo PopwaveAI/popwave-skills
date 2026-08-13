@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-style",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "文风拆解",
   "description": "拆书的一个维度，帮你拆解一本书的文风，产出文风DNA档案。当你说\"文风/对白/笔触/风格\"时启用。",
   "tags": [

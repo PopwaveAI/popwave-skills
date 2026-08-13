@@ -5,7 +5,7 @@ description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地
 
 # pop-visual-oc
 
-> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v6.0.0
+> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v6.1.0
 
 ## 做什么
 

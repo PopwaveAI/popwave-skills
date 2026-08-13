@@ -63,6 +63,8 @@ description: 起点角色库引擎。当用户说"建角色库""character""角�
 
 ## 版本
 
+v2.3.0 | 2026-08-13 → CHANGELOG.md
+- skill.json 面向用户介绍+可调用专家标签+版本同步
 v2.2.0 | 2026-08-13 → CHANGELOG.md
 - 势力边界同步：character是全部"人"的唯一产出方，消费world势力人物.md势力骨架（代表人物一句话）填人；全书配角/跨卷反派由character 2c全书角色版图规划
 v2.1.0 | 2026-08-13 → CHANGELOG.md

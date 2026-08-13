@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-character",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "人物角色拆解",
   "description": "拆书的一个维度，帮你拆解人物角色，产出角色卡、弧线、动机和成长。当你说\"人物/角色/人设/弧线/成长\"时启用。",
   "tags": [

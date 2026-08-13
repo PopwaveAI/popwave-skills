@@ -4,7 +4,7 @@ description: "当拆书时用户说'力量/境界/战斗/升级/体系'时启用
 ---
 # pop-decon-power · 力量体系拆解
 
-> 拆书独立维度 skill。从章节白描拆解力量体系：力量定义 + 境界金字塔 + 主角升级路线 + 战斗体系。v1.0.0
+> 拆书独立维度 skill。从章节白描拆解力量体系：力量定义 + 境界金字塔 + 主角升级路线 + 战斗体系。v1.1.0
 
 ## 做什么
 
@@ -41,4 +41,4 @@ description: "当拆书时用户说'力量/境界/战斗/升级/体系'时启用
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：力量体系独立拆解维度 skill，从 pop-decon-setting 拆分 → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

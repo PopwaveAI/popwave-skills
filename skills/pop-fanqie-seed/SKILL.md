@@ -5,7 +5,7 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 
 # pop-fanqie-seed · 番茄创意引擎
 
-> 自由出创意，结构做打磨。从无到有把创意打磨成可试读的开篇。v13.18.0
+> 自由出创意，结构做打磨。从无到有把创意打磨成可试读的开篇。v13.21.0：skill.json 面向用户介绍+可调用专家标签+版本同步。v13.18.0
 
 ## 做什么
 
@@ -66,4 +66,4 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 
 ## 版本
 
-v13.20.0 | 2026-08-11 | 新增知识地图（reference 读取索引）+ 目录名 reference/→references/ 统一 → [CHANGELOG.md](CHANGELOG.md)
+v13.21.0 | 2026-08-13 | skill.json 面向用户介绍+可调用专家标签+版本同步 → [CHANGELOG.md](CHANGELOG.md)

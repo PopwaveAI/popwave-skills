@@ -5,7 +5,7 @@ description: "当用户说'聚类/卷幕/cluster'时启用。从叙事白描产�
 
 # pop-decon-volume · 叙事结构与故事DNA提取
 
-> Phase 2 of 拆书管线。从叙事白描产出故事机制DNA+名场面库+读者体验曲线+卷纲。v8.0.0
+> Phase 2 of 拆书管线。从叙事白描产出故事机制DNA+名场面库+读者体验曲线+卷纲。v8.1.0
 
 ## 做什么
 
@@ -51,4 +51,4 @@ description: "当用户说'聚类/卷幕/cluster'时启用。从叙事白描产�
 
 ## 版本
 
-v8.0.0 | 2026-07-31 | 核心重构：L2单元卡→故事机制DNA+名场面库+读者体验曲线，卷纲精简（删除溯源燃料台+叙事技法迁移） → [CHANGELOG.md](CHANGELOG.md)
+v8.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

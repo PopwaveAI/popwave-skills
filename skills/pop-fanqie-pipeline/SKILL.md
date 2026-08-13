@@ -91,4 +91,4 @@ Phase 0并发规则：下载先返回→再同时派发DNA+decon-lite，赛道�
 
 ## 版本
 
-v3.10.0 | 2026-08-12 | 剧情记录双文件收束：导入/反推/判定改双文件（流水账白描卡+剧情累计卡），废 current-state → [CHANGELOG.md](CHANGELOG.md)
+v3.11.0 | 2026-08-13 | skill.json 面向用户介绍+可调用专家标签+版本同步 → [CHANGELOG.md](CHANGELOG.md)

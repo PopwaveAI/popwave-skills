@@ -1,5 +1,11 @@
 ﻿# CHANGELOG — pop-shared-skill-create
 
+## v6.2.0 — 2026-08-13
+
+### 元数据同步
+
+- skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步至 v6.2.0。
+
 ## v6.1.0 — 2026-07-09
 
 ### 对齐 Skill 知识工程 PRD：SKILL.md 骨架化 + scripts 一级代码目录

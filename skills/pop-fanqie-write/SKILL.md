@@ -79,4 +79,4 @@ write从ch002开始（ch001由seed产出）。消费plot产出的剧情白描.md
 
 ## 版本
 
-v8.8.0 | 2026-08-12 | 剧情记录双文件收束：向后锚 current-state → 剧情累计卡（状态锚），流水账=白描卡，废除current-state → CHANGELOG.md
+v8.9.0 | 2026-08-13 | skill.json 面向用户介绍+可调用专家标签+版本同步 → CHANGELOG.md

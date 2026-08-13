@@ -1,6 +1,6 @@
 {
   "id": "pop-recommend",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "推书营销专家",
   "description": "想给一部小说做读者推书卡时用它。从原文提炼值得看、适合谁的推荐理由，生成可分享的无剧透推书卡HTML。",
   "tags": ["小说推书与IP化专家"],

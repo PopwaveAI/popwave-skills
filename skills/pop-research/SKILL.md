@@ -59,4 +59,4 @@ description: "当用户说'调研/赛道调研/decon-lite/拆书/采风'时启�
 
 ## 版本
 
-v2.3.0 | 2026-07-22 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为5条含读取协议 → CHANGELOG.md
+v2.4.0 | 2026-08-13 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为5条含读取协议 → CHANGELOG.md

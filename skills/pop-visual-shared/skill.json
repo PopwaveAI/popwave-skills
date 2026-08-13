@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-shared",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "displayName": "视觉共享底层资产",
   "description": "视觉类功能的公共底座，为封面、人设、漫画、画风等功能提供统一的生图脚本、参考图搜索、水印和提示词指南，让它们共用一套工具、不重复造轮子。",
   "entry": "SKILL.md",

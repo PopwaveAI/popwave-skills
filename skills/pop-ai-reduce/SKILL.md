@@ -57,4 +57,4 @@ description: "当用户说'降AI/去AI味/降朱雀/润色网文'时启用。18�
 
 ## 版本
 
-v4.1.0 | 2026-08-12 | 18技法+比例框架+节奏规划+深度区集中走神 → [CHANGELOG.md](CHANGELOG.md)
+v4.2.0 | 2026-08-13 | 18技法+比例框架+节奏规划+深度区集中走神 → [CHANGELOG.md](CHANGELOG.md)

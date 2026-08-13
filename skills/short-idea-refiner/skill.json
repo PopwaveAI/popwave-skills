@@ -1,6 +1,6 @@
 {
   "id": "short-idea-refiner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "脑洞提炼器",
   "description": "帮你想不出写什么时把模糊想法提炼成脑洞，产出脑洞一句话和热点参考。当你说\"想不出写什么/有个模糊想法/帮我想个脑洞\"时启用。",
   "entry": "SKILL.md",

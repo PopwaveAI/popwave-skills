@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.13.0：seed极轻立项重构同步——Phase 1改PRD六要素立项、world自己展开力量体系+动力引擎、character展开金手指、plot展开主线。v3.12.0：剧情记录双文件收束——Phase 4删事实快照、Phase 6产出白描卡+剧情累计卡。v3.11.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
+> 起点管线总控。Phase 0→6路由调度。v3.14.0：skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步。v3.13.0：seed极轻立项重构同步——Phase 1改PRD六要素立项、world自己展开力量体系+动力引擎、character展开金手指、plot展开主线。v3.12.0：剧情记录双文件收束——Phase 4删事实快照、Phase 6产出白描卡+剧情累计卡。v3.11.0：skill.json 补可调度 Skill 清单 + SKILL.md 新增「📦 素材表」。v3.10.0：新增首次对话引导（references/onboarding-guide.md，C端口吻，面向网文作者）。v3.9.0：文件全景图对齐——修复骨架.md残留引用+Phase路由表产出列补全+HTML模板文件夹树更新+产出目录初始化。v3.8.0：Phase 3产出更新为10个最小闭环文件（world v4.4.0）。完整版本历史见CHANGELOG.md。
 
 ---
 

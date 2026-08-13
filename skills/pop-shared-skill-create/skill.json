@@ -1,6 +1,6 @@
 {
   "id": "pop-shared-skill-create",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "displayName": "Skill 设计规范",
   "description": "想创建、改造或修复一个skill时用它。它提供Popwave skill的设计规范，告诉你skill该写成什么样、按什么顺序落盘。",
   "entry": "SKILL.md",

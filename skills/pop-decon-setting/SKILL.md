@@ -3,7 +3,7 @@ name: pop-decon-setting
 description: Phase 3 拆书设定包。当用户说'归纳世界观''提取设定''力量体系'时启用。消费设计包+故事DNA→产出骨架层(力量体系)+血肉层+角色层+叙事资产层。
 ---
 # pop-decon-setting
-> Phase 3 设定世界观+角色+叙事资产 v4.0.0。骨架层(力量体系)先于血肉层完成。
+> Phase 3 设定世界观+角色+叙事资产 v4.1.0。骨架层(力量体系)先于血肉层完成。
 
 ## 做什么
 | 输入 | 来源 | 输出 | 下游 |
@@ -66,4 +66,4 @@ description: Phase 3 拆书设定包。当用户说'归纳世界观''提取设�
 | templates/*.tpl.md | 对应步骤产出时 | 各产出物模板 |
 
 ## 版本
-v4.0.0 | 2026-07-31 | 删除经典场景拆解（迁至Phase 2），新增角色弧线（从故事DNA提取），消费源改为故事机制DNA → [CHANGELOG.md](CHANGELOG.md)
+v4.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

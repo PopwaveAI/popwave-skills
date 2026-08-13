@@ -1,6 +1,6 @@
 {
   "id": "short-body-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "正文生成器",
   "description": "剧情结构定好后帮你把正文写出来，可选文风、逐段或一键生成，还能去AI味儿。当你完成剧情结构设计、准备写正文时启用。",
   "entry": "SKILL.md",

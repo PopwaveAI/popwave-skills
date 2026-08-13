@@ -4,7 +4,7 @@ description: "当拆书时用户说'世界观/设定/地理/势力/历史/物种
 ---
 # pop-decon-world · 世界观拆解
 
-> 拆书独立维度 skill。从章节白描拆解世界观：地理蓝图 + 历史驱动力 + 物种天赋 + 势力格局 + 资源物品。v1.0.0
+> 拆书独立维度 skill。从章节白描拆解世界观：地理蓝图 + 历史驱动力 + 物种天赋 + 势力格局 + 资源物品。v1.1.0
 
 ## 做什么
 
@@ -45,4 +45,4 @@ description: "当拆书时用户说'世界观/设定/地理/势力/历史/物种
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：世界观独立拆解维度 skill，从 pop-decon-setting 拆分 → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

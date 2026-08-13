@@ -1,6 +1,6 @@
 {
   "id": "pop-fanqie-pipeline",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "displayName": "番茄 Pipeline",
   "description": "番茄长篇网文写作的总调度入口：帮你初始化项目、规划目录、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
   "tags": ["番茄长篇网文专家"],

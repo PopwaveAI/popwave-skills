@@ -5,7 +5,7 @@ description: "视觉 skill 群的共享底层资产层。不直接生成图片�
 
 # pop-visual-shared
 
-> 视觉 skill 群的**共享底层资产层**。v1.6.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
+> 视觉 skill 群的**共享底层资产层**。v1.7.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
 
 ## 这个 Skill 做什么
 

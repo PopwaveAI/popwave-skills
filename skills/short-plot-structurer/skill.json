@@ -1,6 +1,6 @@
 {
   "id": "short-plot-structurer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "剧情结构器",
   "description": "开篇设计好后帮你搭剧情结构，推荐模板、设计弧线、配角色，产出骨架卡片。当你完成开篇设计、准备搭剧情结构时启用。",
   "entry": "SKILL.md",

@@ -1,5 +1,12 @@
 # CHANGELOG — pop-decon-prd
 
+## v1.4.0 (2026-08-13)
+
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v1.4.0
+
 ## v1.3.0 (2026-07-31)
 
 ### 数据收集+综合逻辑+模板更新：消费源对齐Phase 2重构

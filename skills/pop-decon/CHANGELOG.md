@@ -1,5 +1,12 @@
 # CHANGELOG — 02-pop-novel-deconstructor
 
+## v22.3.0 | 2026-08-13
+
+### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+
+- skill.json：description 改为面向用户介绍、tags 改为可调用专家标签
+- 版本号同步至 v22.3.0
+
 ## v22.2.0 | 2026-08-10
 
 ### skill.json 补可调度 Skill 清单 + SKILL.md 新增素材表

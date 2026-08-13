@@ -4,7 +4,7 @@ description: "当拆书时用户说'人物/角色/人设/弧线/成长'时启用
 ---
 # pop-decon-character · 人物角色拆解
 
-> 拆书独立维度 skill。从章节白描拆解人物角色：角色卡 + 弧线 + 动机 + 成长。v1.0.0
+> 拆书独立维度 skill。从章节白描拆解人物角色：角色卡 + 弧线 + 动机 + 成长。v1.1.0
 
 ## 做什么
 
@@ -41,4 +41,4 @@ description: "当拆书时用户说'人物/角色/人设/弧线/成长'时启用
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：人物角色独立拆解维度 skill，从 pop-decon-setting 拆分 → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

@@ -4,7 +4,7 @@ description: "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启
 ---
 # pop-decon-style · 文风拆解
 
-> 拆书独立维度 skill。从章节白描+原文拆解文风：文风DNA档案，复用文风DNA蒸馏方法论。v1.0.0
+> 拆书独立维度 skill。从章节白描+原文拆解文风：文风DNA档案，复用文风DNA蒸馏方法论。v1.1.0
 
 ## 做什么
 
@@ -43,4 +43,4 @@ description: "当拆书时用户说'文风/对白/笔触/风格/文风DNA'时启
 
 ## 版本
 
-v1.0.0 | 2026-08-06 | 新建：文风独立拆解维度 skill，复用文风DNA蒸馏方法论 → [CHANGELOG.md](CHANGELOG.md)
+v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步 → [CHANGELOG.md](CHANGELOG.md)

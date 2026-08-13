@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-romance",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "情感线拆解",
   "description": "拆书的一个维度，帮你拆解情感线，产出CP关系网、暧昧/信任/背叛节点和羁绊演变时间线。当你说\"情感线/感情线/CP\"时启用。",
   "tags": [

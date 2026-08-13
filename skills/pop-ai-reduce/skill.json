@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "displayName": "网文降AI检测率",
   "description": "写好的网文觉得AI味重、想降朱雀检测率时用它。按比例分配技法改写文本，让文字更像人写的。",
   "entry": "SKILL.md",
