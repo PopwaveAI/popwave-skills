@@ -205,19 +205,25 @@
 
 ### 验证（用内置脚本，禁止自写）
 
-所有指标统计与校验必须用 `scripts/` 下内置脚本，**禁止 agent 运行时自写验证脚本**（实测同一功能被重写 4 次的试错浪费）：
+所有指标统计与校验必须用 `scripts/` 下内置脚本（**Node 版，Popwave 标准运行时**），**禁止 agent 运行时自写验证脚本**（实测同一功能被重写 4 次的试错浪费）：
 
 ```
 # 指标统计（句长分布/连击/破折号/引号/不是而是/首末行）
-python scripts/analyze_metrics.py <纯文文件>
+node scripts/analyze_metrics.mjs <纯文文件>
 
-# 区间字数统计（报告"段落分层明细"表数据来源，替代自写 report_stats）
-python scripts/analyze_metrics.py --zones <原文路径> <改后路径> "区间名:起段-止段,区间名:起段-止段"
-# 示例: python scripts/analyze_metrics.py --zones 原文.txt 改后.txt "A:1-3,B:4-6,L3:7-9"
+# 区间字数统计（报告"段落分层明细"表数据来源）
+node scripts/analyze_metrics.mjs --zones <原文路径> <改后路径> "区间名:起段-止段,区间名:起段-止段"
+# 示例: node scripts/analyze_metrics.mjs --zones 原文.txt 改后.txt "A:1-3,B:4-6,L3:7-9"
 
 # L2 校验（文件存在 + 字节数 + 首末行片段）
-python scripts/validate_l2.py <纯文文件> <期望字节数> <首行前20字> <末行后20字>
+node scripts/validate_l2.mjs <纯文文件> <期望字节数> <首行前20字> <末行后20字>
 ```
+
+**效率规则（防轮次浪费，run e4ba6de3 实测）**：
+- 指标一次跑全量（多文件并列传参），禁止多次小查询
+- 表层字符处理一次性批量完成，写文件前验证，禁止返工
+- 台词跨段的 15-25 字连击 = 切分伪影，直接跳过（实测 Agent 花了 3 轮分析后确认是伪影）
+- 若环境提示 `node` 不在 PATH，用 Popwave 自带运行时：`C:\Users\HAN\AppData\Roaming\popwave\openclaw-runtime\current\node\node.exe`
 
 ## ⛔ 加载门禁 + 下一步指引
 

@@ -5,7 +5,7 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 
 # pop-ai-reduce · 网文降 AI 检测率
 
-> v4.4.1 | 深度叠层改写（18技法协同）+ Step 3.5 表层收尾 + 内置验证脚本
+> v4.5.0 | 深度叠层改写（18技法协同）+ Step 3.5 表层收尾 + 内置 Node 验证脚本
 >
 > ⚠️ **路由规则**：用户说"降AI/去AI味/降朱雀/润色"→ **先走 `pop-ai-reduce-lite` 表层降噪**，跑完询问用户是否需深度。**用户明确确认要深度去AI**（或直接指定"深度去AI"）→ 本 skill 执行深度叠层改写。本 skill **不做自动分流**——表层/深度由用户判断。
 
@@ -31,7 +31,8 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 | 6 | **快速模式禁止微调迭代** — 一次写完即交付 |
 | 7 | **产出写入「正文-降AI味版本」文件夹，禁止覆盖原文** — 原文是唯一真源 |
 | 8 | **Step 3.5 表层降噪必做** — 深度改写完成后必须执行（英文引号归零、机械破折号删净，表意破折号限频 ≤1/100字），不因深度通道豁免 |
-| 9 | **验证必须用内置脚本，禁止自写** — 指标统计用 `scripts/analyze_metrics.py`（含 `--zones` 区间统计），L2 校验用 `scripts/validate_l2.py`。**所有指标数据（字数/句长/连击/破折号/引号/不是而是/区间膨胀比）必须来自脚本输出**，禁止 agent 自写脚本或自行估算。运行时写新脚本 = 试错循环浪费算力（实测 Agent 曾把同一功能重写 4 次） |
+| 9 | **验证必须用内置脚本，禁止自写** — 指标统计用 `scripts/analyze_metrics.mjs`（Node，含 `--zones` 区间统计），L2 校验用 `scripts/validate_l2.mjs`。**所有指标数据（字数/句长/连击/破折号/引号/不是而是/区间膨胀比）必须来自脚本输出**，禁止 agent 自写脚本或自行估算。运行时写新脚本 = 试错循环浪费算力（实测 Agent 曾把同一功能重写 4 次） |
+| 10 | **执行效率红线（防轮次浪费）** — ①表层字符处理（引号/破折号）**一次性批量完成**，写文件前验证，禁止"写完→发现残留→返工"；②台词跨段的 15-25 字连击是**切分伪影**，直接跳过不分析；③禁止逐个字符/逐句思考决策，按分类规则批量应用；④指标用 `node scripts/analyze_metrics.mjs` 一次跑全量，禁止多次小查询 |
 
 ## 快速模式止损规则
 
@@ -56,10 +57,10 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 | 改写文本（含节奏规划） | `steps/pipeline-execute.md`（Step 1+2a预估规划 → 2分层 → 3叠层改写 → 3.5表层收尾 → 4+5检查输出） | 子Agent/主Agent开始改写时 |
 | 技法定义与比例约束 | `references/techniques.md` | Step 2a 规划前必须加载 |
 | 输出格式与位置 | `templates/rewrite-output.md` | 生成输出文件时 |
-| 指标统计（字数/破折号/句长/连击/不是而是） | `scripts/analyze_metrics.py` | Step 4+5 检查、报告数据来源；**禁止自写** |
-| 区间字数统计（报告段落分层明细） | `scripts/analyze_metrics.py --zones <原文> <改后> "A:1-3,B:4-6"` | 生成报告"段落分层明细"表时；**禁止自写** |
-| L2 校验（文件存在+字节数+首末行） | `scripts/validate_l2.py` | 子Agent 返回元数据后校验；**禁止自写** |
+| 指标统计（字数/破折号/句长/连击/不是而是） | `scripts/analyze_metrics.mjs`（Node） | Step 4+5 检查、报告数据来源；**禁止自写** |
+| 区间字数统计（报告段落分层明细） | `node scripts/analyze_metrics.mjs --zones <原文> <改后> "A:1-3,B:4-6"` | 生成报告"段落分层明细"表时；**禁止自写** |
+| L2 校验（文件存在+字节数+首末行） | `scripts/validate_l2.mjs`（Node） | 子Agent 返回元数据后校验；**禁止自写** |
 
 ## 版本
 
-v4.4.2 | 2026-08-14 | tags精简为["降AI味"] → [CHANGELOG.md](CHANGELOG.md)
+v4.5.0 | 2026-08-14 | 脚本迁移Node+红线#10执行效率 → [CHANGELOG.md](CHANGELOG.md)

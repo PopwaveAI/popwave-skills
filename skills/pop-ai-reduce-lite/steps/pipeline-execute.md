@@ -146,7 +146,9 @@
 
 输出位置：原文目录下新建 `正文-降AI味版本/`（与主 skill 一致），同名文件自动追加 `_v2`、`_v3`。
 
-**验证（用内置脚本，禁止自写）**：字数保留率/破折号/引号/句长统计用 `scripts/analyze_metrics.py`；L2 校验（文件存在+字节数+首末行）用 `scripts/validate_l2.py`。运行时自写脚本 = 试错循环浪费算力。
+**验证（用内置脚本，禁止自写）**：字数保留率/破折号/引号/句长统计用 `node scripts/analyze_metrics.mjs`；L2 校验（文件存在+字节数+首末行）用 `node scripts/validate_l2.mjs`。运行时自写脚本 = 试错循环浪费算力。
+
+**效率规则（防轮次浪费）**：表层字符处理一次性批量完成，写文件前验证禁止返工；台词跨段的 15-25 字连击 = 切分伪影直接跳过；指标一次跑全量禁止多次小查询。若 `node` 不在 PATH，用 Popwave 自带运行时：`C:\Users\HAN\AppData\Roaming\popwave\openclaw-runtime\current\node\node.exe`。
 
 ---
 
