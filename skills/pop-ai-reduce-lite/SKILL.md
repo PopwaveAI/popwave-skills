@@ -88,4 +88,4 @@ Step 4: 过渡词改写      —— 词表改写为口语连接词
 
 ## 版本
 
-v2.3.1 | 2026-08-14 | 残余预估算法补全（深层信号）+ 红线❌6补强 → [CHANGELOG.md](CHANGELOG.md)
+v2.3.2 | 2026-08-14 | tags精简为["降AI味"] → [CHANGELOG.md](CHANGELOG.md)

@@ -62,4 +62,4 @@ description: "用户说'降AI/去AI味'时默认先走 pop-ai-reduce-lite 表层
 
 ## 版本
 
-v4.4.1 | 2026-08-14 | --zones区间统计+红线#9补强+报告声明如实 → [CHANGELOG.md](CHANGELOG.md)
+v4.4.2 | 2026-08-14 | tags精简为["降AI味"] → [CHANGELOG.md](CHANGELOG.md)
