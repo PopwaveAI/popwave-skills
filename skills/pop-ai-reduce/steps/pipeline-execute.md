@@ -211,6 +211,10 @@
 # 指标统计（句长分布/连击/破折号/引号/不是而是/首末行）
 python scripts/analyze_metrics.py <纯文文件>
 
+# 区间字数统计（报告"段落分层明细"表数据来源，替代自写 report_stats）
+python scripts/analyze_metrics.py --zones <原文路径> <改后路径> "区间名:起段-止段,区间名:起段-止段"
+# 示例: python scripts/analyze_metrics.py --zones 原文.txt 改后.txt "A:1-3,B:4-6,L3:7-9"
+
 # L2 校验（文件存在 + 字节数 + 首末行片段）
 python scripts/validate_l2.py <纯文文件> <期望字节数> <首行前20字> <末行后20字>
 ```
