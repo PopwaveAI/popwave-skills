@@ -1,0 +1,12 @@
+{
+  "id": "test-lite",
+  "version": "0.1.0",
+  "displayName": "Lite 写作（实验）",
+  "description": "超轻量单文件写作skill实验：无steps/templates/references资源分层，全部方法论自包含于SKILL.md（约360行）。覆盖原创小说（短/中/长篇网文）、同人、剧本/动态漫脚本、纯世界观构筑。",
+  "tags": ["轻量写作实验"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["test-lite", "lite写作", "轻量写作"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

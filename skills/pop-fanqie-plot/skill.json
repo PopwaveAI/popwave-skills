@@ -1,0 +1,12 @@
+{
+  "id": "pop-fanqie-plot",
+  "version": "3.8.0",
+  "displayName": "番茄叙事引擎",
+  "description": "帮你把设定变成剧情：基于全书设定规划本卷的剧情线、分幕设计和逐幕白描，让故事结构清晰、有爽点。适合写正文前先搭好剧情骨架时用。",
+  "tags": ["番茄长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-plot", "番茄plot", "番茄叙事"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

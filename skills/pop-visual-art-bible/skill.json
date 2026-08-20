@@ -1,0 +1,17 @@
+{
+  "id": "pop-visual-art-bible",
+  "version": "2.4.0",
+  "displayName": "Art Bible · 美术设定集",
+  "description": "想给小说建立统一的美术设定集（画风、人物、场景、符号等）时用它。它是整个IP视觉的唯一真源，先定好它，后面做的封面、人设、漫画才不会风格漂移。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-visual-art-bible", "美术设定集", "出设定集", "设计角色形象", "设计场景形象", "角色视觉身份", "定妆", "视觉圣经"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["小说推书与IP化专家"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

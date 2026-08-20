@@ -1,0 +1,24 @@
+{
+  "id": "short-text-deconstructor",
+  "version": "1.1.0",
+  "displayName": "拆文分析器",
+  "description": "帮你拆解一篇例文，分析结构、角色、开篇、文风和评价，学习精品写法。当你上传例文想拆解学习时启用，随时可调用。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["拆文", "拆解"],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false,
+    "shell": false
+  },
+  "tags": ["短篇小说专家"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 80000
+  }
+}

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目总控</title>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --muted: #999999;
+    --line: #E0E0E0;
+    --accent: #D72D2D;
+    --done: #111111;
+    --pending: #CCCCCC;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 0 40px; }
+
+  /* ===== Masthead ===== */
+  .masthead {
+    border-bottom: 3px solid var(--ink);
+    padding: 48px 0 32px;
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .masthead-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .masthead-phase {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 10px;
+  }
+  .masthead h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .masthead .meta {
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .masthead .meta strong { color: var(--ink); font-weight: 600; }
+
+  /* ===== Section ===== */
+  .section {
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* ===== Brief ===== */
+  .brief-row {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .brief-row .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 160px;
+    flex-shrink: 0;
+    padding: 14px 0;
+  }
+  .brief-row .value {
+    font-size: 14px;
+    color: var(--ink);
+    padding: 14px 0;
+    flex: 1;
+  }
+
+  /* ===== Phase Timeline ===== */
+  .phase-timeline {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 4px 0 8px;
+  }
+  .phase-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 90px;
+    position: relative;
+  }
+  .phase-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid var(--pending);
+    background: var(--bg);
+    color: var(--pending);
+    z-index: 1;
+    transition: all 0.2s;
+  }
+  .phase-circle.done {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+  .phase-circle.current {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .phase-line {
+    flex: 1;
+    height: 1px;
+    min-width: 20px;
+    background: var(--line);
+    margin-top: 15px;
+  }
+  .phase-line.done { background: var(--ink); }
+  .phase-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .phase-label.active { color: var(--accent); }
+
+  /* ===== Next Step ===== */
+  .next-step-box {
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    background: #FAFAFA;
+  }
+  .next-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .next-step-action {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ===== Grid ===== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .readiness-block {
+    padding: 0 24px 0 0;
+  }
+  .readiness-block + .readiness-block {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+  .readiness-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
+  }
+  .status-item:last-child { border-bottom: none; }
+  .status-badge { font-size: 14px; font-weight: 700; }
+
+  /* ===== Table ===== */
+  .outputs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .outputs-table th {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink);
+  }
+  .outputs-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .outputs-table tr:last-child td { border-bottom: none; }
+  .outputs-table .file-path {
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ===== Folder Tree ===== */
+  .folder-tree {
+    font-family: "SF Mono", "Consolas", "Courier New", monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .folder-tree .dir { color: var(--ink); font-weight: 700; }
+
+  /* ===== Footer ===== */
+  .footer {
+    padding: 32px 0;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 3px solid var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ========== Masthead ========== -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="masthead-label">Project Control</span>
+      <span class="masthead-phase">Mode: <!--STATE:mode -->fresh<!--/STATE:mode --> · Phase <!--STATE:phase -->init<!--/STATE:phase --> · <!--STATE:chapter -->ch000<!--/STATE:chapter --></span>
+    </div>
+    <h1><!--STATE:project_name -->未命名项目<!--/STATE:project_name --></h1>
+    <div class="meta">
+      <span>赛道 / <strong><!--STATE:genre -->待指定<!--/STATE:genre --></strong></span>
+      <span>改编强度 / <strong><!--STATE:intensity -->待选A/B/C<!--/STATE:intensity --></strong></span>
+      <span>创建 / <strong><!--STATE:created_at -->--<!--/STATE:created_at --></strong></span>
+      <span>更新 / <strong><!--STATE:updated_at -->--<!--/STATE:updated_at --></strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 01 Project Brief ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">项目简介</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">书名（暂）</span>
+      <span class="value"><!--STATE:book_name -->待seed产出<!--/STATE:book_name --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">一句话简介</span>
+      <span class="value"><!--STATE:one_line -->待seed产出<!--/STATE:one_line --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">流派</span>
+      <span class="value"><!--STATE:write_skill -->待Phase 5指定<!--/STATE:write_skill --></span>
+    </div>
+  </div>
+
+  <!-- ========== 02 Phase Progress ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Phase 进度</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="phase-timeline">
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-0">0</div>
+        <div class="phase-label" id="lb-0">用户意图</div>
+      </div>
+      <div class="phase-line" id="ln-0"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-1">1</div>
+        <div class="phase-label" id="lb-1">Adapt立项</div>
+      </div>
+      <div class="phase-line" id="ln-1"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-3">3</div>
+        <div class="phase-label" id="lb-3">World血肉</div>
+      </div>
+      <div class="phase-line" id="ln-3"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-3_5">3.5</div>
+        <div class="phase-label" id="lb-3_5">Character</div>
+      </div>
+      <div class="phase-line" id="ln-3_5"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-4">4</div>
+        <div class="phase-label" id="lb-4">Plot</div>
+      </div>
+      <div class="phase-line" id="ln-4"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-5">5</div>
+        <div class="phase-label" id="lb-5">Write</div>
+      </div>
+      <div class="phase-line" id="ln-5"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-6">6</div>
+        <div class="phase-label" id="lb-6">Review</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 03 Next Step ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">下一步</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="next-step-box">
+      <div class="next-step-label">Action</div>
+      <div class="next-step-action"><!--STATE:next_step -->Phase 0: 包校验+创意X采集<!--/STATE:next_step --></div>
+    </div>
+  </div>
+
+  <!-- ========== 04 Readiness ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">就绪状态</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="grid-2">
+      <div class="readiness-block">
+        <div class="readiness-title">输入就绪</div>
+        <div class="status-item">设定包（包配方5表） <span class="status-badge"><!--STATE:pack_0 -->❌<!--/STATE:pack_0 --></span></div>
+        <div class="status-item">用户创意X <span class="status-badge"><!--STATE:pack_1 -->❌<!--/STATE:pack_1 --></span></div>
+        <div class="status-item">改编强度A/B/C <span class="status-badge"><!--STATE:pack_3 -->❌<!--/STATE:pack_3 --></span></div>
+        <div class="status-item">文风锚定（可选） <span class="status-badge"><!--STATE:pack_2 -->❌<!--/STATE:pack_2 --></span></div>
+      </div>
+      <div class="readiness-block">
+        <div class="readiness-title">立项就绪</div>
+        <div class="status-item">改编计划（DNA替换矩阵） <span class="status-badge"><!--STATE:adapt_0 -->❌<!--/STATE:adapt_0 --></span></div>
+        <div class="status-item">立项PRD（六要素） <span class="status-badge"><!--STATE:prd_0 -->❌<!--/STATE:prd_0 --></span></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:0;">
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">世界就绪</div>
+        <div class="status-item">力量体系 <span class="status-badge"><!--STATE:skel_0 -->❌<!--/STATE:skel_0 --></span></div>
+        <div class="status-item">动力引擎 <span class="status-badge"><!--STATE:skel_1 -->❌<!--/STATE:skel_1 --></span></div>
+        <div class="status-item">全书设定 <span class="status-badge"><!--STATE:flesh_0 -->❌<!--/STATE:flesh_0 --></span></div>
+      </div>
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">角色就绪</div>
+        <div class="status-item">金手指 <span class="status-badge"><!--STATE:prot_0 -->❌<!--/STATE:prot_0 --></span></div>
+        <div class="status-item">角色库 <span class="status-badge"><!--STATE:flesh_2 -->❌<!--/STATE:flesh_2 --></span></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:0;">
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">剧情就绪</div>
+        <div class="status-item">主线 <span class="status-badge"><!--STATE:main_0 -->❌<!--/STATE:main_0 --></span></div>
+        <div class="status-item">卷纲 <span class="status-badge"><!--STATE:flesh_3 -->❌<!--/STATE:flesh_3 --></span></div>
+      </div>
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">文风就绪</div>
+        <div class="status-item">DNA综合 <span class="status-badge"><!--STATE:flesh_1 -->❌<!--/STATE:flesh_1 --></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 05 Recent Outputs ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">最近产出</span>
+      <span class="section-rule"></span>
+    </div>
+    <table class="outputs-table">
+      <thead><tr><th>阶段</th><th>产出文件</th><th>时间</th></tr></thead>
+      <tbody>
+<!--STATE:outputs_start-->
+        <tr><td colspan="3" style="color:var(--muted)">暂无产出</td></tr>
+<!--STATE:outputs_end-->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 06 Folder Structure ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">项目空间结构</span>
+      <span class="section-rule"></span>
+    </div>
+<div class="folder-tree"><span class="dir">项目根/</span>
+├── 项目总控.html             pipeline 唯一状态文件
+├── <span class="dir">素材/</span>              Phase 0-1 产出
+│   ├── 用户意图.md           创意X+包路径+改编强度A/B/C+偏离决策
+│   ├── 改编计划.md           Phase 1 adapt（X DNA替换矩阵+剧情类比切换策略）
+│   ├── 参考答案-{书名}/       设定包（含包配方.md，商业架构唯一质量锚）
+│   ├── 文风锚定.md            DNA（可选）
+│   ├── decon-lite-{书名}.md   research 拆书9表（建包底稿）
+│   └── downloads/{书名}.txt
+├── <span class="dir">立项/</span>              Phase 1 adapt（六要素立项+改编继承表）
+│   └── 01-立项PRD.md          立项 PRD（world/character/plot 消费）
+├── <span class="dir">设计/</span>              Phase 2-4 产出
+│   ├── 力量体系.md            Phase 2 world（表3硬对齐直写）
+│   ├── 动力引擎.md            Phase 2 world（表3硬对齐直写）
+│   ├── 金手指.md              Phase 3 character
+│   ├── 主线.md                Phase 4 plot
+│   ├── <span class="dir">全书设定/</span>      Phase 2 world（11个文件）
+│   │   ├── 世界设计原则.md
+│   │   ├── 物理规则.md
+│   │   ├── 战斗系统.md
+│   │   ├── 政治经济.md
+│   │   ├── 民风民俗.md
+│   │   ├── 地理建筑.md
+│   │   ├── 势力人物.md
+│   │   ├── 危机敌人矛盾.md
+│   │   ├── 世界规则表.md
+│   │   ├── 类型风味基线.md
+│   │   └── 各卷切片.md
+│   ├── <span class="dir">角色库/</span>        Phase 3 character
+│   │   └── 角色库.md
+│   └── <span class="dir">第一卷剧情/</span>    Phase 4 plot（已并入卷纲/）
+├── <span class="dir">产出/</span>              Phase 6 review（双文件叙事记录）
+│   ├── <span class="dir">白描卡/</span>      单章剧情白描（只增不改）
+│   │   └── chNNN.md
+│   └── 状态快照.md         跨章状态（replace）
+├── <span class="dir">正文/</span>              Phase 5 write
+│   ├── ch001.txt
+│   └── ch002.txt ...
+└── <span class="dir">审核/</span>              Phase 6 review（审核结论对话内输出）</div>
+  </div>
+
+  <!-- ========== Footer ========== -->
+  <div class="footer">
+    pop-qidian-pipeline · 项目总控 · 自动生成请勿手动编辑
+  </div>
+
+</div>
+</body>
+</html>

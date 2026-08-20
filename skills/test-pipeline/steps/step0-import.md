@@ -1,0 +1,218 @@
+# Step 0: 导入/续写模式
+
+> 当用户已有历史资料/设定/正文时，将已有资料归位到 pipeline 标准位置，调度对应 skill 进行深度拆解/补全，重建项目状态并路由到正确Phase。
+> 核心理念：pipeline 是调度员不是制造者——只做资产清点和文件归位，深度内容转换交给对应 skill 的 reconstruct 模式。
+
+## 触发条件（任一满足即进入本Step）
+
+1. 用户明确说"导入/续写/已有/接续/迁移"
+2. Step 1初始化时检测到 `正文/` 或 `设计/` 已有文件
+3. 项目目录已有内容但无项目总控.html
+
+---
+
+## 执行
+
+### 0a. 资产扫描
+
+用LS扫描项目目录（或用户指定的源目录），列出所有已有文件。
+
+ 输出：**原始资产清单**（文件名 + 位置 + 内容摘要1句话）
+
+### 0b. 资产归位
+
+> pipeline 只做文件名/目录归位，不做内容结构标准化。内容深度转换由对应 skill 在 reconstruct 模式下完成（见0f）。
+
+#### 0b-1. 文件名+目录归位
+
+将用户文件映射到标准位置并重命名：
+
+| 用户文件（模糊匹配） | → 标准位置 | 标准文件名 | 对应Phase |
+|:--|:--|:--|:--|
+| *意图* / *方向* / *想法* / 用户口述 | `素材/` | `用户意图.md` | Phase 0 |
+| *参考答案* / *设定包* / *包配方* | `素材/` | `参考答案-{书名}/`（含包配方.md） | Phase 0 |
+| *文风* / *DNA* / *笔触* / *风格* | `素材/` | `文风锚定.md` | Phase 3→3.5（可选） |
+| *decon* / *拆书* / *力量分析* | `素材/` | `decon-lite-{书名}.md` | 建包底稿 |
+| *骨架* / *体系* / *力量* / *设定大纲* | `设计/` | `力量体系.md`+`动力引擎.md` | Phase 3 |
+| *立项* / *PRD* / *六要素* / *种子* / *创意* | `立项/` | `01-立项PRD.md` | Phase 1 |
+| *金手指* / *外挂* | `设计/` | `金手指.md` | Phase 3.5 |
+| *主线* / *剧情大纲* / *主线候选* | `设计/` | `主线.md` | Phase 4 |
+| *角色库* / *NPC* / *配角* | `设计/角色库/` | `角色库.md` | Phase 3.5 |
+| *卷纲* / *大纲* / *分幕* | `卷纲/` | `卷一-卷纲.md` | Phase 4 |
+| *章白描* / *章纲* / *章节规划* | `卷纲/` | `卷一-幕N-章白描.md` | Phase 4 |
+| *正文* / *章节* / ch* / 第*章 | `正文/` | `ch{NNN}.txt` | Phase 5 |
+| *白描卡* / *本章记录* | `产出/白描卡/` | `ch{NNN}.md` | Phase 6 |
+| *状态快照* / *状态* / *快照* / *进度* | `产出/` | `状态快照.md` | Phase 6 |
+
+**操作**：
+1. 匹配不上的文件归入"未分类资产"，询问用户映射到哪个标准位置
+2. 格式转换：.docx/.exe → .md（用Read读取内容→Write写入标准位置标准文件名）
+3. 正文文件统一编号：`第一章.txt` / `chapeer1.md` → `正文/ch001.exe`
+4. 询问用户是否保留原文件
+
+#### 0b-2. 文件来源标记
+
+每个归位文件在资产清单中标记来源和质量状态，写入 `项目总控.html` 产出表：
+
+| 来源标记 | 含义 | 后续处理 |
+|:--|:--|:--|
+| `user-original` | 用户已有文件，直接归位 | 标注"⚠️需校验"，后续可调度skill校验 |
+| `pipeline-relocated` | pipeline做了格式转换(.docx→.md等) | 标注"⚠️需校验" |
+| `skill-generated` | 对应skill正向产出 | 正常消费 |
+| `skill-reconstruct` | 对应skill reconstruct模式产出 | 正常消费 |
+
+> 后续 skill 消费文件时可查看来源标记决定信任程度。`user-original`/`pipeline-relocated` 的设计层文件应标注"⚠️需校验"。
+
+### 0c. 缺口分析
+
+归位完成后，对照依赖链逐Phase检查：
+
+| Phase | 产出 | 就绪判定 |
+|:--|:--|:--|
+| Phase 0 | 用户意图.md + 设定包（含包配方5表） | 都有且5表齐=✅ |
+| Phase 1 | 立项/01-立项PRD.md | 六要素+配方继承表=✅ |
+| Phase 3 | 力量体系.md + 动力引擎.md + 全书设定/11文件 | 都有=✅ |
+| Phase 3→3.5 | 文风锚定.md | 存在=✅（可选） |
+| Phase 3.5 | 金手指.md + 角色库/角色库.md | 都有=✅ |
+| Phase 4 | 主线.md + 卷纲/卷一-卷纲.md + 卷纲/卷一-幕*-章白描.md | 都有=✅ |
+| Phase 5 | 正文/ch*.txt | 有正文=✅ |
+| Phase 6 | 产出/白描卡/ + 产出/状态快照.md | 两者都有=✅ |
+
+**正文进度检测**：如果 `正文/` 有文件，提取最大章节号。例如有 ch001.exe~ch015.exe → current_chapter = ch016（下一章待写）。
+
+**质量来源检测**：对每个已就绪的Phase，检查文件来源标记。`user-original`或`pipeline-relocated`的文件标注"⚠️需校验"，`skill-generated`或`skill-reconstruct`的标注"✅已验证"。
+
+ 输出：**缺口报告**（哪些Phase已就绪/哪些缺失 + 每个文件的质量来源标记）
+
+### 0d. 落地Phase决策
+
+根据缺口报告 + 正文进度，按下表决定落地Phase：
+
+| 条件 | mode | 落地Phase | 说明 |
+|:--|:--|:--|:--|
+| 正文有 + 白描卡有 + 状态快照有 | resume | Phase 5（续写下一章） | 状态完整，直接接续 |
+| 正文有 + 状态文件缺失 | resume | 先执行0f调度review reconstruct → Phase 5 | 需补建状态文件 |
+| 正文无 + Phase 4就绪 | import | Phase 5（开始写） | 设定+剧情完整 |
+| 正文无 + Phase 3.5就绪 | import | Phase 4（plot） | 缺剧情 |
+| 正文无 + Phase 3就绪 | import | Phase 3.5（character） | 缺角色库 |
+| 正文无 + Phase 1就绪 | import | Phase 3（world） | 缺世界设定 |
+| 正文无 + Phase 0就绪 | import | Phase 1（seed） | 缺立项 |
+| 全无 | fresh | Phase 0 | 从零开始（走正常step1流程） |
+
+→ **向用户展示资产清单（含来源标记）+ 缺口报告 + 落地Phase建议 + 补跑建议清单（见0f-4），用户确认后进入0e**
+
+### 0e. 状态文件重建
+
+#### 创建/更新项目总控.html
+
+如果 `项目总控.html` 不存在，读取模板 `templates/项目总控.html` 写入项目根目录。如果已存在，直接SearchReplace更新。
+
+用SearchReplace更新以下字段：
+
+| 标记 | 替换值 |
+|:--|:--|
+| `<!--STATE:mode -->fresh<!--/STATE:mode -->` | `<!--STATE:mode -->{import/resume}<!--/STATE:mode -->` |
+| `<!--STATE:phase -->init<!--/STATE:phase -->` | `<!--STATE:phase -->{落地Phase}<!--/STATE:phase -->` |
+| `<!--STATE:chapter -->ch000<!--/STATE:chapter -->` | `<!--STATE:chapter -->{current_chapter}<!--/STATE:chapter -->` |
+| `<!--STATE:project_name -->未命名项目<!--/STATE:project_name -->` | `{用户给的项目名}` |
+| `<!--STATE:updated_at -->--<!--/STATE:updated_at -->` | `{当前时间}` |
+
+#### 标记已完成Phase circle + 就绪badge
+
+将已就绪的Phase circle从 `pending` 改为 `done`，将落地Phase从 `pending` 改为 `current`。将已有资产对应的badge从❌改为✅。
+
+Phase ID对照表（本skill唯一副本）：
+
+| Phase | circle id | line id | label id |
+|:--|:--|:--|:--|
+| Phase 0 | ph-0 | ln-0 | lb-0 |
+| Phase 1 | ph-1 | ln-1 | lb-1 |
+| Phase 3 | ph-3 | ln-3 | lb-3 |
+| Phase 3.5 | ph-3_5 | ln-3_5 | lb-3_5 |
+| Phase 4 | ph-4 | ln-4 | lb-4 |
+| Phase 5 | ph-5 | ln-5 | lb-5 |
+| Phase 6 | ph-6 | — | lb-6 |
+
+### 0f. 调度skill补跑
+
+> pipeline 不自行做内容结构标准化、正文反推、设计文档补建。这些深度工作由主agent加载对应 skill 的 reconstruct 模式完成。pipeline 只负责识别缺口 + 调度skill执行 + 汇报结果。
+
+#### 0f-1. 补跑策略
+
+根据缺口报告，对以下情况调度 skill 补跑：
+
+| 缺口类型 | 调度skill | reconstruct做什么 | 执行指南 |
+|:--|:--|:--|:--|
+| 有正文 + 缺白描卡/状态快照 | review | 批量回溯审核已有正文 → 生成逐章白描卡 + 状态快照 | test-review steps/step2-reconstruct.md |
+| 缺Phase 1-4设计文档 | 对应skill（adapt/world/character/plot） | 读取已有文件 → 按skill方法论校验+补全 → 输出标准格式 | 对应skill的SKILL.md+step文件（reconstruct模式） |
+| 已有设计文档但来源=user-original | 对应skill | 读取已有文件 → 按skill方法论校验 → 标注缺口或确认达标 | 按需调度（用户确认后） |
+
+**不调度的情况**（pipeline自行处理）：
+- 素材层文件（Phase 0）：用户意图.md/参考答案-{书名}/等，pipeline按标准分节简单重组即可
+- 文风锚定.md：用户已有则直接归位；缺失则需用户先跑 pop-dna-style（非reconstruct场景）
+
+#### 0f-2. review reconstruct（有正文但缺状态文件时执行）
+
+> 触发条件：`正文/` 有文件 且 `产出/白描卡/` 或 `产出/状态快照.md` 不存在
+
+**主agent必须加载review skill执行**——按review reconstruct模式的SOP执行正文反推（`skills/test-review/steps/step-reconstruct.md`）。
+
+主agent执行 review 的 reconstruct 模式（见 `skills/test-review/steps/step-reconstruct.md`）：
+- 输入：已有正文章节
+- 采样策略：≤10章全审 / 11-30章最近5章+每5章取1章 / >30章最近5章+第一章+每10章取1章
+- 产出：
+  - `产出/白描卡/ch{NNN}.md`（每章一张，单章剧情记录）
+  - `产出/状态快照.md`（replace，跨章聚合）
+
+#### 0f-3. 设计文档补跑（缺设计文档时执行）
+
+> 触发条件：落地Phase > 1 且 前置Phase的设计文档缺失或来源为user-original
+
+对缺失的设计文档，按依赖链顺序调度对应skill补跑：
+
+| 缺失文档 | 调度skill | 输入 | 产出 |
+|:--|:--|:--|:--|
+| 力量体系.md+动力引擎.md | world | PRD(力量体系方向)+已有世界设定 | 标准力量体系+动力引擎 |
+| 全书设定/（10个文件）| world | PRD(世界方向)+骨架+已有世界设定 | 10个最小闭环文件 |
+| 金手指.md | character | PRD(人物方向)+骨架+已有设定 | 标准金手指 |
+| 角色库.md | character | PRD(人物方向)+骨架+全书设定+已有正文 | 标准角色库 |
+| 主线.md | plot | PRD(起因·经过方向)+已有设定 | 标准主线 |
+| 卷纲.md+幕N-章白描.md | plot | 力量体系+动力引擎+角色库+金手指+全书设定+已有正文 | 标准卷纲+章白描 |
+
+> **注意**：如果用户已有正文但缺卷纲+章白描，plot reconstruct模式会从正文反推卷纲与章白描。如果用户选择跳过plot直接续写（降级模式），需在状态快照中手动指定下一章核心事件，write按其指导续写。后续可补跑plot生成正式卷纲+章白描。
+
+#### 0f-4. 补跑建议清单（输出给用户）
+
+```
+⚠️ 导入模式质量报告：
+- [文件名]：来源={user-original/pipeline-relocated/skill-reconstruct}，状态={✅已验证/⚠️需校验/❌缺失}，建议={正常消费/补跑XX skill}
+- ...
+- 产出/状态快照.md：来源={skill-reconstruct/缺失}，状态={✅/⚠️/❌}
+```
+
+用户根据清单决定：
+- 正常接续（接受当前文件质量）
+- 按需补跑（指定哪些文件需要调度skill校验/补全）
+- 全量补跑（所有"需校验"文件都过一遍对应skill）
+
+---
+
+## 质量门
+
+- [ ] 原始资产清单已生成
+- [ ] 资产归位已完成（文件名+目录归位 + 来源标记已标注）
+- [ ] 缺口报告已生成（含质量来源标记）
+- [ ] 落地Phase已确定并经用户确认
+- [ ] 项目总控.html已创建/更新（mode + phase + chapter + circle + badge 全部正确）
+- [ ] 补跑策略已确定（review reconstruct / 设计文档补跑 / 用户选择跳过）
+- [ ] 补跑建议清单已展示给用户
+
+## 下一步
+
+> 根据落地Phase，回到 SKILL.md「路由循环」继续路由。
+> 如果需要先执行0f补跑，在路由前先执行reconstruct任务。
+
+---
+## ⛔ 加载门禁 + 下一步指引
+> 下一步：SKILL.md「路由循环」节
+> 什么时候进入下一步：项目总控.html重建完成 + 用户确认落地Phase + 补跑策略已确定

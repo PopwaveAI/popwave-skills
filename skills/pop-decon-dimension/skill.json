@@ -1,0 +1,16 @@
+﻿{
+  "id": "pop-decon-dimension",
+  "version": "1.2.0",
+  "displayName": "维度拆解（方案B · 共享锚点池）",
+  "description": "当拆书时用户说'剧情线/情感线/人物/力量/世界观/爽点/文风'等维度词时启用。方案B维度拆解：联合Grep共享锚点池，单次精读多维提取，7维度合一。产出供给pop-decon-prd。",
+  "tags": ["拆书与分析"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["剧情线", "情感线", "人物", "力量", "世界观", "爽点", "文风"] },
+  "upstream": "pop-decon",
+  "downstream": "pop-decon-prd",
+  "expert": "pop-decon",
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  }
+}

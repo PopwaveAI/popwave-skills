@@ -1,0 +1,12 @@
+{
+  "id": "pop-fanqie-review",
+  "version": "4.11.0",
+  "displayName": "番茄审核专家",
+  "description": "帮你审核已写好的章节正文，检查设定一致性、AI 味、爽感和质量，给出通过或打回意见，并沉淀轻量剧情白描与状态快照。适合每写完一章想质检把关时用。",
+  "tags": ["番茄长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-review", "番茄review", "番茄审核"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "pop-video-comic",
+  "version": "0.2.0",
+  "displayName": "漫画转口播短视频",
+  "description": "想把漫画章节做成口播短视频时用它。读图理解漫画后先写口播脚本，确认后再配音合成成片。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-video-comic", "漫画转视频", "漫画短视频", "漫画口播", "漫画配音视频"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["小说推书与IP化专家"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

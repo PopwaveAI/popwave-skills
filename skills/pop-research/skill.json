@@ -1,0 +1,12 @@
+{
+  "id": "pop-research",
+  "version": "2.4.0",
+  "displayName": "独立调研",
+  "description": "写小说前想做赛道调研、拆参考书或采风时用它。按需产出调研素材，供立项、剧情、写作使用。",
+  "tags": ["番茄长篇网文专家", "起点长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-research", "调研", "research"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

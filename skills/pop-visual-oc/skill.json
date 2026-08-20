@@ -1,0 +1,17 @@
+{
+  "id": "pop-visual-oc",
+  "version": "6.1.0",
+  "displayName": "网文视觉推广素材生成 · OC设定卡",
+  "description": "想给小说做人物立绘、势力卡、地理卡、规则卡、场景卡等视觉推广素材时用它。从原文提炼设定，生成好看又带少量文字的设定卡成品图。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-visual-oc", "人设图", "角色图", "OC", "立绘", "角色卡", "设定卡", "传播卡", "势力卡", "地理卡", "规则卡", "场景卡", "世界观卡"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["小说推书与IP化专家"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

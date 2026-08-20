@@ -1,0 +1,17 @@
+﻿{
+  "id": "pop-visual-comic",
+  "version": "7.24.1",
+  "displayName": "网文转漫画",
+  "description": "想把小说章节变成漫画连载时用它。把整章剧情转成多格漫画页，跨章节保持人物和画风一致，还能导出方便分享的长图。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-visual-comic", "网文转漫画", "章节漫画", "小说漫画", "漫画生成", "漫画连载"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["小说推书与IP化专家"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "pop-qidian-research",
+  "version": "4.6.0",
+  "displayName": "涌现 Research",
+  "description": "帮你做写作前的调研：找写作燃料、拆解参考书的力量体系和剧情、做赛道定位分析，为立项和创作提供素材。适合开书前或创作中需要补素材时用。",
+  "tags": ["起点长篇网文专家", "番茄长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-qidian-research", "找燃料", "补燃料"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

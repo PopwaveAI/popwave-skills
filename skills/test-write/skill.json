@@ -1,0 +1,12 @@
+{
+  "id": "test-write",
+  "version": "6.0.1",
+  "displayName": "起点 Write",
+  "description": "设定包改编正文写作：消费plot章白描卡（3段读取）渲染2000-2500字章节正文，白描段对话锚/动作锚直接落笔，章型骨架+微观技法+文风DNA三重驱动，X体验层按章型注入。适合逐章写正文时用。",
+  "tags": ["起点长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["test-write", "写正文", "续写"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "pop-qidian-character",
+  "version": "2.3.0",
+  "displayName": "起点 Character",
+  "description": "帮你塑造角色：从立项方案展开主角和金手指，并批量塑造配角、反派，产出角色库作为写正文的角色依据。适合世界设定完成后、写剧情前建角色库时用。",
+  "tags": ["起点长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-qidian-character", "起点character", "建角色库"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

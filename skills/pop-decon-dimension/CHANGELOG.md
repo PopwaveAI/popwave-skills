@@ -1,0 +1,36 @@
+﻿# CHANGELOG
+
+## v1.2.0 | 2026-08-13
+
+### 方案B 重构：联合Grep共享锚点池 + 多维提取
+
+- **核心变化**：从逐维度独立检索改为联合 Grep 共享锚点池。所有选中维度的检索词合并为一次 Grep，命中章去重形成联合锚点池，每章只读一次同时提取所有维度设定
+- **SKILL.md SOP 重写**：Step 1 改为"预扫描+联合Grep"，Step 2 改为"分批精读联合锚点池（多维提取）"，Step 3-4 不变
+- **steps/step-1-grep-scan.md 重写**：检索词组装从"按维度分别Grep"改为"所有维度检索词合并为一次Grep"，命中章去重形成联合锚点池
+- **steps/step-2-precision-read.md 重写**：精读时按多维提取清单同时提取所有选中维度设定（每章读一次不重复读），新增多维提取清单表格
+- **references/维度路由清单.md 更新**：新增联合检索模式说明，使用流程改为"合并检索词→联合Grep→共享锚点池→多维提取"
+- **references/output-quality-standards.md 更新**：锚点章数改为联合锚点池共享模式，各维度证据条数独立计算，新增联合池总大小说明
+- **delegation-orchestration.md 更新**：子agent任务从单维度提取改为多维提取，子agent上下文模板增加多维提取清单
+- **small-book-phase2-strategy.md 更新**：简化流程改为联合Grep+多维提取，<30章可跳过Grep直接全量精读
+- skill.json 版本 1.1.0→1.2.0，description 更新为方案B
+- 版本三处一致（SKILL.md + skill.json + CHANGELOG.md 统一为 1.2.0）
+
+## v1.1.0 | 2026-08-13
+
+### 执行流程补强：新增 step 文件 + 检索策略修复 + 质量门禁澄清
+
+- **新增 `steps/step-1-grep-scan.md`**：Grep 检索策略详细指导，含预扫描（术语表提取）→ Grep 全书检索 → 锚点章筛选收敛三步；文风维度走场景定向采样不走 Grep
+- **新增 `steps/step-2-precision-read.md`**：精读+抽取+产出+自检完整流程，含≤8章/批分批策略、各维度抽取要点、批次间汇总、产出文档填充、自检清单
+- **重写 `references/维度路由清单.md`**：检索词从分析概念词（"弧线/动机/成长"等原文中不出现的词）改为原文实际出现的词类（称号词/战斗词/地理词等）；新增预扫描两步法（Step 1a 提取术语表 + Step 1b Grep 检索）
+- **重写 `references/output-quality-standards.md`**：明确区分锚点章数（精读了多少章）vs 证据条数（产出多少条带chXX的设定），1章可贡献多条证据；精读数量下限对齐实际执行值（plot 35/power 25 等，非原 30-50 统一值）；新增小书降级规则
+- **SKILL.md SOP 从 5 步合并为 4 步**：原 Step 1（确认维度）合并入 Step 1（检索），原 Step 3-5 合并入 Step 2-4
+- **新增红线 7**：单批精读≤8章，超限强制拆批
+- **速查表新增 step 文件引用 + 并行编排/小书策略引用**
+- 同步更新 delegation-orchestration.md（从旧设计包架构改为锚点章并行精读）和 small-book-phase2-strategy.md（从旧 Phase 概念改为方案A小书策略）
+
+## v1.0.0 | 2026-08-13
+
+- 新建：方案A 维度合一 skill，合并原 7 个维度 skill（pop-decon-plot/romance/character/power/world/beat/style）
+- 数据源统一为原文（`_temp/chapters/`），不再依赖白描卡
+- 7 维度模板落盘 templates/，用维度参数驱动
+- 迁移 volume/setting 独有产出：卷纲→plot、读者体验→beat、角色弧线/对白→character、地理/势力→world

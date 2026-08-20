@@ -1,0 +1,20 @@
+﻿{
+  "id": "pop-qidian-pipeline",
+  "name": "pop-qidian-pipeline",
+  "version": "3.15.0",
+  "description": "起点长篇网文写作的总调度入口：帮你初始化项目、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
+  "entry": "SKILL.md",
+  "tags": ["起点长篇网文专家"],
+  "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
+  "skills": [
+    "pop-qidian-seed",
+    "pop-qidian-world",
+    "pop-dna-style",
+    "pop-qidian-character",
+    "pop-qidian-plot",
+    "pop-qidian-write",
+    "pop-qidian-review",
+    "pop-research",
+    "tool-download-webnovel"
+  ]
+}

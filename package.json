@@ -1,0 +1,26 @@
+{
+  "name": "popwave-skills",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "hooks:install": "node scripts/install-git-hooks.mjs",
+    "prepare": "npm run hooks:install",
+    "git:check-file-size": "node scripts/check-staged-file-size.mjs",
+    "skills:sync": "git submodule update --init --recursive",
+    "skills:new": "node scripts/new-skill.mjs",
+    "skills:validate": "node scripts/validate-skills.mjs",
+    "skills:build": "node scripts/build-registry.mjs",
+    "build": "npm run skills:validate && npm run skills:build",
+    "publish": "node scripts/pop-publish.mjs",
+    "publish:sync": "node scripts/pop-publish.mjs --no-git",
+    "publish:post": "node scripts/pop-publish.mjs --post-commit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
+  }
+}

@@ -1,0 +1,12 @@
+﻿{
+  "id": "pop-fanqie-seed",
+  "version": "13.23.0",
+  "displayName": "番茄 Seed",
+  "description": "帮你在番茄平台从零起步做创意：给一句话方向或偏好，就能打磨出完整创意和可试读的开篇首章。适合想开新书、找灵感、定方向的时候用。",
+  "tags": ["番茄长篇网文专家"],
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["pop-fanqie-seed", "做种子"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "pop-comic-content",
+  "version": "0.12.0",
+  "displayName": "漫画内容物料",
+  "description": "想推广一部漫画、把它做成口播脚本、种草笔记、短视频文案等可投放内容时用它。模型读图理解漫画后一键产出三件套，还能选配配音出片。",
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": ["pop-comic-content", "漫画内容", "漫画推广", "漫画种草", "漫画安利", "读图产内容", "漫画做成视频"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "tags": ["小说推书与IP化专家"],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
