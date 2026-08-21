@@ -133,6 +133,7 @@ async function main() {
       tags: manifest.tags,
       readme: manifest.readme,
       readmeContent: manifest.readmeContent,
+      updatedAt: manifest.updatedAt,
       latest: manifest.version,
       versions: [{
         version: manifest.version,
