@@ -6,6 +6,7 @@ import { readSkillManifest, validateSkillManifest } from "./skill-manifest.mjs";
 
 const root = process.cwd();
 const skillsRoot = path.join(root, "skills");
+const libraryRoot = path.join(root, "library");
 const distRoot = path.join(root, "dist");
 
 function isPrerelease(version) {
@@ -46,6 +47,44 @@ async function sha256File(filePath) {
   return createHash("sha256").update(buffer).digest("hex");
 }
 
+async function findMaterialRoots(directory) {
+  const entries = await readdir(directory, { withFileTypes: true }).catch(() => []);
+  const roots = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name.startsWith(".") || entry.name.startsWith("_")) {
+      continue;
+    }
+    const candidate = path.join(directory, entry.name);
+    const manifestPath = path.join(candidate, "material.json");
+    try {
+      await readFile(manifestPath, "utf8");
+      roots.push(candidate);
+    } catch {
+      roots.push(...await findMaterialRoots(candidate));
+    }
+  }
+  return roots;
+}
+
+async function readMaterialManifest(materialRoot) {
+  const manifestPath = path.join(materialRoot, "material.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  if (!manifest.id || !/^[a-zA-Z0-9_-]+$/.test(manifest.id)) {
+    throw new Error(`Invalid material id in ${manifestPath}`);
+  }
+  if (!manifest.version || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(manifest.version)) {
+    throw new Error(`Invalid material version in ${manifestPath}`);
+  }
+  const readme = manifest.readme || "readme.md";
+  const readmeContent = await readFile(path.join(materialRoot, readme), "utf8");
+  return {
+    ...manifest,
+    tags: Array.isArray(manifest.tags) ? manifest.tags.filter((tag) => typeof tag === "string") : [],
+    readme,
+    readmeContent,
+  };
+}
+
 async function main() {
   await rm(distRoot, { recursive: true, force: true });
   await mkdir(distRoot, { recursive: true });
@@ -80,6 +119,30 @@ async function main() {
     });
   }
 
+  const materials = [];
+  for (const materialRoot of await findMaterialRoots(libraryRoot)) {
+    const manifest = await readMaterialManifest(materialRoot);
+    const packagePath = path.join(distRoot, "materials", manifest.id, manifest.version, "material-package.zip");
+    await zipDirectory(materialRoot, packagePath);
+    const checksum = await sha256File(packagePath);
+    materials.push({
+      id: manifest.id,
+      displayName: manifest.displayName || manifest.id,
+      description: manifest.description,
+      category: manifest.category,
+      tags: manifest.tags,
+      readme: manifest.readme,
+      readmeContent: manifest.readmeContent,
+      latest: manifest.version,
+      versions: [{
+        version: manifest.version,
+        packageUrl: `materials/${manifest.id}/${manifest.version}/material-package.zip`,
+        checksum: `sha256-${checksum}`,
+        createdAt: new Date().toISOString()
+      }]
+    });
+  }
+
   skills.sort((left, right) => left.id.localeCompare(right.id));
   for (const skill of skills) {
     skill.versions.sort((left, right) => compareVersions(right.version, left.version));
@@ -107,8 +170,14 @@ async function main() {
     ),
     "utf8"
   );
+  materials.sort((left, right) => left.id.localeCompare(right.id));
+  await writeFile(
+    path.join(distRoot, "materials-registry.json"),
+    JSON.stringify({ schemaVersion: 1, updatedAt: new Date().toISOString(), materials }, null, 2),
+    "utf8"
+  );
   await writeFile(path.join(distRoot, ".nojekyll"), "", "utf8");
-  console.log(`Built ${skills.length} skills into dist/registry.json`);
+  console.log(`Built ${skills.length} skills and ${materials.length} materials`);
 }
 
 main().catch((error) => {

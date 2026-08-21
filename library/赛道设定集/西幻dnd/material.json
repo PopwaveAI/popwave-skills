@@ -1,0 +1,9 @@
+{
+  "id": "western-dnd",
+  "version": "1.0.0",
+  "displayName": "西幻 DND 设定集",
+  "description": "一套用于西幻 DND 小说创作的完整素材库，包含世界观、角色、力量体系、战斗表现和剧情结构等资料。",
+  "category": "赛道设定集",
+  "tags": ["西幻", "DND", "世界观", "角色", "剧情"],
+  "readme": "readme.md"
+}
