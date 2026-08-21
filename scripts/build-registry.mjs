@@ -127,6 +127,7 @@ async function main() {
     const checksum = await sha256File(packagePath);
     materials.push({
       id: manifest.id,
+      folderName: path.basename(materialRoot),
       displayName: manifest.displayName || manifest.id,
       description: manifest.description,
       category: manifest.category,
