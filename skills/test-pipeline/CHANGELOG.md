@@ -1,5 +1,15 @@
 ﻿# CHANGELOG
 
+## v6.2.0 | 2026-08-22
+
+### Phase 4/5 路由对齐章纲组装层（plot v8.2 / write v7 联动）
+
+**改动**：
+- **Phase路由表**：Phase 4 升为 test-plot v8.2.0（4步：+Step2.5章纲组装+Step3七查），产出加 `卷纲/章纲/ch{NNN}-章纲.md`；Phase 5 升为 test-write v7.0.0（读3章章纲），就绪条件改为"本章章纲就绪（Step2.5组装+Step3绿灯）"
+- **产出真实性检查**：Phase 4→5 门禁加章纲检查（叙事原子4-6+plot锚点区齐全+七查绿灯）
+- **Phase 5/6写审循环**：write向前锚=本章章纲；幕推进流程加Step2.5组装环节
+- skill.json version 6.1.0→6.2.0，版本三处一致
+
 ## v6.1.0 | 2026-08-18
 
 ### step2 路由循环合入 SKILL.md，删除 step2.md

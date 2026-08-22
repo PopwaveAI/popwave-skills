@@ -59,6 +59,12 @@ knowledge-base/
 .trae-html-share-packages/
 .lark-cli/
 
+# 测试/验证工作区（非 skill 资产，不跟踪）
+/测试/
+
+# 参考小说原文与爬虫脚本（大体积源书资产，不跟踪）
+/参考小说txt/
+
 # 根级残留防护：以下目录/文件已移入 workspace/，禁止在根级重建
 /qidian-gap-analysis/
 /workbuddy-mobile-restore/
