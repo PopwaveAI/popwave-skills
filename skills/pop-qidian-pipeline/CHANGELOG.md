@@ -1,5 +1,21 @@
 ﻿# CHANGELOG
 
+## v3.16.0 | 2026-08-24
+
+### Phase 5 改派发子agent执行 write；红线4翻案
+
+**背景**：两两成宝实测事故链——主 agent 直写正文（重任务）→会话膨胀 7.8MB→compaction 崩溃→expert 配置丢失回退 unrestricted→skill 零注入。子 agent 链路实测已通（SKILL.md 全文注入+主动 Read），write v4.2.0 SOP 全内联后天然适配。
+
+**改动**：
+- **Phase 5 调度**：主agent直读执行→**派发子agent执行**；主agent职责收窄为：核对输入路径→按 write SKILL.md「派发指令硬清单」组装指令→派发→验收门禁
+- **验收门禁**：查文件系统不信口头——正文≥1800字+白描卡新建+快照 mtime 更新，缺任一幂等重派（先查半成品防覆盖）
+- **红线4翻案**：「主agent直接执行所有step、禁止派发子agent」→「分环执行模式」：Phase 1-4 设计层主agent直接执行；Phase 5 重任务必须派发子agent。原约束的前提（子agent拿不到skill）已被实测推翻
+- **skill.json**：3.15.0→3.16.0
+
+**配套**：write 同步升 v4.2.0（新增「执行模式」节：角色分工+派发指令硬清单+验收门禁）。
+
+---
+
 ## v3.15.0 | 2026-08-18
 
 ### step2 路由循环合入 SKILL.md，删除 step2.md

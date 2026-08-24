@@ -5,7 +5,7 @@ description: 起点管线总控。当用户说"管线""pipeline""继续写""下�
 
 # pipeline
 
-> 起点管线总控。Phase 0→6路由调度。v3.15.0：step2 路由循环合入 SKILL.md（每次对话零跳转自包含），HTML 更新协议下沉 `references/html-update-protocol.md` 单源化（原 step0/step1/step2 三处字段表归一）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 起点管线总控。Phase 0→6路由调度。v3.16.0：Phase 5 改派发子agent执行write（派发指令硬清单+验收门禁查文件系统不信口头），红线4从"主agent直接执行所有step"翻案为分环执行模式。v3.15.0：step2 路由循环合入 SKILL.md（每次对话零跳转自包含），HTML 更新协议下沉 `references/html-update-protocol.md` 单源化（原 step0/step1/step2 三处字段表归一）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -41,8 +41,8 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 | 3→3.5 | pop-dna-style（Stage 2，steps/step5-synthesize.md） | 全书设定就绪 | 文风锚定v1（如有）+全书设定（战斗系统/物理规则/民风民俗/世界设计原则）+用户意图+决策表+力量体系+PRD | 素材/文风锚定.md v2（覆盖v1） | badge deck_3标"v2-综合产出"+flesh_1→✅→Phase 3.5 |
 | 3.5 | pop-qidian-character（step0决策→step1金手指+角色库） | 全书设定+力量体系+动力引擎就绪 | PRD人物方向句+力量体系+动力引擎+全书设定各卷切片+角色库决策表 | 设计/金手指.md+设计/角色库/角色库.md | badge prot_0/flesh_2→✅→Phase 4 |
 | 4 | pop-qidian-plot（step0决策→step1-3主线+卷纲+章锚点表） | PRD+全书设定+角色库+金手指就绪 | PRD起因/经过/结果方向句+力量体系+动力引擎+各卷切片+角色库+金手指+卷纲决策表 | 设计/主线.md+第一卷剧情/卷纲.md+章锚点表.md | badge main_0/flesh_3→✅、chapter→ch002→Phase 5 |
-| 5 | pop-qidian-write（主agent直读SKILL.md+step执行） | 卷纲+章锚点表+角色库+current_chapter存在 | （write按自身消费协议读） | 正文/chXXX.txt | phase→phase6。**不得连续写两章不review** |
-| 6 | pop-qidian-review（四步审核，结论对话内输出） | 正文/chXXX.txt存在 | 正文 | 产出/白描卡/chNNN.md（只增不改）+状态快照.md（replace） | 通过→phase5+chapter+1；打回→phase5重写本章 |
+| 5 | pop-qidian-write（v4.2.0起**派发子agent执行**，主agent只做：核对输入路径→按write SKILL.md「派发指令硬清单」组装指令→派发→验收门禁） | 卷纲+章锚点表+角色库+current_chapter存在 | 派发指令硬清单（章节号+输入文件逐项路径+落盘三件+回报格式） | 正文/chXXX.txt+产出/白描卡/chNNN.md+状态快照.md | phase→phase6。**验收门禁：主agent查文件系统不信口头（正文≥1800字+白描卡新建+快照更新），缺任一幂等重派**。不得连续写两章不review |
+| 6 | pop-qidian-review（四步审核，结论对话内输出，Step 4核对修正沉淀） | 正文/chXXX.txt存在 | 正文 | 白描卡/状态快照核对修正（write已产出） | 通过→phase5+chapter+1；打回→phase5重写本章 |
 
 ### Reconstruct 调度卡（导入模式用）
 
@@ -68,9 +68,9 @@ pipeline只做路由不干活——读项目总控.html判断phase→路由到�
 - **产出真实性门禁**：进入Phase 1前必须验证拆书产出基于真实原文，而非记忆/书评/评论重构。检查项：①decon-lite产出包含≥3处原文段落引用（非摘要复述）②文风锚定产出包含≥500字原文采样片段。未通过=Phase 0未完成，禁止进入Phase 1。
 - **下载失败中断机制**：下载任务返回失败后，**禁止**执行decon-lite和dna-style。必须向用户报告并给三选项：①换一本可下载的参考书 ②用户手动提供txt路径 ③跳过拆书（seed基于通用知识生成，需用户确认接受质量降级）。用户未决策前拆书分支暂停，seed交互分支可继续。
 
-### Phase 1-4执行模式：主agent直接执行所有step
+### Phase 1-4执行模式：主agent直接执行所有step（Phase 5 除外，见红线4）
 
-Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后，进入执行型step，由主agent直接执行。
+Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核心轮用户确认后，进入执行型step，由主agent直接执行。**Phase 5 写正文是重任务，不适用本模式——必须派发子agent执行（见调度表+红线4+write SKILL.md「执行模式」节）。**
 
 | Phase | Step 0交互轮次 | 核心必答/可选 | 决策表产出 | 完成后执行 |
 |:--|:--|:--|:--|:--|
@@ -116,7 +116,7 @@ Phase 1-4在进入自动生成前，必须先完成Step 0交互式决策。核�
 1. **读取协议**：每次对话第一件事读项目总控.html获取当前phase→按调度表路由；每次Phase完成后必按 `references/html-update-protocol.md` 更新html。禁止跳过读html直接干活。
 2. **pipeline只做路由不干活**——所有产出由下游skill生成。pipeline不直接写正文/创意/审核/提取DNA。
 3. **三层骨架依赖链不可跳过**——骨架没就绪不进主角层，主角没就绪不进血肉层，血肉没就绪不写作。
-4. **主agent直接执行所有step**——所有Phase的交互型与执行型step均由主agent直接执行，禁止派发子agent执行技能生成任务。主agent职责：读取skill SKILL.md+step文件 → 提炼红线+操作要点 → 消费项目输入文件 → 按SOP执行生成并落盘 → 检查产出 → 更新项目总控 → 衔接下一step。不依赖harness层skillNames传参。
+4. **分环执行模式**——Phase 1-4（设计层：交互决策+文档生成）由主agent直接执行step；Phase 5 写正文为重任务，**必须派发子agent执行**（主agent直写会背着全项目历史干重活→会话膨胀→compaction崩溃→expert配置丢失）。派发方职责：核对输入路径存在→按write SKILL.md「派发指令硬清单」组装指令（章节号+输入文件逐项路径+落盘三件+回报格式）→派发→**验收门禁（查文件系统不信口头：正文≥1800字+白描卡新建+快照更新，缺任一幂等重派，先查半成品防覆盖）**。子agent没有项目上下文，输入路径必须硬清单给出。
 
 ---
 
