@@ -5,7 +5,7 @@ description: 起点正文写作引擎。当用户说"写正文""续写""write"�
 
 # write
 
-> 起点唯一写作引擎。v4.2.1：挂钩 pipeline v4.0.0 路由外置——派发硬清单加第0项章节授权（读总控STATE确认phase/chapter），主agent验收通过后更新总控。v4.2.0：默认子 agent 执行模式（派发指令硬清单+验收门禁查文件系统不信口头）。v4.1.0：正确性基线重构——沉淀职责从 review 挪入 write（写完即沉淀双文件，不再依赖 review 必跑）；"写好"层（DNA三态/17技法/爽感方法论/五层指导）降为知识地图触发行，必达层只保正确性。
+> 起点唯一写作引擎。v4.2.2：验收门禁字数项改脚本实测（scripts/word-count.ps1，stdout 原文必须贴进验收记录，禁转述/心算/引用生成侧数字——实测虚报 2476 vs 实际 1620）；执行模式如实修订——当前 harness 子 agent 通道为审查型（purpose 枚举只有 verification/research/critique/implementation-check，harness 自动注入只读约束），故主 agent 直执写作，子 agent 负责授权核验+缺口审查。v4.2.1：挂钩 pipeline v4.0.0 路由外置——派发硬清单加第0项章节授权（读总控STATE确认phase/chapter），主agent验收通过后更新总控。v4.2.0：默认子 agent 执行模式（派发指令硬清单+验收门禁查文件系统不信口头）。v4.1.0：正确性基线重构——沉淀职责从 review 挪入 write（写完即沉淀双文件，不再依赖 review 必跑）；"写好"层（DNA三态/17技法/爽感方法论/五层指导）降为知识地图触发行，必达层只保正确性。
 
 ---
 
@@ -19,38 +19,37 @@ description: 起点正文写作引擎。当用户说"写正文""续写""write"�
 > execution.mode：formal（落盘）/ draft（有缺口继续写）/ trial（试做不落盘、不沉淀）。
 > 第一性原理：**先写对，再写好**。事实错误不可自愈（全卷级返工），平庸可自愈（review+用户反馈可改）。写好的方法论全在 references，知识地图有触发索引，按需加载。
 
-### 执行模式：默认子 agent 执行
+### 执行模式：主 agent 直执写作 + 子 agent 审查（实测校准）
 
-写作是重任务（读5类输入+写2500字+沉淀双文件），主 agent 直写会背着全项目历史干重活（实测：会话膨胀→compaction 崩溃→expert 配置丢失回退）。本 skill SOP 已全内联，SKILL.md 注入即得完整流程，天然适配子 agent 执行。
+写作是重任务（读5类输入+写2500字+沉淀双文件），主 agent 直写有会话膨胀风险（实测教训：7.8MB→compaction崩溃→expert配置丢失）。**设计目标**是子 agent 执行写作，但当前 harness 的 `paopao_subagent_run` 通道是审查型：purpose 枚举只有 verification/research/critique/implementation-check 四个值，且 harness 对隐藏支线自动注入"不要修改、创建或删除项目文件"只读约束——**子 agent 无法落盘，此为 harness 层待解问题（需增设 execution purpose）**。
+
+当前实测可用的组合（本版据此校准）：
 
 | 角色 | 职责 |
 |:--|:--|
-| 主 agent（调度方） | 读项目总控.html确认phase/chapter → 按 Step 1 输入表核对路径存在 → 组装派发指令（硬清单） → 派发子 agent → **验收门禁** → 通过后更新总控.html（chapter+1/产出表，规范见 pop-qidian-pipeline/references/html-update-protocol.md） |
-| 子 agent（执行方） | 收指令后按本 SKILL.md SOP 全流程执行 → 落盘三件 → 回报执行报告 |
+| 主 agent（执行方） | 读项目总控.html确认phase/chapter → 按 Step 1 输入表核对路径存在 → 按 SOP 全流程执行写作+落盘三件 → **验收门禁** → 通过后更新总控.html（chapter+1/产出表，规范见 pop-qidian-pipeline/references/html-update-protocol.md） |
+| 子 agent（审查方，可选） | 派发 `implementation-check`：授权核验（读总控STATE比对派发指令）+ 输入缺口审查（文件系统实测）+ mode判定合规性；发现冲突上报主 agent 裁决 |
 
-**派发指令硬清单**（主 agent 必须逐项给出，缺一路径=指令不合格，子 agent 有权报错不开工）：
+**派发审查指令硬清单**（主 agent 逐项给出，缺一路径=指令不合格）：
 
 ```
-任务：写作 ch{NNN}
-0. 章节授权：项目根/项目总控.html——读STATE区确认 phase=phase5 且 chapter=ch{NNN}（不一致先报错不开工）
-1. SKILL执行：按 pop-qidian-write SKILL.md（已注入）SOP 全流程执行
-2. 输入文件（逐项核对存在）：
-   - 近5张白描卡：产出/白描卡/ch{NNN-5}~ch{NNN-1}.md（列出实际存在的路径）
-   - 状态快照：产出/状态快照.md
-   - 章锚点表本章条目：设计/第一卷剧情/章锚点表.md（ch{NNN}行）
-   - 角色库：设计/角色库/角色库.md
-   - 类型基线：设计/全书设定/类型风味基线.md
-   - 文风锚定：素材/文风锚定.md（不存在时按赛道从 references/文风兜底/ 选一）
-   - 最近正文：正文/ch{NNN-1}.txt
-   - 用户本轮要求（原文附上，含自带细纲如有）
-3. 落盘三件（写完缺任一=任务失败）：
-   - 正文/ch{NNN}.txt（2000-2500字）
-   - 产出/白描卡/ch{NNN}.md（新建）
-   - 产出/状态快照.md（replace更新）
-4. 回报：执行报告（mode/摘要/硬锚点兑现/新增事实清单/沉淀状态）
+任务：审查 ch{NNN} 写作前置条件
+0. 章节授权：项目根/项目总控.html——读STATE区确认 phase=phase5 且 chapter=ch{NNN}
+1. 输入文件逐项核对（近5张白描卡/状态快照/章锚点表条目/角色库/类型基线/文风锚定/最近正文，列出实际存在与缺失清单）
+2. mode判定合规：缺口与 execution.mode 标注是否一致（缺上一章白描卡/状态快照不得标 formal）
+3. 结论：授权通过/缺口清单/需主agent裁决项
 ```
 
-**验收门禁**（主 agent 收到回报后**查文件系统，不信口头**）：`正文/ch{NNN}.txt` 存在且字数≥1800 ✓ 白描卡 `ch{NNN}.md` 新建存在 ✓ 状态快照 mtime 晚于派发时刻 ✓——缺任一按幂等键重派（先查文件是否半成品，避免覆盖已写内容）。
+**验收门禁**（写完后主 agent **查文件系统，不信口头**）：
+
+| 项 | 验收方式 |
+|:--|:--|
+| 正文存在 | `正文/ch{NNN}.txt` 存在 |
+| **字数达标** | exec 跑 `scripts/word-count.ps1 -Path 正文/ch{NNN}.txt`；**脚本 stdout 原文一行必须完整贴进创作记录/验收记录**，判定以脚本输出为准——禁转述、禁心算、禁引用生成侧统计（实测教训：agent 报 2476 字，文件实测 1620） |
+| 白描卡新建 | `产出/白描卡/ch{NNN}.md` 新建存在（含 frontmatter） |
+| 快照更新 | `产出/状态快照.md` mtime 晚于本轮开写时刻 |
+
+脚本路径解析：skill 安装目录下 `scripts/word-count.ps1`（remote-skills 缓存路径形如 `...\remote-skills\pop-qidian-write\{版本}\scripts\word-count.ps1`）；脚本不存在或执行失败时回退 PowerShell 内联统计，仍须贴实测命令输出原文。FAIL 项→修补正文后重跑脚本，重跑输出覆盖前次记录；缺任一门禁项按幂等键重派（先查文件是否半成品，避免覆盖已写内容）。
 
 ---
 
@@ -160,7 +159,7 @@ POV: {主角/配角} | 章型: {章型} | 原文: {字数}字
 
 **落盘**：正文写 `正文/ch{NNN}.txt`（路径文件名固定，NNN为3位章节号）；trial 不落盘不沉淀。
 
-**回复**（模板 `templates/chapter-record.tpl.md`，对话只回摘要不贴正文）：本次采用skill / execution.mode / 第N章标题已写入文件名 / 摘要 / 章末钩子 / 创作记录（已读输入 / 兑现硬锚点 / 新增事实待review清单 / 沉淀状态：白描卡已建+快照已更 / 下一步建议review）。
+**回复**（模板 `templates/chapter-record.tpl.md`，对话只回摘要不贴正文）：本次采用skill / execution.mode / 第N章标题已写入文件名 / 摘要 / 章末钩子 / **验收记录（word-count.ps1 stdout 原文一行 + 三件存在性）** / 创作记录（已读输入 / 兑现硬锚点 / 新增事实待review清单 / 沉淀状态：白描卡已建+快照已更 / 下一步建议review）。
 
 **review后继**：review采纳→下一章；review需修改→重写；review裁决→暂停。review 现职责=四步审核+**核对修正**沉淀（write已保证记录必发生）。
 
@@ -171,7 +170,7 @@ POV: {主角/配角} | 章型: {章型} | 原文: {字数}字
 1. **读取红线**：近5张白描卡+状态快照**全量读禁摘要替代**，章锚点表本章条目必读，类型风味基线每章必注入；缺口不得静默绕过——降mode并在创作记录声明。
 2. **事实红线**：硬锚点按序踩中、不可触发项不得触发；禁止漂移不得违反、关键数据🔒写错=bug；角色库唯一源不发明角色；不提前吞并未到期钩子；设定未覆盖的细节先落盘（通知plot补建）再写。违反=不合格。
 3. **沉淀红线**：**每章写完必沉淀**——白描卡新建（只增不改~300-500字）+状态快照replace更新，trial外不得跳过。跳过=下一章无回溯锚=剧情失控之源。违反=不合格。
-4. **流程红线**：落盘路径/文件名固定；未review不得写下一章；正文2000-2500字不准超3000。违反=不合格。
+4. **流程红线**：落盘路径/文件名固定；未review不得写下一章；正文2000-2500字不准超3000，**字数判定以 word-count.ps1 实测为准、脚本 stdout 原文必须贴进验收记录**。违反=不合格。
 
 > 质量约束（非断裂下游）：隔离（不搬运原作专有元素）/ 节奏（事件密度≥8/章+爽感≥1/章+微钩子每3-5行）/ DNA落地（章内套路至少改变一处展开方式，每章一条可见反馈）。
 
@@ -192,6 +191,7 @@ POV: {主角/配角} | 章型: {章型} | 原文: {字数}字
 | `references/流派专属/`（5通用+流派包） | 声明流派才读 | 仪式感/数值面板/知识降维/规则博弈/非人视角；流派包只读当前阶段一档 |
 | `references/格局手法.md` / `位阶表达工具箱.md` | 战斗/力量差距表达时 | 格局五支柱/参照物梯子 |
 | `references/番茄读者心理.md` | 卡壳时快速翻 | 番茄读者心理参考卡 |
+| `scripts/word-count.ps1` | 验收门禁字数项（每章写完必跑） | 文件实测字数+PASS/FAIL判定；stdout 为验收记录唯一依据 |
 | `templates/chapter-record.tpl.md` | Step 5 回复时 | 执行报告模板 |
 | `templates/chapter-card.tpl.md`（review侧） | Step 4 沉淀时格式参照 | 本 SKILL.md 已内联模板，tpl 为兜底 |
 

@@ -1,5 +1,23 @@
 ﻿# CHANGELOG
 
+## v4.2.2 | 2026-08-24
+
+### 验收门禁脚本化 + 执行模式实测校准
+
+**背景**：首章实测（8-24项目日志）暴露两个问题——①agent 报"正文 2476 字达标"，文件实测仅 1620 字（去空白），虚报 800+ 字被门禁放行；②harness 的 `paopao_subagent_run` purpose 枚举只有 verification/research/critique/implementation-check 四个审查型值，且对隐藏支线自动注入只读约束——子 agent 无法落盘，v4.2.0 设计的"子 agent 执行写作"在当前 harness 下不可实现。
+
+**改动**：
+- **新增 `scripts/word-count.ps1`**：文件实测字数（总字符/去空白/汉字）+ PASS/FAIL 判定，机器可读单行输出；UTF-8 BOM 编码兼容 PowerShell 5.1
+- **验收门禁改造**（表格化）：字数项改为 exec 跑脚本，**脚本 stdout 原文一行必须完整贴进验收记录**——判定以脚本输出为准，禁转述/禁心算/禁引用生成侧统计；FAIL→修补后重跑、输出覆盖前次；脚本缺失时回退 PowerShell 内联统计仍须贴实测输出
+- **执行模式如实修订**：从"默认子 agent 执行"改为"主 agent 直执写作 + 子 agent 审查（可选）"——子 agent 派发 implementation-check 做授权核验+输入缺口审查+mode判定合规（首章实测该组合跑通：子 agent 真实读取总控 STATE 并核验授权）；派发清单同步改为审查指令版；harness 层待解问题显式标注（需增设 execution purpose）
+- **红线 4 升级**：字数判定以脚本实测为准 + stdout 原文贴进验收记录
+- **Step 5 回复**增加验收记录项；知识地图登记 scripts/word-count.ps1
+- **skill.json**：4.2.1→4.2.2
+
+**实测验证**：脚本对 ch001.txt 跑出 `ch001.txt|总字符1680|去空白1620|汉字1392|判定:FAIL(去空白1620小于阈值1800少写)`——精确复现虚报并被当场拦截。
+
+---
+
 ## v4.2.1 | 2026-08-24
 
 ### 挂钩 pipeline v4.0.0 路由外置
