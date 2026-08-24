@@ -1,5 +1,20 @@
 ﻿# CHANGELOG
 
+## v6.0.0 | 2026-08-24
+
+### steps 八件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层），SKILL.md 里的 step 引用形同虚设；v5.6.0 的分段加载设计失去意义。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-decision / step0.5-skeleton / step1-flesh / step1-part1-rules / step1-part2-entities / step1-part3-tension / step2-fullbook / step3-output 八件全部合入 SKILL.md
+- **Part 1/2/3 推演内容按维度内联**：保留3段执行节奏（规则层→实体层→张力层）+段间检查点+分段落盘文件（step1-part1/2/3），但顺序执行不再依赖分段加载
+- **执行模式明确**：主agent直执——交互决策（W1/W2）+生成落盘密集（7维度推演），子agent审查通道为只读不承担生成落盘
+- **内容精炼**：W1三方案/好坏标准压缩为要点表；维度2产出A-E五表保留全部硬约束（4拍节奏/碾压限制/质变点/画风）；Step 2的2c-2h六张全书展开表合并为一节描述；Step 3的11文件模板压缩为"文件×章节"表；红线从10条收敛为8条（业务约束保留，部分就近内联）
+- skill.json version 5.6.0→6.0.0
+
+---
+
 ## v5.6.0 | 2026-08-18
 
 ### step1-flesh 拆分：入口壳+3个part文件，单次加载量45KB→约15KB

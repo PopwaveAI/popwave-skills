@@ -1,5 +1,21 @@
 ﻿# CHANGELOG — pop-qidian-research
 
+## v5.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step-1-find / step-2-output / step-decon-lite / step-track-research 四件全部合入 SKILL.md 对应档位
+- **修复死链**：SKILL.md 原速查表引用 `steps/step-decon-plot.md`，该文件实际不存在——decon-plot 6维度内容本就在骨架中，合入时去除引用直接内联
+- **执行模式明确**：搜索/拆解分析可派子agent（research purpose 天然适配只读通道——子agent搜索+分析回报，主agent落盘+元数据）；轻量任务主agent直执
+- **内容精炼**：DL2 九表执行要点整理为单表；S2 四轮搜索整理为单表；红线从9条收敛为5条（燃料三要素/机制分流/content-mechanics落盘三条合并，业务约束全保留）
+- templates/（fuel-doc.tpl.md + mechanics-doc.tpl.md）保持外部模板文件不变
+- skill.json version 4.6.0→5.0.0
+
+---
+
 ## v4.6.0 — 2026-08-13
 
 ### skill.json 面向用户介绍 + 可调用专家标签 + 版本同步

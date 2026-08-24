@@ -1,5 +1,22 @@
 ﻿# CHANGELOG
 
+## v4.0.0 | 2026-08-24
+
+### steps 全合入 + 子agent审计分工落地
+
+**背景**：70 run 实测 step 文件送达率=0（harness 只注入 SKILL.md，step 永不上桌、agent 永不 Read）——step 化在当前 harness 下是死代码；review 的 step 隔离率高达 81%，四步审核细节全部锁在死区。同期实测发现 paopao_subagent_run 是审查型通道（只读约束），而 review 的 Step 1-3 恰好是纯只读审计——通道与任务天然匹配。
+
+**改动**：
+- **steps 三件全合入 SKILL.md**（13.4K→7.9K，-41%）：step-1-audit→Step 1-3 内联（正向符合性/正文质量/反向充足性全部检查项与表格保留）；step-2-commit→Step 4 内联（沉淀核对+落盘清单+验收门禁）；step-reconstruct→Reconstruct模式内联（采样策略+简化审核）。删除 steps/ 目录
+- **执行模式新增**：子agent审计官（Step 1-3 只读审计，派发 verification/implementation-check）+ 主agent落盘（Step 4）——全家族唯一与审查型通道天然适配的 skill；含派发审计指令硬清单；主agent直执模式保留为合法降级
+- **字数检查脚本化**（Step 2d）：以 pop-qidian-write/scripts/word-count.ps1 实测为准，实测输出原文必须贴进审核结论，禁转述/引用生成侧数字（write v4.2.2 实测虚报 2476 vs 实际 1620 的教训）
+- **验收门禁新增**：查文件系统不信口头（白描卡存在含四节/快照 mtime 更新/无废弃文档产出）
+- **红线 7→5 收拢**：读取协议红线作废（无steps）→并入输入清单；AI味证据+好看度证据合并；主角变化五项并入双文件红线；新增字数实测红线
+- **对齐 pipeline v4.0.0**：reconstruct 完成后回项目总控.html Phase 路线图（原指向已删除的 pipeline step2.md 死链修复）
+- **skill.json**：3.10.1→4.0.0
+
+---
+
 ## v3.10.1 | 2026-08-24
 
 ### 输入清单加项目总控.html

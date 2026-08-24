@@ -1,5 +1,20 @@
 ﻿# CHANGELOG
 
+## v6.0.0 | 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层），SKILL.md 里的 step 引用形同虚设。参考 write/pipeline 改造模式，把 step 内容合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step-0-interactive / step-1-material / step-2-act / step-3-chapters 四件全部合入 SKILL.md 对应 Step 0-3
+- **执行模式明确**：交互决策环节（Step 0 五轮决策、Step 2 阶段A候选确认）主agent直执；Step 1 Part B 素材收集外部搜索可派子agent（research purpose 天然适配只读通道，子agent搜索回报、主agent落盘）
+- **内容精炼**：Step 0 五轮决策压缩为一张表（轮次/必答/底牌/动作/选项规则）；Step 2 阶段B四步链路保留全部业务逻辑（活跃层/燃料改造四式/白描必含项/3项自检/反拆分章/五问自检）；红线从9条收敛为4条（业务约束全部保留，就近内联到各Step）
+- **模板保留**：卷纲.md四层结构、起承转合四段式模板、章锚点表4硬+3软全部内联；templates/ 与 references/ 保持外部文件不变
+- skill.json version 5.2.0→6.0.0
+
+---
+
 ## v5.2.0 | 2026-08-13
 
 ### skill.json 面向用户介绍 + 可调用专家标签 + 版本同步
