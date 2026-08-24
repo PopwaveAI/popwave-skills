@@ -374,6 +374,32 @@
     </div>
   </div>
 
+  <!-- ========== 03.5 Phase Route Map ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03.5</span>
+      <span class="section-title">Phase 路线图</span>
+      <span class="section-rule"></span>
+    </div>
+    <table class="outputs-table">
+      <thead><tr><th>Phase</th><th>执行体</th><th>前置门禁（查文件系统）</th><th>产出</th></tr></thead>
+      <tbody>
+        <tr><td>0 意图</td><td>主agent深问四层（赛道/标签/参考书/现有设定）</td><td>—</td><td>素材/用户意图.md</td></tr>
+        <tr><td>0 拆书</td><td>tool-download-webnovel → pop-qidian-research(decon-lite) → pop-dna-style（串行）</td><td>用户意图.md；参考书txt存在否则报错中止</td><td>赛道调研.md + 文风锚定.md + decon-lite-{书名}.md</td></tr>
+        <tr><td>1 立项</td><td>pop-qidian-seed</td><td>底牌就绪 + 产出真实性门禁（decon-lite≥3处原文引用+文风锚定≥500字采样；跳过拆书则PRD标注"无拆书参考"）</td><td>立项/01-立项PRD.md（六要素）</td></tr>
+        <tr><td>3 世界</td><td>pop-qidian-world</td><td>PRD六要素就绪</td><td>力量体系.md + 动力引擎.md + 全书设定/（10文件）</td></tr>
+        <tr><td>3→3.5 文风</td><td>pop-dna-style（综合重构）</td><td>全书设定就绪</td><td>素材/文风锚定.md v2</td></tr>
+        <tr><td>3.5 角色</td><td>pop-qidian-character</td><td>全书设定+力量体系+动力引擎就绪</td><td>金手指.md + 角色库/角色库.md</td></tr>
+        <tr><td>4 剧情</td><td>pop-qidian-plot</td><td>PRD+全书设定+角色库+金手指就绪</td><td>主线.md + 卷纲.md + 章锚点表.md</td></tr>
+        <tr><td>5 写作</td><td>pop-qidian-write（派发子agent：核对输入路径→硬清单组装→派发→验收门禁查文件不信口头）</td><td>卷纲+章锚点表+角色库+current_chapter</td><td>正文/chXXX.txt + 白描卡/chNNN.md + 状态快照.md</td></tr>
+        <tr><td>6 审核</td><td>pop-qidian-review</td><td>正文/chXXX.txt存在</td><td>审核结论（对话内）+ 沉淀核对修正</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.8">
+      写作循环：5→6→通过→写下一章 / 打回→重写本章；不得连续写两章不review。日常路由：读STATE区（phase/chapter/next_step）→ 按本表路由到执行体，各skill按自身SKILL.md执行。
+    </div>
+  </div>
+
   <!-- ========== 04 Readiness ========== -->
   <div class="section">
     <div class="section-head">

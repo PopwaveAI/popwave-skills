@@ -1,5 +1,18 @@
 ﻿# CHANGELOG
 
+## v4.2.1 | 2026-08-24
+
+### 挂钩 pipeline v4.0.0 路由外置
+
+**背景**：pipeline v4.0.0 瘦身为一次性安装器，Phase路由外置到项目总控.html「Phase路线图」。write 需自带章节授权确认，不再依赖 pipeline 常驻路由。
+
+**改动**：
+- **派发指令硬清单加第0项（章节授权）**：读项目根/项目总控.html STATE区确认 phase=phase5 且 chapter=ch{NNN}，不一致先报错不开工
+- **主agent职责扩展**：派发前先读总控确认phase/chapter；验收门禁通过后更新总控.html（chapter+1/产出表，规范见 pop-qidian-pipeline/references/html-update-protocol.md）
+- **skill.json**：4.2.0→4.2.1
+
+---
+
 ## v4.2.0 | 2026-08-24
 
 ### 默认子 agent 执行模式

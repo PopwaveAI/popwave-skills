@@ -1,7 +1,7 @@
 # 项目总控.html 更新协议（单源）
 
-> 本文件是 `项目总控.html` 所有 SearchReplace 更新操作的唯一规范。初始化创建（step1）、导入重建（step0）、Phase 完成更新（路由循环）都读本文件，禁止在其他文件复述字段表（防多源漂移）。
-> 加载时机：**phase 完成后更新 html 时**（路由循环第 3 步）；step0 重建 / step1 初始化时。
+> 本文件是 `项目总控.html` 所有 SearchReplace 更新操作的唯一规范。初始化创建（SKILL.md Step 1）、导入重建（SKILL.md Step 2）、Phase 推进更新（write 主agent验收通过后/各skill完成后）都读本文件，禁止在其他文件复述字段表（防多源漂移）。
+> 加载时机：任何 html 更新时；Step 1 初始化 / Step 2 导入重建 / phase 推进后。
 
 项目总控.html 是唯一状态文件（无 project-state.md）。agent 直接用 SearchReplace 更新 `<!--STATE:xxx -->` 标记字段和 phase circle 的 CSS class。**只更新本次操作涉及的字段，不全量替换。**
 

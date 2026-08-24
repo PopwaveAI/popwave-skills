@@ -1,11 +1,11 @@
 ﻿{
   "id": "pop-qidian-pipeline",
   "name": "pop-qidian-pipeline",
-  "version": "3.16.0",
-  "description": "起点长篇网文写作的总调度入口：帮你初始化项目、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
+  "version": "4.0.0",
+  "description": "起点项目安装器（一次性）：帮你新建标准化项目目录、导入或续写已有资料并归位分析缺口。日常写作路由由项目总控.html的Phase路线图承载，写正文/审核不经过本skill。适合刚开始建项目或导入旧稿时用。",
   "entry": "SKILL.md",
   "tags": ["起点长篇网文专家"],
-  "activation": { "slashCommands": ["pop-qidian-pipeline", "管线总控"] },
+  "activation": { "slashCommands": ["pop-qidian-pipeline", "项目安装器"] },
   "skills": [
     "pop-qidian-seed",
     "pop-qidian-world",
