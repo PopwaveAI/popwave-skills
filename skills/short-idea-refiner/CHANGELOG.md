@@ -1,4 +1,19 @@
 # CHANGELOG — short-idea-refiner
+
+## v2.0.0 — 2026-08-24
+
+### steps 3件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-gather-input / step2-refine-directions / step3-verify-output 三件全合入 SKILL.md 对应节
+- **执行模式明确**：主agent直执——连续创作链（脑洞→导语→结构）的对话交互环节（路径判断/方向选择/检验补强全程与用户确认），无自然子agent适配点
+- **内容精炼**：原「三条路径」节与 Step 1 路径表合并去重（A/B路径微观步骤全保留在 SOP 内联流程中）；Step 2 热点拉取三级来源/路径B方向菜单/Step 3 三项检验+脑洞卡片+流转上下文格式全内联；门禁（≥2项检验通过才进下一步）与4条红线全保留
+- skill.json version 1.1.0→2.0.0
+
+---
+
 ## v1.1.0 | 2026-08-13
 ### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
 - skill.json：description 改为面向用户介绍、tags 改为可调用专家标签

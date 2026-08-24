@@ -1,6 +1,6 @@
 {
   "id": "short-platform-orientation",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "displayName": "平台定位器",
   "description": "当用户说'选平台/平台定位/投哪个平台'或在短篇创作流程刚开始需要确定目标平台时启用。对比各大短篇平台的调性、字数、付费模式和热门品类，结合作者题材和目标深度匹配最适合的1-2个平台。",
   "entry": "SKILL.md",

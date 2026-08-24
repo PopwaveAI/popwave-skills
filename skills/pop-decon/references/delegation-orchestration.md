@@ -36,7 +36,7 @@
 5. 输出多维提取笔记（纯文本，不落盘，返回给主 agent）
 
 > ⚠️ 子 agent 只负责"读+多维提取+返回笔记"，不负责产出文档。产出文档由主 agent 统一按维度模板填充。
-> 多维提取清单详见 `pop-decon-dimension/steps/step-2-precision-read.md` 的「多维提取清单」表格。
+> 多维提取清单详见 `pop-decon-dimension/SKILL.md` Step 2 的「多维提取清单」表格。
 
 ### 2.3 笔记汇总 + 产出（主 agent 执行）
 

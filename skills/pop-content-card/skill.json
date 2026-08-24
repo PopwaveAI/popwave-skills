@@ -1,6 +1,6 @@
 {
   "id": "pop-content-card",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "displayName": "素材图文卡",
   "description": "想把网文写作素材做成手机可读的图文长图时用它。输入一个素材主题，就能产出5页竖版HTML长图，方便截图分享。",
   "entry": "SKILL.md",

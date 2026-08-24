@@ -1,5 +1,19 @@
 ﻿# CHANGELOG
 
+## v25.0.0 — 2026-08-24
+
+### steps 1件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step-1-pipeline.md 合入 SKILL.md 对应节（Step 0 源文件检查+下载 / Step 1 征询范围+维度含征询话术 / Step 2 路由表+style特殊处理 / Step 3 沉淀+提醒少测 / 边界条件 7 场景）
+- **执行模式明确**：主 agent 直执——下载路由/征询/路由派发/沉淀确认均为交互与编排环节，无自然子agent适配点；拆解工作整体路由给 pop-decon-dimension skill（skill 间调度，非子agent派发）
+- **内容精炼**：路由地图内嵌的 8 维度清单与 Step 1b 维度表（含触发词）合并去重；征询话术压缩为单行引用；红线5 吸收"下载失败静默继续"门禁（原 step-0 红线 0b）
+- skill.json version 24.1.0→25.0.0
+
+---
+
 ## v24.1.0 | 2026-08-18
 
 ### 死资产清理：旧ETL脚本包+wiki残留移至归档区

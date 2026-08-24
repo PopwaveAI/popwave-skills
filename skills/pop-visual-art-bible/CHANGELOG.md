@@ -1,5 +1,20 @@
 ﻿# CHANGELOG — pop-visual-art-bible
 
+## v3.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-read-input / step1-design-bible / step2-confirm-freeze / step3-reproduce-assets 四件全合入 SKILL.md 对应节
+- **执行模式明确**：设定集设计/确认冻结/复现验收主agent直执（用户多轮确认门禁）；Step 0 输入读取与原文采样补齐可派子agent执行并回报，主agent落盘
+- **内容精炼**：step2/step3 重复的"通知下游"表并入「与下游的关系」；step3 红线并入铁律与 SOP；铁律 13→12 条（❌10 与 ❌12 同类合并，约束全保留）；设计自检/确认清单压缩为单行要点；Step 1 场景/势力/地理/规则字段表压缩为行内要点
+- references/ 与 templates/ 外部文件引用保持不变
+- skill.json version 2.4.0→3.0.0
+
+---
+
 ## v2.4.0 | 2026-08-13
 
 ### 元数据同步

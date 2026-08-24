@@ -1,5 +1,21 @@
 ﻿# CHANGELOG
 
+## v4.0.0 — 2026-08-24
+
+### steps 2件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline（起点系）改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-import.md / step1.md 两件全部合入 SKILL.md 对应节
+- **内容合入**：Step 0 五环节（0a资产扫描/0b标准化转换含16行归位映射表/0c缺口分析/0d落地Phase决策/0e状态重建/0f补缺生成含正文反推+降级模式）+质量门全内联；Step 1（前置检测/目录结构/state落盘）全内联
+- **模板合一**：step1 与 step0-import 的 project-state.md 重复模板合并为「标准模板+填写规则」（覆盖 fresh/import/resume 三模式差异）
+- **执行模式明确**：主agent直执（路由决策/state管理/Phase 0意图深问/导入模式用户确认）；子agent派发点已在Phase调度表内置（Phase 0 Stage2调研并发、Phase 4 write），不另造派发点
+- **内容精炼**：step1 PowerShell命令压缩为目录用途表；速查表/知识地图中 steps 引用清除（import-structures 读取时机改指「Step 0 0b-2 环节」）
+- skill.json version 3.13.0→4.0.0
+
+---
+
 ## v3.13.0 | 2026-08-18
 
 ### step2 路由循环合入 SKILL.md，删除 step2.md

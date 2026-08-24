@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.0.0 — 2026-08-24
+
+### steps 5件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-collect / step1-understand / step2-script / step3-tts / step4-render 五件全合入 SKILL.md 对应 SOP 步骤节
+- **执行模式明确**：Step 0/1（素材收集+读图理解）为只读分析，可派子agent执行并回报、主agent落盘；Step 2 脚本确认闸门起（需老板多轮交互"先脚本后出片"）及 Step 3/4 配音合成，主agent直执
+- **内容精炼**：各 step 的流程细节/完成判定/输出格式/脚本命令（tts_generate.py、render_video.py 调用方式、Ken Burns 规则、时长清单.json 结构）全合入 SOP 步骤节；速查表去除 steps/ 引用行
+- skill.json version 0.2.0→1.0.0
+
 ## v0.2.0 | 2026-08-13
 
 ### 元数据同步

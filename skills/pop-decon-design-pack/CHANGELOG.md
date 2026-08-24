@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v7.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step-0-source-acquire / step-1-etl-split / step-2-batch-process / step-3-verify 四件全合入 SKILL.md 对应节（Step 0 源文件获取+下载后校验 / Step 1 ETL正则拆分+验证 / Step 2 模式确认+precision/fast 两套子agent派发任务包+v4格式+beat粒度+质量卡尺+实测性能 / Step 3 双维度验证清单 precision 9项+fast 6项）
+- **执行模式明确**：全部走子agent派发（本skill核心机制保留，派发任务包模板内联进SKILL.md）——主agent负责源文件获取/ETL/模式确认/切批/派发/汇总验证，子agent读原文产出；模式确认环节主agent与用户直执
+- **内容精炼**：SKILL.md 双维度表与 step-2 模式确认两张重复表合并（保留得失一句话）；fast/precision 派发流程同构部分（绝对路径写入/汇总验证只重派缺失批次）合并表述；实测性能 quality/performance 两表合一；红线从 step 文件 10 条 + 骨架 7 条去重收敛为 10 条，门禁全保留
+- **修复死引用**：step-1 引用的 `skills/pop-decon/_scripts/extract.py` 已随 pop-decon v24.1.0 死资产清理归档，改为正则拆分内联说明；step-2「默认 performance+fast」与骨架双维度表「precision默认」矛盾，以骨架表标注为准
+- skill.json version 6.5.0→7.0.0
+
+---
+
 ## v6.5.0 | 2026-08-13
 
 ### A-2 档重构：从「必选前置」降级为「可选加速器」

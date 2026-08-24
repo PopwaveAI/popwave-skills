@@ -1,5 +1,19 @@
 ﻿# CHANGELOG
 
+## v2.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-style-select / step2-prompt-build / step3-generate / step4-style-calibrate 四件全合入 SKILL.md 对应 SOP 节
+- **执行模式明确**：主 agent 直执——画风选择与定标验收是用户多轮交互门禁，提示词组装与生成是 image_generate 工具调用，批量定标走 batch_test.py 固定脚本，无自然子 agent 适配点
+- **内容精炼**（二轮重压，合入后体量 69.7%→65.2% 达标带内）：step4 与 SKILL.md Step 4 摘要去重合并（核心原则/档位分支/素材示例/脚本命令/generation_tasks.json+pe-log.json 产出/验收4维度表/稳定复现判据/冻结记录内容/下游通知表全保留）；step1-3 的筛选维度/参考图搜索命令/兼容性规则/6段取值表/内容层接入规则/尺寸速查+像素上限/水印禁令/落盘三态全内联；batch_test.py 示例命令中重复出现的英文场景/人物串改为引用上文示例占位（脚本参数全保留）；❌5/画风×内容解耦段落/跨skill引用协议6-8条 与 Step 4 正文重复句去重压缩；step4 红线与铁律❌5-❌9 已重合，不重复
+- skill.json version 1.12.0→2.0.0
+
+---
+
 ## v1.12.0 — 2026-08-13
 
 ### 元数据同步

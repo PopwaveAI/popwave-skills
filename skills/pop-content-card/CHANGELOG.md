@@ -1,4 +1,16 @@
-# Changelog
+# CHANGELOG — pop-content-card
+
+## 4.0.0 - 2026-08-24
+
+### steps 两件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-content / step2-visual 两件全合入 SKILL.md「怎么操作」节
+- **执行模式明确**：主agent直执——素材内容生产与模板填充是连续创作链（68字段JSON直接喂Step 2，中间卡8项校验门禁），无自然子agent适配点
+- **内容精炼**：68字段JSON模板从逐字段代码块压缩为分区块占位符表（68字段名与四层标注全保留，校验门禁引用字段名不失真）；风格池表去重（step2重复表删除，仅留SKILL.md一处）；step链式加载门禁节废除
+- skill.json version 3.3.0→4.0.0
 
 ## 3.3.0 - 2026-08-13
 

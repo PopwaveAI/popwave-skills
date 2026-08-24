@@ -1,4 +1,21 @@
 # CHANGELOG — short-body-generator
+
+## v2.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-style-select / step2-generate-segment / step3-pay-hook / step4-deai-check 四件全合入 SKILL.md 对应节（5A-5F）
+- **执行模式明确**：主agent直执——连续创作链（逐段生成+逐段用户确认+文风全程锚定），无自然子agent适配点
+- **内容精炼**：7类AI痕迹"症状/识别/修改方向"三列压为两列；平台推荐表/生成模式表/自检清单并入5A/5B/5D（原骨架与step重复处合一）；红线8条收敛为5条（文风确认+参考优先合并、逐段自检+去AI必走合并、改段规则三条合并，业务约束全保留）
+- **死链清理**：速查表原引 `references/structure-guide.md`、`references/golden-three.md`，两文件实际不存在，引用删除
+- references/（writing-styles.md / character-card.md / platform-rules.md）保持外部文件不变
+- skill.json version 1.1.0→2.0.0
+
+---
+
 ## v1.1.0 | 2026-08-13
 ### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
 - skill.json：description 改为面向用户介绍、tags 改为可调用专家标签

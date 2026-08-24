@@ -1,5 +1,20 @@
 ﻿# CHANGELOG
 
+## v8.0.0 — 2026-08-24
+
+### steps 两件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-consume / step2-write 两件全合入 SKILL.md 对应 SOP 节
+- **执行模式明确**：主agent直执写作+落盘——当前 harness 子agent通道为审查型（purpose枚举只verification/research/critique/implementation-check，自动注入只读约束无法落盘），参照起点 write v4.2.2 实测口径；Step1 输入完备性缺口审查/章纲事实vs状态快照冲突比对可派子agent（verification）只读审计回报
+- **内容精炼**：6类必读输入按序内联；设定库精选注入表（必选2件+按章型12行）原样保留；KB参考加载表+DNA落地两表合并为单表（行项全保留）；对话落地表原样保留；写作包16字段模板全量保留；正文规则10条全保留
+- **体量说明**：合入后 SKILL.md 10487字=原2268+steps 10268合计12536的84%，高于70%放宽线——steps 内容为100%输入规格/注入表/字段模板/门禁/规则清单硬内容，依"禁止丢内容硬压"原则只做双表合并、门禁清单压行与样板删除
+- **陈旧口径修正**：step1尾部"本章白描卡是向前推进的硬约束"为v6遗留（v7已升级章纲口径），合入时对齐为"本章章纲是向前推进的硬约束"，白描卡定位=近5张衔接校验+review回溯件
+- templates/chapter-record.tpl.md 保持外部模板文件不变
+- skill.json version 7.0.0→8.0.0
+
 ## v7.0.0 | 2026-08-22
 
 ### 消费协议升级：章纲读3章（乐高流块+线范式接入渲染层）

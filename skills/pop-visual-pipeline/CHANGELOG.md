@@ -1,5 +1,19 @@
 ﻿# CHANGELOG
 
+## v3.0.0 — 2026-08-24
+
+### steps 两件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-init / step1-import 两件全合入 SKILL.md 对应 SOP 节（Step 0 初始化 / Step 1 导入续写）
+- **执行模式明确**：主 agent 直执——pipeline 是路由总控，初始化（目录/清点/迁移/意图闸口）与路由循环均主 agent 直执；子 skill 干活环节由主 agent 读其 SKILL.md 操作或（派生层）派发子 agent，pipeline 自身无产出不派"扮演 pipeline"的子 agent
+- **内容精炼**（三轮重压，合入后体量 85.3%→65.5% 达标带内）：项目空间探测表/意图闸口表/STATE 初始值表转行内列举（5 档 intent+档位映射全保留）；step1 迁移表 8 条映射转行内、落地 Phase 决策 5 分支行内（分支全保留）；⚓意图闸口与基建档位两条 blockquote 并入 Step 0 意图闸口行内版与路由循环（信息无损去重）；可调度 Skill 清单表并入 Phase 路由表；红线3+4 合并为「基建依赖链+就绪门禁」；「唯一状态文件禁止另建 project-state.md」并入红线1；与红线2/执行模式重复句删除；速查表删除 steps/ 两行与模板行；正文与路由循环中 step0-init §1.5 / step1-import §2.5 节点引用改为 Step 0 / Step 1 内部引用
+- skill.json version 2.6.0→3.0.0
+
+---
+
 ## v2.6.0 | 2026-08-18
 
 ### step2-route 路由循环合入 SKILL.md，删除 step2-route.md

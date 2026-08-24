@@ -14,14 +14,14 @@
 ## 简化流程
 
 ### 1. 联合 Grep 检索（所有维度合并）
-- 按 `pop-decon-dimension/steps/step-1-grep-scan.md` 执行联合 Grep
+- 按 `pop-decon-dimension/SKILL.md` Step 1 执行联合 Grep
 - 小书锚点命中数通常偏少，不需要收敛
 
 ### 2. 精读联合锚点池（多维提取）
 - **< 30 章的小书**：跳过 Grep，直接全量精读（每批≤8章，每章多维提取）
 - **30-100 章的小书**：联合 Grep 命中后精读，命中章数通常在 15-35 章
 - 精读时无需委派子 agent，主 agent 按≤8章分批自行读取
-- 每章按多维提取清单同时提取所有选中维度（详见 `pop-decon-dimension/steps/step-2-precision-read.md`）
+- 每章按多维提取清单同时提取所有选中维度（详见 `pop-decon-dimension/SKILL.md` Step 2）
 
 ### 3. 分维度产出（同标准流程）
 - 按维度各自模板填充，scope 声明标注覆盖范围

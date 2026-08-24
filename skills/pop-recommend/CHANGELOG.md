@@ -1,4 +1,16 @@
-﻿# CHANGELOG
+﻿# CHANGELOG — pop-recommend
+
+## v2.0.0 (2026-08-24)
+
+### steps 两件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step2 / step3 两件全合入 SKILL.md 对应节
+- **执行模式明确**：Step1 三阶段价值扫描可派子agent（只读扫描类工作天然适配——子agent读原文扫描+提取锚点+打分回报，主agent落盘5个JSON）；Step2 评审合成与 Step3 HTML渲染主agent直执
+- **内容精炼**：step2 的11条合成逻辑整理为单表（spoiler三级控制/模糊化规则/evidence_ids绑定/6维评分与推荐结论算法全保留）；review.json完整schema压缩为合成规则表内字段标注；step3 渲染流程内联；红线5从"step文件链式加载"改为"管线顺序强制"（业务意图不变：禁止跳步）
+- skill.json version 1.3.0→2.0.0
 
 ## v1.3.0 (2026-08-13)
 

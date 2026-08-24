@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-design-pack",
-  "version": "6.5.0",
+  "version": "7.0.0",
   "displayName": "章节设计包（可选加速器）",
   "description": "当用户说'拆书/提取设计包/ETL拆分/白描卡'时启用。可选加速器（非必选前置）：方案A 直读原文为主，本 skill 仅在需要逐章白描卡/设计包时按需调用。双维度：输出格式 precision(v4设计包3层+1区)/fast(瘦身白描卡4段式) × 处理方式 quality(每章1子agent)/performance(每30章1子agent合并)。全部走子agent派发，无API脚本。任务开启前强制确认模式并说明得失。产出供下游 pop-decon-dimension 可选加速消费。",
   "tags": [

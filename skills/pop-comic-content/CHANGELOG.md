@@ -1,5 +1,18 @@
 ﻿# CHANGELOG
 
+## v1.0.0 — 2026-08-24
+
+### steps 7件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-collect / step1-understand / step2-content / step3-tts / step4-render / step5-mix / step6-export 七件全合入 SKILL.md 对应 SOP 步骤节
+- **执行模式明确**：Step 0/1（素材收集+读图理解）为只读分析，可派子agent执行并回报、主agent落盘；Step 2 老板确认闸门起（创作/配音/出片/混音/归档）主agent直执
+- **内容精炼**：各 step 的流程细节/门禁/完成判定/输出格式/脚本参数合入 SOP 步骤节（tts_generate.py、build_comic_video.py 真实 CLI 参数、mix_audio.py 命令签名全保留）；完成判定压缩为单行要点
+- **新旧流程矛盾按 v0.11 定稿口径校准**：出片=build_comic_video.py 整页顺序播放且自带混音出 final（SKILL.md 原模型说明的录屏/逐格相机行已过时）；Step 5 mix_audio.py 定位为 BGM 植入与逐段时间轴定位重混；产出文件树/前置条件同步 v0.11 实际产物（audio/v{版本}/full_voice.mp3+对齐.json，非逐句 seg）
+- skill.json version 0.12.0→1.0.0
+
 ## v0.12.0 | 2026-08-13
 
 ### 元数据同步

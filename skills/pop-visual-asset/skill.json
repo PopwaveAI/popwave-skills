@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-asset",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "displayName": "小说视觉资产提取",
   "description": "做视觉设计前，想先从小说原文里提取角色、场景、视觉符号等素材时用它。把原文整理成结构化视觉资产，供后续做设定集、人设、漫画、封面使用。",
   "entry": "SKILL.md",

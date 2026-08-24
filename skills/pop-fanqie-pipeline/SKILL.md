@@ -5,7 +5,7 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v3.13.0：step2 路由循环合入 SKILL.md（每次对话零跳转自包含），删除step2.md。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v4.0.0：step0-import/step1 两件全合入 SKILL.md 单文件精炼（SOP全内联，每次对话零跳转自包含），steps 目录删除。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
@@ -14,13 +14,175 @@ description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/�
 
 pipeline不写正文、不创意、不审核——只负责把agent指向正确的phase和skill。所有下游skill由pipeline按phase调度。
 
-## 怎么操作（SOP骨架）
+**执行模式**：主agent直执——路由决策/project-state管理/Phase 0用户意图深问/导入模式资产确认均为对话内主agent工作；子agent派发点已内置在Phase调度表（Phase 0 Stage2调研并发、Phase 4 write必须子agent），不另造派发点。
 
-> execution.mode: 串联式 | 强保障：本SKILL.md由host层强制注入 | 弱保障：steps/scripts需agent主动读取，设计时假设可能没读到
+## 怎么操作（SOP全内联）
 
-- **Step 0** 导入/续写模式 → `steps/step0-import.md`（检测已有资产→缺口分析→落地Phase→状态重建→正文反推。用户说"导入/续写/已有"或目录已有文件时触发）
-- **Step 1** 初始化项目目录+project-state.md+project-state.html → `steps/step1.md`（创建四文件夹+state=init。**如果检测到已有文件→重定向到Step 0**）
-- **Step 2** 路由循环（每次对话）→ **直接执行本文件下方「路由循环」节**
+> execution.mode: 串联式 | 强保障：本SKILL.md由host层强制注入（SOP全内联） | 弱保障：references/scripts/templates需agent主动读取，设计时假设可能没读到
+
+- **Step 0** 导入/续写模式 → 见下方「Step 0 导入/续写模式」节（检测已有资产→缺口分析→落地Phase→状态重建→正文反推。用户说"导入/续写/已有"或目录已有文件时触发）
+- **Step 1** 初始化项目目录+project-state → 见下方「Step 1 初始化项目」节（创建四文件夹+state=init。**如果检测到已有文件→重定向到Step 0**）
+- **Step 2** 路由循环（每次对话）→ 见下方「路由循环」节
+
+### Step 0 导入/续写模式（资产标准化→重建状态→路由）
+
+> 触发条件（任一）：①用户明确说"导入/续写/已有/接续/迁移" ②Step 1初始化时检测到`正文/`或`设计/`已有文件 ③项目目录已有内容但无project-state.md。
+> 核心理念：不是"检测+跳Phase"，而是"检测→标准化转换→补缺→路由"的完整初始化过程。
+
+**0a 资产扫描**：LS扫描项目目录（或用户指定源目录），输出**原始资产清单**（文件名+位置+内容摘要1句话）。
+
+**0b 资产标准化转换**（核心步骤：将非标准文件转换为标准文件名+标准目录位置+标准内容结构）：
+
+0b-1 文件名+目录归位——按模糊匹配映射：
+
+| 用户文件（模糊匹配） | → 标准位置 | 标准文件名 | 对应Phase |
+|:--|:--|:--|:--|
+| *意图*/*方向*/*想法*/用户口述 | `素材/` | 用户意图.md | Phase 0 |
+| *调研*/*市场*/*赛道*/*排行* | `素材/` | 赛道调研.md | Phase 0 |
+| *文风*/*DNA*/*笔触*/*风格* | `素材/` | 文风锚定.md | Phase 0 |
+| *decon*/*拆书*/*力量分析* | `素材/` | decon-lite-{书名}.md | Phase 0 |
+| *市场校准*/*对标* | `素材/` | 市场校准.md | Phase 1 |
+| *创意*/*故事*/*纲领*/*简介* | `设计/` | 创意.md | Phase 1 |
+| *力量体系*/*力量*/*体系* | `设计/全书设定/` | 力量体系.md | Phase 2 |
+| *地图*/*地理*/*城市* | `设计/全书设定/` | 地图.md | Phase 2 |
+| *势力*/*组织*/*帮派* | `设计/全书设定/` | 势力.md | Phase 2 |
+| *危机*/*威胁*/*危险* | `设计/全书设定/` | 危机.md | Phase 2 |
+| *配角*/*全书角色* | `设计/全书设定/` | 全书配角.md | Phase 2 |
+| *各卷切片*/*卷设定* | `设计/全书设定/` | 各卷切片.md | Phase 2 |
+| *剧情白描*/*大纲*/*分幕* | `设计/第一卷剧情/` | 剧情白描.md | Phase 3 |
+| *角色库*/*NPC*/*角色* | `设计/角色库/` | 角色库.md | Phase 3.5 |
+| *正文*/*章节*/ch*/第*章 | `正文/` | ch{NNN}.txt | Phase 4 |
+| *流水账*/*快照*/*进度* | `审核/` | 剧情白描流水账.md（白描卡） | Phase 5 |
+| *状态*/*当前状态*/*钩子台账* | `审核/` | 状态快照.md | Phase 5 |
+
+操作要点：匹配不上的归"未分类资产"询问用户映射到哪个标准位置；非md文件（.docx/.txt/.json）先Read读取内容再Write写入标准位置；正文统一编号（`第一章.txt`/`chapter1.md`→`ch001.txt`）；询问用户是否保留原文件。
+
+0b-2 内容结构标准化——逐文件对照 `references/import-structures.md`（弱加载，仅本环节读取）的16个标准文件分节结构补全缺失分节（结构正源在各子skill产出规范，冲突以子skill为准）。转换原则：保留用户原始内容不删除不篡改；用标准结构重新组织（加标准标题/分节标记）；缺失分节标"⏳待补"不编造。
+
+→ 输出：**标准化资产清单**（每个文件标 ✅已标准化 / ⚠️部分标准化(缺分节已标待补) / ❌无法转换(需人工处理)）。
+
+**0c 缺口分析**：标准化完成后对照依赖链逐Phase检查：
+
+| Phase | 就绪判定 |
+|:--|:--|
+| Phase 0 | 用户意图.md+赛道调研.md 两者都有=✅ |
+| Phase 1 | 设计/创意.md+正文/ch001.txt 两者都有=✅ |
+| Phase 2 | 设计/全书设定/ 有文件=✅ |
+| Phase 3 | 设计/第一卷剧情/剧情白描.md 存在=✅ |
+| Phase 3.5 | 设计/角色库/角色库.md 存在=✅ |
+| Phase 4 | 正文/ch*.txt 有正文=✅ |
+| Phase 5 | 流水账+状态快照 双文件都有=✅ |
+
+正文进度检测：`正文/`有文件→提取最大章节号（ch001~ch015→current_chapter=ch016下一章待写）。
+→ 输出：**缺口报告**（哪些Phase已就绪/哪些缺失）。
+
+**0d 落地Phase决策**（缺口报告+正文进度）：
+
+| 条件 | mode | 落地Phase |
+|:--|:--|:--|
+| 正文有+双文件有（流水账+状态快照） | resume | Phase 4 续写下一章（状态完整直接接续） |
+| 正文有+双文件缺 | resume | 先执行0f-1正文反推→Phase 4 |
+| 正文无+Phase 3.5就绪 | import | Phase 4（write，设定+剧情+角色完整） |
+| 正文无+Phase 3就绪 | import | Phase 3.5（character，缺角色库） |
+| 正文无+Phase 2就绪 | import | Phase 3（plot，缺剧情白描） |
+| 正文无+Phase 1就绪 | import | Phase 2（world，缺世界设定） |
+| 正文无+Phase 0就绪 | import | Phase 1（seed，缺创意+首章） |
+| 全无 | fresh | Phase 0 从零开始（走正常Step 1流程） |
+
+→ 向用户展示 标准化资产清单+缺口报告+落地Phase建议，**用户确认后**进0e。
+
+**0e 状态文件重建**：project-state.md不存在→按「project-state.md标准模板」创建；已存在→SearchReplace更新。mode/phase/current_chapter按0d决策填，已就绪Phase标[x]；已有素材对应底牌❌→✅/done/skipped。随后按「state更新方法」运行脚本生成html。
+
+**0f 补缺生成**（按需，落地Phase前置依赖缺失时；有正文→从正文反推，无正文→标注待补由下游skill生成）：
+
+0f-1 正文反推（`正文/`有文件 且 双文件任一缺失时）：读取已有正文（全部章节，量大时取最近5章+第一章）按章提取——
+- 生成`审核/剧情白描流水账.md`（每章白描append，参考review流水账格式）：每章含 **白描**（3-5句叙事流：主角做了什么→冲突转折→结果留下什么）/ **信息差**（读者以为/角色以为/实际，如有）/ **涌现·角色状态**（新确立设定/关键角色状态变化，如有）/ **埋设钩子**（一句话，如有）/ **回收钩子**（标注埋设章，如有）。文首标注"导入反推生成，未经逐章review校验，需人工审核确认；导入完成后后续章节由review按章追加"。
+- 生成`审核/状态快照.md`（replace，跨章状态）：未回收钩子台账（从流水账各章埋设钩子汇总的待回收伏笔，含信息差类型+预期回收）+ 角色当前状态表（最近几章关键活跃角色）+ 禁止漂移（正文已发生关键事实：人名/地名/阶位/已死角色/已废设定）。单章细节（白描）留在流水账，不写入状态快照。
+
+0f-2 缺失设计文档补建（`正文/`有文件 但 `设计/`下关键文档缺失）：
+
+| 缺失文档 | 补建方式 |
+|:--|:--|
+| 创意.md | 从正文提取故事核心→按创意模板分节生成 |
+| 全书设定/力量体系.md | 从正文提取力量规则→按四层结构生成 |
+| 全书设定/势力.md | 从正文提取势力信息→按4层表格生成 |
+| 角色库.md | 从正文提取出场角色→按角色库模板总表+详细卡生成 |
+
+以上补建文档均标注"⏳反推，需校验"。
+
+0f-3 无法反推的文档处理：
+
+| 缺失文档 | 处理方式 |
+|:--|:--|
+| 剧情白描.md | **必须询问用户**：①提供大纲（标准化转换）②跳过plot直接续写（降级模式） |
+| 全书设定/各卷切片.md | 标注"⏳导入模式跳过，由后续world补跑" |
+| 全书设定/危机.md | 部分可从正文反推，部分需用户补充 |
+| 全书设定/世界矛盾轴.md | 需用户补充 |
+
+降级模式：用户选择跳过plot直接续写→write将无剧情白描约束，需在`审核/状态快照.md`中手动指定下一章核心事件和爽感节点，write按状态快照指导续写；后续可补跑plot生成正式剧情白描。
+
+**质量门**：原始资产清单已生成｜资产标准化转换完成（文件名+目录+内容结构）｜标准化资产清单已生成（✅/⚠️/❌）｜缺口报告已生成｜落地Phase已确定并经用户确认｜project-state.md已创建/更新（mode+phase+chapter+阶段完成情况全部正确）｜html已通过脚本生成｜补缺生成已完成（正文反推+缺失设计文档补建+无法反推文档已处理）。
+
+→ project-state.html重建完成+用户确认落地Phase后，回到「路由循环」继续路由。
+
+### Step 1 初始化项目（fresh模式）
+
+> 只在project-state.md不存在时执行。**前置检测**：任何创建操作前先LS扫描——`正文/`有ch*.txt/ch*.md或`设计/`有.md文件→已有历史资料，**跳转Step 0**导入/续写模式；目录为空或仅有project-state.md→继续正常初始化。
+
+**1a 确认项目目录**：用户指定项目名→以项目名为目录名；在当前项目目录下对话→用当前目录。当前工作目录已有project-state.md→跳过初始化直接进路由循环。
+
+**1b 创建标准目录结构**：`素材/`（含`downloads/`、`知识沉淀/`）+ `设计/`（含`全书设定/`、`角色库/`、`第一卷剧情/`）+ `正文/` + `审核/`（PowerShell `New-Item -ItemType Directory -Force` 逐个创建）。目录用途：
+
+| 文件夹 | 存什么 | 对应Phase |
+|:--|:--|:--|
+| 素材/ | 调研+DNA+拆书+原书（downloads/存下载原书，知识沉淀/存沉淀） | Phase 0产出 |
+| 设计/ | 创意.md（根目录）+全书设定/+角色库/+第一卷剧情/ | Phase 1-3.5产出 |
+| 正文/ | 逐章渲染 ch{NNN}.txt | Phase 4产出 |
+| 审核/ | 白描流水账+状态快照 | Phase 5产出 |
+
+**1c 落盘project-state.md**：按「project-state.md标准模板」写入，mode: fresh / phase: init / current_chapter: ch000，全部Phase标[ ]。
+
+**1d 生成project-state.html**：按「state更新方法」运行脚本。**禁止手动写HTML**。完成后进路由循环（当前phase=init→进入Phase 0用户意图深问）。
+
+### project-state.md 标准模板
+
+```markdown
+# 项目：{项目名}
+
+> 管线：番茄skill群 | 创建：{YYYY-MM-DD HH:MM} | 更新：{YYYY-MM-DD HH:MM}
+
+## 当前阶段
+mode: fresh
+phase: init
+current_chapter: ch000
+
+## 阶段完成情况
+- [ ] Phase 0: 用户意图 + 并发前置准备
+- [ ] Phase 1: Seed → 设计/创意.md + 正文/ch001.txt
+- [ ] Phase 2: World → 设计/全书设定/（多文件）
+- [ ] Phase 3: Plot → 设计/第一卷剧情/剧情白描.md
+- [ ] Phase 3.5: Character → 设计/角色库/角色库.md
+- [ ] Phase 4: Write → 正文/chXXX.txt (当前: ch000)
+- [ ] Phase 5: Review → 审核/剧情白描流水账.md + 审核/状态快照.md
+
+## 底牌就绪
+- 用户意图：素材/用户意图.md ❌
+- 赛道调研：素材/赛道调研.md ❌
+- 参考书下载：skipped
+- 笔触DNA：素材/文风锚定.md ❌
+- decon-lite：素材/decon-lite-{书名}.md ❌
+
+## 创意摘要
+- 书名(暂)：待seed产出
+- 一句话：待seed产出
+
+## 最近产出
+| 阶段 | 产出文件 | 落盘时间 |
+|------|---------|---------|
+| pipeline | project-state.md | {timestamp} |
+```
+
+**填写规则**（Step 0重建时）：mode填import/resume（按0d决策）、phase填落地Phase、current_chapter填下一章待写；已就绪Phase标`[x]`、未就绪标`[ ]`、落地Phase为当前进行中；已有素材对应底牌从❌改为✅/done/skipped。
 
 ### 路由循环（每次对话开始时）
 
@@ -94,13 +256,11 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `SKILL.md` | 每次run强制注入 | SOP骨架+路由循环+Phase调度表+state更新方法+红线 |
-| `steps/step0-import.md` | 用户说"导入/续写/已有"或检测到已有文件时 | 资产扫描→缺口分析→落地Phase→状态重建→正文反推 |
-| `steps/step1.md` | 初始化时读取（无已有文件） | 项目目录初始化（四文件夹+downloads）+state.md/html生成 |
+| `SKILL.md` | 每次run强制注入 | SOP全内联：Step 0导入+Step 1初始化+路由循环+Phase调度表+state更新方法+红线 |
 | `scripts/generate-state-html.py` | 每次更新state.md后运行 | 读取state.md→生成project-state.html |
 | `templates/project-state.html.tpl` | 脚本自动使用 | HTML可视化模板 |
 | `references/onboarding-guide.md` | 用户第一次触发（首次对话引导）时 | C端口吻引导语——「🚪 首次对话引导」区块强触发输出全文 |
-| `references/import-structures.md` | 导入/续写模式 step0-import 0b-2 环节 | 16个标准文件的内容分节结构+转换方式（导入转换视角，结构正源在各子skill step） |
+| `references/import-structures.md` | 导入/续写模式 Step 0 0b-2 环节 | 16个标准文件的内容分节结构+转换方式（导入转换视角，结构正源在各子skill） |
 
 ## 🗺️ 知识地图（reference 读取索引）
 
@@ -109,11 +269,16 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 | 参考 | 级别 | 什么时候必须读（触发条件） |
 |:--|:--|:--|
 | `references/onboarding-guide.md` | 🔴强触发 | **用户第一次触发番茄专家时必读**——SKILL.md「首次对话引导」区块声明输出全文 |
-| `references/import-structures.md` | 🟡场景触发 | 导入/续写模式 step0-import 0b-2 环节（16个标准文件结构转换） |
+| `references/import-structures.md` | 🟡场景触发 | 导入/续写模式 Step 0 0b-2 环节（16个标准文件结构转换） |
 
 ## 版本
 
+v4.0.0 | 2026-08-24
+- **step0-import / step1 全合入 SKILL.md 单文件精炼**：Step 0 五环节（资产扫描/标准化转换/缺口分析/落地Phase决策/状态重建/补缺生成）+质量门全内联；steps 目录删除
+- **模板合一**：step1与step0-import的project-state.md重复模板合并为「标准模板+填写规则」（覆盖fresh/import/resume三模式差异）
+- 执行模式明确：主agent直执（路由/状态管理/意图深问/导入确认），子agent派发点已在Phase调度表内置
+- skill.json version 3.13.0→4.0.0
 v3.13.0 | 2026-08-18
 - **step2 路由循环合入 SKILL.md**：路由分流/state更新/脚本调用全部上提，每次对话零跳转自包含；Phase调度表合并前置检查+完成后更新两列；下一步文案映射表删除（脚本内置单源）；知识地图补import-structures条目
-- 删除 steps/step2.md
+- 删除 step2.md 文件
 v3.12.1 | 2026-08-18 | step0-import 结构表下沉 → [CHANGELOG.md](CHANGELOG.md)

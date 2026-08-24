@@ -1,5 +1,21 @@
 ﻿# CHANGELOG
 
+## v7.0.0 | 2026-08-24
+
+### steps 两件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-import / step1 两件全部合入 SKILL.md 对应节——Step 0 导入/续写（0a资产扫描→0b归位映射表+来源标记→0c缺口分析→0d落地Phase决策→0e状态重建+Phase ID对照表→0f补跑调度）、Step 1 初始化（目录→总控→包校验→X采集→强度选择）全流程内联
+- **执行模式明确**：主agent直执——总控只路由不干活；导入资产清点/初始化/强度选择需用户交互，生成任务由主agent加载对应子skill执行，禁止派发子agent执行技能生成任务
+- **内容精炼**：0c Phase就绪表压缩为两列；0e STATE标记+Phase ID对照合并紧凑表述；0f三段表格化保留全部补跑策略/采样策略/降级模式；step1六步保留全部门禁
+- **Phase路由表版本钉同步**：test-adapt v2.0.0 / test-world v8.0.0 / test-character v5.0.0（本轮steps合入联动升版）
+- **跨skill step文件引用清除**：review补跑改为"test-review reconstruct模式"表述，不再引用其step文件路径；速查表steps行删除
+- skill.json version 6.2.0→7.0.0
+
+---
+
 ## v6.2.0 | 2026-08-22
 
 ### Phase 4/5 路由对齐章纲组装层（plot v8.2 / write v7 联动）

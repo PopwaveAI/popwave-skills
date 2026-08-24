@@ -5,11 +5,11 @@ description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/�
 
 # pop-content-card
 
-> 网文素材图文卡生产器。素材主题 → 5页手机可读HTML长图。v3.2.0
+> 网文素材图文卡生产器。素材主题 → 5页手机可读HTML长图。v4.0.0
 
 ## 这个 Skill 做什么
 
-输入：素材主题（如"恨海情天""100个古言氛围细节"）+ 可选账号配置 + 可选风格选择。
+输入：素材主题（如"恨海情天""100个古言氛围细节"）+ 可选账号配置（账号名/署名/收尾语/配色偏好）+ 可选风格选择。
 输出：一张 1080×1920 竖版 5 页 HTML 长图，手机可读，可导出 PDF。
 
 素材类型：桥段 / 字句 / 人设 / 写法拆解。生产流程自包含，不依赖外部内容 skill。
@@ -26,12 +26,83 @@ description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/�
 
 **质量传导链**：三可 → 68字段×8校验 → 版式呈现。每层的"好"都从三可推导。脱离三可的工程检查（如"字段数对"但不"可截图"）= 不通过。
 
-## 怎么运作
+**执行模式**：主agent直执——素材内容生产与模板填充是连续创作链（Step 1的68字段JSON直接喂Step 2填充，中间卡着8项校验门禁），无自然子agent适配点。
 
-- **Step 1** 素材生产 → `steps/step1-content.md`（主题分析 → 素材类型判定 → 内容生产 → 5页文案组织）
-- **Step 2** HTML视觉化 → `steps/step2-visual.md`（选风格 → 复制母版 → 切body class → 填账号占位符 → 按5页节奏填内容 → 密度检查 → 落盘）
+## 怎么操作（SOP全内联）
 
-默认 5 页结构（桥段型）：封面 → 公式+素材句 → 正误对照 → 名场面 → 收束地图。
+### Step 1 · 素材生产
+
+**1. 读方法论**：`references/content-method.md`（生产前必读，含4类型生产原则+字段清单+自检门禁全表）。
+
+**2. 主题分析**：判断素材类型（桥段/字句/人设/写法）→ 提炼核心卖点（读者第一眼想搜/想存的词）→ 对应「素材类型与5页结构」表选结构。
+
+**3. 内容生产**（核心质量标准，详见 content-method.md 第三节）：
+- 每条素材句必须包含三层：物件/动作 + 感官细节 + 情绪暗示
+- 素材句要有"可改写性"：换掉身份/场景/代价就能复用
+- 正误对照的"好"例子必须比"坏"例子多一层具体细节
+- 名场面必须包含"选择"和"代价"
+- 封面钩子句必须：具体物件/动作 + 情绪张力
+
+**4. 按JSON格式组织产出**：产出格式为JSON（不是Markdown），字段名与HTML母版占位符一一对应。桥段型完整68字段（60内容+8账号）：
+
+| 区块 | 占位符字段 |
+|:--|:--|
+| 全局8字段 | TITLE, TOOLBAR_TITLE, ACCOUNT_NAME, ACCOUNT_INITIAL, FOOTER_SIGN, FOOTER_TAG, CLOSING_LINE, SIGNOFF_TEXT |
+| P1 封面 | KICKER, TITLE_MAIN, COVER_SUB, COVER_HOOK（钩子句）, COVER_DECO_TEXT |
+| P2 公式+素材句 | TOPIC_LABEL_2 / TITLE_2 / DESC_2, FORMULA_MAIN, FORMULA_KEY_1~4 + FORMULA_VAL_1~4, QUOTE_1~4（触觉/物件/动作/信息层） |
+| P3 正误对照 | TOPIC_LABEL_3 / TITLE_3 / DESC_3, CONTRAST_BAD_TITLE_1~2 + CONTRAST_BAD_1~2, CONTRAST_GOOD_TITLE_1~2 + CONTRAST_GOOD_1~2, SUMMARY_TITLE_3 + SUMMARY_COPY_3 |
+| P4 名场面 | TOPIC_LABEL_4 / TITLE_4 / DESC_4, SCENE_TITLE_4, SCENE_EXAMPLE_4, BREAKDOWN_1A~3B（3组标题+内容）, ROUTE_TITLE_A / COPY_A + ROUTE_TITLE_B / COPY_B（动作设计+情绪设计） |
+| P5 收束地图 | TOPIC_LABEL_5 / TITLE_5 / DESC_5, ENDING_KEY_1~4 + ENDING_VAL_1~4（HE/BE/OE/转折） |
+
+字句型：P2-P4替换为 `{{ITEM_1}}`~`{{ITEM_20}}`（每页15-20条），P5改为使用指南字段。人设型/写法型：参考 content-method.md 第二节对应结构调整字段。
+
+**5. 字段校验门禁**（JSON产出后必须逐项校验，任一不通过=回第3步补内容，禁止进入Step 2）：
+
+1. **字段完整性**〔可截图〕：桥段型68字段（60内容+8账号），缺一个都不行
+2. **字段非空**〔可截图〕：每个value ≥5字，无空字符串
+3. **素材句三层**〔可截图+可套用〕：每条 QUOTE_1~4 含物件/动作+感官+情绪暗示
+4. **正误对照差异**〔可套用〕：每组好例（CONTRAST_GOOD）比坏例（CONTRAST_BAD）多一层具体细节
+5. **名场面三要素**〔可回看〕：SCENE_EXAMPLE_4 含"选择"+"代价"+"情绪反差"
+6. **封面钩子句**〔可截图〕：COVER_HOOK 含具体物件/动作+情绪张力
+7. **结局可套用**〔可套用+可回看〕：每个 ENDING_VAL 含具体物件/动作+代价+记忆点
+8. **感官覆盖**〔可截图〕：QUOTE_1~4 覆盖≥3种感官通道
+
+校验通过→落盘 `{主题}-content.json`，作为 Step 2 的直接输入。
+
+### Step 2 · HTML视觉化
+
+**1. 读密度规范**：`references/visual-density.md`（渲染前必读）。
+
+**2. 复制母版**：`templates/html/master-template.html` → `{输出目录}/{主题}-素材图文卡-v1.html`。
+
+**3. 选风格**：把 `<body class="theme-warm">` 改为用户选定风格 class（见下「风格池」表）。
+
+**4. 填账号占位符**（全局替换）：
+
+| 占位符 | 说明 | 示例 |
+|:--|:--|:--|
+| ACCOUNT_NAME | 账号名 | 猫的咪 / 写作素材铺 |
+| ACCOUNT_INITIAL | 头像首字母 | 猫 / 写 |
+| FOOTER_SIGN | 页脚左侧署名 | 猫的咪｜网文素材积累 |
+| FOOTER_TAG | 页脚右侧标签 | 脑洞与质感并存 |
+| CLOSING_LINE | 末页收尾语 | 关注XX，继续攒网文素材。 |
+| TOOLBAR_TITLE | 工具栏标题 | XX图文预览 |
+
+无头像→用 `.brand-avatar` 纯色圆替代；无贴纸→用 `.signoff-visual` 纯色块替代（母版均已有代码）。
+
+**5. 字段匹配检查**：统计母版 `{{...}}` 占位符数量与JSON key数量，两者必须一致。JSON缺字段=回Step 1补内容，禁止带着缺失字段填充模板。
+
+**6. 按JSON填充母版**：逐个key-value替换对应占位符。母版默认桥段型5页结构：P1封面（kicker+h1+cover-sub+cover-hook）/ P2公式+素材句（formula-card+quote-stack 4条）/ P3正误对照（contrast 2组坏vs好+总结panel）/ P4名场面（scene-paper+scene-breakdown）/ P5收束地图（ending-grid 4结局+signoff-card）。字句型调整：P2-P4替换为trope-grid（每页15-20条），P5改使用指南。
+
+**7. 填充后检查**：用正则 `\{\{[A-Z_]+\}\}` 检查母版无占位符残留；有残留=JSON缺字段，回Step 1补。
+
+**8. 密度检查**：逐页检查内容占比，目标75%-85%。低于70%→加厚卡片、补素材槽、增加quote条数；超过90%→压缩模块间距/内边距/行高（只压问题页，加单页class）。
+
+**9. 页脚安全区检查**：主内容不得碰到账号名和页码；素材句页容易贴底，quote控制在4条左右。
+
+**10. 落盘**：`{主题}-素材图文卡-v1.html`——自包含文件，双击浏览器直接打开，可打印导出PDF。
+
+**完成检查**：页面数和页码一致（5页）〔可截图〕｜每页主内容占比约75%-85%〔三可基础〕｜手机缩略图能读出标题和主要素材词〔可截图〕｜顶部/页脚账号名一致〔可回看〕｜末页有收尾视觉（纯色块或贴纸）〔可回看〕｜无`{{...}}`占位符残留〔可截图〕｜无页脚被遮挡〔可截图〕｜body class与用户选定风格一致〔三可基础〕。
 
 ## 素材类型与5页结构
 
@@ -41,8 +112,6 @@ description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/�
 | **字句** | 封面 | 分类清单A | 分类清单B | 分类清单C | 使用指南 |
 | **人设** | 封面 | 人设公式 | 素材句 | 正误对照 | 弧光+收束 |
 | **写法** | 封面 | 原理拆解 | 正误对照 | 实战示范 | 检查清单 |
-
-详见 `references/content-method.md`。
 
 ## 风格池（6套锁死色板）
 
@@ -73,15 +142,15 @@ description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/�
 | 查素材生产方法论 | `references/content-method.md` | Step1生产前必读 |
 | 查满页密度规范 | `references/visual-density.md` | Step2渲染前必读 |
 | 填HTML母版 | `templates/html/master-template.html` | Step2渲染时复制 |
-| 执行素材生产 | `steps/step1-content.md` | Step1开始时读取 |
-| 执行HTML视觉化 | `steps/step2-visual.md` | Step2开始时读取 |
 
 ## 强弱加载保障
 
-- **强保障**：本 SKILL.md 由 host 层每次 run 强制注入，100% 到达 agent 上下文
-- **弱保障**：`steps/` `references/` `templates/` 需 agent 按 SKILL.md 指引主动 readFile，天然弱保障
-- **设计原则**：设计 SKILL.md 时假设 step/reference 文件可能没读到，核心 SOP 骨架和铁律必须在 SKILL.md 自包含
+- **强保障**：本 SKILL.md（含Step 1/Step 2执行细节）由 host 层每次 run 强制注入，100% 到达 agent 上下文
+- **弱保障**：`references/` `templates/` 需 agent 按 SKILL.md 指引主动 readFile
+- **设计原则**：核心 SOP 骨架和铁律在 SKILL.md 自包含
 
 ## 版本
+
+v4.0.0 | 2026-08-24 | steps 两件（step1-content/step2-visual）全合入SKILL.md单文件精炼，steps目录删除；执行模式明确主agent直执 → CHANGELOG.md
 
 v3.3.0 | 2026-08-13 | 三层×三维度对齐：SKILL加对齐矩阵总纲，三层各自显式标注定位/好坏/方法，自检清单加「对应三可」列，质量传导链贯穿 → CHANGELOG.md

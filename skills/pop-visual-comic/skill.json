@@ -1,6 +1,6 @@
 ﻿{
   "id": "pop-visual-comic",
-  "version": "7.24.1",
+  "version": "8.0.0",
   "displayName": "网文转漫画",
   "description": "想把小说章节变成漫画连载时用它。把整章剧情转成多格漫画页，跨章节保持人物和画风一致，还能导出方便分享的长图。",
   "entry": "SKILL.md",

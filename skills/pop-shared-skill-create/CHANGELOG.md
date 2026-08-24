@@ -1,5 +1,25 @@
 ﻿# CHANGELOG — pop-shared-skill-create
 
+## v7.0.0 — 2026-08-24
+
+### 规范口径升级为单文件自包含：steps/ 目录废除，step-1-design.md 规范正文全合入 SKILL.md
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）——skill 注入链只把 SKILL.md 全文注入 prompt，SKILL.md 里对 steps/xxx.md 的引用形同虚设。全仓 41 个 skill 的 steps/ 已于 2026-08-24 全部合入单文件，本规范（教别人怎么建 skill 的规范本身）必须同步改口径。
+
+**改动**：
+- **steps/ 目录删除**：step-1-design.md（规范完整正文）全部合入 SKILL.md 一~十节
+- **规范口径修改**（规范级，覆盖正文所有 steps/ 目录设计位置）：
+  - 「SOP骨架 + steps 展开层」教法 → 「单文件自包含」教法：SKILL.md 骨架节直接内联执行要点，不再建 steps/ 目录
+  - 目录结构/层级职责表去掉 steps/ 展开层；「steps vs references vs templates vs scripts 区别表」缩为三类资源表
+  - 删除「steps/ 文件拆分原则（按独立阶段拆）」与「step 文件自传导（加载门禁+下一步指引）」两节，新增「执行要点内联写法」（合入精炼原则：50-65% 体量控制/门禁与脚本调用方式不丢）
+  - 红线❌3 改口径：自带 SOP 骨架 → 单文件自包含 + 禁止 steps/ 目录与引用
+  - 检查清单/落盘检查点/创建流程/改造流程同步：新增"无 steps/ 目录、无 steps/ 引用残留"检查项，改造流程新增"发现 steps/ 合入并删目录清引用"步骤
+- **保留**：资源分层原则（references/templates/scripts 外部文件合法）、scripts 代码目录规范、精简原则（红线≤7/注意力预算/信息不重复）、强弱加载保障（弱保障集合从 steps/references/templates/scripts 缩为 references/templates/scripts）
+- **执行模式明确**：主agent直执（规范理解与落盘一体）
+- skill.json version 6.2.0→7.0.0，description 补"单文件自包含+资源分层"口径
+
+---
+
 ## v6.2.0 — 2026-08-13
 
 ### 元数据同步

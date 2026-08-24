@@ -3,7 +3,7 @@
 > 适用场景：拆书管线 Phase 1 逐章提取。v6.4.0 起采用双维度架构：
 > **输出格式（precision设计包 / fast瘦身白描卡）× 处理方式（quality每章1子agent / performance每30章1子agent合并）**。
 >
-> ⚠️ **任务开启前强制确认**：每次拆书必须先向用户展示两种处理方式的得失表，取得明确选择（strategy+mode）后才能继续，禁止擅自默认（详见 `steps/step-2-batch-process.md` 的「0. 任务开启前：模式确认」）。
+> ⚠️ **任务开启前强制确认**：每次拆书必须先向用户展示两种处理方式的得失表，取得明确选择（strategy+mode）后才能继续，禁止擅自默认（详见 `SKILL.md` Step 2 的「模式确认」）。
 >
 > ⚠️ **v6.4.0 执行方式**：从「脚本直连 DS API」改为「**派发子 agent 执行**」。主 agent 派发子 agent，每个子 agent 读取 `_temp/chapters/` 原文章节、产出白描卡/设计包。无 DEEPSEEK_API_KEY 依赖，已删除 slim_card_batch.py。
 

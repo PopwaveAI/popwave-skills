@@ -1,4 +1,17 @@
-﻿# CHANGELOG
+﻿# CHANGELOG — pop-dna-style
+
+## v2.0.0 (2026-08-24)
+
+### steps 五件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1 / step2 / step3 / step4 / step5-synthesize 五件全合入 SKILL.md 对应节
+- **执行模式明确**：Stage 1采样与笔触DNA提取可派子agent（只读分析回报，主agent门禁校验+落盘部署）；Step 4部署确认与Stage 2综合重构主agent直执
+- **内容精炼**：三段式模板压缩为单一模板块（维度卡/场景卡同构）；剧情DNA brief三维度整理为单表；Step 5文件结构模板压缩为要点式（三层内容+硬约束全保留）；速查表去除steps行仅留references
+- **红线1改写**：原"强弱加载"读取协议（steps按步骤按需加载）随单文件化失效，改为档位B开关+Stage 2调度声明；业务红线2-7（含原文存在性前置门禁）全保留
+- skill.json version 1.6.0→2.0.0
 
 ## v1.6.0 (2026-08-13)
 

@@ -1,5 +1,19 @@
 ﻿# CHANGELOG
 
+## v9.0.0 — 2026-08-24
+
+### steps 四件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-mainline / step2-chapters / step2_5-assemble / step3-selfcheck 四件全合入 SKILL.md 对应 SOP 节
+- **执行模式明确**：Step1-2.5 创作链主agent直执（施工图级创作+跨幕状态强耦合，无自然只读拆分点）；Step3 快爽自检纯只读核对可派子agent（verification）审计回报，主agent裁决+落盘自检表
+- **内容精炼**：Step1 主线五列表压为要点行；Step2 幕内自检清单压为单行要点串；Step3 七查各节收敛为单表（阈值逐项保留）；Step2.5 拼装五步+章纲出口门禁7项全量内联；统计口径/输出格式模板原样保留；红线6条不变
+- **体量说明**：合入后 SKILL.md 9373字=原4128+steps 6707合计10835的86%，高于70%放宽线——steps 内容为100%门禁/阈值/表格/模板硬内容，且 Step2.5章纲组装层/锚点9行白描卡模板/Step3七查门禁三处核心资产按任务要求全保留，依"禁止丢内容硬压"原则只做表格收敛与导航样板删除
+- templates/（主线.tpl.md / 卷纲.tpl.md / 幕N-章白描.tpl.md）保持外部模板文件不变
+- skill.json version 8.2.0→9.0.0
+
 ## v8.2.0 | 2026-08-22
 
 ### 新增Step2.5章纲组装层（乐高流块+线范式并入）

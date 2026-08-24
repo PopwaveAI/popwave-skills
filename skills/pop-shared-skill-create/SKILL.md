@@ -1,23 +1,25 @@
 ---
 name: pop-shared-skill-create
-description: "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/skill规范'时启用。Popwave Skill 设计规范——SOP骨架/资源分层/scripts代码目录/精简原则/强弱加载保障。"
+description: "当用户说'创建skill/新建skill/加个skill/改造skill/修复skill/重写skill/skill规范'时启用。Popwave Skill 设计规范——单文件自包含/资源分层/scripts代码目录/精简原则/强弱加载保障。"
 ---
 
 # pop-shared-skill-create
 
-> Popwave Skill 设计规范。不是工具，是规范——告诉 agent "skill 该写成什么样、该按什么顺序落盘"。
+> Popwave Skill 设计规范。不是工具，是规范——告诉 agent "skill 该写成什么样、该按什么顺序落盘"。v7.0.0：规范口径升级为**单文件自包含**——steps 目录废除，执行要点内联进 SKILL.md 骨架节。
 
 ## 这个 Skill 做什么
 
-用于创建、改造、修复 Popwave Skill。输出不是泛泛建议，而是可落盘的 Skill 文件结构：`SKILL.md`、`skill.json`、`CHANGELOG.md`，以及按需存在的 `steps/`、`references/`、`templates/`、`scripts/`。
+用于创建、改造、修复 Popwave Skill。输出不是泛泛建议，而是可落盘的 Skill 文件结构：`SKILL.md`（单文件自包含主文档）、`skill.json`、`CHANGELOG.md`，以及按需存在的 `references/`、`templates/`、`scripts/`。
 
 ## 怎么运作
 
 1. **确认职责**：先确认 skill 名称、触发场景、核心产物、下游消费者；若用户已给 PRD 或现有 skill，直接以它为源材料。
 2. **抽象骨架**：做"换皮测试"，抽掉具体项目名后仍可复用的流程才写进 skill；一次性案例或纯资料查询不强行 skill 化。
-3. **规划结构**：`SKILL.md` 写完整 SOP 骨架和红线；复杂步骤进 `steps/`；方法论进 `references/`；可复制产物进 `templates/`；可执行代码进 `scripts/`。
+3. **规划结构**：`SKILL.md` 单文件承载完整 SOP 骨架+红线+速查表，各步骤执行要点（流程细节/门禁/输出格式/命令模板）直接内联进对应步骤节；方法论进 `references/`；可复制产物进 `templates/`；可执行代码进 `scripts/`。
 4. **落盘实现**：新建或更新 `SKILL.md` + `skill.json` + `CHANGELOG.md`，按需创建一级资源目录；改造旧 skill 时只改结构、格式、门禁和规范，不擅自改业务方法论。
 5. **一致性校验**：检查 description 触发条件、版本三处一致、速查表覆盖全文件、弱保障文件都有读取时机，涉及代码时验证 `scripts/` 的代表性脚本可运行。
+
+**执行模式**：主agent直执（规范理解与落盘一体，无自然子agent适配点）。
 
 ## ❌ 质量红线
 
@@ -25,23 +27,127 @@ description: "当用户说'创建skill/新建skill/加个skill/改造skill/修�
 |:-:|:-----|
 | ❌1 | **读取 skill 文件禁止用 Read 工具** — 用 `skill_view` 或 `Get-Content -Encoding UTF8 -Raw`，Read 有行数限制会截断 |
 | ❌2 | **创建必须双文件** — SKILL.md + skill.json 缺一不可 |
-| ❌3 | **SKILL.md 必须自带 SOP 骨架** — 不能只放路由表；即使 steps/references 没读到，agent 也要知道完整流程 |
+| ❌3 | **SKILL.md 必须单文件自包含** — SOP 骨架+各步执行要点+红线全在 SKILL.md 内；禁止 steps 目录（新建不建，改造时合入删目录清引用）；即使 references 没读到，agent 也要知道完整流程 |
 | ❌4 | **版本三处一致** — SKILL.md 正文 + skill.json + CHANGELOG.md 版本号必须一致 |
 | ❌5 | **代码必须进一级 `scripts/`** — 可执行脚本、工具代码、批处理逻辑不放在 references/templates 根下 |
 | ❌6 | **红线≤7条** — 只有违反后会断裂下游的才叫红线，格式细节降级为检查清单 |
 
-## 速查表
+## 一、格式规范
 
-| 我要 | 读什么文件 | 什么时候读 |
-|:-----|:----------|:----------|
-| 查 skill 设计规范全文 | `steps/step-1-design.md` | 创建/改造 skill 时必读 |
+- **frontmatter ≤ 4 行**，只留 name + description；❌ 不放 version/tags/category/dependencies 等（全移入 skill.json 或正文）。
+- **description 必须含触发条件**（"当用户说…时启用"），说明做什么+何时触发+产出给谁。❌ 差：`"用户调研工具"`；✅ 好：`"当用户说'调研'时启用。产出调研报告供给下游管线。"`
+- **skill.json 字段**：`id`（与目录名一致）/`version`（与 SKILL.md+CHANGELOG 一致）/`displayName`/`description`/`entry`（固定 `"SKILL.md"`）/`activation.slashCommands`/`permissions` 七项齐全：
 
-## 强弱加载保障
+```json
+{
+  "id": "my-skill",
+  "version": "1.0.0",
+  "displayName": "我的技能",
+  "description": "当用户说'做X'时启用。产出供给下游管线。",
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["my-skill"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true }
+}
+```
 
-- **强保障**：本 SKILL.md 由 host 层每次 run 强制注入，100% 到达 agent 上下文
-- **弱保障**：`steps/step-1-design.md` 需 agent 按 SKILL.md 指引主动 readFile，天然弱保障
-- **设计原则**：设计 SKILL.md 时假设 step 文件可能没被读到，核心 SOP 骨架和断裂级红线必须在 SKILL.md 自包含
+## 二、内容定位（单文件自包含 + 三类外部资源）
+
+```
+my-skill/
+├── SKILL.md          ← 唯一主文档：SOP骨架（执行要点内联）+红线+速查表+版本
+├── skill.json        ← 机读：平台元数据
+├── CHANGELOG.md      ← 变更历史
+├── references/       ← 知识层：读后理解（方法论、规范）
+├── templates/        ← 模板层：复制填充（空模板）
+└── scripts/          ← 代码层：可执行脚本、批处理逻辑
+```
+
+**为什么单文件自包含（根因）**：实测当前 harness 中 step 文件从未被注入/Read——注入链只把 SKILL.md 全文注入 prompt，对 step 文件的引用形同虚设。执行细节必须内联进 SKILL.md，让注入链天然携带。全仓 41 个 skill 的 steps 目录已于 2026-08-24 全部合入单文件。
+
+| 目录 | 定位 | 使用方式 | 典型文件 |
+|:-----|:-----|:---------|:---------|
+| `references/` | 知识层 — 读后理解 | 阅读理解，指导操作 | 搜索SOP、调用规范 |
+| `templates/` | 模板层 — 复制填充 | 复制→填充→产出文件 | 空白模板、输出格式 |
+| `scripts/` | 代码层 — 运行或改造 | 执行、测试、必要时阅读源码 | Python/JS 脚本、批量转换器 |
+
+❌ 模板文件不放 references/。❌ SOP 文件不放 templates/。❌ 可执行代码不放 references/templates 根下。❌ 不放 README.md。
+
+**文件拆分原则**：references/templates/scripts 越细越好——agent 只在需要时读或执行对应文件，不拆 = 每次全读浪费 token。scripts/ 只有重复性强、容易写错、需要确定性执行的逻辑才放；脚本必须有清晰入口和参数说明，新增或修改后至少跑一个代表性样例。
+
+**拆分决策**：单步过长？→ 精炼压缩进 SKILL.md / 需要读后理解？→ 进 references / 需要复制填充？→ 进 templates / 需要运行代码？→ 进 scripts。
+
+## 三、SKILL.md 骨架指引
+
+**内容组织（推荐顺序）**：`# 标题` → `> 一句话摘要` → `## 这个 Skill 做什么`（职责/边界/产物）→ `## 怎么操作`（SOP全内联）→ `## 红线`（第一条必须是读取协议）→ `## 速查表`（有外部文件才设）→ `## 执行模式` → `## 版本`。放不下时优先压缩红线和速查表，保住 SOP 骨架。
+
+**执行要点内联写法**（单文件自包含的核心手法）：每个 SOP 步骤节直接写流程细节/门禁/输出格式/命令模板；与骨架重复的删、冗余解释压成表格、同类红线合并；门禁条件/红线/输出格式/业务逻辑/脚本调用方式一条不能丢。合入后体量控制在原 SKILL.md+steps 总量的 50-65%。
+
+**速查表设计**：全文件目录引导——每个外部文件什么时候读/执行；无外部文件则不设速查表节。
+
+## 四、精简原则
+
+- **红线≤7条**：只有违反后**断裂下游流程**的才是红线。是红线 ✅：读取协议（截断丢内容）/双文件结构（缺文件平台无法注册）/版本三处一致（registry 错乱）。不是红线 ❌：frontmatter≤4行、description 含触发词、红线在第一屏（格式偏好，降级为检查清单）。
+- **注意力预算**：识别每份文档"最值钱的部分"，核心段占比 ≥30%；不足则辅助段该删的删、该并的并；禁止均匀分配——那是登记表不是设计文档。
+- **信息不重复**：同一信息在 SKILL.md 只出现一次；需要强调时引用而非复制。
+
+## 五、强弱加载保障
+
+| 保障类型 | 文件 | 机制 | 可靠性 |
+|:---------|:-----|:-----|:-------|
+| 强保障 | SKILL.md | host 层每次 run 强制注入 | 100% |
+| 弱保障 | references/templates/scripts | agent 按指引主动读取或执行 | 天然弱 |
+
+**设计原则**：① 设计 SKILL.md 时假设外部资源可能没被读到；② 关键流程（SOP 骨架+执行要点）必须在 SKILL.md 自包含；③ 435 runs 数据证明 3 轮对话后 skill 文件读取率降至 0-3%；④ 断裂后果严重的约束提升到 SKILL.md 红线中。
+
+## 六、创建流程
+
+1. 向用户确认 skill 名称和职责
+2. 创建目录 `{skill-name}/`
+3. 创建 `SKILL.md`（按内容组织顺序）：必须含"这个 Skill 做什么"+"怎么操作"两段且执行要点内联；红线第一条是读取协议；有外部文件则速查表为全文件目录引导
+4. 创建 `skill.json`（按规格）
+5. 创建 `CHANGELOG.md`（初始 v1.0.0）
+6. 如有 references/templates/scripts 需求，创建对应一级目录
+7. 对照检查清单逐项验证
+8. 输出创建完成报告（文件路径列表）
+
+## 七、改造流程
+
+1. **先读全文** — 用 `Get-Content -Encoding UTF8 -Raw` 读取目标 skill 的 SKILL.md + skill.json + CHANGELOG
+2. **输出扫描报告** — 对照检查清单标记违规项 + 证据行号，交用户确认
+3. **只改结构/格式/红线位置/资源归位** — 不动核心方法论和业务逻辑；发现代码散落时归入一级 `scripts/`；发现 steps 目录时把内容精炼合入 SKILL.md、删目录清引用
+4. **版本 +1** — SKILL.md + skill.json + CHANGELOG 三处同步
+5. **输出 BEFORE/AFTER 对比报告** — 用户需要知道改了什么
+
+## 八、检查清单
+
+**格式**：frontmatter ≤4 行只留 name+description｜description 含触发条件｜skill.json 七字段完整｜版本三处一致。
+
+**结构**：SKILL.md 含完整 SOP 骨架且执行要点已内联，不只是路由表｜"这个 Skill 做什么"说明职责边界产物｜"怎么操作"覆盖全流程动作要点产出｜红线在第一屏、第一条是读取协议、≤7条｜无 steps 目录、无 step 文件引用残留｜知识层归 references/、模板归 templates/、代码归 scripts/。
+
+**加载门禁**：速查表是全文件目录引导（列出所有外部文件及读取/执行时机）｜SKILL.md 有强弱加载保障声明｜scripts/ 新增或修改的代表性脚本已实际运行验证。
+
+**文档质量**：识别核心价值段且占比 ≥30%｜同一信息不重复出现｜无深层嵌套（拍平为 3-6 步扁平流程）｜无第二人称（"You should"改为祈使句）。
+
+## 九、落盘检查点
+
+| 确认项 | 状态 |
+|:-------|:----:|
+| `SKILL.md` 已写入 | [ ] |
+| `skill.json` 已写入 | [ ] |
+| `CHANGELOG.md` 已写入 | [ ] |
+| `references/` 存在（需方法论支撑） | [ ] |
+| `templates/` 存在（需模板文件） | [ ] |
+| `scripts/` 存在（需代码工具） | [ ] |
+
+## 十、异常与边界条件
+
+| 场景 | 触发条件 | 处理动作 |
+|:-----|:---------|:---------|
+| 文件/依赖缺失 | 路径无效 | 告知用户，**不准编造数据** |
+| 外部工具不可用 | 工具未安装 | 降级方案 |
+| 用户中途改变需求 | 用户改变指令 | 暂停当前流程，确认后继续 |
+| skill.json 缺失 | 新建时未创建 | 必须补建，不能只有 SKILL.md |
 
 ## 版本
 
-v6.2.0 | 2026-08-13 | 对齐知识工程 PRD：SKILL.md 承载 SOP 骨架，补充一级代码目录 scripts/ → [CHANGELOG.md](CHANGELOG.md)
+**当前版本**：v7.0.0 | 2026-08-24 — 规范口径升级为单文件自包含，steps 目录废除，step-1-design.md 规范正文全合入。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

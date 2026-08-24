@@ -146,7 +146,7 @@
 | 悬疑/诡异 | 暗黑悬疑高对比 | "Dark suspense manga style, bold black solid outline..." |
 | IP化/影视化 | 新海诚电影风 | "Art style from Makoto Shinkai films, ultra-detailed background..." |
 
-> 完整36种画风及筛选规则见 `skills/pop-visual-style/references/文风DNA-library.json` 和 `steps/step2-generate.md` §3。
+> 完整36种画风及筛选规则见 `skills/pop-visual-style/references/文风DNA-library.json` 和 `SKILL.md` Step 2 §3。
 
 ### 字体控制公式
 

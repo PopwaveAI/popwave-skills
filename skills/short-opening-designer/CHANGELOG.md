@@ -1,4 +1,19 @@
 # CHANGELOG — short-opening-designer
+
+## v2.0.0 — 2026-08-24
+
+### steps 5件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step1-sell-point / step2-choose-formula / step3-golden-three / step4-full-opener / step5-pay-hook 五件全合入 SKILL.md 对应节
+- **执行模式明确**：主agent直执——连续创作链（脑洞→导语→结构）的交互确认环节（卖点主轴/黄金三句/导语逐关与用户确认），无自然子agent适配点
+- **内容精炼**：6种导语公式压缩为单表（结构+平台适配）+平台优先序一行；付费钩子位置4平台压缩为一段文字+钩子类型表；开篇卡片/流转上下文/钩子策略三格式由代码块压为要点行；逐关门禁（主轴确认前不进Step2/三句确认前不进Step4/导语确定前不进Step5）与5条红线全保留
+- skill.json version 1.1.0→2.0.0
+
+---
+
 ## v1.1.0 | 2026-08-13
 ### skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
 - skill.json：description 改为面向用户介绍、tags 改为可调用专家标签

@@ -1,5 +1,20 @@
 ﻿# CHANGELOG
 
+## v7.0.0 — 2026-08-24
+
+### steps 三件全合入 SKILL.md 单文件精炼
+
+> **根因**：实测 step 文件在当前 harness 从未被加载/Read（子agent注入链断在骨架层）。参考 write/pipeline 改造模式合入主文档。
+
+**改动**：
+- **steps/ 目录删除**：step0-setting-research / step1-design / step2-generate 三件全合入 SKILL.md 对应节
+- **执行模式明确**：门禁A（档案确认）/门禁B（方案对齐）与设计/生图/组装/截图主agent直执（用户多轮确认门禁）；Step 0 原文采样调研（Grep+Read 只读）可派子agent执行并回报，主agent整理落盘
+- **内容精炼**：step1 文案公式表与 step2 占位符表合并为一张表；step1 立绘构图段与 step2 prompt 结构去重；「做什么」四律表与铁律 G1-G5 合并（约束全保留）；step2 自检压缩为单行要点；「范式为什么是它」压缩
+- references/ 与 templates/、scripts/ 外部文件引用保持不变
+- skill.json version 6.1.0→7.0.0
+
+---
+
 ## v6.1.0 | 2026-08-13
 
 ### 元数据同步
