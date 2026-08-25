@@ -1,5 +1,18 @@
 ﻿# CHANGELOG
 
+## v8.1.0 — 2026-08-25
+
+### 新增字数验收门禁：word-count.ps1
+
+**改动**：
+- **新增 scripts/word-count.ps1**：纯汉字计数（[\u4e00-\u9fff]，不含标点/空格/英文/数字/markdown标记），区间 2000-2500 汉字
+- **新增验收门禁节**：落盘后必须跑脚本，stdout 原文贴进创作记录，禁转述/心算/引用生成侧统计
+- **红线新增第6条**：字数门禁——落盘后必跑 word-count.ps1，FAIL 修补后重跑
+- **速查表新增**：scripts/word-count.ps1 条目
+- skill.json version 8.0.0→8.1.0
+
+---
+
 ## v8.0.0 — 2026-08-24
 
 ### steps 两件全合入 SKILL.md 单文件精炼
