@@ -1,16 +1,14 @@
 ﻿{
   "id": "pop-decon",
-  "version": "25.0.0",
+  "version": "26.0.0",
   "displayName": "拆书专家入口",
-  "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书专家入口：下载txt→征询拆解范围+维度→路由到维度拆解skill（方案B联合Grep共享锚点池）。不常驻调度。",
+  "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书专家入口：下载txt→征询范围→路由单书深度wiki引擎(dimension)→沉淀。不常驻调度。",
   "tags": ["拆书与分析"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
   "skills": [
     "tool-download-webnovel",
-    "pop-decon-dimension",
-    "pop-decon-design-pack",
-    "pop-decon-prd"
+    "pop-decon-dimension"
   ],
   "permissions": {
     "readProjectFiles": true,
@@ -18,7 +16,7 @@
   },
   "pipeline": {
     "upstream": ["tool-download-webnovel"],
-    "downstream": ["pop-decon-dimension", "pop-decon-design-pack", "pop-decon-prd"],
+    "downstream": ["pop-decon-dimension"],
     "expert": "pop-decon"
   },
   "author": "popwave",

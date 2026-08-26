@@ -9,7 +9,7 @@
 | 1 | 番茄长篇网文专家 | 中 | 番茄/七猫等长篇网文创作（完整创作管线：立项→世界→剧情→正文→审核） | `pop-fanqie-seed` `pop-fanqie-plot` `pop-fanqie-write` `pop-fanqie-review` `pop-fanqie-world` `pop-fanqie-pipeline` `pop-research` `pop-dna-style` |
 | 2 | 小说推书与IP化专家 | 高 | 网文→漫画/IP 化改编与视觉资产生产（跨平台视觉改编） | `pop-visual-style` `pop-visual-shared` `pop-visual-pipeline` `pop-visual-oc` `pop-visual-cover` `pop-visual-comic` `pop-visual-asset` `pop-comic-content` `pop-visual-art-bible` |
 | 3 | 起点长篇网文专家 | 中 | 起点长篇网文创作（测试调整中；写作含 dnlike/海贼王类 流派专属） | `pop-qidian-seed` `pop-qidian-world` `pop-qidian-character` `pop-qidian-plot` `pop-qidian-write` `pop-qidian-review` `pop-qidian-research` `pop-qidian-pipeline` |
-| 4 | 网文拆书专家 | 高 | 长篇网文解构/逆向分析（计算密集） | `pop-decon` `pop-decon-design-pack` `pop-decon-prd` `pop-decon-setting` `pop-decon-volume` |
+| 4 | 网文拆书专家 | 高 | 长篇网文解构/逆向分析（计算密集） | `pop-decon` `pop-decon-dimension` |
 | 5 | 短篇小说专家 | 低 | 知乎/豆瓣/每日阅读等短篇创作 | `short-body-generator` `short-idea-refiner` `short-opening-designer` `short-plot-structurer` `short-platform-orientation` `short-reviewer` `short-text-deconstructor` |
 
 ## 二、共享工具
@@ -22,8 +22,8 @@
 
 按命名空间家族分组，建议归入对应专家的子组件：
 
-### 拆书子组件（decon 家族，供「网文拆书专家」按需调用）
-`pop-decon-beat` `pop-decon-character` `pop-decon-plot` `pop-decon-power` `pop-decon-romance` `pop-decon-style` `pop-decon-world`
+### 拆书子组件（decon 家族，供「网文拆书专家」调用）
+家已精简为 2：`pop-decon`（入口） / `pop-decon-dimension`（单书深度wiki主引擎：L1批次拆解→L2六模块成品）。旧维度/设计包/立项子 skill 已总部内吸合并。
 
 ### 番茄子组件
 `pop-fanqie-character`

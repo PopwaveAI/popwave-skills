@@ -1,5 +1,21 @@
 ﻿# CHANGELOG
 
+## v26.0.0 — 2026-08-25
+
+### 家从 4 精简为 2：入口只路由单书深度wiki引擎
+
+> **根因**：老板以《深渊主宰》重建（六模块深度wiki）为新标准，要求 decon 全家推翻重做；判定旧的独立 `pop-decon-prd`（立项）、`pop-decon-design-pack`（逐章设计包）不再是独立 skill，方法论内吸进 `pop-decon-dimension` 主引擎（v3.0.0）。
+
+**改动**：
+- **删除下游 skill 引用**：skill.json `skills` / `pipeline.downstream` 移除 `pop-decon-design-pack`、`pop-decon-prd`。
+- **征询简化**：从「范围+维度多选」简化为「范围」（全书/卷/N章）；维度由主引擎 L1 七维固化为固定提取，不再让用户逐维选。
+- **路由收敛**：Step 2 只路由 `pop-decon-dimension`（单书深度wiki引擎），由其承载 L1批次拆解（硬门禁）→L2六模块成品整合。
+- **产出目标改**：沉淀从 `项目本地/设计/{维度}拆解-{范围}.md` 改为 `{书名}/{六模块目录}`。
+- **references 清理**：维度路由清单/output-quality-standards/pipeline-context/onboarding-guide/delegation-orchestration 全量对齐新家与双层门禁（去 prd/design-pack/{维度}拆解 残留）。
+- skill.json version 25.0.0→26.0.0，description 更新。
+
+---
+
 ## v25.0.0 — 2026-08-24
 
 ### steps 1件全合入 SKILL.md 单文件精炼

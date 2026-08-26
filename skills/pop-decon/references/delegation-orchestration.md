@@ -35,21 +35,21 @@
 4. 某维度本章无相关内容时标注「本章无{维度}相关内容」
 5. 输出多维提取笔记（纯文本，不落盘，返回给主 agent）
 
-> ⚠️ 子 agent 只负责"读+多维提取+返回笔记"，不负责产出文档。产出文档由主 agent 统一按维度模板填充。
-> 多维提取清单详见 `pop-decon-dimension/SKILL.md` Step 2 的「多维提取清单」表格。
+> ⚠️ 子 agent 只负责"读+多维提取+返回笔记"，不负责产出落盘文件。批次档案由主 agent 按 `pop-decon-dimension/references/batch-format.md` 统一落盘。
+> 多维提取清单详见 `pop-decon-dimension/references/batch-format.md` 第 3 节（七维提取）。
 
 ### 2.3 笔记汇总 + 产出（主 agent 执行）
 
 主 agent 收到所有批次的多维提取笔记后：
 1. 按维度拆分合并（去重/归并/排序）
-2. 每个维度按对应模板（`templates/{维度}.tpl.md`）填充产出文档
-3. 各维度独立自检（锚点覆盖/量化数值/可回溯性）
+2. 每批按 L1 批次档案格式落盘（`pop-decon-dimension/references/batch-format.md`，批头+事件链表+七维+🔒+爽点钩子+关系变化）
+3. 每批自检 7 项硬门禁（术语表/锚点池/schema/证据密度/量化/不编造/回溯）
 
 ### 2.4 产出验证
 
 ```bash
-# 验证产出文件存在
-设计/{维度}拆解-{范围}.md → 存在
+# 验证批次档案存在
+_temp/batches/V{n}_B{m}_chXXX-YYY.md → 存在
 # 验证锚点覆盖（grep chXX 标记数量）
 ```
 
