@@ -1,0 +1,11 @@
+{
+  "id": "marvel-universe",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-28",
+  "displayName": "漫威宇宙（Marvel Universe）",
+  "description": "内容目录——世界知识库·IP百科：漫威宇宙 双线百科包（线1 漫画 Earth-616 原文考据压舱 ∩线2 MCU 影视/中文社区集体无意识印象测绘；漫画抽象实体/无限宝石漫画版与 MCU Stones 的差异均显性标注，供超级英雄流/共享宇宙/多元宇宙赛道采源）。已含：叙事层世界观 + 印象测绘 + 版权指南。",
+  "category": "世界知识库",
+  "tags": ["漫威", "Marvel", "MCU", "漫威电影宇宙", "超级英雄", "无限宝石", "多元宇宙", "复仇者", "IP百科"],
+  "dualLine": "双线并行（影视主导偏）",
+  "readme": "readme.md"
+}
