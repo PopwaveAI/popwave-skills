@@ -1,0 +1,10 @@
+{
+  "id": "dushi-zhibo",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "都市直播设定集",
+  "description": "赛道定义卡——都市×直播流×展示打赏，标准子目录待填充。",
+  "category": "赛道设定集",
+  "tags": ["都市", "直播"],
+  "readme": "readme.md"
+}
