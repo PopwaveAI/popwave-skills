@@ -1,0 +1,10 @@
+{
+  "id": "western-dnd-liliang-yu-zhandou",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "西幻dnd·力量与战斗",
+  "description": "西幻dnd赛道力量机制层（力量体系/战斗系统/金手指三件）。",
+  "category": "赛道设定集",
+  "tags": ["西幻", "力量与战斗", "机制层"],
+  "readme": "readme.md"
+}

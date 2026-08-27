@@ -1,0 +1,10 @@
+{
+  "id": "shijie-zhishi",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "世界知识库",
+  "description": "世界层——写什么背景：IP百科/神话体系/历史资料，带专名·官方源。",
+  "category": "library",
+  "tags": ["世界知识", "世界层", "IP百科", "神话", "历史"],
+  "readme": "readme.md"
+}

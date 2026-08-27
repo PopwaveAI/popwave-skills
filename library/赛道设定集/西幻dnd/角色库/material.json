@@ -1,0 +1,10 @@
+{
+  "id": "western-dnd-juese-ku",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "西幻dnd·角色库",
+  "description": "西幻dnd赛道角色配置规格（槽位制）+标杆卡储备库。",
+  "category": "赛道设定集",
+  "tags": ["西幻", "角色库", "储备卡"],
+  "readme": "readme.md"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "dnd",
+  "version": "2.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "DND（龙与地下城）",
+  "description": "内容目录——世界知识库·IP百科：DND 两层结构百科包（规则层速查5件+叙事层深百科18件，带专名·官方SRD源），供西幻/面板流/诡秘流采源。",
+  "category": "世界知识库",
+  "tags": ["DND", "龙与地下城", "IP百科", "西幻"],
+  "readme": "readme.md"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "cp-mo-ban",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "CP模板",
+  "description": "人物与关系组装卡——人设扬长/关系推进/素材清单/架构搭建四族，全网写作素材整理，非单书溯源，属素材原型库。",
+  "category": "素材原型库",
+  "tags": ["CP", "人物关系", "组装卡", "感情线"],
+  "readme": "readme.md"
+}

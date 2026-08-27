@@ -1,0 +1,10 @@
+{
+  "id": "biannianshi",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "编年史",
+  "description": "内容目录——网文动态下级：中国网络文学编年史（按年代分卷，条目五字段），供定位当下坐标与选题判断。",
+  "category": "网文动态",
+  "tags": ["编年史", "大事记", "情报层", "年代卷"],
+  "readme": "readme.md"
+}

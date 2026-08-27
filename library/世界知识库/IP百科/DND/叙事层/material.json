@@ -1,0 +1,10 @@
+{
+  "id": "dnd-xushiceng",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "DND·叙事层",
+  "description": "DND IP百科叙事层——深度叙事百科，回应这个世界怎么讲故事，带专名供西幻/诡秘流采源与世界构筑参考。",
+  "category": "世界知识库",
+  "tags": ["IP百科", "DND", "叙事层", "西幻"],
+  "readme": "readme.md"
+}

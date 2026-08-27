@@ -1,0 +1,10 @@
+{
+  "id": "ren-she-yuan-xing",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "人设原型",
+  "description": "可直接套用的人物原型模板库，待填充——属素材原型库。",
+  "category": "素材原型库",
+  "tags": ["人设", "原型", "人物模板"],
+  "readme": "readme.md"
+}

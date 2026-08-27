@@ -1,0 +1,10 @@
+{
+  "id": "lishi-ziliao",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "历史资料",
+  "description": "内容目录——世界知识库下级：历史背景资料（带专名·官方源），供历史/古风题材世界构筑采源。",
+  "category": "世界知识库",
+  "tags": ["历史", "带专名", "历史背景", "世界层"],
+  "readme": "readme.md"
+}

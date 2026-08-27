@@ -1,0 +1,10 @@
+{
+  "id": "guaida-juese",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "怪诞国度·角色与势力库",
+  "description": "怪诞国度整书重建的角色与势力库模块——六卡+各卷出场角色对账表。",
+  "category": "知名小说wiki",
+  "tags": ["知名小说wikipedia特签", "角色与势力库", "怪诞国度"],
+  "readme": "readme.md"
+}

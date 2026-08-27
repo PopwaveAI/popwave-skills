@@ -1,0 +1,10 @@
+{
+  "id": "zhang-xing-yu-chang-jing",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "章型与场景",
+  "description": "章级组装层真源——章纲格式与四红线协议，供plot/write消费，属写作技法库。",
+  "category": "写作技法库",
+  "tags": ["章型", "章纲", "场景", "组装协议"],
+  "readme": "readme.md"
+}

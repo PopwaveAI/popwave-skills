@@ -1,0 +1,10 @@
+{
+  "id": "yuan-su-ka-ku",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "元素卡库",
+  "description": "叙事原子库——章级情节拆成可组装的元素卡（十族54卡，节拍序列为主体），供plot/章纲组装层选卡落拍，属写作技法库。",
+  "category": "写作技法库",
+  "tags": ["元素卡", "叙事原子", "组装卡", "节拍序列"],
+  "readme": "readme.md"
+}

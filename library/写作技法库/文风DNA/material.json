@@ -1,0 +1,10 @@
+{
+  "id": "wen-feng-dna",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "文风DNA",
+  "description": "文风DNA库——赛道/作者的笔触形态层（怎么写），三段式产出+槽位协议+实际采样档案，含女频子目录，属写作技法库。",
+  "category": "写作技法库",
+  "tags": ["文风DNA", "笔触", "三段式", "文笔"],
+  "readme": "readme.md"
+}

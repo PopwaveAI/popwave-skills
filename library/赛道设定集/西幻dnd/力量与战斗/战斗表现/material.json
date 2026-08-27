@@ -1,0 +1,10 @@
+{
+  "id": "western-dnd-zhandou-biaoxian",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "西幻dnd·战斗表现",
+  "description": "西幻dnd赛道战斗写法层（通用层+叠加层+等级段战斗模式三段位）。",
+  "category": "赛道设定集",
+  "tags": ["西幻", "战斗表现", "笔触层"],
+  "readme": "readme.md"
+}

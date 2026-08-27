@@ -1,0 +1,10 @@
+{
+  "id": "zhiming-wiki",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "知名小说wiki",
+  "description": "成品层——整书深度拆解成品，对齐《深渊主宰》重建标准。",
+  "category": "library",
+  "tags": ["成品牌", "深度拆解", "wiki", "重建标准"],
+  "readme": "readme.md"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "xiezuo-jifa",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "写作技法库",
+  "description": "技法层——怎么写得好：文风DNA/章型场景/元素卡库54卡/情感与张力。",
+  "category": "library",
+  "tags": ["写作技法", "技法层", "文风DNA", "元素卡库", "章型与场景"],
+  "readme": "readme.md"
+}

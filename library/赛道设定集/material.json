@@ -1,0 +1,10 @@
+{
+  "id": "saidao-shedingji",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "赛道设定集",
+  "description": "配方层——某赛道怎么写：18 赛道包，去专名+源书锚点。",
+  "category": "library",
+  "tags": ["赛道设定", "配方层", "赛道包"],
+  "readme": "readme.md"
+}

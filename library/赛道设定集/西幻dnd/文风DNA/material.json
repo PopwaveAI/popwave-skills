@@ -1,0 +1,10 @@
+{
+  "id": "western-dnd-wenfeng-dna",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "西幻dnd·文风DNA",
+  "description": "西幻dnd赛道笔触形态层组件库（00-库索引与消费协议+通用笔触基底）。",
+  "category": "赛道设定集",
+  "tags": ["西幻", "文风DNA", "笔触层"],
+  "readme": "readme.md"
+}
