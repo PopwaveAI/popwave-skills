@@ -58,6 +58,7 @@ knowledge-base/
 .uploads/
 .trae-html-share-packages/
 .lark-cli/
+.lark-tmp/
 
 # 测试/验证工作区（非 skill 资产，不跟踪）
 /测试/
