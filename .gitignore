@@ -65,6 +65,10 @@ knowledge-base/
 # 参考小说原文与爬虫脚本（大体积源书资产，不跟踪）
 /参考小说txt/
 
+# 拆书原文源txt（版权敏感，不入库；L1批次md拆解笔记保留）
+library/知名小说wiki/*/_temp/batches/src/
+library/知名小说wiki/诡秘之主/_temp/chapters/
+
 # 根级残留防护：以下目录/文件已移入 workspace/，禁止在根级重建
 /qidian-gap-analysis/
 /workbuddy-mobile-restore/
