@@ -1,0 +1,10 @@
+{
+  "id": "skill-sucaiyuanxing-weihu-guifan",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "skill-素材原型库维护规范",
+  "description": "内容目录——素材原型库维护规范 skill（强门禁 v1.0.0）：三子库×卡形态 + 可套用不溯源 + 素材进戏门禁 + 换壳验收，建卡/改卡/建子库必读。",
+  "category": "素材原型库",
+  "tags": ["素材原型库", "人设原型", "CP模板", "金手指原型", "维护规范", "强门禁", "skill"],
+  "readme": "readme.md"
+}

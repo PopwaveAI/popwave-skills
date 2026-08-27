@@ -1,0 +1,11 @@
+{
+  "id": "skill-shenhua-tixi-weihu-guifan",
+  "version": "1.0.0",
+  "updatedAt": "2026-08-27",
+  "displayName": "神话体系维护规范",
+  "description": "「世界知识库·神话体系」库的建包与维护规范唯一真源——四维度包结构（谱系/源流与版本/专名物件/叙事装置）+ 版本冲突标注门禁 + 事实与建议分层。",
+  "category": "世界知识库/神话体系",
+  "tags": ["神话", "带专名", "维护规范", "世界层", "四维度"],
+  "readme": "readme.md",
+  "sopFile": "SKILL.md"
+}
