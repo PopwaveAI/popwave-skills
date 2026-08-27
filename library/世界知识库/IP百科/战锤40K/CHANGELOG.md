@@ -7,6 +7,14 @@ category: CHANGELOG
 
 # 战锤40K · CHANGELOG
 
+## v1.1.0 · 2026-08-28 · 续补（A02 战锤40K 第二轮）
+
+- 落件 2 件（均过 Q1/Q2 红线）：
+  - `规则层/力量体系-战争机制与单位体系.md`（线1压舱：d6检定/五阶段回合/单位数据卡/武器特性/编点体系/阵营战斗哲学，11.7K 字）
+  - `叙事装置.md`（线1压舱∩线2标注：信仰悖论/缺席中心/亚空间三重功能/科技仪式化/腐化张力/历史抹除/末日时钟/官方留白/荷鲁斯之乱堕落母机/档案化讲述/场景母题，9.7K 字）
+- 更新 `readme.md`（包组成表 + 待补清单）+ `material.json`（v1.1.0）
+- 采源：英文维基 + warhammer40k.fandom.com（Horus_Heresy/Imperium_of_Man/Emperor_of_Mankind/Chaos_Gods）+ 中文百科 + 包内既有核验件交叉；关键事实点均带 URL
+
 ## v1.0.0 · 2026-08-28 · 立包（A02 战锤40K 首个循环）
 
 - 建包骨架：`readme.md`（双线判定=双线并行）+ `material.json` + `CHANGELOG.md`
