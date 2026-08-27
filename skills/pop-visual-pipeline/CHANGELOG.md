@@ -1,5 +1,18 @@
 ﻿# CHANGELOG
 
+## v4.1.0 — 2026-08-27
+
+### 状态源收敛 状态.md + 路由上移专家提示词（六专家收敛同步）
+
+> **改动**：
+- **状态源 html→状态.md**：`视觉项目总控.html` 拆出薄机器 `状态.md`（项目根唯一机器状态源，模板见 `templates/状态.md`），html 降级为仅供老板查看的可选展示面板（agent 不读不直接改）。`references/html-update-protocol.md` → 重命名 `references/状态更新协议.md`，更新对象从 html STATE 字段改为 状态.md 状态片段
+- **路由循环删除**：Step 2「路由循环」改为「日常路由（不经常驻循环）」——意图闸口+两段式阶段地图+就绪门禁上移专家提示词；pipeline 只做一次性安装/导入/三态迁移/状态维护，日常视觉路由不再经此 skill
+- **阶段地图降级为口径**：Phase 路由表改为「阶段地图·专家提示词路由口径」，供专家提示词路由消费
+- **下游读源整改**：asset/style/art-bible 从读 html 改为读 状态.md（independent 模式按用户当次意图）；asset 项目类型探测表从 项目总控.html/project-state.md 收敛为 状态.md
+- skill.json version 3.0.0→4.1.0
+
+---
+
 ## v3.0.0 — 2026-08-24
 
 ### steps 两件全合入 SKILL.md 单文件精炼

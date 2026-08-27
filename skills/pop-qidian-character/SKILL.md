@@ -117,4 +117,4 @@ Step 0 是用户交互决策（C1/C2），Step 1-2 是生成+落盘——全程�
 
 ## 版本
 
-v2.3.0→v3.0.0 迁移：step-0-interactive（C1/C2交互决策）→ Step 0 内联；step2（主角/金手指/版图/分幕/配角/反派/落盘格式）→ Step 2 内联，塑造要求三处重复（2a/2e/2f）归一为通用清单+反派出增项。旧版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+**当前版本**：v3.0.0 — 完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

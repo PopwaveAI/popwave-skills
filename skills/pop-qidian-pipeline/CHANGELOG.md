@@ -1,5 +1,21 @@
 ﻿# CHANGELOG
 
+## v4.3.0 | 2026-08-27
+
+### 状态源统一为 状态.md，html 降级为展示；日常路由上移专家提示词
+
+**背景**：六专家收敛——状态文件统一为「小而机器可读的状态片段」，人看展示面板（html）降级为可选按需导出。起点此前把 STATE 与整张 Phase 路线图同文件内嵌 `项目总控.html`，每次对话全量 Read 吃上下文；且 Phase 推进/章节授权的状态读写源不统一。
+
+**改动**：
+- **状态源拆分**：从 `项目总控.html` 拆出薄机器 `状态.md`（mode/phase/current_chapter/next_step/书目/就绪态/最近产出），`templates/状态.md` 为新模板；`项目总控.html` 降级为仅供老板查看的展示面板，由 状态.md 套值按需导出，**agent 不再读 html**
+- **路由上移专家提示词**：Phase 路线图不再作机器路由源，日常路由由专家提示词阶段地图承载（读 状态.md 状态片段→按阶段地图选 skill→灵活调度）
+- **更新协议改名**：`references/html-update-protocol.md` → `references/状态更新协议.md`，字段表从 STATE 标记改为 状态.md 字段；phase 推进改为由对应 skill（seed/world/character/plot/write/review）完成后更新 状态.md，pipeline 只在初始化/导入时碰它
+- **write/review 挂钩**：write 章节授权读源、review 输入/授权/重建均从 `项目总控.html STATE 区` → `状态.md`
+- 新增红线4「状态源」
+- **skill.json**：4.0.0→4.3.0，description 同步
+
+---
+
 ## v4.0.0 | 2026-08-24
 
 ### 一次性安装器化：路由外置到项目总控.html，删除常驻调度职责

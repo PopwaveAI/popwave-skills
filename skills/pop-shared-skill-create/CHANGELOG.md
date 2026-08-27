@@ -1,5 +1,21 @@
 ﻿# CHANGELOG — pop-shared-skill-create
 
+## v7.1.0 — 2026-08-27
+
+### 新增红线❌7：SKILL.md 禁止堆版本历史块
+
+> **根因**：实测 write/pipeline 等 skill 的 SKILL.md 顶部 `> 摘要` 堆了大段历次版本变更说明（如"v5.1.0 改了X v5.0.0 改了Y…"），与 frontmatter 的 description 定位重复，又吃掉注入上下文。版本历史应只进 CHANGELOG.md。
+
+**改动**：
+- **红线新增 ❌7**：「SKILL.md 禁止堆版本历史块」——摘要只写当前版本一句 + CHANGELOG 指针，历次变更一律进 CHANGELOG.md
+- **格式规范新增**：正文标题下 `> 摘要` 写法规范（职责一句 + 当前版本改动简述 + CHANGELOG 指针）
+- **骨架指引更新**：`> 一句话摘要` → `> 一句话摘要（当前版本一句+CHANGELOG指针）`
+- **检查清单更新**：文档质量组新增"摘要不堆版本历史"检查项
+- **示范落地**：同步精简 pop-qidian-write/SKILL.md 顶部版本历史块
+- skill.json version 7.0.0→7.1.0
+
+---
+
 ## v7.0.0 — 2026-08-24
 
 ### 规范口径升级为单文件自包含：steps/ 目录废除，step-1-design.md 规范正文全合入 SKILL.md

@@ -142,4 +142,4 @@ seed 全程需要用户参与（问答→PK选择→立项验收），主agent�
 
 ## 版本
 
-v13.3.0→v14.0.0 迁移：step1-brief（问答+调研+候选池）→ Step 1 内联；step2-seed（六要素骨架+PK+尺度表）→ Step 2 内联；step3-lixiang（PRD模板+验收）→ Step 3 内联，六要素模板归一（骨架/完整双密度共用）。旧版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+**当前版本**：v14.0.0 — 完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

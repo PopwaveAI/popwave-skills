@@ -1,8 +1,8 @@
 ﻿{
   "id": "test-pipeline",
   "name": "test-pipeline",
-  "version": "7.0.0",
-  "description": "设定包改编总调度：拿一本成功书的设定包+你的创意X+改编强度（A/B/C），按改编立项→世界→角色→剧情→正文→审核逐阶段推进，剧情层为卷纲战略层+按幕章白描+章纲组装（叙事原子+线账本，write读3章章纲）。适合想按标杆打法改编开新书或继续推进时用。",
+  "version": "8.0.0",
+  "description": "设定包改编安装器（一次性）：建目录+生成 状态.md(唯一机器状态源)+包校验(配方5表)+创意X采集+改编强度A/B/C选择+导入/续写资产归位+缺口分析与补跑调度；日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill, agent不读html。",
   "entry": "SKILL.md",
   "tags": ["起点长篇网文专家"],
   "activation": { "slashCommands": ["test-pipeline", "管线总控"] },

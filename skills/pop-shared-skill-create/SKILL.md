@@ -5,7 +5,7 @@ description: "当用户说'创建skill/新建skill/加个skill/改造skill/修�
 
 # pop-shared-skill-create
 
-> Popwave Skill 设计规范。不是工具，是规范——告诉 agent "skill 该写成什么样、该按什么顺序落盘"。v7.0.0：规范口径升级为**单文件自包含**——steps 目录废除，执行要点内联进 SKILL.md 骨架节。
+> Popwave Skill 设计规范。不是工具，是规范——告诉 agent "skill 该写成什么样、该按什么顺序落盘"。**v7.1.0：新增红线❌7「SKILL.md 禁止堆版本历史块」**——摘要只写当前版本一句+CHANGELOG 指针，历次变更一律进 CHANGELOG（对齐 write/pipeline 精简化）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 这个 Skill 做什么
 
@@ -31,10 +31,12 @@ description: "当用户说'创建skill/新建skill/加个skill/改造skill/修�
 | ❌4 | **版本三处一致** — SKILL.md 正文 + skill.json + CHANGELOG.md 版本号必须一致 |
 | ❌5 | **代码必须进一级 `scripts/`** — 可执行脚本、工具代码、批处理逻辑不放在 references/templates 根下 |
 | ❌6 | **红线≤7条** — 只有违反后会断裂下游的才叫红线，格式细节降级为检查清单 |
+| ❌7 | **SKILL.md 禁止堆版本历史块** — frontmatter 的 description 承担定位与触发；正文标题下 `> 摘要` 只写**当前版本一句 + CHANGELOG 指针**，禁止把历次版本变更说明堆进 SKILL.md 摘要（如"v5.1.0 改了X v5.0.0 改了Y…"）。版本历史一律进 CHANGELOG.md，SKILL.md 只留最简指针 |
 
 ## 一、格式规范
 
 - **frontmatter ≤ 4 行**，只留 name + description；❌ 不放 version/tags/category/dependencies 等（全移入 skill.json 或正文）。
+- **正文标题下 `> 摘要` 只写当前版本一句 + CHANGELOG 指针** — description 已承担定位与触发，摘要不再重复定位，也不堆历次版本变更；正确写法：`> {一句职责}。vX.Y.Z：{当前版本改动简述}。完整版本历史见 CHANGELOG.md`。
 - **description 必须含触发条件**（"当用户说…时启用"），说明做什么+何时触发+产出给谁。❌ 差：`"用户调研工具"`；✅ 好：`"当用户说'调研'时启用。产出调研报告供给下游管线。"`
 - **skill.json 字段**：`id`（与目录名一致）/`version`（与 SKILL.md+CHANGELOG 一致）/`displayName`/`description`/`entry`（固定 `"SKILL.md"`）/`activation.slashCommands`/`permissions` 七项齐全：
 
@@ -78,7 +80,7 @@ my-skill/
 
 ## 三、SKILL.md 骨架指引
 
-**内容组织（推荐顺序）**：`# 标题` → `> 一句话摘要` → `## 这个 Skill 做什么`（职责/边界/产物）→ `## 怎么操作`（SOP全内联）→ `## 红线`（第一条必须是读取协议）→ `## 速查表`（有外部文件才设）→ `## 执行模式` → `## 版本`。放不下时优先压缩红线和速查表，保住 SOP 骨架。
+**内容组织（推荐顺序）**：`# 标题` → `> 一句话摘要（当前版本一句+CHANGELOG指针）` → `## 这个 Skill 做什么`（职责/边界/产物）→ `## 怎么操作`（SOP全内联）→ `## 红线`（第一条必须是读取协议）→ `## 速查表`（有外部文件才设）→ `## 执行模式` → `## 版本`。放不下时优先压缩红线和速查表，保住 SOP 骨架。
 
 **执行要点内联写法**（单文件自包含的核心手法）：每个 SOP 步骤节直接写流程细节/门禁/输出格式/命令模板；与骨架重复的删、冗余解释压成表格、同类红线合并；门禁条件/红线/输出格式/业务逻辑/脚本调用方式一条不能丢。合入后体量控制在原 SKILL.md+steps 总量的 50-65%。
 
@@ -126,7 +128,7 @@ my-skill/
 
 **加载门禁**：速查表是全文件目录引导（列出所有外部文件及读取/执行时机）｜SKILL.md 有强弱加载保障声明｜scripts/ 新增或修改的代表性脚本已实际运行验证。
 
-**文档质量**：识别核心价值段且占比 ≥30%｜同一信息不重复出现｜无深层嵌套（拍平为 3-6 步扁平流程）｜无第二人称（"You should"改为祈使句）。
+**文档质量**：识别核心价值段且占比 ≥30%｜同一信息不重复出现｜**摘要不堆版本历史（只当前版本一句+CHANGELOG指针）**｜无深层嵌套（拍平为 3-6 步扁平流程）｜无第二人称（"You should"改为祈使句）。
 
 ## 九、落盘检查点
 
@@ -150,4 +152,4 @@ my-skill/
 
 ## 版本
 
-**当前版本**：v7.0.0 | 2026-08-24 — 规范口径升级为单文件自包含，steps 目录废除，step-1-design.md 规范正文全合入。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+**当前版本**：v7.1.0 | 2026-08-27 — 新增红线❌7「SKILL.md 禁止堆版本历史块」。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

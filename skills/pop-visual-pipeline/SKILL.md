@@ -1,22 +1,50 @@
 ---
 name: pop-visual-pipeline
-description: "当用户说'视觉管线/视觉pipeline/小说视觉化/做视觉工程/继续视觉/下一步(视觉)/出封面/出OC/出漫画/出场景图'时启用。读视觉项目总控.html→按Phase 0-6路由调度各visual子skill（asset/style/art-bible/cover/oc/comic）。像起点管线一样，总控只做路由，子skill干活。"
+description: "当用户说'视觉管线/视觉pipeline/小说视觉化/做视觉工程/继续视觉/下一步(视觉)/出封面/出OC/出漫画/出场景图'时启用。一次性初始化目录+生成 状态.md（唯一机器状态源）+导入/三态迁移；日常视觉路由与意图闸口上移专家提示词，html为可选展示面板，子skill干活。"
 ---
 
 # pop-visual-pipeline
 
-> 小说视觉化总控管线。Phase 0→6路由调度。把 7 个 visual 子 skill 串成一条工程流：**基建层（查原文→定画风→产出美术设定集）是必做地基，派生层（封面/OC/场景/漫画）按需产出**。**意图闸口前置——先确认本次目标（封面/OC/漫画），按 intent 决定基建档位，不默认推漫画**。v3.0.0：steps 全合入，SOP 全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 小说视觉化安装器。**v4.1.0：状态源收敛 `状态.md` + 路由上移专家提示词**——pipeline 只做初始化/导入/三态迁移/状态维护；下游 asset/style/art-bible 同步改读 状态.md。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
 ## 做什么
 
-pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路由到对应子 skill→完成后更新 html（职责边界见红线2）。
+pipeline 只做安装/导入/状态维护不干活——初始化或导入时生成/重建 `状态.md`（唯一机器状态源）、做三态落盘迁移、并按状态片段把 agent 指向对应子 skill；**日常视觉路由与意图闸口上移专家提示词**（两段式架构：基建层必做、派生层按需）。
 
 输入：项目名或当前项目目录（mode=fresh/import/resume）
-输出：标准化目录结构 + `视觉项目总控.html`（唯一状态文件）
+输出：标准化目录结构 + `状态.md`（唯一机器状态源）+（可选）`视觉项目总控.html` 展示面板
 
-**核心价值**：把"**查原文+定画风+产出美术设定集=基建**"铁律固化成工程流——visual 群原是 7 个无顺序约束的散点 skill，会"没定画风就先画封面"乱序。
+**核心价值**：把"**查原文+定画风+产出美术设定集=基建**"铁律固化到状态与导入流程——visual 群原是 7 个无顺序约束的散点 skill，会"没定画风就先画封面"乱序。
+
+**日常路由不经此skill**：用户说"继续视觉/出封面/出OC/出漫画"时，主agent按**专家提示词阶段地图**调度——先过意图闸口确认本次目标（cover/oc/comic/full/asset-only，不默认推漫画）→ 读 `状态.md` 取状态片段（phase/intent/next_step/就绪态）→ 按两段式阶段地图（基建层查原文→定画风→美术设定集必做；派生层按需）+ 就绪门禁直接选 skill。各子skill按自身 SKILL.md 干活，pipeline 不参与每轮路由。
+
+### 状态.md（薄机器状态，唯一状态源）
+
+写入项目根，agent 每轮只读它取状态片段。模板见 `templates/状态.md`，内容：
+
+```markdown
+mode: fresh            # fresh/import/resume
+phase: init            # init/0/1/2/3/4/5/6
+intent: 待确认         # cover/oc/comic/full/asset-only（意图闸口确认值）
+project_type: 独立      # 起点/番茄/独立（写作专家项目探测自源项目 状态.md）
+next_step: Phase 0: 按意图档位读小说提取视觉资产
+project_name: 未命名项目
+book_name: 待指定
+genre: 待指定
+style_base: 待Phase 1指定
+core_char: 待Phase 2指定
+created_at: --
+updated_at: --
+
+## 就绪态（[x]=就绪 / [ ]=未就绪；就绪判定查文件系统）
+基建就绪: 资产提取[ ] 画风基准[ ] 美术设定集[ ]
+派生就绪: 封面[ ] 人物OC[ ] 场景[ ] 漫画[ ]
+
+## 最近产出
+- {Phase名}: {产出文件路径} | {时间}
+```
 
 ---
 
@@ -24,11 +52,11 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 
 ### Step 0 初始化（state=init 且无已有文件）
 
-只做地基：创建标准目录+生成视觉项目总控.html+自检。
+只做地基：创建标准目录+生成 状态.md+自检。
 
-**1. 项目空间探测**（LS 扫描项目根）：`项目总控.html`（起点）/`project-state.md`（番茄）=写作专家项目，原文 `正文/ch*.txt`，import 走 Step 1｜`原料/小说原文/`（单个完整 txt）=独立小说项目，init｜用户指定路径=临时模式，init。
+**1. 项目空间探测**（LS 扫描项目根）：根 `状态.md` 为写作专家项目（起点/番茄）——按内容标记判定：含 `## 书目`+`立项就绪`/`世界就绪`=起点，含 `## 底牌就绪`+`## 阶段完成情况`=番茄；原文 `正文/ch*.txt`，import 走 Step 1｜`原料/小说原文/`（单个完整 txt）=独立小说项目，init｜用户指定路径=临时模式，init。判定结果写 状态.md 的 `project_type` 字段。
 
-**2. 🚪 意图闸口（前置，决定基建档位）**：`AskUserQuestion` 或书面提问确认本次目标，intent 写入总控 `<!--STATE:intent -->` 全链路按档位路由——`cover` 做封面/场景图（轻量：场景资产表+视觉符号+画风，刊物角色可跳过双角度定妆）｜`oc` 做人物OC/立绘（轻量~中：角色档案+身份卡+画风，可跳过双角度定妆）｜`comic` 做漫画/连载（完整：深度角色档案+画风定标+身份卡+双角度定妆）｜`full` 全套视觉工程（完整基建）｜`asset-only` 只提取资产（最轻，只跑 asset 不进派生层）。**未明确时不默认漫画，回问用户**——只有明确说"做漫画/连载"才走 `comic` 完整档。
+**2. 🚪 意图闸口（前置，决定基建档位）**：`AskUserQuestion` 或书面提问确认本次目标，intent 写入 状态.md 的 `intent` 字段，全链路按档位路由——`cover` 做封面/场景图（轻量：场景资产表+视觉符号+画风，刊物角色可跳过双角度定妆）｜`oc` 做人物OC/立绘（轻量~中：角色档案+身份卡+画风，可跳过双角度定妆）｜`comic` 做漫画/连载（完整：深度角色档案+画风定标+身份卡+双角度定妆）｜`full` 全套视觉工程（完整基建）｜`asset-only` 只提取资产（最轻，只跑 asset 不进派生层）。**未明确时不默认漫画，回问用户**——只有明确说"做漫画/连载"才走 `comic` 完整档。
 
 **3. 创建标准目录**（LS 确认，不存在则创建；分区口径见 `references/落盘规范.md`）：
 
@@ -45,9 +73,9 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 
 > **禁止**再建 `素材/视觉/` 扁平目录；候选/定标/复现一律按三态落盘（见红线6）。
 
-**4. 生成视觉项目总控.html**：读 `templates/视觉项目总控.html` 全文复制到项目根，SearchReplace 填充 STATE 字段（`<!--STATE:xxx -->`）：`mode=fresh`｜`phase=init`｜`intent=意图闸口确认值`｜`project_name=项目名（用户输入或目录名）`｜`book_name`/`genre=待指定`｜`created_at`/`updated_at=当前时间`｜`next_step=Phase 0: 按意图档位读小说提取视觉资产`。
+**4. 生成 状态.md**：读 `templates/状态.md` 写入项目根，按「状态更新协议 §1」填充：`mode=fresh`｜`phase=init`｜`intent=意图闸口确认值`｜`project_type=探测值`｜`project_name`｜`book_name`/`genre=待指定`｜`created_at`/`updated_at=当前时间`｜`next_step=Phase 0: 按意图档位读小说提取视觉资产`。**展示面板（可选）**：仅当老板要看可视化面板时按 `templates/视觉项目总控.html` 套 状态.md 值导出 html——agent 不读 html。
 
-**5. 自检+路由 Phase 0**：9 个标准目录存在｜总控.html 生成且 STATE 字段正确｜phase=init，next_step=Phase 0。通过后调度 `pop-visual-asset` 执行 Phase 0，回到「路由循环」。
+**5. 自检+落位 Phase 0**：9 个标准目录存在｜状态.md 生成且字段正确｜phase=init，next_step=Phase 0。通过后按专家提示词阶段地图路由到 `pop-visual-asset` 执行 Phase 0（基建层），pipeline 不参与后续每轮路由。
 
 ### Step 1 导入/续写（检测到已有项目文件，state=import/resume）
 
@@ -55,27 +83,23 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 
 **1. 资产清点**（扫描项目根）：`正文/ch*.txt`（小说原文）｜`素材/视觉资产/[角色名]角色档案.md`（资产提取已完成）｜`素材/风格/画风决策.md`（画风已定）｜`素材/美术设定集.md`（基建真源）｜`成品/` `测试/` `_过程/`（已有派生图）｜`漫画/`（已有漫画产出）。
 
-**2. 旧目录三态迁移（存量项目必做）**：检测到旧结构目录时，按 `references/落盘规范.md` §七迁移表归位，**禁止留在旧位置**。核心映射：`generated-images/`（原始 UUID 生成图）→`_过程/原始图/`｜`归档/旧版产出/`（未确认旧版图）→`测试/{类型}/`｜`归档/中间产物/`+`归档/工作脚本/`→`_过程/脚本任务/`｜`素材/视觉/`内确认对外图→`成品/{类型}/`（加`-final`）、未确认候选→`测试/`｜`素材/视觉设计方案.md`→`_过程/提示词记录.md`｜`素材/风格/`未冻结定标图→`测试/画风定标/`、已冻结定标图→原位保留（基建真源）。迁移后更新总控 `base_*` badge 与 `outputs` 为三态路径，动作落盘 `_过程/迁移记录.md`。
+**2. 旧目录三态迁移（存量项目必做）**：检测到旧结构目录时，按 `references/落盘规范.md` §七迁移表归位，**禁止留在旧位置**。核心映射：`generated-images/`（原始 UUID 生成图）→`_过程/原始图/`｜`归档/旧版产出/`（未确认旧版图）→`测试/{类型}/`｜`归档/中间产物/`+`归档/工作脚本/`→`_过程/脚本任务/`｜`素材/视觉/`内确认对外图→`成品/{类型}/`（加`-final`）、未确认候选→`测试/`｜`素材/视觉设计方案.md`→`_过程/提示词记录.md`｜`素材/风格/`未冻结定标图→`测试/画风定标/`、已冻结定标图→原位保留（基建真源）。迁移后更新 状态.md 的 `phase`/`next_step` 与就绪态为三态路径，动作落盘 `_过程/迁移记录.md`。
 
-**3. 生成/更新总控+意图闸口**：有散落资产无总控→读模板生成并按清点结果填充 STATE；已有总控→直接读取更新。`intent` 空或未确认→`AskUserQuestion` 询问本次目标（见 Step 0 意图闸口）；已确认沿用不重复问。
+**3. 生成/更新 状态.md+意图闸口**：有散落资产无状态.md→读模板 `templates/状态.md` 生成并按清点结果填充；已有状态.md→按「状态更新协议」读取更新。`intent` 空或未确认→`AskUserQuestion` 询问本次目标（见 Step 0 意图闸口）；已确认沿用不重复问。
 
 **4. 落地 Phase 决策**（按清点结果）：有正文无资产/画风/设定集→**init**（从 Phase 0 补跑）｜有资产无画风/设定集→**phase1**（补跑 Phase 1 定画风）｜有资产+画风无设定集→**phase2**（补跑 Phase 2 产美术设定集）｜有美术设定集（基建完整）→**phase3+**（基建就绪按需进派生层）｜有基建+已有派生图→按用户意图派生层路由。
 
 **5. 基建缺口补跑**：基建层（Phase 0/1/2）有缺口必须补齐才能进派生层——缺资产→`pop-visual-asset`｜缺画风→`pop-visual-style`｜缺美术设定集→`pop-visual-art-bible`。已有资产必须归位标准目录，禁止散落。
 
-**6. 更新总控**：按 `references/html-update-protocol.md`（导入重建字段+Phase circle）更新 `phase`/`mode`/`updated_at`/`next_step`，已完成 phase circle 标 `done`。
+**6. 更新 状态.md**：按 `references/状态更新协议.md`（通用字段+phase 推进）更新 `phase`/`mode`/`updated_at`/`next_step` 与就绪态，已完成阶段标 `[x]`。
 
-### Step 2 路由循环（每次对话开始时）
+### Step 2 日常路由（不经常驻循环）
 
-1. Read 项目根 `视觉项目总控.html`，从 `<!--STATE:xxx -->` 标记提取 `phase`（当前阶段）、`intent`（本次目标）、`next_step`、`mode`。**先读 intent 再路由**——intent 决定基建档位与派生层去向；为空先走意图闸口（Step 0/1）
-2. 对照「Phase 路由表」路由到对应子 skill 执行：
-   - **基建层（phase0-2）**：主 agent 直接执行，读子 skill 的 SKILL.md（asset/style/cover 已单文件自包含；art-bible/oc/comic 仍带分步细节文件的需一并读取），按 SOP 操作
-   - **派生层（phase3-6）**：主 agent 直接执行或派发子 agent（子 agent 指令要求见「执行模式」）
-3. Phase 完成后按 `references/html-update-protocol.md` 更新 html（通用字段+phase circle+badge+产出表），再回到第 1 步判断是否还有下一步：
-   - **基建层**：按顺序推进到 intent 档位所需深度——`cover`/`oc` 到 phase2（美术设定集）即基建完成可派生；`comic`/`full` 到 phase2 且完整复现完成（双角度定妆/场景定妆）才派生
-   - **派生层**：按 intent 路由，完成后回读总控判断是否还有派生目标（`full` 档才 loop）。**不默认推漫画**——intent 是 `cover`/`oc` 时基建完成后直接进对应派生，不自动进 phase6。用户中途改意图→更新 intent 字段后按新档位路由
+**日常视觉路由不经此 skill**——用户说"继续视觉/出封面/出OC/出漫画"时，主 agent 按**专家提示词阶段地图**调度，pipeline 不参与每轮路由。调度口诀：**先过意图闸口确认本次目标**（cover/oc/comic/full/asset-only，不默认推漫画）→ **读 `状态.md`** 取状态片段（phase/intent/next_step/就绪态）→ 按下方「阶段地图」+ 就绪门禁直接选子 skill。pipeline 只在初始化/导入/三态迁移/状态维护时被调用。
 
-### Phase 路由表
+> 「阶段地图」即下方 Phase 路由表——它是专家提示词路由的唯一口径（与 `skill.json` 的 `skills` 数组一致），pipeline 初始化完成后即交回给专家提示词使用。
+
+### Phase 路由表（阶段地图 · 专家提示词路由口径）
 
 > **两段式架构**：Phase 0-2 是**基建层**（必做，顺序不可跳），Phase 3-6 是**派生层**（按需，在基建就绪后任意触发）。
 
@@ -107,13 +131,13 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 
 ## 执行模式
 
-**主 agent 直执**。Step 0/1 初始化与路由循环均由主 agent 直接执行；子 skill 的实际干活环节由主 agent 读其 SKILL.md 后按 SOP 操作，或（派生层 phase3-6）派发子 agent 执行——子 agent 指令必须显式要求读取对应 SKILL.md，禁止凭记忆"扮演"。pipeline 自身无产出，不存在可派发的只读子任务。
+**主 agent 直执**。Step 0/1 初始化/导入均由主 agent 直接执行；子 skill 的实际干活环节由主 agent 读其 SKILL.md 后按 SOP 操作，或（派生层 phase3-6）派发子 agent 执行——子 agent 指令必须显式要求读取对应 SKILL.md，禁止凭记忆"扮演"。pipeline 自身无产出，不存在可派发的只读子任务。日常路由交专家提示词，pipeline 不做常驻循环。
 
 ---
 
 ## 红线
 
-1. **读取协议**：每次对话第一件事读视觉项目总控.html获取当前 phase+intent→按路由表调度，禁止跳过读 html 直接干活。视觉项目总控.html 是唯一状态文件，禁止另建 project-state.md。
+1. **读取协议**：日常每轮对话第一件事读项目根 状态.md 获取当前 phase+intent→按阶段地图（专家提示词口径）调度，禁止跳过读 状态.md 直接干活。`状态.md` 是唯一机器状态源，禁止另建 project-state.md 或读 html 取状态。
 2. **pipeline 只做路由不干活**——所有产出由下游 skill 生成。pipeline 不直接提取资产/选画风/产出美术设定集/画图/生成漫画。
 3. **基建依赖链+就绪门禁不可跳**——资产没就绪不进定画风，画风没就绪不进美术设定集；进派生层（Phase 3-6）前必须验证美术设定集（`素材/美术设定集.md`）存在且签核 ✅ 已认可、画风决策签核 ✅ 已认可。未签核=报错中止，提示先跑基建并完成设定集冻结。
 4. **美术设定集是唯一真源**——派生层（cover/oc/comic）只消费美术设定集，禁止各自重建人物/场景/符号/画风。视觉事实改动必须回 art-bible 升级设定集版本。
@@ -126,7 +150,8 @@ pipeline 只做路由不干活——读视觉项目总控.html判断 phase→路
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `references/html-update-protocol.md` | phase 完成后更新 html 时（含 Step 0/1 落地） | STATE 字段 SearchReplace 规范+Phase ID 表+badge 表（单源） |
-| `视觉项目总控.html`（项目空间） | 每次对话第一件事 | 唯一状态源（phase+intent+next_step+就绪状态+产出表） |
+| `状态.md`（项目根） | 每次对话第一件事 | 唯一机器状态源（mode/phase/intent/next_step+就绪态+最近产出） |
+| `references/状态更新协议.md` | phase 完成后更新 状态.md 时（含 Step 0/1 落地） | 通用字段更新+phase 推进+就绪态规范（单源） |
 | `references/落盘规范.md` | 任何落盘/迁移/命名时 | 三态分离+统一命名+版本 final 标记+skill 映射+旧目录迁移表 |
+| `templates/视觉项目总控.html` | 仅老板要看可视化面板时 | 由 状态.md 值套模板导出的展示面板，agent 不读 |
 | `references/onboarding-guide.md` | **首次触发视觉专家时输出** | 首次对话引导语（功能全景+意图闸口+引导第一步） |

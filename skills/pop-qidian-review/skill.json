@@ -1,6 +1,6 @@
 {
   "id": "pop-qidian-review",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "displayName": "起点 Review",
   "description": "帮你审核已写好的章节正文，检查设定一致性、AI 味、爽感和质量，给出通过或打回意见，并核对修正剧情白描与状态快照（write 写完即沉淀，review 负责核对）。Step1-3 纯只读审计，支持子agent审计+主agent落盘分工。适合每写完一章想质检把关时用。",
   "tags": ["起点长篇网文专家"],

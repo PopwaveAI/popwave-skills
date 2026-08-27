@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 generate-state-html.py
-从project-state.md解析字段，替换HTML模板占位符，生成project-state.html
+从 状态.md 解析字段，替换HTML模板占位符，生成 总控.html
 
-用法：python generate-state-html.py <project-state.md路径>
-输出：同目录下生成project-state.html
+用法：python generate-state-html.py <状态.md路径>
+输出：同目录下生成 总控.html
 """
 
 import sys
@@ -13,7 +13,7 @@ import re
 from datetime import datetime
 
 def parse_state_md(md_path):
-    """解析project-state.md，提取字段"""
+    """解析 状态.md，提取字段"""
     with open(md_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -196,7 +196,7 @@ def main():
 
     # 读取模板
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    tpl_path = os.path.join(script_dir, '..', 'templates', 'project-state.html.tpl')
+    tpl_path = os.path.join(script_dir, '..', 'templates', '总控.html.tpl')
     with open(tpl_path, 'r', encoding='utf-8') as f:
         template = f.read()
 
@@ -220,7 +220,7 @@ def main():
         html = html.replace(placeholder, value)
 
     # 落盘
-    html_path = os.path.join(os.path.dirname(md_path), 'project-state.html')
+    html_path = os.path.join(os.path.dirname(md_path), '总控.html')
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(html)
 

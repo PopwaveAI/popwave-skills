@@ -227,7 +227,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    pop-fanqie-pipeline v3.0.0 · project-state.html · 自动生成，请勿手动编辑
+    pop-fanqie-pipeline · 总控.html · 展示面板（由 状态.md 导出）
   </div>
 
 </div>

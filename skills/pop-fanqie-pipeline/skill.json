@@ -1,8 +1,8 @@
 ﻿{
   "id": "pop-fanqie-pipeline",
-  "version": "4.0.0",
+  "version": "4.2.0",
   "displayName": "番茄 Pipeline",
-  "description": "番茄长篇网文写作的总调度入口：帮你初始化项目、规划目录、按阶段路由到对应的写作环节，也能导入或续写已有项目。适合刚开始写或想整体推进时用。",
+  "description": "番茄长篇网文写作的初始化安装器：一次性建目录+生成 状态.md（唯一机器状态源）+导入/续写；日常写作路由由专家提示词阶段地图承载，pipeline不常驻路由。",
   "tags": ["番茄长篇网文专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-fanqie-pipeline", "初始化项目", "管线总控"] },

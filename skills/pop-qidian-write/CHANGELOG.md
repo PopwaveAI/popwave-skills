@@ -1,5 +1,13 @@
 ﻿# CHANGELOG
 
+## v5.2.0 | 2026-08-27
+
+### 状态读取/更新源统一为 状态.md
+
+对齐 pipeline v4.3.0 状态源统一：主 agent 读 状态.md 确认 phase/current_chapter；验收门禁通过后更新 状态.md（current_chapter+1/最近产出/next_step）；章节授权读 状态.md（字段规范见 pop-qidian-pipeline/references/状态更新协议.md）。`项目总控.html` 降级为仅供老板查看的展示面板，write 不再读它。skill.json 5.1.0→5.2.0。
+
+---
+
 ## v5.1.0 | 2026-08-27
 
 ### 文风兜底扩至 20 份全赛道纯样文

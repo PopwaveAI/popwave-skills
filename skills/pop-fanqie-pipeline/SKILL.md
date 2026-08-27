@@ -1,32 +1,32 @@
 ---
 name: pop-fanqie-pipeline
-description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/续写'时启用。Phase 0→5全链路调度，项目空间标准化，project-state状态可视化。"
+description: "当用户说'初始化项目/管线总控/番茄pipeline/导入/续写'时启用。Phase 0→5全链路安装，项目空间标准化，状态.md为唯一机器状态源，html为可选展示面板。"
 ---
 
 # pop-fanqie-pipeline
 
-> 番茄管线总控。Phase 0→5全链路调度，pipeline只做路由不干活。v4.0.0：step0-import/step1 两件全合入 SKILL.md 单文件精炼（SOP全内联，每次对话零跳转自包含），steps 目录删除。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 番茄管线总控。Phase 0→5全链路安装，pipeline只做安装/导入、不常驻路由。v4.2.0：日常路由上移专家提示词；状态源统一为 状态.md（唯一机器状态源），html仅供展示、agent不读。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
 输入：项目名或当前项目目录。mode=fresh（从零开始）/import（导入已有设定）/resume（续写已有正文）
-输出：标准化目录结构（素材/设计[全书设定/角色库/第一卷剧情]/正文/审核）+ project-state.md（agent读，含mode字段）+ project-state.html（人看）
+输出：标准化目录结构（素材/设计[全书设定/角色库/第一卷剧情]/正文/审核）+ 状态.md（机器读，唯一状态源，含mode/phase/current_chapter/底牌就绪）。总控.html 是供老板查看的可选展示面板（按需导出，不参与任何路由/决策）
 
 pipeline不写正文、不创意、不审核——只负责把agent指向正确的phase和skill。所有下游skill由pipeline按phase调度。
 
-**执行模式**：主agent直执——路由决策/project-state管理/Phase 0用户意图深问/导入模式资产确认均为对话内主agent工作；子agent派发点已内置在Phase调度表（Phase 0 Stage2调研并发、Phase 4 write必须子agent），不另造派发点。
+**执行模式**：主agent直执——路由决策/状态.md管理/Phase 0用户意图深问/导入模式资产确认均为对话内主agent工作；子agent派发点已内置在Phase调度表（Phase 0 Stage2调研并发、Phase 4 write必须子agent），不另造派发点。
 
 ## 怎么操作（SOP全内联）
 
 > execution.mode: 串联式 | 强保障：本SKILL.md由host层强制注入（SOP全内联） | 弱保障：references/scripts/templates需agent主动读取，设计时假设可能没读到
 
 - **Step 0** 导入/续写模式 → 见下方「Step 0 导入/续写模式」节（检测已有资产→缺口分析→落地Phase→状态重建→正文反推。用户说"导入/续写/已有"或目录已有文件时触发）
-- **Step 1** 初始化项目目录+project-state → 见下方「Step 1 初始化项目」节（创建四文件夹+state=init。**如果检测到已有文件→重定向到Step 0**）
-- **Step 2** 路由循环（每次对话）→ 见下方「路由循环」节
+- **Step 1** 初始化项目目录+状态.md → 见下方「Step 1 初始化项目」节（创建四文件夹+state=init。**如果检测到已有文件→重定向到Step 0**）
+- **Step 2** 日常路由 → 见下方「日常路由」节（已上移专家提示词，pipeline 不常驻）
 
 ### Step 0 导入/续写模式（资产标准化→重建状态→路由）
 
-> 触发条件（任一）：①用户明确说"导入/续写/已有/接续/迁移" ②Step 1初始化时检测到`正文/`或`设计/`已有文件 ③项目目录已有内容但无project-state.md。
+> 触发条件（任一）：①用户明确说"导入/续写/已有/接续/迁移" ②Step 1初始化时检测到`正文/`或`设计/`已有文件 ③项目目录已有内容但无状态.md。
 > 核心理念：不是"检测+跳Phase"，而是"检测→标准化转换→补缺→路由"的完整初始化过程。
 
 **0a 资产扫描**：LS扫描项目目录（或用户指定源目录），输出**原始资产清单**（文件名+位置+内容摘要1句话）。
@@ -91,7 +91,7 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 
 → 向用户展示 标准化资产清单+缺口报告+落地Phase建议，**用户确认后**进0e。
 
-**0e 状态文件重建**：project-state.md不存在→按「project-state.md标准模板」创建；已存在→SearchReplace更新。mode/phase/current_chapter按0d决策填，已就绪Phase标[x]；已有素材对应底牌❌→✅/done/skipped。随后按「state更新方法」运行脚本生成html。
+**0e 状态文件重建**：状态.md不存在→按「状态.md标准模板」创建；已存在→SearchReplace更新。mode/phase/current_chapter按0d决策填，已就绪Phase标[x]；已有素材对应底牌❌→✅/done/skipped。html展示面板**可选**：仅在用户要看可视化面板时按「state更新方法」运行脚本导出，日常不要求。
 
 **0f 补缺生成**（按需，落地Phase前置依赖缺失时；有正文→从正文反推，无正文→标注待补由下游skill生成）：
 
@@ -121,15 +121,15 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 
 降级模式：用户选择跳过plot直接续写→write将无剧情白描约束，需在`审核/状态快照.md`中手动指定下一章核心事件和爽感节点，write按状态快照指导续写；后续可补跑plot生成正式剧情白描。
 
-**质量门**：原始资产清单已生成｜资产标准化转换完成（文件名+目录+内容结构）｜标准化资产清单已生成（✅/⚠️/❌）｜缺口报告已生成｜落地Phase已确定并经用户确认｜project-state.md已创建/更新（mode+phase+chapter+阶段完成情况全部正确）｜html已通过脚本生成｜补缺生成已完成（正文反推+缺失设计文档补建+无法反推文档已处理）。
+**质量门**：原始资产清单已生成｜资产标准化转换完成（文件名+目录+内容结构）｜标准化资产清单已生成（✅/⚠️/❌）｜缺口报告已生成｜落地Phase已确定并经用户确认｜状态.md已创建/更新（mode+phase+chapter+阶段完成情况全部正确）｜补缺生成已完成（正文反推+缺失设计文档补建+无法反推文档已处理）。html展示面板不在质量门内（可选）。
 
-→ project-state.html重建完成+用户确认落地Phase后，回到「路由循环」继续路由。
+→ 状态.md重建完成+用户确认落地Phase后，进入「日常路由」：日常写正文/审核由专家提示词阶段地图承载，pipeline 不常驻。
 
 ### Step 1 初始化项目（fresh模式）
 
-> 只在project-state.md不存在时执行。**前置检测**：任何创建操作前先LS扫描——`正文/`有ch*.txt/ch*.md或`设计/`有.md文件→已有历史资料，**跳转Step 0**导入/续写模式；目录为空或仅有project-state.md→继续正常初始化。
+> 只在状态.md不存在时执行。**前置检测**：任何创建操作前先LS扫描——`正文/`有ch*.txt/ch*.md或`设计/`有.md文件→已有历史资料，**跳转Step 0**导入/续写模式；目录为空或仅有状态.md→继续正常初始化。
 
-**1a 确认项目目录**：用户指定项目名→以项目名为目录名；在当前项目目录下对话→用当前目录。当前工作目录已有project-state.md→跳过初始化直接进路由循环。
+**1a 确认项目目录**：用户指定项目名→以项目名为目录名；在当前项目目录下对话→用当前目录。当前工作目录已有状态.md→跳过初始化直接进日常路由。
 
 **1b 创建标准目录结构**：`素材/`（含`downloads/`、`知识沉淀/`）+ `设计/`（含`全书设定/`、`角色库/`、`第一卷剧情/`）+ `正文/` + `审核/`（PowerShell `New-Item -ItemType Directory -Force` 逐个创建）。目录用途：
 
@@ -140,11 +140,11 @@ pipeline不写正文、不创意、不审核——只负责把agent指向正确�
 | 正文/ | 逐章渲染 ch{NNN}.txt | Phase 4产出 |
 | 审核/ | 白描流水账+状态快照 | Phase 5产出 |
 
-**1c 落盘project-state.md**：按「project-state.md标准模板」写入，mode: fresh / phase: init / current_chapter: ch000，全部Phase标[ ]。
+**1c 落盘状态.md**：按「状态.md标准模板」写入，mode: fresh / phase: init / current_chapter: ch000，全部Phase标[ ]。
 
-**1d 生成project-state.html**：按「state更新方法」运行脚本。**禁止手动写HTML**。完成后进路由循环（当前phase=init→进入Phase 0用户意图深问）。
+**1d 生成总控.html（可选）**：仅当用户要看可视化面板时，按「state更新方法」运行脚本导出；日常 fresh 初始化不强制。**禁止手动写HTML**。完成后路由到 Phase 0 用户意图深问（日常路由由专家提示词阶段地图承载）。
 
-### project-state.md 标准模板
+### 状态.md 标准模板
 
 ```markdown
 # 项目：{项目名}
@@ -179,16 +179,14 @@ current_chapter: ch000
 ## 最近产出
 | 阶段 | 产出文件 | 落盘时间 |
 |------|---------|---------|
-| pipeline | project-state.md | {timestamp} |
+| pipeline | 状态.md | {timestamp} |
 ```
 
 **填写规则**（Step 0重建时）：mode填import/resume（按0d决策）、phase填落地Phase、current_chapter填下一章待写；已就绪Phase标`[x]`、未就绪标`[ ]`、落地Phase为当前进行中；已有素材对应底牌从❌改为✅/done/skipped。
 
-### 路由循环（每次对话开始时）
+### 日常路由（已上移专家提示词，pipeline 不常驻）
 
-1. 读 `project-state.md`，提取 phase（决定路由）、current_chapter（Write阶段当前章）、底牌就绪（Phase 0是否完成）
-2. 对照下方「Phase调度表」路由到对应Phase执行
-3. Phase完成后按「state更新方法」更新 state.md 并运行脚本生成 html，再回到第1步判断下一步
+**日常写作路由不再经过本 skill**——由专家提示词规则1/2承载：先读 `状态.md` 状态片段（phase/current_chapter/底牌就绪），按阶段地图（立项→世界→角色→剧情→正文→审核）+ 灵活调度直接选 skill。下方「Phase调度表」仅作安装/导入时的一次性路由参考，日常不按它每轮循环。html 展示面板仅在老板要看时按需导出，agent 不读。
 
 ### Phase调度表
 
@@ -209,15 +207,15 @@ current_chapter: ch000
 
 ### state更新方法（每次Phase完成后）
 
-**1. 更新 project-state.md**（SearchReplace）：①`phase:` 行 ②`current_chapter:` 行 ③`更新：` 行→当前时间 ④阶段完成情况→勾选完成的phase ⑤底牌就绪区块→更新状态 ⑥创意摘要→填写seed产出 ⑦最近产出表→追加新行
+**1. 更新 状态.md**（SearchReplace）：①`phase:` 行 ②`current_chapter:` 行 ③`更新：` 行→当前时间 ④阶段完成情况→勾选完成的phase ⑤底牌就绪区块→更新状态 ⑥创意摘要→填写seed产出 ⑦最近产出表→追加新行
 
-**2. 生成 project-state.html**（每次更新state.md后必须同步）：
+**2. 导出 总控.html（可选，按需）**：仅当用户要看可视化状态面板时运行：
 
 ```bash
-python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/project-state.md
+python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/状态.md
 ```
 
-脚本自动解析state.md字段→替换模板占位符→同目录生成state.html（下一步文案由脚本内置映射自动生成）。**禁止手动写HTML**。
+脚本自动解析状态.md字段→替换模板占位符→同目录生成 总控.html。**禁止手动写HTML**。日常更新状态不要求运行；html不参与任何路由/决策。
 
 ## 📦 可调度 Skill 清单（素材表）
 
@@ -244,21 +242,21 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 ## 红线
 
 1. **读取协议**——读取skill文件用`Get-Content -Encoding UTF8 -Raw`，Read工具有行数限制会截断丢内容
-2. **project-state.md是唯一状态源**——所有phase切换以它为准，每次更新state.md必须同步运行脚本生成state.html
+2. **状态.md是唯一状态源**——所有phase切换以它为准；路由只读它的状态片段（phase/current_chapter/底牌就绪），不读html展示面板。html仅为按需导出的人看面板，不在质量门内，不承担每轮同步成本
 3. **Phase 0必须先深问再并发**——不完成Stage 1用户意图深问，不进入Stage 2
 4. **pipeline只做路由不干活**——不写正文/不创意/不审核/不提取DNA
 5. **Phase 4必须用子agent调write**——主agent只做路由，主agent执行write会导致skill读取不全+正文质量退化
 6. **Phase 3.5 Character必须执行**——plot完成后必须经过character建角色库，跳过=角色设计丢失
-7. **agent每次对话第一件事是读project-state.md**
+7. **agent每次对话第一件事是读状态.md**
 8. **导入/续写模式不可跳过资产扫描**——用户说"导入/续写/已有"时必须走Step 0（资产扫描→缺口分析→落地Phase决策→用户确认），禁止直接凭空设置phase
 
 ## 速查表
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `SKILL.md` | 每次run强制注入 | SOP全内联：Step 0导入+Step 1初始化+路由循环+Phase调度表+state更新方法+红线 |
-| `scripts/generate-state-html.py` | 每次更新state.md后运行 | 读取state.md→生成project-state.html |
-| `templates/project-state.html.tpl` | 脚本自动使用 | HTML可视化模板 |
+| `SKILL.md` | 每次run强制注入 | SOP全内联：Step 0导入+Step 1初始化+日常路由+Phase调度表+state更新方法+红线 |
+| `scripts/generate-state-html.py` | 仅用户要看可视化面板时（按需可选） | 读取state.md→导出总控.html；日常更新状态不运行 |
+| `templates/总控.html.tpl` | 脚本自动使用 | HTML可视化模板 |
 | `references/onboarding-guide.md` | 用户第一次触发（首次对话引导）时 | C端口吻引导语——「🚪 首次对话引导」区块强触发输出全文 |
 | `references/import-structures.md` | 导入/续写模式 Step 0 0b-2 环节 | 16个标准文件的内容分节结构+转换方式（导入转换视角，结构正源在各子skill） |
 
@@ -273,9 +271,18 @@ python skills/pop-fanqie-pipeline/scripts/generate-state-html.py {projectDir}/pr
 
 ## 版本
 
+v4.2.0 | 2026-08-27
+- **日常路由上移专家提示词**：删除「路由循环（每次对话开始时）」常驻 loop，改为「日常路由」参照节——pipeline 只管一次性安装/导入，日常写正文/审核不经过本skill
+- **状态源统一为 状态.md**：project-state.md → 状态.md（机器）；html 展示面板仅供老板查看，按需导出，agent 不读（收敛：三族状态源统一命名）
+- skill.json version 4.1.0→4.2.0
+v4.1.0 | 2026-08-27
+- **status.html降级为可选展示面板**：状态.md确认为唯一机器状态源；路由循环/红线#2 明确只读其状态片段，不读html
+- html从「每次更新state强制同步」改为「仅用户要看时按需导出」；0e/1d/质量门/速查表/state更新方法同步去强制化
+- 与番茄专家提示词收敛对齐：prompt第1条「先读状态片段」、不舔html全量
+- skill.json version 4.0.0→4.1.0
 v4.0.0 | 2026-08-24
 - **step0-import / step1 全合入 SKILL.md 单文件精炼**：Step 0 五环节（资产扫描/标准化转换/缺口分析/落地Phase决策/状态重建/补缺生成）+质量门全内联；steps 目录删除
-- **模板合一**：step1与step0-import的project-state.md重复模板合并为「标准模板+填写规则」（覆盖fresh/import/resume三模式差异）
+- **模板合一**：step1与step0-import的状态.md重复模板合并为「标准模板+填写规则」（覆盖fresh/import/resume三模式差异）
 - 执行模式明确：主agent直执（路由/状态管理/意图深问/导入确认），子agent派发点已在Phase调度表内置
 - skill.json version 3.13.0→4.0.0
 v3.13.0 | 2026-08-18

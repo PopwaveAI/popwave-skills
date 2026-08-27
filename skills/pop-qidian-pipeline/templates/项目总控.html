@@ -396,7 +396,7 @@
       </tbody>
     </table>
     <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.8">
-      写作循环：5→6→通过→写下一章 / 打回→重写本章；不得连续写两章不review。日常路由：读STATE区（phase/chapter/next_step）→ 按本表路由到执行体，各skill按自身SKILL.md执行。
+      写作循环：5→6→通过→写下一章 / 打回→重写本章；不得连续写两章不review。<strong>本面板仅供老板查看，agent 不读它</strong>——日常路由由专家提示词阶段地图承载，主agent读 状态.md 取状态片段（mode/phase/current_chapter/next_step/就绪态）后按本表路由到执行体。
     </div>
   </div>
 
@@ -472,7 +472,8 @@
       <span class="section-rule"></span>
     </div>
 <div class="folder-tree"><span class="dir">项目根/</span>
-├── 项目总控.html             pipeline 唯一状态文件
+├── 状态.md                  唯一状态源（机器读，agent 每轮读写）
+├── 项目总控.html            展示面板（可选，由 状态.md 导出）
 ├── <span class="dir">素材/</span>              Phase 0-1 产出
 │   ├── 用户意图.md
 │   ├── 赛道调研.md

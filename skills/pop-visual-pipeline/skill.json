@@ -1,7 +1,7 @@
 {
   "id": "pop-visual-pipeline",
   "name": "pop-visual-pipeline",
-  "version": "3.0.0",
+  "version": "4.1.0",
   "description": "小说视觉化的总入口。想给小说做封面、人设、漫画或场景图时从这里开始，它会按正确顺序调度各个视觉功能，先打好美术设定集地基再出图。",
   "skills": ["pop-visual-asset", "pop-visual-style", "pop-visual-art-bible", "pop-visual-cover", "pop-visual-oc", "pop-visual-comic"],
   "tags": ["小说推书与IP化专家"],
