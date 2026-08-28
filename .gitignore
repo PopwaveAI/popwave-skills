@@ -66,8 +66,14 @@ library/
 # 测试/验证工作区（非 skill 资产，不跟踪）
 /测试/
 
-# 参考小说原文与爬虫脚本（大体积源书资产，不跟踪）
-/参考小说txt/
+# 参考小说txt：仅跟踪小说 .txt，排除爬虫脚本/目录文件/临时产物（2026-08-29 起纳入 git 跟踪）
+# /参考小说txt/
+/参考小说txt/_tmp/
+/参考小说txt/**/*.py
+/参考小说txt/**/*.json
+/参考小说txt/**/*.html
+/参考小说txt/**/*.woff2
+/参考小说txt/**/*.progress
 
 # 拆书原文源txt（版权敏感，不入库；L1批次md拆解笔记保留）
 library/知名小说wiki/*/_temp/batches/src/
