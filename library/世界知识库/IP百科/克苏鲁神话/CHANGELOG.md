@@ -1,5 +1,18 @@
 # CHANGELOG · 克苏鲁神话
 
+## v1.6.0 · 2026-08-28 · 续补神祇深传第四件（A01 第七次循环）
+
+**做了什么**：补齐叙事层「神祇深传-莎布·尼古拉斯」单神件，覆盖 A01★ 清单待办中「各神深传（哈斯塔/奈亚/莎布/尤格/阿撒托斯等）」的第四位。
+
+**新增件**：
+- `叙事层/07-神祇深传-莎布·尼古拉斯Shub-Niggurath.md`（线1压舱 ∩ 线2标注）：单神=一整件。本件把莎布定位为**全库"最被召唤、最不被看见"的极端教学标本**，与奈亚"线1最实"恰成背对背端点——**线1**不用"具身考据"而用**"呼名与咏唱的文本考古链"**压舱：《The Last Test》(1928.11，修订故事首现句) →《The Dunwich Horror》(1929.4，HPL署名下首现，Necronomicon 咏唱引文) →《The Whisperer in Darkness》(1930/31，"Black Goat of the Woods with a Thousand Young / Iä!"黑山羊咏唱逐字引文) →《The Mound》(1940，All-Mother + sophisticated Astarte 定义句) →《Out of the Aeons》(1935，站人类一边对抗 Ghatanothoa) → 致 Willis Conover 信件("Yog-Sothoth 之妻/evil cloud-like entity/Nug&Yeb"逐字引文，HPL唯一"形貌词"仅"云雾状实体") + Dunsany《Idle Days on the Yann》"Sheol Nugganoth"命名源考(Price)+Baphomet/潘意象 + Ferraresi 黑山羊分离说(Ny-Rakath/潘/撒旦推测)，诚实承认**"本体为空、只有圣歌"**；**线2**显性分家测绘：CoC 外神分类与 Dark Young 专名命名权（具身源=Bloch 篇、专名出自 CoC，HPL 只有"Thousand Young"头衔）、德雷斯土元素旧日+性别纠偏、D&D《Deities & Demigods》1980 收录与 1981 抽版史、影视游戏音乐（Quake/Alone in the Dark/Night in the Woods/South Park/Sucker for Love 戏仿/FGO/OVERLORD/史莱姆/Doctor Who/同名乐队）、中文 ACGN 网文（百科 baike"黑暗丰穰之女神/森之黑山羊"别称、萌娘"羊妈"、崩坏借名、《诡秘之主》堕落母神映射=线2 现象）、**"Niggurath"N 字词敏感与改名回避**（魔兽 Shul-Nagruth/Wishmaster Nib Shuggurath/Shadow Hearts Jeb Niglas/WIXOSS Shub-Niggura）。附双线冲突登记8条 + 写手可lift清单 + 采样留痕（10+ 独立源交叉）。28082 字符，正文去空白约 26201 字。
+
+**为什么**：A01★ 清单待办按序推进；哈斯塔已演示"线1近空"，奈亚已演示"线1最实"，莎布正好演示**第三个端点"线1 只有呼名没有身体、线2 却焊出全谱系最具体怪物形象"**——"缺席的在场"（从未现身却最被崇拜）是中文写手写"神棍组织/隐神/伪神"的黄金模板。"外神分类=CoC 术语""Dark Young 专名=CoC""堕落母神=莎布（线2 现象）""Niggurath 名称敏感"是四处最能帮中文写手避雷的点。
+
+**待办/缺口**：剩余各神深传（尤格·索托斯/阿撒托斯等）、COC 规则深件、与诡秘流对接件。HPL 未给出莎布官方读音（"Shub-NIG-uh-rath"为桌游/粉丝圈通行读法）；"Lord of the Wood(s)"单复数两源不一致；Bloch 篇具身年份（约1951）待复核；"Niggurath"N字词专项讨论文章未抓到可复核 URL；《奈亚之面具》战役中莎布/Dark Young 直出场待按 2018 版战役原文复核；CoC 各版数值未固定引用；《诡秘之主》堕落母神=莎布对应为线2 社区考据、不替官方断言正位。
+
+---
+
 ## v1.5.0 · 2026-08-28 · 续补神祇深传第三件（A01 第六次循环）
 
 **做了什么**：补齐叙事层「神祇深传-奈亚拉托提普」单神件，覆盖 A01★ 清单待办中「各神深传（哈斯塔/奈亚/莎布/尤格/阿撒托斯等）」的第三位。
