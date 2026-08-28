@@ -54,6 +54,9 @@ workspace/
 # knowledge-base 本地化（用户私有KB资产，不再入库）；共享设定包迁至 library/
 knowledge-base/
 
+# library/ 已迁至 popwave-wiki 仓库托管（temp/wiki-sync 同步），本仓库不再跟踪
+library/
+
 # 工具生成目录（不跟踪）
 .uploads/
 .trae-html-share-packages/
