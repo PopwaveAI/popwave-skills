@@ -1,4 +1,4 @@
-﻿# 大规模拆书 · 联合锚点池并行精读编排（方案B · 共享锚点池）
+# 大规模拆书 · 联合锚点池并行精读编排（方案B · 共享锚点池）
 
 > **用途**：当联合锚点池 > 8 章时，使用并行委派模式分批精读。
 > **设计原则**：联合 Grep 定位 → 分批精读（每批≤8章，每章多维提取）→ 分维度笔记汇总 → 分维度产出。
@@ -36,13 +36,13 @@
 5. 输出多维提取笔记（纯文本，不落盘，返回给主 agent）
 
 > ⚠️ 子 agent 只负责"读+多维提取+返回笔记"，不负责产出落盘文件。批次档案由主 agent 按 `pop-decon-dimension/references/batch-format.md` 统一落盘。
-> 多维提取清单详见 `pop-decon-dimension/references/batch-format.md` 第 3 节（七维提取）。
+> 多维提取清单详见 `pop-decon-dimension/references/batch-format.md` 第 3 节（八维提取）。
 
 ### 2.3 笔记汇总 + 产出（主 agent 执行）
 
 主 agent 收到所有批次的多维提取笔记后：
 1. 按维度拆分合并（去重/归并/排序）
-2. 每批按 L1 批次档案格式落盘（`pop-decon-dimension/references/batch-format.md`，批头+事件链表+七维+🔒+爽点钩子+关系变化）
+2. 每批按 L1 批次档案格式落盘（`pop-decon-dimension/references/batch-format.md`，批头+事件链表+八维+🔒+爽点钩子+关系变化）
 3. 每批自检 7 项硬门禁（术语表/锚点池/schema/证据密度/量化/不编造/回溯）
 
 ### 2.4 产出验证

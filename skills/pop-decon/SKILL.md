@@ -48,7 +48,7 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 
 ### Step 3：沉淀 + 提醒少测
 
-全部分解完成后，确认六模块成品已沉淀到 `{书名}/` 目录并更新索引。未指定项目时询问沉淀到哪个项目；完成后告知用户产出已沉淀。
+全部分解完成后，确认六模块成品已沉淀到 `{书名}/` 目录并更新索引。原子候选由 dimension Step 8 自动归集入库 `剧情周期表/`，入口不重复处理。未指定项目时询问沉淀到哪个项目；完成后告知用户产出已沉淀。
 
 ## 🚪 首次对话引导（onboarding）
 
@@ -78,5 +78,7 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 | `references/output-quality-standards.md` | 路由前 | 双层质量门禁速览 |
 
 ## 版本
+
+v26.1.0 | 2026-08-28 | L1 提取维度 7→8（新增「功能位/原子候选」），入口 Step 3 补充原子候选由 dimension 自动归集入库说明，同步 references pipeline-context/delegation-orchestration 七维→八维。
 
 v26.0.0 | 2026-08-25 | 家从 4 精简为 2：删除 pop-decon-prd / pop-decon-design-pack（方法论内吸进 dimension 主引擎）；征询从"范围+维度"简化为"范围"；路由收敛为单一主引擎；产出目标从维度证据稿改为六模块深度wiki成品。更早版本见 [CHANGELOG.md](CHANGELOG.md)

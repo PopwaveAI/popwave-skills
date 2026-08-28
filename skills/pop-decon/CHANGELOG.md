@@ -1,4 +1,15 @@
-﻿# CHANGELOG
+# CHANGELOG
+
+## v26.1.0 — 2026-08-28
+
+### L1 提取维度 7→8 + 入口补原子候选说明
+
+> **根因**：配合 pop-decon-dimension v3.1.0——L1 提取新增「功能位/原子候选」，拆书顺带提剧情周期表原子。
+
+**改动**：
+- `SKILL.md` Step 3 补充「原子候选由 dimension Step 8 自动归集入库，入口不重复处理」。
+- `references/pipeline-context.md`、`references/delegation-orchestration.md` 七维→八维同步。
+- skill.json version 26.0.0→26.1.0。
 
 ## v26.0.0 — 2026-08-25
 
