@@ -7,6 +7,15 @@ category: CHANGELOG
 
 # 战锤40K · CHANGELOG
 
+## v1.3.0 · 2026-08-28 · 人物库续补（A02 战锤40K 第四轮）
+
+- 落件 2 件（均过 Q1/Q2 红线）：
+  - `人物库/02-荷鲁斯·卢佩卡尔深传.md`（线1压舱∩线2标注：两个荷鲁斯人格裂变/克托尼娅童年/战帅册封/堕落三阶层（Anathame+蛇之密室+Sejanus幻象）/伊斯塔万III+V/复仇之魂湮灭，8.5K 字）
+  - `人物库/03-基里曼深传.md`（线1压舱∩线2标注：两段人生/马库拉格贤能之子/阿斯塔特圣典作者/考斯之变/特塞拉中毒万年静滞/原体崛起/不屈远征与大裂痕，8.5K 字）
+- 叛/忠核心对已立（荷鲁斯=叛首堕落动力学；基里曼=忠将建设者）；对齐崔斯特/帝皇整件粒度
+- 采源：warhammer40k.fandom.com（Horus/Roboute_Guilliman/Ultramarines/Indomitus_Crusade/Era_Indomitus/Vengeful_Spirit）+ lexicanum 二次交叉（Horus/Sons_of_Horus/Warmaster/Codex_Astartes/Emperor_of_Mankind/The_End_and_the_Death III）+ 英文维基（Horus Heresy novels）+ 中文社区（baike/B站/NGA/二创）双线留痕；关键事实多源交叉，单源项如实标待核（克托尼娅童年细节/圣典多恩之争/灵魂多自我等）
+- 更新 `readme.md`（包组成表 v1.3.0 + 待补清单）+ `material.json`（v1.3.0）
+
 ## v1.2.0 · 2026-08-28 · 立人物库（A02 战锤40K 第三轮）
 
 - 落件 2 件（均过 Q1/Q2 红线）：
