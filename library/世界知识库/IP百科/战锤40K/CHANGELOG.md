@@ -7,6 +7,15 @@ category: CHANGELOG
 
 # 战锤40K · CHANGELOG
 
+## v1.2.0 · 2026-08-28 · 立人物库（A02 战锤40K 第三轮）
+
+- 落件 2 件（均过 Q1/Q2 红线）：
+  - `人物库/00-人物总览与索引.md`（线1压舱∩线2标注：帝国中枢/20原体全表（9忠9叛2失落）/帝国其他/混沌四人团+各神冠军/异形方，档案卡级，中英对照+出处）
+  - `人物库/01-帝皇深传.md`（线1压舱∩线2标注：起源双版本/生平38k年/能力/父子裂痕/荷鲁斯终局（护主者多版本留白）/黄金王座M42/人格悖论，8K+字，对齐崔斯特整件粒度）
+- 采源：warhammer40k.fandom.com（Emperor_of_Mankind/Golden_Throne/Horus_Heresy/Siege_of_Terra/Primarchs/Belisarius_Cawl/Malcador/Abaddon/Ahriman/Ghazghkull 等）+ lexicanum 二次交叉 + 英文维基（Priestley 引言）；关键人物双源，部分单源已标待核
+- 版本冲突不压扁：帝皇起源双版本（萨满转生 vs 官方淡化）、荷鲁斯终局护主者四版（终结者retcon/禁军/圣徒Pius/终卷三版）并列登记
+- 更新 `readme.md`（包组成表 v1.2.0 + 待补清单）+ `material.json`（v1.2.0）
+
 ## v1.1.0 · 2026-08-28 · 续补（A02 战锤40K 第二轮）
 
 - 落件 2 件（均过 Q1/Q2 红线）：
