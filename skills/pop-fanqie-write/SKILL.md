@@ -96,7 +96,7 @@ powershell -ExecutionPolicy Bypass -File skills/pop-fanqie-write/scripts/word-co
 | 前章钩子回收 | 是/否（第一章为N/A） |
 ```
 
-**人机共创**：用户在场可问——爽感爆发点是否到位/章末钩子是否够吸引/是否需调整章型/动作链是否够细（有无概括式动作）/多感官是否到位（有无场景只覆盖1种感官）；不在场（自动模式）跳过。本章交付完成→下一章或等用户指示；下游skill为pop-fanqie-review。
+**人机共创**：用户在场可问——爽感爆发点是否到位/章末钩子是否够吸引/是否需调整章型/动作链是否够细（有无概括式动作）/多感官是否到位（有无场景只覆盖1种感官）；不在场（自动模式）跳过。本章交付完成→下一章或等用户指示；下游skill为pop-review。
 
 ## 红线
 
@@ -123,6 +123,8 @@ powershell -ExecutionPolicy Bypass -File skills/pop-fanqie-write/scripts/word-co
 
 ## 版本
 
+v10.1.1 | 2026-08-31
+- **review 三族合并**：下游 skill `pop-fanqie-review`→`pop-review`
 v10.0.0 | 2026-08-27 → CHANGELOG.md：**references 精简只留 `文风兜底/`**（5份文风DNA），删除非文风文档（章型定义/爽点引擎/微观技法索引/通用技法/technique，已归档 测试/番茄write砍除归档/）；「文风DNA兜底注入门禁」升级为红线5——每章必注入≥1份文风DNA不允许为空；Step2/3 取消外部技法库加载、笔触靠文风DNA驱动；知识地图精简；交付面板去"微观技法"字段。
 v9.1.0 | 2026-08-25 | 字数门禁统一：Python wordcount_check.py 替换为 word-count.ps1（纯汉字计数2000-2500，与起点/test统一口径），stdout贴进验收记录
 v9.0.0 | 2026-08-24 | steps三件合入SKILL.md单文件精炼，steps目录删除，速查表+知识地图合一，执行模式明确主agent直执 → CHANGELOG.md

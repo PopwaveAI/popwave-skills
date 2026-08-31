@@ -1,0 +1,12 @@
+{
+  "id": "pop-outline",
+  "name": "pop-outline",
+  "version": "1.0.0",
+  "displayName": "章纲拼接器",
+  "description": "章纲拼接器（白描卡×剧情周期表→章纲）：叙事原子+线账本+锚点区，按章型选卡拼装，过密度门禁，每章一文件。write读章纲3章渲染正文。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-outline", "章纲", "拼章纲", "outline", "章纲组装"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -155,6 +155,8 @@ description: 设定包改编·剧情白描+章纲组装引擎。当用户说"剧
 
 > 完整版本历史见 `CHANGELOG.md`
 
+v9.0.1 | 2026-08-31
+- **review 三族合并**：skill.json downstream `test-review`→`pop-review`
 v9.0.0 | 2026-08-24
 - **steps 四件全合入单文件精炼**：step1-mainline / step2-chapters / step2_5-assemble / step3-selfcheck 全合入SKILL.md对应SOP节，steps 目录删除（实测step文件在当前harness从未被注入）
 - **执行模式明确**：Step1-2.5创作链主agent直执；Step3快爽自检纯只读核对可派子agent审计回报，主agent裁决+落盘自检表

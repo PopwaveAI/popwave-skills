@@ -1,5 +1,19 @@
 ﻿# CHANGELOG
 
+## v4.0.2 — 2026-08-31
+
+### stage 合并，输入来源改指 pop-stage
+
+- 输入路由表来源列 `pop-world`→`pop-stage`（pop-world+pop-character 再合并为 pop-stage，旧 2 skill 废弃删除）
+- skill.json version 4.0.1→4.0.2
+
+## v4.0.1 — 2026-08-31
+
+### world 三族合并，输入来源改指 pop-world
+
+- 输入路由表来源列 `pop-fanqie-world`→`pop-world`（旧 fanqie-world 废弃删除，三族合并为 pop-world）
+- skill.json version 4.0.0→4.0.1
+
 ## v4.0.0 — 2026-08-24
 
 ### steps 2件全合入 SKILL.md 单文件精炼

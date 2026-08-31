@@ -1,13 +1,13 @@
 {
   "id": "test-plot",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "displayName": "剧情设计器",
   "description": "设定包改编剧情白描+章纲组装：四步产出主线+卷纲战略层（幕框架+核心张力映射）+幕N章白描（150-250字白描卡+锚点9行）+Step2.5章纲组装（白描卡×元素卡库→叙事原子+线账本章纲，密度门禁≥40条料，write读3章）+Step3快爽自检门禁（战斗按场次计密度+章纲密度事实七查，绿灯才交付write）。事件从X核心张力重推全原创。",
   "tags": ["起点长篇网文专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["test-plot", "剧情白描"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
-  "pipeline": { "upstream": ["test-adapt"], "downstream": ["test-review"] },
+  "pipeline": { "upstream": ["test-adapt"], "downstream": ["pop-review"] },
   "author": "popwave",
   "license": "UNLICENSED"
 }

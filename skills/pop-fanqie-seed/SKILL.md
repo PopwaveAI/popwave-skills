@@ -5,13 +5,13 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 
 # pop-fanqie-seed · 番茄创意引擎
 
-> 自由出创意，结构做打磨。从无到有把创意打磨成可试读的开篇。v14.0.0：step1/step2/step3 三件全合入 SKILL.md 单文件精炼（SOP全内联），steps 目录删除。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 自由出创意，结构做打磨。从无到有把创意打磨成可试读的开篇。v14.0.2：pop-world 再合并为 pop-stage，下游指向同步。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
 | 输入 | 输出 | 下游 |
 |:-----|:-----|:-----|
-| 用户一句话方向/偏好/参考书意图 | `设计/创意.md` + `正文/ch001.md` | pop-fanqie-world, pop-fanqie-plot |
+| 用户一句话方向/偏好/参考书意图 | `设计/创意.md` + `正文/ch001.md` | pop-stage, pop-fanqie-plot |
 
 **定位**：seed负责创意到首章。世界构筑移交plot，seed不碰。用户提到参考书时，seed 1a 路由到前置供给（tool-download-webnovel+pop-dna-style/pop-decon），完成后回 1b。
 
@@ -352,6 +352,10 @@ description: "当用户说'做种子/创意/立项/写创意'时启用。三阶�
 | `references/synopsis-guide.md` | 写番茄简介时 | 散文体简介写法+优秀示例 |
 
 ## 版本
+
+v14.0.2 | 2026-08-31
+- pop-world 再合并为 pop-stage，下游指向同步改指
+- skill.json version 14.0.1→14.0.2
 
 v14.0.0 | 2026-08-24
 - **step1/step2/step3 三件全合入 SKILL.md 单文件精炼**：Phase 1（1a七维摸底+1b闸门+1b-2并发+1c调研+1c-5题材调研+1d-0策略+1d双轨发散+1e选择）、Phase 2（2a行为引擎+2b金手指+2c四眼法+2e故事纲领+2f落盘）、Phase 3（3a加载+3b六法则+3c七节拍+3e爽感闭环+3f落盘+3g确认）全内联；steps 目录删除

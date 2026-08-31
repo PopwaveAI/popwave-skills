@@ -3,12 +3,12 @@ name: pop-fanqie-plot
 description: 番茄叙事引擎。当用户说'番茄plot''番茄叙事''剧情白描''分幕设计'时启用。消费全书设定→本卷设定快照→分支剧情线→分幕设计→按幕白描。
 ---
 # pop-fanqie-plot
-> 番茄叙事引擎 v4.0.0。消费world产出的全书设定，专注叙事创作。v4.0.0：steps两件合入单文件精炼（修复harness层step文件永不加载的断点），steps目录删除。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 番茄叙事引擎 v4.0.2。消费stage产出的全书设定，专注叙事创作。v4.0.2：pop-world 再合并为 pop-stage，输入来源改指。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 | 输入 | 来源 | 输出 | 下游 |
 |------|------|------|------|
-| 全书设定/+创意+首章+参考书DNA | pop-fanqie-world/seed/dna-style | 设计/第一卷剧情/剧情白描.md | pop-fanqie-write |
+| 全书设定/+创意+首章+参考书DNA | pop-stage/seed/dna-style | 设计/第一卷剧情/剧情白描.md | pop-fanqie-write |
 
 与world分工：world专注设定设计（理性推导），plot专注叙事创作（感性创作）。plot不做设定设计。
 
@@ -152,5 +152,6 @@ Step 2四层产出整合为一个文档，结构（各节内容由2a-2d产出全
 8. **卷纲精彩度五问自检** — 落盘前必须过五问：追读理由≥2个/意外性≥2个转折/情感投入≥1个锚点角色/爽感密度≥60%章节有爽点/卷末高潮最精彩。任一不过=重做对应层
 
 ## 版本
+v4.0.2 | 2026-08-31 | pop-world 再合并为 pop-stage，输入来源改指 → CHANGELOG.md
 v4.0.0 | 2026-08-24 | steps两件（step2.md+step3.md）合入SKILL.md单文件精炼，steps目录删除，执行模式明确主agent直执 → CHANGELOG.md
 v3.8.0 | 2026-08-13 | skill.json 面向用户介绍+可调用专家标签+版本同步 → CHANGELOG.md

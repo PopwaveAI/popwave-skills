@@ -1,5 +1,24 @@
 ﻿# CHANGELOG
 
+## v3.0.0 | 2026-08-31
+
+### 三族合并首版：pop-research + pop-qidian-research + test-research → 新 pop-research
+
+> **根因**：三件调研件重叠严重（decon-lite 9表与赛道定位调研三件全有、各维护一份），且缺卷级调研位与 wiki 检索协议。对齐老板 2026-08-31 拍板的第二轮合并路线图 P6（三件收敛+三模式+wiki 主源）。
+
+**三模式**：
+- **模式1·立项调研**（六档位）：赛道定位调研（取 qidian 完整版4轮搜索）/ decon-lite 9表拆书（取 test/qidian 同构完整版）/ decon-plot 剧情拆解（qidian 独有，6维度）/ 燃料+题材机制（qidian 独有，三要素+机制分流，产出路径 `涌现/`→`素材/`）/ 采风（原 pop-research 独有）/ 三界框架（原 pop-research 独有，SOP 在 references）
+- **模式2·卷级调研**（新增，卷循环固定位）：卷需求brief → V1提取缺口 → V2 wiki盘点 → V3 web补调 → V4落盘 `素材/卷级调研-卷N.md` → 喂 pop-stage 卷级刷新
+- **模式3·wiki盘点+建包**（test-research 完整保留+前置盘点）：W1 wiki 盘点防重复建包 → DL0-DL5（9表拆解→转写设定包七文件夹）→ Step2 蒸馏包配方5表（金标准结构）
+
+**wiki 主源检索协议**（全局新增）：任何调研先查本地 wiki 镜像 `D:\popwave-wiki\docs`（=wiki.popwave.cn 本地副本），命中直接引用标注来源、不重复造轮子；未命中走 web；产出分区标注 wiki/web 来源。
+
+**资产搬迁**：templates/fuel-doc.tpl.md + mechanics-doc.tpl.md（自 qidian-research）、templates/金标准-包配方.md（自 test-research）；references/三界框架SOP.md + 调研深度标准.md（原 pop-research 保留）。
+
+**红线收敛**：9条/5条/4条三族红线合并为6条全局（原文存在性门禁/9表全拆/落盘/wiki优先/不越界/建包双铁律）。
+
+**废弃**：pop-qidian-research(v5.0.0)、test-research(v6.0.3) 2 件 skill 待 P8 统一删除；旧版历史见 `_archive/changelog-history/`。
+
 ## v2.4.0 (2026-08-13)
 
 ### 元数据同步

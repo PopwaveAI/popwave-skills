@@ -1,5 +1,30 @@
 ﻿# CHANGELOG — test-research
 
+## v6.0.3 | 2026-08-31
+
+### stage 合并，包配方消费方改指 pop-stage
+
+> **根因**：pop-world + pop-character 再合并为 pop-stage（喷漆模型重构），旧 2 skill 废弃删除。
+
+- `templates/金标准-包配方.md` 消费映射：`pop-world Step1`→`pop-stage Step1`、`pop-world Step2-4`→`pop-stage Step2`、`pop-character`→`pop-stage Step3-4`；表头「test-skill」改「消费 skill」
+- skill.json version 6.0.2→6.0.3
+
+## v6.0.2 | 2026-08-31
+
+### review 三族合并，包配方消费方改指
+
+> **根因**：pop-qidian-review + pop-fanqie-review + test-review 合并为 pop-review，旧 3 skill 废弃删除。
+
+- `templates/金标准-包配方.md` 消费映射：`test-review`→`pop-review`
+- skill.json version 6.0.1→6.0.2
+
+## v6.0.1 | 2026-08-31
+
+### world/character 三族合并，包配方消费方改指
+
+- `templates/金标准-包配方.md` 消费映射：`test-world Step1/Step2`→`pop-world Step1/Step2-4`、`test-character`→`pop-character`（旧 6 skill 废弃删除）
+- skill.json version 6.0.0→6.0.1
+
 ## v6.0.0 | 2026-08-24
 
 ### steps 两件全合入 SKILL.md 单文件精炼

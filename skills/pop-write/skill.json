@@ -1,0 +1,12 @@
+{
+  "id": "pop-write",
+  "name": "pop-write",
+  "version": "1.0.0",
+  "displayName": "正文写作引擎",
+  "description": "正文写作引擎：章纲读3章（叙事原子+线账本+锚点区）+近5白描卡+状态快照+文风DNA强制注入→2000-2500字/章。向前推进唯一来源=章纲。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-write", "写正文", "续写", "write"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

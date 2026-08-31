@@ -1,13 +1,13 @@
 {
   "id": "pop-qidian-plot",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "displayName": "剧情设计器",
   "description": "帮你规划剧情：基于立项方案和世界、角色设定展开全书主线、卷纲和章锚点，把故事结构梳理清楚。适合写正文前先搭好剧情骨架时用。",
   "tags": ["起点长篇网文专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-qidian-plot", "剧情白描"] },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
-  "pipeline": { "upstream": ["pop-qidian-seed"], "downstream": ["pop-qidian-review"] },
+  "pipeline": { "upstream": ["pop-qidian-seed"], "downstream": ["pop-review"] },
   "author": "popwave",
   "license": "UNLICENSED"
 }

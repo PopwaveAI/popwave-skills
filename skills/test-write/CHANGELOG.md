@@ -1,5 +1,14 @@
 ﻿# CHANGELOG
 
+## v8.1.1 | 2026-08-31
+
+### review 三族合并，下游改指 pop-review
+
+> **根因**：pop-qidian-review + pop-fanqie-review + test-review 合并为 pop-review，旧 3 skill 废弃删除。
+
+- SKILL.md 缺口处理/新增事实落库/硬后继 + `templates/chapter-record.tpl.md` 下一步建议：`test-review`→`pop-review`
+- skill.json version 8.1.0→8.1.1
+
 ## v8.1.0 — 2026-08-25
 
 ### 新增字数验收门禁：word-count.ps1

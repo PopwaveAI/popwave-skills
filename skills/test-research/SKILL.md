@@ -5,7 +5,7 @@ description: 设定包构建器。当用户说"建包""拆书建包""新设定�
 
 # research
 
-> 设定包构建器。v6.0.0：steps 两件全合入单文件精炼（DL0-DL5拆解转写流程+五表蒸馏流程内联）。一本已验证成功书 → 设定包全套文件 + 包配方（硬对齐层唯一真源）。建一次，全管线消费。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 设定包构建器。v6.0.3：pop-world/pop-character 再合并为 pop-stage，包配方消费方改指。一本已验证成功书 → 设定包全套文件 + 包配方（硬对齐层唯一真源）。建一次，全管线消费。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -130,6 +130,14 @@ description: 设定包构建器。当用户说"建包""拆书建包""新设定�
 
 > 完整版本历史见 `CHANGELOG.md`
 
+v6.0.3 | 2026-08-31
+- **stage 合并**：金标准包配方消费映射 `pop-world Step1/Step2-4`→`pop-stage Step1/Step2`、`pop-character`→`pop-stage Step3-4`
+- skill.json version 6.0.2→6.0.3
+v6.0.2 | 2026-08-31
+- **review 三族合并**：金标准包配方消费映射 `test-review`→`pop-review`
+v6.0.1 | 2026-08-31
+- **world/character 三族合并**：`templates/金标准-包配方.md` 消费映射 `test-world Step1/Step2`→`pop-world Step1/Step2-4`、`test-character`→`pop-character`
+- skill.json version 6.0.0→6.0.1
 v6.0.0 | 2026-08-24
 - **steps 两件全合入单文件精炼**：step1-decon（DL0验证→DL1采样→DL2九表→DL3门禁→DL4存盘→DL5转写七文件夹）+ step2-distill（五表蒸馏+末尾两节+质量门禁）全部内联，steps 目录删除
 - **修复死链**：原引用 `templates/素材/decon-lite.tpl.md` 实际不存在，底稿格式（元数据块+9表各一节）已内联DL4

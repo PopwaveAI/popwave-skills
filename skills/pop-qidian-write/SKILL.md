@@ -14,7 +14,7 @@ description: 起点正文写作引擎。当用户说"写正文""续写""write"�
 | 项 | 内容 |
 |:--|:--|
 | 产出 | `正文/ch{NNN}.txt`（2000-2500字，不准超3000）+ `产出/白描卡/ch{NNN}.md`（新增）+ `产出/状态快照.md`（replace）+ 执行报告（对话内，用 `templates/chapter-record.tpl.md`） |
-| 下游 | 移交 pop-qidian-review 审核（review 改为核对修正沉淀；未 review 不得写下一章，但沉淀已由 write 保证） |
+| 下游 | 移交 pop-review 审核（review 改为核对修正沉淀；未 review 不得写下一章，但沉淀已由 write 保证） |
 
 > execution.mode：formal（落盘）/ draft（有缺口继续写）/ trial（试做不落盘、不沉淀）。
 > 第一性原理：**先写对，再写好**。事实错误不可自愈（全卷级返工），平庸可自愈（review+用户反馈可改）。写好的方法论全在 references，知识地图有触发索引，按需加载。
@@ -191,4 +191,4 @@ POV: {主角/配角} | 章型: {章型} | 原文: {字数}字
 
 ## 版本
 
-**当前版本**：v5.2.0 | 2026-08-27 — 状态读取/更新源改为 `状态.md`（对齐 pipeline v4.3.0）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+**当前版本**：v5.2.1 | 2026-08-31 — review 三族合并：下游移交 `pop-qidian-review`→`pop-review`。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

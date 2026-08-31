@@ -1,5 +1,14 @@
 ﻿# CHANGELOG
 
+## v5.2.1 | 2026-08-31
+
+### review 三族合并，下游移交改指 pop-review
+
+> **根因**：pop-qidian-review + pop-fanqie-review + test-review 合并为 pop-review，旧 3 skill 废弃删除。
+
+- SKILL.md 下游行 + `templates/chapter-record.tpl.md` 下一步建议：`pop-qidian-review`→`pop-review`
+- skill.json version 5.2.0→5.2.1
+
 ## v5.2.0 | 2026-08-27
 
 ### 状态读取/更新源统一为 状态.md

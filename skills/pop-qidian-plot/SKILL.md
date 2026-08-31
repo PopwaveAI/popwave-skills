@@ -170,6 +170,8 @@ plot 有两处用户交互（Step 0 五轮决策、Step 2 阶段A候选确认）
 
 ## 版本
 
+v6.0.1 | 2026-08-31
+- **review 三族合并**：skill.json downstream `pop-qidian-review`→`pop-review`
 v6.0.0 | 2026-08-24 → CHANGELOG.md
 - steps 四件（step-0-interactive/step-1-material/step-2-act/step-3-chapters）全合入SKILL.md单文件精炼，steps/目录删除
 - 执行模式明确：交互决策环节（Step 0五轮/阶段A候选确认）主agent直执；素材收集外部搜索可派子agent（research purpose）

@@ -1,5 +1,14 @@
 ﻿# CHANGELOG
 
+## v9.0.1 | 2026-08-31
+
+### review 三族合并，downstream 改指 pop-review
+
+> **根因**：pop-qidian-review + pop-fanqie-review + test-review 合并为 pop-review，旧 3 skill 废弃删除。
+
+- skill.json `pipeline.downstream`：`test-review`→`pop-review`
+- skill.json version 9.0.0→9.0.1
+
 ## v9.0.0 — 2026-08-24
 
 ### steps 四件全合入 SKILL.md 单文件精炼

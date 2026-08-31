@@ -1,0 +1,24 @@
+﻿{
+  "id": "pop-pipeline",
+  "name": "pop-pipeline",
+  "version": "1.1.0",
+  "displayName": "管线总控",
+  "description": "统一管线总控（一次性安装器）：建目录+生成 状态.md(唯一机器状态源)+资产归位+缺口分析+落地Phase+补跑调度；卷循环状态机 2a-2g 为路由参照，日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill，agent不读html。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-pipeline", "管线总控", "初始化项目", "新建项目", "导入", "续写", "迁移"] },
+  "skills": [
+    "pop-seed",
+    "pop-stage",
+    "pop-plot",
+    "pop-outline",
+    "pop-write",
+    "pop-review",
+    "pop-research",
+    "pop-dna-style",
+    "tool-download-webnovel"
+  ],
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

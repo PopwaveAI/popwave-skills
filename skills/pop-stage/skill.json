@@ -1,0 +1,12 @@
+﻿{
+  "id": "pop-stage",
+  "name": "pop-stage",
+  "version": "1.1.0",
+  "displayName": "舞台引擎",
+  "description": "舞台引擎（世界+角色唯一产出方）：双模式——首喷（新书一次：力量体系+动力引擎+全书设定+角色库+主线+卷一舞台）/ 卷级刷新（每卷一次：消费卷需求brief喷卷N舞台）。贯穿层只演化不重写，卷舞台一卷一档。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-stage", "世界构筑", "舞台", "卷舞台", "卷刷新", "角色库", "金手指"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
