@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>项目总控</title>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --muted: #999999;
+    --line: #E0E0E0;
+    --accent: #D72D2D;
+    --done: #111111;
+    --pending: #CCCCCC;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 0 40px; }
+
+  /* ===== Masthead ===== */
+  .masthead {
+    border-bottom: 3px solid var(--ink);
+    padding: 48px 0 32px;
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .masthead-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .masthead-phase {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 10px;
+  }
+  .masthead h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .masthead .meta {
+    display: flex;
+    gap: 32px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .masthead .meta strong { color: var(--ink); font-weight: 600; }
+
+  /* ===== Section ===== */
+  .section {
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* ===== Brief ===== */
+  .brief-row {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .brief-row .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 160px;
+    flex-shrink: 0;
+    padding: 14px 0;
+  }
+  .brief-row .value {
+    font-size: 14px;
+    color: var(--ink);
+    padding: 14px 0;
+    flex: 1;
+  }
+
+  /* ===== Phase Timeline ===== */
+  .phase-timeline {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding: 4px 0 8px;
+  }
+  .phase-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 76px;
+    position: relative;
+  }
+  .phase-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    border: 2px solid var(--pending);
+    background: var(--bg);
+    color: var(--pending);
+    z-index: 1;
+    transition: all 0.2s;
+  }
+  .phase-circle.done {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+  .phase-circle.current {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .phase-line {
+    flex: 1;
+    height: 1px;
+    min-width: 12px;
+    background: var(--line);
+    margin-top: 15px;
+  }
+  .phase-line.done { background: var(--ink); }
+  .phase-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .phase-label.active { color: var(--accent); }
+
+  /* ===== Next Step ===== */
+  .next-step-box {
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    background: #FAFAFA;
+  }
+  .next-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .next-step-action {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ===== Grid ===== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .readiness-block {
+    padding: 0 24px 0 0;
+  }
+  .readiness-block + .readiness-block {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+  .readiness-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
+  }
+  .status-item:last-child { border-bottom: none; }
+  .status-badge { font-size: 14px; font-weight: 700; }
+
+  /* ===== Table ===== */
+  .outputs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .outputs-table th {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink);
+  }
+  .outputs-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .outputs-table tr:last-child td { border-bottom: none; }
+  .outputs-table .file-path {
+    font-family: "SF Mono", "Consolas", monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ===== Folder Tree ===== */
+  .folder-tree {
+    font-family: "SF Mono", "Consolas", "Courier New", monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .folder-tree .dir { color: var(--ink); font-weight: 700; }
+
+  /* ===== Footer ===== */
+  .footer {
+    padding: 32px 0;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 3px solid var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ========== Masthead ========== -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="masthead-label">Project Control</span>
+      <span class="masthead-phase">Mode: <!--STATE:mode -->fresh<!--/STATE:mode --> · Phase <!--STATE:phase -->init<!--/STATE:phase --> · 卷<!--STATE:volume -->1<!--/STATE:volume --> · <!--STATE:chapter -->ch000<!--/STATE:chapter --></span>
+    </div>
+    <h1><!--STATE:project_name -->未命名项目<!--/STATE:project_name --></h1>
+    <div class="meta">
+      <span>赛道 / <strong><!--STATE:genre -->待指定<!--/STATE:genre --></strong></span>
+      <span>立项路径 / <strong><!--STATE:seed_path -->待seed选定<!--/STATE:seed_path --></strong></span>
+      <span>创建 / <strong><!--STATE:created_at -->--<!--/STATE:created_at --></strong></span>
+      <span>更新 / <strong><!--STATE:updated_at -->--<!--/STATE:updated_at --></strong></span>
+    </div>
+  </div>
+
+  <!-- ========== 01 Project Brief ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">项目简介</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">书名（暂）</span>
+      <span class="value"><!--STATE:book_name -->待seed产出<!--/STATE:book_name --></span>
+    </div>
+    <div class="brief-row">
+      <span class="label">一句话简介</span>
+      <span class="value"><!--STATE:one_line -->待seed产出<!--/STATE:one_line --></span>
+    </div>
+  </div>
+
+  <!-- ========== 02 Phase Progress ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Phase 进度（卷循环 2a-2g）</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="phase-timeline">
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-1">1</div>
+        <div class="phase-label" id="lb-1">Seed立项</div>
+      </div>
+      <div class="phase-line" id="ln-1"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2">2</div>
+        <div class="phase-label" id="lb-2">Stage首喷</div>
+      </div>
+      <div class="phase-line" id="ln-2"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2a">2a</div>
+        <div class="phase-label" id="lb-2a">卷需求brief</div>
+      </div>
+      <div class="phase-line" id="ln-2a"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2b">2b</div>
+        <div class="phase-label" id="lb-2b">卷舞台</div>
+      </div>
+      <div class="phase-line" id="ln-2b"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2c">2c</div>
+        <div class="phase-label" id="lb-2c">卷纲白描</div>
+      </div>
+      <div class="phase-line" id="ln-2c"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2d">2d</div>
+        <div class="phase-label" id="lb-2d">章纲</div>
+      </div>
+      <div class="phase-line" id="ln-2d"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2e">2e</div>
+        <div class="phase-label" id="lb-2e">正文</div>
+      </div>
+      <div class="phase-line" id="ln-2e"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2f">2f</div>
+        <div class="phase-label" id="lb-2f">审核</div>
+      </div>
+      <div class="phase-line" id="ln-2f"></div>
+      <div class="phase-item">
+        <div class="phase-circle pending" id="ph-2g">2g</div>
+        <div class="phase-label" id="lb-2g">卷末盘点</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 03 Next Step ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">下一步</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="next-step-box">
+      <div class="next-step-label">Action</div>
+      <div class="next-step-action"><!--STATE:next_step -->Phase 1: pop-snow-seed 立项<!--/STATE:next_step --></div>
+    </div>
+  </div>
+
+  <!-- ========== 04 Readiness ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">就绪状态</span>
+      <span class="section-rule"></span>
+    </div>
+    <div class="grid-2">
+      <div class="readiness-block">
+        <div class="readiness-title">立项就绪</div>
+        <div class="status-item">立项PRD（六要素） <span class="status-badge"><!--STATE:seed_0 -->❌<!--/STATE:seed_0 --></span></div>
+        <div class="status-item">文风DNA（可选） <span class="status-badge"><!--STATE:seed_1 -->❌<!--/STATE:seed_1 --></span></div>
+      </div>
+      <div class="readiness-block">
+        <div class="readiness-title">舞台就绪</div>
+        <div class="status-item">力量体系 <span class="status-badge"><!--STATE:stg_0 -->❌<!--/STATE:stg_0 --></span></div>
+        <div class="status-item">动力引擎 <span class="status-badge"><!--STATE:stg_1 -->❌<!--/STATE:stg_1 --></span></div>
+        <div class="status-item">全书设定 <span class="status-badge"><!--STATE:stg_2 -->❌<!--/STATE:stg_2 --></span></div>
+        <div class="status-item">金手指 <span class="status-badge"><!--STATE:stg_3 -->❌<!--/STATE:stg_3 --></span></div>
+        <div class="status-item">角色库 <span class="status-badge"><!--STATE:stg_4 -->❌<!--/STATE:stg_4 --></span></div>
+        <div class="status-item">主线 <span class="status-badge"><!--STATE:stg_5 -->❌<!--/STATE:stg_5 --></span></div>
+        <div class="status-item">卷一舞台 <span class="status-badge"><!--STATE:stg_6 -->❌<!--/STATE:stg_6 --></span></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:0;">
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">卷循环（本卷）</div>
+        <div class="status-item">卷需求brief <span class="status-badge"><!--STATE:cyc_0 -->❌<!--/STATE:cyc_0 --></span></div>
+        <div class="status-item">卷舞台 <span class="status-badge"><!--STATE:cyc_1 -->❌<!--/STATE:cyc_1 --></span></div>
+        <div class="status-item">卷纲 <span class="status-badge"><!--STATE:cyc_2 -->❌<!--/STATE:cyc_2 --></span></div>
+        <div class="status-item">幕白描 <span class="status-badge"><!--STATE:cyc_3 -->❌<!--/STATE:cyc_3 --></span></div>
+      </div>
+      <div class="readiness-block" style="padding-top:0;">
+        <div class="readiness-title">写审沉淀</div>
+        <div class="status-item">正文 <span class="status-badge"><!--STATE:cyc_4 -->❌<!--/STATE:cyc_4 --></span></div>
+        <div class="status-item">白描卡+状态快照 <span class="status-badge"><!--STATE:cyc_5 -->❌<!--/STATE:cyc_5 --></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 05 Recent Outputs ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">最近产出</span>
+      <span class="section-rule"></span>
+    </div>
+    <table class="outputs-table">
+      <thead><tr><th>阶段</th><th>产出文件</th><th>时间</th></tr></thead>
+      <tbody>
+<!--STATE:outputs_start-->
+        <tr><td colspan="3" style="color:var(--muted)">暂无产出</td></tr>
+<!--STATE:outputs_end-->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== 06 Folder Structure ========== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">项目空间结构</span>
+      <span class="section-rule"></span>
+    </div>
+<div class="folder-tree"><span class="dir">项目根/</span>
+├── 状态.md                 唯一机器状态源（agent 每轮只读它）
+├── 项目总控.html             展示面板（可选，按需导出，agent 不读）
+├── <span class="dir">素材/</span>              Phase 1 底牌与调研
+│   ├── 用户意图.md / 灵感收集.md
+│   ├── 市场校准.md / 赛道调研.md
+│   ├── 文风锚定.md            DNA（可选，2e 注入）
+│   ├── decon-lite-{书名}.md   拆书9表
+│   ├── 参考答案-{书名}/       设定包（路径C，含包配方.md）
+│   ├── 改编计划.md            路径C（X DNA替换矩阵+类比切换策略）
+│   ├── 卷级调研-卷N.md        2a+ 卷级调研
+│   └── downloads/{书名}.txt
+├── <span class="dir">立项/</span>              Phase 1 seed
+│   └── 01-立项PRD.md          六要素+营销层（stage/plot 消费）
+├── <span class="dir">设计/</span>              Phase 2 stage（贯穿层+卷级层）
+│   ├── 力量体系.md / 动力引擎.md / 金手指.md / 主线.md
+│   ├── <span class="dir">全书设定/</span>      10件（世界设计原则+7维度8件+生长登记处）
+│   ├── <span class="dir">角色库/</span>        角色库.md
+│   └── <span class="dir">卷舞台/</span>        卷N-舞台.md（每卷一档）
+├── <span class="dir">卷纲/</span>              2a-2d 剧情链
+│   ├── 卷N-需求brief.md       2a plot任务A
+│   ├── 卷N-卷纲.md            2c plot任务B
+│   ├── 卷N-幕M-白描.md        2c plot任务C
+│   └── <span class="dir">章纲/</span>          chNNN-章纲.md（2d outline，每章一文件）
+├── <span class="dir">正文/</span>              2e write
+│   └── chNNN.txt              2000-2500字/章
+└── <span class="dir">产出/</span>              2f review 沉淀
+    ├── <span class="dir">白描卡/</span>        chNNN.md（单章历史，只增不改）
+    └── 状态快照.md            跨章状态（replace）</div>
+  </div>
+
+  <!-- ========== Footer ========== -->
+  <div class="footer">
+    pop-snow-pipeline · 项目总控 · 自动生成请勿手动编辑
+  </div>
+
+</div>
+</body>
+</html>

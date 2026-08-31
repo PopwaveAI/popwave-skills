@@ -73,7 +73,7 @@ brief（用户需求）
 
 文风DNA集成这个工作流的方式：在 **规划和写作** 两个环节注入风格DNA。
 
-### 1.4 三层文风DNA框架（pop-writer-chapter → pop-writer-prose）
+### 1.4 三层文风DNA框架（pop-snow-writer-chapter → pop-snow-writer-prose）
 
 **核心洞察**：风格由三个独立层次构成，而非单一的"好不好读"维度：
 

@@ -1,0 +1,12 @@
+{
+  "id": "pop-snow-plot",
+  "name": "pop-snow-plot",
+  "version": "2.0.1",
+  "displayName": "剧情引擎",
+  "description": "卷需求brief/卷纲/幕白描三任务口。消费 pop-snow-seed 全书大纲的本卷切片展开，本卷养成刻度不得超大纲批额。情绪优先SOP：盘账→定调→生长→固化回流。剧情先行舞台现编。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-snow-plot", "剧情白描", "推演剧情", "卷纲", "plot", "幕白描", "卷需求"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

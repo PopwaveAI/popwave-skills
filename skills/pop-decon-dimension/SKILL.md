@@ -1,6 +1,6 @@
 ---
 name: pop-decon-dimension
-description: "单书深度wiki引擎（decon主引擎）。当用户说'拆书/解构/分析/对标/建书wiki/深度拆解/提取模板'时启用。消费原文+范围→L1批次拆解（严格门禁）→L2六模块深度wiki成品。产出对齐《深渊主宰》重建标准，供 pop-fanqie*/pop-qidian* 创作复用。"
+description: "单书深度wiki引擎（decon主引擎）。当用户说'拆书/解构/分析/对标/建书wiki/深度拆解/提取模板'时启用。消费原文+范围→L1批次拆解（严格门禁）→L2六模块深度wiki成品。产出对齐《深渊主宰》重建标准，供 pop-snow* 统一管线创作复用。"
 ---
 
 # pop-decon-dimension · 单书深度wiki引擎
@@ -23,7 +23,7 @@ description: "单书深度wiki引擎（decon主引擎）。当用户说'拆书/�
 
 | 输入 | 来源 | 输出 | 下游 |
 |:-----|:-----|:-----|:-----|
-| 原文 + 范围（全书/卷/N章）+ 书信息 | 原文（必）+ pop-decon 征询 | `{书名}/` 六模块深度wiki成品 | pop-fanqie*/pop-qidian* 创作复用、人工wiki |
+| 原文 + 范围（全书/卷/N章）+ 书信息 | 原文（必）+ pop-decon 征询 | `{书名}/` 六模块深度wiki成品 | pop-snow* 统一管线创作复用、人工wiki |
 
 **执行模式**：L1 分批精读（只读拆解）可派子 agent 回报笔记、主 agent 汇总落盘批次档案；L2 成品整合（叙事流写作+落盘）主 agent 串行直执，卷级文档可派子起草、主统稿。子 agent 永不落盘。
 

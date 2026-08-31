@@ -1,0 +1,13 @@
+{
+  "id": "pop-snow-research",
+  "name": "pop-snow-research",
+  "version": "3.0.1",
+  "displayName": "调研引擎",
+  "description": "统一管线调研引擎。三模式：立项调研（赛道定位/decon-lite 9表/decon-plot 6维度/燃料/采风/三界框架）/卷级调研（卷需求brief→wiki+web增量盘点→喂stage卷刷新）/wiki盘点+建包（9表拆解→转写设定包七文件夹→蒸馏包配方5表）。检索顺序=本地wiki镜像→web，不写正文不排章纲。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线"],
+  "activation": { "slashCommands": ["pop-snow-research", "调研", "research", "赛道调研", "decon-lite", "拆书", "采风", "找燃料", "补燃料", "建包", "拆书建包", "卷级调研"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": true },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
