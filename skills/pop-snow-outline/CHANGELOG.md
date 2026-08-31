@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.0.2 | 2026-08-31
+
+### library 迁移回收：本地库删除，数据源改指 wiki 镜像
+
+- 根因：library（179MB）已解耦迁至 D:\popwave-wiki（wiki.popwave.cn），本地重复一份易干扰；skill 对 library/ 的运行时引用改为指向本地 wiki 镜像 D:\popwave-wiki\docs\（出厂即备，离线可用）
+- 职责：数据只从 wiki 镜像消费/回写，不再以本地 library 为单一数据源
+- 全仓 library/ 活引用已清零，本地 library 目录已删除（内容经 sync.ps1 全量入 wiki，阔 _temp 过程产物与源书txt 不发布）
+
 ## v1.0.1 | 2026-08-31
 
 ### 更名：pop-outline → pop-snow-outline

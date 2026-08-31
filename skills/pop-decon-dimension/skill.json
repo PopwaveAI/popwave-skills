@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-dimension",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "displayName": "单书深度wiki引擎（decon主引擎）",
   "description": "当用户说'拆书/解构/分析/对标/建书wiki/深度拆解/提取模板'时启用。消费原文+范围→L1批次拆解（严格门禁）→L2六模块深度wiki成品。产出对齐《深渊主宰》重建标准，供创作复用。",
   "tags": ["拆书与分析"],

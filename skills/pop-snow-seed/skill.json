@@ -1,7 +1,7 @@
 ﻿{
   "id": "pop-snow-seed",
   "name": "pop-snow-seed",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "displayName": "立项引擎",
   "description": "统一管线立项引擎。核心职责=与用户共创三层产物定下全书大纲：L1一句话命运图（起点/终点/最大反转/最大落差）→L2命运图plus（2k-5k剧情白描）→L3结构化全书大纲（分卷/世界/人物/养成节点）。每层与用户共创+用户拍板确认，串行推进。产出 立项/01-命运图.md、02-命运图plus.md、03-全书大纲.md。",
   "entry": "SKILL.md",
