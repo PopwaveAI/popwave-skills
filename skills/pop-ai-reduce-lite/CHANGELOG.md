@@ -1,5 +1,13 @@
 ﻿# CHANGELOG — pop-ai-reduce-lite
 
+## v3.1.0 | 2026-08-31
+
+### 去AI味
+- 「交互闭环」改为「在同一流程内完成」，去空洞名词
+- 同步 skill.json（version）
+
+---
+
 ## v3.0.0 | 2026-08-24
 
 ### steps 单件全合入 SKILL.md 单文件精炼

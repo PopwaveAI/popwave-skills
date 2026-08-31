@@ -1,11 +1,11 @@
----
+﻿---
 name: pop-content-card
 description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/出HTML'时启用。把网文写作素材做成5页手机可读HTML长图。"
 ---
 
 # pop-content-card
 
-> 网文素材图文卡生产器。素材主题 → 5页手机可读HTML长图。v4.0.0
+> 网文素材图文卡生产器。素材主题 → 5页手机可读HTML长图。v4.0.1
 
 ## 这个 Skill 做什么
 
@@ -151,6 +151,4 @@ description: "当用户说'素材卡/素材图文/满页图文/网文素材卡/�
 
 ## 版本
 
-v4.0.0 | 2026-08-24 | steps 两件（step1-content/step2-visual）全合入SKILL.md单文件精炼，steps目录删除；执行模式明确主agent直执 → CHANGELOG.md
-
-v3.3.0 | 2026-08-13 | 三层×三维度对齐：SKILL加对齐矩阵总纲，三层各自显式标注定位/好坏/方法，自检清单加「对应三可」列，质量传导链贯穿 → CHANGELOG.md
+当前版本 v4.0.1（2026-08-24：steps 两件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

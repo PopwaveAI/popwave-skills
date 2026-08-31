@@ -1,9 +1,13 @@
-{
+﻿{
   "id": "tool-download-webnovel",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "displayName": "网文搜索下载TXT",
   "description": "想下载一部网文TXT时用它。输入书名和作者，自动搜索下载并校验内容质量，交付干净的TXT文件。",
-  "tags": ["番茄长篇网文专家", "起点长篇网文专家", "网文拆书专家"],
+  "tags": [
+    "番茄长篇网文专家",
+    "起点长篇网文专家",
+    "网文拆书专家"
+  ],
   "pipeline": {
     "upstream": [],
     "downstream": [
@@ -11,7 +15,13 @@
     ]
   },
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["下载小说", "tool-download-webnovel"], "default": false },
+  "activation": {
+    "slashCommands": [
+      "下载小说",
+      "tool-download-webnovel"
+    ],
+    "default": false
+  },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true,

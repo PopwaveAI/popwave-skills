@@ -1,9 +1,9 @@
----
+﻿---
 name: short-idea-refiner
 description: "当用户说'想不出写什么/有个模糊想法/帮我想个脑洞'时启用。模糊想法→脑洞一句话+热点参考。分路径A(有想法)/路径B(只有方向)/路径C(带例文)。"
 ---
 # short-idea-refiner
-> 短篇脑洞提炼器。分路径收集输入→提炼2-3个方向→检验+输出脑洞卡片。v2.0.0：steps 三件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 短篇脑洞提炼器。分路径收集输入→提炼2-3个方向→检验+输出脑洞卡片。v2.1.0：steps 三件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：模糊想法 / 题材方向 / 例文（可能全空）
@@ -62,5 +62,4 @@ description: "当用户说'想不出写什么/有个模糊想法/帮我想个脑
 | `templates/idea-card.tpl.md` | Step 3 输出时 | 脑洞卡片模板 |
 
 ## 版本
-v2.0.0 | 2026-08-24 | steps 三件（step1-gather-input/step2-refine-directions/step3-verify-output）全合入单文件精炼，steps 目录已删除；执行模式明确为主agent直执
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+当前版本 v2.1.0（2026-08-24：steps 三件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

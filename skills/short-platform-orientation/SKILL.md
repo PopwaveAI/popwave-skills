@@ -1,5 +1,5 @@
-# short-platform-orientation
-> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v2.0.0：steps 三件全合入单文件精炼；执行模式=主agent直执。
+﻿# short-platform-orientation
+> 短篇平台定位器。摸底3问→平台深度匹配→定位卡片。v2.1.0：steps 三件全合入单文件精炼；执行模式=主agent直执。
 
 ## 做什么
 输入：作者意向（题材倾向/核心目标/现有想法，可能全空）
@@ -78,5 +78,4 @@
 | `templates/platform-card.tpl.md` | 输出时 | 定位卡片模板 |
 
 ## 版本
-v2.0.0 | 2026-08-24 | steps 三件全合入单文件精炼，原 steps 目录删除；执行模式=主agent直执；skill.json 版本漂移一并同步（详见 CHANGELOG.md）
-v1.2.0 | 2026-08-13 | 项目总览.md 改为返回完整内容由主agent创建（子agent兼容）
+当前版本 v2.1.0（2026-08-24：steps 三件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

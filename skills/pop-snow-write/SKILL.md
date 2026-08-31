@@ -1,11 +1,11 @@
 ---
 name: pop-snow-write
-description: 正文写作引擎。当用户说"写正文""续写""write"时启用。2步：消费输入（近5白描卡+状态快照+章纲读3章+DNA+设定注入）→渲染正文（章纲叙事原子序列按序兑现+2000-2500字/章）。向前推进唯一来源=章纲，读3章不读全卷。每章强制注入≥1份文风DNA。
+description: 正文写作。当用户说"写正文""续写""write"时启用。2步：消费输入（近5白描卡+状态快照+章纲读3章+DNA+设定注入）→渲染正文（章纲叙事原子序列按序兑现+2000-2500字/章）。向前推进唯一来源=章纲，读3章不读全卷。每章强制注入≥1份文风DNA。
 ---
 
 # pop-snow-write
 
-> 正文写作引擎。v1.0.1 更名 pop-write → pop-snow-write（雪花流家族徽记，功能零变化）。v1.0.0 由 test-write(v8.1.1) 改造，去 test 专属（包配方/设定包引用），对齐统一管线新路径（卷舞台/章纲/白描卡/状态快照/DNA）；文风兜底继承 pop-fanqie-write（23份按赛道）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 正文写作：消费近5白描卡+状态快照+章纲读3章+文风DNA强制注入，渲染2000-2500字/章。当前版本 v1.0.2，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -186,4 +186,4 @@ execution.mode:
 
 ## 版本
 
-**当前版本**：v1.0.1 | 2026-08-31 — 更名 pop-write → pop-snow-write；首版 v1.0.0 由 test-write(v8.1.1) 改造。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.0.2（2026-08-31）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

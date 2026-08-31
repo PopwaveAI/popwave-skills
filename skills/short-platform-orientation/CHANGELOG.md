@@ -1,4 +1,12 @@
-# CHANGELOG — short-platform-orientation
+﻿# CHANGELOG — short-platform-orientation
+
+## v2.1.0 | 2026-08-31
+
+### 去AI味 + 文档瘦身
+- SKILL.md 版本节版本历史解耦，仅留当前版本 + 指向 CHANGELOG
+- 同步 skill.json（version）
+
+---
 
 ## v2.0.0 — 2026-08-24
 

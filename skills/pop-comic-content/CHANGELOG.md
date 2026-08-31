@@ -1,5 +1,12 @@
 ﻿# CHANGELOG
 
+## v1.1.0 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- description 精简（200→120字），触发词收敛为代表性集合，激活关键词由 skill.json slashCommands 承接
+- 同步 skill.json version 1.0.0→1.1.0
+
 ## v1.0.0 — 2026-08-24
 
 ### steps 7件全合入 SKILL.md 单文件精炼

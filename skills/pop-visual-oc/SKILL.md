@@ -1,11 +1,11 @@
 ---
 name: pop-visual-oc
-description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地理卡/规则卡/场景卡/设定卡/传播卡'或需要视觉设计推广素材时启用。OC 不止人物——从小说原文系统性采样设定信息，生成人物/势力/地理/规则/场景五类设定实体卡。全 OC 统一走唯一大范式：立绘优先·顶部聚字（AI 底图只出纯立绘零文字 + HTML 只在顶部纯背景留白区叠少量核心文字 + 底部一印章 + 整图截图即成品）。质量重心从'文字排版'转向'立绘本身'——构图、画风、原文理解、二创注入（好看是第一生产力，小说原文描述不一定好看）。配套脚本：screenshot_album.py 整图截图。文案按文案SOP公式填写（钩子架构+稳定性三问）保证稳定。生图统一走 image_generate 工具。方法论见 references/layout.md + content.md + 二创-method.md，模板见 templates/ocr-1flow.tpl.html。"
+description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地理卡/规则卡/场景卡/设定卡/传播卡'时启用。从小说原文采样设定信息，生成人物/势力/地理/规则/场景五类设定实体卡，统一走唯一大范式：立绘优先·顶部聚字（纯立绘零文字+顶部留白叠少量核心文字+底部印章，整图截图即成品），质量重心在立绘本身（构图/画风/原文理解/二创注入）。生图统一走 image_generate，模板见 templates/ocr-1flow.tpl.html。"
 ---
 
 # pop-visual-oc
 
-> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。v7.0.0：steps 三件全合入单文件精炼；执行模式见「怎么运作」。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。当前版本 v7.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
@@ -181,8 +181,4 @@ SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py '<ht
 
 ## 版本
 
-v7.0.0 | 2026-08-24
-- steps 三件（step0-setting-research / step1-design / step2-generate）全合入 SKILL.md，steps 目录已删除；执行模式：门禁A/B与设计生成主agent直执，Step 0 原文采样可派子agent
-- 内容精炼：文案公式表与占位符表合一；构图段与 prompt 结构去重；四律表并入铁律 G1-G5；自检压缩为单行
-v6.1.0 | 2026-08-13
-- skill.json 面向用户介绍+可调用专家标签+版本同步
+当前版本 v7.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

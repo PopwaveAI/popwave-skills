@@ -1,5 +1,12 @@
 ﻿# CHANGELOG — pop-recommend
 
+## v2.1.0 (2026-08-31)
+
+### 去 AI 味 + 文档瘦身
+
+- 版本节版本历史解耦，仅留当前版本 + 指向 CHANGELOG
+- skill.json version 2.0.0→2.1.0
+
 ## v2.0.0 (2026-08-24)
 
 ### steps 两件全合入 SKILL.md 单文件精炼

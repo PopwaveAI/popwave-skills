@@ -1,9 +1,9 @@
----
+﻿---
 name: short-plot-structurer
 description: "当用户完成开篇设计后进入剧情结构设计时启用。推荐模板→弧线设计→角色设计→骨架卡片。先定剧情再配角色（角色服务于剧情）。"
 ---
 # short-plot-structurer
-> 短篇剧情结构器。选模板→画弧线→配角色→输出骨架卡片。v2.0.0：steps 四件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 短篇剧情结构器。选模板→画弧线→配角色→输出骨架卡片。v2.1.0：steps 四件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：导语+黄金三句+付费钩子策略（来自 opening-designer 流转上下文：选定平台/文章性质/脑洞一句话/导语/黄金三句/付费钩子策略）
@@ -109,5 +109,4 @@ description: "当用户完成开篇设计后进入剧情结构设计时启用。
 | `templates/skeleton-card.tpl.md` | Step 4 输出时 | 骨架卡片模板 |
 
 ## 版本
-v2.0.0 | 2026-08-24 | steps 四件（step1-select-template/step2-arc-design/step3-character-design/step4-output-card）全合入单文件精炼，steps 目录已删除；执行模式明确为主agent直执
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+当前版本 v2.1.0（2026-08-24：steps 四件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

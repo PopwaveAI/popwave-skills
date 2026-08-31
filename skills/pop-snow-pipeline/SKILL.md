@@ -1,11 +1,11 @@
 ---
 name: pop-snow-pipeline
-description: 统一管线总控（一次性安装器）。当用户说"初始化项目/新建项目/管线总控/导入/续写/迁移已有资料"时启用。一次性建目录+生成 状态.md（唯一机器状态源）+资产归位+缺口分析+落地Phase+补跑调度；卷循环状态机 2a-2g 为路由参照，日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill。
+description: 统一管线总控（一次性搭建）。当用户说"初始化项目/新建项目/管线总控/导入/续写/迁移已有资料"时启用。一次性建目录+生成 状态.md（唯一机器状态源）+资产归位+缺口分析+落地Phase+补跑调度；卷循环状态机 2a-2g 为路由参照，日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill。
 ---
 
 # pop-snow-pipeline
 
-> 统一管线总控。v1.1.1 更名 pop-pipeline → pop-snow-pipeline（雪花流家族徽记，功能零变化）。v1.1.0：对齐 pop-snow-seed v2.0.0 全书大纲架构，立项产物从"六要素PRD"改为共创三层（01-命运图/02-命运图plus/03-全书大纲），归位表/就绪判定/状态模板/可调度清单同步改指。v1.0.0 由 test-pipeline 改造，吸收三族 pipeline。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线总控。当前版本 v1.1.2，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -227,4 +227,4 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 
 ## 版本
 
-v1.0.0 | 2026-08-31 — 三族 pipeline 合并首版（test-pipeline 改造）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.1.2。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

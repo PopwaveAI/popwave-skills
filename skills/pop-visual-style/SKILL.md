@@ -5,7 +5,7 @@ description: "当用户说'画一张图/生成图片/文生图'或需要纯文�
 
 # pop-visual-style
 
-> 通用文生图引擎 + 画风DNA库。纯文生图，一键出图。v2.0.0：steps 四件全合入 SKILL.md 单文件精炼，SOP 全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 通用文生图 + 画风DNA库。纯文生图，一键出图。当前版本 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 

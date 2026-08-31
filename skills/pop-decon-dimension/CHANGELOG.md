@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v3.3.1 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- 身份词"单书深度wiki引擎/decon主引擎"→"单书深度wiki拆解/decon主拆解"
+- 引语与版本节版本历史解耦，仅留当前版本 + 指向 CHANGELOG
+- 同步 skill.json（version/displayName）
+
 ## v3.3.0 | 2026-08-31
 
 ### 新增「立项/ 文件夹（L0-L3 反推件）」，成为拆书必要产出

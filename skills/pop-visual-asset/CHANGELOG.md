@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.1.0 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- 身份词"L1 基建第三引擎"→"L1 基建层"，description 精简
+- 引语版本信息解耦，仅留当前版本 + 指向 CHANGELOG
+- 同步 skill.json（version）
+
 ## v2.0.0 — 2026-08-24
 
 ### steps 两件全合入 SKILL.md 单文件精炼

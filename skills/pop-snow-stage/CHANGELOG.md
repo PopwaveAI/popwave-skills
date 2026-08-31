@@ -1,5 +1,14 @@
 # CHANGELOG · pop-stage
 
+## v1.2.0 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- 身份词"舞台引擎"→"舞台设定"，description 精简
+- 引语与版本节版本历史解耦，仅留当前版本+指向 CHANGELOG
+- 正文装饰性"引擎"→"机制/类型"（引擎类型→类型、引擎是全世界的→机制是全世界的）
+- 同步 skill.json（version/displayName/description）
+
 ## v1.1.1 | 2026-08-31
 
 ### 更名：pop-stage → pop-snow-stage

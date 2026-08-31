@@ -1,17 +1,17 @@
 ---
 name: pop-decon
-description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提取模板'时启用。下载txt→征询范围→路由单书深度wiki引擎(dimension)→沉淀。不常驻调度。
+description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提取模板'时启用。下载txt→征询范围→路由单书深度wiki拆解(dimension)→沉淀。不常驻调度。
 ---
 
 # pop-decon · 拆书专家入口
 
-> 拆书专家入口：下载 txt → 征询范围 → 路由 `pop-decon-dimension`（单书深度wiki引擎）→ 沉淀。不常驻调度 v26.0.0：家从 4 精简为 2，路由收敛为单一主引擎。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 拆书专家入口：下载 txt → 征询范围 → 路由 `pop-decon-dimension`（单书深度wiki拆解）→ 沉淀。不常驻调度。当前版本 v26.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
 | 输入 | 输出 | 下游 |
 |:--|:--|:--|
-| 用户拆书需求 + 源文件 | 征询范围 + 路由到 dimension（传范围+书信息） | pop-decon-dimension（单书深度wiki引擎） |
+| 用户拆书需求 + 源文件 | 征询范围 + 路由到 dimension（传范围+书信息） | pop-decon-dimension（单书深度wiki拆解） |
 
 **执行模式**：主 agent 直执——下载/征询/路由/沉淀均为交互编排环节，无自然子 agent 适配点；拆解整体路由给 pop-decon-dimension。
 
@@ -42,9 +42,9 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 
 **门禁**：用户未明确选择范围 → 退回征询，不得擅自开始拆解。
 
-### Step 2：路由到主引擎
+### Step 2：路由到主拆解
 
-范围传入 `pop-decon-dimension`（单书深度wiki引擎），由其承载 L1 批次拆解（硬门禁）+ L2 六模块成品整合。产出前 dimension 自行征询「先样板验收再铺 / 一步到位铺全」。
+范围传入 `pop-decon-dimension`（单书深度wiki拆解），由其承载 L1 批次拆解（硬门禁）+ L2 六模块成品整合。产出前 dimension 自行征询「先样板验收再铺 / 一步到位铺全」。
 
 ### Step 3：沉淀 + 提醒少测
 
@@ -56,7 +56,7 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 
 ## 📦 可调度 Skill 清单
 
-`tool-download-webnovel`（下载txt）/ `pop-decon-dimension`（单书深度wiki引擎·L1批次拆解+L2六模块成品）
+`tool-download-webnovel`（下载txt）/ `pop-decon-dimension`（单书深度wiki拆解·L1批次拆解+L2六模块成品）
 
 ## 红线
 
@@ -79,6 +79,4 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 
 ## 版本
 
-v26.1.0 | 2026-08-28 | L1 提取维度 7→8（新增「功能位/原子候选」），入口 Step 3 补充原子候选由 dimension 自动归集入库说明，同步 references pipeline-context/delegation-orchestration 七维→八维。
-
-v26.0.0 | 2026-08-25 | 家从 4 精简为 2：删除 pop-decon-prd / pop-decon-design-pack（方法论内吸进 dimension 主引擎）；征询从"范围+维度"简化为"范围"；路由收敛为单一主引擎；产出目标从维度证据稿改为六模块深度wiki成品。更早版本见 [CHANGELOG.md](CHANGELOG.md)
+当前版本 v26.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

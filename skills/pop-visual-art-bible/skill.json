@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-art-bible",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "displayName": "Art Bible · 美术设定集",
   "description": "想给小说建立统一的美术设定集（画风、人物、场景、符号等）时用它。它是整个IP视觉的唯一真源，先定好它，后面做的封面、人设、漫画才不会风格漂移。",
   "entry": "SKILL.md",

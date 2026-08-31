@@ -1,6 +1,6 @@
 # 产出质量门禁（入口指针版）
 
-> 拆书质量门禁的**权威版在 `pop-decon-dimension/references/output-quality-standards.md`**（单书深度wiki引擎双层层门禁：L1 批次档案 7 项硬门禁 + L2 六模块成品骨架）。
+> 拆书质量门禁的**权威版在 `pop-decon-dimension/references/output-quality-standards.md`**（单书深度wiki拆解双层层门禁：L1 批次档案 7 项硬门禁 + L2 六模块成品骨架）。
 >
 > 本文件曾为旧管线（Phase 1-4 / 设计包时代）质量标准，已随 v26.0.0 家精简 + dimension v3.0.0 推倒重做**废弃**。入口侧仅做指针转发，禁止在此各自维护门禁，避免版本漂移。
 

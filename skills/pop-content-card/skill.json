@@ -1,17 +1,24 @@
-{
+﻿{
   "id": "pop-content-card",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "displayName": "素材图文卡",
   "description": "想把网文写作素材做成手机可读的图文长图时用它。输入一个素材主题，就能产出5页竖版HTML长图，方便截图分享。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["pop-content-card", "素材卡", "素材图文", "满页图文"]
+    "slashCommands": [
+      "pop-content-card",
+      "素材卡",
+      "素材图文",
+      "满页图文"
+    ]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["小说推书与IP化专家"],
+  "tags": [
+    "小说推书与IP化专家"
+  ],
   "author": "popwave",
   "license": "UNLICENSED"
 }

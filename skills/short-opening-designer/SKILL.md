@@ -1,9 +1,9 @@
----
+﻿---
 name: short-opening-designer
 description: "当用户确定脑洞后进入开篇设计时启用。卖点主轴→6种导语公式择最优→黄金三句→完整导语→付费钩子策略。"
 ---
 # short-opening-designer
-> 短篇开篇设计器。定卖点→选公式→黄金三句→完整导语→付费钩子。v2.0.0：steps 五件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 短篇开篇设计器。定卖点→选公式→黄金三句→完整导语→付费钩子。v2.1.0：steps 五件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：脑洞一句话+平台+文章性质（来自 idea-refiner 流转上下文：选定平台/文章性质/脑洞一句话/题材/检验结果）
@@ -97,5 +97,4 @@ description: "当用户确定脑洞后进入开篇设计时启用。卖点主轴
 | `templates/opening-card.tpl.md` | Step 5 输出时 | 开篇卡片模板 |
 
 ## 版本
-v2.0.0 | 2026-08-24 | steps 五件（step1-sell-point/step2-choose-formula/step3-golden-three/step4-full-opener/step5-pay-hook）全合入单文件精炼，steps 目录已删除；执行模式明确为主agent直执
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+当前版本 v2.1.0（2026-08-24：steps 五件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

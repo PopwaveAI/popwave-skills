@@ -1,11 +1,11 @@
 ---
 name: pop-visual-asset
-description: "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'或需要在做美术设定集/OC/漫画/封面前先从原文提取素材时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA），供 pop-visual-art-bible（L1 基建）→ 再经美术设定集下发给 oc/comic/cover 消费。兼容写作专家项目和独立小说项目，支持增量更新。"
+description: "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA等），供 pop-visual-art-bible 汇总成美术设定集后下发 oc/comic/cover 消费，支持增量更新。"
 ---
 
 # pop-visual-asset
 
-> 小说视觉资产提取器。从原文提取结构化素材，供视觉 skill 群消费。v2.0.0：steps 两件全合入 SKILL.md 单文件精炼，SOP 全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 小说视觉资产提取器。从原文提取结构化素材，供视觉 skill 群消费。当前版本 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
@@ -161,7 +161,7 @@ description: "当用户说'提取角色档案/提取场景资产/提取视觉符
 
 ### 消费路由（按 intent 档位）
 
-资产就绪后，**Pipeline 语境下优先路由到 `pop-visual-art-bible`（L1 基建第三引擎）**，由 art-bible 汇总成美术设定集（唯一真源）后再下发给派生层 oc/cover/comic。不进派生层时停在 asset：
+资产就绪后，**Pipeline 语境下优先路由到 `pop-visual-art-bible`（L1 基建层）**，由 art-bible 汇总成美术设定集（唯一真源）后再下发给派生层 oc/cover/comic。不进派生层时停在 asset：
 
 | intent | 路由到 | 读取哪些资产 | 基建档位 |
 |:---------|:-------|:------------|:---------|

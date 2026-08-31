@@ -1,11 +1,11 @@
 ---
 name: pop-snow-outline
-description: 章纲拼接器——白描卡×剧情周期表→章纲（叙事原子+线账本+锚点区）。当用户说"章纲""拼章纲""outline""章纲组装"时启用。消费plot幕白描，按章型选卡拼装，过密度门禁，每章一文件。write读章纲3章渲染正文。
+description: 章纲拼接——白描卡×剧情周期表→章纲。当用户说"章纲""拼章纲""outline""章纲组装"时启用。
 ---
 
 # pop-snow-outline
 
-> 章纲拼接器。v1.0.1 更名 pop-outline → pop-snow-outline（雪花流家族徽记，功能零变化）。v1.0.0 由 test-plot Step2.5 拆出独立，章纲组装协议全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 章纲拼接——白描卡×剧情周期表→章纲。当前版本 v1.0.3，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -133,4 +133,4 @@ ch{NNN}《{章名}》
 
 ## 版本
 
-**当前版本**：v1.0.1 | 2026-08-31 — 更名 pop-outline → pop-snow-outline；首版 v1.0.0 由 test-plot Step2.5 拆出独立。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.0.3（2026-08-31）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

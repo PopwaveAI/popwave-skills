@@ -5,7 +5,7 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 
 # pop-recommend
 
-> 推书营销专家。从小说原文→读者推书卡（给新读者的无剧透推荐）。v2.0.0
+> 推书营销专家。从小说原文→读者推书卡（给新读者的无剧透推荐）。v2.1.0
 
 ## 做什么
 
@@ -66,6 +66,4 @@ description: "当用户说'推书/推书卡/读者推荐'时启用。从小说�
 
 ## 版本
 
-v2.0.0 | 2026-08-24 | steps 两件（step2/step3）全合入SKILL.md单文件精炼，steps目录删除；执行模式明确——Step1价值扫描可派子agent（只读扫描回报，主agent落盘），Step2/3主agent直执 → CHANGELOG.md
-
-v1.3.0 | 2026-08-13 | 按Popwave Skill设计规范重写SKILL.md结构（≤100行），红线合并为5条含读取协议 → CHANGELOG.md
+当前版本 v2.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

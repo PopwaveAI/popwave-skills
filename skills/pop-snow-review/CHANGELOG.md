@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.1.2 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- 身份词"章节审核引擎"→"章节审核"，description 精简
+- 引语与版本节版本历史解耦，仅留当前版本 + 指向 CHANGELOG
+- 正文"改编引擎"→"改编机制"
+- 同步 skill.json（version/displayName/description）
+
 ## v1.1.1 | 2026-08-31
 
 ### 更名：pop-review → pop-snow-review

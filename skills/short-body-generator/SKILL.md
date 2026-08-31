@@ -1,5 +1,5 @@
-# short-body-generator
-> 短篇正文生成器。选文风→定模式→逐段生成→去AI味儿。v2.0.0：steps 四件全合入单文件精炼（清理2条死链引用）；执行模式明确为主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+﻿# short-body-generator
+> 短篇正文生成器。选文风→定模式→逐段生成→去AI味儿。v2.1.0：steps 四件全合入单文件精炼（清理2条死链引用）；执行模式明确为主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：骨架卡片（自 plot-structurer 流转上下文）
@@ -127,5 +127,4 @@
 | `references/character-card.md` | 5D | 人设构建（保持角色一致性） |
 
 ## 版本
-v2.0.0 | 2026-08-24 | steps 四件（step1-style-select/step2-generate-segment/step3-pay-hook/step4-deai-check）全合入 SKILL.md 单文件精炼，原 steps 目录删除；清理死链引用（速查表原引 references/structure-guide.md 与 references/golden-three.md，两文件实际不存在）；执行模式明确为主agent直执；红线8条收敛为5条（业务约束全保留）
-v1.1.0 | 2026-08-13 | skill.json 的 description 改为面向用户介绍、tags 改为可调用专家标签、版本号同步
+当前版本 v2.1.0（2026-08-24：steps 四件全合入单文件精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

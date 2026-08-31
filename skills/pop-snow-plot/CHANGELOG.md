@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.0.2 | 2026-08-31
+
+### 去 AI 味 + 文档瘦身
+
+- 身份词"剧情引擎"→"剧情编排"，description 精简
+- 引语与版本节版本历史解耦，仅留当前版本 + 指向 CHANGELOG
+- 同步 skill.json（version/displayName/description）
+
 ## v2.0.1 | 2026-08-31
 
 ### 更名：pop-plot → pop-snow-plot
