@@ -48,8 +48,6 @@
 | 前缀 | 家族 | 归属 |
 |:--|:--|:--|
 | `pop-snow-*` | 统一写作管线（雪花流） | 番茄/起点专家共用 |
-| `pop-fanqie-*` | 番茄长篇（旧族，废弃待删） | — |
-| `pop-qidian-*` | 起点长篇（旧族，废弃待删） | — |
 | `pop-decon-*` | 网文拆解 | 拆书专家（子组件在通用区） |
 | `pop-visual-*` `pop-comic-content` | 视觉/IP | 推书与IP化专家 |
 | `short-*` | 短篇 | 短篇专家 |
@@ -57,3 +55,5 @@
 | `pop-ai-reduce-lite` | 降AI味 | 通用 |
 | `pop-shared-skill-create` | skill 元能力 | 通用 |
 | `tool-*` | 共享工具 | 跨专家共用 |
+
+> `pop-fanqie-*` `pop-qidian-*`（起点/番茄旧族）已随 snow 定名（2026-08-31）删除退役，命名空间不再占用。
