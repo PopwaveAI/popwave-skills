@@ -1,4 +1,11 @@
-﻿# CHANGELOG
+# CHANGELOG
+
+## v3.1.0 | 2026-08-31
+
+### 意识层 + wiki 站取源
+
+- 新增「心智前置·意识层」节（Know-Gap/Pack/Worth/Deepen + 取材预算硬上限），贯穿本 skill 与全流程。
+- wiki 取源统一走网站 https://wiki.popwave.cn（替代本地 D:\popwave-wiki\docs 镜像 / sync.ps1）。
 
 ## v3.0.2 | 2026-08-31
 

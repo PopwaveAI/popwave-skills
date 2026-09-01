@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-review",
   "name": "pop-snow-review",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "displayName": "章节审核",
   "description": "章节审核（起点/番茄/设定包 三范式通用）：按输入源自动判定范式，四步审核：正向符合性→正文质量→反向充足性→沉淀双文件。适合每写完一章质检把关时用。",
   "entry": "SKILL.md",

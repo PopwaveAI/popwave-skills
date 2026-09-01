@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-outline",
   "name": "pop-snow-outline",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "displayName": "章纲拼接",
   "description": "章纲拼接（白描卡×剧情周期表→章纲）：叙事原子+线账本+锚点区，按章型选卡拼装。",
   "entry": "SKILL.md",
