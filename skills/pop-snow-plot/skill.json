@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-plot",
   "name": "pop-snow-plot",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "displayName": "剧情编排",
   "description": "卷需求brief/卷纲/幕白描三任务口。消费全书大纲本卷切片，按盘账→定调→生长→固化回流 SOP 编排剧情，不超大纲批额。",
   "entry": "SKILL.md",
