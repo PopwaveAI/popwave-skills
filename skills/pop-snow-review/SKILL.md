@@ -2,7 +2,7 @@
 
 # pop-snow-review
 
-> 章节验收 + 归档。就三件事：确认本章正文满意（定稿）→ 生成本章日志 → 更新全书日志。当前版本 v1.4.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 章节验收 + 归档。就三件事：确认本章正文满意（定稿）→ 生成本章日志 → 更新全书日志。当前版本 v1.4.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 
@@ -49,6 +49,10 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
 3. 这一章定了哪些事（改了后文对不上的重事实）
 4. 这一章动了哪些线（`线｜这章干了啥｜线现在走到哪`）
 
+> **write 交接并入**：write 对话回复给【冲突标注/新增事实待核】——review 核验有效性后并入"这一章定了哪些事"，write 只声明不落库，落库以 review 为准。
+
+> **字数门禁（review 自己跑）**：exec 跑 `scripts/word-count.ps1 -Path 正文/ch{NNN}.txt`，纯汉字 2000-2500 为合格；stdout 原文留在本章日志头部"字数"栏。不合格则打回 write 改字数。write 不承担字数检测。
+
 **第 3 步 更新全书日志**
 打开 `全书日志.md`，按本章日志 replace：
 - 新人物 / 新线 / 新悬念 → 进"活跃"；
@@ -72,6 +76,7 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
 | `templates/chapter-card.tpl.md` | 第 2 步 | 本章日志模板 |
 | `templates/state-snapshot.tpl.md` | 第 3 步 | 全书日志·只记活跃（replace） |
 | `templates/exit-archive.tpl.md` | 第 3 步 | 退出档案·归档（追加） |
+| `scripts/word-count.ps1` | 第 2 步 | 字数门禁（review 跑，纯汉字2000-2500） |
 
 ## 批量回溯（可选）
 

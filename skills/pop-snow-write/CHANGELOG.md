@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.5.1 | 2026-09-04
+
+### 字数门禁完全移交 review，write 不承担字数检测
+
+老板指出"测字数的脚本交接给 review"。此前 v1.4.1 走的是 write 跑脚本、stdout 放对话回复交 review（write 仍持有 `scripts/word-count.ps1`）。本轮改为**脚本本身迁到 review，write 彻底不承担字数检测**：
+
+- **脚本交接**：`scripts/word-count.ps1` 从 write 迁到 review `skills/pop-snow-review/scripts/word-count.ps1`，write 侧脚本删除，杜绝双源。
+- **write SKILL.md 三处残留修正**：验收门禁表删"汉字字数达标"行、红线7 改为"字数门禁在 review"、速查表删 word-count.ps1 行（均是从旧"write 自跑"残留扫出的矛盾，现在统一为 review 第 2 步跑，stdout 进本章日志"字数"栏，write 不自报字数）。
+- 对话交接信息从"摘要/钩子/新增事实待核/冲突/字数"去掉"字数"。
+
+同步三件套：SKILL.md / skill.json（version 1.5.1）/ CHANGELOG；删除 write `scripts/word-count.ps1`。
+
 ## v1.5.0 | 2026-09-04
 
 ### 文风源权重倒置：reference 纯样文原文 > 本地自造锚定

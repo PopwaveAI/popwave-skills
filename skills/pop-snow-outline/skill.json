@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-outline",
   "name": "pop-snow-outline",
-  "version": "1.3.0",
-  "displayName": "章纲（描述约束）",
-  "description": "章纲＝事前预演的写前参数单（描述约束版）：只定事件/转折/落点功能，动作细节/心理/对白台词/结尾意象划给 write 现编；A路消费上游、B路自举推演并回流全书日志。",
+  "version": "1.4.1",
+  "displayName": "章纲（描述约束·四块）",
+  "description": "章纲＝事前预演的写前参数单（描述约束版·四块）：章节背景/舞台背景/剧情场景（场·带事件，单章4-6场）/补充信息，只定事件/转折/落点功能，动作细节/心理/对白台词/结尾意象划给 write 现编；A路消费上游、B路自举推演并回流全书日志。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "统一管线"],
   "activation": { "slashCommands": ["pop-snow-outline", "章纲", "拼章纲", "outline", "章纲组装"] },

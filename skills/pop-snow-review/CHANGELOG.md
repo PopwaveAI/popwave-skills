@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.4.1 | 2026-09-04
+
+### 章节日志接住 write 下放的交接 + 字数门禁由 review 自跑（配合 write v1.5.1）
+
+每章账本收敛为一份（章节日志），不再与创作记录双写。三件事落地：
+
+- **字数门禁迁入 review**：`scripts/word-count.ps1` 从 write 迁到本 skill，review 第 2 步 exec 自跑（纯汉字 2000-2500），stdout 原文进章节日志头部"字数"栏；write 彻底不承担字数检测、不自报字数。
+- **章节日志模板对齐四模块**：`templates/chapter-card.tpl.md` 从旧白描卡结构（事件白描/关键数据/本章DNA）重写为 时间·地点·人物／本章剧情／这一章定了哪些事／这一章动了哪些线 四模块，去掉了 v1.3 白描卡残留与早前试点加的 `## write 接入` 节（用户判定过度设计）——write 交接信息（冲突标注/新增事实待核）由 review 在生成日志时自然并入"定了哪些事"。
+- SKILL.md 第 2 步同步"review 自己跑字数门禁"，并明确 write 对话交接（冲突标注/新增事实待核）核验后并入"这一章定了哪些事"。
+
+同步三件套：SKILL.md / skill.json（1.4.1）/ CHANGELOG；`templates/chapter-card.tpl.md` 重写；新增 `scripts/word-count.ps1`（迁自 write）。
+
 ## v1.4.0 | 2026-09-03
 
 ### 重构：review 收敛为"三件事"（章节验收+归档），砍掉庞大审核引擎
