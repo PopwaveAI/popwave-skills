@@ -1,6 +1,6 @@
 # 产出质量门禁（双层 · 单书深度wiki引擎）
 
-> pop-decon-dimension 自检标准。L1 批次档案 + L2 六模块成品两层门禁。产出对齐《深渊主宰》重建标准（`D:\popwave-wiki\docs\知名小说wiki\深渊主宰`，= wiki.popwave.cn，作权威成品样板）。
+> pop-decon-dimension 自检标准。L1 批次档案 + L2 六模块成品两层门禁。产出对齐《深渊主宰》重建标准（`https://wiki.popwave.cn/知名小说wiki\深渊主宰`，= wiki.popwave.cn，作权威成品样板）。
 
 ## 层一 · L1 批次档案门禁（地基 · 不过关不进 L2）
 
