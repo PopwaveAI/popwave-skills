@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-pipeline",
   "name": "pop-snow-pipeline",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "displayName": "管线总控",
   "description": "统一管线总控（一次性搭建）：建目录+生成 状态.md(唯一机器状态源)+资产归位+缺口分析+落地Phase+补跑调度；卷循环状态机 2a-2g 为路由参照，日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill，agent不读html。",
   "entry": "SKILL.md",

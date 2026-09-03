@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-review",
   "name": "pop-snow-review",
-  "version": "1.2.0",
-  "displayName": "章节审核",
-  "description": "章节审核（起点/番茄/设定包 三范式通用）：按输入源自动判定范式，四步审核：正向符合性→正文质量→反向充足性→沉淀双文件。适合每写完一章质检把关时用。",
+  "version": "1.4.0",
+  "displayName": "章节验收归档",
+  "description": "章节验收+归档（每写完一章、写下一章前必做）：三件事——确认本章正文满意（定稿，未定稿不入库）→ 按定稿正文生成本章日志 → 按本章日志更新全书日志（只记活跃，回收项入退出档案）。不审质量，只做账本维护。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "三族通用"],
   "activation": { "slashCommands": ["pop-snow-review", "审稿", "审核", "review", "番茄review", "番茄审核", "起点review", "设定包审核"] },

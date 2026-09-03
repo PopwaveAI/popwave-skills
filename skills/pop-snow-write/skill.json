@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-write",
   "name": "pop-snow-write",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "displayName": "正文写作",
-  "description": "正文写作：章纲读3章（叙事原子+线账本+锚点区）+近5白描卡+状态快照+文风DNA强制注入→2000-2500字/章。向前推进唯一来源=章纲。",
+  "description": "正文写作：消费本章章纲＋全书日志（当前态）＋文风DNA三样核心输入，其余按需点读，第2000-2500字/章。向前推进唯一来源=本章章纲。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "统一管线"],
   "activation": { "slashCommands": ["pop-snow-write", "写正文", "续写", "write"] },

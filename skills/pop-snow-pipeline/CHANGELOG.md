@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v1.3.0 | 2026-09-03
+
+### 固化"每章闭环"（防止路由绕错）
+
+在卷循环状态机顶部新增「每章闭环」小节，显式固化每章五步循环，修正 review→next write 直读日志的误路由：
+
+- `outline 章纲 → write 正文 → review 三件事（①定稿 ②章日志 ③全书日志） → 回到 outline 写 ch{NNN+1} 章纲 → …`
+- 明确：review 产物（章日志/全书日志/退出档案）喂给**下一章的 outline**当章纲依据，**不是直接喂 write**；write 永远跟在章纲之后，不得跳过 outline。
+- 对应位：`2d(outline)→2e(write)→2f(review)→回 2d`；本卷末章→2g。
+- 与 pop-snow-review v1.4.0（收敛为三件事·章节验收归档）对齐。
+- 同步三件套：SKILL.md / skill.json（version 1.3.0）/ CHANGELOG。
+
 ## v1.2.0 | 2026-08-31
 
 ### 意识层 + wiki 站取源

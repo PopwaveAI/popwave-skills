@@ -5,7 +5,7 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 
 # pop-snow-pipeline
 
-> 统一管线总控。当前版本 v1.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线总控。当前版本 v1.3.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -171,6 +171,18 @@ one_line: 待seed产出
 
 ## 卷循环状态机（2a-2g，路由参照）
 
+### 每章闭环（写一章的完整一圈 · 防止路由绕错）
+
+每一章严格五步循环，**outline 写章纲永远在 write 之前，不许跳**：
+
+```
+outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 outline 写 ch{NNN+1} 章纲 → …
+```
+
+- **review 三件事**：①确认本章正文满意（=定稿，未定稿不入库）②生成 `章日志 ch{NNN}.md`（事件源·只增不改）③更新 `全书日志.md`（当前态·只记活跃·replace，回收项落 `退出档案.md`）。
+- **产物归谁消费**：review 产出的章日志/全书日志，喂给**下一章的 outline** 当章纲依据，**不是直接喂 write**——write 永远跟在章纲之后，不得跳过 outline 从日志直接开写。
+- **对应状态机位**：`2d(outline) → 2e(write) → 2f(review) → 回 2d(下一章 outline)`；本卷末章 review PASS → 2g 卷末盘点。
+
 新书流程：`init → 1(seed) → 2(stage首喷，含卷一舞台) → 卷循环`。卷循环每卷一圈：
 
 | 位 | 干什么 | skill | 产出 | 完成→下一位 |
@@ -240,4 +252,4 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 
 ## 版本
 
-当前版本 v1.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.3.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
