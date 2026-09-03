@@ -1,4 +1,20 @@
-﻿# CHANGELOG — pop-ai-reduce-lite
+# CHANGELOG — pop-ai-reduce-lite
+
+## v4.0.0 | 2026-09-02
+
+### 整包替换为 @user_741dc82b/libai（李白.Skill:润色专家 v2.0）
+
+> **根因**：对比评测后老板拍板——第三方李白.Skill 的检测（实测 AI 含量%+7维诊断）+改写（四步排雷+破式五层）能力全面强于自研 lite 的表层规则降噪。与其在自研浅层上补检测短板，不如整包采用成熟引擎。但维持"非 snow 默认流程"定位不动。
+
+**改动**：
+- **实现整包替换**：pop-ai-reduce-lite 目录清空旧实现，铺入 libai 全部内容（SKILL.md / README / QUICKSTART / faq / resources 规则库 / scripts Python 检测改写引擎）
+- **去掉两级闸门**：删除原「表层降噪→表层后询问→路由 pop-ai-reduce 深度18技法」链路，改为李白一次到位（A 专业报告 / B 轻量 / C 仅诊断 三模式交付）
+- **skill.json 重写**：id 与中文触发词（降AI/去AI味/降朱雀/润色）保留；version 3.0.0→4.0.0
+- **SKILL.md frontmatter**：name 由 libai-skill 改为 pop-ai-reduce-lite，triggers 保留李白全集并补「降朱雀」；正文保留李白原版流程不变
+- **脚本运行时**：由 Node(.mjs) 切换为李白的 Python(detect.py/rewrite.py) 引擎；依赖 Python ≥3.8（本机 3.10 可用）
+- **旧实现已备份**：`temp/backup_pop-ai-reduce-lite_20260902_170039/`（project-source + runtime-copy 双份）
+
+---
 
 ## v3.1.0 | 2026-08-31
 
@@ -20,32 +36,6 @@
 - **内容精炼**：字数保留率回查规则收敛进红线❌5（补上step文件中"重点查Step 1/Step 4过度删除"的指向）；速查表三条全部并入「输出与验证」节正文（去独立表）；加载门禁节随链式加载架构废除删除；表层后询问模板压缩（提醒两点+选项保留）
 - skill.json version 2.4.0→3.0.0
 
-## v2.4.0 | 2026-08-14
-
-### 脚本迁移 Node.js（Popwave 标准运行时）+ 执行效率优化
-
-- **analyze_metrics.py → `analyze_metrics.mjs`（Node 版）** — Popwave 环境无 Python 解释器（实测 run e4ba6de3 的 agent 花了 14 轮找 Python、被迫 Node 移植脚本）。改用 Node 后直接用 openclaw-runtime 自带 node 执行
-- **validate_l2.py → `validate_l2.mjs`（Node 版）** — 同上
-- **新增红线 ❌7（执行效率红线）** — ①表层字符一次性批量完成防返工；②台词跨段连击 = 切分伪影直接跳过；③指标一次跑全量
-- **删除 .py 脚本**（保留 .mjs 为唯一实现）
-
-## v2.3.2 | 2026-08-14
-
-### tags 精简
-
-- skill.json tags 从 ["写作管线","降AI","精简版","表层降噪"] 精简为 **["降AI味"]**（与主 skill 统一）
-
-## v2.3.1 | 2026-08-14
-
-### 修复（基于测试4 run 实测）
-
-- **残余AI味预估算法补全** — 新增两条深层信号："忽然/突然"类概括式内心活动（>3处 +0.10）、金句升华腔（+0.05）。lite 不处理深层 AI 味，但预估必须如实反映未动信号
-- **❌6 红线补强** — 明确"所有指标数据必须来自脚本输出，禁止自写或自行估算"
-
-### 背景
-
-测试4 lite 自评残余 0.40（≤0.45 可不深度），但深度 run 实测朱雀 0.93→0.60，两套口径不可比。根因：lite 预估只检测表层信号（破折号/引号/句长/对仗），漏了"忽然"类内心活动与金句升华等深层信号。
-
 ---
 
-> 历史版本条目已归档：`_archive/changelog-history/pop-ai-reduce-lite/CHANGELOG.md`（全量保留，本文件仅保留最近3个版本）
+> 历史版本条目已归档：`temp/backup_pop-ai-reduce-lite_20260902_170039/project-source/CHANGELOG.md`

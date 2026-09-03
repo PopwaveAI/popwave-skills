@@ -1,26 +1,18 @@
-﻿{
+{
   "id": "pop-ai-reduce-lite",
-  "version": "3.1.0",
-  "displayName": "快速去AI味（Lite版）",
-  "description": "用户说'降AI/去AI味/降朱雀/润色'时，默认先执行本 skill 做表层降噪。单轮4步表层管线，能改不删零迭代，不改内容只做表面降噪。跑完后询问用户是否需进一步深度去AI。",
+  "version": "4.0.0",
+  "displayName": "去AI味（李白引擎）",
+  "description": "用户说'降AI/去AI味/降朱雀/润色'时触发。实现整包替换为 @user_741dc82b/libai（李白.Skill:润色专家 v2.0）：规则检测+分层改写一次到位（A/B/C三模式交付），不再路由任何深度 skill。非 snow 创作管线默认流程，仅手动触发。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": [
-      "pop-ai-reduce-lite",
-      "降AI",
-      "去AI味",
-      "降朱雀",
-      "润色"
-    ]
+    "slashCommands": ["pop-ai-reduce-lite", "降AI", "去AI味", "降朱雀", "润色"]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true,
     "shell": true
   },
-  "tags": [
-    "降AI味"
-  ],
+  "tags": ["降AI味"],
   "author": "popwave",
   "license": "UNLICENSED"
 }
