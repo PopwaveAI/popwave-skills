@@ -8,7 +8,7 @@ last_updated: YYYY-MM-DD
 
 # chNNN「{标题}」
 
-POV: {主角/配角} | 章型: {章型} | 字数: {N}字（exec 跑 `scripts/word-count.ps1 -Path 正文/chNNN.txt` 实测，纯汉字2000-2500合格）
+POV: {主角/配角} | 章型: {章型} | 字数: {N}字（write 交接的 word-count stdout 原文，纯汉字2000-2500已在write闭环PASS）
 
 ## 时间 · 地点 · 人物
 {这一场戏发生在何时何地、在场有哪些人、各自处于什么状态/动机}

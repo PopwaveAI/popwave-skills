@@ -1,5 +1,5 @@
-﻿# review skill 字数门禁专用：汉字字数以文件实测为准，stdout 为本章日志"字数"栏唯一依据
-# write 不承担字数检测，由 review 第 2 步跑本脚本
+﻿# write skill 字数门禁专用：汉字字数以文件实测为准，stdout 为 review 章日志"字数"栏唯一依据
+# write 落盘后自跑；不足/超限由 write 自己补写或删减闭环，不交 review 补救
 # 口径：纯汉字字符（\u4e00-\u9fff），不含标点/空格/英文/数字/markdown标记
 # 判定：2000-2500 汉字 = PASS，否则 FAIL
 param(

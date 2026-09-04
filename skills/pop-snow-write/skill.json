@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-write",
   "name": "pop-snow-write",
-  "version": "1.5.2",
+  "version": "1.8.0",
   "displayName": "正文写作",
   "description": "正文写作：消费本章章纲＋全书日志（当前态）＋前一章正文＋文风DNA四样核心输入，其余按需点读，渲染2000-2500字/章。向前推进唯一来源=本章章纲。前一章正文必注入作衔接基准（叙事流+文气+停点）。",
   "entry": "SKILL.md",

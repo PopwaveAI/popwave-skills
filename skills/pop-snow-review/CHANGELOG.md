@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v1.4.2 | 2026-09-05
+
+### 字数门禁归还 write（review 不跑脚本），字数降为消费交接数据（配合 write v1.8.0）
+
+老板拍板："字数不足不能在 review 里补救，还得 write 自己闭环"。v1.4.1 把 word-count.ps1 迁到 review 的设计缺陷：review 发现字数不合格只能打回 write，多一轮空转；且字数不足的补写只能发生在 write（有章纲上下文），review 本质上无法补救。
+
+- **脚本迁出**：`scripts/word-count.ps1` 迁回 write（`skills/pop-snow-write/scripts/`），review 侧 scripts 目录删除，杜绝双源。
+- **SKILL.md 第 2 步**：字数门禁改为"消费 write 交接数据"——review 不跑脚本，直接把 write 交接的 stdout 原文（`chNNN.txt|汉字N|判定:PASS`）填进本章日志"字数"栏；交接缺失时追问 write，不自己补跑。
+- **章日志模板**：`templates/chapter-card.tpl.md` 字数栏注释改为"write 交接的 word-count stdout 原文，纯汉字2000-2500已在write闭环PASS"。
+- **速查表**：删除 word-count.ps1 行。
+- skill.json description 同步"字数直接消费 write 交接的 word-count stdout，review 不跑脚本"。
+
+同步三件套：SKILL.md / skill.json（1.4.2）/ CHANGELOG；`scripts/word-count.ps1` 迁出（归还 write）。
+
 ## v1.4.1 | 2026-09-04
 
 ### 章节日志接住 write 下放的交接 + 字数门禁由 review 自跑（配合 write v1.5.1）
