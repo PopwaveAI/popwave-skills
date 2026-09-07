@@ -2,7 +2,7 @@
 
 # pop-snow-outline
 
-> 章纲＝事前预演的写前参数单（描述约束版·四块）。当前版本 v1.4.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 章纲＝事前预演的写前参数单（描述约束版·四块）。当前版本 v1.5.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 
@@ -90,7 +90,7 @@
 
 ### Step 4：落盘
 
-每章一文件 `卷纲/章纲/ch{NNN}-章纲.md`（模板 `templates/章纲.tpl.md`）。write 读章纲 3 章渲染正文。write/review 反馈章纲质量问题时回本步重写该章，禁止 write 层私自补剧情——事件锚的修改权在 plot 层，outline 自举的演化登记在全书日志。
+每章一文件 `卷纲/章纲/ch{NNN}-章纲.md`（模板 `templates/章纲.tpl.md`）。**落盘后半步=消毒**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/章纲/ch{NNN}-章纲.md --profile doc --json`——WARN 定位自查（装腔换大白话，行话放行；工程标签如章型枚举/落点功能不查）、机械项 `--fix`，回执一行 `消毒:ch{NNN}-章纲|PASS` 或 `WARN×N`（review 归档时会核验此回执）。write 读章纲 3 章渲染正文。write/review 反馈章纲质量问题时回本步重写该章，禁止 write 层私自补剧情——事件锚的修改权在 plot 层，outline 自举的演化登记在全书日志。
 
 ***
 
@@ -150,7 +150,6 @@ ch{NNN}《{章名}》
 3. **事实校验链**：章纲锚点事实字段产前必读全书日志。章纲→正文冲突时以全书日志/前文为准。
 4. **零必读分叉**：设定/人物卡/元素卡库/剧情周期表一律不进必读，只当卡壳字典。任何"要不要读"的掂量都是注意力税，默认不掂。
 5. **不代plot职责**：上游健全时 outline 只排张力、不发明剧情；自举只在缺上游时兜底，不抢 plot 主导。
-6. **落盘后消毒（doc 报告闸）**：章纲落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——只报不打回：黑话/套路句式/空腔段按 WARN 定位自查（装腔换大白话，行话正常用可放行）；工程标签（章型枚举/落点功能等精确技术名）不在消毒范围。零风险机械项可加 `--fix` 原地修。
 
 ***
 
@@ -169,4 +168,4 @@ ch{NNN}《{章名}》
 
 ## 版本
 
-当前版本 v1.5.0（2026-09-07）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.5.1（2026-09-08）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
