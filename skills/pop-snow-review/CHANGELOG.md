@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.5.0 | 2026-09-07
+
+### 落盘后消毒闸接线（doc profile）
+
+- 红线新增第5条：章日志/全书日志落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——报告闸只报不打回：档案措辞贴事实，黑话/套路句式按 WARN 定位自查；工程标签（字数栏/线名）不在消毒范围，零风险机械项可 `--fix`。
+- 配套 pop-snow-pipeline v1.5.0（deai_gate.py v3.0 双 profile 统一管理）。
+
 ## v1.4.2 | 2026-09-05
 
 ### 字数门禁归还 write（review 不跑脚本），字数降为消费交接数据（配合 write v1.8.0）

@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-plot",
   "name": "pop-snow-plot",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "displayName": "剧情编排",
-  "description": "卷需求brief/卷纲/幕白描三任务口。消费全书大纲本卷切片，按盘账→定调→生长→固化回流 SOP 编排剧情，不超大纲批额。",
+  "description": "卷需求brief/卷纲/幕白描三任务口。思考顺序即纪律：先问终局（本卷给结局供什么）→再定冲突（敌人挡在交付路上，解决方式=交付方式）→后排剧情。消费全书大纲本卷切片，按盘账→定调→生长→固化回流 SOP 编排剧情，不超大纲批额。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "统一管线"],
   "activation": { "slashCommands": ["pop-snow-plot", "剧情白描", "推演剧情", "卷纲", "plot", "幕白描", "卷需求"] },

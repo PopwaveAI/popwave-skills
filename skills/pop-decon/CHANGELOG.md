@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v26.3.0 | 2026-09-07
+
+### 落盘后消毒闸接线（doc profile）
+
+- 红线新增第8条：`{书名}/` wiki 成品落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——报告闸只报不打回；工程标签（chXX 锚点/🔒量化值）不在消毒范围。wiki 资料包源头干净，下游管线才不被污染。
+- 配套 pop-snow-pipeline v1.5.0（deai_gate.py v3.0 双 profile 统一管理）。
+
 ## v26.2.0 | 2026-08-31
 
 ### 去 AI 味 + 文档瘦身

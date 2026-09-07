@@ -1,5 +1,12 @@
 # CHANGELOG · pop-stage
 
+## v1.5.0 | 2026-09-07
+
+### 落盘后消毒闸接线（doc profile）
+
+- 红线新增第8条：每份产出（设计/ 十件套+卷舞台）落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——报告闸只报不打回：黑话/套路句式/空腔段按 WARN 定位自查（装腔换大白话，行话正常用可放行）；工程标签（刻度/等级名/锚点）不在消毒范围，零风险机械项可 `--fix`。
+- 配套 pop-snow-pipeline v1.5.0（deai_gate.py v3.0 双 profile 迁入该包统一管理）。
+
 ## v1.4.0 | 2026-09-04
 
 ### 账本命名对齐「全书日志」（配合 review v1.4.1）

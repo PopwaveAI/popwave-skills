@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v1.9.0 | 2026-09-07
+
+### deai_gate.py 迁至 pop-snow-pipeline 统一管理（write 只调用不维护）
+
+老板拍板："去AI味脚本应挂 pipeline 统一管线总控，跨 skill 落盘质量闸"。本轮迁移：
+
+- **脚本迁出**：`scripts/deai_gate.py` 从本 skill 迁至 `skills/pop-snow-pipeline/scripts/deai_gate.py`（v2.1→v3.0，同轮完成双 profile 改造：body=正文严格句法检测 / doc=非正文文档只报黑话套路不打回；阈值外置 `deai_profiles.json`）。write 的调用命令不变，仅路径更新：`python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json`（正文档默认 body profile，无需传参）。
+- **write 侧行为零变化**：正文门禁仍是"字数 PASS 后跑 --fix，FAIL 清零才落盘完成"；body profile 检测/修复面与 v2.1 完全一致（8本×3段人书回归零差异）。
+- **接线**：Step 2 门禁②命令路径 / 速查表"去AI味门禁在 write"路径（注明脚本归 pipeline 管理）/ 头部版本号补同步（v1.6.0→v1.9.0，此前头部漏更）。
+- 配套 pop-snow-pipeline v1.5.0（脚本落位+门禁规范，见 pipeline CHANGELOG）。
+
+同步三件套：SKILL.md / skill.json（version 1.9.0）/ CHANGELOG；`scripts/deai_gate.py` 迁出（本包 scripts 仅余 word-count.ps1）。
+
 ## v1.8.0 | 2026-09-05
 
 ### 字数门禁从 review 拿回：write 落盘后自跑自闭环（两道门禁顺序固化）

@@ -2,7 +2,7 @@
 
 # pop-snow-write
 
-> 正文写作：消费**本章章纲＋全书日志（当前态）＋前一章正文＋文风DNA**四样核心输入，其余按需点读，渲染2000-2500字/章。当前版本 v1.6.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 正文写作：消费**本章章纲＋全书日志（当前态）＋前一章正文＋文风DNA**四样核心输入，其余按需点读，渲染2000-2500字/章。当前版本 v1.9.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 
@@ -37,6 +37,8 @@
 ## 怎么操作（SOP全内联）
 
 ### Step 1：消费输入（抽取本章写作包）
+
+> 🔒 **语感隔离阀（先读这道总闸，再消费任何 # 章纲/幕白描 # ）**：章纲/幕白描/全书日志的措辞是**剧情结构语言**，不是**正文语感**——它们天然带压缩性 AI 腔（"过量收敛""打脸""爆点"这类标签句），只用来描述"这章发生什么、读起来该怎样"。write 只从它们取**意**（事件顺序+落点功能+情绪基调+钩子），用文风DNA（Step ⑤⑥）的语言**重铸**成正文。**禁止照抄章纲/幕白描的抽象名、标签句、句式进正文**；情绪基调只作气氛提示，不成句搬。若正文出现与文风DNA语感不符的"大纲腔"，视为语感污染，review 打回。
 
 有章纲前提下，**按"必读核心 vs 按需点读"分层消费**，不把档案全搬进上下文。缺必读核心项记入缺口。
 
@@ -204,7 +206,7 @@ powershell -File skills/pop-snow-write/scripts/word-count.ps1 -Path 正文/ch{NN
 **② 去AI味门禁（终稿上跑）**：
 
 ```
-python skills/pop-snow-write/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json
+python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json
 ```
 
 - **零风险项脚本已原地自动修**36类（标点全角化/引号配对/省略号归一/零宽字符/HTML与markdown残留/emoji/思考残留行/tab/行首标点归位/独立单引号转双引号等），无需人工，不进 LLM
@@ -255,10 +257,10 @@ python skills/pop-snow-write/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --jso
 
 > **字数门禁在 write**：`skills/pop-snow-write/scripts/word-count.ps1`（纯汉字2000-2500），落盘后先跑，不足自扩写闭环，详见 Step 2「落盘后门禁①」。
 >
-> **去AI味门禁在 write**：`skills/pop-snow-write/scripts/deai_gate.py`（`--fix` 零风险自动修 + WARN/FAIL 定位报告，`--json` 供机器读），字数 PASS 后跑，详见 Step 2「落盘后门禁②」。
+> **去AI味门禁在 write**：`skills/pop-snow-pipeline/scripts/deai_gate.py`（正文档默认 body profile；`--fix` 零风险自动修 + WARN/FAIL 定位报告，`--json` 供机器读），字数 PASS 后跑，详见 Step 2「落盘后门禁②」。脚本统一归 pipeline 包管理（v3.0 起双 profile：body=正文 / doc=非正文文档），write 只调用不维护。
 
 ***
 
 ## 版本
 
-当前版本 v1.8.0（2026-09-05）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.9.0（2026-09-07）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

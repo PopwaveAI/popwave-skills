@@ -5,7 +5,7 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 
 # pop-snow-pipeline
 
-> 统一管线总控。当前版本 v1.4.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线总控。当前版本 v1.5.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -229,6 +229,26 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 
 ---
 
+## 落盘质量闸（deai_gate.py，本包 scripts 统一管理）
+
+去AI味门禁脚本归本包 `scripts/deai_gate.py`（配置外置 `scripts/deai_profiles.json`，纯 stdlib），双 profile 服务全管线落盘质量。**各 skill 落盘后自跑，不进 LLM、不派子agent。**
+
+| profile | 服务对象 | 性质 | 检测面 | 调用 |
+|:--|:--|:--|:--|:--|
+| `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回闸**：FAIL 必须清零才算落盘完成 | 套话硬模板~120条/软密度~28组/结构统计/工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
+| `doc` | 非正文文档（seed L0-L3 / research 调研拆书包 / stage 设定卷舞台 / plot brief·卷纲·幕白描 / outline 章纲 / review 章日志全书日志 / decon 拆书wiki成品 / dna-style 文风锚定说明文字，及拆书/卖点/大纲/世界观类） | **报告闸**：只 WARN+定位，不打回 | 黑话（hard 实锤/soft 风格分层）+套路句式+空腔段+生成器残留；分号/破折号/括号/列举行/工程emoji标记/0%对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
+
+**边界三条**：
+1. 工程标签（【锚】/养成刻度/卷末边界等精确技术名）不做去AI化改写——消毒只作用于叙事主体。
+2. 自动修仅限零风险机械项（英文标点/HTML残留/零宽字符等36类）；滥用类只报不自动改。
+3. `doc` 的 WARN 清单由落盘 agent 按上下文判断：装腔换大白话，行话正常用可放行（回复注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表 / write 检测面说明等文档本身讨论这些特征词，命中属合法引用非残留。
+
+**词库蓝本与维护**：doc 黑话/套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 扩至夸大修饰/伪情感/模板评价/翻译腔句式等全量类别）+ 老板点名 seed/设定场景词；管线自身行话（赛道/卖点/爽点/钩子等）不入库。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 兜底须同步维护。
+
+**阈值/词库调校**：改 `scripts/deai_profiles.json` 即可，不改代码；改后跑回归（负面样例高召回+人书零误杀+wiki/skills 误伤增量可控）再生效。
+
+---
+
 ## 红线
 
 1. **只安装不生产**：pipeline 不写正文/不设计/不审核；深度内容转换（正文反推/设计补建）调度对应 skill 完成。
@@ -237,6 +257,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 4. **状态源**：`状态.md`=唯一机器状态源，agent 每轮只读写它；`项目总控.html` 为展示面板，按需导出，agent 不读 html、不承担渲染成本。
 5. **状态.md 更新走协议**：谁干活谁更新，只改涉及字段；pipeline 只在初始化/导入时碰 phase。
 6. **读文件用宿主原生读取工具**。
+7. **门禁脚本归本包，各 skill 只调用不复制**：`scripts/deai_gate.py` 唯一副本在本包，write/research/seed/stage 按 profile 调用（body=正文打回闸 / doc=非正文报告闸，见「落盘质量闸」节）；阈值词库只改 `deai_profiles.json`，改后须回归验证。
 
 ---
 
@@ -247,9 +268,10 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | `状态.md`（项目根） | agent 每轮只读它 | 唯一机器状态源（mode/phase/current_volume/current_chapter/seed_path/就绪态） |
 | `templates/项目总控.html` | 老板要看展示面板时（按需可选） | 展示面板模板（由 状态.md 套值导出，agent 不读） |
 | `references/onboarding-guide.md` | 用户首次触发专家时 | 首次对话引导语 |
+| `scripts/deai_gate.py` + `scripts/deai_profiles.json` | 各 skill 落盘后（门禁执行时） | 去AI味门禁：body=正文打回闸 / doc=非正文报告闸（规范见「落盘质量闸」节） |
 
 ---
 
 ## 版本
 
-当前版本 v1.4.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.5.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

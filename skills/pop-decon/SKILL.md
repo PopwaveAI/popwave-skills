@@ -67,6 +67,7 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 5. 无源文件先路由 tool-download-webnovel 下载，不得跳过；换源全失败 → 终止告知，不得空文件硬跑
 6. 产出沉淀到 `{书名}/` 六模块目录，不入库 pop-trope-library
 7. **未提醒少测即切入全书** — 拆书启动或完成时必须提醒用户"本拆解服务较耗算力，建议先用一卷/前N章少量测试，确认效果后再拓展到全书"
+8. **产出落盘后消毒（doc 报告闸）** — `{书名}/` wiki 成品落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——只报不打回：黑话/套路句式按 WARN 定位自查（装腔换大白话，行话正常用可放行）；工程标签（chXX 锚点/🔒量化值等）不在消毒范围。零风险机械项可加 `--fix` 原地修。wiki 资料包的源头干净，下游管线才不被污染。
 
 ## 速查表（外部文件）
 
@@ -79,4 +80,4 @@ description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提�
 
 ## 版本
 
-当前版本 v26.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v26.3.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

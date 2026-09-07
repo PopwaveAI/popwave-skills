@@ -1,5 +1,46 @@
 # CHANGELOG
 
+## v1.5.2 | 2026-09-07
+
+### deai_gate 升 v3.2：词库盲区补齐——吸收 pop-ai-reduce-lite 全量禁用词资产
+
+老板问"词库会不会漏了很多真正有AI味的但你不知道？参考 skill 里是不是有点查AI味的，都看看"。翻遍全库找到三座金矿：`pop-ai-reduce-lite`（李白润色专家 v2.0 整包，banned-words.md 21 节禁用词表+zh_rules.json 规则库）、`short-reviewer`（writing-styles.md 去味清单）。对比发现 doc 词库只吸收了 banned-words 的 2/21 节，盲区确实大。本轮补齐：
+
+- **doc buzz_hard +6**：具有里程碑意义/划时代/蓬勃发展/欣欣向荣/举世瞩目/千行百业（体制夸大腔；"不可估量/举足轻重/压倒性"因剧情复述易误伤降 soft）。
+- **doc buzz_soft +14**：不可估量/举足轻重/压倒性/彰显/凸显/展现了/高光/历史性/颠覆性/革命性/本质上/这意味着/独具匠心/引领。
+- **formulaic +6**：首先…其次三段式/对于…而言/通过…的方式/以…的形式/值得深思式总结/万能感受（一阵莫名·说不出）。
+- **PAT_CONN +6**（body/doc 共享）：需要指出的是/需要强调的是/不难看出/简而言之/客观来说/可以预见。
+- **PAT_AI_META +13**（实锤级）：chatbot 签名档（希望以上内容/感谢您的阅读/以上就是…全部/如需进一步/欢迎随时提问/如有任何问题）+ 生成器引用残留（oaicite/turn0search/contentReference/utm_source=chatgpt/[citation）。
+- **兜底对齐**：代码内 DEFAULT_DOC_CFG 与 JSON 同步（v3.1 时打法/认知差等降 soft 未同步兜底，JSON 丢失时行为会漂移）；词库蓝本注释更新为全量吸收。
+- **回归四层全绿**：负面样例 35 项新增特征 100% 召回；body 人书回归 22 档 ai_meta/connectives 零命中（改动项零误伤）；wiki 重扫 with_warn 276→293（+6%，全为 soft/formulaic 报告级）、skills 89→93（+4.5%）；"以上就是"正文误报（"跨两境以上就是碾压"）收紧正则后清零。
+- **自指豁免说明**：词库类文档（pop-ai-reduce-lite 词表/write 检测面说明）讨论特征词属合法引用，SKILL.md 边界三条注明。
+- 同步三件套：SKILL.md / skill.json（version 1.5.2）/ CHANGELOG。
+
+## v1.5.1 | 2026-09-07
+
+### deai_gate 升 v3.1：目录级扫描+聚合热点，doc 报告闸接满 9 skill，wiki/技能文档全量实测校准
+
+老板问"plot 是不是也要调，应该都要调吧；脚本本身值得优化吗，拿 wiki 资料包和 skill 文档试试，看是脚本问题还是文档本身重 AI 味"。本轮一次做完：
+
+- **脚本 v3.0→v3.1**：新增目录递归扫描（`-r`，按扩展名过滤）+ 聚合 JSON 输出（`summary.by_check` 按检测项统计 / `top_files` 前15热点文件 / `top_buzz_words` 前30高频黑话词）；hits 逐条带 `match` 命中原文片段，word_freq 记词频。
+- **词库校准**（`deai_profiles.json`，依据 wiki 1750 文件+skills 227 文件实测）："信息差/认知差/打法/方法论/链路"由 hard 降 soft（管线惯用语、正常使用不算装腔）；`emoji_res` 加入 doc skip（⚠️/✅ 工程标记不算 AI 残留）；`formulaic` warn 阈值 1→2（单处套路句式不报警）。
+- **doc 报告闸接满 9 skill**：v1.5.0 已接 seed/stage/research，本轮补 plot（brief/卷纲/幕白描）、outline（章纲）、review（章日志/全书日志）、decon（沉淀提醒）、decon-dimension（L2 成品）、dna-style（文风锚定说明文字）红线。工程标签（幕功能位/卷末边界/不能抢的收益等精确技术名）不在消毒范围。
+- **全量实测**（`测试/doc-profile-验证/`）：wiki 1750 文件警报 1025→276（-73%），skills 227 文件警报 148→89；负面样例（黑话装腔）buzz_hard/soft+formulaic+hollow 全命中不漏检；doc profile 下"维度=454/张力=169/锚定=144"等高频命中多为拆书术语与正常文学批评词汇，属 soft 报告级，由 agent 自查放行——结论：脚本召回完好，剩余警报主要是真实风格分层而非误报。
+- **SKILL.md**：doc profile 行更新（9 skill 服务对象 + `-r` 递归用法）。
+- 同步三件套：SKILL.md / skill.json（version 1.5.1）/ CHANGELOG。
+
+## v1.5.0 | 2026-09-07
+
+### 去AI味门禁 deai_gate.py 迁入：本包统一管理，双 profile 服务全管线
+
+老板拍板："门禁是跨 skill 的（research/seed/stage 也产文档都要闸），不该绑死 write 一家，挂 pipeline 统一管线总控"。本轮迁移+扩容：
+
+- **脚本迁入**：`scripts/deai_gate.py` 从 pop-snow-write（v2.1）迁入并升 v3.0——新增 `--profile doc` 非正文向（报告闸：只 WARN+定位，不打回；分号/破折号/括号/列举行/0%对话放行），重点检黑话（hard 实锤/soft 风格分层）+套路句式+空腔段；阈值与词库外置 `scripts/deai_profiles.json`。
+- **body 行为零变化**：正文向检测/修复面与 v2.1 一致（8本人书×3段回归零差异），write 仅换调用路径（配套 write v1.9.0）。
+- **SKILL.md 新增「落盘质量闸」节**：双 profile 规范表+边界三条（工程标签不消毒/自动修仅机械项/doc 由 agent 判断放行）+阈值调校入口；红线加第7条"门禁归本包，各 skill 只调用不复制"；速查表加行。
+- **下游接线**（配套 seed v4.1.0 / stage v1.5.0 / research v3.2.0）：三者红线各加"落盘后自跑 doc 消毒报告"。
+- **验证**：负面样例（黑话装腔）buzz_hard/soft+formulaic+hollow 全命中；干净叙事样例（测试/深渊主宰-全链路重造验证 01-03）零误杀；doc `--fix` 最小清理不伤 markdown 结构与工程标签。
+
 ## v1.4.0 | 2026-09-04
 
 ### 账本命名对齐「章日志/全书日志」（配合 review v1.4.1 / write v1.5.1）

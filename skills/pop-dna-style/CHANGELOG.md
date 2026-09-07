@@ -1,5 +1,12 @@
 ﻿# CHANGELOG — pop-dna-style
 
+## v2.4.0 (2026-09-07)
+
+### 落盘后消毒闸接线（doc profile，只消毒 agent 手写部分）
+
+- 红线新增第9条：文风锚定.md 落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——纯样文 blockquote（逐字原文）不在消毒范围，只查 agent 手写的场景标签/重构依据/说明文字；行话正常用可放行，零风险机械项可 `--fix`。
+- 配套 pop-snow-pipeline v1.5.0（deai_gate.py v3.0 双 profile 统一管理）。
+
 ## v2.3.1 (2026-09-04)
 
 ### 修复：失效引用 + 纯样文定标残留清理

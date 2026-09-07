@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-deai_gate.py —— 正文去AI味门禁 v2.1
+deai_gate.py —— 去AI味门禁 v3.2（双 profile）
 
 零风险自动修（--fix，机械替换，不碰语义）+ 滥用检测（报告定位，agent 自查自修）。
 
+双 profile（--profile body|doc，配置外置于同目录 deai_profiles.json）:
+  body  正文向（默认，服务 write 正文落盘）。阈值按网文正文叙事句校准，全量检测+判级。
+  doc   非正文向（拆书/卖点/大纲/世界观/设定/调研文档）。报告闸：只 WARN+定位，
+        不判 FAIL 不打回不自动改写。重点是黑话词/套路句式，不是句法——分号/破折号/
+        括号/列举行/markdown结构/0%对话一律放行。工程标签（【锚】等）保持精确技术名。
+
 用法:
-  python deai_gate.py <文件或目录>               仅检测出报告
-  python deai_gate.py <文件或目录> --fix        自动修零风险项 + 出报告
-  python deai_gate.py <文件> --json             JSON 输出（agent 消费）
-  python deai_gate.py <文件> --fix --json       修复 + JSON
-  python deai_gate.py <目录> --fix              批处理（目录下 *.txt，不递归）
+  python deai_gate.py <文件或目录>                        body 检测出报告（*.txt）
+  python deai_gate.py <文件或目录> --fix                 body 自动修零风险项 + 出报告
+  python deai_gate.py <文件> --json                      JSON 输出（agent 消费）
+  python deai_gate.py <目录> --profile doc               doc 消毒报告（*.md+*.txt，报告闸）
+  python deai_gate.py <目录> --profile doc -r            doc 递归子目录批处理
+  python deai_gate.py <目录> --profile doc -r --json     批量 JSON + 聚合 summary（热点文件/热点词）
+  多文件 --json 时输出为单个 JSON 对象 {summary, files}；键名统一 need_review
 
-退出码: 0=无WARN/FAIL  1=存在需自查项  2=参数或文件错误
+退出码: 0=无WARN/复核项  1=存在需自查/复核项  2=参数或文件错误
 
-检测面（2026-09-05 大范围调研扩容。来源：NGA"AI惯犯句式""还我一双没看过ai写作的眼睛"
+body 检测面（2026-09-05 大范围调研扩容。来源：NGA"AI惯犯句式""还我一双没看过ai写作的眼睛"
 "抵制ai入侵"、晋江读者帖、头条"AI写小说的特点"词汇分类表、碎嘴子老王AI文清单、
 GitHub cn-humanizer中文AI词汇表、番茄2026低质治理公告、smzdm编辑去味法）:
   1. 套话硬模板 ~120条（瞳孔地震/唇角微勾/顿了顿/眸光/名为X的情绪/并不存在的眼镜/
@@ -26,7 +34,23 @@ GitHub cn-humanizer中文AI词汇表、番茄2026低质治理公告、smzdm编�
   4. 工具痕迹（已思考/嗯，用户/（96字）/markdown残留/HTML残留/单引号/
      emoji残留/舞台指示（笑）/场景标注【旁白】/英文残留行——实锤级）
 
-阈值校准依据（2026-09-05，参考小说txt人书抽样 vs AI样文，详见 temp/_cal4.py）:
+doc 检测面（2026-09-07 交接共识：非正文文档的AI味主体是装腔黑话+套路句式，不是句法）:
+  1. buzz_hard 黑话实锤（互联网黑话/体制套话/夸大空腔：赋能/抓手/颗粒度/
+     底层逻辑/至关重要/史诗级…）——报出来基本就该换大白话
+  2. buzz_soft 风格黑话（锚定/节拍器/叙事弧/张力/质感/调性/维度…）——按上下文
+     判断：行话正常用放行，无具体指向的装腔改写
+  3. formulaic 套路句式（不是…而是…/一方面…另一方面…/与其…不如…/随着…不断…）
+  4. hollow_para 空腔段（堆术语无血肉：黑话≥2且无数字/例子/书名/引号）
+  5. 继承 body 两项：connectives 模板连接词 / ai_meta 工具痕迹
+  词库蓝本：pop-ai-reduce-lite/resources/banned-words.md 第十四/十七节 + 老板点名
+  seed/设定场景词（2026-09-07）。管线自身行话（赛道/卖点/爽点/钩子/机制/模式）不入库。
+
+  doc 词库实测校准（2026-09-07，wiki 全库 1750 文件 + skills 227 文件实跑）:
+  信息差/认知差/打法/方法论/链路 hard→soft（拆书/管线语境核心行话，507+106+103 次实跑
+  证明非装腔）；emoji_res 移出 doc 检测面（⚠️✅❌ 为工程对账标记，733 文件全误报）；
+  ai_meta 收紧（删"思考过程/根据用户"裸词——正常搭配误报，改"思考残留"实锤词）。
+
+body 阈值校准依据（2026-09-05，参考小说txt人书抽样 vs AI样文，详见 temp/_cal4.py）:
   句号密度   人书 21-38/千字 → WARN 45 / FAIL 55
   破折号密度 人书近零       → WARN 1.0 / FAIL 2.0（/500字）
   省略号     人书 0-11.1/千字 → WARN 8 / FAIL 12（对话尾……系作者风格）
@@ -37,7 +61,6 @@ GitHub cn-humanizer中文AI词汇表、番茄2026低质治理公告、smzdm编�
   原则：WARN 线压人书最大值上方，FAIL 再上浮——人书全过、AI稿多挂。
 """
 import argparse
-import glob
 import json
 import os
 import re
@@ -131,7 +154,11 @@ CHECKS = [
     ('bracket_label',   '场景标注',   0, 1, '处', '【场景】【旁白】结构标注残留——整行删除，信息融进正文'),
     ('emoji_res',       'emoji残留',  0, 1, '处', '正文emoji——生成器残留，删除'),
     ('en_line',         '英文残留行', 0, 1, '处', '整行英文——生成器残留，删除或重写'),
+    # --- v3.3 新增（番茄拒签16万本实测七破绽之3/4，2026-09-08）---
+    ('quote_mixed',     '引号体系混用', 1, 3, '处', '“”与「」『』并存——全书统一一种引号体系（对话用“”则直角引号改“”）'),
+    ('md_hr',           '分割线残留', 1, 2, '处', '====/----/****整行分割线——代码文档习惯，正文场景切换用空行或文字过渡'),
 ]
+CHECK_IDS = {c[0] for c in CHECKS}
 
 # ---- AI套话库（硬模板：人书低频、AI高频的标志性句式，按密度判级）----
 # 调研来源：NGA/晋江/头条/碎嘴子老王/GitHub cn-humanizer，2026-09汇总
@@ -321,13 +348,26 @@ PAT_MENTAL = r'心想|暗想|想道|暗忖'
 PAT_IDIOM_RUN = r'[\u4e00-\u9fff]{4}(?:[，、][\u4e00-\u9fff]{4}){2,}'
 PAT_NAME_STYLE = (r'昱珩|司辰|暮白|凌夜|清辞|景渊|淮之|瑾舟|晚晚|若兮|清婉|云舟|'
                   r'星回|知遥|言澈|念初|芷晴|倾月|疏影|依依')
-PAT_AI_META = (r'已思考|已深度思考|思考中|思考过程|用时\d+秒|嗯，用户|好的，用户|根据用户|'
+PAT_AI_META = (r'已思考|已深度思考|思考中|思考残留|用时\d+秒|嗯，用户|好的，用户|'
                r'（\d+字）|\(\d+字\)|Response formatting|作为一个?AI|需要我帮|'
                r'以下是[^，。]{0,6}(分析|回答|介绍|总结|清单|章)|如果你想(即刻)?动笔|'
-               r'本章节?[:：]|章节标题[:：]|希望这(段|章|篇)|祝(你|您)(阅读|愉快)')
+               r'本章节?[:：]|章节标题[:：]|希望这(段|章|篇)|祝(你|您)(阅读|愉快)|'
+               r'希望以上内容|希望对(您|你)有帮助|感谢(您|你)的阅读|'
+               r'以上(就是|便是)[^。！？]{0,10}(?:全部|内容|要点|总结|清单|分析|介绍|文件|结果)|如需进一步|欢迎随时(提问|联系)|如有任何问题|'
+               r'oaicite|turn0search|turn0image|contentReference|utm_source=chatgpt|'
+               r'utm_source=openai|\[citation|\[cite|'
+               # v3.3：Humanizer-zh 20/21（知识截止免责+谄媚语气）/cn-humanizer 客服短语（2026-09-08）
+               r'知识截止|我的知识(?:库|范围)|(?:最后|之前)的?训练(?:数据|更新)|'
+               r'好问题[！!]|您说得(?:完全)?正确|这是一个很好的?(?:问题|观点)|'
+               r'针对您的问题|根据您的需求|非常感谢您的提问|很高兴能帮到您|'
+               r'如有疑问[^。！？]{0,8}(?:咨询|联系)|以上供参考|不当之处[^。！？]{0,6}指正')
 PAT_CONN = (r'(?:^|[。！？\n])[ \t]*(与此同时|值得注意的是|值得一提的是|总而言之|综上所述|'
             r'众所周知|在当今|纵观|换言之|换句话说|总的来说|总得来说|让我们|不难发现|由此可见|'
-            r'毫无疑问|不可否认|不言而喻|毋庸置疑|可以说|这说明)')
+            r'毫无疑问|不可否认|不言而喻|毋庸置疑|可以说|这说明|'
+            r'需要指出的是|需要强调的是|不难看出|简而言之|客观来(?:说|讲)|可以预见|'
+            # v3.3：维基Signs of AI writing/cn-humanizer/OpenAI slop words 换词链（2026-09-08）
+            r'此外|不仅如此|更重要的是|除此之外|需要注意的是|值得关注的是|'
+            r'从整体(?:来看|来说|而言)|整体(?:来说|而言)|归根结底)')
 # 舞台指示（剧本式残留）
 PAT_STAGE = (r'（(苦笑|轻笑|低笑|冷笑|叹气|叹息|沉默|摇头|点头|无奈|尴尬|疑惑|惊讶|'
              r'激动|思考|狡黠|玩味|赞许|了然|郑重|悠然|淡淡|平静|注|笑|叹)）')
@@ -347,6 +387,158 @@ RANGE_OK = {'dialog_ratio': (0.05, 0.65)}
 # 段长CV下探0.33、单引号内心独白惯例一章24处）
 REPORT_ONLY = {'dunhao', 'idiom_runs', 'repeat_phrase', 'modal_part',
                'tone_div', 'para_cv', 'sq_quote'}
+
+# ---------------- doc profile（非正文向，报告闸）----------------
+# 词库蓝本：pop-ai-reduce-lite/resources/banned-words.md（v3.2 扩至 13/16/17 节全量吸收）
+# + 老板点名 seed/设定场景词（2026-09-07 交接共识）。管线自身行话
+# （赛道/卖点/爽点/钩子/机制/模式/引擎/阶梯/套别）不入库。
+# JSON（deai_profiles.json）优先，此处为兜底，须与 JSON 同步维护。
+DOC_NAMES = {
+    'buzz_hard': '黑话实锤', 'buzz_soft': '风格黑话',
+    'formulaic': '套路句式', 'hollow_para': '空腔段',
+}
+DEFAULT_DOC_CFG = {
+    'skip': [
+        'period_density', 'ellipsis_density', 'cliche_hits', 'yisi_density', 'simile_density',
+        'burst_adv', 'redup_density', 'mou_density', 'voice_adj', 'gaze_v', 'envverb_density',
+        'abstract_density', 'feel_filter', 'dialog_tag', 'nod_shake', 'dun_dun', 'just_then',
+        'trans_density', 'degree_adv', 'precise_num', 'semicolon', 'gan_sense', 'ta_knows',
+        'fact_adv', 'universal_q', 'time_precise', 'env_noun', 'zhe_yike', 'ai_idiom',
+        'emotion_adv', 'causal_density', 'nominal_v', 'er_start', 'paren_note',
+        'parallel', 'heart_pat', 'eye_pat', 'freeze_pat', 'triple_pat', 'cliff_tmpl',
+        'mental_direct', 'idiom_runs', 'repeat_phrase', 'frag_runs', 'even_runs',
+        'para_start_rep', 'subj_rep', 'para_wall', 'env_open', 'name_style', 'punch_para',
+        'env_run', 'enum_list',
+        'dash_density', 'sent_cv', 'para_cv', 'dialog_ratio', 'ngram_rep', 'ngram3_rep',
+        'punct_cv', 'sem_smooth', 'ttr', 'tone_div', 'modal_part', 'dunhao', 'func_word',
+        'pron_density',
+        'cjk_space', 'quote_unpaired', 'sq_quote', 'stage_dir', 'bracket_label', 'en_line',
+        'quote_mixed', 'md_hr',
+    ],
+    'checks': {
+        'buzz_hard': {'warn': 0.5, 'fail': None, 'unit': '/千字',
+                      'advice': '互联网黑话/体制套话/夸大空腔——换成大白话（赋能→帮上忙；抓手→办法；闭环→完整流程；至关重要→说清为什么重要）'},
+        'buzz_soft': {'warn': 2, 'fail': None, 'unit': '/千字',
+                      'advice': '风格黑话——按上下文判断：行话正常用放行；无具体指向的装腔换成看得见的内容'},
+        'formulaic': {'warn': 2, 'fail': None, 'unit': '处',
+                      'advice': '套路句式——拆成直陈句："不是A而是B"直接写B；"一方面…另一方面"拆两句独立陈述'},
+        'hollow_para': {'warn': 0, 'fail': None, 'unit': '处',
+                        'advice': '空腔段（堆术语无血肉）——补具体例子/数字/作品参照，或整段改写成大白话'},
+        'connectives': {'warn': 2, 'fail': 4, 'unit': '处',
+                        'advice': '模板连接词（值得注意的是/综上所述/不难发现）——删掉直接给内容'},
+        'ai_meta': {'warn': 0, 'fail': 1, 'unit': '处',
+                    'advice': '生成器残留（已思考/嗯，用户/以下是XXX/希望以上内容/oaicite）——整行删除'},
+        'emoji_res': {'warn': 0, 'fail': 1, 'unit': '处',
+                      'advice': '文档内emoji——删除（产出规范禁emoji）'},
+    },
+    'buzz_words': {
+        'hard': [
+            '赋能', '抓手', '生态化', '颗粒度', '对齐颗粒',
+            '拉通', '组合拳', '护城河', '降维打击', '底层逻辑', '心智占领',
+            '深度融合', '全面覆盖', '高度重视',
+            '深入贯彻', '扎实推进', '具有重要意义', '发挥积极作用', '至关重要', '不可或缺',
+            '意义重大', '影响深远', '前所未有', '史诗级', '无缝衔接', '赋能行业', '生态赋能',
+            '具有里程碑意义', '划时代', '蓬勃发展', '欣欣向荣', '举世瞩目', '千行百业',
+            # v3.3：cn-humanizer 一级铁证（企业黑话）+ 宣传腔 + 万能收尾（2026-09-08）
+            '全方位', '沉浸式', '一站式', '顶层设计', '新质生产力', '降本增效', '提质增效', '数智化',
+            '亮眼', '硕果累累', '令人振奋', '可圈可点', '有目共睹', '蒸蒸日上', '日新月异',
+            '突飞猛进', '如火如荼', '方兴未艾',
+            '让我们拭目以待', '未来可期', '前景广阔', '大有可为', '充满无限可能',
+            '我们有理由相信', '站在新的起点上',
+            # v3.3：Humanizer-zh 夸大腔/宣传腔（维基 Signs of AI writing 中文适配）
+            '不可磨灭', '令人叹为观止', '不断演变的格局', '未来已来', '打开想象空间', '分水岭时刻',
+        ],
+        'soft': [
+            '锚定', '节拍器', '范式', '差异化', '叙事弧', '张力', '厚度', '质感', '层次感',
+            '氛围感', '场景化', '可复制', '点击率', '调性', '迭代', '下沉', '痛点', '维度',
+            '层面', '节奏紧凑', '剧情饱满', '人物立体', '立意深刻', '发人深省', '瑕不掩瑜',
+            '高开低走', '口碑爆棚', '年度最佳', '进行了', '闭环', '载体', '加持', '势能', '助力',
+            '信息差', '认知差', '打法', '方法论', '链路',
+            '不可估量', '举足轻重', '压倒性', '彰显', '凸显', '展现了', '高光', '历史性',
+            '颠覆性', '革命性', '本质上', '这意味着', '独具匠心', '引领',
+            # v3.3：cn-humanizer 一级（拆书语境可正常用，降 soft）+ 连享会 Level2/3 流量腔
+            '深耕', '聚焦', '多维度', '深入探讨', '充满活力', '见证了', '标志着', '格局', '势不可挡',
+            '全链路', '打通', '拉齐', '飞轮', '生态', '矩阵', '中台', '破局', '突围',
+            '重构', '重塑', '版图', '内在逻辑', '重新定义', '天花板', '王炸', '封神', '稳了',
+            '保姆级', '一文讲透', '彻底搞懂', '产品化', '深层机制',
+        ],
+    },
+    'formulaic_patterns': [
+        ['不是…而是', '不是[^。！？]{0,20}而是'],
+        ['一方面…另一方面', '一方面[^。！？]{0,25}另一方面'],
+        ['既…又…连用', '既[^。！？]{0,12}又[^。！？]{0,12}[，。；]'],
+        ['与其…不如', '与其[^。！？]{0,15}不如'],
+        ['随着…不断', '随着[^。！？]{0,15}不断'],
+        ['随着…的发展', '随着[^。！？]{0,15}的发展'],
+        ['不仅…而且/更是', '不仅[^。！？]{0,15}(?:而且|更是|还是)'],
+        ['从某种意义上', '从某种意义上(?:说|来讲|来说)'],
+        ['某种程度上', '某种(?:程度|意义)上'],
+        ['在当今…时代', '在当今[^。！？]{0,12}(?:时代|背景|社会)'],
+        ['首先…其次…最后', '首先[^。！？]{0,50}其次'],
+        ['对于…而言', '对于[^。！？，,]{0,12}而言'],
+        ['通过…的方式', '通过[^。！？]{0,20}的方式'],
+        ['以…的形式', '以[^。！？]{0,20}的形式'],
+        ['值得深思式总结', '值得(?:我们|读者)?(?:好好)?深思'],
+        ['万能感受（一阵莫名/说不出）', '(?:一阵|一种)[^。！？]{0,8}(?:莫名|说不出的)'],
+        # v3.3：cn-humanizer 意义拔高短语 + Humanizer-zh 12/24 + OpenAI 硬造对立（2026-09-08）
+        ['标志着…新篇章', '标志着[^。！？]{0,12}的?新(?:篇章|纪元|时代|起点)'],
+        ['开创…先河', '开创[^。！？]{0,12}先河'],
+        ['翻开/谱写…新一页', '(?:翻开|谱写)[^。！？]{0,12}新(?:一页|华章|篇章)'],
+        ['为…注入活力', '为[^。！？]{0,12}注入(?:了)?(?:新的)?(?:活力|动力|生机)'],
+        ['为…提供有力支撑', '为[^。！？]{0,15}提供(?:了)?(?:有力|坚实)(?:的)?(?:支撑|保障)'],
+        ['为…奠定基础', '为[^。！？]{0,15}奠定(?:了)?(?:坚实|良好|重要)(?:的)?基础'],
+        ['树立…新标杆', '树立[^。！？]{0,12}(?:新)?标杆'],
+        ['迈出重要一步', '迈出(?:了)?[^。！？]{0,8}(?:重要|关键|坚实|正确)(?:的)?一步'],
+        ['作为…的重要组成部分', '作为[^。！？]{0,15}的重要组成部分'],
+        ['硬造对立再否定', '(?:虽然|尽管)有人[^。！？]{0,6}(?:可能)?会?认为[^。！？]{0,20}(?:但|却)|有人(?:可能)?会说[^。！？]{0,20}(?:但|却)'],
+        ['与传统不同式', '与(?:传统|以往|过去|常规)[^。！？]{0,8}(?:方法|做法|方式|路径|模式)(?:不同|相比)'],
+        ['从X到Y双从结构', '从[^。！？，,]{2,12}到[^。！？，,]{2,12}[，,]从[^。！？，,]{2,10}到'],
+        ['尽管…挑战…但', '尽管(?:存在|面临)[^。！？]{0,12}(?:的)?挑战[^。！？]{0,25}(?:但|仍|依然)'],
+        ['深深植根于', '深深?植根于'],
+    ],
+}
+
+
+def load_profiles():
+    """读同目录 deai_profiles.json；缺失/损坏时用代码内默认（body=CHECKS 硬编码，doc=DEFAULT_DOC_CFG）。"""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'deai_profiles.json')
+    try:
+        with open(path, 'r', encoding='utf-8') as fp:
+            return json.load(fp)
+    except Exception:
+        return {'body': {'checks': {}}, 'doc': DEFAULT_DOC_CFG}
+
+
+def build_active(profile, profiles):
+    """按 profile 构建激活检查表。返回 (active, doc_cfg)。
+    active: {cid: (名称, warn, fail, 单位, 指引)}，body 阈值可被 JSON 覆盖，doc 项封顶 WARN。"""
+    body_checks = (profiles.get('body', {}) or {}).get('checks', {})
+    doc_cfg = profiles.get('doc', {}) if profile == 'doc' else None
+    doc_checks = (doc_cfg or {}).get('checks', {}) or {}
+    skip = set((doc_cfg or {}).get('skip', [])) if profile == 'doc' else set()
+    active = {}
+    if profile == 'doc':
+        for cid, d in doc_checks.items():
+            if cid in CHECK_IDS:
+                continue
+            active[cid] = (d.get('name') or DOC_NAMES.get(cid, cid), d.get('warn', 0),
+                           d.get('fail'), d.get('unit', ''), d.get('advice', ''))
+    for c in CHECKS:
+        cid, name, w, f, unit, advice = c
+        if cid in skip:
+            continue
+        thr = body_checks.get(cid) or {}
+        if thr:
+            w = thr.get('warn', w)
+            f = thr.get('fail', f)
+        if profile == 'doc':
+            d = doc_checks.get(cid) or {}
+            if d:
+                w = d.get('warn', w)
+                f = d.get('fail', f)
+                advice = d.get('advice', advice)
+        active[cid] = (name, w, f, unit, advice)
+    return active, doc_cfg
 
 
 # ---------------- 零风险修复 ----------------
@@ -373,8 +565,9 @@ def _adj_sub(t, punct, repl):
     return pat.sub(repl, t)
 
 
-def fix_zero_risk(text):
-    """机械修复，不改任何语义。返回 (新文本, {修复名: 处数})。"""
+def fix_zero_risk(text, minimal=False):
+    """机械修复，不改任何语义。返回 (新文本, {修复名: 处数})。
+    minimal=True（doc 模式）：仅零宽/nbsp 清理——markdown结构、标点、引号一律不碰。"""
     counts = {}
     t = text
 
@@ -389,6 +582,9 @@ def fix_zero_risk(text):
     new, n = re.subn('\u00a0', ' ', t)
     bump('不间断空格转普通', n)
     t = new
+
+    if minimal:
+        return t, counts
 
     # 0a-2. HTML实体解码（AI复制粘贴残留）
     ent_n = 0
@@ -669,32 +865,36 @@ def _diff_count(old, new):
 
 # ---------------- 滥用检测 ----------------
 
-def check_abuse(text):
-    """在（已修复的）文本上跑滥用检测。返回 (结果dict, 正文字数)。"""
+def check_abuse(text, profile='body', active=None, doc_cfg=None):
+    """在（已修复的）文本上跑滥用检测。返回 (结果dict, 正文字数)。
+    profile='doc'：结尾过滤 skip 项、FAIL 降级为 WARN、跑 doc 专属黑话/套路句式检测。"""
+    if active is None:
+        active, _ = build_active('body', load_profiles())
     lines = text.split('\n')
     body = ''.join(ln for ln in lines if ln.strip())
     n = max(len(body), 1)
     results = {}
 
     def verdict(cid, value):
-        for c in CHECKS:
-            if c[0] == cid:
-                if cid in REPORT_ONLY:
-                    return 'PASS'
-                if cid in RANGE_OK:
-                    lo, hi = RANGE_OK[cid]
-                    return 'PASS' if lo <= value <= hi else 'WARN'
-                if cid in LOW_BAD:
-                    if value <= c[3]:
-                        return 'FAIL'
-                    if value <= c[2]:
-                        return 'WARN'
-                    return 'PASS'
-                if value >= c[3]:
-                    return 'FAIL'
-                if value > c[2]:
-                    return 'WARN'
-                return 'PASS'
+        if cid not in active:
+            return 'PASS'
+        _name, w, f, _unit, _advice = active[cid]
+        if cid in REPORT_ONLY:
+            return 'PASS'
+        if cid in RANGE_OK:
+            lo, hi = RANGE_OK[cid]
+            return 'PASS' if lo <= value <= hi else 'WARN'
+        if cid in LOW_BAD:
+            if f is not None and value <= f:
+                return 'FAIL'
+            if value <= w:
+                return 'WARN'
+            return 'PASS'
+        if f is not None and value >= f:
+            return 'FAIL'
+        if value > w:
+            return 'WARN'
+        return 'PASS'
 
     def scan_lines(pat_list):
         """逐行扫描多个pattern，返回命中list[{line,snippet,match}]。"""
@@ -707,9 +907,15 @@ def check_abuse(text):
         return hits
 
     def put(cid, value, hits, cap=8):
+        hl = []
+        for h in hits[:cap]:
+            d = {'line': h['line'], 'snippet': h['snippet'][:42]}
+            if h.get('match'):
+                d['match'] = h['match']
+            hl.append(d)
         results[cid] = {
             'value': value, 'verdict': verdict(cid, value),
-            'hits': [{'line': h['line'], 'snippet': h['snippet'][:42]} for h in hits[:cap]],
+            'hits': hl,
             'total_hits': len(hits)}
 
     def put_density(cid, hits):
@@ -1067,6 +1273,21 @@ def check_abuse(text):
                  if ln.strip() and re.match(PAT_ENUM, ln)]
     put('enum_list', len(enum_hits), enum_hits)
 
+    # v3.3 引号体系混用：弯引号与直角引号并存（番茄七破绽之3）
+    qm_hits = []
+    has_curly = bool(text.count('“') or text.count('”'))
+    if has_curly:
+        for i, ln in enumerate(lines, 1):
+            for m in re.finditer(r'[「」『』]', ln):
+                qm_hits.append({'line': i, 'snippet': ln.strip()[:36]})
+    put('quote_mixed', len(qm_hits), qm_hits)
+
+    # v3.3 分割线残留：整行 =/-/*/_ 连续3+（番茄七破绽之4，代码/Markdown习惯）
+    hr_hits = [{'line': i, 'snippet': ln.strip()[:36]}
+               for i, ln in enumerate(lines, 1)
+               if ln.strip() and re.match(r'^[-=*_]{3,}\s*$', ln)]
+    put('md_hr', len(hr_hits), hr_hits)
+
     emo = len(re.findall(r'[\U0001F000-\U0001FAFF\u2600-\u2604\u2607-\u26FF\u2700-\u27BF\u2B50\u2B55\uFE0F]', text))
     results['emoji_res'] = {'value': emo, 'verdict': verdict('emoji_res', emo), 'hits': []}
 
@@ -1076,54 +1297,138 @@ def check_abuse(text):
                and re.search(r'[A-Za-z]{3,}[\s,.;:!?\'\"]+[A-Za-z]{3,}', ln)]
     put('en_line', len(en_hits), en_hits)
 
+    # --- doc profile 收尾：过滤 skip 项 + FAIL 降级 WARN + doc 专属检测 ---
+    if profile == 'doc':
+        skip = set((doc_cfg or {}).get('skip', []))
+        for cid in list(results):
+            if cid in skip:
+                del results[cid]
+        for v in results.values():
+            if v.get('verdict') == 'FAIL':
+                v['verdict'] = 'WARN'
+
+        bw = (doc_cfg or {}).get('buzz_words', {})
+        hard_words = bw.get('hard', [])
+        soft_words = bw.get('soft', [])
+
+        def word_hits(words):
+            hits = []
+            for i, ln in enumerate(lines, 1):
+                for w in words:
+                    st = 0
+                    while True:
+                        j = ln.find(w, st)
+                        if j < 0:
+                            break
+                        ctx = ln[max(0, j - 6):j + len(w) + 6]
+                        hits.append({'line': i, 'snippet': ctx.strip()[:42], 'match': w})
+                        st = j + len(w)
+            return hits
+
+        hard_h = word_hits(hard_words)
+        hd = round(len(hard_h) / n * 1000, 2)
+        put('buzz_hard', hd, hard_h)
+        results['buzz_hard']['word_freq'] = dict(Counter(h['match'] for h in hard_h))
+        soft_h = word_hits(soft_words)
+        sd = round(len(soft_h) / n * 1000, 2)
+        put('buzz_soft', sd, soft_h)
+        results['buzz_soft']['word_freq'] = dict(Counter(h['match'] for h in soft_h))
+
+        # 套路句式
+        form_hits = []
+        for fname, pat in (doc_cfg or {}).get('formulaic_patterns', []):
+            rx = re.compile(pat)
+            for i, ln in enumerate(lines, 1):
+                for m in rx.finditer(ln):
+                    form_hits.append({'line': i, 'snippet': '[%s] %s' % (fname, m.group(0)[:36])})
+        put('formulaic', len(form_hits), form_hits)
+
+        # 空腔段：正文段（非标题/表格/引用锚块）黑话≥2 且无血肉信号（数字/例子/书名/引号）
+        hollow_hits = []
+        all_buzz = hard_words + soft_words
+        for i, ln in enumerate(lines, 1):
+            s = ln.strip()
+            if len(s) < 40 or s[:1] in '#|>':
+                continue
+            cnt = sum(s.count(w) for w in all_buzz)
+            if cnt >= 2 and not re.search(r'\d|例如|比如|就像|举例|如：|参见|《|“|"', s):
+                hit_words = list(dict.fromkeys(w for w in all_buzz if w in s))
+                hollow_hits.append({'line': i,
+                                    'snippet': s[:36] + '…（命中：' + '/'.join(hit_words) + '）'})
+        put('hollow_para', len(hollow_hits), hollow_hits)
+
     return results, n
 
 
 # ---------------- 报告 ----------------
 
-def render_report(path, n_chars, fixes, checks, json_out=False, do_fix=False):
-    check_map = {c[0]: c for c in CHECKS}
+def render_report(path, n_chars, fixes, checks, json_out=False, do_fix=False,
+                  profile='body', active=None):
+    if active is None:
+        active, _ = build_active('body', load_profiles())
     if json_out:
         payload = {
             'file': path,
+            'profile': profile,
             'chars': n_chars,
             'fixes': fixes,
             'checks': [],
         }
-        for cid, c in check_map.items():
+        for cid, c in active.items():
+            name, w, f, unit, advice = c
             r = checks.get(cid, {})
-            payload['checks'].append({
-                'id': cid, 'name': c[1], 'value': r.get('value'), 'unit': c[4],
-                'verdict': r.get('verdict'), 'threshold': {'warn': c[2], 'fail': c[3]},
-                'advice': c[5],
+            item = {
+                'id': cid, 'name': name, 'value': r.get('value'), 'unit': unit,
+                'verdict': r.get('verdict'), 'threshold': {'warn': w, 'fail': f},
+                'advice': advice,
                 'hits': r.get('hits', []),
-            })
-        payload['need_agent_fix'] = [c['id'] for c in payload['checks'] if c['verdict'] in ('WARN', 'FAIL')]
-        return json.dumps(payload, ensure_ascii=False, indent=2)
+            }
+            if 'word_freq' in r:
+                item['word_freq'] = r['word_freq']
+            payload['checks'].append(item)
+        payload['need_review'] = [c['id'] for c in payload['checks']
+                                  if c['verdict'] in ('WARN', 'FAIL')]
+        return payload
 
     icons = {'PASS': '[PASS]', 'WARN': '[警告]', 'FAIL': '[必改]'}
     lines = []
     lines.append('=' * 56)
-    lines.append('正文去AI味门禁  %s  (%d字)' % (os.path.basename(path), n_chars))
-    lines.append('=' * 56)
+    if profile == 'doc':
+        lines.append('非正文文档消毒（doc profile·报告闸）  %s  (%d字)'
+                     % (os.path.basename(path), n_chars))
+        lines.append('=' * 56)
+        lines.append('模式：拆书/卖点/大纲/设定类文档。分号/破折号/括号/列举行/markdown结构/0%对话合法，不在检测面。')
+        lines.append('处置：命中项按上下文判断——行话正常用放行；装腔/空腔换大白话。工程标签（【锚】等）保持精确技术名。')
+    else:
+        lines.append('正文去AI味门禁  %s  (%d字)' % (os.path.basename(path), n_chars))
+        lines.append('=' * 56)
     if fixes:
         lines.append('—— 零风险自动修复（已执行）——')
         for name, cnt in sorted(fixes.items(), key=lambda x: -x[1]):
             lines.append('  %-14s %d 处' % (name, cnt))
     elif do_fix:
-        lines.append('—— 零风险自动修复：已执行，本次无可修复项 ——')
+        if profile == 'doc':
+            lines.append('—— 零风险清理：已执行（doc 模式仅零宽字符级，不碰markdown/标点/引号），本次无可修复项 ——')
+        else:
+            lines.append('—— 零风险自动修复：已执行，本次无可修复项 ——')
     else:
-        lines.append('—— 零风险自动修复：未执行（加 --fix 启用）——')
+        lines.append('—— 零风险自动修复：未执行（加 --fix 启用；doc 模式仅零宽字符级清理）——')
     lines.append('')
-    lines.append('—— 滥用检测（定位如下，自查自修）——')
-    for cid, c in check_map.items():
+    if profile == 'doc':
+        lines.append('—— 黑话/套话检测（定位如下，人工复核）——')
+    else:
+        lines.append('—— 滥用检测（定位如下，自查自修）——')
+    for cid, c in active.items():
+        name, w, f, unit, advice = c
         r = checks.get(cid, {})
         v = r.get('value', 0)
-        if cid in REPORT_ONLY:
-            lines.append('  [报告] %-8s %s%s（仅报告，人书方差大不判级）' % (c[1], v, c[4]))
+        if profile == 'doc':
+            lines.append('  %s %-8s %s%s' % (icons.get(r.get('verdict'), '[?]?'), name, v, unit))
+        elif cid in REPORT_ONLY:
+            lines.append('  [报告] %-8s %s%s（仅报告，人书方差大不判级）' % (name, v, unit))
         else:
             lines.append('  %s %-8s %s%s（警告线%s / 必改线%s）' % (
-                icons.get(r.get('verdict'), '[?]?'), c[1], v, c[4], c[2], c[3]))
+                icons.get(r.get('verdict'), '[?]?'), name, v, unit, w, f))
         if r.get('verdict') in ('WARN', 'FAIL'):
             for h in r.get('hits', []):
                 lines.append('      L%-4d %s' % (h['line'], h['snippet'][:42]))
@@ -1133,14 +1438,21 @@ def render_report(path, n_chars, fixes, checks, json_out=False, do_fix=False):
     warns = sum(1 for r in checks.values() if r.get('verdict') == 'WARN')
     fails = sum(1 for r in checks.values() if r.get('verdict') == 'FAIL')
     lines.append('')
-    if fails or warns:
-        lines.append('结论: %d项必改 / %d项警告 —— 按上行定位自查自修，修后复跑' % (fails, warns))
+    if profile == 'doc':
+        if warns or fails:
+            lines.append('结论: %d项建议复核 —— 按定位人工判断：行话正常用放行；装腔的换大白话改写'
+                         % (warns + fails))
+        else:
+            lines.append('结论: 无黑话/套路句式命中，通过')
     else:
-        lines.append('结论: 全部通过')
+        if fails or warns:
+            lines.append('结论: %d项必改 / %d项警告 —— 按上行定位自查自修，修后复跑' % (fails, warns))
+        else:
+            lines.append('结论: 全部通过')
     return '\n'.join(lines)
 
 
-def process_file(path, do_fix, json_out):
+def process_file(path, do_fix, json_out, profile='body', active=None, doc_cfg=None):
     raw = open(path, 'rb').read()
     if raw.startswith(b'\xef\xbb\xbf'):
         text, eol = raw.decode('utf-8-sig'), ('\r\n' if b'\r\n' in raw else '\n')
@@ -1152,42 +1464,109 @@ def process_file(path, do_fix, json_out):
     text = text.replace('\r\n', '\n')
 
     if do_fix:
-        fixed, fixes = fix_zero_risk(text)
+        fixed, fixes = fix_zero_risk(text, minimal=(profile == 'doc'))
     else:
         fixed, fixes = text, {}
-    checks, n_chars = check_abuse(fixed)
+    checks, n_chars = check_abuse(fixed, profile, active, doc_cfg)
 
     if do_fix and fixed != text:
         out = fixed.replace('\n', eol)
         open(path, 'wb').write(out.encode('utf-8'))
-    report = render_report(path, n_chars, fixes, checks, json_out, do_fix)
+    payload = render_report(path, n_chars, fixes, checks, json_out, do_fix, profile, active)
     has_issue = any(r.get('verdict') in ('WARN', 'FAIL') for r in checks.values())
-    return report, has_issue
+    if isinstance(payload, dict):
+        return json.dumps(payload, ensure_ascii=False, indent=2), has_issue, payload
+    return payload, has_issue, None
+
+
+def summarize(payloads):
+    """多文件聚合：按检查类汇总 + 热点文件 + 热点词。"""
+    by_check = {}
+    word_freq = {}
+    top_files = []
+    for p in payloads:
+        warn_items = 0
+        hit_total = 0
+        for c in p['checks']:
+            if c.get('verdict') not in ('WARN', 'FAIL'):
+                continue
+            th = c.get('total_hits', len(c.get('hits', [])))
+            if not isinstance(th, int):
+                th = len(c.get('hits', []))
+            warn_items += 1
+            hit_total += th
+            bc = by_check.setdefault(c['id'], {'name': c['name'], 'files': 0, 'hits': 0})
+            bc['files'] += 1
+            bc['hits'] += th
+            for w, ct in (c.get('word_freq') or {}).items():
+                word_freq[w] = word_freq.get(w, 0) + ct
+        if hit_total or warn_items:
+            top_files.append({'file': p['file'], 'warn_items': warn_items, 'hits': hit_total})
+    top_files.sort(key=lambda x: -x['hits'])
+    return {
+        'files_scanned': len(payloads),
+        'files_with_warn': len(top_files),
+        'by_check': by_check,
+        'top_files': top_files[:15],
+        'top_buzz_words': [{'word': w, 'count': ct}
+                           for w, ct in sorted(word_freq.items(), key=lambda x: -x[1])[:30]],
+    }
 
 
 def main():
-    ap = argparse.ArgumentParser(description='正文去AI味门禁 v2.1：零风险自动修 + 滥用检测')
-    ap.add_argument('input', help='正文文件或目录（目录批处理*.txt，不递归）')
-    ap.add_argument('--fix', action='store_true', help='执行零风险自动修复（原地写回）')
-    ap.add_argument('--json', action='store_true', help='JSON 输出')
+    ap = argparse.ArgumentParser(description='去AI味门禁 v3.2（双 profile）：'
+                                             'body=正文向检测+自动修；doc=非正文向报告闸（黑话/套话）')
+    ap.add_argument('input', help='文件或目录（body 目录批处理*.txt；doc 目录批处理*.md+*.txt）')
+    ap.add_argument('--fix', action='store_true',
+                    help='执行零风险自动修复（body 全量；doc 仅零宽字符级清理）')
+    ap.add_argument('--json', action='store_true', help='JSON 输出（目录模式含聚合 summary）')
+    ap.add_argument('--profile', choices=['body', 'doc'], default='body',
+                    help='body=正文向（默认）；doc=非正文向报告闸')
+    ap.add_argument('-r', '--recursive', action='store_true', help='目录模式递归子目录')
     args = ap.parse_args()
 
+    profiles = load_profiles()
+    active, doc_cfg = build_active(args.profile, profiles)
+
+    def wanted(fn):
+        if args.profile == 'doc':
+            return fn.endswith(('.md', '.txt'))
+        return fn.endswith('.txt')
+
     if os.path.isdir(args.input):
-        files = sorted(glob.glob(os.path.join(args.input, '*.txt')))
+        if args.recursive:
+            files = []
+            for root, dirs, fs in os.walk(args.input):
+                dirs.sort()
+                for fn in sorted(fs):
+                    if wanted(fn):
+                        files.append(os.path.join(root, fn))
+        else:
+            files = sorted(os.path.join(args.input, f)
+                           for f in os.listdir(args.input)
+                           if os.path.isfile(os.path.join(args.input, f)) and wanted(f))
     elif os.path.isfile(args.input):
         files = [args.input]
     else:
         print('错误: 找不到 %s' % args.input, file=sys.stderr)
         sys.exit(2)
     if not files:
-        print('错误: 目录下没有 .txt 文件', file=sys.stderr)
+        print('错误: 目录下没有可处理文件（body 找 *.txt；doc 找 *.md/*.txt）', file=sys.stderr)
         sys.exit(2)
 
+    payloads = []
     any_issue = False
     for f in files:
-        report, issue = process_file(f, args.fix, args.json)
-        print(report)
+        report, issue, payload = process_file(f, args.fix, args.json, args.profile, active, doc_cfg)
+        if payload is not None:
+            payloads.append(payload)
         any_issue = any_issue or issue
+        if payload is None or len(files) == 1 or not args.json:
+            print(report)
+
+    if args.json and len(files) > 1:
+        print(json.dumps({'summary': summarize(payloads), 'files': payloads},
+                         ensure_ascii=False, indent=2))
     sys.exit(1 if any_issue else 0)
 
 

@@ -5,7 +5,7 @@ description: 统一管线调研。当用户说"调研/赛道调研/decon-lite/�
 
 # pop-snow-research
 
-> 统一管线调研。当前版本 v3.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线调研。当前版本 v3.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -220,6 +220,7 @@ description: 统一管线调研。当用户说"调研/赛道调研/decon-lite/�
 4. **wiki 检索优先**：任何调研先查 wiki 站 `https://wiki.popwave.cn`，命中不重复造轮子，产出分区标注 wiki/web 来源。
 5. **不越界**：不写正文、不排章纲、不产工程级设定（那是 stage 的活）——本 skill 只做调研产出。
 6. **建包双铁律**（模式3）：转写全部实证带源章号，推断处显式标注；包配方5表齐全+参数数值化才准入，缺表=包不合格。
+7. **落盘后消毒（doc 报告闸）**：每份产出（赛道调研/decon-lite/decon-plot/燃料/机制/采风/三界/卷级调研/建包产物）落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件> --profile doc --json`——只报不打回：黑话/套路句式/空腔段按 WARN 定位自查（装腔换大白话，行话正常用可放行）；工程标签（刻度/锚点/参数等精确技术名）不在消毒范围。零风险机械项可加 `--fix` 原地修。
 
 ---
 
@@ -238,4 +239,4 @@ description: 统一管线调研。当用户说"调研/赛道调研/decon-lite/�
 
 ## 版本
 
-当前版本 v3.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v3.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
