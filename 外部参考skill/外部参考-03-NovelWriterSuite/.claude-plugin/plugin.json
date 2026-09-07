@@ -1,0 +1,19 @@
+{
+  "name": "novel-suite",
+  "version": "0.1.0",
+  "description": "中文长篇小说创作 skill 套件。一本小说 = 一个 Obsidian vault / git repo。覆盖创意构思、世界观、角色、卷纲、写法引擎、章节循环、长期记忆、校稿、剧本/分镜转换。",
+  "author": {
+    "name": "novel-suite contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "novel",
+    "fiction",
+    "chinese",
+    "writing",
+    "worldbuilding",
+    "characters",
+    "obsidian",
+    "long-form"
+  ]
+}
