@@ -243,7 +243,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 2. 自动修仅限零风险机械项（英文标点/HTML残留/零宽字符等36类）；滥用类只报不自动改。
 3. `doc` 的 WARN 清单由落盘 agent 按上下文判断：装腔换大白话，行话正常用可放行（回复注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表 / write 检测面说明等文档本身讨论这些特征词，命中属合法引用非残留。
 
-**词库蓝本与维护**：doc 黑话/套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 扩至夸大修饰/伪情感/模板评价/翻译腔句式等全量类别）+ 老板点名 seed/设定场景词；管线自身行话（赛道/卖点/爽点/钩子等）不入库。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 兜底须同步维护。
+**词库蓝本与维护**：doc 黑话/套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 全量类别）+ 老板点名 seed/设定场景词；v3.3/v3.4 广泛搜索轮补齐（维基 Signs of AI writing / Humanizer 35条军规 / cn-humanizer / 连享会 / OpenAI slop words / 番茄拒签七破绽实测——企业黑话/宣传腔/万能收尾/模糊来源/假坦率/虚假替代/公式化谚语/浅层象征词）。管线自身行话（赛道/卖点/爽点/钩子等）与语料专有名词/世界观字面义（封神/版图/天花板/破局等）不入库——v3.4.1 按 wiki 语境抽样校准。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 兜底须同步维护。
 
 **阈值/词库调校**：改 `scripts/deai_profiles.json` 即可，不改代码；改后跑回归（负面样例高召回+人书零误杀+wiki/skills 误伤增量可控）再生效。
 
