@@ -1,0 +1,12 @@
+{
+  "id": "pop-mirror-write",
+  "name": "pop-mirror-write",
+  "version": "1.1.0",
+  "displayName": "Mirror写作专家",
+  "description": "当用户说'写正文/渲染章节/续写正文'时启用。拿到 pop-mirror-plot 章节大纲后渲染可直接交付的正文：14条创作原则/场景视角节奏/人物行为推导6步/读者心理学/AI禁词/自检清单，并内嵌节奏硬尺（原 pop-mirror-rhythm 已并入：字数±10%、爽点钩子悬念密度、叙事段40-120字、80/20断章、钩子六类轮换、高潮前铺线后效）。镜界03-章节写作+01-章节节奏精华逐字直贴。正文交 07deai 清洗、08review 验收。",
+  "entry": "SKILL.md",
+  "tags": ["Mirror创作专家", "长篇网文专家", "写作", "节奏硬尺"],
+  "activation": { "slashCommands": ["pop-mirror-write", "Mirror写作", "写正文", "渲染章节"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

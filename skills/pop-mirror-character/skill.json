@@ -1,0 +1,12 @@
+{
+  "id": "pop-mirror-character",
+  "name": "pop-mirror-character",
+  "version": "1.0.0",
+  "displayName": "Mirror人设专家",
+  "description": "当用户说'建人设/设计角色/配角功能/反派模板/群像管理'时启用。让角色既有读者能记住的标签、也有能解释行为的内核：主角标签/类型/命名/内核、配角功能位、反派模板、关系范式、对话区分度、群像收缩。镜界05-人设设计精华逐字直贴。产出交 05规划/06写作/08审查。",
+  "entry": "SKILL.md",
+  "tags": ["Mirror创作专家", "长篇网文专家", "人设"],
+  "activation": { "slashCommands": ["pop-mirror-character", "Mirror人设", "人设", "角色设计"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

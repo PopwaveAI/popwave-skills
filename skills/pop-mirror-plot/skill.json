@@ -1,0 +1,12 @@
+{
+  "id": "pop-mirror-plot",
+  "name": "pop-mirror-plot",
+  "version": "1.1.0",
+  "displayName": "Mirror规划专家",
+  "description": "当用户说'定本章大纲/规划章节/伏笔台账/章节四段式'时启用。把一章压缩成「连续性+当前任务+节拍序列+伏笔操作」四段式大纲：小周期推进/伏笔不空转/角色有根/聚焦单线/高潮管理。镜界02-章节规划精华逐字直贴。大纲供 06写作渲染。",
+  "entry": "SKILL.md",
+  "tags": ["Mirror创作专家", "长篇网文专家", "规划"],
+  "activation": { "slashCommands": ["pop-mirror-plot", "Mirror规划", "章节大纲", "伏笔台账"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
