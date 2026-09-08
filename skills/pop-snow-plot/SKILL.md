@@ -5,7 +5,7 @@ description: 剧情编排——全书卷进度表/卷需求brief/卷纲/幕白�
 
 # pop-snow-plot
 
-> 剧情编排——把融合立项稿剧情组长成剧情长档（全书卷进度表＋卷纲＋幕白描）。当前版本 v3.0.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 剧情编排——把融合立项稿剧情组长成剧情长档（全书卷进度表＋卷纲＋幕白描）。当前版本 v3.0.3，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ### 心智前置·意识层（贯穿本 skill 与全流程）
 
@@ -115,7 +115,7 @@ plot 管"这台戏唱什么"。stage 搭好台子，plot 往上排戏。
 - **量级闸五件**：正式进阶/职＋有名有姓名声＋干掉卷敌＋被主流接纳拔擢＋下一阶的栓——齐吗？（缺任一=回 B1 重钉）
 - 读一遍想不想追？
 
-**落盘** `卷纲/卷N-卷纲.md`（模板 `templates/卷纲.tpl.md`）→ **落盘后半步=消毒**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/卷N-卷纲.md --profile doc --json`——WARN 定位自查、机械项 `--fix`，回执一行 `消毒:卷N-卷纲|PASS` 或 `WARN×N` → 交接 outline（从卷叙事切章纲）。
+**落盘前先过资料门**：本卷要排的冲突、剧情线、单元剧闭环需要真实事件结构，但 `素材/采风/剧情-*` 没对应种子→**先派 research 剧情定向补采（冲突升级/转折/解开模型，落 `素材/采风/剧情-{主题}.md`、来源可回源）再落盘**。资料门过 → **落盘** `卷纲/卷N-卷纲.md`（模板 `templates/卷纲.tpl.md`）→ **落盘后半步=消毒**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/卷N-卷纲.md --profile doc --json`——WARN 定位自查、机械项 `--fix`，回执一行 `消毒:卷N-卷纲|PASS` 或 `WARN×N` → 交接 outline（从卷叙事切章纲）。
 
 ### 任务C：幕白描（按需）
 
@@ -127,7 +127,7 @@ plot 管"这台戏唱什么"。stage 搭好台子，plot 往上排戏。
 
 **C3 逐章白描卡**：从叙事流往回拆，每章一卡（禁止跳章/区间合并）——白描段 150-250 字（场景画面＋事件推进＋≥1对话锚或动作锚＋情绪转折＋章末钩子落点）＋锚点段（爽点公式+落点/章末钩子/POV/关键数据/出场人物/本章线动作/出章面板）。
 
-**C4 事实校验＋落盘**：年龄/等级术语/人名对照全书日志禁止漂移清单；落盘 `卷纲/卷N-幕M-白描.md`（模板 `templates/幕白描.tpl.md`）→ **落盘后半步=消毒**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/卷N-幕M-白描.md --profile doc --json`——WARN 定位自查、机械项 `--fix`，回执一行 `消毒:卷N-幕M-白描|PASS` 或 `WARN×N`。读一遍自检：每卡可落笔、事实零漂移、未抢后续收益、幕末质变对齐卷纲幕序列行。
+**C4 事实校验＋落盘**：年龄/等级术语/人名对照全书日志禁止漂移清单；**落盘前资料门**：某幕要排的冲突/事件模型 `素材/采风/` 没有支撑→先派 research 剧情定向补采一点再落盘；落盘 `卷纲/卷N-幕M-白描.md`（模板 `templates/幕白描.tpl.md`）→ **落盘后半步=消毒**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/卷N-幕M-白描.md --profile doc --json`——WARN 定位自查、机械项 `--fix`，回执一行 `消毒:卷N-幕M-白描|PASS` 或 `WARN×N`。读一遍自检：每卡可落笔、事实零漂移、未抢后续收益、幕末质变对齐卷纲幕序列行。
 
 ---
 
@@ -162,4 +162,4 @@ plot 管"这台戏唱什么"。stage 搭好台子，plot 往上排戏。
 
 ## 版本
 
-当前版本 v3.0.1（2026-09-08）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v3.0.2（2026-09-08）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v5.6.0 | 2026-09-08
+
+### research 收敛为「四消费端强制定稿门」：落盘 Step 内嵌，非自觉可选
+
+> **背景**：老板把资料门收敛到 seed/stage/plot/outline 四环节（write/review 不设），research 作为被它们落盘 Step 强制拉动的执行通道。
+
+- **四消费端落盘 Step 内嵌「资料门」**：seed v4.5.0（Step6）/stage v2.3.0（Step6交付闸）/plot v3.0.3（任务B/C落盘前）/outline v1.8.0（Step4）——各环节落盘前先答"资料够不够"，不够必派本 research 补采再落盘；write 缺料不直接打 research，**打回 outline 采完重写**；review 不参与资料采集。
+- **「触发时机」节更新为收敛版**：四闸口即固定触发位，触发不是自觉而是消费端落盘 Step 强制拉动；闸口③写前质感只服务 outline，去掉 write。
+- 版本三处一致 v5.6.0。
+
 ## v5.4.0 | 2026-09-08
 
 ### 信息源库通用化重构（三层结构）+ 删「心智前置·意识层」

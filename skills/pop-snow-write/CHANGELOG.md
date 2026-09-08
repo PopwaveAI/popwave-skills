@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.12.0 | 2026-09-08
+
+### 资料门收敛：write 不设资料门（删红线第10条，缺料打回 outline）
+
+> **背景**：老板把资料门收敛到 seed/stage/plot/outline 四环节，write 专注渲染——缺料不自己采，打回 outline 采完重写。
+
+- **删除红线第10条「章级资料门」**：write 不再参与资料采集；正文若发现本章要渲染的新场景/职业/地域/打法质感不足 → 打回 outline 先派 research 采，再回 write 渲染，write 不越权补料。
+- 同步三件套：SKILL.md / skill.json（1.12.0）/ CHANGELOG。
+
 ## v1.10.0 | 2026-09-08
 
 ### 吸收镜界（Mirroric）对比研究：正文创作技法块 + 写中不静默修补红线

@@ -2,7 +2,7 @@
 
 # pop-snow-write
 
-> 正文写作：消费**本章章纲＋全书日志（当前态）＋前一章正文＋文风DNA**四样核心输入，其余按需点读，渲染2000-2500字/章。当前版本 v1.10.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 正文写作：消费**本章章纲＋全书日志（当前态）＋前一章正文＋文风DNA**四样核心输入，其余按需点读，渲染2000-2500字/章。当前版本 v1.12.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 
@@ -274,4 +274,4 @@ python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --
 
 ## 版本
 
-当前版本 v1.10.0（2026-09-08）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.11.0（2026-09-08）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
