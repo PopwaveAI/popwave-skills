@@ -1,9 +1,4 @@
-﻿---
-name: pop-video-brand
-description: "当用户说'素材做成品宣视频/品牌宣传片/产品视频/把产品图做成视频/一键出片'时启用。读品牌素材包（规范+截图+logo）→定叙事脚本→HTML动效时间线→Playwright逐帧→ffmpeg合成MP4→火山TTS口播配音+混音。确定性渲染，不走AI视频。v1.1.0"
----
-
-# pop-video-brand
+﻿# pop-video-brand
 
 > 品牌物料 → 品宣视频的确定性渲染管线：**读品牌素材包**（视觉规范+文案口径+产品截图+logo/吉祥物）→ 定叙事脚本 → HTML 动效时间线 → Playwright 逐帧渲染 → 完整版 ffmpeg 合成 MP4 → 火山 TTS 口播配音 + 混音。v1.1.0：steps 七件全合入单文件精炼。
 

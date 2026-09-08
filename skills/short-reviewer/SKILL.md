@@ -1,8 +1,4 @@
-﻿---
-name: short-reviewer
-description: "当正文草稿完成后进入质量评审时启用。9维评分+亮点/不足+分维诊断+AI味儿参考+修改建议+总结。不直接修改正文，只诊断问题并给出改进方向。"
----
-# short-reviewer
+﻿# short-reviewer
 > 短篇评审器。读草稿→对照骨架→逐维诊断→输出报告。v2.1.0：steps 三件全合入单文件；9维诊断可派子agent（审查官），主agent校验归位。
 ## 做什么
 输入：正文草稿+骨架卡片+全部前置卡片的流转上下文（自 body-generator）

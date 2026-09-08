@@ -1,8 +1,4 @@
-﻿---
-name: short-idea-refiner
-description: "当用户说'想不出写什么/有个模糊想法/帮我想个脑洞'时启用。模糊想法→脑洞一句话+热点参考。分路径A(有想法)/路径B(只有方向)/路径C(带例文)。"
----
-# short-idea-refiner
+﻿# short-idea-refiner
 > 短篇脑洞提炼器。分路径收集输入→提炼2-3个方向→检验+输出脑洞卡片。v2.1.0：steps 三件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么

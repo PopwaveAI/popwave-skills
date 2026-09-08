@@ -1,9 +1,4 @@
----
-name: pop-visual-style
-description: "当用户说'画一张图/生成图片/文生图'或需要纯文生图时启用。管理37种画风DNA库（含IP命名试点）+3光照模板+6段式提示词结构，调用Seedream API生成图片。作为art-bible/cover/oc/comic skill的共享画风层。"
----
-
-# pop-visual-style
+﻿# pop-visual-style
 
 > 通用文生图 + 画风DNA库。纯文生图，一键出图。当前版本 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

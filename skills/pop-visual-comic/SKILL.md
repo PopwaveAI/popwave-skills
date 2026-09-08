@@ -1,9 +1,4 @@
-﻿---
-name: pop-visual-comic
-description: "当用户说'网文转漫画/章节漫画/小说漫画/漫画生成/漫画连载'时启用。Pipeline 化漫画连载管理器：初始化画风+双角度OC→导演卡定稿（含场景采摘）→生成审核。通过 Seedream 直出多格漫画页+冻结提示词+双角度定妆图+分层记忆机制，跨章保持人设和画风一致性。"
----
-
-# pop-visual-comic
+﻿# pop-visual-comic
 
 > 网文漫画连载管线。DeepSeek 做编剧和项目管理（场景采摘+导演卡、提示词产出、管角色库、记状态），Seedream 做画师（连续出多格漫画页），HTML 做长条滚动展示+文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风/人物。** 当前版本 v8.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

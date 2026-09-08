@@ -1,9 +1,4 @@
----
-name: pop-video-comic
-description: "当用户说'漫画转视频/漫画短视频/章节条漫做成视频/漫画口播视频/漫画配音视频'时启用。读图自理解漫画页→产出口播脚本→TTS配音→HTML+ffmpeg合成PPT放映式短视频。先脚本后出片，脚本经确认后再配音合成。"
----
-
-# pop-video-comic
+﻿# pop-video-comic
 
 > 漫画转 PPT 放映式短视频管线。**模型读图自理解**（图片为主，`页面配置.json` 文字兜底）→ 口播脚本 → edge-tts 配音 → HTML+ffmpeg 合成。**先脚本后出片**，脚本是老板确认闸门。v1.0.0
 

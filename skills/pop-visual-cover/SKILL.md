@@ -1,9 +1,4 @@
----
-name: pop-visual-cover
-description: "当用户说'网文封面/小说封面/场景图/视觉设计'或提供小说原文时启用。支持两种起点：①用户意图→Pinterest搜参考→选图+对齐参考点→设计方案；②小说原文→原文解构→上下文补全→叙事瞬间选取→理解确认→设计方案。调用 Seedream/Seedance API 生成图片/视频。"
----
-
-# pop-visual-cover
+﻿# pop-visual-cover
 
 > 网文封面与场景视觉资产生成器。两种起点，同一个终点。v2.0.0：steps 四件全合入 SKILL.md 单文件精炼，SOP 全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

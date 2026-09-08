@@ -1,9 +1,4 @@
----
-name: pop-recommend
-description: "当用户说'推书/推书卡/读者推荐'时启用。从小说原文生成读者推书卡HTML，三阶段价值扫描100章只精读30-40章。"
----
-
-# pop-recommend
+﻿# pop-recommend
 
 > 推书营销专家。从小说原文→读者推书卡（给新读者的无剧透推荐）。v2.1.0
 

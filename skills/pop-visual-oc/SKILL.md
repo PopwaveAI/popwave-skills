@@ -1,9 +1,4 @@
----
-name: pop-visual-oc
-description: "当用户说'人设图/角色图/OC/立绘/角色卡/势力卡/地理卡/规则卡/场景卡/设定卡/传播卡'时启用。从小说原文采样设定信息，生成人物/势力/地理/规则/场景五类设定实体卡，统一走唯一大范式：立绘优先·顶部聚字（纯立绘零文字+顶部留白叠少量核心文字+底部印章，整图截图即成品），质量重心在立绘本身（构图/画风/原文理解/二创注入）。生图统一走 image_generate，模板见 templates/ocr-1flow.tpl.html。"
----
-
-# pop-visual-oc
+﻿# pop-visual-oc
 
 > 网文视觉推广素材生成器。OC = 原创设定（Original Creation），不止人物。当前版本 v7.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

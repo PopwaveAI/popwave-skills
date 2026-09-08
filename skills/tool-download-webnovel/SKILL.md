@@ -1,8 +1,4 @@
-﻿---
-name: tool-download-webnovel
-description: 网文搜索下载。当用户说'下载小说''搜索网文'时启用。输入书名+作者→输出TXT文件。三阶段SOP：脚本搜索→web搜索兜底→验证交付。
----
-# tool-download-webnovel
+﻿# tool-download-webnovel
 > 网文搜索下载TXT v7.3.1。三阶段SOP：脚本搜索→web搜索兜底→验证交付。含内容污染检测+章节连续性校验。
 
 ## 做什么

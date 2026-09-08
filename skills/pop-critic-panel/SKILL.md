@@ -1,9 +1,4 @@
----
-name: pop-critic-panel
-description: 当用户说"挑刺/盲评/评审团/多视野评审/群聊评审"时启用。对任意小说管线产物（章纲/幕白描/卷纲/设定档/融合立项稿/正文）发起多子agent隔离盲评：每个子agent独立上下文、不同初始提示词和视野、单轮各自解读互不可见，主agent回收后四分裁决（采纳/误报/冲突/存疑）出盲评报告供用户拍板。只评审不改正文。
----
-
-# pop-critic-panel
+﻿# pop-critic-panel
 
 > 多子agent盲评：不同视野隔离评审同一靶子，单轮互不可见，主agent回收裁决。v1.0.0：初始版。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

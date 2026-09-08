@@ -1,9 +1,4 @@
----
-name: pop-decon
-description: 拆书专家入口。当用户说'拆书/解构/分析/对标/提取模板'时启用。下载txt→征询范围→路由单书深度wiki拆解(dimension)→沉淀。不常驻调度。
----
-
-# pop-decon · 拆书专家入口
+﻿# pop-decon · 拆书专家入口
 
 > 拆书专家入口：下载 txt → 征询范围 → 路由 `pop-decon-dimension`（单书深度wiki拆解）→ 沉淀。不常驻调度。当前版本 v26.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

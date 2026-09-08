@@ -1,9 +1,4 @@
-﻿---
-name: pop-mirror-deai
-description: "当用户说'去AI味/降AI味/清洗AI痕迹/润色去AI'时启用。识别并去除小说正文的 AI 生成痕迹：删废话/破模板/变节奏/信任读者/去金句 + 废话黑名单/禁止句式/叙事恶习/反例正例速查。镜界07-去AI味精华逐字直贴。承接 pop-mirror-write 产出的正文清洗，输出净文交 08审查。"
----
-
-# pop-mirror-deai
+﻿# pop-mirror-deai
 
 > Mirror 去AI味专家：识别并去除小说正文的 AI 生成痕迹——删废话/破模板/变节奏/信任读者/去金句 + 废话黑名单/禁止句式/叙事恶习/反例正例速查。镜界 `07-去AI味` 精华逐字直贴。当前版本 v1.0.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

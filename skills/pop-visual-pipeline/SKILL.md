@@ -1,9 +1,4 @@
-﻿---
-name: pop-visual-pipeline
-description: "当用户说'视觉管线/视觉pipeline/小说视觉化/做视觉工程/继续视觉/下一步(视觉)/出封面/出OC/出漫画/出场景图'时启用。一次性初始化目录+生成 状态.md（唯一机器状态源）+导入/三态迁移；日常视觉路由与意图闸口上移专家提示词，html为可选展示面板，子skill干活。"
----
-
-# pop-visual-pipeline
+﻿# pop-visual-pipeline
 
 > 小说视觉化安装器。**v4.2.0：状态源收敛 `状态.md` + 路由上移专家提示词**——pipeline 只做初始化/导入/三态迁移/状态维护；下游 asset/style/art-bible 同步改读 状态.md。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

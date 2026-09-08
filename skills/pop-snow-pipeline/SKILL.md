@@ -1,11 +1,6 @@
----
-name: pop-snow-pipeline
-description: 统一管线总控（一次性搭建）。当用户说"初始化项目/新建项目/管线总控/导入/续写/迁移已有资料"时启用。一次性建目录+生成 状态.md（唯一机器状态源）+资产归位+缺口分析+落地Phase+补跑调度；卷循环状态机 2a-2g 为路由参照，日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill。
----
+﻿# pop-snow-pipeline
 
-# pop-snow-pipeline
-
-> 统一管线总控。当前版本 v1.7.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线总控。当前版本 v1.8.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -26,9 +21,9 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 
 | 职责 | 说明 |
 |:--|:--|
-| 一次性安装（fresh） | 建目录 + 落盘 `状态.md`（薄机器状态）+（可选）导出展示面板 + README |
+| 一次性安装（fresh） | 建目录 + 存档 `状态.md`（薄机器状态）+（可选）导出展示面板 + README |
 | 一次性导入/续写（import/resume） | 资产扫描→归位→缺口分析→落地Phase→状态重建→补跑调度 |
-| 状态文件维护 | `状态.md` = 唯一机器状态源，agent 只读写它的状态片段；`项目总控.html` 是仅供老板查看的展示面板，按需导出，**agent 不读 html** |
+| 状态文件维护 | `状态.md` = 唯一状态总账，agent 只读写它的状态片段；`项目总控.html` 是仅供老板查看的展示面板，按需导出，**agent 不读 html** |
 
 **日常路由不经此skill**：用户说"继续写/下一步/写正文/审核"时，主agent按专家提示词阶段地图直接选 skill，先读 `状态.md` 取状态片段（mode/phase/current_volume/current_chapter/就绪态），路由参照=下方「卷循环状态机」。pipeline 不写正文、不做内容转换、不常驻。
 
@@ -52,7 +47,7 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 | *意图*/*方向*/*想法*/用户口述 | `素材/` | 用户意图.md / 灵感收集.md | 1 |
 | *调研*/*市场*/*赛道*/*排行* | `素材/` | 市场校准.md / 赛道调研.md | 1 |
 | *采风*/*资料收集*/*质感*/*原型*/*世界观素材*/*场景资料* | `素材/采风/` | {定向}-{主题}.md | 1（底牌） |
-| *文风*/*DNA*/*笔触*/*风格* | `素材/` | 文风锚定.md | 2e（DNA注入） |
+| *文风*/*DNA*/*笔触*/*风格* | `素材/` | 文风锚定.md | 2e（DNA带进） |
 | *decon*/*拆书*/*力量分析* | `素材/` | decon-lite-{书名}.md | 1（底牌） |
 | *设定包*/*包配方*/*参考答案* | `素材/` | 参考答案-{书名}/（含包配方.md） | 1（路径C） |
 | *改编计划*/*DNA替换* | `素材/` | 改编计划.md | 1（路径C） |
@@ -65,7 +60,7 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 | *基调*/*母题* | `设计/` | 基调母题.md | 2 |
 | *主角*/*人物卡* | `设计/` | 主角.md | 2 |
 | *角色库*/*NPC*/*配角* | `设计/` | 角色库.md | 2 |
-| *动力引擎* | `素材/` | 保留原名（stage 长档取材） | 1 |
+| *素材库（旧称动力引擎）* | `素材/` | 保留原名（stage 长档取材） | 1 |
 | *主线*/*全书卷目录*/*卷进度* | `卷纲/` | 00-全书卷进度表.md | 2c |
 | *卷舞台*/*卷设定*/*各卷切片* | `设计/卷舞台/` | 卷N-舞台.md（本卷专档） | 2b |
 | *卷需求*/*brief* | `卷纲/` | 卷N-需求brief.md | 2a |
@@ -73,10 +68,10 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 | *幕白描*/*剧情白描*/*章白描* | `卷纲/` | 卷N-幕M-白描.md | 2c |
 | *章纲*/*叙事原子* | `卷纲/章纲/` | ch{NNN}-章纲.md | 2d |
 | *正文*/*章节*/ch*/第*章 | `正文/` | ch{NNN}.txt | 2e |
-| *章日志*/*本章记录*（review沉淀） | `章节日志/` | ch{NNN}.md | 2f |
+| *章日志*/*本章记录*（review存档） | `章节日志/` | ch{NNN}.md | 2f |
 | *全书日志*/*快照*/*进度* | 项目根 | 全书日志.md | 2f |
 
-操作：匹配不上的归"未分类资产"询问用户映射；.docx 等异构格式 Read 内容→Write 标准位置标准文件名；正文统一编号（`第一章.txt`/`chapter1.md`→`正文/ch001.txt`）；幕白描与章日志易混——含锚点段/叙事流的归 `卷纲/`，含关键数据🔒/爽点钩子的归 `章节日志/`，拿不准问用户；询问用户是否保留原文件。
+操作：匹配不上的归"未分类资产"询问用户映射；.docx 等异构格式 Read 内容→Write 标准位置标准文件名；正文统一编号（`第一章.txt`/`chapter1.md`→`正文/ch001.txt`）；幕白描与章日志易混——含钩子段/叙事流的归 `卷纲/`，含关键数据🔒/爽点钩子的归 `章节日志/`，拿不准问用户；询问用户是否保留原文件。
 
 **文件来源标记**（每个归位文件记入资产清单）：
 
@@ -141,9 +136,9 @@ description: 统一管线总控（一次性搭建）。当用户说"初始化项
 2. **创建 状态.md**：按「状态.md 模板」写入项目根（mode: fresh / phase: init / current_volume: 1 / current_chapter: ch000 / 全部就绪态标 [ ]）；再简建 README.md（项目信息+目录说明+指向 状态.md）。
 3. **展示面板（可选）**：老板要求时按 `templates/项目总控.html` 套 状态.md 值导出；agent 只写 状态.md，不读 html。
 4. **首次对话引导**：用户第一次触发且无项目时，先输出 `references/onboarding-guide.md` 引导语（声明本次为功能介绍未执行任务）；用户已明确要开做可跳过。
-5. **路由 Phase 1**：加载 pop-snow-seed 按其 SKILL.md 执行（六步流水线共创《融合立项稿14维》：问诉求→定调研清单→调研→归集取材·卖点源→融合→定稿交接）。**调研环节内嵌"立项前置采风"**：seed 定完调研清单后，触发 pop-snow-research 做**世界观定向 + 人物定向**基础轮批量采风（可派并行只读子 agent 分主题采集，回报主 agent 落盘 `素材/采风/`），供 Phase 2 stage 建世界/人物直接取材——资料前置够用，不写到卡壳才补。
+5. **路由 Phase 1**：加载 pop-snow-seed 按其 SKILL.md 执行（六步流水线共创《融合立项稿14维》：问诉求→定调研清单→调研→归集取材·卖点源→融合→定稿交接）。**调研环节内嵌"立项前置采风"**：seed 定完调研清单后，触发 pop-snow-research 做**世界观定向 + 人物定向**基础轮批量采风（可派并行只读子 agent 分主题采集，回报主 agent 存档 `素材/采风/`），供 Phase 2 stage 建世界/人物直接取材——资料前置够用，不写到卡壳才补。
 
-**Step 1 质量门**：目录齐全+状态.md 落盘｜README 落盘。
+**Step 1 质量门**：目录齐全+状态.md 存档｜README 存档。
 
 ### 状态.md 模板（薄，机器读）
 
@@ -194,7 +189,7 @@ one_line: 待seed产出
 
 ## 卷循环状态机（2a-2g，路由参照）
 
-### 每章闭环（写一章的完整一圈 · 防止路由绕错）
+### 每章收束（写一章的完整一圈 · 防止路由绕错）
 
 每一章严格五步循环，**outline 写章纲永远在 write 之前，不许跳**：
 
@@ -216,10 +211,10 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 | 2c | 卷纲→幕白描（七查绿灯才交付） | pop-snow-plot 任务B→C | `卷纲/卷N-卷纲.md`→`卷纲/卷N-幕M-白描.md` | 2d |
 | 2d | 章纲拼接（每章一文件） | pop-snow-outline | `卷纲/章纲/ch{NNN}-章纲.md` | 2e |
 | 2e | 正文渲染（2000-2500字/章） | pop-snow-write | `正文/ch{NNN}.txt` | 2f |
-| 2f | 审核+沉淀（PASS/REJECT） | pop-snow-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
+| 2f | 审核+存档（PASS/REJECT） | pop-snow-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
 | 2g | 卷末盘点 | 主agent | 状态.md：current_volume+1、卷循环四项就绪态清零 | 回 2a |
 
-**幕内滚动**：推荐「2c产幕N → 2d拼幕N章纲 → 2e/2f逐章 → 2c产幕N+1」，让后续幕吸收正文沉淀。
+**幕内滚动**：推荐「2c产幕N → 2d拼幕N章纲 → 2e/2f逐章 → 2c产幕N+1」，让后续幕吸收正文成果。
 
 **2g 卷末判定**：卷纲预算章数耗尽+卷末三件套（面板大爆+新地图解锁+下卷钩子）兑现→本卷完。
 
@@ -245,26 +240,26 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | `pop-snow-plot` | 剧情（全书卷进度表/卷需求brief/卷纲/幕白描） | 2a / 2c（进度表=首卷卷纲前一次） |
 | `pop-snow-outline` | 章纲拼接 | 2d |
 | `pop-snow-write` | 正文渲染 | 2e |
-| `pop-snow-review` | 审核+沉淀（含 reconstruct 回溯） | 2f / 导入补跑 |
+| `pop-snow-review` | 审核+存档（含 reconstruct 回溯） | 2f / 导入补跑 |
 | `pop-snow-research` | 实时联网搜索站（世界观/剧情/人物势力/力量养成四场景实时搜索，落 `素材/采风/`；不做拆书类） | 立项前置考据 / 卷循环剧情素材(2a+) / 写前按需质感 / 用户点名 |
 | `pop-dna-style` | 文风锚定（可选） | seed 底牌处理 / 2e 前按需 |
 | `tool-download-webnovel` | 下载源书 | 拆书/建包时 |
 
 ---
 
-## 落盘质量闸（deai_gate.py，本包 scripts 统一管理）
+## 存档质量检查（deai_gate.py，本包 scripts 统一管理）
 
-去AI味门禁脚本归本包 `scripts/deai_gate.py`（配置外置 `scripts/deai_profiles.json`，纯 stdlib），双 profile 服务全管线落盘质量。**各 skill 落盘后自跑，不进 LLM、不派子agent。**
+去AI味检查脚本归本包 `scripts/deai_gate.py`（配置外置 `scripts/deai_profiles.json`，纯 stdlib），双 profile 服务全管线存档质量。**各 skill 存档后自跑，不进 LLM、不派子agent。**
 
 | profile | 服务对象 | 性质 | 检测面 | 调用 |
 |:--|:--|:--|:--|:--|
-| `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回闸**：FAIL 必须清零才算落盘完成 | 套话硬模板~120条/软密度~28组/结构统计/工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
-| `doc` | 非正文文档（seed 融合立项稿 / research 调研拆书包 / stage 长档·卷舞台 / plot 卷进度表·brief·卷纲·幕白描 / outline 章纲 / review 章日志全书日志 / decon 拆书wiki成品 / dna-style 文风锚定说明文字，及拆书/卖点/大纲/世界观类） | **报告闸**：只 WARN+定位，不打回 | 黑话（hard 实锤/soft 风格分层）+套路句式+空腔段+生成器残留；分号/破折号/括号/列举行/工程emoji标记/0%对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
+| `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回检查**：FAIL 必须清零才算存档完成 | 套话硬模板~120条/软密度~28组/结构统计/工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
+| `doc` | 非正文文档（seed 融合立项稿 / research 调研拆书包 / stage 长档·卷舞台 / plot 卷进度表·brief·卷纲·幕白描 / outline 章纲 / review 章日志全书日志 / decon 拆书wiki成品 / dna-style 文风锚定说明文字，及拆书/卖点/大纲/世界观类） | **报告检查**：只 WARN+定位，不打回 | 黑话（hard 实锤/soft 风格分层）+套路句式+空腔段+生成器残留；分号/破折号/括号/列举行/工程emoji标记/0%对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
 
 **边界三条**：
-1. 工程标签（【锚】/养成刻度/卷末边界等精确技术名）不做去AI化改写——消毒只作用于叙事主体。
+1. 工程标签（【锚】/养成刻度/卷末边界等精确技术名）不做去AI化改写——去AI味只作用于叙事主体。
 2. 自动修仅限零风险机械项（英文标点/HTML残留/零宽字符等36类）；滥用类只报不自动改。
-3. `doc` 的 WARN 清单由落盘 agent 按上下文判断：装腔换大白话，行话正常用可放行（回复注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表 / write 检测面说明等文档本身讨论这些特征词，命中属合法引用非残留。
+3. `doc` 的 WARN 清单由存档 agent 按上下文判断：装腔换大白话，行话正常用可放行（回复注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表 / write 检测面说明等文档本身讨论这些特征词，命中属合法引用非残留。
 
 **词库蓝本与维护**：doc 黑话/套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 全量类别）+ 老板点名 seed/设定场景词；v3.3/v3.4 广泛搜索轮补齐（维基 Signs of AI writing / Humanizer 35条军规 / cn-humanizer / 连享会 / OpenAI slop words / 番茄拒签七破绽实测——企业黑话/宣传腔/万能收尾/模糊来源/假坦率/虚假替代/公式化谚语/浅层象征词）。管线自身行话（赛道/卖点/爽点/钩子等）与语料专有名词/世界观字面义（封神/版图/天花板/破局等）不入库——v3.4.1 按 wiki 语境抽样校准。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 兜底须同步维护。
 
@@ -272,26 +267,15 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 
 ---
 
-## 红线
-
-1. **只安装不生产**：pipeline 不写正文/不设计/不审核；深度内容转换（正文反推/设计补建）调度对应 skill 完成。
-2. **就绪判定查文件系统**：Phase 推进条件=产出文件存在（不信口头声明）；依赖链（立项→舞台→brief→卷纲→幕白描→章纲→正文→章日志/全书日志）不可跳。
-3. **user-original/pipeline-relocated 资产必须标⚠️需校验**：未经对应 skill 校验的设计层用户文件不得直接消费。
-4. **状态源**：`状态.md`=唯一机器状态源，agent 每轮只读写它；`项目总控.html` 为展示面板，按需导出，agent 不读 html、不承担渲染成本。
-5. **状态.md 更新走协议**：谁干活谁更新，只改涉及字段；pipeline 只在初始化/导入时碰 phase。
-6. **读文件用宿主原生读取工具**。
-7. **门禁脚本归本包，各 skill 只调用不复制**：`scripts/deai_gate.py` 唯一副本在本包，write/research/seed/stage 按 profile 调用（body=正文打回闸 / doc=非正文报告闸，见「落盘质量闸」节）；阈值词库只改 `deai_profiles.json`，改后须回归验证。
-
----
 
 ## 速查表
 
 | 文件 | 读取时机 | 核心内容 |
 |:--|:--|:--|
-| `状态.md`（项目根） | agent 每轮只读它 | 唯一机器状态源（mode/phase/current_volume/current_chapter/seed_path/就绪态） |
+| `状态.md`（项目根） | agent 每轮只读它 | 唯一状态总账（mode/phase/current_volume/current_chapter/seed_path/就绪态） |
 | `templates/项目总控.html` | 老板要看展示面板时（按需可选） | 展示面板模板（由 状态.md 套值导出，agent 不读） |
 | `references/onboarding-guide.md` | 用户首次触发专家时 | 首次对话引导语 |
-| `scripts/deai_gate.py` + `scripts/deai_profiles.json` | 各 skill 落盘后（门禁执行时） | 去AI味门禁：body=正文打回闸 / doc=非正文报告闸（规范见「落盘质量闸」节） |
+| `scripts/deai_gate.py` + `scripts/deai_profiles.json` | 各 skill 存档后（检查执行时） | 去AI味检查：body=正文打回检查 / doc=非正文报告检查（规范见「存档质量检查」节） |
 
 ---
 

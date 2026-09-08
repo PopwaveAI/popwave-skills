@@ -1,8 +1,4 @@
-﻿---
-name: short-text-deconstructor
-description: "当用户上传例文需要拆解学习时启用。拆解例文→结构/角色/开篇/文风/评价。支持选择拆解深度（完整/仅开篇/仅文风/仅题材）。拆解结论直接影响后续Steps的决策。独立于主线流程，随时可调用。"
----
-# short-text-deconstructor
+﻿# short-text-deconstructor
 > 短篇拆文分析器。选深度→拆结构→拆角色→拆开篇→拆文风→评价→影响后续。v2.1.0：steps 七件全合入单文件；例文分析可派子agent，深度选择主agent直执。
 ## 做什么
 输入：用户上传的例文全文（文本/PDF/截图文本）

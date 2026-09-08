@@ -1,8 +1,4 @@
-﻿---
-name: short-opening-designer
-description: "当用户确定脑洞后进入开篇设计时启用。卖点主轴→6种导语公式择最优→黄金三句→完整导语→付费钩子策略。"
----
-# short-opening-designer
+﻿# short-opening-designer
 > 短篇开篇设计器。定卖点→选公式→黄金三句→完整导语→付费钩子。v2.1.0：steps 五件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么

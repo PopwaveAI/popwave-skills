@@ -1,9 +1,4 @@
----
-name: pop-visual-art-bible
-description: "当用户说'产出美术设定集/做美术设定集/设计角色形象/设计场景形象/出设定集/定妆/角色视觉身份/做视觉圣经'时启用。消费 asset 视觉资产 + style 画风，产出统一「美术设定集」（画风/人物/场景/视觉符号/势力/地理/规则/一致性八篇合一，文+图），作全 IP 宇宙视觉唯一真源。L1 基建层（由原 pop-visual-character 升级）。"
----
-
-# pop-visual-art-bible
+﻿# pop-visual-art-bible
 
 > Art Bible · 美术设定集。L1 基建层「产出美术设定集」，全 IP 宇宙视觉唯一真源。当前版本 v3.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

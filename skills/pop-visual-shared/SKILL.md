@@ -1,9 +1,4 @@
----
-name: pop-visual-shared
-description: "视觉 skill 群的共享底层资产层。不直接生成图片，而是提供被 cover / oc / style / comic 等视觉 skill 复用的统一组件：生图任务清单导出脚本、Pinterest 参考搜索脚本、统一提示词指南、画风DNA库引用协议。消除多 skill 间的重复维护与版本分化。"
----
-
-# pop-visual-shared
+﻿# pop-visual-shared
 
 > 视觉 skill 群的**共享底层资产层**。v1.7.0。本 skill 不独立落地运行，而是被其他视觉 skill 以"引用共享组件"方式调用。**生图不直连 API、不内置任何 API Key**，统一由脚本导出 `generation_tasks.json`，再由主 agent 用 `image_generate` 工具逐条生成。
 

@@ -1,8 +1,6 @@
----
+﻿# pop-snow-review
 
-# pop-snow-review
-
-> 章节验收 + 归档。就三件事：确认本章正文满意（定稿）→ 生成本章日志 → 更新全书日志。当前版本 v1.7.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 章节验收 + 存档。就三件事：确认本章正文满意（定稿）→ 生成本章日志 → 更新全书日志。当前版本 v1.7.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 
@@ -12,7 +10,7 @@
 
 ## 这是什么
 
-review 是"写完这一章、准备写下一章"之间那道归档闸门。它**不审质量**——质量是 write 的事；它只负责把"这一章发生了啥"记下来、把"整个世界现在该是啥样"更新到最新，让下一章开写之前有可依据的准。
+review 是"写完这一章、准备写下一章"之间那道存档关口。它**不审质量**——质量是 write 的事；它只负责把"这一章发生了啥"记下来、把"整个世界现在该是啥样"更新到最新，让下一章开写之前有可依据的准。
 
 **正文没让用户满意前，不进账本**（还在改的，别记）。
 
@@ -37,12 +35,12 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
 
 ## 步骤
 
-**第 1 步 确认满意＋消毒核验**
+**第 1 步 确认满意＋去AI味核验**
 读本章正文。判断：用户/完成度上，这章算定稿了吗？
 - 满意 → 定稿，进第 2 步。
 - 不满意 / 还要改 → 打回 write（或告诉用户），**不入库**，结束。
 
-**消毒核验（闭环闸）**：查上游消毒回执——①write 交接的正文消毒结果（body 闸 FAIL 清零）；②outline 章纲的 `消毒:ch{NNN}-章纲|PASS` / `WARN×N` 回执。章纲缺回执 → review 补跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/章纲/ch{NNN}-章纲.md --profile doc --json` 一次（doc 报告闸：WARN 定位自查、机械项 `--fix`），并在对话注明补消毒；正文消毒回执缺失 → 在本章日志备注"上游消毒回执缺失"，提示 write 下章前补跑。报告闸只报不打回，核验不阻塞归档，但必留痕。
+**去AI味核验（收尾检查）**：查上游去AI味结果——①write 交接的正文去AI味结果（正文检查 FAIL 清零）；②outline 章纲的 `去AI味:ch{NNN}-章纲|PASS` / `WARN×N` 结果。章纲缺结果 → review 补跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py 卷纲/章纲/ch{NNN}-章纲.md --profile doc --json` 一次（doc 报告检查：WARN 定位自查、机械项 `--fix`），并在对话注明补去AI味；正文去AI味结果缺失 → 在本章日志备注"上游去AI味结果缺失"，提示 write 下章前补跑。报告检查只报不打回，核验不阻塞存档，但必留痕。
 
 **满意判别标准（第 1 步"确认满意"时逐条核，供"定稿/打回"判据，不审文风只审一致性/连续性/设定三把尺）**：
 
@@ -67,9 +65,9 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
 
 > **write 交接并入**：write 对话回复给【冲突标注/新增事实待核】——review 核验有效性后并入"这一章定了哪些事"，write 只声明不落库，落库以 review 为准。
 
-> **字数=消费 write 交接数据**：字数门禁已在 write 内闭环（word-count.ps1 由 write 落盘后自跑，不足自扩写，不交 review 补救）。review 不跑字数脚本，直接把 write 交接的 stdout 原文（`chNNN.txt|汉字N|判定:PASS`）填进本章日志"字数"栏；交接缺失时追问 write，不自己补跑。
+> **字数=消费 write 交接数据**：字数检查已在 write 内收束（word-count.ps1 由 write 存档后自跑，不足自扩写，不交 review 补救）。review 不跑字数脚本，直接把 write 交接的 stdout 原文（`chNNN.txt|汉字N|判定:PASS`）填进本章日志"字数"栏；交接缺失时追问 write，不自己补跑。
 
-> **落盘后半步=消毒**：章日志落盘后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py 章节日志/ch{NNN}.md --profile doc --json`——WARN 定位自查（档案措辞贴事实，装腔换大白话）、机械项 `--fix`，回执一行 `消毒:ch{NNN}-章日志|PASS` 或 `WARN×N`。
+> **存档后半步=去AI味**：章日志存档后自跑 `python skills/pop-snow-pipeline/scripts/deai_gate.py 章节日志/ch{NNN}.md --profile doc --json`——WARN 定位自查（档案措辞贴事实，装腔换大白话）、机械项 `--fix`，结果一行 `去AI味:ch{NNN}-章日志|PASS` 或 `WARN×N`。
 
 **第 3 步 更新全书日志**
 打开 `全书日志.md`，按本章日志 replace：
@@ -78,15 +76,9 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
   -（模板：`templates/state-snapshot.tpl.md`、`templates/exit-archive.tpl.md`）；
 - 更新"现在在哪"，给出下一章开写前的准。
 - 这章若有意改翻了某条旧现状 → 当场在全书日志标"改了哪条、为什么"，留痕。
-- **落盘后半步=消毒**：全书日志 replace 后同第 2 步步法自跑（`退出档案.md` 本轮有追加也一并跑），回执一行 `消毒:全书日志|PASS` 或 `WARN×N`。
+- **存档后半步=去AI味**：全书日志 replace 后同第 2 步步法自跑（`退出档案.md` 本轮有追加也一并跑），结果一行 `去AI味:全书日志|PASS` 或 `WARN×N`。
 - 结束。
 
-## 红线
-
-1. **正文没定稿，不入库**：还在改的别记。
-2. **全书日志只记活跃**：回收即移出并入退出档案，不残留。
-3. **世界规则/静态设定不重复进全书日志**。
-4. **本章日志只增不改**（历史）；**全书日志单份 replace，不拆分**。
 
 ## 速查
 
@@ -94,7 +86,7 @@ review 是"写完这一章、准备写下一章"之间那道归档闸门。它**
 |:--|:--|:--|
 | `templates/chapter-card.tpl.md` | 第 2 步 | 本章日志模板 |
 | `templates/state-snapshot.tpl.md` | 第 3 步 | 全书日志·只记活跃（replace） |
-| `templates/exit-archive.tpl.md` | 第 3 步 | 退出档案·归档（追加） |
+| `templates/exit-archive.tpl.md` | 第 3 步 | 退出档案·存档（追加） |
 
 ## 批量回溯（可选）
 

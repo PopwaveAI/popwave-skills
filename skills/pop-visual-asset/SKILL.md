@@ -1,9 +1,4 @@
----
-name: pop-visual-asset
-description: "当用户说'提取角色档案/提取场景资产/提取视觉符号/小说素材提取/视觉资产准备'时启用。从小说原文系统性提取结构化视觉资产（角色档案/场景资产表/视觉符号库/IP视觉DNA等），供 pop-visual-art-bible 汇总成美术设定集后下发 oc/comic/cover 消费，支持增量更新。"
----
-
-# pop-visual-asset
+﻿# pop-visual-asset
 
 > 小说视觉资产提取器。从原文提取结构化素材，供视觉 skill 群消费。当前版本 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

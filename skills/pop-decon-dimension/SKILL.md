@@ -1,9 +1,4 @@
----
-name: pop-decon-dimension
-description: "单书深度wiki拆解（decon主拆解）。当用户说'拆书/解构/分析/对标/建书wiki/深度拆解/提取模板'时启用。消费原文+范围→L1批次拆解（严格门禁）→L2六模块深度wiki成品。产出对齐《深渊主宰》重建标准，供 pop-snow* 统一管线创作复用。"
----
-
-# pop-decon-dimension · 单书深度wiki拆解
+﻿# pop-decon-dimension · 单书深度wiki拆解
 
 > 单书正本拆解：消费原文+范围 → L1 批次拆解（硬门禁）→ L2 六模块深度wiki成品，供 pop-snow* 统一管线复用。当前版本 v3.4.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

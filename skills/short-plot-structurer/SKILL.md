@@ -1,8 +1,4 @@
-﻿---
-name: short-plot-structurer
-description: "当用户完成开篇设计后进入剧情结构设计时启用。推荐模板→弧线设计→角色设计→骨架卡片。先定剧情再配角色（角色服务于剧情）。"
----
-# short-plot-structurer
+﻿# short-plot-structurer
 > 短篇剧情结构器。选模板→画弧线→配角色→输出骨架卡片。v2.1.0：steps 四件全合入单文件精炼；执行模式=主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
