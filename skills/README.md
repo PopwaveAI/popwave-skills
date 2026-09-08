@@ -11,6 +11,7 @@
 | 3 | 起点长篇网文专家 | 中 | 起点长篇网文创作（测试调整中；写作含 dnlike/海贼王类 流派专属） | `pop-snow-seed` `pop-snow-stage` `pop-snow-plot` `pop-snow-outline` `pop-snow-write` `pop-snow-review` `pop-snow-pipeline` `pop-snow-research` |
 | 4 | 网文拆书专家 | 高 | 长篇网文解构/逆向分析（计算密集） | `pop-decon` `pop-decon-dimension` |
 | 5 | 短篇小说专家 | 低 | 知乎/豆瓣/每日阅读等短篇创作 | `short-body-generator` `short-idea-refiner` `short-opening-designer` `short-plot-structurer` `short-platform-orientation` `short-reviewer` `short-text-deconstructor` |
+| 6 | Mirror 创作专家 | 中 | 镜界（Mirroric）创作方法论专家系列（总控 + 八位写作专家，独立成族） | `pop-mirror-pipeline` `pop-mirror-onboard` `pop-mirror-world` `pop-mirror-character` `pop-mirror-opening` `pop-mirror-plot` `pop-mirror-write` `pop-mirror-deai` `pop-mirror-review` |
 
 > 注（2026-08-31 snow 定名）：统一管线八件定名 snow 家族（雪花流，L0→L1→L2→L3 逐层扩写）——`pop-snow-seed`（四层共创全书大纲）/ `pop-snow-stage`（首喷+卷级刷新）/ `pop-snow-plot`（卷需求brief/卷纲/幕白描）/ `pop-snow-outline`（章纲组装）/ `pop-snow-write`（章纲消费+文风兜底23份）/ `pop-snow-review`（四步审核三范式）/ `pop-snow-pipeline`（phase 链+卷循环 2a-2g）/ `pop-snow-research`（三模式+wiki主源）。test 系列 5 件（adapt/lite/plot/research/write）已删除；旧族 7 件（`pop-fanqie-seed/plot/write`、`pop-qidian-seed/plot/write/research`）同日删除退役（备份 temp/_backup-oldfamily-20260831/）。
 >
@@ -48,6 +49,7 @@
 | 前缀 | 家族 | 归属 |
 |:--|:--|:--|
 | `pop-snow-*` | 统一写作管线（雪花流） | 番茄/起点专家共用 |
+| `pop-mirror-*` | Mirror 创作专家（镜界/Mirroric 方法论） | 独立专家家族 |
 | `pop-decon-*` | 网文拆解 | 拆书专家（子组件在通用区） |
 | `pop-visual-*` `pop-comic-content` | 视觉/IP | 推书与IP化专家 |
 | `short-*` | 短篇 | 短篇专家 |
