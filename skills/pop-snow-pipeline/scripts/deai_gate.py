@@ -166,6 +166,9 @@ CHECKS = [
     # --- v3.3 新增（番茄拒签16万本实测七破绽之3/4，2026-09-08）---
     ('quote_mixed',     '引号体系混用', 1, 3, '处', '“”与「」『』并存——全书统一一种引号体系（对话用“”则直角引号改“”）'),
     ('md_hr',           '分割线残留', 1, 2, '处', '====/----/****整行分割线——代码文档习惯，正文场景切换用空行或文字过渡'),
+    # --- v3.4 新增（镜界07镜像：抽象副词/意象域连续渲染，2026-09-08）---
+    ('abstract_tag',    '抽象副词标记', 2, 4, '处', '冷冷/静静/默默/悄悄/狠狠/淡淡/缓缓/轻轻+地+说|道|走|看|笑|点头——抽象副词裹着动作，改成对话本身传达或具体感官动词（冷冷地说→话里带刺；悄悄地走→踮脚尖地板吱呀响）'),
+    ('imagery_run',     '意象域连续渲染', 1, 2, '处', '同一体感意象（寒意|暖流|气|浪|影|纹|味道|声音类）在相邻≥2段落连续渲染超两轮——意象连续两段以上重复表AI味，后几段改直陈或换具体画面'),
 ]
 CHECK_IDS = {c[0] for c in CHECKS}
 
@@ -395,7 +398,7 @@ RANGE_OK = {'dialog_ratio': (0.05, 0.65)}
 # 顿号0-8.4、四字格连排0-27、5字重复0-17、语气词0-9.9、语气句0-0.47、
 # 段长CV下探0.33、单引号内心独白惯例一章24处）
 REPORT_ONLY = {'dunhao', 'idiom_runs', 'repeat_phrase', 'modal_part',
-               'tone_div', 'para_cv', 'sq_quote'}
+               'tone_div', 'para_cv', 'sq_quote', 'abstract_tag', 'imagery_run'}
 
 # ---------------- doc profile（非正文向，报告闸）----------------
 # 词库蓝本：pop-ai-reduce-lite/resources/banned-words.md（v3.2 扩至 13/16/17 节全量吸收）
@@ -1257,6 +1260,53 @@ def check_abuse(text, profile='body', active=None, doc_cfg=None):
             ctx = ln[max(0, m.start()):m.end() + 15].strip()
             conn_hits.append({'line': i, 'snippet': ctx})
     put('connectives', len(conn_hits), conn_hits)
+
+    # v3.4 抽象副词标记（镜界07: 冷冷地说→话里带刺；悄悄走→踮脚尖。REPORT_ONLY）
+    abst_adv_pat = re.compile(
+        r'(冷冷|静静|默默|悄悄|狠狠|淡淡|缓缓|轻轻|悠悠|幽幽|戚戚|深深|'
+        r'漠然|淡然|平静|温柔|严肃|诡异|困惑|惊喜)[模样]?了?地?'
+        r'(?:[，,])?(说|道|开口|走|看|望|笑|点头|摇头|转身|回应)')
+    abst_hits = []
+    for i, ln in enumerate(lines, 1):
+        for m in abst_adv_pat.finditer(ln):
+            abst_hits.append({'line': i, 'snippet': m.group(0)[:38]})
+    put('abstract_tag', len(abst_hits), abst_hits)
+
+    # v3.4 意象域连续渲染（镜界07: 同一体感意象相邻≥2段连续——REPORT_ONLY）
+    imagery_words = (
+        '寒意|暖流|冷意|温热|凉意|潮气|血腥|药味|焦味|甜腻|苦涩|辛涩|'
+        '气浪|涟漪|波纹|震颤|颤抖|涌动|翻涌|闪烁|浮动|流荡|弥漫|'
+        '影子晃|阴影压|黑雾|白雾|血雾|金芒|银光|寒芒|杀意|压迫感'
+    )
+    imagery_re = re.compile(r'(?:%s)' % imagery_words)
+    im_hits = []
+    prev_words = None
+    start_line = None
+    run_len = 0
+    for i, ln in enumerate(lines, 1):
+        s = ln.strip()
+        if not s:
+            prev_words = None
+            start_line = None
+            run_len = 0
+            continue
+        cur_words = set(imagery_re.findall(s))
+        if prev_words and (cur_words & prev_words):
+            if run_len == 0:
+                start_line = i - 1
+                run_len = 1
+            run_len += 1
+            if run_len >= 2:
+                im_hits.append({'line': start_line,
+                                'snippet': 'L%d起连续%d段共意象:%s' % (
+                                    start_line, run_len,
+                                    '、'.join(sorted(list(cur_words & prev_words))[:3]))})
+                run_len = 0
+        else:
+            start_line = None
+            run_len = 0
+        prev_words = cur_words
+    put('imagery_run', len(im_hits), im_hits)
 
     space_hits = []
     for i, ln in enumerate(lines, 1):

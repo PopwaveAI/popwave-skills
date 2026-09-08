@@ -314,6 +314,14 @@
       "md_hr": {
         "warn": 1,
         "fail": 2
+      },
+      "abstract_tag": {
+        "warn": 2,
+        "fail": 5
+      },
+      "imagery_run": {
+        "warn": 1,
+        "fail": 3
       }
     }
   },
@@ -395,7 +403,9 @@
       "en_line",
       "emoji_res",
       "quote_mixed",
-      "md_hr"
+      "md_hr",
+      "abstract_tag",
+      "imagery_run"
     ],
     "checks": {
       "buzz_hard": {
