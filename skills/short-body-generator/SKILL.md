@@ -1,4 +1,9 @@
-﻿# short-body-generator
+﻿---
+name: 
+description: "剧情结构定好后帮你把正文写出来，可选文风、逐段或一键生成，还能去AI味儿。当你完成剧情结构设计、准备写正文时启用。"
+---
+
+# short-body-generator
 > 短篇正文生成器。选文风→定模式→逐段生成→去AI味儿。v2.1.0：steps 四件全合入单文件精炼（清理2条死链引用）；执行模式明确为主agent直执。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么

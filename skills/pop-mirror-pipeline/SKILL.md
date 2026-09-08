@@ -1,10 +1,11 @@
-***
+﻿---
+name: pop-mirror-pipeline
+description: "当用户说'进入Mirror创作/用Mirror系列/镜像系列专家编排/开始Mirror写作'时启用。Mirror创作专家系列的总控：维护专家清单+源映射+创作链路，按链路路由到 pop-mirror-onboard/world/character/opening/plot/write/deai/review 八个写作专家（节奏硬尺已并入 write）。本skill不产具体创作产出，只负责编排路由；各专家精华保持镜界原文不变。"
+---
 
 # pop-mirror-pipeline
 
 > 将镜界（Mirroric 小说创作应用）系列 AgentSkill 的提示词精华，改造成一个可直接跑通全创作流程的专家 skill 系列。本 skill 是系列**总控**——维护专家清单+源映射+创作链路，按链路路由到七个写作子专家。当前版本 v1.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
-
-***
 
 ## 这个 skill 做什么
 
