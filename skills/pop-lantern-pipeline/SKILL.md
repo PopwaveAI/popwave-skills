@@ -1,6 +1,6 @@
 # pop-lantern-pipeline
 
-> 灯塔流总控。当前版本 v1.0.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 灯塔流总控。当前版本 v1.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -27,6 +27,8 @@
 | 卷循环路由 | 灯塔流滚动卷循环：plot 滚动两卷 → outline → write → review → 卷末回看 → 滚下一卷 |
 
 **日常路由不经此 skill**：用户说"继续写/下一步/写正文/审核"时，主 agent 按卷循环状态机直接选 skill，先读 `状态.md` 取状态片段（mode/phase/current_volume/current_chapter），路由参照=下方「卷循环状态机」。pipeline 不写正文、不做内容转换、不常驻。
+
+**research 依赖（三方共用基建·各环节大量拉取）**：灯塔流是 research 的重度消费方——seed 立项查底子/赛道行情、world/character 建设定遇现实 IP/参考作品/专业考据、opening 开篇现实场景、plot 卷规划剧情素材与单元剧库增量、review 审查事实存疑，各环节落盘前答"资料够不够"，不够必派 `pop-snow-research` 补采（跨系列只读调用，不写其文件）再落盘；查不到的写"没查到"，不凭空编造。采风统一落 `素材/采风/`（文件名 `{定向}-{主题}.md`）。
 
 **灯塔流三原则（贯穿路由）**：
 
@@ -205,9 +207,10 @@ Phase 5  滚动卷循环（写完一卷才滚下一卷）：
 | 落地Phase | 缺口+正文进度对照决策表，用户确认后才动 |
 | 状态.md | mode/phase/current_volume/current_chapter/current_direction_row/就绪态 |
 | 路由 | 卷循环状态机 1→2→3→4→5a→5b→5c→5d→(5e→5a) |
+| research 依赖 | 各环节落盘前答"资料够不够"，不够必派 pop-snow-research（跨系列只读）补采；采风落 素材/采风/ |
 
 ---
 
 ## 版本
 
-当前版本 v1.0.0（2026-09-11，灯塔流系列总控首版：照 snow 工程规范建，状态机改"根→开篇→滚动卷循环"，资产归位表适配方向总表/账本）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.1.0（2026-09-11，灯塔流系列总控：v1.0.0 首版照 snow 工程规范建，状态机改"根→开篇→滚动卷循环"，资产归位表适配方向总表/账本；**v1.1.0 确立 research 三方共用基建依赖**——research 是 snow/灯塔/涌现三方共用的基建 skill，灯塔流各环节大量拉取 pop-snow-research 补采再落盘，不写其文件）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

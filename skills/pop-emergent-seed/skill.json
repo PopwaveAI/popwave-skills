@@ -1,9 +1,9 @@
 {
   "id": "pop-emergent-seed",
   "name": "pop-emergent-seed",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "涌现流立项",
-  "description": "涌现流立项：把用户模糊想法问成可直接下笔的最小包——主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话）＋不设清单。不产设定、不排卷、不写大纲；产出立项/涌现立项卡.md。",
+  "description": "涌现流立项：把用户模糊想法问成可直接下笔的最小包——主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话）＋不设清单。不产设定、不排卷、不写大纲；产出立项/涌现立项卡.md。查底子/文风参照/五件套消化主动触发 pop-snow-research（三方共用基建，不设门槛）。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "涌现流", "立项"],
   "activation": { "slashCommands": ["pop-emergent-seed", "涌现流立项", "直接开写", "试味立项"] },

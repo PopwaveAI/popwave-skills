@@ -1,9 +1,9 @@
 {
   "id": "pop-emergent-outline",
   "name": "pop-emergent-outline",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "涌现流轻量章纲",
-  "description": "涌现流轻量章纲：只定接下来1-3章（每章3-5个事件节点），从涌现账本＋模糊灯塔临场生成；不拆卷、不排全书。产出章纲/ch{NNN}-章纲.md，作 write 的起跳板而非锁链。",
+  "description": "涌现流轻量章纲：只定接下来1-3章（每章3-5个事件节点），从涌现账本＋模糊灯塔临场生成；不拆卷、不排全书。产出章纲/ch{NNN}-章纲.md，作 write 的起跳板而非锁链。排章纲遇专业场景/新地域/新行业主动触发 pop-snow-research 补采（三方共用基建，不设门槛）。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "涌现流", "章纲", "轻量"],
   "activation": { "slashCommands": ["pop-emergent-outline", "涌现流章纲", "轻量章纲", "排几章"] },

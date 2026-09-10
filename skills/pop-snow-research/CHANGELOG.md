@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v5.7.0 | 2026-09-11
+
+### 确立三方共用基建：snow / 灯塔 / 涌现皆可拉取；触发改两条腿（定稿门强制＋主动点单）
+
+> **背景（老板批点）**：research 是三方共用的基建 skill，灯塔流和涌现流都应大量依赖它——尤其涌现流应该"任何环节都可以主动触发"，不是只在资料门（考据不足）被动等。
+
+- **定位升级为三方共用基建**：标题/定位/盘任务/四场景存档去向全量补灯塔流（seed/world/character/opening/plot/review）与涌现流（seed/opening/outline/write/review）消费端。
+- **「按写作环节定搜索深度」表补 12 行**：灯塔七环节（seed/world/character/opening/plot/review）+ 涌现六环节（seed/opening/outline/write/review），各给触发点+搜到什么程度+主动/被动标记。
+- **「触发时机」改两条腿**：定稿门强制（被动，沿用 snow 四闸口）+ 各环节主动点单（主动）——涌现六件不设"必须考据不足才派"门槛，任何步骤缺真实料即可触发；新增检查口⑤涌现流主动点单。
+- **涌现 write 可直接点单**：区别于 snow write（缺料打回 outline 采），涌现 write 写前卡料直接走聚焦搜索回报结论区，不强制落采风文件。
+- 版本三处一致 v5.7.0。
+
 ## v5.6.0 | 2026-09-08
 
 ### research 收敛为「四消费端强制定稿门」：落盘 Step 内嵌，非自觉可选
@@ -106,7 +118,7 @@
 
 **旧资产清理（对齐设计规范）**：
 - **references 两件退役删除**：`三界框架SOP.md`、`调研深度标准.md`（旧"任务文件"时代遗留，标 v1.0.0、引用不存在的 step-1-research.md 与旧名 pop-novel）；1g 三界框架档并入 1f 定向采风世界观定向。
-- **templates 头部重构**：fuel-doc / mechanics-doc / 金标准-包配方 去掉旧 `doc_type/layer/read_policy/compression/source_of_truth` 元数据头（该套规范已被 pipeline 简洁分层取代），清理旧概念（状态快照→全书日志、soul→write、test-skill→snow-skill、adapt 旧名）。
+- **templates 头部重构**：fuel-doc / 机制-doc / 金标准-包配方 去掉旧 `doc_type/layer/read_policy/compression/source_of_truth` 元数据头（该套规范已被 pipeline 简洁分层取代），清理旧概念（状态快照→全书日志、soul→write、test-skill→snow-skill、adapt 旧名）。
 - **新增 `templates/采风条目模板.md`**：定向采风 F3 深度采集统一格式。
 
 **同步**：pipeline v1.8.0（初始化建 素材/采风/ 库 + 立项前置采风触发闸 + 2a+ 剧情采风接线）；SKILL.md 前端字段/description/skill.json（4.0.0）/CHANGELOG 三处一致。
@@ -129,7 +141,7 @@
 > 背景：西幻DND 实跑发现消毒停留在红线提醒层、未被实际触发（老板指令：把消毒逻辑挪进 SOP 落盘步骤，并加核验）。
 
 - 全部落盘点补齐"落盘后半步=消毒"半步：1a-S3 赛道调研（上版已有）/ DL4 decon-lite / DP3-DP4 decon-plot / 1d Step 2 燃料+机制双文件 / 1e 采风 / 1f 三界 / V4 卷级调研 / 模式3 建包收尾（`KB/设定包/{书名}/` 目录递归 `-r` 聚合）。步法统一：deai_gate doc 报告闸（WARN 定位自查、机械项 `--fix`），回复报一行回执。
-- 红线原第7条"落盘后消毒"删除——挪进 SOP，红线不重复约束。
+- **红线原第7条"落盘后消毒"删除**——挪进 SOP，红线不重复约束。
 - 修正版本节漂移（上版头部已是 v3.3.0、版本节仍 v3.2.0）；配套 review v1.5.1 消毒核验闭环闸。
 
 ## v3.3.0 | 2026-09-08
@@ -184,9 +196,9 @@
 
 **wiki 主源检索协议**（全局新增）：任何调研先查本地 wiki 镜像 `D:\popwave-wiki\docs`（=wiki.popwave.cn 本地副本），命中直接引用标注来源、不重复造轮子；未命中走 web；产出分区标注 wiki/web 来源。
 
-**资产搬迁**：templates/fuel-doc.tpl.md + mechanics-doc.tpl.md（自 qidian-research）、templates/金标准-包配方.md（自 test-research）；references/三界框架SOP.md + 调研深度标准.md（原 pop-research 保留）。
+**资产搬迁**：templates/fuel-doc.tpl.md + 机制-doc.tpl.md（自 qidian-research）、templates/金标准-包配方.md（自 test-research）；references/三界框架SOP.md + 调研深度标准.md（原 pop-research 保留）。
 
-**红线收敛**：9条/5条/4条三族红线合并为6条全局（原文存在性门禁/9表全拆/落盘/wiki优先/不越界/建包双铁律）。
+**红线收敛**：9条/5条/5条三族红线合并为6条全局（原文存在性门禁/9表全拆/落盘/wiki优先/不越界/建包双铁律）。
 
 **废弃**：pop-qidian-research(v5.0.0)、test-research(v6.0.3) 2 件 skill 待 P8 统一删除；旧版历史见 `_archive/changelog-history/`。
 
