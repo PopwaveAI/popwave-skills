@@ -1,19 +1,19 @@
 {
   "id": "pop-emergent-pipeline",
   "name": "pop-emergent-pipeline",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "displayName": "涌现流总控",
-  "description": "当用户说'涌现流/直接开写/不排大纲/试味/先写后补'时启用。涌现流总控：建目录+状态.md+路由。涌现流三原则：只锁两样（主角立身一句话+文风承诺）＋模糊灯塔（结局方向一句话）；先写后补（黄金三章直接写试味，设定从账本长出来）；轻量章纲＋阶段性回看（只定接下来1-3章，每N章回看校准，可转灯塔流）。状态机：根→黄金三章试味→滚动写章循环（轻量章纲→直接写→审查回填）→阶段性回看。日常路由不经此skill，读状态.md取状态片段直接选skill。research 是三方共用基建：涌现六件任何环节缺真实料即主动派 pop-snow-research，不设'考据不足才派'门槛。",
+  "description": "涌现流总控（一次性搭建）：在 snow 雪花流基础上做减法——只留 seed→章纲→正文→review→再章纲 轻循环，不做复杂世界观/人物/卷级设定，设定从账本长出来。建 8 个轻量目录+生成 状态.md(唯一状态总账)+资产归位+缺口分析+落地Phase+补跑调度；涌现循环状态机 2a-2c 为路由参照，前3章章纲由 outline 按开篇三要素排（含爽点标注）；日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill，agent不读html。",
   "entry": "SKILL.md",
-  "tags": ["长篇网文专家", "涌现流", "总控"],
-  "activation": { "slashCommands": ["pop-emergent-pipeline", "涌现流", "直接开写", "不排大纲", "试味"] },
+  "tags": ["长篇网文专家", "涌现流"],
+  "activation": { "slashCommands": ["pop-emergent-pipeline", "涌现初始化", "新建项目", "导入", "续写", "迁移"] },
   "skills": [
     "pop-emergent-seed",
-    "pop-emergent-opening",
     "pop-emergent-outline",
     "pop-emergent-write",
     "pop-emergent-review",
-    "pop-snow-research"
+    "pop-snow-research",
+    "pop-dna-style"
   ],
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
   "author": "popwave",

@@ -1,14 +1,12 @@
 {
   "id": "pop-emergent-outline",
   "name": "pop-emergent-outline",
-  "version": "1.1.0",
-  "displayName": "涌现流轻量章纲",
-  "description": "涌现流轻量章纲：只定接下来1-3章（每章3-5个事件节点），从涌现账本＋模糊灯塔临场生成；不拆卷、不排全书。产出章纲/ch{NNN}-章纲.md，作 write 的起跳板而非锁链。排章纲遇专业场景/新地域/新行业主动触发 pop-snow-research 补采（三方共用基建，不设门槛）。",
+  "version": "1.0.0",
+  "displayName": "轻量章纲",
+  "description": "涌现流轻量章纲：在 snow outline 基础上做减法——没有卷、没有幕白描、没有卷brief，只从涌现账本＋模糊灯塔临场排接下来 1-3 章的章纲。每章一文件 章纲/ch{NNN}-章纲.md，只定事件/转折/落点功能，动作细节/心理/对白台词划给 write 现场创作。前3章按开篇三要素排（落差→特权→小账+新标）含爽点标注；每章必填爽点标注（9类选1-2，密度目标≥2）喂 review 爽点密度检查。A路消费上游、B路自举推演（上游烂时自己当编剧+导演），B路新事件必须回流登记涌现账本。",
   "entry": "SKILL.md",
-  "tags": ["长篇网文专家", "涌现流", "章纲", "轻量"],
-  "activation": { "slashCommands": ["pop-emergent-outline", "涌现流章纲", "轻量章纲", "排几章"] },
-  "skills": ["pop-snow-research"],
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "tags": ["长篇网文专家", "涌现流"],
+  "activation": { "slashCommands": ["pop-emergent-outline", "章纲", "拼章纲", "outline", "章纲组装"] },
   "author": "popwave",
   "license": "UNLICENSED"
 }
