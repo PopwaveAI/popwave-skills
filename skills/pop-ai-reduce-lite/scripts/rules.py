@@ -77,6 +77,11 @@ class RuleSet:
     def negative_parallelisms(self) -> List[str]:
         """否定平行结构"""
         return self.data.get("negative_parallelisms", [])
+
+    @property
+    def abstract_metaphor(self) -> Dict[str, str]:
+        """抽象对偶比喻检测词表（抽象名A 是/像 抽象陈词B）"""
+        return self.data.get("abstract_metaphor", {})
     
     @property
     def superficial_verbs(self) -> List[str]:

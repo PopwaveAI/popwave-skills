@@ -44,6 +44,7 @@ class SentenceReport:
     new_ai_flavor_cnt: int = 0
     tier1_breaker_cnt: int = 0
     gray_zone_cnt: int = 0
+    abstract_metaphor_cnt: int = 0
 
 
 @dataclass
@@ -76,6 +77,7 @@ class DetectionReport:
     new_ai_flavor_count: int = 0
     tier1_breaker_count: int = 0
     gray_zone_count: int = 0
+    abstract_metaphor_count: int = 0
     em_dash_count: int = 0
     curly_quote_count: int = 0
     exclamation_count: int = 0
@@ -108,6 +110,7 @@ class AIDetector:
         'new_ai_flavor': 'new_ai_flavor_cnt',
         'tier1_breaker': 'tier1_breaker_cnt',
         'gray_zone': 'gray_zone_cnt',
+        'abstract_metaphor': 'abstract_metaphor_cnt',
     }
     
     # 类别权重
@@ -133,6 +136,7 @@ class AIDetector:
         'new_ai_flavor': 3,
         'tier1_breaker': 5,
         'gray_zone': 1,
+        'abstract_metaphor': 3,
     }
     
     def __init__(self, rules: Optional[RuleSet] = None, user_rules_path: Optional[str] = None):
@@ -146,6 +150,7 @@ class AIDetector:
         self._word_to_category = {}
         self._unified_regex = self._build_unified_regex()
         self._sentence_starter_regex = self._build_sentence_starter_regex()
+        self._abstract_metaphor_regex = self._build_abstract_metaphor_regex()
     
     def _compile_patterns(self, patterns: List[str]) -> List[re.Pattern]:
         """编译正则模式列表"""
@@ -264,6 +269,24 @@ class AIDetector:
         parts = [re.escape(w) for w in all_words]
         return re.compile('|'.join(parts), re.IGNORECASE)
     
+    def _build_abstract_metaphor_regex(self) -> Optional[re.Pattern]:
+        """构建抽象对偶比喻正则：抽象名A (是/像/如同/宛如/化作/成了/便是) (量词?) 抽象陈词喻体B
+
+        两端都是抽象名词、无具体可感意象、且是陈词对偶（命是账/世界是迷宫/时代是围城），
+        是 AI 腔"看起来有深度、实际零信息"的典型结构。
+        词表来自 zh_rules.json 的 abstract_metaphor 键，可维护、不写死在代码里。
+        """
+        meta = self.rules.abstract_metaphor or {}
+        abstract_subjects = meta.get("abstract_subjects", "命|命运|人生|世界|时代|历史|文明|社会|人性")
+        cliche_objects = meta.get("cliche_objects", "账|账本|契约|迷宫|深渊|棋局|围城|囚笼|天平")
+        copulas = meta.get("copulas", "是|便是|就是|不过是|像|如同|宛如|仿佛|化作|成了|变成")
+        quant = meta.get("quantifier", "(?:一条|一份|一张|一本|一部|一座|一片|一种|一个|一头|一)?")
+        p1 = rf"(?P<am_subj>{abstract_subjects})\s*(?:{copulas})\s*{quant}(?P<am_obj>{cliche_objects})"
+        try:
+            return re.compile(p1)
+        except re.error:
+            return None
+
     def _build_sentence_starter_regex(self) -> Optional[re.Pattern]:
         """构建句首连接词正则"""
         starters = self.rules.sentence_starters
@@ -331,6 +354,7 @@ class AIDetector:
             report.new_ai_flavor_count += sent_report.new_ai_flavor_cnt
             report.tier1_breaker_count += sent_report.tier1_breaker_cnt
             report.gray_zone_count += sent_report.gray_zone_cnt
+            report.abstract_metaphor_count += sent_report.abstract_metaphor_cnt
         
         # 全局特征
         report.em_dash_count = count_em_dashes(text)
@@ -491,6 +515,16 @@ class AIDetector:
                 sr.tier1_breaker_cnt += 1
                 reasons.append("tier1_circuit_breaker")
                 break
+
+        # 检查抽象对偶比喻（抽象名A 是/像/化作 抽象陈词B）
+        if self._abstract_metaphor_regex:
+            am = self._abstract_metaphor_regex.search(sentence)
+            if am:
+                score += 3
+                sr.abstract_metaphor_cnt += 1
+                reasons.append(
+                    f"abstract_metaphor: {am.group('am_subj')} 是 {am.group('am_obj')}"
+                )
         
         # 检查长句
         sent_len = len(sentence.replace(' ', ''))
