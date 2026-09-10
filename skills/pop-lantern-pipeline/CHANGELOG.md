@@ -6,6 +6,16 @@ pop-lantern-pipeline v1.0.0：重建自 pop-snow-pipeline v1.9.0 全量 fork。�
 
 # CHANGELOG
 
+## v3.4.0 | 2026-09-11
+
+### 去AI味回执入交接协议：各环节存档后半步必回报，缺回执=交接不完整，下游收档首查
+
+> **背景（老板拍板）**：去AI味中游环节靠自觉，回执无下游核验——老板拍板把回执入交接协议，把"自跑"从软约定变成硬交接项。pipeline 是总控，负责定义全流程回执规则。
+
+- **新增「去AI味回执入交接协议」规则（硬性）**：seed/stage/plot/outline/write 存档后半步自跑去AI味后，**必回报一行 `去AI味:{档名}|PASS` 或 `WARN×N`**——**缺回执=交接不完整**。
+- **下游收档首查责任分配**：review 第 1 步核验上游回执（write 正文 FAIL 清零＋outline 章纲）；其余环节回执由**下游收档时首查**（stage 收 seed、plot 收 stage、outline 收 plot 的 `去AI味:...|PASS 或 WARN×N`）。回执进对话交接，不落档。
+- 同步三件套：SKILL.md / skill.json（3.4.0）/ CHANGELOG。
+
 ## v3.3.0 | 2026-09-11
 
 ### research 硬性触发：每个环节都触发（资料门从"有缺口才触发"改为"环节必跑"）
