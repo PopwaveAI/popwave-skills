@@ -7,6 +7,7 @@
 > - 卷级剧情设计落位：**改造 pop-mirror-plot**（升级为卷级+章节级两级），不加新 skill。
 > - 保真红线：覆盖区以 SOP 为准（镜界原文降为参考）；正文循环区镜界保真红线不变。
 > - pipeline：微调，**补 research 调用评估**（见第 5 节）。
+> - 剧情进度记录文件夹定名 **小说日志**（不叫"产出"）：记录剧情进度的每章审查报告/进度记录与状态快照统一存项目空间 `小说日志/`（2026-09-10 老板拍板；已落地 9-10 项目a 改名 + pop-mirror-review v1.2.0 / pop-mirror-pipeline v2.2.0 落盘约定）。
 
 ***
 
@@ -113,6 +114,8 @@
 | 6 | `skills/pop-mirror-pipeline/SKILL.md` | 补四阶段心智+research 调用点（3.5/5）；skill.json description 更新 |
 | 7 | onboard/world/character/plot 的 CHANGELOG.md | 各记一条迁移记录 |
 | 8 | opening/write/deai/review | 不动 |
+
+> 追加（2026-09-10）：产出→小说日志 改名后，pop-mirror-review（v1.2.0）与 pop-mirror-pipeline（v2.2.0）补落盘约定（剧情进度记录存 `小说日志/`，不叫"产出"）。
 
 ## 5. pipeline × research 评估
 
