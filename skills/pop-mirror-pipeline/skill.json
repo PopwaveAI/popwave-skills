@@ -1,9 +1,9 @@
 {
   "id": "pop-mirror-pipeline",
   "name": "pop-mirror-pipeline",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "displayName": "Mirror创作专家·总控",
-  "description": "当用户说'进入Mirror创作/用Mirror系列/镜像系列专家编排/开始Mirror写作'时启用。Mirror创作专家系列的总控：维护专家清单+源映射+创作链路，按链路路由到 pop-mirror-onboard/world/character/opening/plot/write/deai/review 八个写作专家（节奏硬尺已并入 write）。本skill不产具体创作产出，只负责编排路由；各专家精华保持镜界原文不变。",
+  "description": "当用户说'进入Mirror创作/用Mirror系列/镜像系列专家编排/开始Mirror写作'时启用。Mirror创作专家系列的总控：四阶段心智模型（创意→核心设定锁根→主线剧情骨架→逐卷展开→写章临场）+ 专家清单 + 创作链路，按链路路由到 onboard/world/character/opening/plot(卷级+章节级)/write/deai/review 八专家，横向路由 pop-snow-research（跨系列只读）。本skill不产具体创作产出，只负责编排路由；保真红线分区：正文循环区保真，覆盖区以SOP为权威。",
   "entry": "SKILL.md",
   "tags": ["Mirror创作专家", "长篇网文专家", "统一编排"],
   "activation": { "slashCommands": ["pop-mirror", "mirror创作", "mirror专家", "镜像编排"] },

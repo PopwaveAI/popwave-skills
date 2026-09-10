@@ -1,12 +1,12 @@
 {
   "id": "pop-mirror-plot",
   "name": "pop-mirror-plot",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "displayName": "Mirror规划专家",
-  "description": "当用户说'定本章大纲/规划章节/伏笔台账/章节四段式'时启用。把一章压缩成「连续性+当前任务+节拍序列+伏笔操作」四段式大纲：小周期推进/伏笔不空转/角色有根/聚焦单线/高潮管理。镜界02-章节规划精华逐字直贴。大纲供 06写作渲染。",
+  "description": "当用户说'定卷级结构/拆卷/排单元循环/写卷纲/定本章大纲/伏笔台账'时启用。两级排戏：卷级剧情设计（立主线脉络→按质变拆卷→卷内单元循环→卷纲，剧情产出-SOP权威，单元剧剧情库每卷必查）+ 章节级四段式大纲（连续性/当前任务/节拍序列/伏笔操作，镜界02保真）。大纲供 06写作渲染。",
   "entry": "SKILL.md",
   "tags": ["Mirror创作专家", "长篇网文专家", "规划"],
-  "activation": { "slashCommands": ["pop-mirror-plot", "Mirror规划", "章节大纲", "伏笔台账"] },
+  "activation": { "slashCommands": ["pop-mirror-plot", "Mirror规划", "章节大纲", "伏笔台账", "卷级结构", "卷纲"] },
   "author": "popwave",
   "license": "UNLICENSED"
 }
