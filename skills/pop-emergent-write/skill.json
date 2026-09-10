@@ -1,0 +1,14 @@
+{
+  "id": "pop-emergent-write",
+  "name": "pop-emergent-write",
+  "version": "1.0.0",
+  "displayName": "涌现流正文写作",
+  "description": "涌现流正文写作：直接写正文（2000-2500字/章），设定临场造/情节自己冒/人物自己长；消费轻量章纲＋涌现账本＋前一章正文＋文风承诺，产出正文/ch{NNN}.txt，不产账本文件。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "涌现流", "正文", "写正文"],
+  "activation": { "slashCommands": ["pop-emergent-write", "涌现流写正文", "写正文", "直接写"] },
+  "skills": ["pop-snow-research"],
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

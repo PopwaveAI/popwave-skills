@@ -1,0 +1,14 @@
+{
+  "id": "pop-emergent-review",
+  "name": "pop-emergent-review",
+  "version": "1.0.0",
+  "displayName": "涌现流审查回填",
+  "description": "涌现流审查回填：三源审查（账本一致性/文风承诺/写作硬尺）→定稿或打回→生成本章日志→回填涌现账本（新事实落账）→阶段性回看四问（味道/连续性/灯塔清晰化/转灯塔流）。产出章节日志/ch{NNN}.md＋涌现账本.md＋阶段性回看.md。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "涌现流", "审查", "账本", "回看"],
+  "activation": { "slashCommands": ["pop-emergent-review", "涌现流审查", "回填账本", "阶段性回看", "审核"] },
+  "skills": ["pop-snow-research"],
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

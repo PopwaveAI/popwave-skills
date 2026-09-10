@@ -1,0 +1,21 @@
+{
+  "id": "pop-emergent-pipeline",
+  "name": "pop-emergent-pipeline",
+  "version": "1.0.0",
+  "displayName": "涌现流总控",
+  "description": "当用户说'涌现流/直接开写/不排大纲/试味/先写后补'时启用。涌现流总控：建目录+状态.md+路由。涌现流三原则：只锁两样（主角立身一句话+文风承诺）＋模糊灯塔（结局方向一句话）；先写后补（黄金三章直接写试味，设定从账本长出来）；轻量章纲＋阶段性回看（只定接下来1-3章，每N章回看校准，可转灯塔流）。状态机：根→黄金三章试味→滚动写章循环（轻量章纲→直接写→审查回填）→阶段性回看。日常路由不经此skill，读状态.md取状态片段直接选skill。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "涌现流", "总控"],
+  "activation": { "slashCommands": ["pop-emergent-pipeline", "涌现流", "直接开写", "不排大纲", "试味"] },
+  "skills": [
+    "pop-emergent-seed",
+    "pop-emergent-opening",
+    "pop-emergent-outline",
+    "pop-emergent-write",
+    "pop-emergent-review",
+    "pop-snow-research"
+  ],
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
