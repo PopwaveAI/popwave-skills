@@ -1,6 +1,6 @@
-﻿# pop-snow-pipeline
+# pop-snow-pipeline
 
-> 统一管线总控。当前版本 v1.8.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 统一管线总控。当前版本 v1.9.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -66,6 +66,7 @@
 | *卷需求*/*brief* | `卷纲/` | 卷N-需求brief.md | 2a |
 | *卷纲*/*大纲*/*分幕* | `卷纲/` | 卷N-卷纲.md | 2c |
 | *幕白描*/*剧情白描*/*章白描* | `卷纲/` | 卷N-幕M-白描.md | 2c |
+| *开篇*/*黄金三章*/*前三章结构* | `卷纲/` | 开篇设计.md | 2c（开篇闸） |
 | *章纲*/*叙事原子* | `卷纲/章纲/` | ch{NNN}-章纲.md | 2d |
 | *正文*/*章节*/ch*/第*章 | `正文/` | ch{NNN}.txt | 2e |
 | *章日志*/*本章记录*（review存档） | `章节日志/` | ch{NNN}.md | 2f |
@@ -183,7 +184,7 @@ one_line: 待seed产出
 | 6 | **活跃伏笔与未解冲突** | 悬着未回收的线 |
 | 7 | **大纲** | 卷纲/幕白描/章纲（优先级最低的叙事计划） |
 
-> 裁决原则：叙事计划（大纲）低于已落地事实（正文/章日志/角色卡/世界书/伏笔）；用户临时要求权重最高，但**指出冲突是义务**——即使照办也让老板与后续环节知道改了什么、为什么改。遇"冲突该以哪条为准"拿不准时，按此表自上而下取证，不做临时拍板。
+> 裁决原则：叙事计划（大纲）低于已落地事实（正文/章日志/角色卡/世界书/伏笔）；用户临时要求权重最高，但**指出冲突是义务**——即使照办也让老板与后续环节知道改了什么、为什么改。遇"冲突该以哪条为准"拿不准时，按此表自上而下取证，不做临时拍板。说明：本裁决链吸收自 Mirror 09-审查专家的事实优先级 7 级，与全线统一。
 
 ---
 
@@ -201,7 +202,7 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 - **产物归谁消费**：review 产出的章日志/全书日志，喂给**下一章的 outline** 当章纲依据，**不是直接喂 write**——write 永远跟在章纲之后，不得跳过 outline 从日志直接开写。
 - **对应状态机位**：`2d(outline) → 2e(write) → 2f(review) → 回 2d(下一章 outline)`；本卷末章 review PASS → 2g 卷末盘点。
 
-新书流程：`init → 1(seed) → 2(stage首喷，含卷一舞台) → 卷循环`。卷循环每卷一圈：
+新书流程：`init → 1(seed) → 2(stage首喷，含卷一舞台) → 卷一开篇闸(pop-snow-opening) → 卷循环`。其中**卷一开篇闸**只在卷1 前3章未写时跑一次：先做黄金三章结构与情绪设计，把开篇承诺基线写入全书日志，再进前3章章纲(2d)——确保 ch001-ch003 章纲依托「落差→特权→小账+新标」设计，不是空着硬排。前3章已写的项目（导入/续写）跳过设计闸，只做开篇复盘诊断。卷循环每卷一圈：
 
 | 位 | 干什么 | skill | 产出 | 完成→下一位 |
 |:--|:--|:--|:--|:--|
@@ -214,6 +215,8 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 | 2f | 审核+存档（PASS/REJECT） | pop-snow-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
 | 2g | 卷末盘点 | 主agent | 状态.md：current_volume+1、卷循环四项就绪态清零 | 回 2a |
 
+> **卷1 前3章的开篇承诺基线（1+1>2）**：pop-snow-opening 写入全书日志的开篇承诺（第3章新标/特权信息备忘/对比触发器锚点），后续 outline 写章纲时可引用"主角正往那个新标推进"；plot 卷进度表评审"距终点贡献"时校验开篇立的标是否在预期章节兑现——开篇从"只把关一次"升维成"全书承诺基线"。
+
 **幕内滚动**：推荐「2c产幕N → 2d拼幕N章纲 → 2e/2f逐章 → 2c产幕N+1」，让后续幕吸收正文成果。
 
 **2g 卷末判定**：卷纲预算章数耗尽+卷末三件套（面板大爆+新地图解锁+下卷钩子）兑现→本卷完。
@@ -224,6 +227,7 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 |:--|:--|
 | 各 skill 完成 | phase 推进到状态机下一位 + updated_at + 就绪态对应项 [x] + 最近产出追加一行 |
 | seed 完成 | 另更新 seed_path + 书目（book_name/one_line） |
+| 卷一开篇闸完成 | 若 phase 在 2+，project 就绪态补标 开篇设计[x]，最近产出追加一行 |
 | write/review 每章 | current_chapter+1（review PASS 后），phase 在 2d/2e/2f 间流转 |
 | 2g 卷末 | current_volume+1 + 需求brief/卷舞台/卷纲/幕白描四项清零 + phase=2a |
 
@@ -238,6 +242,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | `pop-snow-seed` | 立项（六步流水线→融合立项稿14维） | Phase 1 |
 | `pop-snow-stage` | 舞台（首喷=七长档；模式B=卷级点播回填） | Phase 2 / 2b |
 | `pop-snow-plot` | 剧情（全书卷进度表/卷需求brief/卷纲/幕白描） | 2a / 2c（进度表=首卷卷纲前一次） |
+| `pop-snow-opening` | 开篇（卷1 前3章黄金三章结构+情绪闸；落差/特权/小账+新标，16核自检+5红线+反模式诊断） | 卷1 前3章章纲(2d)前一次 |
 | `pop-snow-outline` | 章纲拼接 | 2d |
 | `pop-snow-write` | 正文渲染 | 2e |
 | `pop-snow-review` | 审核+存档（含 reconstruct 回溯） | 2f / 导入补跑 |
@@ -254,7 +259,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | profile | 服务对象 | 性质 | 检测面 | 调用 |
 |:--|:--|:--|:--|:--|
 | `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回检查**：FAIL 必须清零才算存档完成 | 套话硬模板~120条/软密度~28组/结构统计/工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
-| `doc` | 非正文文档（seed 融合立项稿 / research 调研拆书包 / stage 长档·卷舞台 / plot 卷进度表·brief·卷纲·幕白描 / outline 章纲 / review 章日志全书日志 / decon 拆书wiki成品 / dna-style 文风锚定说明文字，及拆书/卖点/大纲/世界观类） | **报告检查**：只 WARN+定位，不打回 | 黑话（hard 实锤/soft 风格分层）+套路句式+空腔段+生成器残留；分号/破折号/括号/列举行/工程emoji标记/0%对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
+| `doc` | 非正文文档（seed 融合立项稿 / research 调研拆书包 / stage 长档·卷舞台 / plot 卷进度表·brief·卷纲·幕白描 / outline 章纲 / **opening 开篇设计** / review 章日志全书日志 / decon 拆书wiki成品 / dna-style 文风锚定说明文字，及拆书/卖点/大纲/世界观类） | **报告检查**：只 WARN+定位，不打回 | 黑话（hard 实锤/soft 风格分层）+套路句式+空腔段+生成器残留；分号/破折号/括号/列举行/工程emoji标记/0%对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
 
 **边界三条**：
 1. 工程标签（【锚】/养成刻度/卷末边界等精确技术名）不做去AI化改写——去AI味只作用于叙事主体。
@@ -281,4 +286,4 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 
 ## 版本
 
-当前版本 v1.8.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.9.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
