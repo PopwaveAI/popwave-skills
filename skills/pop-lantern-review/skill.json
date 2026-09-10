@@ -2,20 +2,12 @@
   "id": "pop-lantern-review",
   "name": "pop-lantern-review",
   "version": "1.0.0",
-  "displayName": "灯塔流审查存档专家",
-  "description": "审查+存档（每写完一章、写下一章前必做）：三源合一审查（角色一致性/设定一致性/长篇连续性）判打回/通过——出位置/问题/严重性/改法/状态更新报告，判定经用户裁决；通过后三件事存档——确认满意（定稿，未定稿不入库；含去AI味核验：查 write 正文/outline 章纲去AI味结果，缺失补跑留痕）→ 按定稿正文生成本章日志（章节日志/ch{NNN}.md，只增不改；字数直接消费 write 交接的 word-count stdout，review 不跑脚本；write 对话交接的冲突/新增事实核验后并入；存档后自跑 deai_gate doc 去AI味）→ 按本章日志更新全书日志（只记活跃，回收项入退出档案；含方向总表进度/跨卷钩子账本职责；存档后自跑 deai_gate doc 去AI味）。写完一卷做卷末回看（章节日志/卷末回看-卷{N}.md，兑现核对/方向总表进度/跨卷钩子/下一卷方向建议，经用户确认后交 pop-lantern-plot 滚下一卷）。剧情进度记录统一存项目空间 章节日志/（不叫'产出'）。承接 pop-snow-write 出稿，硬后继未跑不得写下一章。",
+  "displayName": "章节验收存档",
+  "description": "章节验收+存档（每写完一章、写下一章前必做）：三件事——确认本章正文满意（定稿，未定稿不入库；满意判别标准七条含爽点密度：每章≥1重大爽点、密度目标≥2、爽点含发生+反应+影响、对照章纲爽点标注核兑现，无爽点章不连续；含去AI味核验：查 write 正文/outline 章纲去AI味结果，缺失补跑留痕）→ 按定稿正文生成本章日志（含爽点·钩子字段；字数直接消费 write 交接的 word-count stdout，review 不跑脚本；write 对话交接的冲突/新增事实核验后并入；存档后自跑 deai_gate doc 去AI味）→ 按本章日志更新全书日志（只记活跃，回收项入退出档案；存档后自跑 deai_gate doc 去AI味）。含群像卫生：撤角色时对照活跃表，同时活跃≤5-7人、功能重叠合并、退场交代、每~20章清理一次。不审质量，只做账本维护。",
   "entry": "SKILL.md",
-  "tags": ["长篇网文专家", "灯塔流", "审查", "存档"],
-  "activation": { "slashCommands": ["pop-lantern-review", "灯塔流审查", "审稿", "审核", "审查一致性", "查设定冲突"] },
-  "skills": [
-    "pop-snow-write",
-    "pop-snow-outline",
-    "pop-lantern-plot",
-    "pop-lantern-world",
-    "pop-lantern-character",
-    "pop-snow-research"
-  ],
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "tags": ["长篇网文专家", "三族通用"],
+  "activation": { "slashCommands": ["pop-lantern-review", "审稿", "审核", "review", "番茄review", "番茄审核", "起点review", "设定包审核"] },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
   "author": "popwave",
   "license": "UNLICENSED"
 }
