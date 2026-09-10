@@ -1,0 +1,14 @@
+{
+  "id": "pop-lantern-seed",
+  "name": "pop-lantern-seed",
+  "version": "1.0.0",
+  "displayName": "灯塔流立项",
+  "description": "灯塔流立项：把用户模糊想法先问成需求卡，再查底子，用五元素公式推故事脉络，锁下灯塔四样（主角立身三件/世界内核双层失衡/结局方向/篇幅量级）。不产全书卷纲、不锁死卷数；方向总表由 plot 开篇定调后首轮产。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "灯塔流", "立项"],
+  "activation": { "slashCommands": ["pop-lantern-seed", "灯塔流立项", "新书立项", "立项", "开新书"] },
+  "skills": ["pop-snow-research", "pop-snow-seed"],
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
