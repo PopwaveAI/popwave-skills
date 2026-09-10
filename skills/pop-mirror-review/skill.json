@@ -1,12 +1,12 @@
 {
   "id": "pop-mirror-review",
   "name": "pop-mirror-review",
-  "version": "1.2.0",
-  "displayName": "Mirror审查专家",
-  "description": "当用户说'审查一致性/查设定冲突/审连续性/OOC检查/正文过审'时启用。三源合一审查：角色一致性(04)+设定一致性(09)+长篇连续性(08)，对正文做一致性、设定冲突与长篇连续性的审查闭环——出位置/问题/严重性/最小改法/状态更新报告，判定打回或通过。含产出三检查：审查前确认过审口径，判定经用户裁决后才进下一环，事实类存疑派 pop-snow-research 补采；审查报告与剧情进度快照统一落盘项目空间 小说日志/（剧情进度记录，不叫'产出'）。承接 pop-mirror-write 与 pop-mirror-deai 出稿，是每章创作循环的质量闸。",
+  "version": "1.0.0",
+  "displayName": "Mirror审查存档专家",
+  "description": "审查+存档（每写完一章、写下一章前必做）：三源合一审查（角色一致性/设定一致性/长篇连续性）判打回/通过——出位置/问题/严重性/改法/状态更新报告，判定经用户裁决；通过后三件事存档——确认满意（定稿，未定稿不入库；含去AI味核验：查 write 正文/outline 章纲去AI味结果，缺失补跑留痕）→ 按定稿正文生成本章日志（章节日志/ch{NNN}.md，只增不改；字数直接消费 write 交接的 word-count stdout，review 不跑脚本；write 对话交接的冲突/新增事实核验后并入；存档后自跑 deai_gate doc 去AI味）→ 按本章日志更新全书日志（只记活跃，回收项入退出档案；存档后自跑 deai_gate doc 去AI味）。剧情进度记录统一存项目空间 小说日志/（不叫'产出'）。承接 pop-mirror-write 出稿，硬后继未跑不得写下一章。",
   "entry": "SKILL.md",
-  "tags": ["Mirror创作专家", "长篇网文专家", "审查"],
-  "activation": { "slashCommands": ["pop-mirror-review", "Mirror审查", "审查一致性", "查设定冲突"] },
+  "tags": ["Mirror创作专家", "长篇网文专家", "审查", "存档"],
+  "activation": { "slashCommands": ["pop-mirror-review", "Mirror审查", "审稿", "审核", "审查一致性", "查设定冲突"] },
   "author": "popwave",
   "license": "UNLICENSED"
 }

@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v2.3.0 | 2026-09-10
+
+### 正文循环三件套 snow 复制迁移：plot 收窄卷级 / 新增 outline / write 并入 deai / review 审查+存档
+
+老板拍板：snow 三件套（outline/write/review）复制改名替代 mirror 正文循环。本总控子专家清单与链路同步：
+
+- **子专家清单重排**：01 onboard / 02 world / 03 character / 04 opening / 05 plot（收窄卷级）/ 06 outline（章纲，自 pop-snow-outline 迁移）/ 07 write（正文+节奏硬尺+去AI味，并入 deai 精华）/ 08 review（三源审查+存档三件事，自 pop-snow-review 迁移并保有三源精华）。**pop-mirror-deai 不再单设**（精华并入 07 write「去AI味写字节·深化清洗规则」，生成即达标）。
+- **每章循环路由更新**：05 plot（卷级）→ 06 outline（章纲）→ 07 write（渲染+节奏+去AI味）→ 08 review（三源审查+存档）── 打回/通过 → 下一章。
+- **保真红线分区更新**：正文循环区（04/07/08）精华逐字直贴；覆盖区（01/02/03/05 卷级/06 outline）以 SOP 或 snow 实测为权威（outline 自 snow 实测成熟版复制）。
+- **路由表更新**：新增 pop-mirror-outline 行（定本章大纲）；pop-mirror-plot 行改为卷级；pop-mirror-review 行改审查+存档；"去AI味清洗"行改"已并入 pop-mirror-write，不再路由"。
+- **Step 1 主流程更新**：每章循环改为「06 outline 章纲先行 → 07 写作 → 08 审查存档」。
+- **通用约定与红线**：新增合并说明②（snow 三件套顶替）；红线 2 补"去AI味精华已并入 07 write，不单设专家"；红线 5 剧情产出顺序补"→ 拆章纲"。
+
+同步三件套：SKILL.md / skill.json（version 2.3.0）/ CHANGELOG。
+
 ## v2.2.0 | 2026-09-10
 
 ### 补剧情进度记录落盘约定：小说日志/（不叫"产出"）

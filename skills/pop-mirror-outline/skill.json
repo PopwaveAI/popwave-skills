@@ -1,0 +1,12 @@
+{
+  "id": "pop-mirror-outline",
+  "name": "pop-mirror-outline",
+  "version": "1.0.0",
+  "displayName": "Mirror章纲专家",
+  "description": "章纲＝事前预演的写前清单（描述约束版·四块）：章节背景/舞台背景/剧情场景（场·带事件，单章4-6场）/补充信息，只定事件/转折/落点功能，动作细节/心理/对白台词/结尾意象划给 pop-mirror-write 现编；A路消费 mirror-plot 卷纲、B路自举推演并回流全书日志。产出三检查：先对齐节奏/文风，章纲经确认才落盘，新场景材料不足派 pop-snow-research 补采。",
+  "entry": "SKILL.md",
+  "tags": ["Mirror创作专家", "长篇网文专家", "规划"],
+  "activation": { "slashCommands": ["pop-mirror-outline", "章纲", "拼章纲", "outline", "章纲组装"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
