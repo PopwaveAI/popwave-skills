@@ -1,14 +1,15 @@
 {
   "id": "pop-emergent-pipeline",
   "name": "pop-emergent-pipeline",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "涌现流总控",
-  "description": "涌现流总控（一次性搭建）：在 snow 雪花流基础上做减法——只留 seed→章纲→正文→review→再章纲 轻循环，不做复杂世界观/人物/卷级设定，设定从账本长出来。建 8 个轻量目录+生成 状态.md(唯一状态总账)+资产归位+缺口分析+落地Phase+补跑调度；涌现循环状态机 2a-2c 为路由参照，前3章章纲由 outline 按开篇三要素排（含爽点标注）；日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill，agent不读html。",
+  "description": "涌现流总控（一次性搭建）：在 snow 雪花流基础上做减法——不做复杂长线设计，只留 seed(甲方文档)→state(设定装配)→outline(情绪章纲)→write(正文)→review(章日志+账本)→再 outline 轻循环。设定不创造只装配（从内容模板库选配力量体系/世界观/金手指/身份），plot 砍掉不设计长线剧情，outline 情绪标准先行（查心跳库定情绪点→反向设计剧情，每章≥2个8分级峰值）。建 8 个轻量目录+生成 状态.md(唯一状态总账)+资产归位+缺口分析+落地Phase+补跑调度；涌现循环状态机 1/1.5/2a-2c 为路由参照，前3章章纲由 outline 按开篇三要素排（含情绪坐标）；日常写作路由由专家提示词阶段地图承载，写正文/审核不经过本skill，agent不读html。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "涌现流"],
   "activation": { "slashCommands": ["pop-emergent-pipeline", "涌现初始化", "新建项目", "导入", "续写", "迁移"] },
   "skills": [
     "pop-emergent-seed",
+    "pop-emergent-state",
     "pop-emergent-outline",
     "pop-emergent-write",
     "pop-emergent-review",

@@ -1,9 +1,9 @@
 {
   "id": "pop-emergent-seed",
   "name": "pop-emergent-seed",
-  "version": "1.0.0",
-  "displayName": "涌现立项（三样）",
-  "description": "涌现流轻量立项：只锁三样——①主角立身一句话（主角是谁＋要什么＋谁挡着）②文风承诺（腔调一句话＋防漂移禁区，唯一稳定锚；渲染参照固定 pop-emergent-write/references/文风兜底/辰东.md，seed 只定承诺不选档）③模糊灯塔（方向感一句话＋3-10章内第一个标）。不产14维融合立项稿，不锁根决策、不排卷、不设计世界观/人物/力量体系。产出 立项/涌现立项卡.md，供 outline/write/review 消费。先问需求（什么流/给谁看/读者图什么/篇幅量级）再定三样，每步与用户拍板，无真人时走agent自定态。",
+  "version": "1.1.0",
+  "displayName": "涌现立项·甲方文档",
+  "description": "涌现流立项（甲方文档）：收清五要素——①要写什么（题材/赛道）②给谁看（读者群）③卖点是什么（读者点开图什么，state 装配金手指/身份结构的依据）④主角立身一句话（主角是谁＋要什么＋谁挡着）⑤文风承诺（腔调一句话＋防漂移禁区，唯一稳定锚；渲染参照固定 pop-emergent-write/references/文风兜底/辰东.md，seed 只定承诺不选档）——另附模糊灯塔（方向感一句话＋3-10章内第一个标）。不产14维融合立项稿，不锁根决策、不排卷、不设计世界观/人物/力量体系（世界底子由 state 从内容模板库装配）。产出 立项/涌现立项卡.md，供 state/outline/write/review 消费。先问需求再定要素，每步与用户拍板，无真人时走agent自定态。",
   "entry": "SKILL.md",
   "tags": ["长篇网文专家", "涌现流"],
   "activation": { "slashCommands": ["pop-emergent-seed", "涌现立项", "涌现种子", "seed", "做种子", "创意", "写创意"] },
