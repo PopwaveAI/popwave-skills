@@ -6,6 +6,17 @@ pop-lantern-review v1.0.0：重建自 pop-snow-review v1.8.0 全量 fork，待�
 
 # CHANGELOG
 
+## v3.2.0 | 2026-09-11
+
+### 内容库分散归各环节：情绪映射表引用改 plot 包，配方回填目标改各环节包
+
+> **背景（老板拍板）**：内容库分散化——按"谁持有谁管理"拆到各消费环节，跨环节引用走全限定路径。review 消费端同步对齐。
+
+- **剧情-情绪映射表引用改** `{pop-lantern-plot}/references/内容库/剧情-情绪映射表.md`（plot 包持有·审美固定位）——满意判别 #8 情绪达标＋剧末回看情绪达标回看两处对照引用、速查表同步。
+- **配方生效回填目标改各环节包**：单元剧模板库→`{pop-lantern-plot}/references/内容库/单元剧模板库.md`、套路库→`{pop-lantern-outline}/references/内容库/套路库.md`、力量体系/世界观模板库→`{pop-lantern-stage}/references/内容库/`——剧末回看"配方生效回填（内容库回填纪律）"逐库验证状态回填。
+- **版本号对齐**：SKILL.md 已 v3.2.0，skill.json 同步 3.2.0（此前漏同步停在 1.0.0）。
+- 同步三件套：SKILL.md / skill.json（3.2.0）/ CHANGELOG。
+
 ## v1.9.0 | 2026-09-11
 
 ### 承接黄金三章移除：满意判别标准补第 7 条爽点密度
