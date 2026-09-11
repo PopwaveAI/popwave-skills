@@ -79,7 +79,7 @@
 
 存档 `立项/世界装配单.md`（格式见下）。**存档后半步=去AI味**：`python skills/pop-emergent-pipeline/scripts/deai_gate.py 立项/世界装配单.md --profile doc --json`——WARN 定位自查、机械项 `--fix`，结果一行 `去AI味:世界装配单|PASS` 或 `WARN×N`。
 
-向用户报告交接：装配完成，接下来 outline 按情绪标准排章纲（查剧情-情绪打分表定本章情绪坐标→反向设计剧情）→ write 写正文 → review 审查回填账本。加载 pop-emergent-outline 接力。
+向用户报告交接：装配完成，接下来 outline 按情绪标准排章纲（查剧情-情绪打分表定本章情绪坐标→反向设计剧情）→ write 写正文 → review 审查回填账本。加载 pop-outline 接力。
 
 ***
 
