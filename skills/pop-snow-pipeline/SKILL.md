@@ -118,7 +118,7 @@
 
 | 缺口类型 | 调度skill | 做什么 |
 |:--|:--|:--|
-| 有正文+缺章日志/全书日志 | pop-snow-review reconstruct | 批量回溯审核：采样逐章章日志+全书日志 |
+| 有正文+缺章日志/全书日志 | pop-review reconstruct | 批量回溯审核：采样逐章章日志+全书日志 |
 | 缺立项/舞台/剧情/章纲文档 | 对应skill（seed/stage/plot/outline） | 读已有文件→按skill方法论校验+补全→标准格式 |
 | 已有文档但来源=user-original | 对应skill（用户确认后按需） | 校验→标注缺口或确认达标 |
 
@@ -212,7 +212,7 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 | 2c | 卷纲→幕白描（七查绿灯才交付） | pop-snow-plot 任务B→C | `卷纲/卷N-卷纲.md`→`卷纲/卷N-幕M-白描.md` | 2d |
 | 2d | 章纲拼接（每章一文件） | pop-outline | `卷纲/章纲/ch{NNN}-章纲.md` | 2e |
 | 2e | 正文渲染（2000-2500字/章） | pop-write | `正文/ch{NNN}.txt` | 2f |
-| 2f | 审核+存档（PASS/REJECT） | pop-snow-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
+| 2f | 审核+存档（PASS/REJECT） | pop-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
 | 2g | 卷末盘点 | 主agent | 状态.md：current_volume+1、卷循环四项就绪态清零 | 回 2a |
 
 > **卷1 前3章的开篇承诺基线（1+1>2）**：outline 写 ch001-ch003 章纲时，把开篇承诺（第3章新标/特权信息备忘/对比触发器锚点）随章纲写入全书日志，后续 outline 写章纲时可引用"主角正往那个新标推进"；plot 卷进度表评审"距终点贡献"时校验开篇立的标是否在预期章节兑现——开篇从"只把关一次"升维成"全书承诺基线"。
@@ -244,7 +244,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | `pop-snow-plot` | 剧情（全书卷进度表/卷需求brief/卷纲/幕白描） | 2a / 2c（进度表=首卷卷纲前一次） |
 | `pop-outline` | 章纲拼接（卷1 前3章章纲按开篇三要素排，开篇承诺基线随章纲写入全书日志） | 2d |
 | `pop-write` | 正文渲染 | 2e |
-| `pop-snow-review` | 审核+存档（含 reconstruct 回溯） | 2f / 导入补跑 |
+| `pop-review` | 审核+存档（含 reconstruct 回溯） | 2f / 导入补跑 |
 | `pop-snow-research` | 实时联网搜索站（世界观/剧情/人物势力/力量养成四场景实时搜索，落 `素材/采风/`；不做拆书类） | 立项前置考据 / 卷循环剧情素材(2a+) / 写前按需质感 / 用户点名 |
 | `pop-dna-style` | 文风锚定（可选） | seed 底牌处理 / 2e 前按需 |
 | `tool-download-webnovel` | 下载源书 | 拆书/建包时 |
