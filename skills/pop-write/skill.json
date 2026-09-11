@@ -1,0 +1,12 @@
+{
+  "id": "pop-write",
+  "name": "pop-write",
+  "version": "1.0.0",
+  "displayName": "正文写作",
+  "description": "正文写作（灯塔/雪花/涌现三线共用）：write 只干三件事——①读章纲读日志 ②注入文风DNA ③去AI味（sepia 结构层复查+字词层语义复审+脚本兜底，文档篇幅大部分给去AI味）。渲染2000-2500字/章，只按章纲事件节点兑现不自己发挥。开写前先读 §0 系列适配表认线（灯塔＝夜无疆.md单份／雪花＝文风兜底按赛道选一／涌现＝辰东.md写死+文风承诺，涌现另有章纲可偏离·设定从模板库选·情绪坐标不可偏离三条线内纪律）；路径与上游照适配表取。脚本：word-count.ps1（本包 scripts）+ deai_gate.py（共用宿主 pop-snow-pipeline）。信息释放：遭遇式揭露优先、禁集中科普，新层级设定按节奏引（每卷~1个、不每章堆）。",
+  "entry": "SKILL.md",
+  "tags": ["长篇网文专家", "统一管线", "三线共用"],
+  "activation": { "slashCommands": ["pop-write", "写正文", "续写", "write"] },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

@@ -211,7 +211,7 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 | 2b | 卷舞台刷新（卷二起每卷一次） | pop-snow-stage 模式B | `设计/卷舞台/卷N-舞台.md`+角色库增量+贯穿层append | 2c |
 | 2c | 卷纲→幕白描（七查绿灯才交付） | pop-snow-plot 任务B→C | `卷纲/卷N-卷纲.md`→`卷纲/卷N-幕M-白描.md` | 2d |
 | 2d | 章纲拼接（每章一文件） | pop-snow-outline | `卷纲/章纲/ch{NNN}-章纲.md` | 2e |
-| 2e | 正文渲染（2000-2500字/章） | pop-snow-write | `正文/ch{NNN}.txt` | 2f |
+| 2e | 正文渲染（2000-2500字/章） | pop-write | `正文/ch{NNN}.txt` | 2f |
 | 2f | 审核+存档（PASS/REJECT） | pop-snow-review | `章节日志/ch{NNN}.md`+`全书日志.md` | PASS→2d/2e下一章；REJECT→2e重写本章；本卷末章PASS→2g |
 | 2g | 卷末盘点 | 主agent | 状态.md：current_volume+1、卷循环四项就绪态清零 | 回 2a |
 
@@ -243,7 +243,7 @@ pipeline 只在初始化/导入时写 phase；日常推进由各 skill 完成后
 | `pop-snow-stage` | 舞台（首喷=七长档；模式B=卷级点播回填） | Phase 2 / 2b |
 | `pop-snow-plot` | 剧情（全书卷进度表/卷需求brief/卷纲/幕白描） | 2a / 2c（进度表=首卷卷纲前一次） |
 | `pop-snow-outline` | 章纲拼接（卷1 前3章章纲按开篇三要素排，开篇承诺基线随章纲写入全书日志） | 2d |
-| `pop-snow-write` | 正文渲染 | 2e |
+| `pop-write` | 正文渲染 | 2e |
 | `pop-snow-review` | 审核+存档（含 reconstruct 回溯） | 2f / 导入补跑 |
 | `pop-snow-research` | 实时联网搜索站（世界观/剧情/人物势力/力量养成四场景实时搜索，落 `素材/采风/`；不做拆书类） | 立项前置考据 / 卷循环剧情素材(2a+) / 写前按需质感 / 用户点名 |
 | `pop-dna-style` | 文风锚定（可选） | seed 底牌处理 / 2e 前按需 |
