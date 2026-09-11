@@ -47,7 +47,7 @@
 | 世界观模板库 | `{pop-lantern-stage}/references/内容库/世界观模板库.md` | stage 模式A 建世界骨架 | 占位+示范，持续回填 |
 | 单元剧模板库 | `{pop-lantern-plot}/references/内容库/单元剧模板库.md` | plot 任务E 单元剧编排选类型配方 | 占位+示范，持续回填 |
 | 套路库 | `{pop-outline}/references/内容库/套路库.md` | outline 章纲选剧情套路（反向设计剧情） | 占位+示范，持续回填 |
-| 文风样文库 | write `references/文风兜底/`（P0 纯样文原文） | write 正文注入文风 | 实装（已有） |
+| 文风DNA库 | `pop-write/references/`（纯样文原文；前期 2 份：夜无疆.md／微微一笑很倾城.md） | write 正文注入文风 | 实装（已有） |
 
 ### 统一库规（每库头部一致，新增条目照此写）
 
