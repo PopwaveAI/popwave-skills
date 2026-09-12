@@ -13,6 +13,10 @@ Then edit:
 - `skills/my-skill-id/skill.json`
 - `skills/my-skill-id/SKILL.md`
 - `skills/my-skill-id/CHANGELOG.md`
+- `skills/my-skill-id/prd/PRD.md` — 设计预期（解决什么问题）与解决思路，模板见 `skills/pop-shared-skill-create/templates/prd-PRD.tpl.md`
+- `skills/my-skill-id/prd/进度与待探索.md` — 当前进度、后续可迭代方向、未完成的探索，模板见 `skills/pop-shared-skill-create/templates/prd-进度与待探索.tpl.md`
+
+`prd/` 是每个 skill 的标配（`pop-shared-skill-create` v9.0.0 起）：它不参与运行时，只服务于迭代与维护。三条硬纪律——"已完成"必须带凭据、"怎么算做完"可判、取舍表里"放弃了什么"不能空。
 
 This is the Popwave-native format. The hub also accepts community-style skills that only include `SKILL.md` with YAML frontmatter:
 
@@ -33,10 +37,11 @@ For large skills maintained in their own repositories, add the external reposito
 1. Make the smallest behavior change that solves the target use case.
 2. Bump `skill.json.version`, or bump `SKILL.md` frontmatter `version` for community-style skills.
 3. Update `CHANGELOG.md` if the skill keeps one.
-4. If the skill is a submodule, update the skill repo first, then update the submodule pointer in this hub repo.
-5. Run `npm run skills:sync` when the change depends on submodules.
-6. Run `npm run build`.
-7. Open a PR with test instructions and screenshots/log snippets when useful.
+4. Update `prd/` — `进度与待探索.md` **每轮必动**（做完的挪进"已完成"并带凭据，新想到的进"待探索"）；`PRD.md` 只在方向变时动。
+5. If the skill is a submodule, update the skill repo first, then update the submodule pointer in this hub repo.
+6. Run `npm run skills:sync` when the change depends on submodules.
+7. Run `npm run build`.
+8. Open a PR with test instructions and screenshots/log snippets when useful.
 
 ## Pre-commit Validation
 
