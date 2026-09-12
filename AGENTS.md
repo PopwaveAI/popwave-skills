@@ -51,3 +51,12 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 ### 一句话纪律
 
 **改 D 盘 → 提交 git → 同步 C 盘 → UTF-8 校验 C 盘。** 顺序不可倒，缺同步 = 应用还在跑旧版。
+
+## API 默认模型（老板拍板，2026-09-12 固化）
+
+**所有走 API 的任务一律默认用 `deepseek-flash`，没有当次特别强调不许换 pro。**
+
+适用：批量跑稿、盲评打分、评审、任何脚本调 API 的活。
+
+- 换模型只有一种情况：老板当次明确指定。指定了就写进当次产出文件，方便回溯。
+- 依据：这把 key 下 `/models` 实测只有 `deepseek-flash` 和 `deepseek-v4-pro`。实测 flash 单次 7-16 秒，pro 要 45-160 秒；pro 的思考量还会吃满输出额度，出现过正文 0 字的空转（`finish_reason=length`，`reasoning_tokens` 正好等于 `max_tokens`）。

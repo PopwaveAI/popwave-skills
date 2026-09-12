@@ -1,0 +1,182 @@
+{
+ "S001": {
+  "group": "直出·deepseek-flash",
+  "name": "克苏鲁航海 r03",
+  "chars": 2003
+ },
+ "S002": {
+  "group": "直出·deepseek-flash",
+  "name": "西幻玄幻 r02",
+  "chars": 2078
+ },
+ "S003": {
+  "group": "直出·deepseek-flash",
+  "name": "克苏鲁航海 r02",
+  "chars": 1811
+ },
+ "S004": {
+  "group": "直出·deepseek-flash",
+  "name": "武侠 r01",
+  "chars": 2102
+ },
+ "S005": {
+  "group": "直出·deepseek-flash",
+  "name": "规则怪谈 r03",
+  "chars": 1955
+ },
+ "S006": {
+  "group": "直出·deepseek-flash",
+  "name": "赛博朋克 r03",
+  "chars": 2958
+ },
+ "S007": {
+  "group": "skill-旧海图",
+  "name": "ch001",
+  "chars": 2467
+ },
+ "S008": {
+  "group": "直出·deepseek-flash",
+  "name": "都市言情 r02",
+  "chars": 3574
+ },
+ "S009": {
+  "group": "直出·deepseek-flash",
+  "name": "都市异能 r03",
+  "chars": 1793
+ },
+ "S010": {
+  "group": "skill-旧海图",
+  "name": "ch001-v2",
+  "chars": 3068
+ },
+ "S011": {
+  "group": "直出·deepseek-flash",
+  "name": "仙侠修真 r01",
+  "chars": 3199
+ },
+ "S012": {
+  "group": "skill-灰烬之主",
+  "name": "ch003",
+  "chars": 1770
+ },
+ "S013": {
+  "group": "直出·deepseek-flash",
+  "name": "古风言情 r03",
+  "chars": 1114
+ },
+ "S014": {
+  "group": "直出·deepseek-flash",
+  "name": "武侠 r03",
+  "chars": 1684
+ },
+ "S015": {
+  "group": "直出·deepseek-flash",
+  "name": "硬科幻 r01",
+  "chars": 3105
+ },
+ "S016": {
+  "group": "直出·deepseek-flash",
+  "name": "武侠 r02",
+  "chars": 2747
+ },
+ "S017": {
+  "group": "skill-旧海图",
+  "name": "ch001-v3",
+  "chars": 2444
+ },
+ "S018": {
+  "group": "skill-灰烬之主",
+  "name": "ch002",
+  "chars": 1752
+ },
+ "S019": {
+  "group": "直出·deepseek-flash",
+  "name": "西幻玄幻 r03",
+  "chars": 2028
+ },
+ "S020": {
+  "group": "直出·deepseek-flash",
+  "name": "硬科幻 r03",
+  "chars": 2540
+ },
+ "S021": {
+  "group": "直出·deepseek-flash",
+  "name": "都市异能 r02",
+  "chars": 2012
+ },
+ "S022": {
+  "group": "直出·deepseek-flash",
+  "name": "都市异能 r01",
+  "chars": 2216
+ },
+ "S023": {
+  "group": "直出·deepseek-flash",
+  "name": "都市言情 r03",
+  "chars": 1728
+ },
+ "S024": {
+  "group": "直出·deepseek-flash",
+  "name": "古风言情 r01",
+  "chars": 2099
+ },
+ "S025": {
+  "group": "直出·deepseek-flash",
+  "name": "仙侠修真 r03",
+  "chars": 3160
+ },
+ "S026": {
+  "group": "直出·deepseek-flash",
+  "name": "西幻玄幻 r01",
+  "chars": 2366
+ },
+ "S027": {
+  "group": "skill-灰烬之主",
+  "name": "ch001",
+  "chars": 2199
+ },
+ "S028": {
+  "group": "直出·deepseek-flash",
+  "name": "赛博朋克 r01",
+  "chars": 1953
+ },
+ "S029": {
+  "group": "直出·deepseek-flash",
+  "name": "规则怪谈 r01",
+  "chars": 2862
+ },
+ "S030": {
+  "group": "直出·deepseek-flash",
+  "name": "赛博朋克 r02",
+  "chars": 2632
+ },
+ "S031": {
+  "group": "直出·deepseek-flash",
+  "name": "规则怪谈 r02",
+  "chars": 1254
+ },
+ "S032": {
+  "group": "直出·deepseek-flash",
+  "name": "仙侠修真 r02",
+  "chars": 2480
+ },
+ "S033": {
+  "group": "直出·deepseek-flash",
+  "name": "古风言情 r02",
+  "chars": 1899
+ },
+ "S034": {
+  "group": "直出·deepseek-flash",
+  "name": "硬科幻 r02",
+  "chars": 2113
+ },
+ "S035": {
+  "group": "直出·deepseek-flash",
+  "name": "都市言情 r01",
+  "chars": 2468
+ },
+ "S036": {
+  "group": "直出·deepseek-flash",
+  "name": "克苏鲁航海 r01",
+  "chars": 1387
+ }
+}
