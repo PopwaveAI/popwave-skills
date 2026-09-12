@@ -1,7 +1,7 @@
 {
   "id": "pop-critic-panel",
   "name": "pop-critic-panel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "多子Agent盲评挑刺团",
   "description": "当用户说\"挑刺/盲评/评审团/多视野评审/群聊评审\"时启用。对任意小说管线产物（章纲/幕白描/卷纲/设定档/融合立项稿/正文）发起多子agent隔离盲评：每个子agent独立上下文、不同初始提示词和视野、单轮各自解读互不可见，主agent回收后四分裁决（采纳/误报/冲突/存疑）出盲评报告供用户拍板。只评审不改正文。",
   "entry": "SKILL.md",

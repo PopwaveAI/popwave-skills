@@ -1,6 +1,6 @@
 # pop-snow-stage
 
-> 本技能负责舞台设定，是世界与角色的唯一产出方（即长档方）。本版为 2.4.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能负责舞台设定，是世界与角色的唯一产出方（即长档方）。本版为 2.5.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
@@ -145,4 +145,4 @@ Step R3  交接 plot
 
 ## 版本
 
-本版为 2.4.0（2026-09-09）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+本版为 2.5.0（2026-09-09）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

@@ -1,6 +1,6 @@
 ﻿# pop-visual-comic
 
-> 本技能是网文漫画连载管线。DeepSeek 承担编剧与项目管理（场景采摘与导演卡、提示词产出、角色库管理、状态记录），Seedream 承担画师（连续输出多格漫画页），HTML 承担长条滚动展示与文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风与人物。** 当前版本 v8.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能是网文漫画连载管线。DeepSeek 承担编剧与项目管理（场景采摘与导演卡、提示词产出、角色库管理、状态记录），Seedream 承担画师（连续输出多格漫画页），HTML 承担长条滚动展示与文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风与人物。** 当前版本 v8.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 本技能做什么
 
@@ -366,4 +366,4 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 
 ## 版本
 
-当前版本 v8.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v8.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

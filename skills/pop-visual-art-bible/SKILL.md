@@ -1,6 +1,6 @@
 ﻿# pop-visual-art-bible
 
-> Art Bible · 美术设定集。本 skill 属 L1 基建层，负责产出美术设定集，作为全 IP 宇宙视觉的唯一真源。当前版本 v3.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> Art Bible · 美术设定集。本 skill 属 L1 基建层，负责产出美术设定集，作为全 IP 宇宙视觉的唯一真源。当前版本 v3.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
 
@@ -214,4 +214,4 @@
 
 ## 版本
 
-当前版本 v3.1.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v3.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

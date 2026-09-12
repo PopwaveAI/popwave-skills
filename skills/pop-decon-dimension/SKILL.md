@@ -1,6 +1,6 @@
 ﻿# pop-decon-dimension · 单书深度wiki拆解
 
-> 本技能负责单书正本拆解：消费原文与范围，进入 L1 批次拆解（硬性检查），再产出 L2 六模块深度wiki成品，供 pop-snow* 统一管线复用。当前版本 v3.5.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能负责单书正本拆解：消费原文与范围，进入 L1 批次拆解（硬性检查），再产出 L2 六模块深度wiki成品，供 pop-snow* 统一管线复用。当前版本 v3.6.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 为什么这样设计（旧与新）
 
@@ -147,4 +147,4 @@
 
 ## 版本
 
-当前版本 v3.5.0（新增写入后去 AI 味检查的接线）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v3.6.0（新增写入后去 AI 味检查的接线）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

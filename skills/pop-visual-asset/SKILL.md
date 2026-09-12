@@ -1,6 +1,6 @@
 ﻿# pop-visual-asset
 
-> 本 skill 是小说视觉资产提取器。它从原文提取结构化素材，供视觉 skill 群消费。当前版本 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本 skill 是小说视觉资产提取器。它从原文提取结构化素材，供视觉 skill 群消费。当前版本 v2.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
 

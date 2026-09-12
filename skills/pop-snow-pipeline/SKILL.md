@@ -1,6 +1,6 @@
 # pop-snow-pipeline
 
-> 本技能是统一管线的总控。当前版本 v1.10.0（2026-09-11：**删除 pop-snow-opening 独立开篇闸**——可调度 Skill 清单删 pop-snow-opening；新书流程改为 `init → 1(seed) → 2(stage首喷) → 卷循环`，开篇三要素内联进 outline 卷1 前3章章纲；开篇承诺基线随前3章章纲写入全书日志）。完整版本历史见 CHANGELOG.md。
+> 本技能是统一管线的总控。当前版本 v1.11.0（2026-09-11：**删除 pop-snow-opening 独立开篇闸**——可调度 Skill 清单删 pop-snow-opening；新书流程改为 `init → 1(seed) → 2(stage首喷) → 卷循环`，开篇三要素内联进 outline 卷1 前3章章纲；开篇承诺基线随前3章章纲写入全书日志）。完整版本历史见 CHANGELOG.md。
 
 ---
 
@@ -285,4 +285,4 @@ pipeline 只在初始化与导入时写 phase；日常推进由各 skill 完成�
 
 ## 版本
 
-当前版本 v1.10.0（2026-09-11：**删除 pop-snow-opening 独立开篇闸**——可调度 Skill 清单删 pop-snow-opening；新书流程改为 `init → 1(seed) → 2(stage首喷) → 卷循环`，开篇三要素（落差/特权/小账+新标）内联进 outline 卷1 前3章章纲；开篇承诺基线随前3章章纲写入全书日志；状态更新协议/资产归位标注/doc profile 服务对象同步去 opening 引用）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v1.11.0（2026-09-11：**删除 pop-snow-opening 独立开篇闸**——可调度 Skill 清单删 pop-snow-opening；新书流程改为 `init → 1(seed) → 2(stage首喷) → 卷循环`，开篇三要素（落差/特权/小账+新标）内联进 outline 卷1 前3章章纲；开篇承诺基线随前3章章纲写入全书日志；状态更新协议/资产归位标注/doc profile 服务对象同步去 opening 引用）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

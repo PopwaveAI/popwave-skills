@@ -1,6 +1,6 @@
 # pop-critic-panel
 
-> 本技能负责多子 agent 盲评：以相互隔离的不同视野评审同一靶子，各视野在单轮内互不可见，最终由主 agent 回收裁决。v1.0.0：初始版。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能负责多子 agent 盲评：以相互隔离的不同视野评审同一靶子，各视野在单轮内互不可见，最终由主 agent 回收裁决。v1.1.0：初始版。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
 

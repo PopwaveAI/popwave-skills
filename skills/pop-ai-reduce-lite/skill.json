@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce-lite",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "displayName": "去AI味（李白引擎）",
   "description": "用户说'降AI/去AI味/降朱雀/润色'时触发。实现整包替换为 @user_741dc82b/libai（李白.Skill:润色专家 v2.0）：规则检测+分层改写一次到位（A/B/C三模式交付），不再路由任何深度 skill。非 snow 创作管线默认流程，仅手动触发。",
   "entry": "SKILL.md",

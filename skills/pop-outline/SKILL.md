@@ -1,7 +1,7 @@
 # pop-outline
 
 > **章纲是写作前完成的预演清单（描述约束版，共四块）**：只定事件、转折与落点功能，动作细节、心理描写、对白台词、章末钩全部划给 write 现场创作。write 向前的唯一依据即章纲。
-> **本技能由三条流程线的 outline 能力合并而成**：灯塔线 pop-lantern-outline v3.8.0、雪花线 pop-snow-outline v2.1.0、涌现线 pop-emergent-outline v1.6.0。合并底稿取自灯塔线。三条线之间的差异全部收录于 §0 系列适配表，主干规程三线共用。本版为 1.0.0，完整版本历史见 CHANGELOG.md。
+> **本技能由三条流程线的 outline 能力合并而成**：灯塔线 pop-lantern-outline v3.8.0、雪花线 pop-snow-outline v2.1.0、涌现线 pop-emergent-outline v1.6.0。合并底稿取自灯塔线。三条线之间的差异全部收录于 §0 系列适配表，主干规程三线共用。本版为 1.1.0，完整版本历史见 CHANGELOG.md。
 
 ---
 

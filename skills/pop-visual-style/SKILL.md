@@ -1,6 +1,6 @@
 ﻿# pop-visual-style
 
-> 本技能提供通用文生图能力与画风DNA库。只做纯文生图，单次操作即可生成图片。当前版本为 v2.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能提供通用文生图能力与画风DNA库。只做纯文生图，单次操作即可生成图片。当前版本为 v2.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
 

@@ -1,5 +1,5 @@
 ﻿# short-opening-designer
-> 短篇开篇设计器。依次确定卖点、选定公式、生成黄金三句与完整导语，再设计付费钩子。v2.1.0：原 steps 五项全部合入单一文件并精炼；执行模式为由主 agent 直接执行。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 短篇开篇设计器。依次确定卖点、选定公式、生成黄金三句与完整导语，再设计付费钩子。v2.2.0：原 steps 五项全部合入单一文件并精炼；执行模式为由主 agent 直接执行。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：脑洞一句话、平台与文章性质（来自 idea-refiner 的流转上下文：选定平台、文章性质、脑洞一句话、题材、检验结果）。
@@ -93,4 +93,4 @@
 | `templates/opening-card.tpl.md` | Step 5 输出时 | 开篇卡片模板 |
 
 ## 版本
-本版为 v2.1.0（2026-08-24：原 steps 五项全部合入单一文件并精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+本版为 v2.2.0（2026-08-24：原 steps 五项全部合入单一文件并精炼）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

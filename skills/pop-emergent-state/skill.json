@@ -1,7 +1,7 @@
 {
   "id": "pop-emergent-state",
   "name": "pop-emergent-state",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "涌现流设定装配台",
   "description": "涌现流设定装配台：设定不创造、只装配——读 seed 甲方文档，从内容模板库（力量体系/世界观结构/金手指/身份结构，从真正小说抽离）选模板，配出《世界装配单.md》作为世界底子的唯一来源。写章中长出的新设定继续从库选并记入涌现账本。",
   "entry": "SKILL.md",

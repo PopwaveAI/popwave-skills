@@ -1,6 +1,6 @@
 ﻿# pop-visual-pipeline
 
-> 小说视觉化安装器。**v4.2.0：状态来源收敛为 `状态.md`，路由上移至专家提示词**——pipeline 只负责初始化、导入、三态迁移与状态维护；下游 asset/style/art-bible 同步改读 状态.md。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 小说视觉化安装器。**v4.3.0：状态来源收敛为 `状态.md`，路由上移至专家提示词**——pipeline 只负责初始化、导入、三态迁移与状态维护；下游 asset/style/art-bible 同步改读 状态.md。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
