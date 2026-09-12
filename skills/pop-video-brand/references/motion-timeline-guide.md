@@ -1,6 +1,6 @@
 # HTML 动效时间线写法（render(t) 模式）
 
-> 本 skill 的动效用"JS 驱动逐帧渲染"实现：单页 HTML 暴露 `window.render(t)`，agent 逐帧设时间并截图。**不用 CSS keyframes**（无法精确对齐帧）。
+> 本 skill 的动效用"JS 驱动逐帧渲染"实现：单页 HTML 暴露 `window.render(t)`，由 agent 逐帧设定时间并截图。**不使用 CSS keyframes**（无法精确对齐帧）。
 
 ## 页面骨架
 ```html
@@ -39,13 +39,13 @@ function set(id,o,tr){var e=document.getElementById(id);if(e){e.style.opacity=o;
 ```css
 .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:0;pointer-events:none;}
 ```
-- render 里 `set('glow1', clamp(app(t,0,0.6)+0.25*Math.sin(t*0.8),0,1), '')` 做轻微呼吸。
+- 在 render 里用 `set('glow1', clamp(app(t,0,0.6)+0.25*Math.sin(t*0.8),0,1), '')` 做轻微呼吸。
 
 ## 居中元素
 - `left:50%` 元素在 render 里补 `translateX(-50%)`；需要微调时用 `translateX(calc(-50% + Npx))`。
 
 ## 常见坑
-- 变换里禁止除零（折算位移用进场的 `app()` 结果，不直接除以其它值）。
+- 变换里禁止除零（折算位移用进场的 `app()` 结果，不直接除以其他值）。
 - 图片用相对路径（`assets/…`），与 index.html 同目录。
 - 产品截图卡片：`img{object-fit:contain}`，白底，避免拉伸。
 - 只改 `opacity` 与 `transform`，保证 Playwright 截图即时生效。

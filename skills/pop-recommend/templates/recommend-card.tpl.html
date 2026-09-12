@@ -253,13 +253,13 @@ body{background:var(--bg);font-family:-apple-system,"PingFang SC","Microsoft YaH
 </style>
 </head>
 <body>
-<!-- DATA-INJECT: 部署时替换为 window.__BOOK_DATA__ = {...};  -->
+<!-- DATA-INJECT: 部署时把此处替换为 window.__BOOK_DATA__ = {...};  -->
 <script>{{REVIEW_DATA}}</script>
 <script>
 (function(){
   var D = window.__BOOK_DATA__;
   if(!D){
-    // fallback: 尝试外部加载 review.js（file:// 协议可能失败）
+    // 兜底：尝试从外部加载 review.js（file:// 协议下可能失败）
     var s = document.createElement('script'); s.src='review.js';
     s.onload=function(){ if(window.__BOOK_DATA__) init(window.__BOOK_DATA__); };
     s.onerror=function(){ document.body.innerHTML='<p style="color:#fff;padding:40px;font-family:sans-serif">review.js 未加载。<br>请将 review.js 与此 HTML 放在同一目录后刷新。</p>'; };
