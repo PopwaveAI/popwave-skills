@@ -1,0 +1,388 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>① 流派广度 · 对照阅读</title><style>
+:root{--ink:#1b1a18;--dim:#6b6660;--line:#e2ded7;--bg:#faf8f5;--card:#fff;--hi:#8c5a2b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Georgia,"Songti SC","Source Han Serif SC",SimSun,serif;line-height:1.85}
+header.top{position:sticky;top:0;z-index:9;background:rgba(250,248,245,.94);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 24px;
+  display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+header.top b{font-size:15px}
+header.top a{color:var(--hi);text-decoration:none;font-size:13px;
+  font-family:system-ui,"Microsoft YaHei",sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:32px 24px 96px}
+h1{font-size:24px;margin:8px 0 6px}
+.lead{color:var(--dim);font-size:14px;font-family:system-ui,"Microsoft YaHei",sans-serif;
+  line-height:1.9;margin:0 0 22px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:18px 20px;margin:0 0 26px}
+.panel h3{margin:0 0 10px;font-size:14px;font-family:system-ui,"Microsoft YaHei",sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0 12px;
+  font-family:system-ui,"Microsoft YaHei",sans-serif}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600;background:#f4f1ec}
+td.n{font-variant-numeric:tabular-nums}
+section{margin:0 0 46px;scroll-margin-top:64px}
+h2{font-size:19px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.prose p{margin:0 0 1.05em;text-indent:2em;font-size:16.5px}
+.prose p:first-child{text-indent:0}
+.prompt{background:#f2efe9;border-left:3px solid var(--hi);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:0 0 16px;font-family:system-ui,"Microsoft YaHei",sans-serif;
+  font-size:13px;color:#4a453f;line-height:1.8}
+.prompt .k{display:block;color:var(--dim);font-size:12px;margin-bottom:6px}
+.prompt code{white-space:pre-wrap;font-family:inherit}
+.snip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:0 0 10px}
+.snip .tag{font-family:system-ui,"Microsoft YaHei",sans-serif;font-size:12px;color:var(--dim)}
+.snip p{margin:6px 0 0;font-size:16px}
+</style></head><body>
+<header class="top"><b>① 流派广度 · 对照阅读</b><span><a href="#G00">G00</a> · <a href="#G01">G01</a> · <a href="#G02">G02</a> · <a href="#G03">G03</a> · <a href="#G04">G04</a> · <a href="#G05">G05</a> · <a href="#G06">G06</a> · <a href="#G07">G07</a> · <a href="#G08">G08</a> · <a href="#G09">G09</a> · <a href="#G10">G10</a> · <a href="#G11">G11</a> · <a href="#G12">G12</a></span></header>
+<div class="wrap"><h1>12 个真实流派＋1 个生造词，只换流派词</h1><p class="lead">固定情境不变，只换提示词里的流派词。每稿只给你首 200 字与末 200 字。G00 是生造词「琉璃道」，用来切开「真激活」和「当场编造」。</p><div class="panel"><h3>一览（只读首尾，按你的精力设计）</h3>
+<table><tr><th>代号</th><th>流派词</th><th>模型自拟标题</th><th class="n">引文块行数</th>
+<th>语域主类</th><th>汉字／平均段长</th></tr>| G00 | 琉璃道（生造·对照） | 琉璃道 | 1 | 现代(3) | 1835 字 / 均段 40.8 |
+| G01 | 武侠 | 一别十年 | 2 | 证据不足 | 1576 / 41.5 |
+| G02 | 规则怪谈 | 别读最后一封 | 4 | 证据不足 | 1318 / 48.8 |
+| G03 | 东方仙侠 | 浮生旧信 | 4 | 证据不足 | 2646 / 52.9 |
+| G04 | 西方奇幻 | 弃屋 | 6 | 西式(3) | 1288 / 47.7 |
+| G05 | 历史古代 | 第一章 旧宅 | 0 | 古代(11) | 1693 / 54.6 |
+| G06 | 都市高武 | 归途 | 1 | 证据不足 | 1710 / 59.0 |
+| G07 | 都市种田 | 第一章 铁盒 | 0 | 现代(8) | 2990 / 49.0 |
+| G08 | 战神赘婿 | 战神归来：开局捡到十年前的信 | 5 | 证据不足 | 1715 / 31.8 |
+| G09 | 抗战谍战 | 第一章 未寄出的信 | 0 | 古代(4) | 1552 / 33.0 |
+| G10 | 赛博朋克 | 失眠信 | 4 | 证据不足 | 2150 / 67.2 |
+| G11 | 灵气复苏 | 十年前的铁盒 | 5 | 证据不足 | 2445 / 37.6 |
+| G12 | 无限流 | 死去的信 | 3 | 证据不足 | 2045 / 60.1 |</table>
+<p style="font-size:13px;color:var(--dim);font-family:system-ui,'Microsoft YaHei',sans-serif;margin:0">
+判读要点：①能不能一眼看出是哪个流派；②开篇那块引文是不是在复述我给的情境（13 稿里 10 稿有引文块、
+8 稿复述了情境）；③除了「西方奇幻／历史古代／都市种田」三稿，其余十稿的时代语域词近零——
+是流派词没拉动，还是被「旧居·铁盒·信」这个生活化情境压住了。</p></div>
+<section id="G00"><h2>G00 · 琉璃道（生造·对照）</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>琉璃道</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 1｜语域 现代(3)｜1835 字 / 均段 40.8</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>琉璃道
+&gt; 第一章 信
+
+他站在巷口的时候，天正下着细雨。
+
+十年的雨水，似乎都攒到了今天。巷子比记忆中窄了许多，两边的墙壁上爬满了青苔，像是岁月结痂的伤口。他拖着行李箱，轮子在坑洼的石板路上发出沉闷的咕噜声，一声接一声，敲打着这片被城市遗忘的角落。
+
+门牌号还在。钉在门框右上角，锈迹斑斑，像一枚褪色的勋章。他仰头看了看，目光沿着墙壁往上爬——二楼朝北的那扇窗，玻璃碎了一半，黑洞洞地张着，像一只瞎</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>。只写了一个字：“璃”。
+
+他抽出信纸。只有一句话。
+
+“我回来了。你在吗。”
+
+他没有哭。只是把信纸折好，放回铁盒里。然后他站起来，走到窗前。雨停了。巷口的路灯——居然还亮着。昏黄的光晕里，雨丝像金色的线，细细密密地织着一张网。
+
+他伸手关上窗。碎玻璃发出清脆的声响。然后他转过身，打开行李箱，把衣服一件件拿出来，放在那张落满灰尘的床上。
+
+今晚他要住下。
+
+明天，他要把这些信，一封封重新读一遍。</p></div>
+</section>
+
+<section id="G01"><h2>G01 · 武侠</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>一别十年</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 2｜语域 证据不足｜1576 / 41.5</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>一别十年
+&gt; 院中那棵老槐树还在，疏疏落落的枝丫划过夜空，像极了当年师父握剑的手势。
+&gt; 他忽然想起，那年深秋，也是在这棵树下，她替他缝补被剑气划破的衣袖，针脚细密，手指却微微发抖。
+
+推开那扇吱呀作响的木门时，一股陈年的灰尘气息扑面而来，呛得他喉间发痒。院子里的老槐树还在，只是枝干枯瘦了许多，在暮色里投下张牙舞爪的影子。树下的青石井栏也还在，井口黑洞洞的，像一只失去眼珠的眼眶。十年了。
+
+二楼朝</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>火，很亮，像盛着一整个星空。
+
+“你回来了。”她轻声说。
+
+他张了张嘴，喉咙里像是塞满了十年的风尘。他低头看了看自己满是尘土的靴子，又看了看地板上那些信。最后，他抬起手，把那只冻得发硬的、歪歪扭扭的雪球，递到她面前。
+
+声音干涩，像是锈了十年的剑，第一次出鞘。
+
+“你的……鼻子。”
+
+她低头看着他掌心那团小小的、透明的冰核。然后，她笑了。眼泪无声地滑下来，砸在他手背上，很烫。
+
+“丑死了。”她说。</p></div>
+</section>
+
+<section id="G02"><h2>G02 · 规则怪谈</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>别读最后一封</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 4｜语域 证据不足｜1318 / 48.8</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>别读最后一封
+&gt;我回到十年前住过的旧居，在二楼朝北的房间里发现一只铁盒。
+&gt;里面是当年没寄出的信，收件人都是我自己。
+&gt;当晚我决定住下，把信一封封重读。
+&gt;第一封写于十年前，最后一封写于今天。
+
+钥匙插进锁孔的时候，金属摩擦的声响让我打了个寒战。不对，这锁应该早就锈死了才对，毕竟房子空了十年，房东换过三任。可它转动得意外顺畅，像是有人定期上油。
+
+门轴发出婴儿啼哭般的声响，灰尘扑面而来。我站在玄关</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>麻。它很轻，轻得像是里面什么都没有。但我能感觉到那张信纸的形状，折叠得整整齐齐，和前面那些乱七八糟塞进去的完全不同。
+
+楼下传来脚步声。
+
+就在我正下方的客厅里，第三级台阶响了一下，那种被包裹住的沉闷声响。然后是第二级。脚步声不紧不慢，每一步都踩在我的心跳上。
+
+我低头看着手里的信封。月光不知什么时候移到了我身上，照亮了信封正面——收件人的位置只写了三个字：
+
+“你自己”。
+
+脚步声停在了楼梯口。</p></div>
+</section>
+
+<section id="G03"><h2>G03 · 东方仙侠</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>浮生旧信</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 4｜语域 证据不足｜2646 / 52.9</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>浮生旧信
+&gt;他回到十年前的旧居，在朝北的屋子里找到一只铁盒。
+&gt;盒中装着当年没寄出的信，收信人都是一个叫“浮生”的已故之人。
+&gt;当晚他决定住下，拆开第一封信，信上说：“若你读到这些字，说明我已不在。”
+&gt;窗外骤然风雨大作，有人轻叩门环。
+
+雨是黄昏时分落下来的，起初只是几丝几缕，斜斜地贴在出租车的玻璃窗上，划出蜿蜒的水痕。等谢云声拖着那只半旧的登机箱，站在镇口那座石桥上的时候，雨已经下得密密麻麻了</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>从窗缝里灌进来，发出呜呜的声响，像谁在哭。桌上的信纸被风吹得猎猎翻动，谢云声连忙用手按住。
+
+就在这时，他听到了一个声音。
+
+在风雨声里，清清楚楚地，有人叩响了门环。
+
+“笃、笃、笃。”
+
+三声，不多不少。
+
+谢云声的手指按在那张信纸上，指尖微微发白。他没有动，也没有出声，只是静静地听着。
+
+门外寂静了一瞬。然后，那叩门声又响了起来，不紧不慢，一下，一下，一下。
+
+像有什么东西，在风雨里等他开门。</p></div>
+</section>
+
+<section id="G04"><h2>G04 · 西方奇幻</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>弃屋</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 6｜语域 西式(3)｜1288 / 47.7</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>弃屋
+&gt;他推开了那扇沉重的橡木门，灰尘和记忆一同扑面而来。
+&gt;十年了，这栋房子依然矗立在原地，只是更加破败。
+&gt;二楼朝北的房间里，那个生锈的铁盒还在。
+&gt;盒子里躺着一叠泛黄的信纸，每一封都写着同一个名字。
+&gt;他决定住下，一封封重读那些未寄出的信。
+&gt;午夜时分，他听到楼下传来了脚步声，越来越近……
+
+黄昏的光斜切进走廊，灰尘在光柱里翻滚，像无数微小的精魂。艾尔文站在门口，手还搭在那扇沉重的橡木门上。</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>西。他没有在意，继续读着。
+
+然后他听到了脚步声。
+
+他最初以为是错觉。这栋空屋子在风里总会发出各种声响。但这一次不同。那脚步声很稳，很轻，从楼下的地板上传来，不紧不慢，一步一步，像有人穿着软底鞋在行走。
+
+他抬起头，盯着门口。灯光够不到走廊，门外是一片浓稠的黑暗。脚步声没有停。它沿着走廊过来了，越来越近，越来越清晰。每一步都踩在他的心跳上。
+
+他手里的信纸微微颤动。他屏住呼吸。
+
+脚步停在门外。</p></div>
+</section>
+
+<section id="G05"><h2>G05 · 历史古代</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>第一章 旧宅</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 0｜语域 古代(11)｜1693 / 54.6</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>第一章 旧宅
+
+暮色四合时，我站在了那座宅子门前。
+
+门楣上的漆皮剥落了大半，露出底下灰白的木骨，像一截枯朽的肋骨。门环还是铜的，只是绿锈斑驳，摸上去沾了一手腥涩。我叩了三下，无人应答。隔壁卖炊饼的老妇探出头来，眯着眼打量我半晌，说：“这宅子空了两年了，主家换过三任，如今都赁出去了，却没人敢住。”
+
+“为何不敢？”
+
+老妇摇摇头，转身去翻她的炊饼，热气腾腾地遮住了脸。我推门而入，吱呀一声，惊起檐下</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>走出巷子口的时候，回头看了一眼，看见她站在二楼的窗口，隔着那层窗纸，模模糊糊的，像一幅洇了水的画。
+
+那时候我以为，很快就能回来。
+
+油灯熄了。黑暗里，我把手伸进怀里，摸到了那方手帕。桂圆的甜香丝丝缕缕地钻进来，像一条穿过十年的线，细细的，断断续续的，却还在。
+
+我闭上眼，忽然觉得这黑暗并不陌生。它像是从十年前就等在这里，等着我回来，把每一封信重新读一遍，把每一个字重新认一遍。
+
+窗外，月色正亮。</p></div>
+</section>
+
+<section id="G06"><h2>G06 · 都市高武</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>归途</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 1｜语域 证据不足｜1710 / 59.0</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>归途
+&gt;一个人回到十年前的旧居。房子早已空了，房东换过三任。他在二楼朝北的屋子里找到一只铁盒，里面是当年没寄出的信。当晚他决定住下，把信一封封重读。
+
+铁门推开时，铰链发出濒死般的呻吟，锈屑簌簌落下。陈默站在门口，任由夕阳将他的影子拉成细长的血色长条。空气里涌动着陈年霉味和某种更微妙的气息——像是铁锈混合着某种植物的腐败，还夹杂着一丝若有若无的檀香。
+
+庭院里的银杏树歪斜着，枝桠刺破灰蒙蒙的天空，</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>盒里装着他全部的青春——一个失败的炼气期修士的青春。他在黑暗里坐了很久，直到月亮升起来，清冷的光洒在那些信纸上。
+
+然后他听见了敲门声。
+
+笃、笃、笃。三下，不轻不重，带着某种熟悉的节奏。
+
+他打开门。走廊里空无一人，只有空气里那股檀香味突然变得尖锐，像是有人在很近的地方点燃了一整把安神香。低头看去，门槛上放着一枚石子，压着一张纸条。
+
+纸条上只有四个字，笔迹娟秀，墨水还是湿的：
+
+“等你回来。”</p></div>
+</section>
+
+<section id="G07"><h2>G07 · 都市种田</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>第一章 铁盒</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 0｜语域 现代(8)｜2990 / 49.0</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>第一章 铁盒
+
+梧桐巷七号。
+
+他站在巷口，看了眼手机导航，又抬眼比对了一下门牌号。没错，就是这里。这条巷子比记忆中窄了许多，两侧的墙皮剥落得厉害，露出下面暗红色的砖。十年前这些墙还是簇新的，刷着淡黄色的涂料，如今已是一片斑驳。
+
+铁门虚掩着，锈迹从合页处蔓延开，像一朵开败的花。他伸手一推，门轴发出漫长的呻吟。
+
+院子里的水泥地整个儿裂了，缝隙里钻出大丛大丛的野草。靠墙那棵石榴树还在，只是长得完全</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>。
+
+然后他把照片放回铁盒里，把盒子合上，塞回枕头底下。他翻了个身，面对着墙。墙皮在黑暗里看不见了，但他知道那些裂痕的位置。它们就在那里，就像这个房间，就像那些信，就像所有那些没有说出口的话——它们一直在那里，等着有人回来发现。
+
+他在那个空了很久的房间里，在那张睡了不到一晚的床上，在十年之后，终于睡了过去。
+
+楼下院子里，那棵石榴树在夜风里晃了晃，一枚青涩的果子掉下来，啪地落在地上。没有人听见。</p></div>
+</section>
+
+<section id="G08"><h2>G08 · 战神赘婿</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>战神归来：开局捡到十年前的信</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 5｜语域 证据不足｜1715 / 31.8</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>战神归来：开局捡到十年前的信
+&gt;他本是帝国第一战神，却因遭人陷害，不得不隐姓埋名十年。
+&gt;今日归来，发现旧居已人去楼空，房东也换了三任。
+&gt;在二楼朝北的屋子里，他找到一个铁盒，里面是当年没寄出的信。
+&gt;当晚，他决定住下，一封封重读。
+&gt;突然，门外传来一阵敲门声…
+
+夜，像一匹浸了浓墨的锦缎，沉甸甸地压在江城上空。城东这片老居民区里，路灯坏了大半，零星几盏忽明忽暗，把斑驳的楼影拉得鬼魅般长。
+
+萧战</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>严丝合缝。
+
+更让他瞳孔骤缩的是——
+
+寂静的楼梯里，响起了脚步声。
+
+不紧不慢。
+
+一步一步。
+
+带着一种诡异的、精准的节奏感。
+
+一步一步，踏上楼梯，越来越近，越来越近……然后，停在了他的门外。
+
+“咚、咚、咚。”
+
+敲门声响起。不重，却异常清晰，一下，一下，敲在死寂的夜里，敲在他的耳膜上。
+
+萧战握着铁盒的手，指节微微泛白。他霍然转头，目光如电，死死地盯着那扇刚刚被带上的门。
+
+门外，是谁？</p></div>
+</section>
+
+<section id="G09"><h2>G09 · 抗战谍战</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>第一章 未寄出的信</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 0｜语域 古代(4)｜1552 / 33.0</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>第一章 未寄出的信
+
+周远在黄昏时分回到了南平路十七号。
+
+十年了，巷子口那棵歪脖子梧桐还在，枝条更横斜了些，像老人伸出的手臂，拦住半条街的阳光。他拖着行李箱站在树下，抬头看那栋灰扑扑的日式小楼，二楼的窗户斜拉着，玻璃碴子挂着暖黄色的光，像碎裂的糖。
+
+“找谁？”一个穿短衫的中年男人从门房探出头，手里还攥着半个馒头。
+
+“看房子。”周远把烟递过去，“听说要出租。”
+
+男人上下打量他，目光在他右手虎</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>
+周远站在黑暗里，手掌按着那堵墙，感受着掌心下传来的微弱震动。他不知道这电台还能不能用，也不知道它是否还连着那个频率。
+
+但他在这一刻明白了：回来，不是偶然。
+
+他坐回床上，拿起那叠信，继续读。从第一封开始，像一条长河，把他从十年前的那个年轻人手里，一直流到现在。
+
+夜越来越深。风从窗缝进来，吹得信纸沙沙响。周远没有关窗。
+
+他知道，有些声音，需要被风带走。
+
+也有些不曾寄出的，需要被再一次听见。</p></div>
+</section>
+
+<section id="G10"><h2>G10 · 赛博朋克</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>失眠信</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 4｜语域 证据不足｜2150 / 67.2</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>失眠信
+&gt;十年前的旧居早已换了三任房东，
+&gt;他在二楼朝北的屋子里找到一只铁盒，
+&gt;里面是当年没寄出的信。
+&gt;当晚他决定住下，把信一封封重读。
+
+雨丝斜织，带着一股铁锈和劣质营养膏混合的气味，黏在皮肤上。陈默站在那栋老旧的居民楼前，仰头看。楼体斑驳，像是被酸雨啃噬过，露出底下暗沉的、如同凝固血痂般的砖色。十年了，霓虹招牌的光污染依旧将天空染成一片病态的橘红，连带着飘落的雨滴也透着一股虚浮的暖意。他抬</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>系统的呜咽。
+
+他决定今晚就住在这里。铁盒空了，但信还在。那些写给“未来的我”的文字，现在，就是未来。他用还算完好的那只手，拿起第一封信，重新开始读。
+
+“……手还疼吗？”
+
+他低头看了看自己那只布满陈旧接口和疤痕、此刻正传来阵阵钝痛的左手。
+
+窗外，城市巨大的、永不疲倦的噪声，像某种活物的心跳，渗透进来。墙内，水管发出空洞的回响。他坐在这些声音中间，一字一句，读着十年前，另一个自己，写给他的信。</p></div>
+</section>
+
+<section id="G11"><h2>G11 · 灵气复苏</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>十年前的铁盒</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 5｜语域 证据不足｜2445 / 37.6</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>十年前的铁盒
+&gt;灵气复苏十年后，我回到旧居。
+&gt;在朝北的小屋里找到没寄出的信。
+&gt;当晚决定住下，把信一封封重读。
+&gt;信里说：“如果你看到这封信，说明灵气已经复苏了。”
+&gt;我笑了，继续看下一封。
+
+十年了。
+
+我站在一栋老旧的居民楼前，水泥外墙斑驳得像是被什么巨兽啃过一口，露出底下暗红色的砖。楼道入口的铁门锈得几乎只剩个门框，风一吹就发出骨头碎裂般的呻吟。天上偶尔飘过几道剑光，拖曳着长长的尾迹，像彗</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>墨迹和信上的一样，但更急促，更潦草。
+
+“永远不要让她走进那扇门。”
+
+我盯着这行字，又看看照片上女孩的笑脸。烛光下，她的眼睛里似乎映着什么，像是一闪而过的、湖蓝色的光。
+
+我心里忽然涌起一股寒意。
+
+就在这时，我听到楼下传来脚步声。
+
+沉重的、匀速的脚步声，正沿着楼梯，一级一级地走上来。
+
+烛火猛地一跳。
+
+我抬起头，看向门口。
+
+脚步声停在了三楼。
+
+然后，一只手轻轻地、笃定地，敲响了我的门。</p></div>
+</section>
+
+<section id="G12"><h2>G12 · 无限流</h2>
+<div class="prompt"><span class="k">模型自拟标题</span><code>死去的信</code>
+<span class="k" style="margin-top:8px">开篇引文块行数 3｜语域 证据不足｜2045 / 60.1</span></div>
+<div class="snip"><span class="tag">首 200 字</span><p>死去的信
+&gt;我回到十年前的老房子，找到一盒没寄出的信。
+&gt;每封信都是一个自杀者的遗书，日期却全是明天。
+&gt;最后一封信的笔迹和我一模一样。
+
+钥匙插进锁孔，咔哒一声，转动时却带着一种久已未闻的滞涩感，仿佛锁芯里填满了十年的空气与死寂。推开门的瞬间，陈年的尘与记忆的气味扑面而来，浓烈的霉味底下，似乎还压着一丝早已腐朽的阳光味道。楼道里的声控灯在我跺脚后亮了，惨白的光从门口斜切进去，像一条苍白的舌头舔过</p></div>
+<div class="snip"><span class="tag">末 200 字</span><p>种奇异的、冰冷的平静笼罩了我。我知道，我找到了它。或者说，是它，终于等到了我。
+
+我走过去，弯腰，从地上捡起那张信纸，我的信。指尖触碰到那搏动的、墨黑的图案。
+
+一股不属于我的、却无比熟悉的寒意，顺着指尖流遍全身。脑海中，无数个声音开始低语，带着哭腔，带着释然的解脱，带着永恒的绝望。它们在我脑海里交织、重叠，最后汇成了一个清晰的声音，在我耳边，用我自己都会有的语气，轻轻响起：
+
+“欢迎加入我们。”</p></div>
+</section></div>
+</body></html>
