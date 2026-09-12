@@ -1,6 +1,6 @@
 # 拆书管线上下文（单书深度wiki拆解）
 
-> 统一共享资产（canonical）。由 pop-decon 持有，通过引用读取理解管线位置。v26.0.0：家从 4 精简为 2，产出目标从维度证据稿升级为六模块深度wiki成品。
+> 统一共享资产（canonical）。由 pop-decon 持有，其他 skill 通过引用读取，以理解管线位置。v26.0.0：skill 家族从 4 个精简为 2 个，产出目标从维度证据稿升级为六模块深度wiki成品。
 
 ## 管线全景
 
@@ -20,18 +20,18 @@ pop-decon (下载 → 征询范围 → 路由)
 | 产出 | 归属 |
 |:--|:--|
 | L1 批次档案（内部依托，硬门禁） | pop-decon-dimension |
-| 剧情库（分卷叙事流+动力引擎） | pop-decon-dimension |
+| 剧情库（分卷叙事流与动力引擎） | pop-decon-dimension |
 | 角色与势力库 | pop-decon-dimension |
 | 力量与战斗 | pop-decon-dimension |
 | 世界观 | pop-decon-dimension |
 | 赛道特色 | pop-decon-dimension |
 | 文风DNA | pop-decon-dimension |
-| 爽点.md / 立项.md（消费六模块综合） | pop-decon-dimension（成品层） |
+| 爽点.md、立项.md（消费六模块综合） | pop-decon-dimension（成品层） |
 
 ## 已删除 skill（方法论已内吸）
 
-- **pop-decon-design-pack**：逐章白描卡 → 批次档案格式（`references/batch-format.md`，30章/批）
-- **pop-decon-prd**：独立立项拆解 → 成品层 `立项.md`（`templates/立项.tpl.md`，消费六模块综合）
+- **pop-decon-design-pack**：逐章白描卡改为批次档案格式（`references/batch-format.md`，30章/批）
+- **pop-decon-prd**：独立立项拆解改为成品层 `立项.md`（`templates/立项.tpl.md`，消费六模块综合）
 
 > 两个旧 skill 不再独立存在；其方法论分别吸收为 L1 批次档案格式与 L2 立项模板。
 
