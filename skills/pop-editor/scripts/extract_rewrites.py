@@ -13,8 +13,8 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 SK = Path(r"d:\popwave-skills\新流程探索\网文编辑")
-OUT = SK / "跑批" / "输出" / "第改写轮"
-DST = SK / "跑批" / "改写"
+OUT = SK / "scripts" / "输出" / "第改写轮"
+DST = SK / "scripts" / "改写"
 DST.mkdir(parents=True, exist_ok=True)
 
 manifest = {}

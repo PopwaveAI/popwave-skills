@@ -28,7 +28,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--round", default="1")
     args = ap.parse_args()
-    out_dir = SK / "跑批" / "输出" / ("第%s轮" % args.round)
+    out_dir = SK / "scripts" / "输出" / ("第%s轮" % args.round)
     rec_dir = SK / "迭代记录" / ("第%s轮" % args.round)
     rec_dir.mkdir(parents=True, exist_ok=True)
     data = load(out_dir)

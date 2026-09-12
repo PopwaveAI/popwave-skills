@@ -21,8 +21,8 @@ import requests
 
 sys.stdout.reconfigure(encoding="utf-8")
 SK = Path(r"d:\popwave-skills\新流程探索\网文编辑")
-IN = SK / "跑批" / "输入"
-ROOT = SK / "跑批" / "输出"
+IN = SK / "scripts" / "输入"
+ROOT = SK / "scripts" / "输出"
 HAN = re.compile(r"[\u4e00-\u9fff]")
 
 ROLE_PROMPT = {
@@ -173,7 +173,7 @@ RANK_PROMPT = """下面是同一批的几份正文，匿名编号。你是排序
 
 def load_env():
     env = {}
-    for line in (SK / "跑批" / ".env").read_text(encoding="utf-8").splitlines():
+    for line in (SK / "scripts" / ".env").read_text(encoding="utf-8").splitlines():
         if "=" in line and not line.strip().startswith("#"):
             k, v = line.split("=", 1)
             env[k.strip()] = v.strip()
@@ -236,7 +236,7 @@ def main():
     args = ap.parse_args()
 
     env = load_env()
-    crit = (SK / "跑批" / "判据摘要.md").read_text(encoding="utf-8")
+    crit = (SK / "references" / "判据摘要.md").read_text(encoding="utf-8")
     out_dir = ROOT / ("第%s轮" % args.round)
     out_dir.mkdir(parents=True, exist_ok=True)
     drafts = sorted([p for p in IN.glob("稿*.md")])

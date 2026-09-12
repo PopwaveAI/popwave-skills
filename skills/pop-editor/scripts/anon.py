@@ -9,7 +9,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 SK = Path(r"d:\popwave-skills\新流程探索\网文编辑")
 MAT = SK / "素材"
-OUT = SK / "跑批" / "输入"
+OUT = SK / "scripts" / "输入"
 SEED = 20260913
 CN = "一二三四五六七八九十"
 
@@ -66,10 +66,10 @@ def main():
         (OUT / ("%s.md" % code)).write_text(text, encoding="utf-8")
         mapping["对应"][code] = {"id": r["id"], "档位": r["档位"], "来源": r["来源"], "路径": r["路径"]}
         print("  %s  ←  %s（%s｜%s）" % (code, r["id"], r["档位"], r["来源"]))
-    (SK / "跑批" / "映射表-封存.json").write_text(
+    (SK / "scripts" / "映射表-封存.json").write_text(
         json.dumps(mapping, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n匿名稿 %d 份 → %s" % (len(picked), OUT))
-    print("映射表已封存：跑批/映射表-封存.json（判完才开）")
+    print("映射表已封存：scripts/映射表-封存.json（判完才开）")
 
 
 if __name__ == "__main__":
