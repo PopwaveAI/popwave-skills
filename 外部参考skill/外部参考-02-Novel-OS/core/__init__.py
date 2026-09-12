@@ -1,1 +1,0 @@
-# Novel OS core package

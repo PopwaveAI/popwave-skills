@@ -1,6 +1,0 @@
-# API key 不进仓库
-.env
-
-# 缓存
-__pycache__/
-*.pyc
