@@ -1,0 +1,26 @@
+{
+  "id": "pop-editor",
+  "name": "pop-editor",
+  "version": "1.0.0",
+  "displayName": "pop编辑",
+  "description": "按平台成绩切出的三档（80／60／40）判一稿落在哪一档，逐句找出带行号的具体硬伤，并给出可直接替换原句的修正；对自家产出（popagent 走 skill 链路的正文，一律按 20 至 30 处理）走三级改写（逐句修→段落改写→大重构），目标改到 60 档。档位依据是平台成绩不是读感：起点按首订／均订／月票榜，番茄七猫按在读人数；付费站与免费站两套线各自切档，不混用一把尺。判档先比两条跨档差——80 与 60 看交代旁边有没有具体的物与动作，60 与 40 看该展开的场景是被写出来还是被说出来。素材跑批前必归一（剥开题行、砍站点导航、砍模型思考块、砍作者 PS），否则 G18 硬门槛会被误触发。",
+  "entry": "SKILL.md",
+  "tags": [
+    "长篇网文专家",
+    "评委"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop编辑",
+      "判档",
+      "找问题",
+      "改稿"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
