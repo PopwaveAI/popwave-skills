@@ -323,17 +323,17 @@
     <div class="phase-timeline">
       <div class="phase-item">
         <div class="phase-circle pending" id="ph-1">1</div>
-        <div class="phase-label" id="lb-1">Seed立项</div>
+        <div class="phase-label" id="lb-1">Seed 立项</div>
       </div>
       <div class="phase-line" id="ln-1"></div>
       <div class="phase-item">
         <div class="phase-circle pending" id="ph-2">2</div>
-        <div class="phase-label" id="lb-2">Stage首喷</div>
+        <div class="phase-label" id="lb-2">Stage 首喷</div>
       </div>
       <div class="phase-line" id="ln-2"></div>
       <div class="phase-item">
         <div class="phase-circle pending" id="ph-2a">2a</div>
-        <div class="phase-label" id="lb-2a">卷需求brief</div>
+        <div class="phase-label" id="lb-2a">卷需求 brief</div>
       </div>
       <div class="phase-line" id="ln-2a"></div>
       <div class="phase-item">
@@ -391,7 +391,7 @@
     <div class="grid-2">
       <div class="readiness-block">
         <div class="readiness-title">立项就绪</div>
-        <div class="status-item">融合立项稿14维 <span class="status-badge"><!--STATE:seed_0 -->❌<!--/STATE:seed_0 --></span></div>
+        <div class="status-item">融合立项稿 14 维 <span class="status-badge"><!--STATE:seed_0 -->❌<!--/STATE:seed_0 --></span></div>
         <div class="status-item">文风DNA（可选） <span class="status-badge"><!--STATE:seed_1 -->❌<!--/STATE:seed_1 --></span></div>
       </div>
       <div class="readiness-block">
@@ -409,7 +409,7 @@
     <div class="grid-2" style="margin-top:0;">
       <div class="readiness-block" style="padding-top:0;">
         <div class="readiness-title">卷循环（本卷）</div>
-        <div class="status-item">卷需求brief <span class="status-badge"><!--STATE:cyc_0 -->❌<!--/STATE:cyc_0 --></span></div>
+        <div class="status-item">卷需求 brief <span class="status-badge"><!--STATE:cyc_0 -->❌<!--/STATE:cyc_0 --></span></div>
         <div class="status-item">卷舞台 <span class="status-badge"><!--STATE:cyc_1 -->❌<!--/STATE:cyc_1 --></span></div>
         <div class="status-item">卷纲 <span class="status-badge"><!--STATE:cyc_2 -->❌<!--/STATE:cyc_2 --></span></div>
         <div class="status-item">幕白描 <span class="status-badge"><!--STATE:cyc_3 -->❌<!--/STATE:cyc_3 --></span></div>
@@ -417,7 +417,7 @@
       <div class="readiness-block" style="padding-top:0;">
         <div class="readiness-title">写审沉淀</div>
         <div class="status-item">正文 <span class="status-badge"><!--STATE:cyc_4 -->❌<!--/STATE:cyc_4 --></span></div>
-        <div class="status-item">章日志+全书日志 <span class="status-badge"><!--STATE:cyc_5 -->❌<!--/STATE:cyc_5 --></span></div>
+        <div class="status-item">章日志与全书日志 <span class="status-badge"><!--STATE:cyc_5 -->❌<!--/STATE:cyc_5 --></span></div>
       </div>
     </div>
   </div>
@@ -447,34 +447,34 @@
       <span class="section-rule"></span>
     </div>
 <div class="folder-tree"><span class="dir">项目根/</span>
-├── 状态.md                 唯一机器状态源（agent 每轮只读它）
+├── 状态.md                 唯一状态总账（agent 每轮只读该文件）
 ├── 项目总控.html             展示面板（可选，按需导出，agent 不读）
 ├── <span class="dir">调研采风/</span>              Phase 1 底牌与调研
 │   ├── 用户意图.md / 灵感收集.md
 │   ├── 市场校准.md / 赛道调研.md
-│   ├── 文风锚定.md            DNA（可选，2e 注入）
-│   ├── decon-lite-{书名}.md   拆书9表
+│   ├── 文风锚定.md            DNA（可选，2e 传入）
+│   ├── decon-lite-{书名}.md   拆书 9 表
 │   ├── 参考答案-{书名}/       设定包（路径C，含包配方.md）
-│   ├── 改编计划.md            路径C（X DNA替换矩阵+类比切换策略）
-│   ├── 卷级调研-卷N.md        2a+ 卷级调研
+│   ├── 改编计划.md            路径C（X DNA 替换矩阵与类比切换策略）
+│   ├── 卷级调研-卷N.md        2a 及之后的卷级调研
 │   └── downloads/{书名}.txt
 ├── <span class="dir">立项/</span>              Phase 1 seed
-│   └── 00-融合立项稿14维.md   六步流水线共创（stage/plot 消费）
-├── <span class="dir">设计库/</span>              Phase 2 stage（七长档，卷级点播回填）
+│   └── 00-融合立项稿 14 维.md   六步流水线共创（stage、plot 消费）
+├── <span class="dir">设计库/</span>              Phase 2 stage（七长档，卷级按需回填）
 │   ├── 世界全书.md / 力量体系.md / 位阶-社会坐标谱.md
 │   ├── 势力格局.md / 基调母题.md / 主角.md / 角色库.md / 类型风味基线.md
-│   └── <span class="dir">卷舞台/</span>        卷N-舞台.md（本卷专档，按 brief 点播）
+│   └── <span class="dir">卷舞台/</span>        卷N-舞台.md（本卷专档，按 brief 调取）
 ├── <span class="dir">剧情库/</span>              2a-2d 剧情链
-│   ├── 00-全书卷进度表.md     plot任务P（首卷卷纲前一次）
-│   ├── 卷N-需求brief.md       2a plot任务A
-│   ├── 卷N-卷纲.md            2c plot任务B
-│   ├── 卷N-幕M-白描.md        2c plot任务C
+│   ├── 00-全书卷进度表.md     plot 任务P（首卷卷纲前一次）
+│   ├── 卷N-需求brief.md       2a plot 任务A
+│   ├── 卷N-卷纲.md            2c plot 任务B
+│   ├── 卷N-幕M-白描.md        2c plot 任务C
 │   └── <span class="dir">章纲/</span>          chNNN-章纲.md（2d outline，每章一文件）
 ├── <span class="dir">正文/</span>              2e write
-│   └── chNNN.txt              2000-2500字/章
-└── <span class="dir">剧情日志/</span> + 全书日志.md   2f review 沉淀
-    ├── chNNN.md               单章日志（时间/剧情/定了哪些事/动了哪些线）
-    └── 全书日志.md（项目根）    当前状态（replace 只留最新）</div>
+│   └── chNNN.txt              2000-2500 字/章
+└── <span class="dir">剧情日志/</span> 与 全书日志.md   2f review 沉淀
+    ├── chNNN.md               单章日志（时间、剧情、定了哪些事、动了哪些线）
+    └── 全书日志.md（项目根）    当前状态（replace 只保留最新）</div>
   </div>
 
   <!-- ========== Footer ========== -->

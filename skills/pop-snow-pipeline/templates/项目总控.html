@@ -415,7 +415,7 @@
         <div class="status-item">幕白描 <span class="status-badge"><!--STATE:cyc_3 -->❌<!--/STATE:cyc_3 --></span></div>
       </div>
       <div class="readiness-block" style="padding-top:0;">
-        <div class="readiness-title">写审沉淀</div>
+        <div class="readiness-title">写审存档</div>
         <div class="status-item">正文 <span class="status-badge"><!--STATE:cyc_4 -->❌<!--/STATE:cyc_4 --></span></div>
         <div class="status-item">章日志+全书日志 <span class="status-badge"><!--STATE:cyc_5 -->❌<!--/STATE:cyc_5 --></span></div>
       </div>
@@ -447,12 +447,12 @@
       <span class="section-rule"></span>
     </div>
 <div class="folder-tree"><span class="dir">项目根/</span>
-├── 状态.md                 唯一机器状态源（agent 每轮只读它）
+├── 状态.md                 唯一状态总账（agent 每轮只读它）
 ├── 项目总控.html             展示面板（可选，按需导出，agent 不读）
 ├── <span class="dir">素材/</span>              Phase 1 底牌与调研
 │   ├── 用户意图.md / 灵感收集.md
 │   ├── 市场校准.md / 赛道调研.md
-│   ├── 文风锚定.md            DNA（可选，2e 注入）
+│   ├── 文风锚定.md            DNA（可选，2e 写入）
 │   ├── decon-lite-{书名}.md   拆书9表
 │   ├── 参考答案-{书名}/       设定包（路径C，含包配方.md）
 │   ├── 改编计划.md            路径C（X DNA替换矩阵+类比切换策略）
@@ -472,8 +472,8 @@
 │   └── <span class="dir">章纲/</span>          chNNN-章纲.md（2d outline，每章一文件）
 ├── <span class="dir">正文/</span>              2e write
 │   └── chNNN.txt              2000-2500字/章
-└── <span class="dir">章节日志/</span> + 全书日志.md   2f review 沉淀
-    ├── chNNN.md               单章日志（时间/剧情/定了哪些事/动了哪些线）
+└── <span class="dir">章节日志/</span> + 全书日志.md   2f review 存档
+    ├── chNNN.md               单章日志（时间、剧情、定了哪些事、动了哪些线）
     └── 全书日志.md（项目根）    当前状态（replace 只留最新）</div>
   </div>
 
