@@ -18,11 +18,11 @@
 
 ### 参考图与参考点
 - **参考图**：{{reference_image}}
-- **参考点**：{{reference_point}}（全面参考/色系/构图/画风/光影/字体/组合）
+- **参考点**：{{reference_point}}（全面参考、色系、构图、画风、光影、字体或组合）
 - **保留（交给参考图）**：{{preserved_dimensions}}
 - **改动（提示词控制）**：{{controlled_dimensions}}
 
-### 画面描述（用人话说画面长什么样）
+### 画面描述（用通俗语言描述画面）
 {{scene_description}}
 （重点说"和参考图有什么不同"）
 

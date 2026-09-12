@@ -1,6 +1,6 @@
 # 光照与构图模板库
 
-> 本文件定义3种光照模板（LT1/LT2/LT3）和2种构图模板（CT1/CT2），以及画风-光照-构图兼容性矩阵。数据源：`references/文风DNA-library.json`。
+> 本文件定义3种光照模板（LT1/LT2/LT3）和2种构图模板（CT1/CT2），以及画风、光照、构图兼容性矩阵。数据源：`references/文风DNA-library.json`。
 
 ## 构图模板
 
@@ -50,7 +50,7 @@ Lighting: Soft luminous lighting with gentle diffused glow. Light emanates from 
 **适合**：水彩/柔美/治愈/明亮风格
 **兼容画风**：少女水彩言情、天野喜孝幻想、轻小说插画风、韩漫华丽言情、穆夏新艺术、日系赛璐珞、京都动画萌系、轻喜剧Q版、韩国Webtoon现代风、新国潮风、迪士尼皮克斯3D、90年代复古动漫、日系热血战斗、伪厚涂半厚涂、国漫玄幻厚涂
 
-> **Phase 7验证**：成功拯救水彩风格(D→B)，轻小说插画风获A档。
+> **Phase 7验证**：成功将水彩风格从 D 档提升至 B 档，轻小说插画风获 A 档。
 
 ### LT3 平光漫射（Flat Atmospheric Lighting）
 
@@ -90,7 +90,7 @@ Lighting: Flat even illumination with minimal directional lighting. Light distri
 
 ## 跨skill引用
 
-cover/oc/comic skill引用本文件时：
-- **cover skill**：光源设计表仍由叙事驱动（道具自发光/逆光/顶光等），本文件的光照模板作为画风兼容性参考——选定画风后检查recommended_lighting，避免使用不兼容的光照
-- **oc skill**：同cover，立绘的光源以角色表现为优先，但需检查画风兼容性
+cover、oc、comic 各 skill 引用本文件时：
+- **cover skill**：光源设计表仍由叙事驱动（道具自发光、逆光、顶光等），本文件的光照模板作为画风兼容性参考；选定画风后检查 recommended_lighting，避免使用不兼容的光照
+- **oc skill**：与 cover 相同，立绘的光源以角色表现优先，但需检查画风兼容性
 - **comic skill**：分镜帧的光照直接引用本文件模板，保证画风-光照兼容
