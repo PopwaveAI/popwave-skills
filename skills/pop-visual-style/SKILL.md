@@ -123,8 +123,8 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 
 | intent 档位 | 定标方式 |
 |:------------|:---------|
-| `comic`/`full` | **完整定标（必做）**：完整门禁与稳定复现验证（见下文 3），进入 character（Phase 2）前先定标 |
-| `cover`/`oc` | **agent 自检分支**：出定标图后 agent 自查辨识度、配色、光影、无文字即可，**不设强制用户门禁，不强制稳定复现**；定标图可单张，达标即标记 `✅ 已认可` 供下游作画风参考 |
+| `comic`/`full` | **完整定标（必做）**：完整检查与稳定复现验证（见下文 3），进入 character（Phase 2）前先定标 |
+| `cover`/`oc` | **agent 自检分支**：出定标图后 agent 自查辨识度、配色、光影、无文字即可，**不设强制用户确认，不强制稳定复现**；定标图可单张，达标即标记 `✅ 已认可` 供下游作画风参考 |
 | 独立纯文生图 | 跳过本步 |
 
 **1. 测试素材（小说次要视觉锚点）**，两类任选其一或组合（英文）：
@@ -140,7 +140,7 @@ python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高
 # 只用场景类（无路人）测画风
 python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
 
-# 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 用于"只改一个子维度"的回炉迭代
+# 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 用于"只改一个子维度"的返工迭代
 python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/定标变体.json --scene "..." --side "..." --out-dir 测试/画风定标 --seed 20260803
 ```
 - **`--style-names`**：从 DNA 库按画风名批量测（推荐），脚本自动取 `dna`、`constraint`、`recommended_composition`、`recommended_lighting`（默认 8 线程并发批量与自动 PE 日志）；画风 DNA 放在第 2 段，由脚本固定模板保证（铁律❌2）
@@ -148,9 +148,9 @@ python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/
 - **`--seed`**：固定随机种子保证复现（下游图生图用同 seed 不漂移）
 - **输出**：`generation_tasks.json`（每个变体一个任务，含 prompt、size、ref_images、output_path）与 `pe-log.json`（含测试素材、模板、每个变体完整 prompt，可复现）
 - **生成**：读 `generation_tasks.json`，对每条任务用 `image_generate` 工具生成（有 ref_images 时传参考图），输出到各任务 output_path，即 `{out-dir}/seed-{seed}/{画风名}.png`
-- 从结果中选择达标变体作为候选定标图；**不达标回炉时只改该变体 JSON 的一个子维度，重新执行同一脚本，不重写调用**
+- 从结果中选择达标变体作为候选定标图；**不达标返工时只改该变体 JSON 的一个子维度，重新执行同一脚本，不重写调用**
 
-**3. 🚪 门禁：画风定标验收与稳定复现验证**（comic/full 完整档必做）：
+**3. 🚪 检查：画风定标验收与稳定复现验证**（comic/full 完整档必做）：
 - **画风定标验收**（向用户呈现定标图逐项验收）：
 
 | 维度 | 验收判据 |
@@ -160,7 +160,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/
 | 光影兼容 | 所选光照模板与该画风是否兼容（柔美风格禁 LT1，防柔美画风被暗色吞噬） |
 | 无文字 | 无乱码、无伪文字、无加字 |
 
-**未达标不冻结**：回炉微调 DNA 片段（非重选风格），重新生成 v2、v3……直到达标。
+**未达标不冻结**：返工微调 DNA 片段（非重选风格），重新生成 v2、v3……直到达标。
 - **稳定复现验证（核心）**：用**同一提示词与同一 seed** 重新执行一次固定脚本（`batch_test.py` 的输出目录按 `seed-{seed}` 分级，同 seed 重跑输出到同一目录，天然形成复现对比）：`python ../pop-visual-shared/scripts/batch_test.py --style-names "画风名" --out-dir 测试/画风定标 --seed 20260803`；判据为：同 seed 目录下辨识度、配色、光影是否**稳定一致**（允许构图微差，画风铁定）。**未稳定复现不冻结**：画风漂移说明提示词对 seed 敏感，只改该变体的一个子维度进行调整，直到稳定复现。
 
 **4. 认可后冻结基线资产**：用户认可且稳定复现通过后，画风三字段**冻结为基线**：
@@ -217,5 +217,5 @@ art-bible、cover、oc、comic 各 skill 引用本 skill 画风层时：
 3. **构图参考**：取 `recommended_composition` 字段，作为构图设计参考（不替代各skill自己的构图体系）
 4. **提示词组装**：各 skill 使用自己的结构层（V3、4块、三字段），画风段从 DNA 库取 `dna` 与 `constraint`（纯技法），内容层独立于画风段，禁止把题材内容混入画风段
 5. **画风前置原则**：纯文生图场景，画风DNA放提示词前段；图生图场景按参考点策略处理
-6. **画风基线资产与稳定复现**：Pipeline 语境下定标认可后冻结（`素材/风格/画风决策.md` 标 `✅ 已认可`），下游只消费冻结的画风三字段、定标图、冻结 seed、参考图（均从 `画风决策.md` 读取），禁止各自发明新画风；**按 intent 分流**：`comic`/`full` 走完整定标门禁与稳定复现，`cover`/`oc` 走 agent 自检分支
+6. **画风基线资产与稳定复现**：Pipeline 语境下定标认可后冻结（`素材/风格/画风决策.md` 标 `✅ 已认可`），下游只消费冻结的画风三字段、定标图、冻结 seed、参考图（均从 `画风决策.md` 读取），禁止各自发明新画风；**按 intent 分流**：`comic`/`full` 走完整定标检查与稳定复现，`cover`/`oc` 走 agent 自检分支
 7. **art-bible 是第一消费方**：画风基线首先被 `pop-visual-art-bible` 消费（引用画风篇，定全宇宙色彩基调），再由美术设定集下发给 oc、cover、comic，禁止派生层绕过美术设定集直接读画风决策

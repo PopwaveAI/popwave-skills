@@ -11,7 +11,7 @@ pop-decon (下载 → 征询范围 → 路由)
     ├── Step 0  下载txt（tool-download-webnovel）
     ├── Step 1  ★征询范围★（全书/某一卷/前N章）
     └── Step 2  路由 pop-decon-dimension（单书深度wiki拆解）
-                    ├── L1 批次拆解（联合Grep锚点池→~30章/批精读八维→批次档案，硬门禁）
+                    ├── L1 批次拆解（联合Grep锚点池→~30章/批精读八维→批次档案，硬性检查）
                     └── L2 六模块成品整合（剧情库分卷/角色与势力库/力量与战斗/世界观/赛道特色/文风DNA + 爽点/立项/索引）
 ```
 
@@ -19,7 +19,7 @@ pop-decon (下载 → 征询范围 → 路由)
 
 | 产出 | 归属 |
 |:--|:--|
-| L1 批次档案（内部依托，硬门禁） | pop-decon-dimension |
+| L1 批次档案（内部依托，硬性检查） | pop-decon-dimension |
 | 剧情库（分卷叙事流与动力引擎） | pop-decon-dimension |
 | 角色与势力库 | pop-decon-dimension |
 | 力量与战斗 | pop-decon-dimension |
