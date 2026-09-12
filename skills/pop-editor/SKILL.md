@@ -134,6 +134,7 @@ status: 定稿
 | 这稿落哪一档 | `references/成绩台账.md`（线）＋ `references/对照表-起点.md`／`对照表-番茄.md`（样子） |
 | 档位界线与两条跨档差 | `references/档位与升降档标准.md` |
 | 三个维度各自的好与坏 | `references/打分表-文笔质感.md`／`-内容剧情.md`／`-情绪节奏.md` |
+| 逐句加减分怎么算 | `references/打分表-文笔质感-逐句加减分.md` |
 | 逐句走查的红线与编号 | `references/写作红线-通用层.md`（G1 至 G60；一级红线 G18／G16／G17／G22） |
 | 哪些词不许出现 | `references/AI腔词表与禁句式.md`（词表唯一来源，其余文件引用不复制） |
 | 读者为什么追下去 | `references/读者心理学.md`；`references/网文通用原则.md` |
