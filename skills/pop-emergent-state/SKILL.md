@@ -1,4 +1,4 @@
-﻿# pop-emergent-state
+# pop-emergent-state
 
 > 本技能是涌现流的设定装配台：**设定只做装配，不做创造。** 读取 seed 甲方文档，从内容模板库中择取模板（力量体系、世界观结构、金手指、身份结构），配出《世界装配单.md》。模板是从真实小说中抽离的内容层成熟套路，不得由 agent 凭空发明。当前版本 v1.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
@@ -77,7 +77,7 @@
 
 ### Step 3：产出装配单并存档
 
-将装配单写入 `立项/世界装配单.md`（格式见下）。**写入后的下一步为去 AI 味**：执行 `python skills/pop-emergent-pipeline/scripts/deai_gate.py 立项/世界装配单.md --profile doc --json`，按 WARN 定位自查，机械项用 `--fix` 处理，结果输出一行 `去AI味:世界装配单|PASS` 或 `WARN×N`。
+将装配单写入 `立项/世界装配单.md`（格式见下）。**写入后的下一步为去 AI 味**：执行 `python skills/pop-snow-pipeline/scripts/deai_gate.py 立项/世界装配单.md --profile doc --json`，按 WARN 定位自查，机械项用 `--fix` 处理，结果输出一行 `去AI味:世界装配单|PASS` 或 `WARN×N`。
 
 向用户报告交接：装配完成。接下来由 outline 按情绪标准排章纲（查剧情-情绪打分表确定本章情绪坐标，再反向设计剧情），随后 write 写正文，review 审查并回填账本。加载 pop-outline 接力。
 

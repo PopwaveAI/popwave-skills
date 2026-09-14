@@ -304,7 +304,7 @@
 
 **内容库配方指向（下游查库接口，定稿时须写）**：从底子卡（王道走法、标配零件与爽点结构）、北极星块与换图阶梯提取本书建议的配方方向，写入立项稿"内容库配方指向块"（模板见 `templates/融合立项稿-14维.tpl.md` 附录A.5）——四项：力量体系方向（如"修仙线性升级"）、世界观结构（如"地图换层"）、单元剧类型（如"副本流"）、套路方向（如"打脸"）。**性质为建议方向，不是锁定**：stage、plot、outline 开工先按指向查对应环节包内容库——stage 查 `{pop-lantern-stage}/references/内容库/`（力量体系与世界观模板库）、plot 查 `{pop-lantern-plot}/references/内容库/`（单元剧模板库）、outline 查 `{pop-outline}/references/内容库/`（套路库）——有匹配配方则选一个主配方换皮适配（适配规则与不可动硬核见库内）；库没有则现场提取（research 聚焦调研查实）并 48 小时内回填。情绪基线固定对照 `{pop-lantern-plot}/references/内容库/剧情-情绪打分表.md`（plot 包，审美固定位，不选）。
 
-存档流程：用户逐维审、决定，再存档 `立项/00-融合立项稿14维.md`（含北极星块与内容库配方指向块），随后执行**去 AI 味最后一步**：`python skills/pop-lantern-pipeline/scripts/deai_gate.py 立项/00-融合立项稿14维.md --profile doc --json`（WARN 定位自查，机械项用 `--fix`），并执行**去 AI 味确认纳入交接协议（硬性要求）**：须回报一行 `去AI味:融合立项稿|PASS` 或 `WARN×N`——**缺确认即交接不完整，不得进入 stage 接力**（stage Step 0 收档前首查本确认）。
+存档流程：用户逐维审、决定，再存档 `立项/00-融合立项稿14维.md`（含北极星块与内容库配方指向块），随后执行**去 AI 味最后一步**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 立项/00-融合立项稿14维.md --profile doc --json`（WARN 定位自查，机械项用 `--fix`），并执行**去 AI 味确认纳入交接协议（硬性要求）**：须回报一行 `去AI味:融合立项稿|PASS` 或 `WARN×N`——**缺确认即交接不完整，不得进入 stage 接力**（stage Step 0 收档前首查本确认）。
 
 **载体分流标签**（存档时每项标注，避免载体错位，源：Mirror 01 三载体分流）：
 

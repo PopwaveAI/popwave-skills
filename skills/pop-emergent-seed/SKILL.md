@@ -107,7 +107,7 @@
 
 - **一句话测试**：合上材料，只凭记忆把这本书讲给没读过任何材料的朋友听（100 字左右），对方能复述"主角是谁、要什么、谁挡着、往哪里走"才算通过。卡住，或只有设定没有事件，即为没有成型，退回 Step 2 重新拍板。
 
-存档流程：用户逐项确认，拍板，存档 `立项/涌现立项卡.md`（模板见 `templates/涌现立项卡.tpl.md`），随后执行**去 AI 味最后一步**：`python skills/pop-emergent-pipeline/scripts/deai_gate.py 立项/涌现立项卡.md --profile doc --json`（WARN 项按定位自查，机械项使用 `--fix`），回复中报告一行 `去AI味:涌现立项卡|PASS` 或 `WARN×N`。
+存档流程：用户逐项确认，拍板，存档 `立项/涌现立项卡.md`（模板见 `templates/涌现立项卡.tpl.md`），随后执行**去 AI 味最后一步**：`python skills/pop-snow-pipeline/scripts/deai_gate.py 立项/涌现立项卡.md --profile doc --json`（WARN 项按定位自查，机械项使用 `--fix`），回复中报告一行 `去AI味:涌现立项卡|PASS` 或 `WARN×N`。
 
 **载体分流标签**（存档时每项标注，避免载体错位。来源：Mirror 01 三载体分流）：
 
