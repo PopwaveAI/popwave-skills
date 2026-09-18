@@ -1,3 +1,4 @@
+import { buildCommunityRegistry } from "./community-registry.mjs";
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -172,6 +173,7 @@ async function main() {
     ),
     "utf8"
   );
+  await buildCommunityRegistry(root, distRoot);
   materials.sort((left, right) => left.id.localeCompare(right.id));
   await writeFile(
     path.join(distRoot, "materials-registry.json"),

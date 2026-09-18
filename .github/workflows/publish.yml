@@ -33,6 +33,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm install
+      - run: node --test scripts/community-registry.test.mjs
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
@@ -68,7 +69,10 @@ jobs:
           RCLONE_CONFIG_SKILLHUB_ENDPOINT: ${{ env.SKILL_HUB_S3_ENDPOINT }}
           RCLONE_CONFIG_SKILLHUB_REGION: ${{ env.SKILL_HUB_S3_REGION }}
         run: |
-          rclone sync dist "skillhub:${SKILL_HUB_S3_BUCKET}" --s3-acl public-read --checksum --fast-list
+          # Community packages are immutable and retained for cached catalogs.
+          rclone copy dist/community "skillhub:${SKILL_HUB_S3_BUCKET}/community" --s3-acl public-read --checksum --immutable --fast-list
+          rclone sync dist "skillhub:${SKILL_HUB_S3_BUCKET}" --exclude '/community/**' --exclude '/community-registry.json' --s3-acl public-read --checksum --fast-list
+          rclone copyto dist/community-registry.json "skillhub:${SKILL_HUB_S3_BUCKET}/community-registry.json" --s3-acl public-read --checksum
 
       - name: Refresh CDN
         if: ${{ env.SKILL_HUB_CDN_REFRESH_WEBHOOK != '' }}

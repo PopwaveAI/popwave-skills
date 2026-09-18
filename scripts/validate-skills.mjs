@@ -1,3 +1,4 @@
+import { communitySkills } from "./community-registry.mjs";
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { readSkillManifest, validateSkillManifest } from "./skill-manifest.mjs";
@@ -22,6 +23,7 @@ async function main() {
     fail("No skills found under skills/");
   }
 
+  for (const { manifest } of await communitySkills(root)) console.log(`ok community/${manifest.id}@${manifest.version}`);
   const seen = new Set();
   for (const directory of directories) {
     const manifest = await validateSkill(directory);
