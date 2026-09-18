@@ -1,0 +1,18 @@
+{
+  "id": "novel-evaluator-pro",
+  "version": "1.1.0",
+  "displayName": "小说评分专家（Pro）",
+  "description": "专业小说评分系统：基于 6 维度（情节、人物、文笔、世界观、情感、创新）对小说文本进行量化评分与结构化简评。当用户需要评估小说质量、给作品打分、审查网文/短篇/长篇质量、或获取专业写作反馈时使用。",
+  "author": "WorkBuddy",
+  "entry": "SKILL.md",
+  "tags": [
+    "小说",
+    "作品评分"
+  ],
+  "activation": {
+    "slashCommands": [
+      "novel-evaluator-pro"
+    ],
+    "default": false
+  }
+}
