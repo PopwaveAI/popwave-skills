@@ -1,0 +1,9 @@
+{
+  "id": "replace-with-skill-id",
+  "version": "1.0.0",
+  "displayName": "替换为技能名称",
+  "description": "替换为具体用途与使用时机",
+  "entry": "SKILL.md",
+  "tags": [],
+  "activation": { "default": false }
+}

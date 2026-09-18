@@ -1,0 +1,13 @@
+{
+  "id": "create-skill",
+  "version": "1.0.0",
+  "displayName": "创建 Skill",
+  "description": "通过对话把用户的工作需求转为可导入的技能包，支持澄清需求、生成指令和资源，并根据客户端校验反馈修复草稿。",
+  "entry": "SKILL.md",
+  "activation": { "slashCommands": ["创建技能"], "default": false },
+  "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false, "shell": false },
+  "tags": ["技能创作"],
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "loadPolicy": { "includeReferences": "on-demand", "maxPromptChars": 80000 }
+}
