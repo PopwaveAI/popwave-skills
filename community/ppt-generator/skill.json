@@ -1,0 +1,27 @@
+{
+  "id": "ppt-generator",
+  "version": "1.0.0",
+  "displayName": "高质量 PPT",
+  "description": "把文档、图片、链接或一段需求做成单文件 HTML 演示文稿。先定叙事主线与每页的叙事职责，再选版式与风格配方，配图走真实素材优先。当用户要生成 PPT、做演示文稿、把一份材料讲成一页页、要一个能直接打开的单文件 deck 时使用。",
+  "author": "TRAE",
+  "entry": "SKILL.md",
+  "tags": [
+    "PPT",
+    "演示文稿",
+    "HTML 演示",
+    "版式",
+    "风格配方"
+  ],
+  "activation": {
+    "slashCommands": [
+      "ppt-generator"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": false
+  }
+}

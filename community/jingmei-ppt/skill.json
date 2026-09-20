@@ -1,0 +1,27 @@
+{
+  "id": "jingmei-ppt",
+  "version": "1.0.0",
+  "displayName": "精美 PPT",
+  "description": "做或改 PPT 时用它：先定审美方向与风格配方，再管层级、信息密度、字体、间距、构图与一致性。适用咨询研报、正式汇报、教学课件、活动演示与可复用模板；生成 .pptx 时走 PptxGenJS，并提供短数字保护和图片预裁剪两个辅助脚本。",
+  "author": "精美 PPT",
+  "entry": "SKILL.md",
+  "tags": [
+    "PPT",
+    "演示文稿",
+    "视觉设计",
+    "设计系统",
+    "PptxGenJS"
+  ],
+  "activation": {
+    "slashCommands": [
+      "jingmei-ppt"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "whiteboard-design",
+  "version": "0.2.0",
+  "displayName": "画板",
+  "description": "把信息架构、关系图谱、层级与流程画成可编辑画板，默认交付自包含的白板 HTML，源文件保留 .excalidraw。用于信息架构、关系图、可编辑图表、场景导入导出与主题统一。当用户要画关系图、架构图、流程图、思维导图，或要把一堆关系摆清楚时使用。",
+  "author": "TRAE",
+  "entry": "SKILL.md",
+  "tags": [
+    "画板",
+    "关系图",
+    "架构图",
+    "流程图",
+    "excalidraw"
+  ],
+  "activation": {
+    "slashCommands": [
+      "whiteboard-design"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  }
+}
