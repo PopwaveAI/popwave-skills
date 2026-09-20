@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce-lite",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "displayName": "去AI味改写",
   "description": "用户说'去AI味/润色/改写'时触发。跑脚本统一标点与字形，再按三条规则做少量语感改写，改完自查回报。可被创作管线调用，也可独立使用。",
   "entry": "SKILL.md",
