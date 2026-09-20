@@ -54,6 +54,16 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 
 **改 D 盘 → 提交 git → 同步 C 盘 → UTF-8 校验 C 盘。** 顺序不可倒，缺同步 = 应用还在跑旧版。
 
+## skill 仓库提交纪律（老板拍板，2026-09-20 固化）
+
+**`D:\popwave-skills` 这个 skill 仓库不走分支、不开 PR，改完直接提交并推送 `main`。走「需求号 + 分支 + PR」那一套的只有产品仓库 `d:\popwave-repo`。**
+
+- 原因：skill 仓库是 skill 内容的发布源，分支只多一道合并动作，不带评审价值。
+- 提交说明照旧：`<类型>(<范围>): <结果描述>`，中文，40 字内。skill 仓库没有需求号，范围写 `community` 或该 skill 的 id。
+- 只加本次改动涉及的文件，不用 `git add .`；仓库里长期未跟踪的目录（如 `workflow探索/`）不顺手带进去。
+- 误开了分支就并回 `main`（`git merge --ff-only`）再推，然后删掉本地与远端那条线，别留着。
+- 判断锚点：改的是 `D:\popwave-skills` 下任何文件 → 直接提交 `main`；改的是 `d:\popwave-repo` → 走 `popwave-dev-handbook` 的需求号流程。
+
 ## API 默认模型（老板拍板，2026-09-12 固化）
 
 **所有走 API 的任务一律默认用 `deepseek-flash`，没有当次特别强调不许换 pro。**
