@@ -1,8 +1,8 @@
 {
   "id": "browser-skill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "浏览器操控（BrowserSkill）",
-  "description": "用 bsk CLI 驱动用户已登录的 Chromium 浏览器：打开并读取页面、填表点击、走完流程、抓取数据、验证已部署页面、整页长截图。含首次安装配置与排障步骤。当用户要操作自己已登录的网站，或需要整页长截图时使用。",
+  "description": "当用户要操作自己已登录的网站、或要整页长截图时用它，也在要把某个网页流程走完并抓下数据时进。驱动本机已登录的浏览器打开页面、填表点击、抓取数据并截图。",
   "author": "Popwave",
   "entry": "SKILL.md",
   "tags": [
