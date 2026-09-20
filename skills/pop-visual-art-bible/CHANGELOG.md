@@ -1,4 +1,9 @@
-﻿# CHANGELOG — pop-visual-art-bible
+# CHANGELOG — pop-visual-art-bible
+
+## v3.2.1 | 2026-09-20
+
+改 description：补触发条件、删内部实现说明（原 71 字 → 75 字）。不涉及规程与产出变更。
+
 ## v3.2.0 | 2026-09-13
 
 ### 新增 `prd/` 骨架（设计档案）

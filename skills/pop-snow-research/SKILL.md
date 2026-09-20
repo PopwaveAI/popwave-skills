@@ -1,6 +1,6 @@
 # pop-snow-research
 
-> 本技能是实时联网搜索站，含两个模式：模式 A 查找素材，模式 B 查找模版。本技能是 snow、灯塔、涌现三条流程线共用的基础技能，所有消费端均可调用本技能取料，消费端包括 snow 的 seed、stage、plot、outline、write，灯塔流的 seed、stage、plot、outline、write、review，涌现流的 seed、outline、write、review。当前版本为 v5.10.0，本版完成情绪引用拆分：正文示例不再写出分值，改为指向打分表的指针，情绪刻度一律打开打分表查级。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 本技能是实时联网搜索站，含两个模式：模式 A 查找素材，模式 B 查找模版。本技能是 snow、灯塔、涌现三条流程线共用的基础技能，所有消费端均可调用本技能取料，消费端包括 snow 的 seed、stage、plot、outline、write，灯塔流的 seed、stage、plot、outline、write、review，涌现流的 seed、outline、write、review。当前版本为 v5.10.1，本版完成情绪引用拆分：正文示例不再写出分值，改为指向打分表的指针，情绪刻度一律打开打分表查级。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ***
 

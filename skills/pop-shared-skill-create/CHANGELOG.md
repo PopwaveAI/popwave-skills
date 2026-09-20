@@ -1,4 +1,9 @@
-﻿# CHANGELOG — pop-shared-skill-create
+# CHANGELOG — pop-shared-skill-create
+
+## v9.1.1 | 2026-09-20
+
+改 description：补触发条件、删内部实现说明（原 99 字 → 81 字）。不涉及规程与产出变更。
+
 ## v9.1.0 — 2026-09-13
 
 ### 新增 `prd/` 骨架（设计档案）

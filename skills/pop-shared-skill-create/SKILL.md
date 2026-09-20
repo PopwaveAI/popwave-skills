@@ -1,6 +1,6 @@
-﻿# pop-shared-skill-create
+# pop-shared-skill-create
 
-> Popwave Skill 设计规范：说明 agent 该把 skill 写成什么样、按什么顺序写入文件。v9.1.0：新增 `prd/`（设计档案）为 skill 标配——skill 不只交"怎么做"，还要交"为什么做、做到哪了、下一步去哪"。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> Popwave Skill 设计规范：说明 agent 该把 skill 写成什么样、按什么顺序写入文件。v9.1.1：新增 `prd/`（设计档案）为 skill 标配——skill 不只交"怎么做"，还要交"为什么做、做到哪了、下一步去哪"。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 这个 Skill 做什么
 

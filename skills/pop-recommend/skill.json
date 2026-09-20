@@ -1,8 +1,8 @@
 {
   "id": "pop-recommend",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "displayName": "推书营销专家",
-  "description": "想给一部小说做读者推书卡时用它。从原文提炼值得看、适合谁的推荐理由，生成可分享的无剧透推书卡HTML。",
+  "description": "当用户说「推书/推书卡/给这本书做个推荐」时用它，也在要把一部小说推荐给读者时进。从原文提炼推荐理由，产出无剧透的可分享推书卡。",
   "tags": ["小说推书与IP化专家"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["pop-recommend", "推书", "推书卡"] },
