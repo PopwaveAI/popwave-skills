@@ -103,7 +103,7 @@
 | 文件 | 状态 |
 | :-- | :-- |
 | `scripts/deai_gate.py`、`scripts/deai_profiles.json` | 在用。标点规范化与零风险机械项的执行脚本，本包是唯一宿主 |
-| `resources/banned-words.md` | 在用。也是 deai_gate 的 doc 词库蓝本，勿删 |
+| `resources/banned-words.md` | 在用。改写时查的禁用词与套话清单，勿删 |
 | `resources/examples.md`、`examples-advanced.md` | 在用。改写示例，按需查阅 |
 | `resources/structures.md` | 在用。结构性问题清单 |
 | 旧版 8 步流水线脚本 | **已删**（2026-09-20），原稿另存归档 |

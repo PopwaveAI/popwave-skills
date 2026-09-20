@@ -1,5 +1,15 @@
 # CHANGELOG — pop-ai-reduce-lite
 
+## v5.2.0 | 2026-09-20
+
+### 砍掉 doc profile：脚本 1648 → 1393 行，配置 747 → 328 行
+
+**改动**：`deai_gate.py` 的 `doc` profile 整块移除。它的调用方（seed／stage／plot／outline／review／research／decon／dna-style／critic-panel）在 v5.1.0 已全部摘除，此前只剩脚本自己的文档里还提它，属死代码。删掉 `DOC_NAMES`、`DEFAULT_DOC_CFG`，以及各函数里的 doc 分支与参数、CLI 取值；`deai_profiles.json` 的 `doc` 段一并删除。文件头版本改为 v3.5.0，自称由「去AI味门禁」改为「正文检查与标点规范化」。
+
+**body 路径行为不变**：改前改后对 3 份真实章节跑 4 种命令，stdout／stderr 逐字节一致，`--fix` 后的文本 SHA256 一致，80 项检查的名称、顺序、取值、判定、阈值全部相同。仅 4 处与 doc 相关的文案随之消失（不带 `--fix` 的提示行、空目录错误提示、`--help`、`--profile doc` 由可用变为被拒绝）。
+
+**skill.json**：version 5.1.2 → 5.2.0。
+
 ## v5.1.2 | 2026-09-20
 
 ### 随包文件清理：只留运行与维护必需的内容

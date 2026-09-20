@@ -1,6 +1,6 @@
 {
   "id": "pop-ai-reduce-lite",
-  "version": "5.1.2",
+  "version": "5.2.0",
   "displayName": "去AI味改写",
   "description": "用户说'去AI味/润色/改写'时触发。按八条语感规则改写中文正文，同一次交付里跑完标点规范化，改完自查回报。可被创作管线调用，也可独立使用。",
   "entry": "SKILL.md",
