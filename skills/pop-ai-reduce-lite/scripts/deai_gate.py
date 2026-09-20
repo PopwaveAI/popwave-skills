@@ -872,7 +872,7 @@ def fix_zero_risk(text, minimal=False):
             out.append(ch)
         q_lines.append(''.join(out))
     t = '\n'.join(q_lines)
-    bump('引号字形统一', q_fix)
+    bump('标点字形统一', q_fix)
 
     # 15. 连续ASCII空格压缩（2+→1；中文间空格已在check层报告）
     new, n = re.subn(r' {2,}', ' ', t)
