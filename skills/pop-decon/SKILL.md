@@ -1,4 +1,4 @@
-﻿# pop-decon · 拆书专家入口
+# pop-decon · 拆书专家入口
 
 > 本技能为拆书专家入口：下载 txt，征询拆解范围，路由至 `pop-decon-dimension`（单书深度wiki拆解）执行拆解，最后完成沉淀。本入口不常驻调度。当前版本 v26.1.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
@@ -74,4 +74,4 @@
 
 ## 版本
 
-当前版本 v26.3.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v26.3.1。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

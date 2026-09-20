@@ -1,8 +1,8 @@
 {
   "id": "pop-decon",
-  "version": "26.3.0",
+  "version": "26.3.1",
   "displayName": "拆书专家入口",
-  "description": "当用户说'拆书/解构/分析/对标/提取模板'时启用。拆书专家入口：下载txt→征询范围→路由单书深度wiki拆解(dimension)→沉淀。不常驻调度。",
+  "description": "当用户说「拆书/解构/deconstruct/对标」时用它，也在要拿一部成书拆出可复用的写法时从这里进。负责取得原文、问清范围，再把单书拆解交给下一环节，不常驻。",
   "tags": ["拆书与分析"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
