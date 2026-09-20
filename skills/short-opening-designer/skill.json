@@ -1,8 +1,8 @@
 {
   "id": "short-opening-designer",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "displayName": "开篇设计器",
-  "description": "脑洞确定后帮你设计开篇，从卖点主轴、导语公式到黄金三句、完整导语和付费钩子策略。当你确定脑洞、准备设计开篇时启用。",
+  "description": "当用户说「开篇设计/导语/黄金三句」时用它，也在脑洞定了要设计开篇时进。产出卖点主轴、完整导语与付费钩子策略。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

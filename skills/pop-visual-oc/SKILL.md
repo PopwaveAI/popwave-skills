@@ -1,6 +1,6 @@
-﻿# pop-visual-oc
+# pop-visual-oc
 
-> 网文视觉推广素材生成器。OC 即原创设定（Original Creation），不限于人物。当前版本 v7.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> 网文视觉推广素材生成器。OC 即原创设定（Original Creation），不限于人物。当前版本 v7.2.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 

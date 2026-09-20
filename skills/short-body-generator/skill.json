@@ -1,8 +1,8 @@
 {
   "id": "short-body-generator",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "displayName": "正文生成器",
-  "description": "剧情结构定好后帮你把正文写出来，可选文风、逐段或一键生成，还能去AI味儿。当你完成剧情结构设计、准备写正文时启用。",
+  "description": "当用户说「生成正文/写正文」时用它，也在剧情结构定好、要出短篇正文时进。按结构把正文写出来，可选文风、逐段或一键生成。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

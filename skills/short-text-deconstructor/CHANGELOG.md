@@ -1,4 +1,8 @@
-﻿# CHANGELOG — short-text-deconstructor
+## v2.2.1 | 2026-09-20
+
+改 description：补触发条件、删内部实现说明（原 54 字 → 65 字）。不涉及规程与产出变更。
+
+# CHANGELOG — short-text-deconstructor
 
 ## v2.2.0 | 2026-09-13
 

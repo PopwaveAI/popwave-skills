@@ -1,4 +1,4 @@
-﻿# pop-visual-cover
+# pop-visual-cover
 
 > 网文封面与场景视觉资产生成器。两种起点，同一个终点。v2.1.0：将 steps 四部分全部合入 SKILL.md 单文件并精炼，规程全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 

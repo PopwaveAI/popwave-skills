@@ -1,8 +1,8 @@
 {
   "id": "short-reviewer",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "displayName": "短篇评审器",
-  "description": "正文草稿写完后帮你做质量评审，9维评分、指出亮点和不足、给修改建议，只诊断不改正文。当正文草稿完成、想评审质量时启用。",
+  "description": "当用户说「评审/诊断/这稿子怎么样」时用它，也在短篇正文草稿写完后要过质量时进。九维评分并指出亮点与不足，只诊断不改稿。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [
