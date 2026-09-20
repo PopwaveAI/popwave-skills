@@ -58,6 +58,180 @@ def _adj_sub(t, punct, repl):
     return pat.sub(repl, t)
 
 
+# ---------------- 标点规范化（破折号／冒号／括号）----------------
+# 三条规则各自写死边界：改哪一处、留哪一处。宁可少改，不改出语病。
+
+DASH = '——'
+# 引号开口：冒号后紧跟引号开口，才算对话提示语
+QUOTE_OPEN = ('「', '『', '“', '‘', '"', "'")
+# 对话提示语动词：冒号紧跟在这些字后（说：/道：/问：/答： 等）才改
+SPEECH_VERB = set('说道问答应喊叫嚷骂吼哼念唱叹喝唤嘱诉')
+
+# 成对插入语：X——插入语——Y
+PAT_DASH_PAIR = re.compile(
+    r'(?<=[\u4e00-\u9fff」』])——([^—\n]{2,20})——(?=[\u4e00-\u9fff「『])')
+
+
+def _is_han(ch):
+    return bool(ch) and '\u4e00' <= ch <= '\u9fff'
+
+
+def _dash_pair_inner_ok(inner):
+    """插入语内部不开新句、不带停顿与引号，才敢整对换成逗号。"""
+    return not re.search(r'[。！？…，、；：（）()「」『』“”]', inner)
+
+
+def _dash_single_to_comma(prev, rest, before):
+    """单用破折号改逗号的判据。
+    改：后接完整分句的解释说明。
+    留：声音延长（前字重复、后接引号或句末）、被打断（行尾截断）、列举与总结前。"""
+    if not _is_han(prev):
+        return False
+    if not _is_han(rest[:1]) or rest[0] == prev:
+        return False
+    seg = re.split(r'[。！？…]', rest)[0]
+    if '—' in seg or '、' in seg or len(seg) < 6:
+        return False
+    if seg[0] in '，、；：':
+        return False
+    pre = re.split(r'[。！？…]', before)[-1].strip('，')
+    if '、' in pre:
+        return False
+    if re.search(r'(如下|以下|下列|下面|三种|两样|三样|几样|几点)$', pre):
+        return False
+    head = re.split(r'[。！？…，、；：「『“”"\n]', before)[-1]
+    if len(head) <= 2:
+        return False                      # 呼语后拉长音：你——、妈——，保留
+    return True
+
+
+def _paren_comment_ok(inner):
+    """短注释与名词性同位语的判据：2-8 字、无句末标点。
+    含逗号顿号、纯数字序号、含引号的放行不改，避免改坏内部停顿；
+    单字括号（笑）（哭）（停）这类演出提示也放行不改。"""
+    if not 2 <= len(inner) <= 8:
+        return False
+    if re.search(r'[。！？…；，、：]', inner):
+        return False
+    if re.search(r'[（）()「」『』“”]', inner):
+        return False
+    return bool(re.search(r'[\u4e00-\u9fff]', inner))
+
+
+def _clean_inserted_comma(s):
+    """局部收尾：新插入的逗号可能跟前后的逗号、句读撞车。"""
+    s = re.sub(r'，{2,}', '，', s)
+    return re.sub(r'，(?=[。！？；、」』])', '', s)
+
+
+def fix_punct_norm(t):
+    """标点规范化：破折号→逗号、对话提示冒号→逗号、括号短注释→逗号。
+    返回 (新文本, {修复名: 处数})。放最后跑：此时引号已归位成「」、全角括号已就位。"""
+    counts = {}
+
+    # 1) 破折号：成对插入语前后、单用解释说明 → 逗号；声音延长／打断／列举总结前保留
+    n_pair = n_single = 0
+    d_lines = []
+    for ln in t.split('\n'):
+        if DASH not in ln:
+            d_lines.append(ln)
+            continue
+
+        def _pair(m):
+            nonlocal n_pair
+            if not _dash_pair_inner_ok(m.group(1)):
+                return m.group(0)
+            n_pair += 1
+            return '，' + m.group(1) + '，'
+
+        new = PAT_DASH_PAIR.sub(_pair, ln)
+        res = []
+        i = 0
+        while i < len(new):
+            if new.startswith(DASH, i):
+                prev = new[i - 1] if i > 0 else ''
+                if _dash_single_to_comma(prev, new[i + 2:], new[:i]):
+                    res.append('，')
+                    n_single += 1
+                else:
+                    res.append(DASH)
+                i += 2
+                continue
+            res.append(new[i])
+            i += 1
+        s = ''.join(res)
+        d_lines.append(_clean_inserted_comma(s) if s != ln else s)
+    t = '\n'.join(d_lines)
+    if n_pair:
+        counts['成对破折号改逗号'] = n_pair
+    if n_single:
+        counts['解释破折号改逗号'] = n_single
+
+    # 2) 冒号：只改对话提示语（说：/道：/问：/答：＋引号）；引号内、列举、总说冒号不动
+    n_colon = 0
+    c_lines = []
+    for ln in t.split('\n'):
+        if '：' not in ln:
+            c_lines.append(ln)
+            continue
+        chars = list(ln)
+        depth = 0
+        for i, ch in enumerate(chars):
+            if ch in '「『':
+                depth += 1
+                continue
+            if ch in '」』':
+                depth = max(0, depth - 1)
+                continue
+            if (ch == '：' and depth == 0 and i > 0
+                    and chars[i - 1] in SPEECH_VERB
+                    and i + 1 < len(chars) and chars[i + 1] in QUOTE_OPEN):
+                chars[i] = '，'
+                n_colon += 1
+        c_lines.append(''.join(chars))
+    t = '\n'.join(c_lines)
+    if n_colon:
+        counts['提示冒号改逗号'] = n_colon
+
+    # 3) 括号：只改短注释与名词性同位语（2-8 字、无句末标点、前后都是汉字）
+    n_paren = 0
+    p_lines = []
+    for ln in t.split('\n'):
+        if '（' not in ln:
+            p_lines.append(ln)
+            continue
+        res = []
+        i = 0
+        changed = False
+        while i < len(ln):
+            if ln[i] == '（':
+                j = ln.find('）', i + 1)
+                if j > i:
+                    inner = ln[i + 1:j]
+                    prev = ln[i - 1] if i > 0 else ''
+                    nxt = ln[j + 1] if j + 1 < len(ln) else ''
+                    # 前面已是逗号就不再加，后面接句读时多出来的逗号由 _clean_inserted_comma 收掉
+                    prev_ok = _is_han(prev) or prev == '，'
+                    nxt_ok = _is_han(nxt) or nxt in '，。！？；、」』'
+                    if _paren_comment_ok(inner) and prev_ok and nxt_ok:
+                        if prev != '，':
+                            res.append('，')
+                        res.append(inner + '，')
+                        n_paren += 1
+                        changed = True
+                        i = j + 1
+                        continue
+            res.append(ln[i])
+            i += 1
+        s = ''.join(res)
+        p_lines.append(_clean_inserted_comma(s) if changed else s)
+    t = '\n'.join(p_lines)
+    if n_paren:
+        counts['括号注释改逗号'] = n_paren
+
+    return t, counts
+
+
 def fix_zero_risk(text):
     """机械修复，不改任何语义。返回 (新文本, {修复名: 处数})。"""
     counts = {}
@@ -233,12 +407,10 @@ def fix_zero_risk(text):
     bump('英文括号转全角', n1 + n2)
     t = new
 
-    # 9. 中文后波浪号 → ～；英文双连字符中文邻接 → ——
+    # 9. 中文后波浪号 → ～
+    #     半角 --／--- 一律不动：不再由脚本生成破折号，破折号只保留原文已有的。
     new, n = re.subn(r'(?<=[%s])~' % CJKX, '～', t)
     bump('半角波浪号转～', n)
-    t = new
-    new, n = re.subn(r'(?<=[%s])--|--(?=[%s])' % (CJKX, CJKX), '——', t)
-    bump('双连字符转——', n)
     t = new
 
     # 10. 中文之间的空格不修（"沈念 收"这类收件人/名单格式是有意空格，
@@ -349,6 +521,13 @@ def fix_zero_risk(text):
     # 15. 连续ASCII空格压缩（2+→1；中文间空格不修）
     new, n = re.subn(r' {2,}', ' ', t)
     bump('连续空格压缩', n)
+    t = new
+
+    # 16. 标点规范化（破折号／对话提示冒号／括号短注释 → 逗号）
+    #     放最后跑：引号已归位成「」，全角括号已就位，判定最准。
+    new, punct = fix_punct_norm(t)
+    for _name, _cnt in punct.items():
+        bump(_name, _cnt)
     t = new
 
     return t, counts
