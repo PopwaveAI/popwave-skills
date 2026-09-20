@@ -156,7 +156,7 @@ CHECKS = [
     # --- 其他 ---
     ('connectives',     '模板连接词', 2, 4, '处', '段首句首的过渡词直接删，用话题自然承接'),
     ('cjk_space',       '中文间空格', 2, 4, '处', '确认是AI误加（删）还是收件人/名单类有意排版（留）'),
-    ('quote_unpaired',  '引号未配对', 3, 6, '处', '补齐或删除落单引号；跨行引文块（法术/书信说明，首行“末行”）与多段对话约定属合法，豁免'),
+    ('quote_unpaired',  '引号未配对', 3, 6, '处', '补齐或删除落单引号；跨行引文块（法术/书信说明，首行「末行」）与多段对话约定属合法，豁免'),
     ('sq_quote',        '单引号使用', 4, 8, '处', '少量‘’多为术语引用/内心独白惯例（人书合法）；整章大量出现才可能是AI格式转换——按书内惯例判断'),
     ('ai_meta',         'AI工具痕迹', 0, 1, '处', '生成器残留（已思考/嗯，用户/（96字）/如果你想）——整行删除'),
     ('stage_dir',       '舞台指示',   0, 1, '处', '（笑）（叹气）（沉默）剧本式残留——改为正文动作描写'),
@@ -164,7 +164,7 @@ CHECKS = [
     ('emoji_res',       'emoji残留',  0, 1, '处', '正文emoji——生成器残留，删除'),
     ('en_line',         '英文残留行', 0, 1, '处', '整行英文——生成器残留，删除或重写'),
     # --- v3.3 新增（番茄拒签16万本实测七破绽之3/4，2026-09-08）---
-    ('quote_mixed',     '引号体系混用', 1, 3, '处', '“”与「」『』并存——全书统一一种引号体系（对话用“”则直角引号改“”）'),
+    ('quote_mixed',     '引号体系混用', 1, 3, '处', '“”与「」『』并存——全书统一一种引号体系（统一到直角引号，嵌套层用直角单引号）'),
     ('md_hr',           '分割线残留', 1, 2, '处', '====/----/****整行分割线——代码文档习惯，正文场景切换用空行或文字过渡'),
     # --- v3.4 新增（镜界07镜像：抽象副词/意象域连续渲染，2026-09-08）---
     ('abstract_tag',    '抽象副词标记', 2, 4, '处', '冷冷/静静/默默/悄悄/狠狠/淡淡/缓缓/轻轻+地+说|道|走|看|笑|点头——抽象副词裹着动作，改成对话本身传达或具体感官动词（冷冷地说→话里带刺；悄悄地走→踮脚尖地板吱呀响）'),
@@ -841,34 +841,44 @@ def fix_zero_risk(text, minimal=False):
     t = '\n'.join(fixed_lines)
     bump('英文单引号转中文引号', sq_count)
 
-    # 14b. 独立单引号对→双引号（NGA读者鉴AI实锤法：人手打几乎不用''；
-    #      仅转双引号外的，对话内嵌套引用的''合法保留）
-    sq_lines = []
-    sq_fix = 0
+    # 14b. 引号字形统一：弯引号 → 直角引号（逐行状态机；网文引号不跨行）。
+    #      两层及以上用直角单引号，符合直角引号体系的嵌套规范。
+    #      独立的单弯引号（术语引用、内心独白惯例，人书合法）不动。
+    q_lines = []
+    q_fix = 0
     for ln in t.split('\n'):
-        if '‘' not in ln and '’' not in ln:
-            sq_lines.append(ln)
-            continue
-        in_dq = False
-        buf = []
+        out = []
+        depth = 0
         for ch in ln:
             if ch == '“':
-                in_dq = True
-            elif ch == '”':
-                in_dq = False
-            if not in_dq:
-                if ch == '‘':
-                    buf.append('“')
-                    sq_fix += 1
-                    continue
-                if ch == '’':
-                    buf.append('”')
-                    sq_fix += 1
-                    continue
-            buf.append(ch)
-        sq_lines.append(''.join(buf))
-    t = '\n'.join(sq_lines)
-    bump('独立单引号转双引号', sq_fix)
+                out.append('「' if depth == 0 else '『')
+                depth += 1
+                q_fix += 1
+                continue
+            if ch == '”':
+                depth = max(0, depth - 1)
+                out.append('」' if depth == 0 else '』')
+                q_fix += 1
+                continue
+            if ch == '「':
+                depth += 1
+                out.append(ch)
+                continue
+            if ch == '」':
+                depth = max(0, depth - 1)
+                out.append(ch)
+                continue
+            if ch in ('『', '』'):
+                out.append(ch)
+                continue
+            if depth > 0 and ch in ('‘', '’'):
+                out.append('『' if ch == '‘' else '』')
+                q_fix += 1
+                continue
+            out.append(ch)
+        q_lines.append(''.join(out))
+    t = '\n'.join(q_lines)
+    bump('引号字形统一', q_fix)
 
     # 15. 连续ASCII空格压缩（2+→1；中文间空格已在check层报告）
     new, n = re.subn(r' {2,}', ' ', t)

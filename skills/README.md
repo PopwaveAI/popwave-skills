@@ -29,7 +29,9 @@
 >
 > 注（2026-09-11 灯塔流定名）：mirror 系列（pop-mirror-* 9 件）归档 `temp/`；灯塔流建独立系列 `pop-lantern-*`（pipeline/seed/world/character/opening/plot/review），照 snow 工程规范（SKILL.md + skill.json + CHANGELOG.md + templates/references）——只锁方向、滚动细化：方向总表（每卷一句话）为全书唯一半固定卷级规划，卷级硬约束滚动细化该卷时才执行，开篇读者验证前置、先于卷方向；outline/write/research 直接复用 snow（雪花流为完全体），不建双份。
 >
-> 注（2026-09-11 涌现流定名）：涌现流建独立系列 `pop-emergent-*`（pipeline/seed/opening/outline/write/review 六件），照 snow 工程规范——先写后补试味：只锁主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话），黄金三章直接写试味（opening 融合写与评），滚动写章循环（轻量章纲→直接写→三源审查回填账本），阶段性回看四问（味道/连续性/灯塔清晰化/转灯塔流）。与灯塔流是两段式不是并列：涌现流负责最快试出味道，试味成功确定写长后转灯塔流（反推方向总表→回填卷1卷纲→设定交接→状态迁移）。research 复用 snow，write 的检查脚本（word-count/deai_gate）复用 snow-pipeline 包。
+> 注（2026-09-11 涌现流定名）：涌现流建独立系列 `pop-emergent-*`（pipeline/seed/opening/outline/write/review 六件），照 snow 工程规范——先写后补试味：只锁主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话），黄金三章直接写试味（opening 融合写与评），滚动写章循环（轻量章纲→直接写→三源审查回填账本），阶段性回看四问（味道/连续性/灯塔清晰化/转灯塔流）。与灯塔流是两段式不是并列：涌现流负责最快试出味道，试味成功确定写长后转灯塔流（反推方向总表→回填卷1卷纲→设定交接→状态迁移）。research 复用 snow，write 的检查脚本只剩 `word-count.ps1`（随本包；去AI味脚本已移出，见下条）。
+>
+> 注（2026-09-20 去AI味收口）：**三条长篇链路不再自带去AI味环节**。原先 snow／lantern／emergent 各包、以及 `pop-write`／`pop-outline`／`pop-review`／`pop-critic-panel`／`pop-decon`／`pop-decon-dimension`／`pop-dna-style` 里的「存档后跑 deai_gate、回报 `去AI味:档名|PASS`」整节、交接协议与红线条目一并删除——存档就是存档，不再有这一环。去AI味只剩一个执行方：`pop-ai-reduce-lite`。脚本宿主同步由 `skills/pop-snow-pipeline/scripts/deai_gate.py` 迁到 **`skills/pop-ai-reduce-lite/scripts/deai_gate.py`**（配置 `deai_profiles.json` 随迁，脚本按自身目录读配置），旧宿主目录已删。上面几条 2026-09-11 注里写的旧路径以此条为准。`pop-ai-reduce-lite` 升到 v5.1.0：八条语感规则 ＋ 标点规范化（引号字形必须全换），做成一次交付。
 
 ## 二、共享工具
 
@@ -50,8 +52,8 @@
 ### 推书
 `pop-recommend`
 
-### 降AI味
-`pop-ai-reduce-lite`
+### 去AI味改写
+`pop-ai-reduce-lite`——三线之外唯一的去AI味执行方：八条语感规则改写正文，同一次交付里统一标点字形（引号必须全换），改完自查回报。脚本 `scripts/deai_gate.py` 与 `scripts/deai_profiles.json` 随本包，是全库唯一宿主；三条长篇链路不再自带这一环。
 
 ### 编辑与查稿
 `pop-editor`——三个检查模式（文风质感／剧情内容／情绪节奏），一次只跑一个：拆段后拿毛病清单逐段打分出汇总报告；对章纲核兑现／落点／推进／钩子／矛盾；用情绪表逐点标分并查密度（每 300 字至少 1 个 4 分情绪点）。**番茄／起点／灯塔／涌现四条长篇线共用**（与 `pop-review` 的分工：review 管章节验收存档，editor 管查稿找问题）。
@@ -75,7 +77,7 @@
 | `pop-visual-*` `pop-comic-content` | 视觉/IP | 推书与IP化专家 |
 | `short-*` | 短篇 | 短篇专家 |
 | `pop-video-*` `pop-content-card` `pop-comic-test` `pop-recommend` | 视频物料/推书 | 通用·视频物料 |
-| `pop-ai-reduce-lite` | 降AI味 | 通用 |
+| `pop-ai-reduce-lite` | 去AI味改写（全库唯一脚本宿主） | 通用 |
 | `pop-shared-skill-create` | skill 元能力 | 通用 |
 | `tool-*` | 共享工具 | 跨专家共用 |
 

@@ -276,24 +276,6 @@ pipeline 只在初始化与导入时写 phase；日常推进由各 skill 完成�
 
 ---
 
-## 存档质量检查（deai_gate.py，本包 scripts 统一管理）
-
-去 AI 味检查脚本由本包 `scripts/deai_gate.py` 统一管理（配置外置 `scripts/deai_profiles.json`，仅用 stdlib），两个 profile 共同服务整条管线的存档质量。**各 skill 存档后自行执行该脚本，不进入 LLM，不派子 agent。**
-
-| profile | 服务对象 | 性质 | 检测面 | 调用 |
-|:--|:--|:--|:--|:--|
-| `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回检查**：FAIL 必须清零才算存档完成 | 套话硬模板 ~120 条、软密度 ~28 组、结构统计与工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
-| `doc` | 非正文文档（seed 融合立项稿、research 调研拆书包、stage 长档与卷舞台、plot 卷进度表、brief、卷纲、幕白描、outline 章纲、review 章日志与全书日志、decon 拆书 wiki 成品、dna-style 文风锚定说明文字，以及拆书、卖点、大纲、世界观类文档） | **报告检查**：只 WARN+定位，不打回 | 黑话（hard 实锤与 soft 风格分层）、套路句式、空腔段与生成器残留；分号、破折号、括号、列举行、工程 emoji 标记与 0% 对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
-
-**边界三条**：
-1. 工程标签（【锚】、养成刻度、卷末边界等精确技术名）不做去 AI 化改写——去 AI 味只作用于叙事主体。
-2. 自动修正仅限零风险机械项（英文标点、HTML 残留、零宽字符等 36 类）；滥用类只报告，不自动修改。
-3. `doc` 的 WARN 清单由存档 agent 按上下文判断：装腔处改用大白话，行话正常使用可放行（回复时注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表、write 检测面说明等文档本身讨论这些特征词，命中属合法引用，不是残留。
-
-**词库蓝本与维护**：doc 的黑话与套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 全量类别）与老板点名的 seed、设定场景词；v3.3、v3.4 经广泛搜索轮补齐（维基 Signs of AI writing、Humanizer 35条军规、cn-humanizer、连享会、OpenAI slop words、番茄拒签七破绽实测——企业黑话、宣传腔、万能收尾、模糊来源、假坦率、虚假替代、公式化谚语、浅层象征词）。管线自身行话（赛道、卖点、爽点、钩子等）与语料专有名词、世界观字面义（封神、版图、天花板、破局等）不入库——v3.4.1 按 wiki 语境抽样校准。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 兜底须同步维护。
-
-**阈值与词库调校**：修改 `scripts/deai_profiles.json` 即可，无需改代码；修改后须跑回归（负面样例高召回、人书零误杀、wiki 与 skills 误伤增量可控），通过后才生效。
-
 ---
 
 
@@ -304,7 +286,6 @@ pipeline 只在初始化与导入时写 phase；日常推进由各 skill 完成�
 | `状态.md`（项目根） | agent 每轮只读取它 | 唯一状态总账（mode、phase、current_volume、current_chapter、seed_path、就绪态） |
 | `templates/项目总控.html` | 老板要看展示面板时（按需可选） | 展示面板模板（由状态.md 套值导出，agent 不读） |
 | `references/onboarding-guide.md` | 用户首次触发专家时 | 首次对话引导语 |
-| `scripts/deai_gate.py` 与 `scripts/deai_profiles.json` | 各 skill 存档后（执行检查时） | 去 AI 味检查：body 档为正文打回检查，doc 档为非正文报告检查（规范见「存档质量检查」节） |
 
 ---
 

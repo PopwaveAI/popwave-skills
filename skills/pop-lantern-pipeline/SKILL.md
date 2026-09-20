@@ -319,28 +319,6 @@ pipeline 只在初始化或导入时写 phase；日常推进由各 skill 完成�
 
 ---
 
-## 存档质量检查（deai_gate.py，本包 scripts 统一管理）
-
-去AI味检查脚本归本包 `skills/pop-snow-pipeline/scripts/deai_gate.py` 管理与维护（配置外置为 `skills/pop-snow-pipeline/scripts/deai_profiles.json`，纯 stdlib），双 profile 服务全管线存档质量。**各 skill 存档后自行执行，不进入 LLM，不派子 agent。**
-
-**去AI味确认行入交接协议（硬性，2026-09-11 老板拍板）**：seed、stage、plot、outline、write 存档后自行执行去AI味，随后**必须回报一行 `去AI味:{档名}|PASS` 或 `WARN×N`**；**缺此确认行即交接不完整**。review 第 1 步核验上游确认行（write 正文 FAIL 清零，outline 章纲），其余环节的确认行由**下游收档时首查**（stage 收 seed、plot 收 stage、outline 收 plot 的 `去AI味:...|PASS 或 WARN×N`）。确认行进入对话交接，不写入档案。
-
-| profile | 服务对象 | 性质 | 检测面 | 调用 |
-|:--|:--|:--|:--|:--|
-| `body`（默认） | write 正文（`正文/ch{NNN}.txt`） | **打回检查**：FAIL 必须清零才算存档完成 | 套话硬模板约 120 条、软密度约 28 组、结构统计、工具痕迹四层，阈值按人书基线校准 | `python skills/pop-snow-pipeline/scripts/deai_gate.py 正文/ch{NNN}.txt --fix --json` |
-| `doc` | 非正文文档（seed 融合立项稿、research 调研拆书包、stage 长档与舞台、plot 主线结构表与单元编排、outline 章纲、review 章日志与全书日志、decon 拆书 wiki 成品、dna-style 文风锚定说明文字，以及拆书、卖点、大纲、世界观类） | **报告检查**：只报 WARN 并定位，不打回 | 黑话（hard 实锤、soft 风格分层）、套路句式、空腔段、生成器残留；分号、破折号、括号、列举行、工程 emoji 标记、0% 对话一律放行 | `python skills/pop-snow-pipeline/scripts/deai_gate.py <文件或目录> --profile doc --json`（目录加 `-r` 递归，含聚合热点统计） |
-
-**边界三条**：
-1. 工程标签（【锚】、养成刻度、单元末边界等精确技术名）不做去AI化改写；去AI味只作用于叙事主体。
-2. 自动修仅限零风险机械项（英文标点、HTML 残留、零宽字符等 36 类）；滥用类只报不自动改。
-3. `doc` 的 WARN 清单由存档 agent 按上下文判断：装腔处换成大白话，行话正常使用可放行（回复时注明放行理由）；**词库类文档自指命中豁免**——`pop-ai-reduce-lite` 词表、write 检测面说明等文档本身讨论这些特征词，命中属合法引用，非残留。
-
-**词库蓝本与维护**：doc 黑话与套话词库吸收自 `pop-ai-reduce-lite/resources/banned-words.md`（v3.2 全量类别）及老板点名的 seed、设定场景词；v3.3、v3.4 通过广泛搜索轮补齐（维基 Signs of AI writing、Humanizer 35 条军规、cn-humanizer、连享会、OpenAI slop words、番茄拒签七破绽实测，涵盖企业黑话、宣传腔、万能收尾、模糊来源、假坦率、虚假替代、公式化谚语、浅层象征词）。管线自身行话（赛道、卖点、爽点、钩子等）与语料专有名词、世界观字面义（封神、版图、天花板、破局等）不入库，v3.4.1 已按 wiki 语境抽样校准。`deai_profiles.json` 与代码内 `DEFAULT_DOC_CFG` 的补足配置须同步维护。
-
-**阈值与词库调校**：改 `skills/pop-snow-pipeline/scripts/deai_profiles.json` 即可，不改代码；改后执行回归（负面样例高召回、人书零误杀、wiki 与 skills 误伤增量可控）再生效。
-
----
-
 ## 速查表
 
 | 文件 | 读取时机 | 核心内容 |
@@ -352,7 +330,6 @@ pipeline 只在初始化或导入时写 phase；日常推进由各 skill 完成�
 | `{pop-lantern-stage}/references/内容库/世界观模板库.md` | stage 建世界骨架前 | 世界结构内容配方 |
 | `{pop-lantern-plot}/references/内容库/单元剧模板库.md` | plot 任务E 前 | 单元剧类型四拍配方 |
 | `{pop-outline}/references/内容库/套路库.md` | outline 章纲前 | 剧情套路配方（反向设计剧情） |
-| `skills/pop-snow-pipeline/scripts/deai_gate.py` 与 `skills/pop-snow-pipeline/scripts/deai_profiles.json` | 各 skill 存档后（执行检查时） | 去AI味检查：body 为正文打回检查，doc 为非正文报告检查（规范见「存档质量检查」节） |
 
 ---
 

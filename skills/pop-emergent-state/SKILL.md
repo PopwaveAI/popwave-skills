@@ -77,7 +77,7 @@
 
 ### Step 3：产出装配单并存档
 
-将装配单写入 `立项/世界装配单.md`（格式见下）。**写入后的下一步为去 AI 味**：执行 `python skills/pop-snow-pipeline/scripts/deai_gate.py 立项/世界装配单.md --profile doc --json`，按 WARN 定位自查，机械项用 `--fix` 处理，结果输出一行 `去AI味:世界装配单|PASS` 或 `WARN×N`。
+将装配单写入 `立项/世界装配单.md`（格式见下）。
 
 向用户报告交接：装配完成。接下来由 outline 按情绪标准排章纲（查剧情-情绪打分表确定本章情绪坐标，再反向设计剧情），随后 write 写正文，review 审查并回填账本。加载 pop-outline 接力。
 
