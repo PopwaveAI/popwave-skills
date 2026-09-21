@@ -1266,7 +1266,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("title", help="Book title to search and download.")
     parser.add_argument("--author", default=None, help="Author name (for output filename + search verification).")
-    parser.add_argument("--output-dir", default=r"D:\popwave-skills\downloads", help="Output directory.")
+    parser.add_argument("--output-dir", default=os.path.join(os.path.expanduser("~"), "Downloads", "novel"), help="Output directory.")
     parser.add_argument("--output-subdir", default=None, help="Subdirectory under output-dir (e.g. 番茄top20).")
     parser.add_argument("--workers", type=int, default=10, help="Concurrent threads (default 10).")
     parser.add_argument("--source-url", default=None, help="Skip search, use this URL directly.")

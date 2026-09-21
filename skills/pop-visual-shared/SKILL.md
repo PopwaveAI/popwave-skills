@@ -17,7 +17,7 @@
 - `scripts/pinterest_search.py`：Pinterest 参考图搜索脚本（原 3 份字节相同副本去重）
 - `scripts/watermark.py`：**品牌水印脚本**（在图片像素层直接写入，生图完成后叠加半透明 `popwave.cn`；作为工程化后处理，不进提示词，避免污染 Seedream 文生图；幂等）
 - `references/seedream-prompt-guide.md`：统一提示词指南（合并 6 段式、V3、高精度 4 块、Seedance 四类内容，消除 4 份分化副本）
-- 画风 DNA 库引用协议：`文风DNA-library.json` 与 `lighting-composition-templates.md` 仍归属 `pop-visual-style`（其域资产），本 skill 定义跨 skill 引用协议
+- 画风 DNA 库引用协议：`style-dna-library.json` 与 `lighting-composition-templates.md` 仍归属 `pop-visual-style`（其域资产），本 skill 定义跨 skill 引用协议
 
 ## 共享组件清单
 
@@ -28,8 +28,8 @@
 | Pinterest 参考搜索脚本 | `scripts/pinterest_search.py` | 本 skill（共享） |
 | **品牌水印脚本** | `scripts/watermark.py` | 本 skill（共享） |
 | 统一提示词指南 | `references/seedream-prompt-guide.md` | 本 skill（共享） |
-| 画风 DNA 库 | `pop-visual-style/references/文风DNA-library.json` | pop-visual-style（域资产） |
-| 构图/光影模板库 | `pop-visual-style/references/lighting-composition-templates.md` | pop-visual-style（域资产） |
+| 画风 DNA 库 | `<pop-visual-style 包根>/references/style-dna-library.json` | pop-visual-style（域资产） |
+| 构图/光影模板库 | `<pop-visual-style 包根>/references/lighting-composition-templates.md` | pop-visual-style（域资产） |
 
 ## 引用方式（跨 skill 协议）
 
@@ -43,7 +43,7 @@
 提示词指南：<pop-visual-shared 包根>/references/seedream-prompt-guide.md
 ```
 
-调用时按实际 skills 根目录解析上述相对路径。需要画风 DNA 时，读取 `pop-visual-style/references/文风DNA-library.json`。
+调用时按实际 skills 根目录解析上述相对路径。需要画风 DNA 时，读取 `<pop-visual-style 包根>/references/style-dna-library.json`。
 
 ## 生图协议（image_generate 工具）
 
@@ -58,4 +58,4 @@
 1. **禁止复制共享组件到本地 skill**。任何视觉 skill 需要 generate.py / pinterest_search.py / seedream-prompt-guide.md 时，必须引用本 skill 路径，不得在本地重建副本（重建即回退到重复分化）。
 2. **提示词指南以本文件为唯一权威源**。`seedream-prompt-guide.md` 的分化副本已在 cover/oc/style 中删除，任何 skill 不得再各自维护一份。
 3. **本 skill 不直接执行生成，也不内置生图 API Key**。它只被引用，脚本只导出任务清单，静态生图由主 agent 用 `image_generate` 工具完成。
-4. **画风 DNA 归属不迁移**。`文风DNA-library.json` 是 pop-visual-style 的域资产，本 skill 只定义引用协议，不复制内容。
+4. **画风 DNA 归属不迁移**。`style-dna-library.json` 是 pop-visual-style 的域资产，本 skill 只定义引用协议，不复制内容。

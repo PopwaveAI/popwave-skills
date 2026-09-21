@@ -203,7 +203,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 
 **3. 翻译为模型提示词**：读取 `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` 获取提示词写法，按 §2 确定的策略执行翻译。
 
-> **画风 DNA 来源**：从 `<pop-visual-style 包根>/references/文风DNA-library.json` 取画风的 `dna` 与 `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格不得使用 LT1 减法照明）。详见 `<pop-visual-style 包根>/references/lighting-composition-templates.md`。
+> **画风 DNA 来源**：从 `<pop-visual-style 包根>/references/style-dna-library.json` 取画风的 `dna` 与 `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格不得使用 LT1 减法照明）。详见 `<pop-visual-style 包根>/references/lighting-composition-templates.md`。
 
 > **核心原则**：Seedream 5.0 Pro/5.0 lite 画面不再泛白，简洁精确的提示优于堆砌华丽词汇。用自然语言连贯描述，不堆叠关键词。
 
@@ -288,7 +288,7 @@ python "<pop-visual-shared 包根>\scripts\watermark.py" '测试/封面/封面-{
 | 视觉钩子+构图骨架库 | `references/novel-visual-design.md` §二§三§四 | Step 1 |
 | 文化元素（定场诗/印章） | `references/novel-visual-design.md` §八 | Step 1 |
 | 提示词写法+控制公式 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | Step 2 |
-| 画风DNA库（36种+光照兼容性） | `<pop-visual-style 包根>/references/文风DNA-library.json` | Step 2 |
+| 画风DNA库（36种+光照兼容性） | `<pop-visual-style 包根>/references/style-dna-library.json` | Step 2 |
 | 光照-构图模板+兼容性矩阵 | `<pop-visual-style 包根>/references/lighting-composition-templates.md` | Step 2 |
 | 生成图片 | `image_generate` 工具 | Step 2 |
 | 叠加品牌水印（必做） | `<pop-visual-shared 包根>\scripts\watermark.py` | Step 2 落地后 |

@@ -96,7 +96,7 @@
 
 **系列化规划（如需）**：由一份档案生成 N 张图，填写 `templates/design-plan-oc.tpl.md` 系列表；冻结特征见铁律 ❌3，变量为服饰、场景、姿态与文字层。
 
-**选择画风并回填生图 DNA**：从 `<pop-visual-style 包根>/references/文风DNA-library.json` 中按赛道与气质选择最匹配的条目（玄幻→国漫玄幻厚涂、暗黑→暗黑奇幻油画），再回填 `dna`/`constraint`/`recommended_lighting` 供生图使用，并**据画风确定字色**（浅色留白用深色字，深色留白用浅色字）；产出记入方案（画风条目、DNA 来源、底色倾向）。**画风不匹配时，再好的构图也无效**（质量第二来源）。
+**选择画风并回填生图 DNA**：从 `<pop-visual-style 包根>/references/style-dna-library.json` 中按赛道与气质选择最匹配的条目（玄幻→国漫玄幻厚涂、暗黑→暗黑奇幻油画），再回填 `dna`/`constraint`/`recommended_lighting` 供生图使用，并**据画风确定字色**（浅色留白用深色字，深色留白用浅色字）；产出记入方案（画风条目、DNA 来源、底色倾向）。**画风不匹配时，再好的构图也无效**（质量第二来源）。
 
 **可选 Pinterest 参考**：气质参考图（档案够用时即跳过）；画风参考使用放开吸收公式（只排除具体场景与人物长相）。
 
@@ -161,7 +161,7 @@ SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python "<包根>\scripts\screenshot_alb
 | ❌6 | **文案按公式填写** — 文案按 `references/content.md` 的公式填写，组装前须通过稳定性检查（有钩子、圈外人 3 秒能看懂、字数够少），不得使用无钩子的介绍句 | 文案时好时坏，卡退化成说明书 |
 | ❌7 | **字体使用本机书法系统** — HTML 补字使用本机已安装的书法字体（楷体、仿宋、隶书、宋体），同一张卡最多使用 2 种字体；字体系统见 `references/content.md` §字体系统 | 字体不可控或乱码 |
 | ❌8 | **AI 画风做减法** — 写意留白优于铺满细节，克制而精致、追求真实质感，不得"过度精致"（毛发过度渲染、算法对称脸、塑料质感） | 失去差异化辨识度，被竞品淹没 |
-| ❌9 | **画风决定一切** — 须从 `文风DNA-library.json` 选择画风条目并回填 DNA，画风决定立绘质感与顶部留白字色；无匹配时按赛道撰写质感 | 画风漂移，再好的构图也无效 |
+| ❌9 | **画风决定一切** — 须从 `style-dna-library.json` 选择画风条目并回填 DNA，画风决定立绘质感与顶部留白字色；无匹配时按赛道撰写质感 | 画风漂移，再好的构图也无效 |
 
 ## 速查表
 
@@ -174,7 +174,7 @@ SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python "<包根>\scripts\screenshot_alb
 | 设计方案模板 | `templates/design-plan-oc.tpl.md` |
 | 整图截图 | `scripts/screenshot_album.py` |
 | 提示词写法+高精度模板 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` |
-| 画风DNA库 | `<pop-visual-style 包根>/references/文风DNA-library.json` |
+| 画风DNA库 | `<pop-visual-style 包根>/references/style-dna-library.json` |
 | 角色本体身份（唯一真源） | `素材/美术设定集.md` |
 | 调研方法论 | `<pop-visual-shared 包根>/references/character-research-guide.md` + `<pop-visual-asset 包根>/references/asset-extract-guide.md` |
 

@@ -1,7 +1,7 @@
 {
   "id": "pop-lantern-seed",
   "name": "pop-lantern-seed",
-  "version": "7.5.3",
+  "version": "7.5.4",
   "displayName": "统一管线立项",
   "description": "当用户说「立项/开始新书/seed/我有个想法」时用它，也在项目刚建好、要定故事骨架时进。灯塔流的立项：把模糊想法做成全书立项稿，供舞台与剧情两个环节取用。",
   "entry": "SKILL.md",

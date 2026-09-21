@@ -1,6 +1,6 @@
 # 产出质量检查（入口指针版）
 
-> 拆书质量检查的**权威版在 `pop-decon-dimension/references/output-quality-standards.md`**（单书深度wiki拆解双层检查：L1 批次档案 7 项硬性检查与 L2 六模块成品骨架）。
+> 拆书质量检查的**权威版在 `<pop-decon-dimension 包根>/references/output-quality-standards.md`**（单书深度wiki拆解双层检查：L1 批次档案 7 项硬性检查与 L2 六模块成品骨架）。
 >
 > 本文件曾为旧管线（Phase 1-4 / 设计包时代）质量标准，已随 v26.0.0 skill 家族精简与 dimension v3.0.0 推倒重做而**废弃**。入口侧仅做指针转发，禁止在此各自维护检查，避免版本漂移。
 
@@ -8,8 +8,8 @@
 
 | 层 | 检查 | 位置 |
 |:--|:--|:--|
-| L1 批次档案 | 7 项硬性检查（术语表、锚点池、schema、证据密度、量化、不编造、回溯） | `pop-decon-dimension/references/batch-format.md` |
-| L2 六模块成品 | 通用成品检查与六模块骨架 | `pop-decon-dimension/references/output-quality-standards.md` |
+| L1 批次档案 | 7 项硬性检查（术语表、锚点池、schema、证据密度、量化、不编造、回溯） | `<pop-decon-dimension 包根>/references/batch-format.md` |
+| L2 六模块成品 | 通用成品检查与六模块骨架 | `<pop-decon-dimension 包根>/references/output-quality-standards.md` |
 
 ## 跨文档一致性校验（通用，仍然有效）
 

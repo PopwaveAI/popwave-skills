@@ -23,7 +23,7 @@
 ## 怎么运作
 
 ### Step 1: 选画风范围，读取 DNA 库
-- 读取 `<pop-visual-style 包根>/references/文风DNA-library.json` 的 `styles` 键
+- 读取 `<pop-visual-style 包根>/references/style-dna-library.json` 的 `styles` 键
 - 支持单画风（`--style-name`）或全库（`--all`）
 - 每次取该画风的 `dna` 与 `constraint` 字段，注入三组模板
 
@@ -58,7 +58,7 @@
 |:-----|:----------|:---------|
 | 生成三组 config | `scripts/build_3test.py --style-name "X" --out config.json` | Step 2 |
 | 全库批量生成 config | `scripts/build_3test.py --all --out-dir 素材/测试` | Step 2 全库模式 |
-| 读画风 DNA 库 | `<pop-visual-style 包根>/references/文风DNA-library.json` | Step 1 |
+| 读画风 DNA 库 | `<pop-visual-style 包根>/references/style-dna-library.json` | Step 1 |
 | 批量生成图片 | `<pop-visual-shared 包根>\scripts\batch_test.py --config ...` | Step 3 |
 | 三组固定模板定义 | `scripts/build_3test.py` 内 `TEMPLATES` 常量 | Step 2 |
 | 画风库变更历史 | `<pop-visual-style 包根>/CHANGELOG.md` | 画风库更新后 |

@@ -1,6 +1,6 @@
 {
   "id": "pop-comic-content",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "displayName": "漫画内容物料",
   "description": "当用户说「漫画推广/漫画种草/漫画安利」时用它，也在要把一部漫画做成可投放内容时进。读图理解漫画后产出口播脚本、种草笔记、短视频文案三件套。",
   "entry": "SKILL.md",

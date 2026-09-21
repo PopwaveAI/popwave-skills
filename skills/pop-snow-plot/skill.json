@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-plot",
   "name": "pop-snow-plot",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "displayName": "剧情编排",
   "description": "当用户说「剧情/卷纲/卷需求/幕白描」时用它，也在一卷写到头、要开新卷时进。雪花流的剧情编排：在舞台之上排本阶段演什么，供章纲环节切章。",
   "entry": "SKILL.md",

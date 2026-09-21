@@ -45,7 +45,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 
 ### Step 1: 画风选择
 
-1. **读取 DNA 库**：`references/文风DNA-library.json`，获取37种画风（含IP命名试点「双城之战」）。
+1. **读取 DNA 库**：`references/style-dna-library.json`，获取37种画风（含IP命名试点「双城之战」）。
 2. **筛选推荐**：按赛道匹配 `suggested_genres` 字段，按关键词匹配 `keywords` 字段，按类别（二次元17、国漫6、韩漫3、插画概念10）推荐1-3种画风，并附推荐理由（视觉特征、代表作、适合赛道）。
 3. **用户选择**：从候选池中选择画风，或描述自定义风格。**自定义画风处理**：按 DNA 库格式组装 `dna`（英文画风描述≤800字符）与 `constraint`（风格保真约束）；生成后验证辨识度，未达标则调整 `dna` 描述。
 4. **Pinterest 参考图搜索（单张固定）**：搜索有成本（Bright Data 付费），**一次搜索，全程复用**。选定画风后搜索 1 张最符合画风的参考图，作为全书风格准绳：
@@ -190,7 +190,7 @@ python "<pop-visual-shared 包根>\scripts\batch_test.py" --config _过程/脚�
 
 | # | 铁律 | 违反后果 |
 |:-:|:-----|:---------|
-| ❌1 | **画风必须从DNA库取** — 禁止凭记忆编写画风描述，必须从文风DNA-library.json取dna与constraint字段 | 画风辨识度不足，风格漂移 |
+| ❌1 | **画风必须从DNA库取** — 禁止凭记忆编写画风描述，必须从style-dna-library.json取dna与constraint字段 | 画风辨识度不足，风格漂移 |
 | ❌2 | **画风前置** — 画风DNA放提示词前段（第2段），不放开头也不放末尾。Phase 0验证：画风前置符合Seedream注意力权重分配机制 | 画风执行力弱，被场景描述覆盖 |
 | ❌3 | **光照兼容性检查** — 选定画风后必须检查recommended_lighting，柔美风格禁用LT1减法照明 | 水彩/柔美风格被暗色吞噬（LT1误用教训） |
 | ❌4 | **提示词记录必须写入** — 画风选择、提示词、参数一并写入项目文件 | 无法迭代优化 |
@@ -205,7 +205,7 @@ python "<pop-visual-shared 包根>\scripts\batch_test.py" --config _过程/脚�
 
 | 需求 | 读取内容 | 使用时机 |
 |:-----|:------|:---------|
-| 画风DNA库（37种） | `references/文风DNA-library.json` | Step 1 |
+| 画风DNA库（37种） | `references/style-dna-library.json` | Step 1 |
 | 提示词结构与写法 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | Step 2 |
 | 构图模板、光照模板与兼容性矩阵 | `references/lighting-composition-templates.md` | Step 1 兼容性检查 / Step 2 |
 | Pinterest 参考图搜索 | `<pop-visual-shared 包根>\scripts\pinterest_search.py` | Step 1 |
@@ -218,7 +218,7 @@ python "<pop-visual-shared 包根>\scripts\batch_test.py" --config _过程/脚�
 
 art-bible、cover、oc、comic 各 skill 引用本 skill 画风层时：
 
-1. **画风描述**：从 `references/文风DNA-library.json` 取 `dna` 与 `constraint` 字段（**纯技法层**）；取 `content_theme` 作为该画风原生题材的默认内容（跨题材时由各 skill 的场景描述覆盖）
+1. **画风描述**：从 `references/style-dna-library.json` 取 `dna` 与 `constraint` 字段（**纯技法层**）；取 `content_theme` 作为该画风原生题材的默认内容（跨题材时由各 skill 的场景描述覆盖）
 2. **光照兼容性**：取 `recommended_lighting` 字段，作为光源设计参考
 3. **构图参考**：取 `recommended_composition` 字段，作为构图设计参考（不替代各skill自己的构图体系）
 4. **提示词组装**：各 skill 使用自己的结构层（V3、4块、三字段），画风段从 DNA 库取 `dna` 与 `constraint`（纯技法），内容层独立于画风段，禁止把题材内容混入画风段

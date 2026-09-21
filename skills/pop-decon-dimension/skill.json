@@ -1,6 +1,6 @@
 {
   "id": "pop-decon-dimension",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "displayName": "单书深度wiki拆解（decon主拆解）",
   "description": "当用户说「深度拆解/建书wiki/拆书/提取模板」时用它，也在要把一部成书拆到能复用的深度时进。按批次拆原文、产出六模块深度 wiki，供后续创作取用。",
   "tags": ["拆书与分析"],

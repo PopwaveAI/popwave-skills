@@ -36,13 +36,13 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 | 位置 | 路径 | 角色 | 结构 |
 |:--|:--|:--|:--|
 | D 盘 | `D:\popwave-skills\skills\{skill}\` | **主写位置**（git 仓库源） | 扁平结构（SKILL.md 直接在下） |
-| C 盘 | `C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\{skill}\{版本目录}\` | 应用生效位置（同步目标） | 版本目录结构（`1.0.0/`、`1.1.0/`，版本目录 = skill.json 的 version 字段） |
+| C 盘 | `%APPDATA%\popwave\remote-skills\{skill}\{版本目录}\` | 应用生效位置（同步目标） | 版本目录结构（`1.0.0/`、`1.1.0/`，版本目录 = skill.json 的 version 字段） |
 
 ### 执行规则
 
 - **写改动**：直接写 D 盘 `D:\popwave-skills\skills\{skill}\`，改完按仓库流程提交 git。
 
-- **同步 C 盘**：改动落盘后必须把该 skill 的 D 盘内容递归复制到 C 盘对应版本目录（覆盖旧文件）——`Copy-Item -Path "D:\popwave-skills\skills\{skill}\*" -Destination "C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\{skill}\{版本目录}\" -Recurse -Force`。C 盘版本目录不存在则先建（目录名照 skill.json 的 version 字段）。
+- **同步 C 盘**：改动落盘后必须把该 skill 的 D 盘内容递归复制到 C 盘对应版本目录（覆盖旧文件）——`Copy-Item -Path "D:\popwave-skills\skills\{skill}\*" -Destination "$env:APPDATA\popwave\remote-skills\{skill}\{版本目录}\" -Recurse -Force`。C 盘版本目录不存在则先建（目录名照 skill.json 的 version 字段）。
 
 - **同步后校验**：用上面的 UTF-8 回读命令，在 **C 盘**文件里检出本次改动独有的关键字符串，确认 C 盘真实生效。
 
@@ -63,6 +63,17 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 - 只加本次改动涉及的文件，不用 `git add .`；仓库里长期未跟踪的目录（如 `workflow探索/`）不顺手带进去。
 - 误开了分支就并回 `main`（`git merge --ff-only`）再推，然后删掉本地与远端那条线，别留着。
 - 判断锚点：改的是 `D:\popwave-skills` 下任何文件 → 直接提交 `main`；改的是 `d:\popwave-repo` → 走 `popwave-dev-handbook` 的需求号流程。
+
+## 路径写法纪律（老板拍板，2026-09-21 固化）
+
+**skill 包内一律不写个人路径、不写死盘符。** `C:\Users\<某个用户名>\...`、`D:\popwave-skills\...` 这类路径只在开发机成立，用户机器上解析不到，模型只能全盘搜，白烧调用。
+
+- **用户主目录统一写 `~`**：文档里写 `~\.paopao\projects`，脚本里用 `Path.home()` 或 `os.path.expanduser("~")`。不写展开后的绝对路径，也不写死用户名。
+- **本包内文件用包根相对路径**（`scripts/x.py`）。包根 = 运行时系统提示里 `--- skill: /<名> (<包根>) ---` 括号内的路径，命令行等价于 `--skill`，逐台机器不同。
+- **跨包引用写 `<包名 包根>/...`**。不写 `../其它包/...`，也不写 `skills/<包名>/...`。
+- **维护脚本与仓库文档里的应用目录写 `%APPDATA%\popwave\...`**（PowerShell 用 `$env:APPDATA`），不写展开后的绝对路径。
+- **例外**：系统目录（如 `C:\Windows\Fonts\...`）与 CHANGELOG 的历史记录不改，历史行只读。
+- **兜底检查**：`Get-ChildItem -Recurse -File | Select-String 'C:\\Users\\','D:\\popwave-skills'`，命中即为漏改（CHANGELOG 与未跟踪的本地目录除外）。
 
 ## API 默认模型（老板拍板，2026-09-12 固化）
 

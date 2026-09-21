@@ -77,7 +77,7 @@
   python "<包根>\scripts\encode.py" --frames frames --out 成品.mp4 --fps 30 --crf 18
   ```
 - **校验成片（铁律）**：用完整版 ffmpeg probe 成片（`ffmpeg -i 成品.mp4` 读 Duration/Stream 行）核对分辨率 1920×1080、fps 30、时长等于总时长、H.264 与 yuv420p、movflags faststart。时长对不上（帧数等于时长乘 fps，允许 ±1）说明 timeline 边界有误，回查 Step 2。
-- **交付**：成片放用户指定目录（默认 `d:\popwave-skills\`），并提供本地预览页（`<video controls>` 内嵌成片）。
+- **交付**：成片放用户指定目录（未指定时放当前工作目录），并提供本地预览页（`<video controls>` 内嵌成片）。
 
 ### Step 5 TTS 配音
 

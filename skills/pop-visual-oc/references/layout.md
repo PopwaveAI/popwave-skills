@@ -56,7 +56,7 @@
 
 ## 画风联动（Step 1 选画风必读）
 
-> `pop-visual-style/references/文风DNA-library.json` 是**生图 DNA 库**。OC 组装时按画风库条目回填生图 DNA（`dna`/`constraint`/`recommended_lighting`）。**画风决定立绘质感，也决定顶部留白的底色**（浅色系留白用深色字，深色系留白用浅色字）。
+> `<pop-visual-style 包根>/references/style-dna-library.json` 是**生图 DNA 库**。OC 组装时按画风库条目回填生图 DNA（`dna`/`constraint`/`recommended_lighting`）。**画风决定立绘质感，也决定顶部留白的底色**（浅色系留白用深色字，深色系留白用浅色字）。
 
 **选择画风**：按实体所在小说赛道与气质选择最匹配的画风条目（如玄幻→国漫玄幻厚涂、赛博→赛博边缘行者、暗黑→暗黑奇幻油画）。无匹配条目时，按赛道撰写写意、霓虹、极简或暗黑质感。
 

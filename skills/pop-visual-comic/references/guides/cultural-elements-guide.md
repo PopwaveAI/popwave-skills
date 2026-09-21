@@ -1,6 +1,6 @@
 # 漫画文化元素设计指南
 
-> 从 `pop-visual-cover/references/novel-visual-design.md` §八 提取，改造成漫画场景的使用规范。封面是"一张图0.3秒抓住读者"，漫画是"连续翻页讲好故事"——文化元素的使用位置、频率和功能完全不同。
+> 从 `<pop-visual-cover 包根>/references/novel-visual-design.md` §八 提取，改造成漫画场景的使用规范。封面是"一张图0.3秒抓住读者"，漫画是"连续翻页讲好故事"——文化元素的使用位置、频率和功能完全不同。
 
 ## 设计哲学
 

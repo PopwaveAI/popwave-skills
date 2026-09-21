@@ -137,7 +137,7 @@
 | 立项文件夹模板 | `templates/立项-L0核心卖点.tpl.md`、`立项-L1命运图.tpl.md`、`立项-L2命运图plus.tpl.md`、`立项-L3全书大纲.tpl.md`、`立项.tpl.md` | 收尾产出 `立项/` 文件夹（00-L0 → 01-L1 → 02-L2 → 03-L3 → 04-逆向破解）时 |
 | L0 母题卡 schema 与增长规则 | `https://wiki.popwave.cn/卖点方向库`（目录级，agent 在库内自行查找；不写本地路径） | Step 7.5 L0 母题卡回填时 |
 | 权威成品样板 | `https://wiki.popwave.cn/知名小说wiki/西幻dnd/深渊主宰`（同名模块文件与立项文件夹） | 各模块产出时对照深度 |
-| 管线上下文 | `pop-decon/references/pipeline-context.md` | 需要理解管线位置时 |
+| 管线上下文 | `<pop-decon 包根>/references/pipeline-context.md` | 需要理解管线位置时 |
 
 ## 强弱加载保障
 

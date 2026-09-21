@@ -1,7 +1,7 @@
 {
   "id": "pop-emergent-seed",
   "name": "pop-emergent-seed",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "displayName": "涌现立项·甲方文档",
   "description": "当用户说「涌现立项/涌现种子/seed/我有个想法」时用它，也在项目刚建好、要定故事骨架时进。涌现流的立项：收清要写什么、给谁看、卖点、主角立身、文风承诺，产出立项卡供后续环节取用。",
   "entry": "SKILL.md",

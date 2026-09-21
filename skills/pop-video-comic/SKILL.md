@@ -162,7 +162,7 @@ N. [page5] (惊悚钩子) 镜子里，他太阳穴的伤口……还在蠕动。
 
 ## 产出文件结构
 
-> 写入遵循 `pop-visual-pipeline/references/落盘规范.md` §3.1b §五 §六：视频成品必须版本化并加 `-final`，`preview/frames/audio/` 是过程。
+> 写入遵循 `<pop-visual-pipeline 包根>/references/落盘规范.md` §3.1b §五 §六：视频成品必须版本化并加 `-final`，`preview/frames/audio/` 是过程。
 
 ```
 {漫画项目}/视频/

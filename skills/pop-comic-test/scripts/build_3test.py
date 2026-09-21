@@ -15,25 +15,27 @@
   全库：
     python build_3test.py --all --out-dir 素材/测试
 生成 config 供 batch_test.py 消费：
-    python ../pop-visual-shared/scripts/batch_test.py --config config.json --out-dir 素材/测试 --seed 20260804
+    python "<pop-visual-shared 包根>\scripts\batch_test.py" --config config.json --out-dir 素材/测试 --seed 20260804
 """
 import argparse
 import json
 import os
 import sys
 
-# 定位 DNA 库（绝对路径优先，兼容任意 cwd）
-DNA_LIB = r"D:\popwave-skills\skills\pop-visual-style\references\style-dna-library.json"
+# 定位 DNA 库。不写个人路径与盘符：优先 --dna-lib，其次环境变量，最后按 cwd 试两个位置。
+DNA_LIB_ENV = "POP_STYLE_DNA_LIB"
+DNA_LIB_REL = os.path.join("pop-visual-style", "references", "style-dna-library.json")
 
 
-def find_dna_library():
+def find_dna_library(explicit=None):
     candidates = [
-        DNA_LIB,
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pop-visual-style", "references", "style-dna-library.json"),
-        os.path.join(os.getcwd(), "..", "pop-visual-style", "references", "style-dna-library.json"),
+        explicit,
+        os.environ.get(DNA_LIB_ENV),
+        os.path.join(os.getcwd(), DNA_LIB_REL),
+        os.path.join(os.getcwd(), "skills", DNA_LIB_REL),
     ]
     for p in candidates:
-        if os.path.exists(p):
+        if p and os.path.exists(p):
             return p
     return None
 
@@ -86,15 +88,24 @@ def main():
     parser.add_argument("--all", action="store_true", help="全库模式：为所有画风生成 config")
     parser.add_argument("--out", help="单画风输出 config JSON 路径")
     parser.add_argument("--out-dir", help="全库模式输出目录（每画风一个 config）")
+    parser.add_argument(
+        "--dna-lib",
+        help="style-dna-library.json 的完整路径（取 pop-visual-style 包根下的 references/）",
+    )
     args = parser.parse_args()
 
     if not args.style_name and not args.all:
         parser.error("必须提供 --style-name 或 --all")
 
-    lib_path = find_dna_library()
+    lib_path = find_dna_library(args.dna_lib)
     if not lib_path:
-        print("错误：无法定位 style-dna-library.json", file=sys.stderr)
-        sys.exit(1)
+        print(
+            "错误：找不到 style-dna-library.json。用法：python build_3test.py "
+            "--dna-lib \"<pop-visual-style 包根>\\references\\style-dna-library.json\" "
+            "（或设环境变量 %s）" % DNA_LIB_ENV,
+            file=sys.stderr,
+        )
+        sys.exit(2)
     with open(lib_path, "r", encoding="utf-8") as f:
         lib = json.load(f)
     styles = lib.get("styles", {})

@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-cover",
-  "version": "2.1.3",
+  "version": "2.1.5",
   "displayName": "网文封面生成",
   "description": "当用户说「网文封面/小说封面/场景图」时用它，也在要给这本书做封面或场景画面时进。可凭想法搜参考图设计，也可读原文理解后出图。",
   "entry": "SKILL.md",

@@ -1,7 +1,7 @@
 {
   "id": "pop-editor",
   "name": "pop-editor",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "displayName": "pop编辑",
   "description": "当用户说「查稿/检查这章/文风质感/剧情内容/情绪节奏」时用它，也在正文定稿前要过一道质量检查时进。三种检查模式一次跑一个，产出逐段打分与要拍板的问题清单。只诊断，可按需接改写。",
   "entry": "SKILL.md",

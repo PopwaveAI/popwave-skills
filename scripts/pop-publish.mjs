@@ -59,11 +59,17 @@ async function rmSafe(target, options = { recursive: true, force: true }) {
 const rm = rmSafe;
 
 // ---------- 配置 ----------
-const GIT = process.env.GIT_PATH || "C:\\Program Files\\Git\\cmd\\git.exe";
+import os from "node:os";
+
+const GIT = process.env.GIT_PATH || "git";
 const ROOT = process.cwd();
 const SKILLS_ROOT = path.join(ROOT, "skills");
-const TRAE_ROOT = "C:\\Users\\AWMPRO\\.trae-cn\\skills";
-const POPWAVE_ROOT = "C:\\Users\\AWMPRO\\AppData\\Roaming\\popwave\\remote-skills";
+// 用户目录一律现算，不写死用户名与盘符
+const HOME = os.homedir();
+const TRAE_ROOT = process.env.TRAE_SKILLS_ROOT || path.join(HOME, ".trae-cn", "skills");
+const POPWAVE_ROOT =
+  process.env.POPWAVE_SKILLS_ROOT ||
+  path.join(process.env.APPDATA || path.join(HOME, "AppData", "Roaming"), "popwave", "remote-skills");
 const DEFAULT_BRANCH = "main";
 const DEPRECATED_DIR = path.join(SKILLS_ROOT, "_deprecated");
 

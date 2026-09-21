@@ -1,7 +1,7 @@
 {
   "id": "pop-lantern-pipeline",
   "name": "pop-lantern-pipeline",
-  "version": "3.7.3",
+  "version": "3.7.4",
   "displayName": "管线总控",
   "description": "当用户说「初始化项目/新建项目/导入/接续旧稿」时用它，也在项目目录还没建好、或要接别人的半成品稿时进。这是灯塔流的一次性搭建：建目录、生成状态总账、散稿归位、定当前阶段。日常写作推进不找它。",
   "entry": "SKILL.md",
