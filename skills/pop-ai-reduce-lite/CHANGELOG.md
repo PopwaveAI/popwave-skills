@@ -1,3 +1,22 @@
+## v7.0.2 | 2026-09-21
+
+**脚本路径与参数表执死。**
+
+### 为什么
+
+消耗异常排查（小说项目 111，run `0e88608d`）实测：模型先试 `deai_gate.py --prof`，报 `error: unrecognized arguments: --prof`；再反复搜脚本位置。两处都不是脚本逻辑问题，是技能文档没给出包根解析方式与参数表。`--profile`／`--prof` 已于 2026-09-20 移除，但包内仍留着无调用方的 `deai_profiles.json`，模型看到它就猜了 `--prof`。
+
+### 改了什么
+
+- 走法第 3 步的脚本路径改为相对**本包根目录**展开：`python "<包根>\scripts\deai_gate.py" <文件> --fix`。包根 = 系统提示里 `--- skill: /pop-ai-reduce-lite (<包根>) ---` 括号内的路径（命令行等价于 `--skill`）。原文写的是 `skills/pop-ai-reduce-lite/scripts/deai_gate.py`，任何用户机器上都不存在。
+- 新增「脚本位置与参数」一节，列出参数表：位置参数 `<文件>`、`--fix`、`--json`、`-h/--help`，并明示 `--profile`／`--prof`／`-r` 不存在，不要试。
+- 资源表新增一行，标注 `scripts/deai_profiles.json` 已无调用方，不得当参数依据。
+- `scripts/deai_gate.py`：找不到文件时，报错附带脚本实际查找的完整绝对路径与用法，并指向 `--help`。退出码仍为 2。
+
+### 没改
+
+`--fix` 的标点与字形规范化规则、检查项与阈值、报告格式均未动。
+
 ## v7.0.1 | 2026-09-20
 
 改 description：补触发条件、删内部实现说明（原 73 字 → 79 字）。不涉及规程与产出变更。

@@ -758,7 +758,7 @@ def main():
     args = ap.parse_args()
 
     if not os.path.isfile(args.input):
-        print('错误: 找不到文件 %s（本脚本只处理单文件）' % args.input, file=sys.stderr)
+        print('错误: 找不到文件 %s（本脚本只处理单文件）。用法: python deai_gate.py <正文文件> [--fix] [--json]，详见 --help' % os.path.abspath(args.input), file=sys.stderr)
         sys.exit(2)
 
     report, any_issue = process_file(args.input, args.fix, args.json)

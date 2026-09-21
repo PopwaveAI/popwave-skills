@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v1.4.1 | 2026-09-21
+
+**脚本路径与调用命令执死。**
+
+### 为什么
+
+消耗异常排查（小说项目 111，run `0e88608d`）实测：模型调 `word-count.ps1` 前，先 `Get-ChildItem` 搜脚本位置 10+ 次；随后被 PowerShell 执行策略拦一次，换 `-ExecutionPolicy Bypass` 重试才跑通。该轮单 run 48 次模型调用，正常为 3-12 次。
+
+### 改了什么
+
+- 「脚本位置」改为相对**本包根目录**展开，并写明包根 = 系统提示里 `--- skill: /pop-write (<包根>) ---` 括号内的路径（命令行等价于 `--skill` 的取值）。原文写的是 `skills/pop-write/scripts/word-count.ps1`，这个路径在任何用户机器上都不存在，是「模型只能靠搜盘找脚本」的根因。
+- 调用命令执死为 `powershell -ExecutionPolicy Bypass -File "<包根>\scripts\word-count.ps1" -Path 正文/ch{NNN}.txt`，并声明脚本只有 `-Path`／`-Min`／`-Max` 三个参数，禁止猜参数。
+- `scripts/word-count.ps1`：缺 `-Path` 或文件不存在时，打印脚本实际查找的完整路径与用法一行，退出码改为 2。原退出码 1 与「字数 FAIL」混同，无法区分「脚本没跑成」与「字数不达标」。判定输出行格式不变。
+
+### 没改
+
+字数口径、段落节奏判定、`-Min`／`-Max` 默认值均未动。
+
 ## v1.4.0 | 2026-09-20
 
 **执行分两式：首写与修改。修改式从简。**
