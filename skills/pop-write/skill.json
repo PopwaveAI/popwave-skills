@@ -1,7 +1,7 @@
 {
   "id": "pop-write",
   "name": "pop-write",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "displayName": "正文写作",
   "description": "当用户说「写正文/续写/写这一章」时用它，也在章纲就绪、要出正文时进。按章纲与文风锚定写出一章正文，交验收环节。三线共用。",
   "entry": "SKILL.md",
