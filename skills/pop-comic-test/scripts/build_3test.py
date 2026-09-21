@@ -22,17 +22,16 @@ import json
 import os
 import sys
 
-# 定位 DNA 库。不写个人路径与盘符：优先 --dna-lib，其次环境变量，最后按 cwd 试两个位置。
+# 定位 DNA 库。不写个人路径与盘符、不猜别的包位置：只认 --dna-lib 与环境变量。
 DNA_LIB_ENV = "POP_STYLE_DNA_LIB"
-DNA_LIB_REL = os.path.join("pop-visual-style", "references", "style-dna-library.json")
 
 
 def find_dna_library(explicit=None):
+    """只认显式传入：CLI --dna-lib 或环境变量 POP_STYLE_DNA_LIB。
+    不按 cwd 猜别的包位置：用户端安装结构带版本目录，跳级或按 cwd 找同级包必然算错。"""
     candidates = [
         explicit,
         os.environ.get(DNA_LIB_ENV),
-        os.path.join(os.getcwd(), DNA_LIB_REL),
-        os.path.join(os.getcwd(), "skills", DNA_LIB_REL),
     ]
     for p in candidates:
         if p and os.path.exists(p):

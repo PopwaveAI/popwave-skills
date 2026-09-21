@@ -2,7 +2,7 @@
 
 Opening and closing layouts: cover, table of contents, and closing. Each deck **must include** a cover page (T01) and a closing page (T08), both counted within the target slide total. The table of contents page (T02) is optional and must replace another planned slide rather than increase the total.
 
-For visual styles, see the corresponding styles file in the `../styles/` directory.
+For visual styles, see the corresponding styles file in this skill's `styles/` directory.
 
 ---
 

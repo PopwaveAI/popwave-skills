@@ -78,15 +78,15 @@ set(document.querySelector('[data-sub="b"]'), app(t,2.8,3.5)*out(t,4.4,4.8), '')
 
 ## 渲染与混音命令
 
-**出片默认采用「浏览器自播与录屏」（方案 B，`scripts/record_video.py`）**：HTML 编排稿按真实时间自播，由 Playwright 录成 WebM 再转 MP4，不生成上千张 PNG 中间帧，速度快一个数量级。逐帧方案（`render_frames.py`）仅用于预览校验构图。
+**出片默认采用「浏览器自播与录屏」（方案 B，`<包根>\scripts\record_video.py`）**：HTML 编排稿按真实时间自播，由 Playwright 录成 WebM 再转 MP4，不生成上千张 PNG 中间帧，速度快一个数量级。逐帧方案（`render_frames.py`）仅用于预览校验构图。
 
 ```bash
 # 预览校验（必须带 --w/--h 竖版，逐帧模式抓关键帧）
-python scripts/render_frames.py --html index.html --out preview --mode preview --times 0.5,2.0,4.0,7.0 --w 1080 --h 1920
+python <包根>\scripts\render_frames.py --html index.html --out preview --mode preview --times 0.5,2.0,4.0,7.0 --w 1080 --h 1920
 # 全量出片（方案 B：录屏，主路径）
-python scripts/record_video.py --html index.html --out 成品.mp4 --duration <总时长> --w 1080 --h 1920 --preset veryfast
+python <包根>\scripts\record_video.py --html index.html --out 成品.mp4 --duration <总时长> --w 1080 --h 1920 --preset veryfast
 # 混入配音（按时间轴定位，时间来自时间轴设计）
-python scripts/mix_audio.py --video 成品.mp4 --audio-dir audio \
+python <包根>\scripts\mix_audio.py --video 成品.mp4 --audio-dir audio \
   --offsets "seg01.mp3=3.0,seg02.mp3=8.9,..." --out 成品-配音.mp4
 ```
 

@@ -1,8 +1,8 @@
 # pop-video-comic
 
-> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-video-comic (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
 >
-> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
 >
 > **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
 
@@ -118,7 +118,7 @@ N. [page5] (惊悚钩子) 镜子里，他太阳穴的伤口……还在蠕动。
 **操作**：
 
 1. 读已确认的 `口播脚本.md`，提取所有口播句（含 seq 与 page 绑定）。
-2. 用 `scripts/tts_generate.py` 逐句生成：
+2. 用 `<包根>\scripts\tts_generate.py` 逐句生成：
    ```bash
    python "<包根>\scripts\tts_generate.py" \
      --script "{项目}/视频/口播脚本.md" \
@@ -149,12 +149,12 @@ N. [page5] (惊悚钩子) 镜子里，他太阳穴的伤口……还在蠕动。
    - 画布：竖屏 1080x1920（短视频）或 16:9 1920x1080，按目标平台选择
    - 中文字体：`Noto Sans CJK SC` 或 `WenQuanYi Micro Hei`（必须显式设置，不得使用默认字体）
    - 字幕叠加在图片下方或底部，不遮挡画面关键信息
-2. **Playwright 截图**：`scripts/render_video.py` 逐帧截图到 `frames/`。
-3. **ffmpeg 合成**（`scripts/render_video.py` 内置）：每帧图片按对应口播时长定格（Ken Burns 推拉），再拼接所有帧成视频流，随后混入人声（按 `时长清单.json` 对齐）与可选 BGM，输出 `{章节名}.mp4`。
+2. **Playwright 截图**：`<包根>\scripts\render_video.py` 逐帧截图到 `frames/`。
+3. **ffmpeg 合成**（`<包根>\scripts\render_video.py` 内置）：每帧图片按对应口播时长定格（Ken Burns 推拉），再拼接所有帧成视频流，随后混入人声（按 `时长清单.json` 对齐）与可选 BGM，输出 `{章节名}.mp4`。
 
 **Ken Burns（推拉）规则**：每帧从"起始缩放与位移"缓动到"结束缩放与位移"；竖屏图缓慢推近（zoom in）或平移（pan），避免静止僵化；缩放范围在 1.0 至 1.15 以内，避免观感怪异。
 
-**可选**：BGM 默认无，如需添加，在 `scripts/render_video.py` 中用 `--bgm` 参数混入（音量压低，不盖人声）；也可加水印或片头（OC/封面作为开场帧）。
+**可选**：BGM 默认无，如需添加，在 `<包根>\scripts\render_video.py` 中用 `--bgm` 参数混入（音量压低，不盖人声）；也可加水印或片头（OC/封面作为开场帧）。
 
 **产出**：`{项目}/视频/frames/frame{N}.png`（中间帧，过程）；`{项目}/视频/{章节名}.mp4`（最终视频，确认后按铁律❌5 版本化命名）。
 
@@ -190,8 +190,8 @@ N. [page5] (惊悚钩子) 镜子里，他太阳穴的伤口……还在蠕动。
 
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
-| TTS 脚本 | `scripts/tts_generate.py` | Step 3 配音时执行 |
-| 渲染脚本 | `scripts/render_video.py` | Step 4 合成时执行 |
+| TTS 脚本 | `<包根>\scripts\tts_generate.py` | Step 3 配音时执行 |
+| 渲染脚本 | `<包根>\scripts\render_video.py` | Step 4 合成时执行 |
 | 中文字体 | `Noto Sans CJK SC` / `WenQuanYi Micro Hei` | 字幕与 HTML 排版时设置 |
 
 ## 前置条件

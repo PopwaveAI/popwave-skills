@@ -1,7 +1,7 @@
 # Styles · Clean/Natural
 
 A warm, restrained natural aesthetic—serif-driven typographic hierarchy, warm-white base tones, olive-green accents, generous white space, and no decorative elements.
-Use together with `../layouts.md` (the pure structural framework).
+Use together with `layouts/layouts-structural.md` (the pure structural framework).
 
 > This file defines visual tokens and key rules. When generating, define CSS variables and typographic parameters accordingly, while the layout skeleton is still drawn from layouts.md.
 

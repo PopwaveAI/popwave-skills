@@ -53,11 +53,11 @@ Prompt 只写方向。工具调用侧挑一个 `image_size`：
 
 | 意图 | reference |
 |---|---|
-| 海报 / 广告 KV / Banner / 招聘 / 发布会 | `./references/poster-kv.md` |
-| 电商主图 / 详情页 / 促销图 / 功效图 | `./references/ecommerce-product-image.md` |
-| 小红书 / 公众号 / 视频封面 / 小说封面 / 播客封面 | `./references/content-cover.md` |
-| Logo / 品牌 VI / IP / 吉祥物 | `./references/brand-vi.md` |
-| 信息图 / 步骤图 / 流程图 / 教程 / 时间轴 / 图鉴 / 结构注解 | `./references/information-visual.md` |
+| 海报 / 广告 KV / Banner / 招聘 / 发布会 | `references/poster-kv.md` |
+| 电商主图 / 详情页 / 促销图 / 功效图 | `references/ecommerce-product-image.md` |
+| 小红书 / 公众号 / 视频封面 / 小说封面 / 播客封面 | `references/content-cover.md` |
+| Logo / 品牌 VI / IP / 吉祥物 | `references/brand-vi.md` |
+| 信息图 / 步骤图 / 流程图 / 教程 / 时间轴 / 图鉴 / 结构注解 | `references/information-visual.md` |
 
 ## 能力边界
 

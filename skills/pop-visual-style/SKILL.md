@@ -1,8 +1,8 @@
 # pop-visual-style
 
-> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-visual-style (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
 >
-> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
 >
 > **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
 
@@ -141,15 +141,15 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 **2. 批量导出定标任务**（一次出多张变体；必须使用固定脚本，禁止现场手写提示词、单张串行，后者等于"每次全新设计"，既不稳定又慢）：
 ```powershell
 # 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）→ 导出 generation_tasks.json
-python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "<上文场景类示例>" --side "<上文人物类示例>" --out-dir 测试/画风定标 --seed 20260803
+python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比,赛博边缘行者" --dna-lib "<pop-visual-style 包根>\references\style-dna-library.json" --template-md "<pop-visual-style 包根>\references\lighting-composition-templates.md" --scene "<上文场景类示例>" --side "<上文人物类示例>" --out-dir 测试/画风定标 --seed 20260803
 
 # 只用场景类（无路人）测画风
-python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
+python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比" --dna-lib "<pop-visual-style 包根>\references\style-dna-library.json" --template-md "<pop-visual-style 包根>\references\lighting-composition-templates.md" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
 
 # 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 用于"只改一个子维度"的返工迭代
 python "<pop-visual-shared 包根>\scripts\batch_test.py" --config _过程/脚本任务/定标变体.json --scene "..." --side "..." --out-dir 测试/画风定标 --seed 20260803
 ```
-- **`--style-names`**：从 DNA 库按画风名批量测（推荐），脚本自动取 `dna`、`constraint`、`recommended_composition`、`recommended_lighting`（默认 8 线程并发批量与自动 PE 日志）；画风 DNA 放在第 2 段，由脚本固定模板保证（铁律❌2）
+- **`--style-names`**：从 DNA 库按画风名批量测（推荐），脚本自动取 `dna`、`constraint`、`recommended_composition`、`recommended_lighting`（默认 8 线程并发批量与自动 PE 日志）；画风 DNA 放在第 2 段，由脚本固定模板保证（铁律❌2）。**同时必须传 `--dna-lib` 与 `--template-md`**，路径都取 pop-visual-style 包根下的 `references/`；脚本不猜别的包位置，不传就报错
 - **`--config 变体.json`**：精调变体，每个变体可单独修改 `dna`、`constraint`、`lighting`
 - **`--seed`**：固定随机种子保证复现（下游图生图用同 seed 不漂移）
 - **输出**：`generation_tasks.json`（每个变体一个任务，含 prompt、size、ref_images、output_path）与 `pe-log.json`（含测试素材、模板、每个变体完整 prompt，可复现）

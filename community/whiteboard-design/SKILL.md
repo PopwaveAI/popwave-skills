@@ -8,6 +8,8 @@ description: Plan, create, edit, validate, and export editable visual whiteboard
 
 # Whiteboard Design Skill
 
+> **Path convention**: this skill's root is the directory containing this SKILL.md. Replace `<skill-root>` below with that absolute path; do not search the disk for scripts or references.
+
 ## Use the controlled workbench
 
 Use one control path for every live-canvas operation:

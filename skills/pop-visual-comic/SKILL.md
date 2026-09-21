@@ -1,8 +1,8 @@
 # pop-visual-comic
 
-> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-visual-comic (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
 >
-> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
 >
 > **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
 
@@ -340,11 +340,11 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
-| 初始化漫画项目 | `scripts/init_project.py` | Step 0 建目录与生成角色库 |
-| 增量更新角色定妆图 | `scripts/update_char_asset.py` | Step 2 角色外观变化时 |
-| **逐页生成漫画** | `scripts/generate_comic_page.py` | **Step 2 逐页生成漫画页时执行** |
-| 截长图（分享用） | `scripts/screenshot_comic.py` | Step 2 文字叠加后执行 |
-| **按页导出分享图与整条长图（必做，统一放分享/）** | `scripts/export_pages.py` | **Step 2 生成 HTML 后必做** |
+| 初始化漫画项目 | `<包根>\scripts\init_project.py` | Step 0 建目录与生成角色库 |
+| 增量更新角色定妆图 | `<包根>\scripts\update_char_asset.py` | Step 2 角色外观变化时 |
+| **逐页生成漫画** | `<包根>\scripts\generate_comic_page.py` | **Step 2 逐页生成漫画页时执行** |
+| 截长图（分享用） | `<包根>\scripts\screenshot_comic.py` | Step 2 文字叠加后执行 |
+| **按页导出分享图与整条长图（必做，统一放分享/）** | `<包根>\scripts\export_pages.py` | **Step 2 生成 HTML 后必做** |
 | 查 Seedream 提示词写法 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | 写提示词前必读 |
 | 调用 Seedream API | `<pop-visual-shared 包根>\scripts\generate.py` | 生成单张图片时执行 |
 | **查分镜画风硬边界铁律（常规页直出半赛璐璐、名场面单格高纯度）** | `references/art-style-baseline.md` §2.5 | **Step 1 定页面画风时必读**（画风本身来自美术设定集，本库只留分镜细节） |

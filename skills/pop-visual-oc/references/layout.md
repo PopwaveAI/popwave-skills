@@ -43,7 +43,7 @@
 
 | 画幅 | 像素 | 用途 | 截图命令 |
 |:-----|:-----|:-----|:---------|
-| **2:3 竖版**（默认） | 1125×1500 | 社交单图传播标准 | `SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py <html> <out.png>` |
+| **2:3 竖版**（默认） | 1125×1500 | 社交单图传播标准 | `SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python <包根>\scripts\screenshot_album.py <html> <out.png>` |
 | **3:4 竖版** | 1680×2240 | 半身/全身立绘加质感 | 同上，改 width |
 | **4:3 横版** | 1500×1125 | 横构图/场景向 | 同上，改 width |
 | **16:9 横幅** | 1500×844 | 横幅 | 同上 |
@@ -64,4 +64,4 @@
 
 | 脚本 | 用途 | 核心命令 |
 |:-----|:-----|:--------|
-| `scripts/screenshot_album.py` | 整图截图（Playwright，deviceScaleFactor=2，自动等图） | `python scripts/screenshot_album.py <html> <out.png>` |
+| `<包根>\scripts\screenshot_album.py` | 整图截图（Playwright，deviceScaleFactor=2，自动等图） | `python <包根>\scripts\screenshot_album.py <html> <out.png>` |

@@ -1,7 +1,7 @@
 # Styles · TRAE-work
 
 This file defines the **complete visual system** for the TRAE-work style—including precise CSS code blocks.
-Use it together with `../layouts.md` (the pure structural framework).
+Use it together with `layouts/layouts-structural.md` (the pure structural framework).
 
 > To switch styles, simply replace this file with another styles file; the framework structure in layouts stays unchanged.
 

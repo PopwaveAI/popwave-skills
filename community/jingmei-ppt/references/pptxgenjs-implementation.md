@@ -46,10 +46,10 @@ Use a dedicated primitive for these values. It should:
 
 `breakLine: false` on a rich-text run only controls an explicit line break; it does not disable automatic wrapping. Likewise, `fit: "shrink"` is a safety net, not permission to create an undersized box. Give the token a sensible width whenever the composition allows it.
 
-Use [pptx-text-guards.mjs](../scripts/pptx-text-guards.mjs):
+Use [pptx-text-guards.mjs](<skill-root>/scripts/pptx-text-guards.mjs):
 
 ```js
-import { addSingleLineToken } from "./scripts/pptx-text-guards.mjs";
+import { addSingleLineToken } from "<skill-root>/scripts/pptx-text-guards.mjs";
 
 addSingleLineToken(slide, "01", {
   x: 0.9, y: 2.1, w: 0.42, h: 0.42,
@@ -75,10 +75,10 @@ When LibreOffice, Google Slides import, or cross-renderer consistency matters, b
 4. Add the derivative with plain `x`, `y`, `w`, and `h`; omit `sizing`.
 5. Render a landscape-to-portrait test in LibreOffice only when the runtime or helper is unverified, the target explicitly includes LibreOffice, or a final render reveals a crop problem. Otherwise rely on the helper's pixel-dimension check and the normal final render.
 
-Use [raster-fit.mjs](../scripts/raster-fit.mjs) when Sharp is available:
+Use [raster-fit.mjs](<skill-root>/scripts/raster-fit.mjs) when Sharp is available:
 
 ```bash
-node scripts/raster-fit.mjs source.jpg fitted.png --width 720 --height 1200 --fit cover --position attention
+node <skill-root>/scripts/raster-fit.mjs source.jpg fitted.png --width 720 --height 1200 --fit cover --position attention
 ```
 
 Then place it without runtime cropping:

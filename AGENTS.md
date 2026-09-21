@@ -64,13 +64,14 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 - 误开了分支就并回 `main`（`git merge --ff-only`）再推，然后删掉本地与远端那条线，别留着。
 - 判断锚点：改的是 `D:\popwave-skills` 下任何文件 → 直接提交 `main`；改的是 `d:\popwave-repo` → 走 `popwave-dev-handbook` 的需求号流程。
 
-## 路径写法纪律（老板拍板，2026-09-21 固化）
+## 路径写法纪律（老板拍板，2026-09-21 固化 · 同日修订包根来源）
 
 **skill 包内一律不写个人路径、不写死盘符。** `C:\Users\<某个用户名>\...`、`D:\popwave-skills\...` 这类路径只在开发机成立，用户机器上解析不到，模型只能全盘搜，白烧调用。
 
 - **用户主目录统一写 `~`**：文档里写 `~\.paopao\projects`，脚本里用 `Path.home()` 或 `os.path.expanduser("~")`。不写展开后的绝对路径，也不写死用户名。
-- **本包内文件用包根相对路径**（`scripts/x.py`）。包根 = 运行时系统提示里 `--- skill: /<名> (<包根>) ---` 括号内的路径，命令行等价于 `--skill`，逐台机器不同。
-- **跨包引用写 `<包名 包根>/...`**。不写 `../其它包/...`，也不写 `skills/<包名>/...`。
+- **本包内文件用包根相对路径**（`scripts/x.py`）。包根 = 本 skill 的 SKILL.md 所在目录，即读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它）。命令行等价于 `--skill` 的取值，逐台机器不同。
+- **跨包引用写 `<包名 包根>/...`**，对端包根取该 skill 的 `<location>` 父目录，或读取它的绝对路径的父目录。不写 `../其它包/...`，也不写 `skills/<包名>/...`。
+- **脚本不许猜别的包在哪**：跨包资源由 agent 把对端包根的绝对路径用参数传进去，脚本内不写「往上跳级找同级包」的算法。用户端安装结构是 `remote-skills\{skill}\{版本}\` 或 `community-skills\packages\{包名}-{uuid}\`，与开发仓库的平铺结构不同，跳级必然算错。
 - **维护脚本与仓库文档里的应用目录写 `%APPDATA%\popwave\...`**（PowerShell 用 `$env:APPDATA`），不写展开后的绝对路径。
 - **例外**：系统目录（如 `C:\Windows\Fonts\...`）与 CHANGELOG 的历史记录不改，历史行只读。
 - **兜底检查**：`Get-ChildItem -Recurse -File | Select-String 'C:\\Users\\','D:\\popwave-skills'`，命中即为漏改（CHANGELOG 与未跟踪的本地目录除外）。

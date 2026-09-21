@@ -2,7 +2,7 @@
 """Batch download novels from a book list JSON file.
 
 Usage:
-    python batch_download.py book_list.json --output-base "D:\workspace\参考小说txt" --script-dir "D:\workspace\skill_modifications"
+    python "<包根>\scripts\batch_download.py" book_list.json --output-base downloads
 
 Book list JSON format:
     [
@@ -155,8 +155,8 @@ def download_one(book: dict, script_dir: str, output_base: str) -> dict:
 def main():
     parser = argparse.ArgumentParser(description="Batch download novels from a book list.")
     parser.add_argument("book_list", help="Path to book list JSON file.")
-    parser.add_argument("--output-base", default=r"D:\workspace\参考小说txt", help="Base output directory.")
-    parser.add_argument("--script-dir", default=r"D:\workspace\skill_modifications", help="Directory containing download_novel.py.")
+    parser.add_argument("--output-base", default="downloads", help="Base output directory (default: ./downloads).")
+    parser.add_argument("--script-dir", default=str(Path(__file__).resolve().parent), help="Directory containing download_novel.py (default: this script's own directory).")
     parser.add_argument("--results-file", default=None, help="Path to batch results JSON (default: <output-base>/batch_results.json).")
     parser.add_argument("--resume", action="store_true", help="Skip books already marked as success.")
     parser.add_argument("--retry-failed", action="store_true", help="Only retry books that previously failed.")

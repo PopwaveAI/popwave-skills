@@ -1,8 +1,8 @@
 # pop-video-brand
 
-> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-video-brand (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
 >
-> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
 >
 > **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
 
@@ -136,9 +136,9 @@
 | 动效写法 | `references/motion-timeline-guide.md` | Step 2 编写 HTML 时 |
 | 色板/文案 | `references/sky-bubble-palette.md` | Step 1/2 文案与配色时 |
 | 叙事方法论 | `references/brand-video-method.md` | Step 1 定镜头结构时 |
-| 渲染帧 | `scripts/render_frames.py` | Step 3 执行 |
-| 合成视频 | `scripts/encode.py` | Step 4 执行 |
-| TTS 配音 | `scripts/tts_generate.py` | Step 5 执行 |
+| 渲染帧 | `<包根>\scripts\render_frames.py` | Step 3 执行 |
+| 合成视频 | `<包根>\scripts\encode.py` | Step 4 执行 |
+| TTS 配音 | `<包根>\scripts\tts_generate.py` | Step 5 执行 |
 | 中文字体 | `Noto Sans CJK SC` / `WenQuanYi Micro Hei` | HTML 排版时设置 |
 
 ## 前置条件

@@ -22,7 +22,7 @@
 
 ## 脚本位置与参数
 
-**脚本位置**：`scripts/deai_gate.py`，路径相对**本包根目录**展开。本包根目录就是本次系统提示里 `--- skill: /pop-ai-reduce-lite (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。不要写死绝对路径，不要用 `<pop-ai-reduce-lite 包根>/...` 这类写法，也不要到磁盘上搜脚本。
+**脚本位置**：`scripts/deai_gate.py`，路径相对**本包根目录**展开。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。不要写死绝对路径，不要用 `<pop-ai-reduce-lite 包根>/...` 这类写法，也不要到磁盘上搜脚本。
 
 **参数表**，以 `python <包根>\scripts\deai_gate.py --help` 为准：
 
