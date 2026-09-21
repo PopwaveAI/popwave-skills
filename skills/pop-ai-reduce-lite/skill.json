@@ -1,8 +1,8 @@
 {
   "id": "pop-ai-reduce-lite",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "displayName": "去AI味改写",
-  "description": "当用户说「去AI味/降AI/润色」时用它，也在创作管线要求清一遍 AI 痕迹时被调用。规范化中文正文的标点与字形、给主角与重要角色加引号，产出干净稿并留档。三线共用，不改用词与句式。",
+  "description": "当用户说「去AI味/降AI/润色」时用它，也在创作管线要求清一遍 AI 痕迹时被调用。规范化中文正文的标点与字形、给主角与重要角色加引号，产出干净稿并留档。三线共用，默认只动标点与引号。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-ai-reduce-lite", "降AI", "去AI味", "润色"]
