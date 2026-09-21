@@ -1,5 +1,11 @@
 # pop-comic-test
 
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-comic-test (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
 > 本技能是画风三组测试。用固定三组模板（场景、角色、多格剧情）逐个画风验证 DNA 执行力，产出"画风能不能用"的通过判定。v1.4.1
 
 ## 职责范围
@@ -17,7 +23,7 @@
 ## 怎么运作
 
 ### Step 1: 选画风范围，读取 DNA 库
-- 读取 `../pop-visual-style/references/文风DNA-library.json` 的 `styles` 键
+- 读取 `<pop-visual-style 包根>/references/文风DNA-library.json` 的 `styles` 键
 - 支持单画风（`--style-name`）或全库（`--all`）
 - 每次取该画风的 `dna` 与 `constraint` 字段，注入三组模板
 
@@ -26,7 +32,7 @@
 - **控制变量铁律**：三组模板的 composition、lighting、scene、character 全部固定，只有 DNA 与 constraint 随画风变化
 - 输出 config JSON 供 `batch_test.py` 消费
 
-### Step 3: 批量生成，执行 `../pop-visual-shared/scripts/batch_test.py`
+### Step 3: 批量生成，执行 `<pop-visual-shared 包根>\scripts\batch_test.py`
 - 用 `--config` 指定生成的 config，`--out-dir` 指定输出，`--seed` 固定种子
 - `batch_test.py` 导出三张图的任务清单（T1_scene、T2_character、T3_comic）到 `generation_tasks.json`
 - 主 agent 读任务清单，用 `image_generate` 工具逐条生成（生图统一使用 `image_generate`，不直连 API）
@@ -52,11 +58,11 @@
 |:-----|:----------|:---------|
 | 生成三组 config | `scripts/build_3test.py --style-name "X" --out config.json` | Step 2 |
 | 全库批量生成 config | `scripts/build_3test.py --all --out-dir 素材/测试` | Step 2 全库模式 |
-| 读画风 DNA 库 | `../pop-visual-style/references/文风DNA-library.json` | Step 1 |
-| 批量生成图片 | `../pop-visual-shared/scripts/batch_test.py --config ...` | Step 3 |
+| 读画风 DNA 库 | `<pop-visual-style 包根>/references/文风DNA-library.json` | Step 1 |
+| 批量生成图片 | `<pop-visual-shared 包根>\scripts\batch_test.py --config ...` | Step 3 |
 | 三组固定模板定义 | `scripts/build_3test.py` 内 `TEMPLATES` 常量 | Step 2 |
-| 画风库变更历史 | `../pop-visual-style/CHANGELOG.md` | 画风库更新后 |
+| 画风库变更历史 | `<pop-visual-style 包根>/CHANGELOG.md` | 画风库更新后 |
 
 ## 版本
 
-见 `CHANGELOG.md`。画风库变更历史见 `../pop-visual-style/CHANGELOG.md`。
+见 `CHANGELOG.md`。画风库变更历史见 `<pop-visual-style 包根>/CHANGELOG.md`。

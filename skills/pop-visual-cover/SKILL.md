@@ -1,5 +1,11 @@
 # pop-visual-cover
 
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-visual-cover (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
 > 网文封面与场景视觉资产生成器。两种起点，同一个终点。v2.1.0：将 steps 四部分全部合入 SKILL.md 单文件并精炼，规程全内联。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
@@ -19,7 +25,7 @@
 | 生成内容 | 工具/方式 | 说明 |
 |:-----|:---------|:-----|
 | 静态图片（Seedream 5.0 Pro） | `image_generate` 工具 | 文生图/图生图/多图输入，无 API Key |
-| 动态视频（Seedance 1.0 Pro） | `generate.py video` | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
+| 动态视频（Seedance 1.0 Pro） | `<pop-visual-shared 包根>\scripts\generate.py` video | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
 
 Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图、图生图、多图输入。文字用双引号包裹。
 
@@ -50,7 +56,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
 - **执行搜索**：
   ```powershell
   $env:BRIGHTDATA_API_KEY="<key>"
-  python "../pop-visual-shared/scripts/pinterest_search.py" "[英文表达]" --max-results 2 --download --limit 2 --output-dir "[输出目录]"
+  python "<pop-visual-shared 包根>\scripts\pinterest_search.py" "[英文表达]" --max-results 2 --download --limit 2 --output-dir "[输出目录]"
   ```
 - **图片分析**：对下载的每张 Pinterest 图用 Read 工具查看，提取画风、构图与配色特征，并标注**所属维度与子方向**。
 
@@ -195,9 +201,9 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌。支持文生图
   **关键原则**：①**正向吸收**——明确列出要吸收的要素：画风质感（笔触技法、渲染方式）、色彩系统（色调倾向、饱和度、明暗）、光影氛围（光源、氛围、空气感）、人物精致度，吸收要素要落到具体词，不写"参考风格"这种模糊词；②**最小排除**——只排除两样：**具体场景内容**（场景物品、环境元素）与**人物长相**（五官、脸型），姿态、服饰、构图、色彩都允许由参考图自然传导；③明确声明"以下画面内容由描述决定"，保证主体内容（书名、人物、构图）由提示词控制。**不得在提示词里堆"不参考"清单**（人物、姿态、服饰、场景、构图、配色全部排除即为没参考，实测画风吸收被抑制）。
 - **多图参考处理**：用户可指定多张参考图，各取不同参考点（如"pin_003 的色系加 pin_005 的构图"）——每张参考图作为 `image` 参数传入（Seedream 支持多图输入），提示词中明确标注每张图的参考范围，交叉维度在两个维度都放权："参考图A：仅参考其[色系特征描述]；参考图B：仅参考其[构图特征描述]；以下画面内容由本段描述决定：[画面内容、画风、光影、字体]"。
 
-**3. 翻译为模型提示词**：读取 `../pop-visual-shared/references/seedream-prompt-guide.md` 获取提示词写法，按 §2 确定的策略执行翻译。
+**3. 翻译为模型提示词**：读取 `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` 获取提示词写法，按 §2 确定的策略执行翻译。
 
-> **画风 DNA 来源**：从 `skills/pop-visual-style/references/文风DNA-library.json` 取画风的 `dna` 与 `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格不得使用 LT1 减法照明）。详见 `skills/pop-visual-style/references/lighting-composition-templates.md`。
+> **画风 DNA 来源**：从 `<pop-visual-style 包根>/references/文风DNA-library.json` 取画风的 `dna` 与 `constraint` 字段。按赛道用 `suggested_genres` 筛选，取 `recommended_lighting` 检查光照兼容性（柔美风格不得使用 LT1 减法照明）。详见 `<pop-visual-style 包根>/references/lighting-composition-templates.md`。
 
 > **核心原则**：Seedream 5.0 Pro/5.0 lite 画面不再泛白，简洁精确的提示优于堆砌华丽词汇。用自然语言连贯描述，不堆叠关键词。
 
@@ -225,13 +231,13 @@ image_generate(prompt='提示词内容', size='1125x1500', output='测试/封面
 # 图生图（有参考图，按参考点策略）
 image_generate(prompt='提示词内容', size='1125x1500', ref_image='成品/复现/复现-{实体}-vN-final.png', output='测试/封面/封面-{书}-v1.png')
 ```
-多图参考：按工具能力传入多张参考图路径，提示词中说明各图参考点。视频生成不在 `image_generate` 工具范围——如需封面动态化，走 `generate.py video` 子命令（需显式设置 `ARK_API_KEY` 环境变量，脚本不内置 key）。
+多图参考：按工具能力传入多张参考图路径，提示词中说明各图参考点。视频生成不在 `image_generate` 工具范围——如需封面动态化，走 `<pop-visual-shared 包根>\scripts\generate.py` video 子命令（需显式设置 `ARK_API_KEY` 环境变量，脚本不内置 key）。
 
-**输出目录与成品确认**（三态写入见 `../pop-visual-pipeline/references/落盘规范.md`）：封面或场景的**候选图**统一输出到 `测试/封面/`（不存在则创建）；**用户确认后**把达标图复制到 `成品/封面/`（加 `-final`）；未确认前一律留在 `测试/`，不得直接写入成品目录。
+**输出目录与成品确认**（三态写入见 `<pop-visual-pipeline 包根>/references/落盘规范.md`）：封面或场景的**候选图**统一输出到 `测试/封面/`（不存在则创建）；**用户确认后**把达标图复制到 `成品/封面/`（加 `-final`）；未确认前一律留在 `测试/`，不得直接写入成品目录。
 
 **品牌水印（必做）**：图片生成后用共享水印脚本叠加半透明 `popwave.cn` 小字水印（工程化后处理，**不进提示词**，避免污染 Seedream 文生图）：
 ```
-python skills/pop-visual-shared/scripts/watermark.py '测试/封面/封面-{书}-v1.png'
+python "<pop-visual-shared 包根>\scripts\watermark.py" '测试/封面/封面-{书}-v1.png'
 ```
 默认右下角 alpha=80（约 31% 不透明，低调可见）；**幂等**——脚本通过元数据标记自动跳过已含水印的图，重复运行不叠加；校验：执行完成后再次运行 `watermark.py <图>`，应输出"已含水印，跳过"，确认水印已加。
 
@@ -281,12 +287,12 @@ python skills/pop-visual-shared/scripts/watermark.py '测试/封面/封面-{书}
 | 设计场景图 | `references/mode-scene.md` | 场景图模式时 |
 | 视觉钩子+构图骨架库 | `references/novel-visual-design.md` §二§三§四 | Step 1 |
 | 文化元素（定场诗/印章） | `references/novel-visual-design.md` §八 | Step 1 |
-| 提示词写法+控制公式 | `../pop-visual-shared/references/seedream-prompt-guide.md` | Step 2 |
-| 画风DNA库（36种+光照兼容性） | `skills/pop-visual-style/references/文风DNA-library.json` | Step 2 |
-| 光照-构图模板+兼容性矩阵 | `skills/pop-visual-style/references/lighting-composition-templates.md` | Step 2 |
+| 提示词写法+控制公式 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | Step 2 |
+| 画风DNA库（36种+光照兼容性） | `<pop-visual-style 包根>/references/文风DNA-library.json` | Step 2 |
+| 光照-构图模板+兼容性矩阵 | `<pop-visual-style 包根>/references/lighting-composition-templates.md` | Step 2 |
 | 生成图片 | `image_generate` 工具 | Step 2 |
-| 叠加品牌水印（必做） | `../pop-visual-shared/scripts/watermark.py` | Step 2 落地后 |
-| 搜 Pinterest | `../pop-visual-shared/scripts/pinterest_search.py` | Step 0 |
+| 叠加品牌水印（必做） | `<pop-visual-shared 包根>\scripts\watermark.py` | Step 2 落地后 |
+| 搜 Pinterest | `<pop-visual-shared 包根>\scripts\pinterest_search.py` | Step 0 |
 | 设计方案模板 | `templates/design-plan.tpl.md` | Step 1 |
 
 > **环境**：Python 3.8+ 与 requests。API Key 内置在脚本中。Pinterest 下载采用三层降级（本地代理→Bright Data→优雅降级并保留 URL）。
