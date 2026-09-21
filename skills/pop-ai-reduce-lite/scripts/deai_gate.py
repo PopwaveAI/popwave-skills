@@ -232,8 +232,75 @@ def fix_punct_norm(t):
     return t, counts
 
 
-def fix_zero_risk(text):
-    """机械修复，不改任何语义。返回 (新文本, {修复名: 处数})。"""
+def _corner_quote_spans(t):
+    """返回已存在的直角引号区间 [(start, end)]；这些位置不再重复加标记。"""
+    spans = []
+    stack = []
+    for i, ch in enumerate(t):
+        if ch in ('「', '『'):
+            stack.append(i)
+        elif ch in ('」', '』') and stack:
+            spans.append((stack.pop(), i + 1))
+    return spans
+
+
+def add_name_marks(t, names, per_name_max=4, total_max=12):
+    """给名单里的名字均匀挑几处包上直角引号。只加不改：不动字词、不动对话引号。
+
+    为什么是「均匀挑几处」而不是「每处都加」：实测里标 2 处完全无效、标 8 处起效、
+    只标出现最多的那一个人名（18 处集中在一个人名上）效果最好。均匀铺开是为了
+    不管送检方怎么切块，每块里都能落到几处。
+    返回 (新文本, 加了几处)。
+    """
+    spans = _corner_quote_spans(t)
+
+    def inside(pos, ln):
+        return any(a <= pos and pos + ln <= b for a, b in spans)
+
+    picks = []
+    for raw in names:
+        nm = raw.strip()
+        if not nm:
+            continue
+        pos = []
+        start = 0
+        while True:
+            i = t.find(nm, start)
+            if i < 0:
+                break
+            if not inside(i, len(nm)):
+                pos.append(i)
+            start = i + len(nm)
+        if not pos:
+            continue
+        n = min(per_name_max, len(pos))
+        idxs = [len(pos) // 2] if n == 1 else [round(k * (len(pos) - 1) / (n - 1)) for k in range(n)]
+        for k in idxs:
+            picks.append((pos[k], nm))
+
+    picks = sorted(set(picks), key=lambda x: x[0])
+    final = []
+    last_end = -1
+    for p, nm in picks:
+        if p < last_end:
+            continue
+        final.append((p, nm))
+        last_end = p + len(nm)
+    if total_max and len(final) > total_max:
+        step = len(final) / float(total_max)
+        final = [final[int(i * step)] for i in range(total_max)]
+
+    out = t
+    for p, nm in sorted(final, key=lambda x: -x[0]):
+        out = out[:p] + '「' + nm + '」' + out[p + len(nm):]
+    return out, len(final)
+
+
+def fix_zero_risk(text, names=None, name_marks=4, name_max=12):
+    """机械修复，不改任何语义。返回 (新文本, {修复名: 处数})。
+
+    names 是主角与重要角色的名单；给了才做「加引号」这一项，不给则跳过。
+    """
     counts = {}
     t = text
 
@@ -479,44 +546,17 @@ def fix_zero_risk(text):
     t = '\n'.join(fixed_lines)
     bump('英文单引号转中文引号', sq_count)
 
-    # 14b. 引号字形统一：弯引号 → 直角引号（逐行状态机；网文引号不跨行）。
-    #      两层及以上用直角单引号，符合直角引号体系的嵌套规范。
-    #      独立的单弯引号（术语引用、内心独白惯例，正文惯例合法）不动。
-    q_lines = []
-    q_fix = 0
-    for ln in t.split('\n'):
-        out = []
-        depth = 0
-        for ch in ln:
-            if ch == '“':
-                out.append('「' if depth == 0 else '『')
-                depth += 1
-                q_fix += 1
-                continue
-            if ch == '”':
-                depth = max(0, depth - 1)
-                out.append('」' if depth == 0 else '』')
-                q_fix += 1
-                continue
-            if ch == '「':
-                depth += 1
-                out.append(ch)
-                continue
-            if ch == '」':
-                depth = max(0, depth - 1)
-                out.append(ch)
-                continue
-            if ch in ('『', '』'):
-                out.append(ch)
-                continue
-            if depth > 0 and ch in ('‘', '’'):
-                out.append('『' if ch == '‘' else '』')
-                q_fix += 1
-                continue
-            out.append(ch)
-        q_lines.append(''.join(out))
-    t = '\n'.join(q_lines)
-    bump('标点字形统一', q_fix)
+    # 14b. 对话引号保持原样：不再把弯引号全量转成直角引号。
+    #      2026-09-21 改口径。原因：全量转直角等于把对话引号一律换成「」，
+    #      而 87 部真人网文语料里拿直角引号当对话引号用的有 0 部（见本包 CHANGELOG v7.1.0）。
+    #      原来这里是一段「弯引号 → 直角引号」的逐行状态机，已撤掉。
+
+    # 14c. 主角与重要角色加引号：给 --names 给出的名字均匀挑几处包上「」。
+    #      只加不改，对话引号一字不动。密度依据见本包 CHANGELOG v7.1.0。
+    name_fix = 0
+    if names:
+        t, name_fix = add_name_marks(t, names, name_marks, name_max)
+    bump('主角与重要角色加引号', name_fix)
 
     # 15. 连续ASCII空格压缩（2+→1；中文间空格不修）
     new, n = re.subn(r' {2,}', ' ', t)
@@ -722,7 +762,7 @@ def render_report(path, n_chars, fixes, items, json_out=False, do_fix=False):
     return '\n'.join(out)
 
 
-def process_file(path, do_fix, json_out):
+def process_file(path, do_fix, json_out, names=None, name_marks=4, name_max=12):
     raw = open(path, 'rb').read()
     if raw.startswith(b'\xef\xbb\xbf'):
         text, eol = raw.decode('utf-8-sig'), ('\r\n' if b'\r\n' in raw else '\n')
@@ -734,7 +774,7 @@ def process_file(path, do_fix, json_out):
     text = text.replace('\r\n', '\n')
 
     if do_fix:
-        fixed, fixes = fix_zero_risk(text)
+        fixed, fixes = fix_zero_risk(text, names, name_marks, name_max)
     else:
         fixed, fixes = text, {}
     items, n_chars = check_text(fixed)
@@ -755,13 +795,20 @@ def main():
     ap.add_argument('--fix', action='store_true',
                     help='执行零风险机械修复，改后文本写回原文件')
     ap.add_argument('--json', action='store_true', help='JSON 输出（agent 消费）')
+    ap.add_argument('--names', default='',
+                    help='主角与重要角色名单，用顿号或逗号分隔；给了才做「加引号」这一项')
+    ap.add_argument('--name-marks', type=int, default=4,
+                    help='每个人名最多标几处，默认 4')
+    ap.add_argument('--name-max', type=int, default=12,
+                    help='全文最多标几处，默认 12')
     args = ap.parse_args()
 
     if not os.path.isfile(args.input):
-        print('错误: 找不到文件 %s（本脚本只处理单文件）。用法: python deai_gate.py <正文文件> [--fix] [--json]，详见 --help' % os.path.abspath(args.input), file=sys.stderr)
+        print('错误: 找不到文件 %s（本脚本只处理单文件）。用法: python deai_gate.py <正文文件> [--fix] [--json] [--names 主角、重要角色]，详见 --help' % os.path.abspath(args.input), file=sys.stderr)
         sys.exit(2)
 
-    report, any_issue = process_file(args.input, args.fix, args.json)
+    names = [x for x in re.split(r'[、,，\s]+', args.names) if x]
+    report, any_issue = process_file(args.input, args.fix, args.json, names, args.name_marks, args.name_max)
     print(report)
     sys.exit(1 if any_issue else 0)
 
