@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-comic",
-  "version": "8.2.2",
+  "version": "8.2.3",
   "displayName": "网文转漫画",
   "description": "当用户说「网文转漫画/章节漫画/漫画连载」时用它，也在要把小说章节变成漫画时进。把整章剧情转成多格漫画页，跨章保持人物与画风一致。",
   "entry": "SKILL.md",

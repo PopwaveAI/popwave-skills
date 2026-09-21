@@ -1,6 +1,6 @@
 {
   "id": "pop-video-comic",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "displayName": "漫画转口播短视频",
   "description": "当用户说「漫画转视频/漫画口播/漫画短视频」时用它，也在要把漫画章节做成分发短视频时进。先按漫画写口播脚本，确认后配音合成成片。",
   "entry": "SKILL.md",

@@ -1,5 +1,11 @@
 # pop-visual-style
 
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-visual-style (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
 > 本技能提供通用文生图能力与画风DNA库。只做纯文生图，单次操作即可生成图片。当前版本为 v2.2.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
@@ -27,7 +33,7 @@
 | 生成内容 | 工具/方式 | 说明 |
 |:-----|:---------|:-----|
 | 静态图片（Seedream 5.0 Pro） | `image_generate` 工具 | 文生图/图生图/多图输入，无 API Key |
-| 动态视频（Seedance 1.0 Pro） | `generate.py video` | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
+| 动态视频（Seedance 1.0 Pro） | `<pop-visual-shared 包根>\scripts\generate.py` video | 需显式设置 `ARK_API_KEY` 环境变量，不内置 key |
 
 Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引号包裹。
 
@@ -44,7 +50,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 3. **用户选择**：从候选池中选择画风，或描述自定义风格。**自定义画风处理**：按 DNA 库格式组装 `dna`（英文画风描述≤800字符）与 `constraint`（风格保真约束）；生成后验证辨识度，未达标则调整 `dna` 描述。
 4. **Pinterest 参考图搜索（单张固定）**：搜索有成本（Bright Data 付费），**一次搜索，全程复用**。选定画风后搜索 1 张最符合画风的参考图，作为全书风格准绳：
    ```powershell
-   python ../pop-visual-shared/scripts/pinterest_search.py "画风关键词" --limit 5 --max-results 5 --download --output-dir "素材/ref-cache/"
+   python "<pop-visual-shared 包根>\scripts\pinterest_search.py" "画风关键词" --limit 5 --max-results 5 --download --output-dir "素材/ref-cache/"
    ```
    - 关键词：画风名、赛道与主要特征（如"暗黑修仙厚涂 玄幻 封面"）
    - 从结果中选择 **1 张最符合画风**的参考图（单张固定），删除其余候选，避免多图带来的不确定性
@@ -56,7 +62,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 
 ### Step 2: 提示词组装
 
-读取 `../pop-visual-shared/references/seedream-prompt-guide.md` §一，按6段式结构组装：
+读取 `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` §一，按6段式结构组装：
 
 ```
 [质量触发词] + Art style: [dna] [constraint] + [构图策略] + [光影叙事] + [场景] + [人物≤100字]
@@ -104,7 +110,7 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
    ```
    画风定标/批量测试：走固定脚本 `batch_test.py`（导出 `generation_tasks.json`），再由 `image_generate` 工具逐条生成（见 Step 4）。
 
-3. **输出目录**（三态写入规则见 `../pop-visual-pipeline/references/落盘规范.md`）：定标候选统一输出到 `测试/画风定标/`（目录不存在则创建）；**认可冻结后**复制到 `素材/风格/`（基建真源），并在 `画风决策.md` 记录冻结路径；`测试/` 内不标 final，冻结到 `素材/风格/` 才算定稿（`测试/画风定标/` 属可清理态）。
+3. **输出目录**（三态写入规则见 `<pop-visual-pipeline 包根>/references/落盘规范.md`）：定标候选统一输出到 `测试/画风定标/`（目录不存在则创建）；**认可冻结后**复制到 `素材/风格/`（基建真源），并在 `画风决策.md` 记录冻结路径；`测试/` 内不标 final，冻结到 `素材/风格/` 才算定稿（`测试/画风定标/` 属可清理态）。
 
 4. **回写提示词记录**（追加到项目文件）：模型、画风、光照模板、构图模板、完整提示词、尺寸、输出路径、状态✅。
 
@@ -135,13 +141,13 @@ Seedream 5.0 Pro 画面不再泛白，简洁精确优于堆砌；文字用双引
 **2. 批量导出定标任务**（一次出多张变体；必须使用固定脚本，禁止现场手写提示词、单张串行，后者等于"每次全新设计"，既不稳定又慢）：
 ```powershell
 # 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）→ 导出 generation_tasks.json
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "<上文场景类示例>" --side "<上文人物类示例>" --out-dir 测试/画风定标 --seed 20260803
+python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比,赛博边缘行者" --scene "<上文场景类示例>" --side "<上文人物类示例>" --out-dir 测试/画风定标 --seed 20260803
 
 # 只用场景类（无路人）测画风
-python ../pop-visual-shared/scripts/batch_test.py --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
+python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "暗黑悬疑高对比" --scene "moonlit bamboo grove, swirling mist, a lone stone lantern glowing faintly, wind-blown leaves, no people, no text" --out-dir 测试/画风定标 --seed 20260803
 
 # 精调变体（定制 variant 的 dna/constraint/lighting，脚本注入的 scene/side 会覆盖变体同名段）→ 用于"只改一个子维度"的返工迭代
-python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/定标变体.json --scene "..." --side "..." --out-dir 测试/画风定标 --seed 20260803
+python "<pop-visual-shared 包根>\scripts\batch_test.py" --config _过程/脚本任务/定标变体.json --scene "..." --side "..." --out-dir 测试/画风定标 --seed 20260803
 ```
 - **`--style-names`**：从 DNA 库按画风名批量测（推荐），脚本自动取 `dna`、`constraint`、`recommended_composition`、`recommended_lighting`（默认 8 线程并发批量与自动 PE 日志）；画风 DNA 放在第 2 段，由脚本固定模板保证（铁律❌2）
 - **`--config 变体.json`**：精调变体，每个变体可单独修改 `dna`、`constraint`、`lighting`
@@ -161,7 +167,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/
 | 无文字 | 无乱码、无伪文字、无加字 |
 
 **未达标不冻结**：返工微调 DNA 片段（非重选风格），重新生成 v2、v3……直到达标。
-- **稳定复现验证（核心）**：用**同一提示词与同一 seed** 重新执行一次固定脚本（`batch_test.py` 的输出目录按 `seed-{seed}` 分级，同 seed 重跑输出到同一目录，天然形成复现对比）：`python ../pop-visual-shared/scripts/batch_test.py --style-names "画风名" --out-dir 测试/画风定标 --seed 20260803`；判据为：同 seed 目录下辨识度、配色、光影是否**稳定一致**（允许构图微差，画风铁定）。**未稳定复现不冻结**：画风漂移说明提示词对 seed 敏感，只改该变体的一个子维度进行调整，直到稳定复现。
+- **稳定复现验证（核心）**：用**同一提示词与同一 seed** 重新执行一次固定脚本（`batch_test.py` 的输出目录按 `seed-{seed}` 分级，同 seed 重跑输出到同一目录，天然形成复现对比）：`python "<pop-visual-shared 包根>\scripts\batch_test.py" --style-names "画风名" --out-dir 测试/画风定标 --seed 20260803`；判据为：同 seed 目录下辨识度、配色、光影是否**稳定一致**（允许构图微差，画风铁定）。**未稳定复现不冻结**：画风漂移说明提示词对 seed 敏感，只改该变体的一个子维度进行调整，直到稳定复现。
 
 **4. 认可后冻结基线资产**：用户认可且稳定复现通过后，画风三字段**冻结为基线**：
 - 写入 `素材/风格/画风决策.md`，并标注 `签核状态: ✅ 已认可`
@@ -192,7 +198,7 @@ python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/
 | ❌6 | **未认可不冻结、不放行下游** — 画风定标图未获用户认可，不得进入基线、不得被下游消费 | 画风问题带病进入角色设计/封面/漫画，返工成本后置 |
 | ❌7 | **必须验证稳定复现** — 画风定标必须用同 seed 与同提示词复现对比，未稳定复现不冻结；冻结时记录 seed 与参考图路径 | 画风依赖单次运气，下游无法复现，画风漂移 |
 | ❌8 | **参考图是"图资产"，单张固定** — 主路径是整图复用（image 参数），不靠精确分离公式提炼文字；一次搜索，全程复用，禁止重复搜索 | 重复付费，且文字提炼还原不了参考图，风格失真 |
-| ❌9 | **画风定标走固定脚本 `batch_test.py`** — 定标必须用 `../pop-visual-shared/scripts/batch_test.py`（固定素材、固定6段式模板、并发批量、自动PE日志），禁止现场手写提示词、单张串行 | 每次测试变量不隔离、不稳定、慢 |
+| ❌9 | **画风定标走固定脚本 `batch_test.py`** — 定标必须用 `<pop-visual-shared 包根>\scripts\batch_test.py`（固定素材、固定6段式模板、并发批量、自动PE日志），禁止现场手写提示词、单张串行 | 每次测试变量不隔离、不稳定、慢 |
 | ❌10 | **画风与内容解耦 — DNA 必须是纯技法层** — `dna` 只描述怎么画（线稿、上色、光影、比例、特征），**禁止嵌入题材内容词**（世界观、服装、建筑、道具、招数斗气等）；内容走 `content_theme`（默认）或用户场景覆盖。不同画风的耦合方式各异，须逐条剥离，禁止一律只揪 `修仙流` | 画风污染实际内容（如国漫玄幻厚涂把现代都市场景拉回古代仙侠），跨题材复用失效 |
 
 ## 速查表
@@ -200,11 +206,11 @@ python ../pop-visual-shared/scripts/batch_test.py --config _过程/脚本任务/
 | 需求 | 读取内容 | 使用时机 |
 |:-----|:------|:---------|
 | 画风DNA库（37种） | `references/文风DNA-library.json` | Step 1 |
-| 提示词结构与写法 | `../pop-visual-shared/references/seedream-prompt-guide.md` | Step 2 |
+| 提示词结构与写法 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | Step 2 |
 | 构图模板、光照模板与兼容性矩阵 | `references/lighting-composition-templates.md` | Step 1 兼容性检查 / Step 2 |
-| Pinterest 参考图搜索 | `../pop-visual-shared/scripts/pinterest_search.py` | Step 1 |
+| Pinterest 参考图搜索 | `<pop-visual-shared 包根>\scripts\pinterest_search.py` | Step 1 |
 | 生成图片 | `image_generate` 工具 | Step 3 |
-| 固定画风测试脚本（并发批量） | `../pop-visual-shared/scripts/batch_test.py` | Step 4 |
+| 固定画风测试脚本（并发批量） | `<pop-visual-shared 包根>\scripts\batch_test.py` | Step 4 |
 
 > **环境**：Python 3.8+ 及 requests。
 

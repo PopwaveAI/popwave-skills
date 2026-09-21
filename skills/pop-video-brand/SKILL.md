@@ -1,5 +1,11 @@
 # pop-video-brand
 
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录就是本次系统提示里 `--- skill: /pop-video-brand (<包根>) ---` 括号内那个路径，命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根从系统提示里该 skill 的条目取。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
 > 本技能是品牌物料到品宣视频的确定性渲染管线：**读品牌素材包**（视觉规范、文案口径、产品截图、logo 与吉祥物）→ 定叙事脚本 → HTML 动效时间线 → Playwright 逐帧渲染 → 完整版 ffmpeg 合成 MP4 → 火山 TTS 口播配音与混音。v1.2.1：steps 七件全合入单文件精炼。
 
 **核心定位**：把"品牌素材精简包"（一批静态图与品牌规范文档）组装成一支 30-40s 横版品宣视频，结构为痛打开场、产品核心、证据收束、扩展能力、收尾 CTA。**不是** AI 视频生成（Seedance/GenerateVideo），而是 HTML、Playwright 与 ffmpeg 的确定性渲染，保证文字与 UI 精确可控。
@@ -55,12 +61,12 @@
 
 1. **抓预览帧（铁律）**：在关键时间点（每场景中途帧与收尾定格）抓 8-12 张，逐张 Read 审查构图是否完整协调、文案是否合规对齐、有无元素重叠溢出错位：
    ```
-   python scripts/render_frames.py --html index.html --out preview --mode preview --times 0.5,2.0,3.5,7.0,9.6,15.0,22.0,28.0,30.0
+   python "<包根>\scripts\render_frames.py" --html index.html --out preview --mode preview --times 0.5,2.0,3.5,7.0,9.6,15.0,22.0,28.0,30.0
    ```
    发现布局问题后，回 Step 2 修改 `index.html`，再抓预览，直到通过。
 2. **全量渲染**：按总时长×fps 逐帧渲染：
    ```
-   python scripts/render_frames.py --html index.html --out frames --mode full --fps 30 --start 0 --end 33
+   python "<包根>\scripts\render_frames.py" --html index.html --out frames --mode full --fps 30 --start 0 --end 33
    ```
 3. **渲染规范**：视口 1920×1080、`device_scale_factor=1`；fps 默认 30，时长以 `叙事脚本.md` 为准；中间帧放本项目 `frames/`，不污染素材包。
 
@@ -68,7 +74,7 @@
 
 - 用 `imageio-ffmpeg` 自带的完整版 ffmpeg：
   ```
-  python scripts/encode.py --frames frames --out 成品.mp4 --fps 30 --crf 18
+  python "<包根>\scripts\encode.py" --frames frames --out 成品.mp4 --fps 30 --crf 18
   ```
 - **校验成片（铁律）**：用完整版 ffmpeg probe 成片（`ffmpeg -i 成品.mp4` 读 Duration/Stream 行）核对分辨率 1920×1080、fps 30、时长等于总时长、H.264 与 yuv420p、movflags faststart。时长对不上（帧数等于时长乘 fps，允许 ±1）说明 timeline 边界有误，回查 Step 2。
 - **交付**：成片放用户指定目录（默认 `d:\popwave-skills\`），并提供本地预览页（`<video controls>` 内嵌成片）。
@@ -78,7 +84,7 @@
 - **前置**：老板已确认口播文案（Step 1 产出）；火山语音已开通「豆包语音合成大模型」，并已取得 **X-Api-Key**（单头鉴权；无 Key 时提示老板到 `https://console.volcengine.com/voice` 开通，并在「API Key 管理」复制）。
 - **逐句生成**（每句对应一个画面或场景段）：
   ```
-  python scripts/tts_generate.py --api-key <X-Api-Key> --text "口播句文案" --out "{项目}/audio/seg01.mp3"
+  python "<包根>\scripts\tts_generate.py" --api-key <X-Api-Key> --text "口播句文案" --out "{项目}/audio/seg01.mp3"
   ```
   每句一个 `seg{N}.mp3`；默认音色为**知性灿灿 2.0**（`zh_female_cancan_uranus_bigtts`，温暖专业女声），`--speaker` 可更换（如 `zh_female_zhixingnv_uranus_bigtts` 知性女声）；用 `--speech-rate`、`--loudness-rate`、`--pitch-rate` 微调语速、音量与音调。
 - **记录每句时长**：用 imageio-ffmpeg 的 ffmpeg 或 `ffprobe` 读时长，产出 `时长清单.json`（seq/file/duration_sec）。
