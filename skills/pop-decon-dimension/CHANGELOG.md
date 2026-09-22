@@ -1,4 +1,13 @@
 # CHANGELOG
+## v3.7.0 | 2026-09-22
+
+### 读源包替代幽灵路径 + 批次完成标志 + 红线收敛
+
+- Step 0 新增「读源包」：读 `合并章节索引.json`（tool-split-chapters 产物）拿章清单，章节原文读 `chapters/chNNNN.txt`，不再引用 `_temp/chapters/`（该目录无代码生成，属断链）。
+- Step 4 新增批次完成标志：每批写完批次档案后写 `批次完成标志` JSON（status/chaptersCovered/evidenceCount/checks 七项），宿主据此判断行进，不解析 run 事件文本。
+- 新增 `templates/批次完成标志.tpl.json`。
+- 红线 8→7：第一条补「读取协议」；「成品证据聚合」「正文内联 chXX」合并为「成品写成证据清单」；「凭空发明」「量化丢失」合并为「凭空发明或量化丢失」。
+- skill.json version 3.6.0→3.7.0。
 
 ## v3.6.2 | 2026-09-21
 

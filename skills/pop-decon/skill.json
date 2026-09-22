@@ -1,13 +1,14 @@
 {
   "id": "pop-decon",
-  "version": "26.3.2",
+  "version": "26.4.0",
   "displayName": "拆书专家入口",
-  "description": "当用户说「拆书/解构/deconstruct/对标」时用它，也在要拿一部成书拆出可复用的写法时从这里进。负责取得原文、问清范围，再把单书拆解交给下一环节，不常驻。",
+  "description": "当用户说「拆书/解构/deconstruct/对标/提取模板」时启用。拆书专家入口：下载txt→分章归一→读配置或征询范围→路由单书深度wiki拆解(dimension)→沉淀。不常驻调度。",
   "tags": ["拆书与分析"],
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
   "skills": [
     "tool-download-webnovel",
+    "tool-split-chapters",
     "pop-decon-dimension"
   ],
   "permissions": {
@@ -15,7 +16,7 @@
     "writeProjectFiles": true
   },
   "pipeline": {
-    "upstream": ["tool-download-webnovel"],
+    "upstream": ["tool-download-webnovel", "tool-split-chapters"],
     "downstream": ["pop-decon-dimension"],
     "expert": "pop-decon"
   },

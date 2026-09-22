@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "taskId": "替换为任务ID",
+  "referenceBookId": "替换为参考书ID",
+  "book": {
+    "name": "替换为书名",
+    "author": "替换为作者"
+  },
+  "scope": {
+    "type": "full",
+    "volumeNo": 0,
+    "from": 1,
+    "to": 0
+  },
+  "focusDimensions": [],
+  "processingProfile": "standard",
+  "skillVersions": {},
+  "outputRoot": "替换为产物根目录"
+}

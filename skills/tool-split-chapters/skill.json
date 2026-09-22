@@ -1,0 +1,30 @@
+{
+  "id": "tool-split-chapters",
+  "version": "1.0.0",
+  "displayName": "拆书章节预处理",
+  "description": "当用户要拆书、需要把整册TXT切成可寻址章节并生成索引/切批时启用。产出合并章节索引与批次清单，供拆书管线消费。",
+  "tags": [
+    "拆书与分析"
+  ],
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [
+      "分章",
+      "tool-split-chapters"
+    ],
+    "default": false
+  },
+  "pipeline": {
+    "upstream": [
+      "tool-download-webnovel"
+    ],
+    "downstream": [
+      "pop-decon"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "shell": true
+  }
+}

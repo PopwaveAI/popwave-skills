@@ -1,0 +1,17 @@
+{
+  "batchId": "V1_B1_ch001-030",
+  "status": "passed",
+  "chaptersCovered": [1, 30],
+  "evidenceCount": 96,
+  "checks": {
+    "glossary": true,
+    "anchorPool": true,
+    "schema": true,
+    "evidenceDensity": true,
+    "quantified": true,
+    "noFabrication": true,
+    "traceable": true
+  },
+  "artifacts": ["_temp/batches/V1_B1_ch001-030.md"],
+  "warnings": []
+}

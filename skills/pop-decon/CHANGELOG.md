@@ -1,4 +1,12 @@
 # CHANGELOG
+## v26.4.0 | 2026-09-22
+
+### 分章归一接线 + 读配置替代纯征询
+
+- Step 0 新增分章：路由 `tool-split-chapters`，产出 `合并章节索引.json`，作为范围征询的章清单依据（此前无分章环节，dimension 的 L1 要求读 `_temp/chapters/` 但全仓无代码生成，属断链）。
+- Step 1 升级：先查 `拆解配置.json`（宿主或独立交互冻结），有且 scope 合法则直接用；无则对话征询。保留对话兜底。
+- 新增 `templates/拆解配置.tpl.json`。
+- 可调度清单与 `skill.json` 的 `skills` / `pipeline.upstream` 加 `tool-split-chapters`。
 
 ## v26.3.2 | 2026-09-21
 
