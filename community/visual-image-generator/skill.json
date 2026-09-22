@@ -1,0 +1,27 @@
+{
+  "id": "visual-image-generator",
+  "version": "0.1.1",
+  "displayName": "视觉图像生成",
+  "description": "当用户说「生成一张图/做海报/做封面/做信息图」时用它，也在交付物本身就是一张图时进。覆盖海报、广告KV、电商主图、平台封面、小说封面、视频封面、品牌VI单页与知识信息图。",
+  "author": "Trae",
+  "entry": "SKILL.md",
+  "tags": [
+    "视觉",
+    "生图",
+    "海报",
+    "封面",
+    "信息图"
+  ],
+  "activation": {
+    "slashCommands": [
+      "visual-image-generator"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": false
+  }
+}

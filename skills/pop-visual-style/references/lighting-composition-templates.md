@@ -1,6 +1,6 @@
 # 光照与构图模板库
 
-> 本文件定义3种光照模板（LT1/LT2/LT3）和2种构图模板（CT1/CT2），以及画风、光照、构图兼容性矩阵。数据源：`references/文风DNA-library.json`。
+> 本文件定义3种光照模板（LT1/LT2/LT3）和2种构图模板（CT1/CT2），以及画风、光照、构图兼容性矩阵。数据源：`references/style-dna-library.json`。
 
 ## 构图模板
 
@@ -83,7 +83,7 @@ Lighting: Flat even illumination with minimal directional lighting. Light distri
 
 ## 使用方法
 
-1. 从 `文风DNA-library.json` 取画风的 `recommended_lighting` 和 `recommended_composition`
+1. 从 `style-dna-library.json` 取画风的 `recommended_lighting` 和 `recommended_composition`
 2. 从本文件取对应模板的英文描述
 3. 将英文描述拼入6段式提示词的第4段（光影叙事）和第3段（构图策略）
 4. 若画风在特殊系中，按特殊配置选择

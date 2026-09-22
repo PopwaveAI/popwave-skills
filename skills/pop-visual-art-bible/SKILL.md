@@ -1,6 +1,6 @@
-﻿# pop-visual-art-bible
+# pop-visual-art-bible
 
-> Art Bible · 美术设定集。本 skill 属 L1 基建层，负责产出美术设定集，作为全 IP 宇宙视觉的唯一真源。当前版本 v3.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> Art Bible · 美术设定集。本 skill 属 L1 基建层，负责产出美术设定集，作为全 IP 宇宙视觉的唯一真源。当前版本 v3.2.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 职责范围
 
@@ -51,7 +51,7 @@
 | `[地名]地理档案.md`（7维度） | 地理篇 | 二空间质感/三氛围基调/四标志性地标 |
 | `[规则名]规则档案.md`（6维度） | 规则篇 | 二视觉外显/三层级可视化/四器物载体 |
 
-**读 style 画风**：读 `素材/风格/画风决策.md` 与 `skills/pop-visual-style/references/文风DNA-library.json`，取 `dna`、`constraint`、`recommended_lighting`、`recommended_composition` 四字段。画风决定**美术语言**（厚涂、赛璐璐、暗黑高对比），不决定**视觉事实用色**（色彩基调仲裁是本 skill 的职责）。画风已冻结（`✅ 已认可`）时，直接引用冻结版、定标图与 seed。
+**读 style 画风**：读 `素材/风格/画风决策.md` 与 `<pop-visual-style 包根>/references/style-dna-library.json`，取 `dna`、`constraint`、`recommended_lighting`、`recommended_composition` 四字段。画风决定**美术语言**（厚涂、赛璐璐、暗黑高对比），不决定**视觉事实用色**（色彩基调仲裁是本 skill 的职责）。画风已冻结（`✅ 已认可`）时，直接引用冻结版、定标图与 seed。
 
 **读已有美术设定集**：已存在时进入升级模式（增量处理：新增角色、换装、受伤、觉醒、新场景、新符号、改画风；**反类型化和撕裂感一旦建立就保持**）；不存在时进入新建模式，走 Step 1 完整设计。
 
@@ -141,7 +141,7 @@
 
 **复现图等于纯生产参考图**（给下游做图生图 `ref_image` 的纯净素材，非展示作品；与 `pop-visual-oc` 立绘OC（带文字与文化元素的展示作品）严格区分）：**禁止**任何文字（角色名、称号、题诗、书法大字、钤印）、装饰元素（边框、印章、纹样、排版线）、文化元素（背景文字、铭文、道具特殊文字）；只要纯净视觉本体：居中，标准姿态与视角，干净背景，聚焦"长什么样"。
 
-**组装复现提示词**（读 `../pop-visual-shared/references/seedream-prompt-guide.md` 6段式，画风DNA放第2段）：
+**组装复现提示词**（读 `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` 6段式，画风DNA放第2段）：
 
 ```
 [质量触发词] + Art style: [dna] [constraint] + [构图策略] + [光影叙事] + [设定集冻结提示词] + [标准视角/姿态]
@@ -158,7 +158,7 @@
 场景/势力/地理/规则：image_generate(prompt='对应冻结提示词', size='1500x1125', ref_image='画风定标图', output='测试/复现/复现-{名称}-v1.png')
 ```
 
-**📁 三态写入**（见 `../pop-visual-pipeline/references/落盘规范.md`）：候选图统一输出到 `测试/复现/`（确保目录存在）；**检查认可后**复制到 `成品/复现/`（文件名加 `-final`），成品路径记入美术设定集复现资产索引；下游 oc、comic、cover 做 `ref_image` 一律读成品路径，禁止引用 `测试/` 候选。**⚠️ 复现图禁止加品牌水印**：加了 `popwave.cn` 会被 Seedream 当作画面内容带入下游正式成品，造成水印层层污染；水印只在对外展示的产出（OC立绘、封面、漫画页）完成之后叠加。
+**📁 三态写入**（见 `<pop-visual-pipeline 包根>/references/落盘规范.md`）：候选图统一输出到 `测试/复现/`（确保目录存在）；**检查认可后**复制到 `成品/复现/`（文件名加 `-final`），成品路径记入美术设定集复现资产索引；下游 oc、comic、cover 做 `ref_image` 一律读成品路径，禁止引用 `测试/` 候选。**⚠️ 复现图禁止加品牌水印**：加了 `popwave.cn` 会被 Seedream 当作画面内容带入下游正式成品，造成水印层层污染；水印只在对外展示的产出（OC立绘、封面、漫画页）完成之后叠加。
 
 **🚪 检查：复现验收**——向用户呈现复现图，逐项验收：
 
@@ -203,8 +203,8 @@
 | 跨实体一致性仲裁规则 | `references/bible-arbitration-guide.md` | Step 1 一致性仲裁 |
 | 美术设定集模板（八篇合一） | `templates/art-bible.tpl.md` | Step 1 产出 |
 | 人物视觉身份卡模板（人物篇附属） | `templates/visual-identity-card.tpl.md` | Step 1 人物篇 |
-| 画风DNA库（按赛道选基准） | `skills/pop-visual-style/references/文风DNA-library.json` | Step 0 |
-| 原文资产方法论（10维度、场景、符号、势力、地理、规则） | `skills/pop-visual-asset/references/asset-extract-guide.md` | Step 0 |
+| 画风DNA库（按赛道选基准） | `<pop-visual-style 包根>/references/style-dna-library.json` | Step 0 |
+| 原文资产方法论（10维度、场景、符号、势力、地理、规则） | `<pop-visual-asset 包根>/references/asset-extract-guide.md` | Step 0 |
 
 ## 前置条件
 

@@ -6,7 +6,7 @@
 
 ## §一 角色档案（10维度）
 
-> **方法论唯一权威源**：`../pop-visual-shared/references/character-research-guide.md`（与 pop-visual-oc 共用，禁止本地重建副本）。
+> **方法论唯一权威源**：`<pop-visual-shared 包根>/references/character-research-guide.md`（与 pop-visual-oc 共用，禁止本地重建副本）。
 > 本文件 §一 仅保留 asset 特有的提取要点，10维度模板与五轮搜索沿用共享权威源。
 
 ### 核心理念
@@ -23,7 +23,7 @@
 
 ### asset 特有提取要点
 
-- **五轮搜索、10维度模板、采样质量自检**：见共享权威源 `../pop-visual-shared/references/character-research-guide.md`
+- **五轮搜索、10维度模板、采样质量自检**：见共享权威源 `<pop-visual-shared 包根>/references/character-research-guide.md`
 - **原文行号索引**：每条提取信息必须标注原文行号（asset 铁律 ❌2）
 - **写作专家项目辅助**：已有 `设计/角色库/角色库.md` 时读取，作为维度一、维度三的辅助参考，但仍需从正文采样原文佐证
 - **增量更新**：只追加新章节发现的外貌/成长/评价/金句，不覆盖已有内容，更新文件头部"采样范围"标记

@@ -1,5 +1,12 @@
 # tool-download-webnovel
-> 网文搜索下载TXT v7.4.0。三阶段流程：脚本搜索、web搜索兜底、验证交付。含内容污染检测与章节连续性校验。
+
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
+> 网文搜索下载TXT v7.4.1。三阶段流程：脚本搜索、web搜索兜底、验证交付。含内容污染检测与章节连续性校验。
 
 ## 做什么
 | 输入 | 输出 | 下游 |
@@ -13,7 +20,7 @@
 > 强加载：红线与速查表（每轮必读）；弱加载：scripts按需调用。
 
 ### Phase 1: 脚本自动搜索
-- 执行 `python3 scripts/download_novel.py "书名" --author "作者" --output-dir downloads`
+- 执行 `python3 "<包根>\scripts\download_novel.py" "书名" --author "作者" --output-dir downloads`
 - status=success 或 success_with_warnings → 检查preview与warnings → 交付；status=error → **进入Phase 2**
 - status=poor_quality → 检查 contamination_found、chapters_missing、chapters_truncated → 换源重下或 --resume 补爬
 
@@ -38,7 +45,7 @@
 | 文件 | 读取时机 | 核心内容 |
 |------|----------|----------|
 | SKILL.md | 每轮必读 | 红线、流程骨架、速查表 |
-| scripts/download_novel.py | 执行下载时 | 统一入口：搜索、验证、爬取、污染扫描、校验、交付 |
+| <包根>\scripts\download_novel.py | 执行下载时 | 统一入口：搜索、验证、爬取、污染扫描、校验、交付 |
 
 ## 参数速查
 | 参数 | 默认 | 说明 |

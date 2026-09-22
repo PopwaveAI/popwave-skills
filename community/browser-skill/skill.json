@@ -1,0 +1,26 @@
+{
+  "id": "browser-skill",
+  "version": "1.0.1",
+  "displayName": "浏览器操控（BrowserSkill）",
+  "description": "当用户要操作自己已登录的网站、或要整页长截图时用它，也在要把某个网页流程走完并抓下数据时进。驱动本机已登录的浏览器打开页面、填表点击、抓取数据并截图。",
+  "author": "Popwave",
+  "entry": "SKILL.md",
+  "tags": [
+    "浏览器",
+    "自动化",
+    "网页操作",
+    "长截图"
+  ],
+  "activation": {
+    "slashCommands": [
+      "browser-skill"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": true
+  }
+}

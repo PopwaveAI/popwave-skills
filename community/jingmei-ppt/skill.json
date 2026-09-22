@@ -1,0 +1,27 @@
+{
+  "id": "jingmei-ppt",
+  "version": "1.0.1",
+  "displayName": "精美 PPT",
+  "description": "当用户说「做PPT/改PPT/选风格」时用它，也在要定一套可复用的演示视觉规范时进。先定审美方向与风格配方，再管层级、信息密度、字体、间距、构图与一致性。",
+  "author": "精美 PPT",
+  "entry": "SKILL.md",
+  "tags": [
+    "PPT",
+    "演示文稿",
+    "视觉设计",
+    "设计系统",
+    "PptxGenJS"
+  ],
+  "activation": {
+    "slashCommands": [
+      "jingmei-ppt"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": true
+  }
+}

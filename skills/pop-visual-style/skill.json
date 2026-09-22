@@ -1,8 +1,8 @@
 {
   "id": "pop-visual-style",
-  "version": "2.2.0",
+  "version": "2.2.4",
   "displayName": "通用文生图",
-  "description": "想画一张图、做纯文生图时用它。内置几十种画风库，选个画风再输入画面描述就能出图，也是封面、人设、漫画等视觉功能共用的画风来源。",
+  "description": "当用户说「文生图/生成图片/画一张图/画风库」时用它，也在要纯文生图或挑画风时进。内置几十种画风库，选画风加画面描述即出图，也是其它视觉功能共用的画风来源。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": ["pop-visual-style", "文生图", "画图", "生成图片", "画风库"]

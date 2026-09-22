@@ -1,12 +1,24 @@
 {
   "id": "pop-dna-style",
-  "version": "2.7.0",
+  "version": "2.7.2",
   "displayName": "文风DNA提取与综合重构",
-  "description": "想提取参考书的文风、或综合重构一部小说的文风锚定时用它。把笔触DNA提炼成可执行的文风规范，供正文写作使用。",
-  "tags": ["番茄长篇网文专家", "起点长篇网文专家"],
+  "description": "当用户说「文风DNA/DNA重构/提取文风」时用它，也在要定本书文风、或写正文前缺文风锚定时进。从参考书原文提笔触并重构，供写正文带入。",
+  "tags": [
+    "番茄长篇网文专家",
+    "起点长篇网文专家"
+  ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["pop-dna-style", "文风DNA", "DNA重构"] },
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "activation": {
+    "slashCommands": [
+      "pop-dna-style",
+      "文风DNA",
+      "DNA重构"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
   "author": "popwave",
   "license": "UNLICENSED"
 }

@@ -1,8 +1,8 @@
 {
   "id": "create-skill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "创建 Skill",
-  "description": "通过对话把用户的工作需求转为可导入的技能包，支持澄清需求、生成指令和资源，并根据客户端校验反馈修复草稿。",
+  "description": "当用户说「创建技能/新建技能/把这件事做成技能」时用它，也在要把一套重复做法固化成技能包时进。通过对话把需求变成可导入的技能包，含清单与入口文件。普通创作任务直接完成，不包装成技能。",
   "entry": "SKILL.md",
   "activation": { "slashCommands": ["创建技能"], "default": false },
   "permissions": { "readProjectFiles": true, "writeProjectFiles": true, "network": false, "shell": false },

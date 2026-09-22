@@ -96,8 +96,8 @@ def resolve_ref_image(frame_id):
     ref_name = FRAME_REFS.get(frame_id)
     if not ref_name:
         return None
+    # 定妆图在用户项目里，按当前工作目录找。脚本自身位置在安装目录内，与项目无关，不用它。
     candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
         os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
         os.path.join(os.getcwd(), "assets", "characters", ref_name),
     ]
@@ -133,7 +133,7 @@ def export_tasks():
     """把 FRAMES 列表导出为 generation_tasks.json，供主 agent 用 image_generate 工具逐张生成。"""
     out_dir = OUTPUT_DIR
     if not os.path.isabs(out_dir):
-        out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
+        out_dir = os.path.join(os.getcwd(), out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
     tasks = []

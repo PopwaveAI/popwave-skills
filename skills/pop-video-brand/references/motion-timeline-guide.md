@@ -51,6 +51,6 @@ function set(id,o,tr){var e=document.getElementById(id);if(e){e.style.opacity=o;
 - 只改 `opacity` 与 `transform`，保证 Playwright 截图即时生效。
 
 ## 渲染脚本
-- `scripts/render_frames.py --html index.html --out preview --mode preview --times ...`
-- `scripts/render_frames.py --html index.html --out frames --mode full --fps 30 --start 0 --end 33`
-- `scripts/encode.py --frames frames --out 成品.mp4 --fps 30`
+- `<包根>\scripts\render_frames.py --html index.html --out preview --mode preview --times ...`
+- `<包根>\scripts\render_frames.py --html index.html --out frames --mode full --fps 30 --start 0 --end 33`
+- `<包根>\scripts\encode.py --frames frames --out 成品.mp4 --fps 30`

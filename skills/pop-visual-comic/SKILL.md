@@ -1,6 +1,12 @@
 # pop-visual-comic
 
-> 本技能是网文漫画连载管线。DeepSeek 承担编剧与项目管理（场景采摘与导演卡、提示词产出、角色库管理、状态记录），Seedream 承担画师（连续输出多格漫画页），HTML 承担长条滚动展示与文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风与人物。** 当前版本 v8.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
+> 本技能是网文漫画连载管线。DeepSeek 承担编剧与项目管理（场景采摘与导演卡、提示词产出、角色库管理、状态记录），Seedream 承担画师（连续输出多格漫画页），HTML 承担长条滚动展示与文字叠加层。**页漫模式**。**L2 派生层：只消费 `pop-visual-art-bible` 美术设定集，不重建画风与人物。** 当前版本 v8.2.2（2026-09-14：命名与编号归一——设计库档名对齐、主线结构表统一、phase 改 1-8；建目录补空档）。前一版 v8.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 本技能做什么
 
@@ -15,7 +21,7 @@
 
 > 历史版本"核心变化"记录见 `CHANGELOG.md`，SKILL.md 只保留当前版本关键项。
 
-输入：小说项目（含角色库.md、正文、力量体系.md 等）
+输入：小说项目（含角色库.md、正文、世界法则.md 等）
 输出：每章多页漫画（Seedream 直出 page1~N.png）、HTML 文字叠加页面、长图截图、持久化的角色定妆库与连载状态管理文件
 
 核心管线：**Step 0 初始化**（一次性）→ **Step 1 导演卡定稿**（剧情白描→分镜头处理→改编分析→页面设计→提示词产出）→ **Step 2 生成+审核**（连续出图、HTML、审核、记忆沉淀）
@@ -236,20 +242,20 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 **2. 生图（任务清单导出与 image_generate 工具）**：`generate_comic_page.py` 不直连生图 API、不内置 Key，只负责解析提示词、校验尺寸、导出任务清单。
 
 - **配置脚本**：从 storyboard.md 读取每页提示词和参考图（**复制不重新组装**），写入 `PAGES` 列表，每项 `{"id": "page1", "prompt": "{storyboard P1完整6段式提示词}", "ref_images": ["char-{角色名}-v{N}-front.png", "char-{角色名}-v{N}-side.png"], "size": "1125x1500"}`；`OUTPUT_DIR = r"第{N}章/output"`，`CHAR_ASSETS_DIR = r"assets/characters"`
-- **导出任务清单**：`python "{本skill路径}/scripts/generate_comic_page.py"` → 输出 `output/generation_tasks.json`（每页含 id、prompt、size、ref_images、output_path）
+- **导出任务清单**：`python "<包根>/scripts/generate_comic_page.py"` → 输出 `output/generation_tasks.json`（每页含 id、prompt、size、ref_images、output_path）
 - **批量生成（单次 turn 一次发完，不得逐张等待完成）**：读取任务清单，**在一个回复里连续调用全部页（含增量定妆图）的 `image_generate`**（prompt、size、output 按任务；有 ref_images 时传参考图路径，图生图保角色一致）。⚠️ `image_generate` 是**异步工具**，逐张调用（发一张→结束turn→重复守卫警告→返回时只收到第一张）会导致**后续页全部漏掉**——这就是"只出第一张、执行一半中断"的根因。系统支持同 session 多任务排队，每页 prompt 不同不触发重复守卫。全部发出后结束 turn，让任务后台排队逐个投递；收齐全部页后统一进入产出检查与评审；中途单页失败或 failed 时只记录、不中断，收齐后补发该页单次 `image_generate`
 - **格式校验**：全部页收齐后统一执行（扩展名与实际字节一致，JPEG 转码为真 PNG），不逐页校验；超时或失败未收到的页补发单次调用
 
 **3. 长条滚动 HTML**（必读 `references/guides/page-layout-guide.md` — 完整 HTML 模板与文字叠加 CSS）：
 - 创建 `第{N}章/页面配置.json`：`title`、`subtitle`（第{N}章·章节名）、`pages_dir`(output)、`output_html`(index.html)、`pages`（每页 `file` 与 `captions`：`{"type": "narration"|"dialogue", "text": "...", "position": "bottom"|"top-right"}`）。文字叠加两类：旁白条 `.caption-narration`（旁白、独白、环境描写）与对白气泡 `.caption-dialogue`（角色台词）。大单页通常不加文字——名场面画面自说
 - 按 page-layout-guide 的 HTML 模板结构生成 `index.html`（纯 HTML+CSS 零 JS），**不得手写简化版绕过模板**（实测导致品牌水印 slogan/footer 全丢）
-- **品牌水印强制注入（必做工程兜底）**：`python "{本skill路径}/scripts/inject_watermark.py" "{漫画项目}/第{N}章/index.html"` — 脚本幂等注入标题区 slogan `popwave.cn 让创意一键落地`，另加页脚 footer `未完待续 · popwave.cn 让创意一键落地`，并校验三要素齐全，校验不过 ERROR exit 1，**不得跳过，也不得发布无品牌水印的漫画**
+- **品牌水印强制注入（必做工程兜底）**：`python "<包根>/scripts/inject_watermark.py" "{漫画项目}/第{N}章/index.html"` — 脚本幂等注入标题区 slogan `popwave.cn 让创意一键落地`，另加页脚 footer `未完待续 · popwave.cn 让创意一键落地`，并校验三要素齐全，校验不过 ERROR exit 1，**不得跳过，也不得发布无品牌水印的漫画**
 - 本地预览：`cd "{漫画项目}/第{N}章"; python -m http.server 8000`
 
 **4. 按页导出分享图与整条长图（必做）**：分享是"一张一张图去分享"，不只看整条长图——
-- `python "{本skill路径}/scripts/export_pages.py" "{漫画项目}/第{N}章/index.html"`：Playwright 逐页截图 **`.page` 与 `.info-page` 容器**（含文字叠加层，信息页文字不丢）→ Pillow 底部追加品牌水印条（暗红分隔线与 `popwave.cn 让创意一键落地`）→ `分享/page01~N.png`。**产出校验**：分享图页数等于导演卡页数、每张底部必有品牌水印条，缺失即打回——不得发无品牌水印的分页分享图
+- `python "<包根>/scripts/export_pages.py" "{漫画项目}/第{N}章/index.html"`：Playwright 逐页截图 **`.page` 与 `.info-page` 容器**（含文字叠加层，信息页文字不丢）→ Pillow 底部追加品牌水印条（暗红分隔线与 `popwave.cn 让创意一键落地`）→ `分享/page01~N.png`。**产出校验**：分享图页数等于导演卡页数、每张底部必有品牌水印条，缺失即打回——不得发无品牌水印的分页分享图
 - **整条长图**：逐元素拼接（title-banner、漫画页、信息页、footer-banner）→ `分享/长图-{章节名}.png`（非 full_page 全页截图，免底部质量退化）。分页与长图统一放 `分享/`
-- 整条截图备选：`python "{本skill路径}/scripts/screenshot_comic.py" "{index.html}" "{长图输出}"`
+- 整条截图备选：`python "<包根>/scripts/screenshot_comic.py" "{index.html}" "{长图输出}"`
 
 **5. 产出检查**：页数完整（导演卡每页 page{N}.png 全存在）；图片格式全真 PNG（magic bytes `89 50 4E 47`）；index.html 已写入且图片引用路径正确；品牌水印三要素齐全（slogan 与 footer，缺失即打回）；分享图页数与水印齐全；storyboard.md 与 导演卡.md 已写入。
 
@@ -274,9 +280,9 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 
 ## 🚪 首次对话引导（onboarding）
 
-> 视觉专家的首次对话引导**由 `pop-visual-pipeline` 统一负责**（`../pop-visual-pipeline/references/onboarding-guide.md`，介绍整套视觉工程与意图检查点）。本派生层不单独引导——用户第一次触发视觉专家时从总入口进入，由 pipeline 引导后按其 intent 路由到本漫画环节。
+> 视觉专家的首次对话引导**由 `pop-visual-pipeline` 统一负责**（`<pop-visual-pipeline 包根>/references/onboarding-guide.md`，介绍整套视觉工程与意图检查点）。本派生层不单独引导——用户第一次触发视觉专家时从总入口进入，由 pipeline 引导后按其 intent 路由到本漫画环节。
 >
-> 若用户直接触发本专家且确认为首次对话（无漫画项目、非续写），也可复用 pipeline 的 `../pop-visual-pipeline/references/onboarding-guide.md` 引导语作总入口介绍，再进入 Step 0。
+> 若用户直接触发本专家且确认为首次对话（无漫画项目、非续写），也可复用 pipeline 的 `<pop-visual-pipeline 包根>/references/onboarding-guide.md` 引导语作总入口介绍，再进入 Step 0。
 >
 > `templates/onboarding.html` 为可选的视觉版展示（单文件 base64 内嵌约 0.5MB，发给任何用户不裂图），仅在需要"哇效果"式的视觉演示时使用。
 
@@ -334,20 +340,20 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 
 | 我要 | 读什么文件 | 什么时候读 |
 |:-----|:----------|:----------|
-| 初始化漫画项目 | `scripts/init_project.py` | Step 0 建目录与生成角色库 |
-| 增量更新角色定妆图 | `scripts/update_char_asset.py` | Step 2 角色外观变化时 |
-| **逐页生成漫画** | `scripts/generate_comic_page.py` | **Step 2 逐页生成漫画页时执行** |
-| 截长图（分享用） | `scripts/screenshot_comic.py` | Step 2 文字叠加后执行 |
-| **按页导出分享图与整条长图（必做，统一放分享/）** | `scripts/export_pages.py` | **Step 2 生成 HTML 后必做** |
-| 查 Seedream 提示词写法 | `../pop-visual-shared/references/seedream-prompt-guide.md` | 写提示词前必读 |
-| 调用 Seedream API | `../pop-visual-shared/scripts/generate.py` | 生成单张图片时执行 |
+| 初始化漫画项目 | `<包根>\scripts\init_project.py` | Step 0 建目录与生成角色库 |
+| 增量更新角色定妆图 | `<包根>\scripts\update_char_asset.py` | Step 2 角色外观变化时 |
+| **逐页生成漫画** | `<包根>\scripts\generate_comic_page.py` | **Step 2 逐页生成漫画页时执行** |
+| 截长图（分享用） | `<包根>\scripts\screenshot_comic.py` | Step 2 文字叠加后执行 |
+| **按页导出分享图与整条长图（必做，统一放分享/）** | `<包根>\scripts\export_pages.py` | **Step 2 生成 HTML 后必做** |
+| 查 Seedream 提示词写法 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` | 写提示词前必读 |
+| 调用 Seedream API | `<pop-visual-shared 包根>\scripts\generate.py` | 生成单张图片时执行 |
 | **查分镜画风硬边界铁律（常规页直出半赛璐璐、名场面单格高纯度）** | `references/art-style-baseline.md` §2.5 | **Step 1 定页面画风时必读**（画风本身来自美术设定集，本库只留分镜细节） |
 | **查 OC 双角度定妆图设计（高精度4块模板，基于美术设定集人物篇组装）** | `references/oc-design-guide.md` | **Step 0 组装 comic 双角度立绘提示词时必读** |
 | 角色一致性管理指南 | `references/guides/char-consistency-guide.md` | Step 0 初始化角色库时必读 |
 | 查页面构图与文字叠加 | `references/guides/page-layout-guide.md` | Step 2 排版时必读 |
 | 查改编策略、选帧、转化方案、名场面 | `references/guides/adaptation-guide.md` | Step 1 改编分析时必读 |
 | **查 0 基础读者可读性（三层文字法、开场引子、断点诊断）** | `references/guides/adaptation-guide.md` §0基础读者可读性 | **Step 1 设计文字层时必读** |
-| **首次对话引导（由 pipeline 统一负责，本派生层复用）** | `../pop-visual-pipeline/references/onboarding-guide.md` | **首次触发视觉专家时（pipeline 总入口）输出** |
+| **首次对话引导（由 pipeline 统一负责，本派生层复用）** | `<pop-visual-pipeline 包根>/references/onboarding-guide.md` | **首次触发视觉专家时（pipeline 总入口）输出** |
 | **查测试规程（画风与排版入库的唯一检查，画风走固定脚本 batch_test.py 并发批量）** | `references/guides/pe-test-sop.md` | **画风与排版入库前必读** |
 | **查排版基准库（元尊YZ-1~8已验证分页）** | `references/layout-baseline.md` | **Step 1 选分页结构时强制必读** |
 | **查内容层（整页系统、L/C/F 镜语、情绪映射、三重锁定、台词气泡）** | `references/content-layer.md` | **Step 1 页面设计、镜语分配、提示词产出时强制必读** |
@@ -366,4 +372,4 @@ Panel 2: [L码英文], [C码英文]. [F码英文(有则填)]. [光影]. [场景]
 
 ## 版本
 
-当前版本 v8.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v8.2.1（2026-09-14：命名与编号归一——设计库档名对齐、主线结构表统一、phase 改 1-8；建目录补空档）。前一版 v8.2.0。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

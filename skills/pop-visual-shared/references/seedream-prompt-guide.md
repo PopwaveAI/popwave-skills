@@ -19,7 +19,7 @@
 | 段 | 内容 | 来源 | 字数控制 |
 |:---|:-----|:-----|:---------|
 | 1 质量触发词 | `IMG_2094.CR2, 8K ultra HD, cinematic quality, masterpiece, best quality, highly detailed` | 固定 | 固定 |
-| 2 画风DNA | `Art style: [dna字段] [constraint字段]` | 文风DNA-library.json | dna≤800字符 |
+| 2 画风DNA | `Art style: [dna字段] [constraint字段]` | style-dna-library.json | dna≤800字符 |
 | 3 构图策略 | CT1/CT2 英文描述 | lighting-composition-templates.md | 固定 |
 | 4 光影叙事 | LT1/LT2/LT3 英文描述 | lighting-composition-templates.md | 固定 |
 | 5 场景 | 画面场景描述（环境/氛围/道具） | 用户输入 | 弹性 |
@@ -112,9 +112,9 @@ HARD CONSTRAINTS（硬约束）
 
 ## 四、画风 DNA 库引用
 
-> 画风 DNA 统一收录到 `pop-visual-style/references/文风DNA-library.json`，含 36 种画风（二次元12、国漫5、韩漫3、插画概念16），每种含 `dna`、`constraint`、`recommended_lighting`、`recommended_composition` 四字段。构图与光影模板见 `pop-visual-style/references/lighting-composition-templates.md`（CT1/CT2 构图、LT1/LT2/LT3 光影与兼容性矩阵）。
+> 画风 DNA 统一收录到 `<pop-visual-style 包根>/references/style-dna-library.json`，含 36 种画风（二次元12、国漫5、韩漫3、插画概念16），每种含 `dna`、`constraint`、`recommended_lighting`、`recommended_composition` 四字段。构图与光影模板见 `<pop-visual-style 包根>/references/lighting-composition-templates.md`（CT1/CT2 构图、LT1/LT2/LT3 光影与兼容性矩阵）。
 
-### 从 文风DNA-library.json 取字段
+### 从 style-dna-library.json 取字段
 
 ```json
 {

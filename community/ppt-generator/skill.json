@@ -1,0 +1,27 @@
+{
+  "id": "ppt-generator",
+  "version": "1.0.1",
+  "displayName": "高质量 PPT",
+  "description": "当用户说「生成PPT/做演示文稿/把材料讲成一页页/要一个单文件deck」时用它，也在要把文档、图片、链接或一段需求做成可直接打开的演示稿时进。产出单文件 HTML 演示文稿。",
+  "author": "TRAE",
+  "entry": "SKILL.md",
+  "tags": [
+    "PPT",
+    "演示文稿",
+    "HTML 演示",
+    "版式",
+    "风格配方"
+  ],
+  "activation": {
+    "slashCommands": [
+      "ppt-generator"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": true,
+    "shell": false
+  }
+}

@@ -1,6 +1,12 @@
-﻿# pop-visual-oc
+# pop-visual-oc
 
-> 网文视觉推广素材生成器。OC 即原创设定（Original Creation），不限于人物。当前版本 v7.2.0，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+> **脚本调用约定**：本包脚本都在**本包根目录**下的 `scripts/`。本包根目录 = 本 skill 的 SKILL.md 所在目录，即你读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它），命令行等价于 `--skill` 的取值，逐台机器不同。所以调用一律写成 `python "<包根>\scripts\<脚本>" ...`：不要把 `scripts/...` 当成相对当前工作目录的路径，不要写绝对路径，也不要到磁盘上搜脚本。
+>
+> **跨包路径**：要用别的包的脚本或资源，用**那个包自己的包根**，写成 `<包名 包根>`，对端包根 = 该 skill 的 SKILL.md 所在目录，从其 `<location>` 或你读取它的绝对路径取父目录。不要写 `../其它包/...`，也不要写 `skills/<包名>/...`。
+>
+> **参数**：以脚本自身 `--help` 为准。脚本报错时会打印实际用法，照提示改一次即可，不要猜参数。
+
+> 网文视觉推广素材生成器。OC 即原创设定（Original Creation），不限于人物。当前版本 v7.2.1，完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 
@@ -90,7 +96,7 @@
 
 **系列化规划（如需）**：由一份档案生成 N 张图，填写 `templates/design-plan-oc.tpl.md` 系列表；冻结特征见铁律 ❌3，变量为服饰、场景、姿态与文字层。
 
-**选择画风并回填生图 DNA**：从 `skills/pop-visual-style/references/文风DNA-library.json` 中按赛道与气质选择最匹配的条目（玄幻→国漫玄幻厚涂、暗黑→暗黑奇幻油画），再回填 `dna`/`constraint`/`recommended_lighting` 供生图使用，并**据画风确定字色**（浅色留白用深色字，深色留白用浅色字）；产出记入方案（画风条目、DNA 来源、底色倾向）。**画风不匹配时，再好的构图也无效**（质量第二来源）。
+**选择画风并回填生图 DNA**：从 `<pop-visual-style 包根>/references/style-dna-library.json` 中按赛道与气质选择最匹配的条目（玄幻→国漫玄幻厚涂、暗黑→暗黑奇幻油画），再回填 `dna`/`constraint`/`recommended_lighting` 供生图使用，并**据画风确定字色**（浅色留白用深色字，深色留白用浅色字）；产出记入方案（画风条目、DNA 来源、底色倾向）。**画风不匹配时，再好的构图也无效**（质量第二来源）。
 
 **可选 Pinterest 参考**：气质参考图（档案够用时即跳过）；画风参考使用放开吸收公式（只排除具体场景与人物长相）。
 
@@ -125,7 +131,7 @@ image_generate(prompt='[提示词]', size='1125x1500', ref_image='[参考图，�
 **截取整图**（默认 2:3 竖版）：
 
 ```
-SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py '<html>' '<out.png>'
+SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python "<包根>\scripts\screenshot_album.py" '<html>' '<out.png>'
 ```
 
 **失败中断**：文字溢出顶部留白、文字压到人物、顶部留白不净或底图出现文字，任一项即判定截图失败，修正后重新截图，**不得带残缺交付**。
@@ -155,7 +161,7 @@ SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py '<ht
 | ❌6 | **文案按公式填写** — 文案按 `references/content.md` 的公式填写，组装前须通过稳定性检查（有钩子、圈外人 3 秒能看懂、字数够少），不得使用无钩子的介绍句 | 文案时好时坏，卡退化成说明书 |
 | ❌7 | **字体使用本机书法系统** — HTML 补字使用本机已安装的书法字体（楷体、仿宋、隶书、宋体），同一张卡最多使用 2 种字体；字体系统见 `references/content.md` §字体系统 | 字体不可控或乱码 |
 | ❌8 | **AI 画风做减法** — 写意留白优于铺满细节，克制而精致、追求真实质感，不得"过度精致"（毛发过度渲染、算法对称脸、塑料质感） | 失去差异化辨识度，被竞品淹没 |
-| ❌9 | **画风决定一切** — 须从 `文风DNA-library.json` 选择画风条目并回填 DNA，画风决定立绘质感与顶部留白字色；无匹配时按赛道撰写质感 | 画风漂移，再好的构图也无效 |
+| ❌9 | **画风决定一切** — 须从 `style-dna-library.json` 选择画风条目并回填 DNA，画风决定立绘质感与顶部留白字色；无匹配时按赛道撰写质感 | 画风漂移，再好的构图也无效 |
 
 ## 速查表
 
@@ -166,11 +172,11 @@ SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py '<ht
 | **二创方法论（原文理解→好看注入，设计立绘前必读）** | `references/二创-method.md` |
 | 顶部聚字模板 | `templates/ocr-1flow.tpl.html` |
 | 设计方案模板 | `templates/design-plan-oc.tpl.md` |
-| 整图截图 | `scripts/screenshot_album.py` |
-| 提示词写法+高精度模板 | `../pop-visual-shared/references/seedream-prompt-guide.md` |
-| 画风DNA库 | `skills/pop-visual-style/references/文风DNA-library.json` |
+| 整图截图 | `<包根>\scripts\screenshot_album.py` |
+| 提示词写法+高精度模板 | `<pop-visual-shared 包根>/references/seedream-prompt-guide.md` |
+| 画风DNA库 | `<pop-visual-style 包根>/references/style-dna-library.json` |
 | 角色本体身份（唯一真源） | `素材/美术设定集.md` |
-| 调研方法论 | `../pop-visual-shared/references/character-research-guide.md` + `../pop-visual-asset/references/asset-extract-guide.md` |
+| 调研方法论 | `<pop-visual-shared 包根>/references/character-research-guide.md` + `<pop-visual-asset 包根>/references/asset-extract-guide.md` |
 
 > **环境**：Python 3.8+。截图依赖 `pip install playwright` + `playwright install chromium`。
 

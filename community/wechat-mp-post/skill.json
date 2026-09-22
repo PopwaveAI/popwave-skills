@@ -1,0 +1,26 @@
+{
+  "id": "wechat-mp-post",
+  "version": "0.1.1",
+  "displayName": "公众号推文成稿",
+  "description": "当用户说「公众号/微信推文/推文排版/把稿子排成公众号」时用它，也在要把已成稿的图文做成能直接粘进公众号后台的稿子时进。产出粘贴不掉样式的成稿与真机风格预览。不负责从零选题与从零写正文，也不代发布。",
+  "author": "Popwave",
+  "entry": "SKILL.md",
+  "tags": [
+    "公众号",
+    "微信推文",
+    "排版",
+    "内容物料"
+  ],
+  "activation": {
+    "slashCommands": [
+      "wechat-mp-post"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": false
+  }
+}

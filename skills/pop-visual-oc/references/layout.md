@@ -43,7 +43,7 @@
 
 | 画幅 | 像素 | 用途 | 截图命令 |
 |:-----|:-----|:-----|:---------|
-| **2:3 竖版**（默认） | 1125×1500 | 社交单图传播标准 | `SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python scripts/screenshot_album.py <html> <out.png>` |
+| **2:3 竖版**（默认） | 1125×1500 | 社交单图传播标准 | `SCREENSHOT_WIDTH=1125 SCREENSHOT_SCALE=2 python <包根>\scripts\screenshot_album.py <html> <out.png>` |
 | **3:4 竖版** | 1680×2240 | 半身/全身立绘加质感 | 同上，改 width |
 | **4:3 横版** | 1500×1125 | 横构图/场景向 | 同上，改 width |
 | **16:9 横幅** | 1500×844 | 横幅 | 同上 |
@@ -56,7 +56,7 @@
 
 ## 画风联动（Step 1 选画风必读）
 
-> `pop-visual-style/references/文风DNA-library.json` 是**生图 DNA 库**。OC 组装时按画风库条目回填生图 DNA（`dna`/`constraint`/`recommended_lighting`）。**画风决定立绘质感，也决定顶部留白的底色**（浅色系留白用深色字，深色系留白用浅色字）。
+> `<pop-visual-style 包根>/references/style-dna-library.json` 是**生图 DNA 库**。OC 组装时按画风库条目回填生图 DNA（`dna`/`constraint`/`recommended_lighting`）。**画风决定立绘质感，也决定顶部留白的底色**（浅色系留白用深色字，深色系留白用浅色字）。
 
 **选择画风**：按实体所在小说赛道与气质选择最匹配的画风条目（如玄幻→国漫玄幻厚涂、赛博→赛博边缘行者、暗黑→暗黑奇幻油画）。无匹配条目时，按赛道撰写写意、霓虹、极简或暗黑质感。
 
@@ -64,4 +64,4 @@
 
 | 脚本 | 用途 | 核心命令 |
 |:-----|:-----|:--------|
-| `scripts/screenshot_album.py` | 整图截图（Playwright，deviceScaleFactor=2，自动等图） | `python scripts/screenshot_album.py <html> <out.png>` |
+| `<包根>\scripts\screenshot_album.py` | 整图截图（Playwright，deviceScaleFactor=2，自动等图） | `python <包根>\scripts\screenshot_album.py <html> <out.png>` |

@@ -17,7 +17,7 @@ pop-visual-comic 逐页漫画任务清单导出脚本 v5.2.0
 
 主 agent 用法：
   1. 修改下方 PAGES 列表（每项的 id + prompt + ref_images + 可选 size）
-  2. 修改 OUTPUT_DIR / CHAR_ASSETS_DIR
+  2. 按需设置 OUTPUT_DIR / CHAR_ASSETS_DIR（也可用环境变量 POP_COMIC_OUTPUT_DIR / POP_COMIC_CHAR_ASSETS_DIR）
   3. 运行: python generate_comic_page.py
   4. 读取生成的第{N}章/output/generation_tasks.json
   5. 对每条任务调用 image_generate 工具（prompt/text=任务prompt, size=任务size, output=任务output_path，参考图按工具能力传入）
@@ -40,11 +40,15 @@ MODE = "page"
 SIZE = "1125x1500"           # 页漫默认尺寸（总像素 169 万 ≤ 236 万上限）
 MAX_PIXELS = 2360000         # 超 236 万像素计费翻倍，所有出图必须 ≤ 上限
 
-# 输出目录（章节级）
-OUTPUT_DIR = r"d:\popwave-skills\第3章\output"
+# 输出目录（章节级）。默认写到**当前工作目录**下的 output/，不写个人路径、不写盘符；
+# 也可用环境变量 POP_COMIC_OUTPUT_DIR 覆盖。
+OUTPUT_DIR = os.environ.get("POP_COMIC_OUTPUT_DIR") or "output"
 
-# 定妆图根目录（跨章复用，字符图实际存放位置）
-CHAR_ASSETS_DIR = r"C:\Users\AWMPRO\.openclaw-novel-buddy\media\tool-image-generation"
+# 定妆图根目录（跨章复用，角色定妆图实际存放位置）。默认取用户主目录下的应用媒体目录；
+# 也可用环境变量 POP_COMIC_CHAR_ASSETS_DIR 覆盖。
+CHAR_ASSETS_DIR = os.environ.get("POP_COMIC_CHAR_ASSETS_DIR") or os.path.join(
+    os.path.expanduser("~"), ".paopao", "media", "tool-image-generation"
+)
 
 # 页面列表（每页是一张包含多格的完整漫画图）
 PAGES = [
@@ -200,9 +204,11 @@ def _assert_size_safe(size):
 
 def resolve_ref_image(ref_name):
     """根据定妆图文件名查找完整路径"""
+    assets_root = CHAR_ASSETS_DIR
+    if not os.path.isabs(assets_root):
+        assets_root = os.path.join(os.getcwd(), assets_root)
     candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", CHAR_ASSETS_DIR, ref_name),
-        os.path.join(os.getcwd(), CHAR_ASSETS_DIR, ref_name),
+        os.path.join(assets_root, ref_name),
         os.path.join(os.getcwd(), "assets", "characters", ref_name),
     ]
     for path in candidates:
@@ -237,7 +243,7 @@ def export_tasks():
     """把 PAGES 列表导出为 generation_tasks.json，供主 agent 用 image_generate 工具逐张生成。"""
     out_dir = OUTPUT_DIR
     if not os.path.isabs(out_dir):
-        out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out_dir)
+        out_dir = os.path.join(os.getcwd(), out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
     tasks = []

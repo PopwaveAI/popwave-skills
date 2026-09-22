@@ -1,4 +1,8 @@
-﻿# CHANGELOG — pop-content-card
+## v4.1.1 | 2026-09-20
+
+改 description：补触发条件、删内部实现说明（原 54 字 → 64 字）。不涉及规程与产出变更。
+
+# CHANGELOG — pop-content-card
 
 ## v4.1.0 | 2026-09-13
 

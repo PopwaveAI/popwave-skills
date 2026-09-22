@@ -11,15 +11,15 @@
 | 3 | 起点长篇网文专家 | 中 | 起点长篇网文创作（测试调整中；写作含 dnlike/海贼王类 流派专属） | `pop-snow-seed` `pop-snow-stage` `pop-snow-plot` `pop-outline` `pop-write` `pop-review` `pop-snow-pipeline` `pop-snow-research` |
 | 4 | 网文拆书专家 | 高 | 长篇网文解构/逆向分析（计算密集） | `pop-decon` `pop-decon-dimension` |
 | 5 | 短篇小说专家 | 低 | 知乎/豆瓣/每日阅读等短篇创作 | `short-body-generator` `short-idea-refiner` `short-opening-designer` `short-plot-structurer` `short-platform-orientation` `short-reviewer` `short-text-deconstructor` |
-| 6 | Mirror 创作专家 | — | 镜界（Mirroric）创作方法论专家系列——**已归档 `temp/`（2026-09-11），方法论由灯塔流系列承接** | （归档）`pop-mirror-pipeline` `pop-mirror-onboard` `pop-mirror-world` `pop-mirror-character` `pop-mirror-opening` `pop-mirror-plot` `pop-mirror-write` `pop-mirror-deai` `pop-mirror-review` → `d:\popwave-skills\temp\` |
+| 6 | Mirror 创作专家 | — | 镜界（Mirroric）创作方法论专家系列——**已归档 `temp/`（2026-09-11），方法论由灯塔流系列承接** | （归档）`pop-mirror-pipeline` `pop-mirror-onboard` `pop-mirror-world` `pop-mirror-character` `pop-mirror-opening` `pop-mirror-plot` `pop-mirror-write` `pop-mirror-deai` `pop-mirror-review` → `temp/` |
 | 7 | 灯塔流专家 | 中 | 滚动化长篇规划（只锁灯塔四样、开篇读者验证前置、方向总表每卷一句话、滚动两卷；snow 完全体承接 outline/write/research） | `pop-lantern-pipeline` `pop-lantern-seed` `pop-lantern-world` `pop-lantern-character` `pop-lantern-opening` `pop-lantern-plot` `pop-review`（复用 `pop-outline` `pop-write` `pop-snow-research`） |
 | 8 | 涌现流专家 | 低 | 先写后补试味流（只锁主角立身一句话+文风承诺+模糊灯塔；黄金三章直接写试味；滚动写章循环；阶段性回看；试味成功可转灯塔流稳定长跑） | `pop-emergent-pipeline` `pop-emergent-seed` `pop-emergent-opening` `pop-outline` `pop-write` `pop-review`（复用 `pop-snow-research`、`pop-write` 脚本） |
 
-> 注（2026-09-11 review 收敛）：三线 review（`pop-lantern-review`/`pop-snow-review`/`pop-emergent-review`）同理由收敛为**一份共用中性名 skill `pop-review`**（蓝本＝灯塔，判别最全的八项）。线间差异收进其 `§0 系列适配表`（认线／本章日志路径／状态档／回看方式／线内特有动作：灯塔＝剧末回看+配方生效回填｜雪花＝无独立回看｜涌现＝阶段性回看+已长出设定落账本）；判别标准取并集八项（雪花原 6 项补上爽点密度与情绪达标）；去AI味脚本统一指 `pop-snow-pipeline/scripts/deai_gate.py`。三线 pipeline 依赖与下游指针同步改指。旧三包删除。至此 write/outline/review 三件套全部收敛为中性名共用 skill。
+> 注（2026-09-11 review 收敛）：三线 review（`pop-lantern-review`/`pop-snow-review`/`pop-emergent-review`）同理由收敛为**一份共用中性名 skill `pop-review`**（蓝本＝灯塔，判别最全的八项）。线间差异收进其 `§0 系列适配表`（认线／本章日志路径／状态档／回看方式／线内特有动作：灯塔＝剧末回看+配方生效回填｜雪花＝无独立回看｜涌现＝阶段性回看+已长出设定落账本）；判别标准取并集八项（雪花原 6 项补上爽点密度与情绪达标）；去AI味脚本统一指 `<pop-snow-pipeline 包根>/scripts/deai_gate.py`。三线 pipeline 依赖与下游指针同步改指。旧三包删除。至此 write/outline/review 三件套全部收敛为中性名共用 skill。
 >
 > 注（2026-09-11 outline 收敛）：三线 outline（`pop-lantern-outline`/`pop-snow-outline`/`pop-emergent-outline`）同理由收敛为**一份共用中性名 skill `pop-outline`**（蓝本＝灯塔）。线间差异收进其 `§0 系列适配表`（认线／上游输入源／章纲输出路径／配置哪套库／线内纪律：灯塔＝单章自补位｜雪花＝情绪标准先行·无独立套路库｜涌现＝一次排1-3章·舞台只从装配单取·新设定从模板库选）；库并入本包（`references/剧情-情绪打分表.md` 消费副本＋`references/内容库/套路库.md`）。三线 pipeline 依赖、plot/state/research 下游指针同步改指。旧三包删除。
 >
-> 注（2026-09-11 write 收敛）：三线 write（`pop-lantern-write`/`pop-snow-write`/`pop-emergent-write`）骨架同质、三份副本反复陈旧，收敛为**一份共用中性名 skill `pop-write`**（不带系列中缀，蓝本＝灯塔）。线间差异全部收进其 `§0 系列适配表`（认线／上游输入源／章纲日志路径／文风资源／线内纪律）；文风资源并入 `pop-write/references/`（`夜无疆.md`＋`文风兜底/` 22 赛道档＋辰东写死档）；`word-count.ps1` 随包，去AI味脚本沿用共用宿主 `pop-snow-pipeline/scripts/deai_gate.py`。三线 pipeline 依赖清单、seed/outline 指针同步改指。旧三包删除。
+> 注（2026-09-11 write 收敛）：三线 write（`pop-lantern-write`/`pop-snow-write`/`pop-emergent-write`）骨架同质、三份副本反复陈旧，收敛为**一份共用中性名 skill `pop-write`**（不带系列中缀，蓝本＝灯塔）。线间差异全部收进其 `§0 系列适配表`（认线／上游输入源／章纲日志路径／文风资源／线内纪律）；文风资源并入 `<pop-write 包根>/references/`（`夜无疆.md`＋`文风兜底/` 22 赛道档＋辰东写死档）；`word-count.ps1` 随包，去AI味脚本沿用共用宿主 `<pop-snow-pipeline 包根>/scripts/deai_gate.py`。三线 pipeline 依赖清单、seed/outline 指针同步改指。旧三包删除。
 >
 > 注（2026-08-31 snow 定名）：统一管线八件定名 snow 家族（雪花流，L0→L1→L2→L3 逐层扩写）——`pop-snow-seed`（四层共创全书大纲）/ `pop-snow-stage`（首喷+卷级刷新）/ `pop-snow-plot`（卷需求brief/卷纲/幕白描）/ `pop-outline`（章纲组装）/ `pop-write`（章纲消费+文风兜底23份）/ `pop-review`（四步审核三范式）/ `pop-snow-pipeline`（phase 链+卷循环 2a-2g）/ `pop-snow-research`（三模式+wiki主源）。test 系列 5 件（adapt/lite/plot/research/write）已删除；旧族 7 件（`pop-fanqie-seed/plot/write`、`pop-qidian-seed/plot/write/research`）同日删除退役（备份 temp/_backup-oldfamily-20260831/）。
 >
@@ -29,7 +29,9 @@
 >
 > 注（2026-09-11 灯塔流定名）：mirror 系列（pop-mirror-* 9 件）归档 `temp/`；灯塔流建独立系列 `pop-lantern-*`（pipeline/seed/world/character/opening/plot/review），照 snow 工程规范（SKILL.md + skill.json + CHANGELOG.md + templates/references）——只锁方向、滚动细化：方向总表（每卷一句话）为全书唯一半固定卷级规划，卷级硬约束滚动细化该卷时才执行，开篇读者验证前置、先于卷方向；outline/write/research 直接复用 snow（雪花流为完全体），不建双份。
 >
-> 注（2026-09-11 涌现流定名）：涌现流建独立系列 `pop-emergent-*`（pipeline/seed/opening/outline/write/review 六件），照 snow 工程规范——先写后补试味：只锁主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话），黄金三章直接写试味（opening 融合写与评），滚动写章循环（轻量章纲→直接写→三源审查回填账本），阶段性回看四问（味道/连续性/灯塔清晰化/转灯塔流）。与灯塔流是两段式不是并列：涌现流负责最快试出味道，试味成功确定写长后转灯塔流（反推方向总表→回填卷1卷纲→设定交接→状态迁移）。research 复用 snow，write 的检查脚本（word-count/deai_gate）复用 snow-pipeline 包。
+> 注（2026-09-11 涌现流定名）：涌现流建独立系列 `pop-emergent-*`（pipeline/seed/opening/outline/write/review 六件），照 snow 工程规范——先写后补试味：只锁主角立身一句话＋文风承诺＋模糊灯塔（结局方向一句话），黄金三章直接写试味（opening 融合写与评），滚动写章循环（轻量章纲→直接写→三源审查回填账本），阶段性回看四问（味道/连续性/灯塔清晰化/转灯塔流）。与灯塔流是两段式不是并列：涌现流负责最快试出味道，试味成功确定写长后转灯塔流（反推方向总表→回填卷1卷纲→设定交接→状态迁移）。research 复用 snow，write 的检查脚本只剩 `word-count.ps1`（随本包；去AI味脚本已移出，见下条）。
+>
+> 注（2026-09-20 去AI味收口）：**三条长篇链路不再自带去AI味环节**。原先 snow／lantern／emergent 各包、以及 `pop-write`／`pop-outline`／`pop-review`／`pop-critic-panel`／`pop-decon`／`pop-decon-dimension`／`pop-dna-style` 里的「存档后跑 deai_gate、回报 `去AI味:档名|PASS`」整节、交接协议与红线条目一并删除——存档就是存档，不再有这一环。去AI味只剩一个执行方：`pop-ai-reduce-lite`。脚本宿主同步由 `<pop-snow-pipeline 包根>/scripts/deai_gate.py` 迁到 **`<pop-ai-reduce-lite 包根>/scripts/deai_gate.py`**（配置 `deai_profiles.json` 随迁，脚本按自身目录读配置），旧宿主目录已删。上面几条 2026-09-11 注里写的旧路径以此条为准。`pop-ai-reduce-lite` 升到 v5.1.0：八条语感规则 ＋ 标点规范化（引号字形必须全换），做成一次交付。
 
 ## 二、共享工具
 
@@ -50,8 +52,8 @@
 ### 推书
 `pop-recommend`
 
-### 降AI味
-`pop-ai-reduce-lite`
+### 去AI味改写
+`pop-ai-reduce-lite`——三线之外唯一的去AI味执行方：八条语感规则改写正文，同一次交付里统一标点字形（引号必须全换），改完自查回报。脚本 `scripts/deai_gate.py` 与 `scripts/deai_profiles.json` 随本包，是全库唯一宿主；三条长篇链路不再自带这一环。
 
 ### 编辑与查稿
 `pop-editor`——三个检查模式（文风质感／剧情内容／情绪节奏），一次只跑一个：拆段后拿毛病清单逐段打分出汇总报告；对章纲核兑现／落点／推进／钩子／矛盾；用情绪表逐点标分并查密度（每 300 字至少 1 个 4 分情绪点）。**番茄／起点／灯塔／涌现四条长篇线共用**（与 `pop-review` 的分工：review 管章节验收存档，editor 管查稿找问题）。
@@ -63,7 +65,7 @@
 
 | 前缀 | 家族 | 归属 |
 |:--|:--|:--|
-| `pop-write` | **正文写作（三线共用·中性名）** | 灯塔/雪花/涌现共用（线间差异见其 §0 系列适配表） |
+| `pop-write` | **正文写作（三线共用·中性名）** | 灯塔/雪花/涌现共用（写作输入三条三线一致，见其 §0 写作输入；线间差异只剩路径与专有纪律） |
 | `pop-outline` | **章纲（三线共用·中性名）** | 灯塔/雪花/涌现共用（线间差异见其 §0 系列适配表） |
 | `pop-review` | **章节验收存档（三线共用·中性名）** | 灯塔/雪花/涌现共用（线间差异见其 §0 系列适配表） |
 | `pop-editor` | **编辑查稿（三模式·中性名）** | 番茄/起点/灯塔/涌现四条长篇线共用（查稿找问题；验收存档归 `pop-review`） |
@@ -75,7 +77,7 @@
 | `pop-visual-*` `pop-comic-content` | 视觉/IP | 推书与IP化专家 |
 | `short-*` | 短篇 | 短篇专家 |
 | `pop-video-*` `pop-content-card` `pop-comic-test` `pop-recommend` | 视频物料/推书 | 通用·视频物料 |
-| `pop-ai-reduce-lite` | 降AI味 | 通用 |
+| `pop-ai-reduce-lite` | 去AI味改写（全库唯一脚本宿主） | 通用 |
 | `pop-shared-skill-create` | skill 元能力 | 通用 |
 | `tool-*` | 共享工具 | 跨专家共用 |
 

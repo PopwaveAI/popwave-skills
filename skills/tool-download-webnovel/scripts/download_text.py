@@ -44,7 +44,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--title", required=True, help="Book title used for output filename.")
     parser.add_argument(
         "--output-dir",
-        default=r"D:\popwave-skills\downloads",
+        default=str(Path.home() / "Downloads" / "novel"),
         help="Directory for normalized txt output.",
     )
     parser.add_argument(

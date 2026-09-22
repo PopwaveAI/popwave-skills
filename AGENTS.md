@@ -10,6 +10,8 @@
 - **Edit 用于小段修改**：直接改目标段落。为绕 Edit 写临时脚本=过度工程，禁止。
 - **Write 用于全量重写/新建**：Write 前必须先 Read 当前完整内容（在旧内容上叠加改动，避免覆盖用户手动改过的部分；若只改某一小段，先读全文件再照抄其余部分）。
 - 复杂批量改动（如多文件同步版本号）可以用脚本一次跑完，但脚本用完即删，不留仓库。
+- **同一文件的多处修改不许放在同一条消息里**：并行下发会互相覆盖（2026-09-14 实测：`pop-emergent-pipeline/SKILL.md` 两处改动只落下一处，两次回执却都报成功）。一次只改一处，改完立刻回读。
+- **批量脚本跑完后必须重新回读全部改动点**：脚本按磁盘重写整份文件，早于脚本的改动可能被覆盖（同日实测）。顺序固定为——改完 → 跑脚本 → 全量回读校验。
 
 ### 落盘必校验（防呆，不算绕）
 
@@ -34,13 +36,13 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 | 位置 | 路径 | 角色 | 结构 |
 |:--|:--|:--|:--|
 | D 盘 | `D:\popwave-skills\skills\{skill}\` | **主写位置**（git 仓库源） | 扁平结构（SKILL.md 直接在下） |
-| C 盘 | `C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\{skill}\{版本目录}\` | 应用生效位置（同步目标） | 版本目录结构（`1.0.0/`、`1.1.0/`，版本目录 = skill.json 的 version 字段） |
+| C 盘 | `%APPDATA%\popwave\remote-skills\{skill}\{版本目录}\` | 应用生效位置（同步目标） | 版本目录结构（`1.0.0/`、`1.1.0/`，版本目录 = skill.json 的 version 字段） |
 
 ### 执行规则
 
 - **写改动**：直接写 D 盘 `D:\popwave-skills\skills\{skill}\`，改完按仓库流程提交 git。
 
-- **同步 C 盘**：改动落盘后必须把该 skill 的 D 盘内容递归复制到 C 盘对应版本目录（覆盖旧文件）——`Copy-Item -Path "D:\popwave-skills\skills\{skill}\*" -Destination "C:\Users\AWMPRO\AppData\Roaming\popwave\remote-skills\{skill}\{版本目录}\" -Recurse -Force`。C 盘版本目录不存在则先建（目录名照 skill.json 的 version 字段）。
+- **同步 C 盘**：改动落盘后必须把该 skill 的 D 盘内容递归复制到 C 盘对应版本目录（覆盖旧文件）——`Copy-Item -Path "D:\popwave-skills\skills\{skill}\*" -Destination "$env:APPDATA\popwave\remote-skills\{skill}\{版本目录}\" -Recurse -Force`。C 盘版本目录不存在则先建（目录名照 skill.json 的 version 字段）。
 
 - **同步后校验**：用上面的 UTF-8 回读命令，在 **C 盘**文件里检出本次改动独有的关键字符串，确认 C 盘真实生效。
 
@@ -51,6 +53,28 @@ $c.Contains("本次改动独有的关键字符串")   # True = 落盘成功；Fa
 ### 一句话纪律
 
 **改 D 盘 → 提交 git → 同步 C 盘 → UTF-8 校验 C 盘。** 顺序不可倒，缺同步 = 应用还在跑旧版。
+
+## skill 仓库提交纪律（老板拍板，2026-09-20 固化）
+
+**`D:\popwave-skills` 这个 skill 仓库不走分支、不开 PR，改完直接提交并推送 `main`。走「需求号 + 分支 + PR」那一套的只有产品仓库 `d:\popwave-repo`。**
+
+- 原因：skill 仓库是 skill 内容的发布源，分支只多一道合并动作，不带评审价值。
+- 提交说明照旧：`<类型>(<范围>): <结果描述>`，中文，40 字内。skill 仓库没有需求号，范围写 `community` 或该 skill 的 id。
+- 只加本次改动涉及的文件，不用 `git add .`；仓库里长期未跟踪的目录（如 `workflow探索/`）不顺手带进去。
+- 误开了分支就并回 `main`（`git merge --ff-only`）再推，然后删掉本地与远端那条线，别留着。
+- 判断锚点：改的是 `D:\popwave-skills` 下任何文件 → 直接提交 `main`；改的是 `d:\popwave-repo` → 走 `popwave-dev-handbook` 的需求号流程。
+
+## 路径写法纪律（老板拍板，2026-09-21 固化 · 同日修订包根来源）
+
+**skill 包内一律不写个人路径、不写死盘符。** `C:\Users\<某个用户名>\...`、`D:\popwave-skills\...` 这类路径只在开发机成立，用户机器上解析不到，模型只能全盘搜，白烧调用。
+
+- **用户主目录统一写 `~`**：文档里写 `~\.paopao\projects`，脚本里用 `Path.home()` 或 `os.path.expanduser("~")`。不写展开后的绝对路径，也不写死用户名。
+- **本包内文件用包根相对路径**（`scripts/x.py`）。包根 = 本 skill 的 SKILL.md 所在目录，即读取本 SKILL.md 时那个绝对路径的父目录（系统提示 `<available_skills>` 里该 skill 的 `<location>` 也是它）。命令行等价于 `--skill` 的取值，逐台机器不同。
+- **跨包引用写 `<包名 包根>/...`**，对端包根取该 skill 的 `<location>` 父目录，或读取它的绝对路径的父目录。不写 `../其它包/...`，也不写 `skills/<包名>/...`。
+- **脚本不许猜别的包在哪**：跨包资源由 agent 把对端包根的绝对路径用参数传进去，脚本内不写「往上跳级找同级包」的算法。用户端安装结构是 `remote-skills\{skill}\{版本}\` 或 `community-skills\packages\{包名}-{uuid}\`，与开发仓库的平铺结构不同，跳级必然算错。
+- **维护脚本与仓库文档里的应用目录写 `%APPDATA%\popwave\...`**（PowerShell 用 `$env:APPDATA`），不写展开后的绝对路径。
+- **例外**：系统目录（如 `C:\Windows\Fonts\...`）与 CHANGELOG 的历史记录不改，历史行只读。
+- **兜底检查**：`Get-ChildItem -Recurse -File | Select-String 'C:\\Users\\','D:\\popwave-skills'`，命中即为漏改（CHANGELOG 与未跟踪的本地目录除外）。
 
 ## API 默认模型（老板拍板，2026-09-12 固化）
 

@@ -4,14 +4,23 @@
 # 判定：2000-2500 汉字 = PASS，否则 FAIL
 # 段落节奏扫描（Mirror 06 节奏硬尺）：叙事段40-120字；60% 以上叙事段<40字 = 段落过碎 FAIL 返工
 param(
-    [Parameter(Mandatory=$true)][string]$Path,
+    [string]$Path,
     [int]$Min = 2000,
     [int]$Max = 2500
 )
 
+$usage = '用法: powershell -ExecutionPolicy Bypass -File <本包根>\scripts\word-count.ps1 -Path 正文/ch001.txt  （可选 -Min 2000 -Max 2500）'
+
+if (-not $Path) {
+    Write-Output "错误: 缺少 -Path 参数。$usage"
+    exit 2
+}
+
 if (-not (Test-Path $Path)) {
     Write-Output ("{0}|文件不存在|FAIL" -f (Split-Path $Path -Leaf))
-    exit 1
+    $full = try { (Resolve-Path -LiteralPath $Path -ErrorAction Stop).Path } catch { Join-Path (Get-Location).Path $Path }
+    Write-Output ("错误: 未找到 {0}，脚本只认这一个路径，核对后重试，不要搜索磁盘。{1}" -f $full, $usage)
+    exit 2
 }
 
 $raw = Get-Content $Path -Raw -Encoding UTF8

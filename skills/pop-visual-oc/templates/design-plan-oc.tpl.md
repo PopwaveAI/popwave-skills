@@ -8,7 +8,7 @@
 - **实体称号/定位**：{{entity_title}}
 - **版面形态**：立绘优先 · 顶部聚字（唯一范式，`ocr-1flow.tpl.html`）
 - **画幅比例**：{{ratio}}　**输出尺寸**：{{size}}（默认 2:3 竖版 1125×1500）
-- **画风库条目**：{{style_entry}}（`文风DNA-library.json`，生图 DNA 来源）
+- **画风库条目**：{{style_entry}}（`style-dna-library.json`，生图 DNA 来源）
 - **顶部留白底色**：{{bg_tone}}（浅/深 → 定字色 `--ink/--em/--gold`）
 
 ## 设定档案
@@ -64,7 +64,7 @@
 
 ## 参考图（如有）
 
-- **参考图**：{{reference_image}}　**参考点**：{{reference_point}}（参考模式：全面参考、画风参考、纯文生图，见 `../pop-visual-shared/references/seedream-prompt-guide.md`）
+- **参考图**：{{reference_image}}　**参考点**：{{reference_point}}（参考模式：全面参考、画风参考、纯文生图，见 `<pop-visual-shared 包根>/references/seedream-prompt-guide.md`）
 
 ## 检查记录
 

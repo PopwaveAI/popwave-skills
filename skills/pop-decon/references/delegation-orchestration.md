@@ -35,14 +35,14 @@
 4. 某维度在本章无相关内容时，标注「本章无{维度}相关内容」
 5. 输出多维提取笔记（纯文本，不写入磁盘，返回给主 agent）
 
-> ⚠️ 子 agent 只负责"读取、多维提取、返回笔记"，不负责产出文件的写入。批次档案由主 agent 按 `pop-decon-dimension/references/batch-format.md` 统一写入。
-> 多维提取清单详见 `pop-decon-dimension/references/batch-format.md` 第 3 节（八维提取）。
+> ⚠️ 子 agent 只负责"读取、多维提取、返回笔记"，不负责产出文件的写入。批次档案由主 agent 按 `<pop-decon-dimension 包根>/references/batch-format.md` 统一写入。
+> 多维提取清单详见 `<pop-decon-dimension 包根>/references/batch-format.md` 第 3 节（八维提取）。
 
 ### 2.3 笔记汇总与产出（主 agent 执行）
 
 主 agent 收到所有批次的多维提取笔记后：
 1. 按维度拆分合并（去重、归并、排序）
-2. 每批按 L1 批次档案格式写入（`pop-decon-dimension/references/batch-format.md`，批头、事件链表、八维、🔒、爽点钩子、关系变化）
+2. 每批按 L1 批次档案格式写入（`<pop-decon-dimension 包根>/references/batch-format.md`，批头、事件链表、八维、🔒、爽点钩子、关系变化）
 3. 每批自检 7 项硬性检查（术语表、锚点池、schema、证据密度、量化、不编造、回溯）
 
 ### 2.4 产出验证

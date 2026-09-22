@@ -136,7 +136,7 @@
 - ❌ "国风暗黑插画风格"（太泛，结果素淡）
 - ✅ "暗黑奇幻厚涂数字油画，笔触粗犷厚重可见，类似暗黑魂系列美术质感"（具体到技法+标杆）
 
-画风 DNA 库已统一收录到 `skills/pop-visual-style/references/文风DNA-library.json`（36 种画风，每种含 dna、constraint、推荐光照与推荐构图）。从 DNA 库取 `dna` 字段，填入下方公式的 [技法描述]、[质感描述] 与 [参考标杆] 位置：
+画风 DNA 库已统一收录到 `<pop-visual-style 包根>/references/style-dna-library.json`（36 种画风，每种含 dna、constraint、推荐光照与推荐构图）。从 DNA 库取 `dna` 字段，填入下方公式的 [技法描述]、[质感描述] 与 [参考标杆] 位置：
 
 | 赛道 | DNA库推荐画风 | dna字段摘要 |
 |:-----|:-------------|:-----------|
@@ -146,7 +146,7 @@
 | 悬疑或诡异 | 暗黑悬疑高对比 | "Dark suspense manga style, bold black solid outline..." |
 | IP 化或影视化 | 新海诚电影风 | "Art style from Makoto Shinkai films, ultra-detailed background..." |
 
-> 完整的 36 种画风及筛选规则见 `skills/pop-visual-style/references/文风DNA-library.json` 与 `SKILL.md` Step 2 §3。
+> 完整的 36 种画风及筛选规则见 `<pop-visual-style 包根>/references/style-dna-library.json` 与 `SKILL.md` Step 2 §3。
 
 ### 字体控制公式
 

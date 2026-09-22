@@ -1,8 +1,8 @@
 {
   "id": "pop-shared-skill-create",
-  "version": "9.1.0",
+  "version": "9.1.1",
   "displayName": "Skill 设计规范",
-  "description": "想创建、改造或修复一个skill时用它。它提供Popwave skill的设计规范（单文件自包含+资源分层），告诉你skill该写成什么样、按什么顺序落盘；用词与表达照 Mirror 创作专家系列。",
+  "description": "当用户说「创建技能/改造skill/skill规范」时用它，也在要新增或修复一个技能包、需要设计规范时进。它给技能包的设计规范与落盘顺序，告诉你技能该写成什么样。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

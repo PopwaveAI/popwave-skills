@@ -69,7 +69,7 @@
 2. **准备素材**：将 BGM 文件（mp3/wav）放到 `{项目}/视频/bgm/`，命名如 `bgm-悬疑-青衣.mp3`。
 3. **混音植入**（Step 5 用 `mix_audio.py`）：
    ```bash
-   python scripts/mix_audio.py \
+   python <包根>\scripts\mix_audio.py \
      --video 成品.mp4 --audio-dir audio \
      --offsets "seg01.mp3=3.0,seg02.mp3=8.9,..." \
      --out 成品-配音.mp4 \

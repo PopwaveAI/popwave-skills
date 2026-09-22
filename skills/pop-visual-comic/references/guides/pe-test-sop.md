@@ -12,9 +12,9 @@
 
 | # | 铁律 | 违反后果 |
 |:-:|:-----|:---------|
-| 🧪1 | **复用固定脚本 `batch_test.py`** — 画风测试须用 `../pop-visual-shared/scripts/batch_test.py`（固定模板、并发批量、自动 PE 日志），不得现场手写提示词、手动单张生成 | 每次测试变量不隔离、不稳定、慢 |
+| 🧪1 | **复用固定脚本 `batch_test.py`** — 画风测试须用 `<pop-visual-shared 包根>/scripts/batch_test.py`（固定模板、并发批量、自动 PE 日志），不得现场手写提示词、手动单张生成 | 每次测试变量不隔离、不稳定、慢 |
 | 🧪2 | **画风测试默认用小说次要视觉锚点** — `--scene`（战斗场景或地点）与 `--side`（路人、NPC 或龙套）注入测试素材，和小说强相关、无关紧要，验证"画风 DNA 是否被执行"。**不得传 `--character` 或 `--character-image` 引入主角或主要角色**（画风可能满意但形象不满意，人物形象归 art-bible 或 oc）；不传则兜底用脚本内置中性素材 | 用主角 → 混入角色形象变量，分不清是画风问题还是形象问题；用与小说无关的中性素材 → 代入感弱 |
-| 🧪3 | **默认并发 8 线程** — 批量测变体用 `--concurrency 8`（Seedream 500图/分钟，8线程安全），一次出多张变体；不得串行逐张执行 | 10 张测试改为串行后耗时大幅拉长 |
+| 🧪3 | **一次批量出多张变体** — 批量测变体一次导出多张任务（Seedream 500图/分钟），不得串行逐张执行；脚本 v1.4 起只导出任务清单、不直连 API，**没有 `--concurrency` 参数**，不要传 | 10 张测试改为串行后耗时大幅拉长 |
 | 🧪4 | **测变体即填 `--style-names` 或 `--config`，其余全部固定** — 需要测新画风时增加画风名或变体，不需要重写脚本或重定参数 | 测试逻辑漂移，无法复现对比 |
 
 **一句话**：画风测试的命令为 `python batch_test.py --style-names "画风A,画风B" --scene "<战斗场景>" --side "<路人>" --out-dir 素材/测试 --seed 20260804`，执行完看 PE 日志与图，确认"画风"是否达标后入库。**不达标返工只改一个子维度，再执行同一脚本。**
@@ -87,10 +87,10 @@
 **画风（M1）并发落地（固定规程与小说次要视觉锚点，只验画风）**：
 ```powershell
 # 从 DNA 库按画风名批量测（传入小说次要素材：战斗场景 + 路人）
-python ../pop-visual-shared/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --out-dir 素材/测试 --concurrency 8 --seed 20260804
+python <pop-visual-shared 包根>/scripts/batch_test.py --style-names "国漫玄幻厚涂,暗黑悬疑高对比" --scene "abandoned ancient temple courtyard, cracked stone floor, a single candle-lit altar, drifting dust motes in a beam of light, a torn banner stirring in the wind, no people, no text" --side "an old street vendor in worn robes, weathered face, standing by a wooden stall under a faded awning, neutral expression, no text" --dna-lib "<pop-visual-style 包根>\references\style-dna-library.json" --template-md "<pop-visual-style 包根>\references\lighting-composition-templates.md" --out-dir 素材/测试 --seed 20260804
 
 # 自定义变体（JSON 文件，每个变体可精调 dna/constraint/lighting；脚本注入的 scene/side 覆盖变体同名段）
-python ../pop-visual-shared/scripts/batch_test.py --config 素材/测试/test_variants.json --out-dir 素材/测试 --concurrency 8
+python <pop-visual-shared 包根>/scripts/batch_test.py --config 素材/测试/test_variants.json --out-dir 素材/测试
 ```
 
 > **不得传 `--character` 或 `--character-image`**：画风测试不使用主角或主要角色（画风可能满意但形象不满意，人物形象归 art-bible 或 oc）。测试素材即小说次要视觉锚点（`--scene` 场景或 `--side` 路人），和小说强相关、无关紧要；不传则兜底用脚本内置中性素材。

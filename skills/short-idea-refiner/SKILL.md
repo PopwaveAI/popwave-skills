@@ -1,5 +1,5 @@
-﻿# short-idea-refiner
-> 短篇脑洞提炼器。按路径收集输入，提炼两到三个方向，再检验并输出脑洞卡片。v2.2.0：原 steps 三项全部合入单一文件并精炼；执行模式为由主 agent 直接执行。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+# short-idea-refiner
+> 短篇脑洞提炼器。按路径收集输入，提炼两到三个方向，再检验并输出脑洞卡片。v2.2.1：原 steps 三项全部合入单一文件并精炼；执行模式为由主 agent 直接执行。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 做什么
 输入：模糊想法、题材方向或例文（三者可能全为空）。

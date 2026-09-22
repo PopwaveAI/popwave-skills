@@ -1,8 +1,8 @@
 {
   "id": "pop-video-brand",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "displayName": "品牌品宣视频",
-  "description": "想用品牌素材（规范、截图、logo）做一支品宣视频时用它。把静态素材组装成带口播配音的成片，文字和画面精确可控。",
+  "description": "当用户说「品宣视频/品牌宣传片/一键出片」时用它，也在要用品牌素材出一支宣传片时进。把静态素材组装成带口播配音的成片。",
   "entry": "SKILL.md",
   "activation": {
     "slashCommands": [

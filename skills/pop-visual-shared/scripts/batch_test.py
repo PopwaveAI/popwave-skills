@@ -116,14 +116,20 @@ def _extract_template_md(path):
     return mapping
 
 
+# 跨包资源路径由调用方指定，脚本不猜别的包位置。
+# 用户端安装结构带版本目录（remote-skills\{skill}\{版本}\），跳级找同级包必然算错。
+CLI_DNA_LIB = None
+CLI_TEMPLATE_MD = None
+
+
 def _load_template_mapping():
-    """加载模板描述映射，优先从 style 的 lighting-composition-templates.md 解析。"""
+    """加载模板描述映射。来源：CLI --template-md，或环境变量 POP_VISUAL_STYLE_TEMPLATE_MD。"""
     candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "pop-visual-style", "references", "lighting-composition-templates.md"),
-        os.path.join(os.getcwd(), "..", "pop-visual-style", "references", "lighting-composition-templates.md"),
+        CLI_TEMPLATE_MD,
+        os.environ.get("POP_VISUAL_STYLE_TEMPLATE_MD", "").strip(),
     ]
     for p in candidates:
-        if os.path.exists(p):
+        if p and os.path.exists(p):
             mapping = _extract_template_md(p)
             if mapping:
                 return mapping
@@ -226,13 +232,13 @@ def export_tasks(variants, run_dir, seed, test_mode):
 # ============ 变体解析 ============
 
 def load_dna_library():
-    """读取 style skill 的 DNA 库。"""
+    """读取 style skill 的 DNA 库。来源：CLI --dna-lib，或环境变量 POP_STYLE_DNA_LIB。"""
     candidates = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "pop-visual-style", "references", "style-dna-library.json"),
-        os.path.join(os.getcwd(), "..", "pop-visual-style", "references", "style-dna-library.json"),
+        CLI_DNA_LIB,
+        os.environ.get("POP_STYLE_DNA_LIB", "").strip(),
     ]
     for p in candidates:
-        if os.path.exists(p):
+        if p and os.path.exists(p):
             with open(p, "r", encoding="utf-8") as f:
                 return json.load(f)
     return None
@@ -242,7 +248,7 @@ def variants_from_names(names, template_mapping=None):
     """按画风名从 DNA 库批量取变体。找不到的报错。"""
     lib = load_dna_library()
     if not lib:
-        print("错误：无法定位 style-dna-library.json，请用 --config 传自定义变体", file=sys.stderr)
+        print("错误：无法定位 style-dna-library.json。请传 --dna-lib \"<pop-visual-style 包根>\\references\\style-dna-library.json\"（或设环境变量 POP_STYLE_DNA_LIB），也可改用 --config 传自定义变体", file=sys.stderr)
         sys.exit(1)
     styles = lib.get("styles", {})
     if template_mapping is None:
@@ -279,6 +285,8 @@ def main():
     parser = argparse.ArgumentParser(description="固定画风测试 SOP（任务清单导出，不直连 API）")
     parser.add_argument("--style-names", help="逗号分隔的画风名，从 DNA 库批量取变体")
     parser.add_argument("--config", help="自定义变体 JSON 文件路径")
+    parser.add_argument("--dna-lib", default=None, help="style-dna-library.json 的绝对路径（取 pop-visual-style 包根下的 references/）。用 --style-names 时必传。")
+    parser.add_argument("--template-md", default=None, help="lighting-composition-templates.md 的绝对路径（取 pop-visual-style 包根下的 references/）。")
     parser.add_argument("--out-dir", required=True, help="输出目录（自动建 {out_dir}/{种子}）")
     parser.add_argument("--seed", type=int, default=None, help="固定随机种子（同 seed 复现对比）")
     parser.add_argument("--scene", default=None, help="[小说次要视觉锚点] 小说场景/地点/战斗场景英文描述，替换变体场景段（与小说相关、无关紧要，v1.4）")
@@ -286,6 +294,10 @@ def main():
     parser.add_argument("--character", default=None, help="[已废弃] 项目角色描述（画风定标不用主角，主角形象归 art-bible/oc）")
     parser.add_argument("--character-image", default=None, help="[已废弃] 项目角色参考图路径（v1.4 起不再使用）")
     args = parser.parse_args()
+
+    global CLI_DNA_LIB, CLI_TEMPLATE_MD
+    CLI_DNA_LIB = args.dna_lib
+    CLI_TEMPLATE_MD = args.template_md
 
     if not args.style_names and not args.config:
         parser.error("必须提供 --style-names 或 --config")

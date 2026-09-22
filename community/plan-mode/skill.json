@@ -1,0 +1,26 @@
+{
+  "id": "plan-mode",
+  "version": "1.0.0",
+  "displayName": "规划模式",
+  "description": "大改动前先摸现状、写一份施工方案、等确认再动手、做完汇报。当用户说先出个方案、别急着改、这个改动挺大、确认后再动、按方案来时使用。不写需求文档、不排任务队列、不做独立评审，也不产内容成品。",
+  "author": "Popwave",
+  "entry": "SKILL.md",
+  "tags": [
+    "规划",
+    "方案",
+    "改动流程",
+    "确认制"
+  ],
+  "activation": {
+    "slashCommands": [
+      "plan-mode"
+    ],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": false
+  }
+}
