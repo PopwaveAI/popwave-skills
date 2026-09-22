@@ -1,4 +1,4 @@
-﻿# tool-download-webnovel
+# tool-download-webnovel
 > 网文搜索下载TXT v7.4.0。三阶段流程：脚本搜索、web搜索兜底、验证交付。含内容污染检测与章节连续性校验。
 
 ## 做什么
