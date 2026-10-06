@@ -1,7 +1,7 @@
 {
   "id": "fanqie-writer",
   "name": "fanqie-writer",
-  "version": "1.29.9",
+  "version": "1.29.20",
   "displayName": "番茄小说写作",
   "description": "当用户说「写番茄小说/番茄平台连载/番茄推文」时用它，也在要给番茄书做黄金开篇、情绪曲线、逐章细纲与过审自检时进。产出 7 件交付物与可过审的章节正文；非番茄平台不触发。",
   "entry": "SKILL.md",

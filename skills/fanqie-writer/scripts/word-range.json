@@ -1,0 +1,41 @@
+{
+  "_readme": "单章字数区间的**机器可读真源**。人读版＝references/fanqie-platform-facts.md 的「四·补、单章字数」；两者必须一致，改动后跑 scripts/check_word_range_sync.py 校验（不一致会直接报错）。",
+  "_source": "references/fanqie-platform-facts.md#四·补、单章字数（2026-09-29 联网补）",
+  "_updated": "2026-09-30",
+  "official": {
+    "min": 1000,
+    "max": 50000,
+    "note": "番茄官方硬限制：单章少于 1000 字无法发布，上限 50000；官方不给唯一答案，把定字数的责任交给作者"
+  },
+  "default": {
+    "min": 2200,
+    "max": 2800,
+    "note": "通用保守值（本技能原默认，题材未定时用）"
+  },
+  "genres": {
+    "玄幻仙侠": {"min": 3000, "max": 5000, "note": "要铺宏大设定"},
+    "玄幻": {"min": 3000, "max": 5000, "note": "同玄幻仙侠"},
+    "仙侠": {"min": 3000, "max": 5000, "note": "同玄幻仙侠"},
+    "悬疑推理": {"min": 2500, "max": 3500, "note": "要维持悬念张力"},
+    "悬疑脑洞": {"min": 2500, "max": 3500, "note": "同悬疑推理"},
+    "都市言情": {"min": 2000, "max": 3000, "note": "节奏要明快"},
+    "通用": {"min": 2200, "max": 2800, "note": "不用题材假设时的保守值"}
+  },
+  "reader_preferred": {
+    "min": 2000,
+    "max": 4000,
+    "note": "社区口径·超七成读者偏好区间（**参考值，不是门禁**）"
+  },
+  "algorithm_edges": {
+    "sparse_below": 1500,
+    "ad_break_above": 4000,
+    "three_chapter_sparse_below": 5000,
+    "note": "算法侧三条边界：单章 <1500 判内容稀疏；单章 >4000 平台插广告打断阅读；连续 3 章合计 <5000 判稀疏"
+  },
+  "golden3": {
+    "suggest_min": 2500,
+    "stable": {"min": 2200, "max": 3000, "note": "首秀期保持稳定区间"},
+    "descending": {"seq": [2500, 2000, 1500], "tolerance": 0.25, "note": "递减结构，降低新手阅读门槛"},
+    "note": "前 3 章需强冲突＋强悬念；两种口径同书择一，不混用"
+  }
+}

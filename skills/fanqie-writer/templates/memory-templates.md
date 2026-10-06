@@ -244,5 +244,5 @@
 ---
 ```
 
-详见 `references/review-dimensions.md`（快速 3 维 + 完整 9 维逻辑审查模板）。
-> 2026-09-21 修正：此处原指向 `assets/REVIEW-TEMPLATE.md`，该文件不存在（悬空引用），审查模板的实际位置是 `references/review-dimensions.md`。
+详见上文内嵌的审查模板节（快速 3 维 + 完整 9 维）。
+> 2026-09-21 修正：此处原指向 `assets/REVIEW-TEMPLATE.md`，该文件不存在（悬空引用）；审查模板已内嵌于本文件，不再外链。

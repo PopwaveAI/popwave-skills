@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-番茄章节「过审自检」客观指标统计脚本（2026-09-21 新增）
+章节客观指标统计脚本（确定性错误 ＋ 风格画像）（2026-09-21 新增）
 
-用途：把 `references/audit-checklist.md` 里原本只能"靠感觉"判定的 P0 项，
+用途：把**技能自检清单**里原本只能"靠感觉"判定的 P0 项，
       跑成可复核的数字——AI 粗制滥造 / 格式混乱 / 空洞水文三组都有可用指标。
 
 统计口径（与 check_chapter_wordcount.py 一致）：只统计 `## 正文` 节，
@@ -26,6 +26,9 @@ import os
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from word_range import resolve as resolve_range  # noqa: E402
 
 if sys.platform == 'win32':
     import io
@@ -132,7 +135,7 @@ def analyze(path: Path) -> dict:
     # 句长与段落
     # v1.21.0 修正：句切分须**至少含 1 个汉字**才算一句。
     # 起因：`“表呢？”` 按 `？` 切会留下一个孤立的 `”`，它汉字数为 0 却被当成"≤6 字的短句"计入碎句链/短句率。
-    # 影响实测：《停摆》三章各只有 1 个伪句，碎句链 7/7/15 **完全不变**，短句率变化 <0.5%（35.3→35.0）。
+    # 影响实测：某悬疑样本三章各只有 1 个伪句，碎句链 7/7/15 **完全不变**，短句率变化 <0.5%（35.3→35.0）。
     # 故历史结论不受影响；此处按正确口径修正，避免其他文本上出现偏差。
     sents = [s for s in re.split(r'[。？！]', body) if cn_count(s) > 0]
     avg_sent = total / len(sents) if sents else 0
@@ -153,7 +156,7 @@ def analyze(path: Path) -> dict:
     # 口径校准（2026-09-23 同日回跑后拆分，依据「门禁不得误伤正例」）：
     #   · **拉丁字母** = FAIL —— 中文正文里混进英文单词/字母，对读者是明显出戏，无正当理由
     #   · **半角数字** = WARN —— 型号/年代/编号（如「上海牌 7120」）在中文网文里是正常写法，
-    #     回跑《停摆》第 1 章时确认：若一并判 FAIL，会误杀已被门禁认可的正例
+    #     回跑该悬疑样本第 1 章时确认：若一并判 FAIL，会误杀已被门禁认可的正例
     ascii_letter_hits = []
     ascii_digit_hits = []
     for _i, _l in enumerate(lines, 1):
@@ -178,7 +181,7 @@ def analyze(path: Path) -> dict:
     dash_total = dash_em + dash_single + dash_en
     dash_lines = [l.strip() for l in lines if ('—' in l or '–' in l)]
     # v1.22.1：定位材料改为「破折号前后各 10 字」。
-    #   旧版取行首 26 字——破折号在句中时（如《南味入京》第 1 章「…青苔——那是…」）
+    #   旧版取行首 26 字——破折号在句中时（如某样本第 1 章「…青苔——那是…」）
     #   提示里根本看不到破折号，等于没定位。回跑实测暴露，见 prd/全类型覆盖测试矩阵.md M7 回跑记录。
     dash_hits = []
     for _i, _l in enumerate(lines, 1):
@@ -295,8 +298,8 @@ def analyze(path: Path) -> dict:
     #    校准结果（用户原例「我躺在床上睁开了眼睛，打湿毛巾把脸好好地擦了一下，终于清醒过来了」
     #    能被命中，含过渡词的对照句不命中——**检测器本身有效**），但**无区分度**：
     #         8 本正例候选密度中位 2.4 句/千字（区间 1.2–3.0），
-    #         《停摆》三章同为 2.4 句/千字；且正例候选句形态相同却完全成立
-    #         （如《停摆》「他把目镜推上额头，指腹压住表蒙，往下按了半分」本身是完整动作链）。
+    #         悬疑样本三章同为 2.4 句/千字；且正例候选句形态相同却完全成立
+    #         （如「他把目镜推上额头，指腹压住表蒙，往下按了半分」本身是完整动作链）。
     #    → 按本项目纪律「抓不住的就不设门槛，宁可不加也不要加噪声」**撤除**（正则检测器）。
     #    → 「跳」的判定改由**四问自检子流程**执行：判据动作＝「**把这段照着做一遍，中间步骤在不在**」
     #      （用户 2026-09-23 定义），执行者＝跑本技能的模型（references/prose-rules-supplement.md S7.2）。
@@ -305,7 +308,7 @@ def analyze(path: Path) -> dict:
     # ---- v1.20.0 新增：通用硬伤层（唯一保留的门禁；其余风格项一律只报数）----
     # 依据：用户 2026-09-23「病句，碎句，跳，上下句描述错误，这种问题是通用不能有的」
     #       ＋ 8 本异风格正例全量扫描——除本层外，一切节奏/粒度指标都能在正例里找到更极端的反例
-    #       （《月光盒子》碎句链 15、短对白链 15，与《停摆》第 3 章同值）。
+    #       （《月光盒子》碎句链 15、短对白链 15，与悬疑样本第 3 章同值）。
     # 只扫 `## 正文`；排除标题、引用块 `>`、列表标记，避免把元数据当正文判。
     TITLE_LIKE = re.compile(
         r'^(?:第\s*[0-9０-９一二三四五六七八九十百千零两]+\s*章'
@@ -400,16 +403,25 @@ def analyze(path: Path) -> dict:
     }
 
 
-def verdict(r: dict) -> list:
-    """返回 (项目, 值, 判定, 说明) 列表；判定取 PASS / WARN / FAIL"""
+def verdict(r: dict, rng: dict = None) -> list:
+    """返回 (项目, 值, 判定, 说明) 列表；判定取 PASS / WARN / FAIL
+
+    字数区间由 scripts/word_range.py 解析（命令行 ＞ 本书 .learnings/立项参数.json
+    ＞ 分档表 ＞ 内置默认），**不再硬编码 2200-2800**。v1.29.17 修——v1.29.16 只让
+    check_chapter_wordcount.py 与 plan_word_quota.py 走了解析入口，**本脚本漏网**
+    （若立项按悬疑定 3000 字，本脚本会把达标的章误判 FAIL）。
+    """
+    if rng is None:
+        rng = {'min': 2200, 'max': 2800, 'label': '⚠️ 内置默认（未接区间解析）'}
     rows = []
     rows.append(('正文字数', f"{r['total']}",
-                 'PASS' if 2200 <= r['total'] <= 2800 else 'FAIL', '区间 2200-2800'))
+                 'PASS' if rng['min'] <= r['total'] <= rng['max'] else 'FAIL',
+                 '区间 %s-%s｜来源: %s' % (rng['min'], rng['max'], rng['label'])))
     # v1.19.0 废除「对话占比 ≥30%」门槛；v1.20.0 进一步把口径统一为「行占比」，
     # 与 references/benchmark-writing.md 第一节的样本画像同尺（旧口径是汉字占比，两者数值不可比）。
     rows.append(('对白行占比（参考值·不判定）',
                  f"{r['dlg_line_ratio'] * 100:.1f}%（{r['dlg_total_lines']}/{r['paras']} 行）", 'INFO',
-                 '正例区间 0–94%（《第365天》18.6%／《昨日书》42.5%／《宠宠欲动》53%，单章最高 92%）。'
+                 '正例区间 0–94%（基准样本 18.6%／《昨日书》42.5%／《宠宠欲动》53%，单章最高 92%）。'
                  'v1.19.0 已废除旧的「≥30%」门槛：占比高低不指示质量。'
                  '对白是否合格走 ①遮蔽测试（S3.2）②承接测试第 1 问（每行让局面动一格）'))
     rows.append(('AI 高频词', ('、'.join(r['ai_hits']) if r['ai_hits'] else '无'),
@@ -447,22 +459,22 @@ def verdict(r: dict) -> list:
     rows.append(('正文内含半角数字', f"{r['ascii_digit']} 处",
                  'PASS' if r['ascii_digit'] == 0 else 'WARN', ad_note))
     # ---- v1.20.0：全部风格项改「参考值」，不判定 ----
-    # 依据：用户交付的 7 本异风格长篇 + 认可的《第365天》实测区间为
+    # 依据：用户交付的 7 本异风格长篇 + 认可的基准样本实测区间为
     #   对白占比 0–94%／均段长 12–149／均句长 11–95／短句率 0–45%／碎句链 0–15／短对白链 0–15，
-    #   而《停摆》逐项落在包络内 → 统计不可分：这些是风格旋钮，不是质量刻度。
+    #   而悬疑样本逐项落在包络内 → 统计不可分：这些是风格旋钮，不是质量刻度。
     # 用户原话：「也有那种专门写对话文的，不能一刀全割掉，这种不同的方式都可以有的」。
     rows.append(('平均句长（参考值）', f"{r['avg_sent']:.1f} 字", 'INFO',
                  '正例区间 11–95 字（《月光盒子》13.8／《昨日书》26／《宠宠欲动》38）。不判定'))
     ap = (r['total'] / r['paras']) if r['paras'] else 0
     rows.append(('均段长（参考值）', f"{ap:.1f} 字/段（{r['paras']} 段）", 'INFO',
-                 '正例区间 12–149（《月光盒子》15.8／《第365天》30.2）。'
+                 '正例区间 12–149（《月光盒子》15.8／基准样本 30.2）。'
                  '不判定——v1.19.0 的「<16 FAIL」已撤销（会误杀用户交付的正例）'))
     sr = r['short_ratio']
     rows.append(('短句率（≤6 字句，参考值）', f"{sr * 100:.1f}%（{r['n_sent']} 句）", 'INFO',
                  '正例区间 0–45%（《月光盒子》31.4%）。不判定——v1.19.0 的 25% 线已撤销'))
     srun = r['short_run']
     rows.append(('最长连续碎句链（参考值）', f"{srun} 句", 'INFO',
-                 '正例最高 15（《月光盒子》第 21 章，与《停摆》第 3 章同值）。'
+                 '正例最高 15（《月光盒子》第 21 章，与悬疑样本第 3 章同值）。'
                  '不判定——连发短句是节奏，是否成问题看承接测试四问'))
     if r.get('frag_span_txt'):
         rows.append(('　└ 该链原文（取此段做承接测试第 1／2 问）', f"{len(r['frag_span_txt'])} 句", 'INFO',
@@ -531,16 +543,18 @@ def verdict(r: dict) -> list:
     return rows
 
 
-def report(raws, files):
+def report(raws, files, ranges=None):
     print('\n' + '=' * 68)
-    print('番茄章节过审自检 · 客观指标报告（仅统计正文）')
+    print('章节客观指标报告（仅统计正文）')
     print('  v1.20.0：风格项（对白占比/均段长/均句长/短句率/碎句链/短对白链）只报数不判定；')
     print('          门禁只剩「通用硬伤层」＋原有的格式/字数/AI 词项。')
     print('  v1.22.0：「碎／跳」的判定走 S7 闭环——写前动作链＋信息增量表（S7.1）→ 写后模型四问自检（S7.2）。')
     print('          本报告只提供「定位材料」；凡「确认／四问」类动作，执行者＝跑本技能的模型，不是用户。')
     print('=' * 68)
     fails = 0
-    for path, r in zip(files, raws):
+    if ranges is None:
+        ranges = [None] * len(files)
+    for path, r, rng in zip(files, raws, ranges):
         print(f"\n【{Path(path).name}】")
         _src = r.get('body_src')
         if _src == 'txt-cut':
@@ -549,14 +563,14 @@ def report(raws, files):
         elif _src == 'txt-whole':
             print('  [--]  正文提取: 无 `## 正文` 节、也未找到章节标题 → 全篇当正文统计，'
                   '口径可能与实际不符，结论仅供参考。')
-        for name, val, v, note in verdict(r):
+        for name, val, v, note in verdict(r, rng):
             mark = {'PASS': '[OK]  ', 'WARN': '[!]   ', 'FAIL': '[X]   ', 'INFO': '[--]  '}[v]
             print(f"  {mark}{name}: {val}")
             if v != 'PASS' and note:
                 print(f"          → {note if len(note) <= 120 else note[:120] + '…'}")
             if v == 'FAIL':
                 fails += 1
-    # 跨章对白逐字复现（v1.20.0 新增）——《停摆》第 2/3 章末三句曾完全复现
+    # 跨章对白逐字复现（v1.20.0 新增）——悬疑样本第 2/3 章末三句曾完全复现
     for a, b in zip(raws, raws[1:]):
         common = [x for x in a['tail_dlg'] if x in set(b['tail_dlg'])]
         if len(common) >= 3:
@@ -572,36 +586,76 @@ def report(raws, files):
     else:
         print('结论: 门禁全部通过')
     print('-' * 68)
+
+    degraded = [Path(f).name for f, rng in zip(files, ranges)
+                if rng and str(rng.get('label', '')).startswith('⚠️')]
+    if degraded:
+        print('⚠️ 有 %d 章没解析到本书字数口径（%s）——字数判定用的是内置默认 2200-2800。'
+              % (len(degraded), '、'.join(degraded[:5])))
+        print('   请确认本书 .learnings/立项参数.json 已写好单章字数区间（生成方式见 SKILL.md）。')
     return fails
 
 
-def main():
-    if len(sys.argv) < 2 or sys.argv[1] in ('-h', '--help'):
-        print('''用法:
+USAGE = '''用法:
   python chapter_stats.py <章节文件>      # 扫单个章节
   python chapter_stats.py --all <目录>    # 扫目录下所有「第*章.md」
 
+可选参数（一般不用给——脚本会自己找本书立项参数）:
+  --min <n> / --max <n>          显式指定区间（优先级最高）
+  --genre <题材名>               配合 --range-config 用
+  --range-config <json>          分档表（各技能自带的字数分档 json）
+  -h / --help                    看这段
+
+区间解析顺序: 命令行 ＞ 本书 .learnings/立项参数.json ＞ 分档表 ＞ 内置默认 2200-2800。
+              报告里逐章打印「来源」——降级到默认档会显式告警。
+
 判据（v1.20.0 收窄为「确定性错误」）:
   FAIL —— 破折号 / ASCII 直引号 / 标点错配 / 引号不配对 / 相邻行重复 /
-          叠字 / 跨章对白逐字复现 / 正文含拉丁字母
+          叠字 / 跨章对白逐字复现 / 正文含拉丁字母 / 字数落在本书区间外
   WARN —— 半角数字 / 标点连用 / 半截句 / 行尾无终止标点
   只报数不判定（风格项，不判 PASS/FAIL）:
           对白行占比 / 均段长 / 均句长 / 短句率 / 碎句链 / 短对白链
   须人工核（脚本只定位）:
           S3.2 遮蔽测试待办段 / 承接测试四问（逐句举证，禁止打勾）
 
-退出码: 0 = 无 FAIL；1 = 有 FAIL 或调用错误。''')
-        return 0 if len(sys.argv) > 1 else 1
-    if len(sys.argv) < 2:
-        print('用法: python chapter_stats.py <章节文件>')
-        print('      python chapter_stats.py --all <目录>')
-        return 0
+退出码: 0 = 无 FAIL；1 = 有 FAIL 或调用错误。'''
 
-    if sys.argv[1] == '--all':
-        if len(sys.argv) < 3:
+
+def _take_flag(argv, name):
+    '''从 argv 里摘掉 `--name value`，返回 (值, 剩余列表)'''
+    out, val, i = [], None, 0
+    while i < len(argv):
+        if argv[i] == name and i + 1 < len(argv):
+            val = argv[i + 1]
+            i += 2
+            continue
+        out.append(argv[i])
+        i += 1
+    return val, out
+
+
+def main():
+    argv = sys.argv[1:]
+    if not argv or argv[0] in ('-h', '--help'):
+        print(USAGE)
+        return 0 if argv else 1
+
+    min_words, rest = _take_flag(argv, '--min')
+    max_words, rest = _take_flag(rest, '--max')
+    range_config, rest = _take_flag(rest, '--range-config')
+    genre, rest = _take_flag(rest, '--genre')
+    min_words = int(min_words) if min_words else None
+    max_words = int(max_words) if max_words else None
+
+    if not rest:
+        print(USAGE)
+        return 1
+
+    if rest[0] == '--all':
+        if len(rest) < 2:
             print('错误: --all 需要目录路径')
             return 1
-        d = Path(sys.argv[2])
+        d = Path(rest[1])
         if not d.exists():
             print(f'目录不存在: {d}')
             return 1
@@ -609,14 +663,18 @@ def main():
         # 这类设计素材一并当章节扫（实测误报 5 项 P0）。收紧为必须以「章.md」结尾。
         files = sorted(str(p) for p in d.glob('第*章.md'))
     else:
-        files = [sys.argv[1]]
+        files = [rest[0]]
 
     if not files:
         print('没有找到章节文件')
         return 1
 
+    # 逐章解析区间（本书参数与黄金三章递减结构要按章号判，不能整批用同一个数）
+    ranges = [resolve_range(min_words=min_words, max_words=max_words,
+                            range_config=range_config, genre=genre,
+                            chapter_path=f) for f in files]
     raws = [analyze(Path(f)) for f in files]
-    return 1 if report(raws, files) else 0
+    return 1 if report(raws, files, ranges) else 0
 
 
 if __name__ == '__main__':

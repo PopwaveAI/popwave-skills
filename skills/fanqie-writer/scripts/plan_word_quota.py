@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 """plan_word_quota.py — 单章字数配额表（**写前**用，不是写后补）
 
-把「这一章 2200-2800 字」翻译成三把可以照着写的尺：
+把「这一章 N 字」翻译成三把可以照着写的尺：
     每场目标字数 ／ 每场目标段数 ／ 每场建议拍数（谁对谁做了什么的一个来回）
+
+**N 从哪来**：区间由 `scripts/word_range.py` 解析——命令行 `--min/--max`
+＞ 本书 `.learnings/立项参数.json`（立项时定）＞ `--range-config` 分档表 ＞ 默认 2200-2800。
 
 ━━━ 为什么需要它（2026-09-24 实测）━━━
 
@@ -31,8 +34,11 @@
     # 换均段长（叙述驱动取 26-27；对白驱动取 20-21；不给则用中值 23）
     python plan_word_quota.py --total 2250 --scenes 6 --avg-para 27
 
-    # 写完核对：数出实际字数/段数，与目标对账
-    python plan_word_quota.py --total 2250 --scenes 6 --check 第01章.md
+    # 写完核对：数出实际字数/段数，与目标对账（区间自动从本书立项参数取）
+    python plan_word_quota.py --total 3000 --scenes 6 --check 第01章.md
+
+    # 不想写本书参数时，也可以直接指定题材/区间
+    python plan_word_quota.py --total 3000 --scenes 6 --genre <题材名> --range-config <分档表 json>
 
 输出是 Markdown，可直接贴进 `.learnings/施工细账_卷N.md` 的写前准备。
 """
@@ -41,6 +47,9 @@ import argparse
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from word_range import resolve as resolve_range  # noqa: E402
 
 # 均段长实测参考（2026-09-24 两个样本，均为通过门禁的章节）
 PARA_LEN_NARRATIVE = 26.8   # 叙述驱动（古言样本 2436 字 / 91 段）
@@ -103,12 +112,25 @@ def main():
                     help="各场权重，逗号分隔（如 1,1.3,1.3,1,0.9,0.6）；不给则均分")
     ap.add_argument("--avg-para", type=float, default=None,
                     help="均段长（叙述驱动 26-27 / 对白驱动 20-21 / 不给用中值 23）")
-    ap.add_argument("--floor", type=int, default=2200, help="字数下限（默认 2200）")
-    ap.add_argument("--ceil", type=int, default=2800, help="字数上限（默认 2800）")
+    ap.add_argument("--floor", type=int, default=None,
+                    help="字数下限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2200）")
+    ap.add_argument("--ceil", type=int, default=None,
+                    help="字数上限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2800）")
+    ap.add_argument("--genre", type=str, default=None,
+                    help="题材名，配合 --range-config 用")
+    ap.add_argument("--range-config", type=str, default=None,
+                    help="分档表 json（各技能自带的字数分档 json）")
+    ap.add_argument("--book", type=str, default=None,
+                    help="本书目录，用于找 .learnings/立项参数.json（不给则从 --check 的文件向上找）")
     ap.add_argument("--check", type=str, default=None, help="已写章节文件，写完对账用")
     ap.add_argument("--actual", type=str, default=None,
                     help="各场实际字数，逗号分隔（如 206,63,1171,453,137,180）→ 逐场差额表")
     args = ap.parse_args()
+
+    rng = resolve_range(min_words=args.floor, max_words=args.ceil,
+                        range_config=args.range_config, genre=args.genre,
+                        book_dir=args.book, chapter_path=args.check)
+    args.floor, args.ceil = rng["min"], rng["max"]
 
     avg_para = args.avg_para or PARA_LEN_DEFAULT
     weights = None
@@ -123,6 +145,12 @@ def main():
 
     # ── 写前配额表 ──────────────────────────────────────────────
     print(f"## 本章字数配额（写前排定 · 目标 {args.total} 字 · {args.scenes} 场 · 均段长 {avg_para:.1f}）")
+    print()
+    print(f"> **区间来源**：{rng['label']}——下限 {rng['min']} ／ 上限 {rng['max']}"
+          + (f"（{rng['note']}）" if rng.get('note') else ""))
+    if not (args.floor <= args.total <= args.ceil):
+        print(f"> ⚠️ 目标 {args.total} 字**落在区间 {args.floor}-{args.ceil} 之外**——"
+              f"先回立项确认本书单章字数区间。")
     print()
     print("| 场 | 权重 | **目标字** | **目标段数** | **建议拍数** | 写完实测字 | 差额 |")
     print("|---|---|---|---|---|---|---|")

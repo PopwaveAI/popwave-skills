@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-番茄章节字数检查脚本
-检查字数是否在2200-2800字最佳区间
+章节字数检查脚本
+检查字数是否落在**本书／本题材**的最佳区间（区间从哪来见 scripts/word_range.py）
+
+区间来源与优先级（2026-09-30 新增 · 治「文档按题材分档、脚本却硬编码 2200-2800」）：
+    ① 命令行 --min/--max ＞ ② 本书 .learnings/立项参数.json（自动向上找）
+    ＞ ③ --range-config <分档表 json> ＋ --genre <题材> ＞ ④ 内置默认 2200-2800。
+    报告里会逐章打印「来源」——**降级到默认档必须可见，不许静默糊过去**。
+    黄金三章选「递减结构」时（本书参数里 黄金三章.mode=descending），
+    第 1-3 章按递减序列放行，**不让递减结构被本门禁误判 FAIL**。
 
 统计口径（2026-09-21 修正）：
     章节文件由四块构成——元数据块（本章概要/承接上章…）、正文、章节备注、写后自检清单。
@@ -16,6 +23,9 @@ import os
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from word_range import resolve as resolve_range  # noqa: E402
 
 # 处理 Windows 控制台编码问题
 if sys.platform == 'win32':
@@ -76,8 +86,16 @@ def extract_content_from_chapter(file_path: Path) -> str:
     return content
 
 
-def check_chapter(file_path: str, min_words: int = 2200, max_words: int = 2800) -> dict:
-    """检查单个章节的字数"""
+def check_chapter(file_path: str, min_words=None, max_words=None,
+                  range_config=None, genre=None, book_dir=None) -> dict:
+    """检查单个章节的字数。
+
+    区间由 word_range.resolve 解析：命令行 ＞ 本书立项参数 ＞ 分档表 ＞ 内置默认。
+    """
+    rng = resolve_range(min_words=min_words, max_words=max_words,
+                        range_config=range_config, genre=genre,
+                        book_dir=book_dir, chapter_path=file_path)
+    min_words, max_words = rng['min'], rng['max']
     path = Path(file_path)
     if not path.exists():
         return {
@@ -85,7 +103,9 @@ def check_chapter(file_path: str, min_words: int = 2200, max_words: int = 2800) 
             'exists': False,
             'word_count': 0,
             'status': 'error',
-            'message': f'文件不存在: {file_path}'
+            'message': f'文件不存在: {file_path}',
+            'range': f'{min_words}-{max_words}',
+            'range_label': rng['label'],
         }
 
     main_content = extract_content_from_chapter(path)
@@ -106,25 +126,32 @@ def check_chapter(file_path: str, min_words: int = 2200, max_words: int = 2800) 
         'exists': True,
         'word_count': word_count,
         'status': status,
-        'message': message
+        'message': message,
+        'range': f'{min_words}-{max_words}',
+        'range_label': rng['label'],
     }
 
 
 def check_all_chapters(directory: str, pattern: str = '第*.md',
-                       min_words: int = 2200, max_words: int = 2800) -> list:
-    """检查目录下所有章节文件"""
+                       min_words=None, max_words=None,
+                       range_config=None, genre=None) -> list:
+    """检查目录下所有章节文件（**逐章**解析区间：本书参数与黄金三章递减要按章号判）"""
     dir_path = Path(directory)
     if not dir_path.exists():
         print(f'错误: 目录不存在 - {directory}')
         return []
 
     chapter_files = sorted(dir_path.glob(pattern))
-    results = [check_chapter(str(f), min_words, max_words) for f in chapter_files]
+    results = [check_chapter(str(f), min_words, max_words, range_config, genre)
+               for f in chapter_files]
     return results
 
 
-def print_results(results: list, min_words: int = 2200, max_words: int = 2800):
-    """打印检查报告"""
+def print_results(results: list):
+    """打印检查报告。
+
+    **区间来源逐章打印**——降级到内置默认档时必须一眼可见。
+    """
     if not results:
         print('没有找到章节文件')
         return
@@ -132,9 +159,10 @@ def print_results(results: list, min_words: int = 2200, max_words: int = 2800):
     total_words = 0
     passed = short = long = error = 0
 
+    ranges = sorted({r.get('range') for r in results if r.get('range')})
     print('\n' + '=' * 60)
-    print('番茄章节字数检查报告（仅统计正文，不含元数据/备注/自检清单）')
-    print(f'最佳区间: {min_words}-{max_words} 字')
+    print('章节字数检查报告（仅统计正文，不含元数据/备注/自检清单）')
+    print('最佳区间: ' + ('／'.join(ranges) if ranges else '（未解析出区间）'))
     print('=' * 60)
 
     for result in results:
@@ -159,48 +187,94 @@ def print_results(results: list, min_words: int = 2200, max_words: int = 2800):
 
         print(f'\n{icon} {Path(result["file"]).name}')
         print(f'   {result["message"]}')
+        if result.get('range_label'):
+            print(f'   来源: {result["range_label"]}')
 
     print('\n' + '-' * 60)
     print(f'总计: {len(results)} 章 | {passed} 章达标 | {short} 章不足 | {long} 章超标 | 总字数: {total_words:,}')
     print('-' * 60)
 
     if short > 0:
-        print(f'\n有 {short} 章内容不足 {min_words} 字，建议使用扩充技巧（参考 content-expansion.md）')
+        print(f'\n有 {short} 章内容不足各自区间的下限，建议回写前配额表补「场上其他人的反应与对白来回」')
     if long > 0:
-        print(f'\n有 {long} 章内容超过 {max_words} 字，建议精简，番茄短篇过长会降低完读率。')
+        print(f'\n有 {long} 章内容超过各自区间的上限，建议精简：超长会稀释本章重点。')
+
+    degraded = [Path(r['file']).name for r in results
+                if str(r.get('range_label', '')).startswith('⚠️')]
+    if degraded:
+        print('\n⚠️ 有 %d 章没解析到本书字数口径（%s）——用的是内置默认 2200-2800。'
+              % (len(degraded), '、'.join(degraded[:5])))
+        print('   请确认本书 .learnings/立项参数.json 已写好单章字数区间（生成方式见 SKILL.md）。')
+
+
+USAGE = '''用法:
+  python check_chapter_wordcount.py <章节文件路径> [最小字数] [最大字数]
+  python check_chapter_wordcount.py --all <目录路径> [最小字数] [最大字数]
+
+可选参数（一般不用给——脚本会自己找本书立项参数）:
+  --min <n> / --max <n>            显式指定区间（优先级最高）
+  --genre <题材名>                  配合 --range-config 用
+  --range-config <json>             分档表（各技能自带的字数分档 json）
+  -h / --help                       看这段
+
+区间解析顺序: 命令行 ＞ 本书 .learnings/立项参数.json ＞ 分档表 ＞ 内置默认 2200-2800。
+'''
+
+
+def _take_flag(argv, name):
+    """从 argv 里摘掉 `--name value`，返回 (值, 剩余列表)"""
+    out, val, i = [], None, 0
+    while i < len(argv):
+        if argv[i] == name and i + 1 < len(argv):
+            val = argv[i + 1]
+            i += 2
+            continue
+        out.append(argv[i])
+        i += 1
+    return val, out
 
 
 def main():
-    min_words = 2200
-    max_words = 2800
-
-    if len(sys.argv) < 2:
-        print('用法: python check_chapter_wordcount.py <章节文件路径> [最小字数] [最大字数]')
-        print('      python check_chapter_wordcount.py --all <目录路径> [最小字数] [最大字数]')
-        print(f'      默认字数区间: {min_words}-{max_words}')
+    argv = sys.argv[1:]
+    if not argv or argv[0] in ('-h', '--help'):
+        print(USAGE)
         return
 
-    if sys.argv[1] == '--all':
-        if len(sys.argv) < 3:
+    min_words, rest = _take_flag(argv, '--min')
+    if min_words is None:
+        min_words, rest = _take_flag(rest, '--min-words')
+    max_words, rest = _take_flag(rest, '--max')
+    range_config, rest = _take_flag(rest, '--range-config')
+    genre, rest = _take_flag(rest, '--genre')
+    min_words = int(min_words) if min_words else None
+    max_words = int(max_words) if max_words else None
+
+    if not rest:
+        print(USAGE)
+        return
+
+    if rest[0] == '--all':
+        if len(rest) < 2:
             print('错误: 使用 --all 时需要指定目录路径')
             return
-        directory = sys.argv[2]
-        if len(sys.argv) >= 5:
-            min_words = int(sys.argv[3])
-            max_words = int(sys.argv[4])
-        elif len(sys.argv) == 4:
-            min_words = int(sys.argv[3])
-        results = check_all_chapters(directory, min_words=min_words, max_words=max_words)
-        print_results(results, min_words, max_words)
+        directory = rest[1]
+        # 兼容老写法：--all <目录> [最小字数] [最大字数]
+        if len(rest) >= 4:
+            min_words, max_words = int(rest[2]), int(rest[3])
+        elif len(rest) == 3:
+            min_words = int(rest[2])
+        results = check_all_chapters(directory, min_words=min_words, max_words=max_words,
+                                     range_config=range_config, genre=genre)
+        print_results(results)
     else:
-        file_path = sys.argv[1]
-        if len(sys.argv) >= 4:
-            min_words = int(sys.argv[2])
-            max_words = int(sys.argv[3])
-        elif len(sys.argv) == 3:
-            min_words = int(sys.argv[2])
-        result = check_chapter(file_path, min_words, max_words)
-        print_results([result], min_words, max_words)
+        file_path = rest[0]
+        if len(rest) >= 3:
+            min_words, max_words = int(rest[1]), int(rest[2])
+        elif len(rest) == 2:
+            min_words = int(rest[1])
+        result = check_chapter(file_path, min_words, max_words,
+                               range_config=range_config, genre=genre)
+        print_results([result])
 
 
 if __name__ == '__main__':
