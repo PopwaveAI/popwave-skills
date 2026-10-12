@@ -1,0 +1,22 @@
+{
+  "id": "tool-split-chapters",
+  "version": "0.1.0",
+  "displayName": "tool-split-chapters",
+  "description": "Deterministic chapter splitter for book deconstruction. Turns raw TXT volumes into a standard source package (manifest.json + chapters/ + indexes) with zero model calls.",
+  "tags": ["拆书与分析"],
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false,
+    "shell": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 60000
+  }
+}
