@@ -146,6 +146,7 @@
 ```markdown
 mode: fresh            # fresh/import/resume
 phase: init            # init/1/2/3/4/5/6/7/8
+stage: --              # 当前通用环节：创意／世界观／人物库／剧情大纲／正文（供客户端项目总控点亮；不确定留 --）
 current_volume: 1      # 当前卷号
 current_chapter: ch000 # 下一章待写（本章 review PASS 后+1）
 project_name: 未命名项目
@@ -249,14 +250,14 @@ outline 章纲 → write 正文(ch{NNN}.txt) → review 三件事 → 回到 out
 
 | 时机 | 更新 |
 |:--|:--|
-| 各 skill 完成 | phase 推进到状态机的下一位、更新 updated_at、对应就绪态项标 [x]、最近产出追加一行 |
+| 各 skill 完成 | phase 推进到状态机的下一位、同步 stage 为当前通用环节、更新 updated_at、对应就绪态项标 [x]、最近产出追加一行 |
 | 每轮改动设定档 | 回写「档位状态」表中该档的状态（[ ]未建／空／已填） |
 | seed 完成 | 另更新 seed_path 与书目（book_name、one_line） |
 | 卷1 前3章章纲完成 | 若 phase 在 5，project 就绪态补标开篇承诺基线 [x]，并在最近产出追加一行 |
 | write/review 每章 | review PASS 后 current_chapter+1，phase 在 5、6、7 之间流转 |
 | 8 卷末 | current_volume+1，需求brief、卷舞台、卷纲、幕白描四项清零，phase 置为 4 |
 
-pipeline 只在初始化与导入时写 phase；日常推进由各 skill 完成后按本表更新。
+pipeline 只在初始化与导入时写 phase；日常推进由各 skill 完成后按本表更新。stage 与 phase 一并更新：seed→创意、stage→世界观、plot 与 outline→剧情大纲、write 起→正文（人物库在 stage 里出，与世界观同段）。
 
 ---
 
