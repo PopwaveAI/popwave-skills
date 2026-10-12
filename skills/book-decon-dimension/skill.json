@@ -2,7 +2,7 @@
   "id": "book-decon-dimension",
   "version": "0.2.0",
   "displayName": "book-decon-dimension",
-  "description": "Book deconstruction execution skill (Phase 0, T1.2). Runs L1 batch deconstruction with all eight dimensions and the seven hard gates, writes an atomic per-batch completion flag, and only then composes the L2 six-module wiki plus 爽点 and the L0-L3 proposal folder. Supports resuming on top of a parent version. Self-contained; does not read or depend on popwave-skills.",
+  "description": "Book deconstruction execution skill (Phase 0, T1.2). Runs L1 batch deconstruction with all eight dimensions and the seven hard gates, writes an atomic per-batch completion flag, and only then composes the L2 six-module wiki plus 爽点 and the L0-L3 proposal folder. Supports resuming on top of a parent version. Self-contained; independent from this repo's pop-decon skills.",
   "tags": ["拆书与分析"],
   "entry": "SKILL.md",
   "activation": {
