@@ -1114,10 +1114,16 @@ describe("tool-split-chapters · 脚本自检", () => {
     assert.strictEqual(skill.id, "tool-split-chapters");
     assert.strictEqual(skill.permissions.shell, true);
     // 零第三方依赖：所有 import 都必须来自 node: 内置模块
+    // （拆分后入口只允许相对引入同目录的 split-core.mjs；core 内部同样只准用 node: 内置）
     const source = readFileSync(SCRIPT_PATH, "utf8");
     const specifiers = Array.from(source.matchAll(/from\s+["']([^"']+)["']/g)).map((match) => match[1]);
     assert.ok(specifiers.length > 0);
-    assert.strictEqual(specifiers.every((specifier) => specifier.startsWith("node:")), true);
+    assert.deepStrictEqual(specifiers.filter((specifier) => specifier.startsWith(".")), ["./split-core.mjs"]);
+    assert.strictEqual(specifiers.filter((specifier) => !specifier.startsWith(".")).every((specifier) => specifier.startsWith("node:")), true);
+    const coreSource = readFileSync(path.join(SCRIPT_DIR, "split-core.mjs"), "utf8");
+    const coreSpecifiers = Array.from(coreSource.matchAll(/from\s+["']([^"']+)["']/g)).map((match) => match[1]);
+    assert.ok(coreSpecifiers.length > 0);
+    assert.strictEqual(coreSpecifiers.every((specifier) => specifier.startsWith("node:")), true);
   });
 });
 
