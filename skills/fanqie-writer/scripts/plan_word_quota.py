@@ -7,6 +7,12 @@
 
 **N 从哪来**：区间由 `scripts/word_range.py` 解析——命令行 `--min/--max`
 ＞ 本书 `.learnings/立项参数.json`（立项时定）＞ `--range-config` 分档表 ＞ 默认 2200-2800。
+**本书参数怎么找到**（v1.29.30 修）：查找起点＝ `--book` ＞ `--check` 的章节文件 ＞ **当前目录**，
+从起点逐级向上找 `.learnings/立项参数.json`。
+> ⚠️ **一个路径都不给、又不在本书目录下运行时，读不到本书区间**——v1.29.29 及以前会
+> **静默回落 2200-2800**（几个样本的本书区间恰好等于默认值，所以一直没被发现）。
+> 现在**读到默认档就直接中止、退出码 3、不输出配额表**：表是要贴进 `施工细账_卷N.md` 的实物，
+> **用错区间算出来的表比没有表更坏**。
 
 ━━━ 为什么需要它（2026-09-24 实测）━━━
 
@@ -15,30 +21,46 @@
 
 实测恒等式 `字数 = 段数 × 均段字数`：
 
-    叙述驱动（古言样本）  2436 字 ÷  91 段 = 26.8 字/段
-    对白驱动（沙雕样本）  2217 字 ÷ 108 段 = 20.5 字/段
+    叙述驱动（古言样本）        2436 字 ÷  91 段 = 26.8 字/段
+    对白驱动·长段（沙雕样本）   2217 字 ÷ 108 段 = 20.5 字/段
+    短句市井体（市井题材样本）  2480 字 ÷ 166 段 = **14.9 字/段**
 
-→ 2200 字需要的段数是 **82-107 段**，而第一稿只写到约 **70 段**。
-   实务上"扩写"补的从来不是形容词，是**别人的反应与对白来回**。
+→ 2200 字需要的段数：前两档 **82-107 段**；**短句市井体要到 145-165 段**。
+   而第一稿通常只写到约 **70 段**。实务上「扩写」补的从来不是形容词，
+   是**别人的反应与对白来回**。
+
+⚠️ **第三条只有 1 本实测**（v1.29.31 记）——按「单一正例不得当标尺」，
+   它**暂时只报数、不设参考带**；写的时候 `--avg-para 15` 即可，不必等它定档。
+   对照数字：同一章按 `20.5` 推得 124 段，成稿实测 166 段（**多 34%**）——
+   **字数是准的，段数与拍数会系统性低估**。写「一句话一段」的市井体时，
+   别照默认的 23 或对白档的 20.5 给均段长。
 
 所以配额必须落在「段数／拍数」上，不能落在「字数」上——字数不是一个可写的单位。
 
 ━━━ 用法 ━━━
 
     # 基础：6 场、目标 2250 字的逐场配额
+    #   **在本书目录下运行**（查找起点会认当前目录，区间自动读本书立项参数）
     python plan_word_quota.py --total 2250 --scenes 6
 
+    # 不在本书目录下运行 → 用 --book 指到本书（**写前推荐写法**，别省这个参数）
+    python plan_word_quota.py --book novels/<书名> --total 2250 --scenes 6
+
     # 指定各场权重（重头场多给、收尾场少给；按场序给，逗号分隔）
-    python plan_word_quota.py --total 2250 --scenes 6 --weights 1,1.3,1.3,1,0.9,0.6
+    python plan_word_quota.py --book novels/<书名> --total 2250 --scenes 6 --weights 1,1.3,1.3,1,0.9,0.6
 
     # 换均段长（叙述驱动取 26-27；对白驱动取 20-21；不给则用中值 23）
-    python plan_word_quota.py --total 2250 --scenes 6 --avg-para 27
+    python plan_word_quota.py --book novels/<书名> --total 2250 --scenes 6 --avg-para 27
 
     # 写完核对：数出实际字数/段数，与目标对账（区间自动从本书立项参数取）
-    python plan_word_quota.py --total 3000 --scenes 6 --check 第01章.md
+    python plan_word_quota.py --book novels/<书名> --total 3000 --scenes 6 --check 第01章.md
 
     # 不想写本书参数时，也可以直接指定题材/区间
     python plan_word_quota.py --total 3000 --scenes 6 --genre <题材名> --range-config <分档表 json>
+
+**读不到本书区间时它不输出表**：打印 `[X] 区间来源未确定` 并以退出码 3 结束。
+解法的正确顺序＝① 补 `--book <本书目录>` ② `cd <本书目录>` 后再跑 ③ 显式 `--floor/--ceil`
+（**别用 ③ 糊过本书口径**）；三者都不成立＝立项漏了落盘那一步。
 
 输出是 Markdown，可直接贴进 `.learnings/施工细账_卷N.md` 的写前准备。
 """
@@ -51,10 +73,13 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from word_range import resolve as resolve_range  # noqa: E402
 
-# 均段长实测参考（2026-09-24 两个样本，均为通过门禁的章节）
+# 均段长实测参考（均为**通过门禁**的章节；三档口径见文件头恒等式）
 PARA_LEN_NARRATIVE = 26.8   # 叙述驱动（古言样本 2436 字 / 91 段）
-PARA_LEN_DIALOGUE = 20.5    # 对白驱动（沙雕样本 2217 字 / 108 段）
-PARA_LEN_DEFAULT = 23.0     # 中值
+PARA_LEN_DIALOGUE = 20.5    # 对白驱动·长段（沙雕样本 2217 字 / 108 段）
+PARA_LEN_TERSE = 14.9       # 短句市井体（市井题材样本 2480 字 / 166 段）
+                            # ⚠️ 仅 1 本实测（v1.29.31），**只报数、不设带**——
+                            #    「单一正例不得当标尺」；写市井体请显式 --avg-para 15
+PARA_LEN_DEFAULT = 23.0     # 中值（**仅在前三档都不适用且没给 --avg-para 时用**）
 
 # 一拍（谁向谁施压 → 回应 → 局面变化）的估算字数：约 3 段
 BEAT_CHARS = 65
@@ -111,17 +136,22 @@ def main():
     ap.add_argument("--weights", type=str, default=None,
                     help="各场权重，逗号分隔（如 1,1.3,1.3,1,0.9,0.6）；不给则均分")
     ap.add_argument("--avg-para", type=float, default=None,
-                    help="均段长（叙述驱动 26-27 / 对白驱动 20-21 / 不给用中值 23）")
+                    help="均段长。实测三档：叙述驱动 26-27 ／ 对白驱动·长段 20-21 ／ "
+                         "**短句市井体 15**（一句话一段的写法用这个，别用默认 23）；"
+                         "不给则用中值 23")
     ap.add_argument("--floor", type=int, default=None,
-                    help="字数下限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2200）")
+                    help="字数下限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2200）"
+                         "—— 只用于一次性试算，**别用它绕开本书口径**")
     ap.add_argument("--ceil", type=int, default=None,
-                    help="字数上限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2800）")
+                    help="字数上限（不给则自动解析：本书立项参数 ＞ 分档表 ＞ 默认 2800）"
+                         "—— 只用于一次性试算，**别用它绕开本书口径**")
     ap.add_argument("--genre", type=str, default=None,
                     help="题材名，配合 --range-config 用")
     ap.add_argument("--range-config", type=str, default=None,
                     help="分档表 json（各技能自带的字数分档 json）")
     ap.add_argument("--book", type=str, default=None,
-                    help="本书目录，用于找 .learnings/立项参数.json（不给则从 --check 的文件向上找）")
+                    help="本书目录，用于找 .learnings/立项参数.json"
+                         "（写前推荐给上；不给则从 --check 的文件向上找，再退到当前目录向上找）")
     ap.add_argument("--check", type=str, default=None, help="已写章节文件，写完对账用")
     ap.add_argument("--actual", type=str, default=None,
                     help="各场实际字数，逗号分隔（如 206,63,1171,453,137,180）→ 逐场差额表")
@@ -131,6 +161,25 @@ def main():
                         range_config=args.range_config, genre=args.genre,
                         book_dir=args.book, chapter_path=args.check)
     args.floor, args.ceil = rng["min"], rng["max"]
+
+    # ── v1.29.30：区间没落到本书口径就**不输出配额表** ──────────────────
+    # 缺陷原状：本脚本的「写前」用法（--total/--scenes，一个路径都不给）此前读不到
+    # 本书参数，静默回落 2200-2800，**退出码还是 0**；样本区间恰好等于默认值，
+    # 所以这个静默降级一路没被发现。配额表是要贴进 `施工细账_卷N.md` 的实物——
+    # **用错区间算出来的表比没有表更坏**（后面逐场对账全部按错基准判）。
+    # 故：读到 ⚠️ 档即中止，并把「怎么修」打在屏幕上。
+    if str(rng.get("label", "")).startswith("⚠️"):
+        print("[X] **区间来源未确定**：命令行没给 `--min/--max`，也没找到本书 "
+              "`.learnings/立项参数.json`。")
+        print("    查找起点顺序：`--book` ＞ `--check` 的章节文件 ＞ **当前目录**（各自逐级向上找）。")
+        print("    配额表会被贴进 `施工细账_卷N.md` 并作为逐场对账的基准，"
+              "**用错区间算出来的表比没有表更坏**——故本脚本在此中止，不输出表。")
+        print("    三选一：")
+        print("      1) 加 `--book <本书目录>`              ← **写前常态**，本书口径已落盘时用这个")
+        print("      2) `cd <本书目录>` 后重跑               ← 查找起点会认当前目录")
+        print("      3) 显式给区间 `--floor <下限> --ceil <上限>`（**别用它糊过本书口径**）")
+        print("    三者都不成立？→ 回立项跑 `scripts/set_word_range.py` 把本书区间落盘。")
+        return 3
 
     avg_para = args.avg_para or PARA_LEN_DEFAULT
     weights = None
@@ -167,6 +216,12 @@ def main():
     print(f"> 段数参考带：字数下限 {args.floor} 落在 **{hi}-{lo} 段**之间"
           f"（叙述驱动 {hi} 段 / 对白驱动 {lo} 段，实测均段长 "
           f"{PARA_LEN_NARRATIVE} vs {PARA_LEN_DIALOGUE}）。")
+    print(f"> **上面那张表的「目标段数」用的是「均段长 {avg_para:.1f}」**"
+          f"（命令行 `--avg-para` ＞ 中值 {PARA_LEN_DEFAULT}）；"
+          f"**与本行参考带是两把尺**——参考带给的是**不同写法下的段数范围**"
+          f"（叙述体少、对白体多），表中段数才是照写的目标。"
+          f"**短句市井体（一句话一段）请显式传 `--avg-para 15`**"
+          f"（实测 {PARA_LEN_TERSE}；不给会被按中值算、段数少掉约三分之一）。")
     print(f"> **一拍 ≈ {BEAT_CHARS} 字**（谁向谁施压 → 回应 → 局面变化）。"
           f"**拍数是可写的单位，字数不是。**")
     print("> ⚠️ **写前算，写后只做验收**。写完若某场差额 > 20%：**回细纲补「人的反应」，不回正文加形容词**"
@@ -187,8 +242,8 @@ def main():
         print(f"| 正文汉字数 | **{st['han']}** | {args.floor}-{args.ceil} | "
               f"{'✅ OK' if ok_len else ('❌ 不足' if st['han'] < args.floor else '❌ 超出')} |")
         para_ok = st["paras"] >= hi
-        print(f"| 段数 | **{st['paras']}** | ≥ {hi}（下限 {args.floor} 字） | "
-              f"{'✅ OK' if para_ok else '❌ 偏少'} |")
+        print(f"| 段数 | **{st['paras']}** | ≥ {hi}（下限 {args.floor} 字 ÷ 叙述档 "
+              f"{PARA_LEN_NARRATIVE}） | {'✅ OK' if para_ok else '❌ 偏少'} |")
         print(f"| 均段长 | {st['avg_para']:.1f} | — | 参考（只画像，不判定） |")
         print(f"| 对白段占比 | {st['dialogue_ratio']:.0f}% | — | 参考（只画像，不判定） |")
         gap = st["paras"] - hi
@@ -203,6 +258,9 @@ def main():
             else:
                 print(f"> 段数已够，说明**均段长低于参考带**（当前 {st['avg_para']:.1f}）——"
                       f"可给已有段落补感官细节或动作延宕。")
+                print(f"> ⚠️ **但先看这一条**：本档实测「短句市井体」均段长就是 "
+                      f"{PARA_LEN_TERSE}（一句话一段）——若本书就是这个写法，"
+                      f"**上面这句不适用**，问题不在均段长，而在**拍数不够**（回细纲补来回）。")
         elif st["han"] > args.ceil:
             print(f"> ❌ **超出上限** {st['han'] - args.ceil} 字：**删无功能元素，不删事件**。")
         else:

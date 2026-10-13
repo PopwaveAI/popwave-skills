@@ -22,6 +22,7 @@
       「碎／跳」的判定流程见 references/prose-rules-supplement.md **S7.2**；写前机制见 **S7.1**。
 """
 
+import json
 import os
 import re
 import sys
@@ -35,18 +36,39 @@ if sys.platform == 'win32':
     if hasattr(sys.stdout, 'buffer'):
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-AI_WORDS = [
-    '此外', '然而', '总而言之', '值得注意的是', '综上所述', '凸显', '强调',
-    '不禁', '油然而生', '深深地', '毫无疑问', '由此可见',
-]
-# v1.15.0 修：原先 '最后' / '首先' / '其次' 直接做子串匹配，会误伤正常用法
-#   （实测："夏"字的最后一横拖得特别长 / 抄完剩下两页 / 左上最后一把伞）
-# 改为**语境判定**：只有充当连接词（句首或另起一句，且后面紧跟逗号/顿号）才算 AI 腔。
-AI_WORDS_CTX = {
-    '最后': r'(?:^|[。！？；\n])\s*最后[，,、]',
-    '首先': r'(?:^|[。！？；\n])\s*首先[，,]',
-    '其次': r'(?:^|[。！？；\n])\s*其次[，,]',
-}
+# ── AI 化表达禁用清单 · 唯一真源（v1.29.23 改制）──────────────────────────────
+# 改制起因（2026-10-08 全盘体检）：同一份清单在本技能里有四份副本，表长 15 / 35 / 7 / 4，
+#   四份交集只有 3 个词；而机检用的恰恰是最短那份——**写得最全的 35 项里 27 项从不进机检**
+#   （微微一笑／嘴角勾起／眸光一暗／瞳孔骤缩／心中一凛／五味杂陈……全在文档里躺着）。
+# 现统一为：词表只在本 JSON 里存在一份，本脚本与三处 md 一律引用，不再各自维护。
+_LEXICON_PATH = Path(__file__).with_name('ai-flavor-lexicon.json')
+
+
+def load_lexicon(path=None) -> dict:
+    """读清单真源。**找不到就报错停下**——不静默回落成空表（空表＝全 PASS，等于门禁消失）。"""
+    p = Path(path) if path else _LEXICON_PATH
+    if not p.exists():
+        raise SystemExit('❌ 找不到 AI 化表达清单真源：%s\n'
+                         '   本脚本不再自带词表，必须随包提供该文件。' % p)
+    with open(p, encoding='utf-8') as f:
+        return json.load(f)
+
+
+LEXICON = load_lexicon()
+AI_WORDS = [x['word'] for x in LEXICON['tier1_words']]
+# tier2：裸词匹配会误伤正常用法（"夏"字的最后一横／抄完剩下两页／左上最后一把伞，v1.15.0 实测），
+#   故这一档一律走**语境判定**：只有充当连接词（句首或另起一句，且后面紧跟逗号/顿号）才算 AI 腔。
+AI_WORDS_CTX = {x['word']: x['regex'] for x in LEXICON['tier2_context']}
+# tier3：句式模板（判 FAIL）
+AI_PATTERNS = [(x['id'], x['name'], x['regex']) for x in LEXICON['tier3_patterns']]
+# tier3_advisory：句式但会误伤正例，只判 WARN（如"认知直述"——有物象承载就是合格的）
+AI_ADVISORY = [(x['id'], x['name'], x['regex']) for x in LEXICON['tier3_advisory']]
+# 比喻：只画像不判定（比喻本身不是病，无效比喻和堆砌才是；样本不足以定阈值）
+FIG_MARKERS = LEXICON['figurative']['markers']
+
+# reaction_cliches：生理反应套话（密度判据，v1.29.24 新增——词表见 ai-flavor-lexicon.json 同名节）
+REACTION_PATTERNS = LEXICON.get('reaction_cliches', {}).get('patterns', [])
+RC_WINDOW = LEXICON.get('reaction_cliches', {}).get('window_chars', 800)
 FULL_QUOTES = ('“', '”')
 
 
@@ -140,6 +162,21 @@ def analyze(path: Path) -> dict:
     sents = [s for s in re.split(r'[。？！]', body) if cn_count(s) > 0]
     avg_sent = total / len(sents) if sents else 0
     para_lens = [cn_count(p) for p in lines]
+    # --- v1.29.35：叙述段／对白段分开算 ---
+    # 为什么：均段长把两种段混在一起算，**对白段天生短（「嗯。」＝2 字）会把它拉低**，
+    # 于是"叙述被拆成一句一段"这种病**在均段长上看不出来**。
+    # 实测（同一本书、同一个门禁全过的三版稿，**本脚本口径**：含全角引号的行＝对白行）：
+    #   全章均段长   叙述段均长   对白段均长
+    #   第 1 章        14.9        18.8         9.8
+    #   第 2 章旧稿     9.3        10.2         6.5   ← 叙述段腰斩，读者判「全是短句子」
+    #   第 2 章重写    17.6        21.6        10.4
+    #   → **重点：叙述段 18.8 → 10.2 是病；对白段 9.8 → 6.5 → 10.4 一直在 10 上下，本来就这样。**
+    #   **均段长把两段混算，会被天生短的对白段拉低 → 叙述碎在均段长上看不出来。这一格才看得到。**
+    _nar_lens = [cn_count(l) for l in lines if not any(q in l for q in FULL_QUOTES)]
+    _dia_lens = [cn_count(l) for l in lines if any(q in l for q in FULL_QUOTES)]
+    nar_paras, dia_paras = len(_nar_lens), len(_dia_lens)
+    nar_avg = (sum(_nar_lens) / nar_paras) if nar_paras else 0
+    dia_avg = (sum(_dia_lens) / dia_paras) if dia_paras else 0
     same_run = 0
     for i in range(len(para_lens) - 2):
         if para_lens[i] == para_lens[i + 1] == para_lens[i + 2] and para_lens[i] > 0:
@@ -149,6 +186,37 @@ def analyze(path: Path) -> dict:
     # AI 词与标点
     ai_hits = [w for w in AI_WORDS if w in body]
     ai_hits += [w for w, pat in AI_WORDS_CTX.items() if re.search(pat, body)]
+
+    # v1.29.23 新增（清单真源 tier3 / tier3_advisory / figurative）：
+    def _ctx(text, m, pad=16):
+        a = max(0, m.start() - pad)
+        e = min(len(text), m.end() + pad)
+        return text[a:e].replace('\n', '')
+
+    ai_pat_hits = []       # 句式模板（判 FAIL）：(模板名, 命中片段, 上下文)
+    for _pid, _pname, _prx in AI_PATTERNS:
+        for _m in re.finditer(_prx, body):
+            ai_pat_hits.append((_pname, _m.group(0)[:26], _ctx(body, _m)))
+    advisory_hits = []     # 认知直述等（判 WARN）：(项名, 命中片段, 上下文)
+    for _pid, _pname, _prx in AI_ADVISORY:
+        for _m in re.finditer(_prx, body):
+            advisory_hits.append((_pname, _m.group(0)[:26], _ctx(body, _m)))
+
+    # 比喻画像（只报数、不判定——比喻本身不是病）
+    fig_marker_count = {}
+    fig_total = 0
+    for _w in FIG_MARKERS:
+        _c = len(re.findall(_w, body))
+        if _c:
+            fig_marker_count[_w] = _c
+            fig_total += _c
+    fig_para_over = []     # 同一段 ≥2 个比喻引导词（WARN，交承接测试四问）
+    for _i, _l in enumerate(lines, 1):
+        _c = sum(len(re.findall(_w, _l)) for _w in FIG_MARKERS)
+        if _c >= 2:
+            fig_para_over.append((_i, _c, _l.strip()[:60]))
+    fig_per_w = (fig_total / (total / 10000)) if total else 0
+
     ascii_dq = body.count('"')
     ascii_sq = body.count("'")
     # v1.26.0 新增：正文混入 ASCII 字母/数字（2026-09-23 古代言情 L1 实测抓到的门禁缺口——
@@ -189,6 +257,32 @@ def analyze(path: Path) -> dict:
             _s = max(0, _m.start() - 10)
             _e = min(len(_l), _m.end() + 10)
             dash_hits.append((_i, _l[_s:_e].strip()))
+
+    # ---- v2.2.0 新增：正文内「」括号（S6.4③）----
+    # 背景：2026-10-09 用户质疑「为什么会出现这个符号」。复核发现基准样本（短章文艺向）
+    #   用「」包人名（17 处全部是人名、无一处做引号用途），而
+    #   references/prose-rules-supplement.md S6.4③ 早已写明：
+    #   「样本中有书用「」括人名／对白 → 来源排版格式，**输出统一用 “”**」。
+    #   规则在、机器不检 → 续写时把它当成了"该书独特排版"照抄，还写进视角锚。
+    #   故把 S6.4③ 从"文档里的一句话"变成"会报警的机制"（缺维病：不在检查面上的那一维）。
+    lq_hits = [(i, l.strip()[:30]) for i, l in enumerate(lines, 1) if '「' in l or '」' in l]
+    lq_total = len(lq_hits)
+
+    # ---- v2.3.0 新增：生理反应套话堆叠（reaction_cliches 密度判据）----
+    # 背景：2026-10-09 用户在接续稿上红框「脚步猛地顿住／心脏莫名漏跳了半拍／呼吸凝滞了」
+    #   三句——全部出自基准样本（短章文艺向）第 1 章。此前机器不检、前文体检清单也没这一类，
+    #   套话被原样保留进交付章。取证：这 5 类套话在 8 本真人书（约 800 万字）里密度
+    #   0~0.1 次/万字、且从不堆叠；该书却在 176 字内堆了 2 个（约 60 倍差距）。
+    #   判据：单章内两处命中相距 <800 字＝堆叠（FAIL）；孤立 1 处＝WARN；0 处＝PASS。
+    #   校准：1776 章分章回跑＝真人书 0 误伤，唯一 FAIL 正是用户红框章。
+    rc_hits = []                   # (body 内位置, 套话名, 上下文)
+    for _rc in REACTION_PATTERNS:
+        for _m in re.finditer(_rc['regex'], body):
+            rc_hits.append((_m.start(), _rc['name'], _ctx(body, _m)))
+    rc_hits.sort(key=lambda x: x[0])
+    rc_stacks = [(rc_hits[i], rc_hits[i + 1]) for i in range(len(rc_hits) - 1)
+                 if rc_hits[i + 1][0] - rc_hits[i][0] < RC_WINDOW]
+    rc_total = len(rc_hits)
 
     # ---- v1.18.0 新增：文笔层「S3 信息承载 / S5 碎句节奏」机器化指标 ----
     # 背景：用户 2026-09-22 截图批注「信息走对话做成没信息的短句乒乓球」
@@ -363,6 +457,12 @@ def analyze(path: Path) -> dict:
         'same_run': same_run,
         'longest_pct': (longest / total * 100) if total else 0,
         'ai_hits': ai_hits,
+        'ai_pat_hits': ai_pat_hits,
+        'advisory_hits': advisory_hits,
+        'fig_total': fig_total,
+        'fig_marker_count': fig_marker_count,
+        'fig_para_over': fig_para_over,
+        'fig_per_w': fig_per_w,
         'ascii_dq': ascii_dq,
         'ascii_sq': ascii_sq,
         'ascii_letter': ascii_letter,
@@ -373,8 +473,19 @@ def analyze(path: Path) -> dict:
         'dash_total': dash_total,
         'dash_lines': dash_lines,
         'dash_hits': dash_hits,
+        'lq_total': lq_total,
+        'lq_hits': lq_hits,
+        # --- v2.3.0 反应套话 ---
+        'rc_total': rc_total,
+        'rc_hits': rc_hits,
+        'rc_stacks': rc_stacks,
         'body_src': body_src,
         'paras': len(para_lens),
+        # --- v1.29.35：叙述段／对白段分开 ---
+        'nar_paras': nar_paras,
+        'nar_avg': nar_avg,
+        'dia_paras': dia_paras,
+        'dia_avg': dia_avg,
         # --- v1.18.0 ---
         'n_sent': n_sent,
         'short_ratio': short_ratio,
@@ -410,10 +521,31 @@ def verdict(r: dict, rng: dict = None) -> list:
     ＞ 分档表 ＞ 内置默认），**不再硬编码 2200-2800**。v1.29.17 修——v1.29.16 只让
     check_chapter_wordcount.py 与 plan_word_quota.py 走了解析入口，**本脚本漏网**
     （若立项按悬疑定 3000 字，本脚本会把达标的章误判 FAIL）。
+
+    v1.29.30 再补一维：**「字数区间来源」单独成行放在最前**——区间没落到本书口径时，
+    下面那条字数判定按定义不作数；只做末尾脚注＝不在检查面上（缺维病）。
     """
     if rng is None:
         rng = {'min': 2200, 'max': 2800, 'label': '⚠️ 内置默认（未接区间解析）'}
     rows = []
+    # ── v1.29.30：**先报「区间来源」，再报「正文字数判定」** ──────────────
+    # 为什么必须放在第一行：区间来源未确定时，下面那条字数判定**按定义就不作数**
+    #（不是"可能不准"，是"没有可比对象"）。2026-10-09 全量回跑实测：7 本存量样本没有
+    # `.learnings/立项参数.json`，一律按内置默认 2200-2800 判的；其中 3 本按今天的
+    # 题材档回算**结论会翻**（武侠仙侠／玄幻修真 各 1 章、悬疑推理 3 章被判"短"）。
+    # 判 WARN 而不判 FAIL：接续已有项目时用户手上的项目可能本来就没有这个文件，硬拦住＝误伤；
+    # 但**必须出现在判定表里**——只做末尾脚注等于"不在检查面上"（缺维病）。
+    _und = str(rng.get('label', '')).startswith('⚠️')
+    rows.append(('字数区间来源',
+                 ('未确定' if _und else '已确定'),
+                 'WARN' if _und else 'PASS',
+                 (('⚠️ 下面「正文字数」那条判定**不作数**——没有已知区间可比。两处按顺序查：'
+                   '① **命令没指到本书目录**（查找起点＝命令行 `--min/--max` ＞ 章节文件 ＞ '
+                   '**当前目录**，逐级向上找；v1.29.30 修的就是这一半）；'
+                   '② **本书确实没落盘** `.learnings/立项参数.json`'
+                   '（接续已有项目时常见——按已有正文口径补落盘，工具 `scripts/set_word_range.py`）。')
+                  if _und else
+                  ('区间 %s-%s｜来源: %s' % (rng['min'], rng['max'], rng['label'])))))
     rows.append(('正文字数', f"{r['total']}",
                  'PASS' if rng['min'] <= r['total'] <= rng['max'] else 'FAIL',
                  '区间 %s-%s｜来源: %s' % (rng['min'], rng['max'], rng['label'])))
@@ -425,7 +557,39 @@ def verdict(r: dict, rng: dict = None) -> list:
                  'v1.19.0 已废除旧的「≥30%」门槛：占比高低不指示质量。'
                  '对白是否合格走 ①遮蔽测试（S3.2）②承接测试第 1 问（每行让局面动一格）'))
     rows.append(('AI 高频词', ('、'.join(r['ai_hits']) if r['ai_hits'] else '无'),
-                 'FAIL' if r['ai_hits'] else 'PASS', '命中即 FAIL'))
+                 'FAIL' if r['ai_hits'] else 'PASS',
+                 '命中即 FAIL（清单真源 scripts/ai-flavor-lexicon.json 的 tier1，共 %d 词）' % len(AI_WORDS)))
+    # v1.29.23 新增：句式模板（FAIL）／认知直述（WARN）／比喻画像（WARN 或 INFO）
+    _pat = r.get('ai_pat_hits') or []
+    if _pat:
+        _pn = '；'.join('%s「%s」→ …%s…' % (n, s, c) for n, s, c in _pat[:3])
+        _pat_note = _pn + '   ← 逐处回原文改：把模板句式换成具体写法，**不是换同义词**'
+    else:
+        _pat_note = '未出现 AI 模板句式（不是A而是B／，带着…／他不知道的是…／仿佛…一般）'
+    rows.append(('AI 句式模板', ('%d 处' % len(_pat)) if _pat else '无',
+                 'FAIL' if _pat else 'PASS', _pat_note))
+    _adv = r.get('advisory_hits') or []
+    if _adv:
+        _an = '；'.join('%s「%s」→ …%s…' % (n, s, c) for n, s, c in _adv[:3])
+        _adv_note = _an + '   ← 提示项：看命中处**有没有具体物象承载**。有＝保留，没有＝补一个（**不是一律删**）'
+    else:
+        _adv_note = '未出现认知直述句式'
+    rows.append(('认知直述（提示项）', ('%d 处' % len(_adv)) if _adv else '无',
+                 'WARN' if _adv else 'PASS', _adv_note))
+    _fo = r.get('fig_para_over') or []
+    _fig_head = ('；'.join('第%d行 %d个「%s」' % (i, c, t) for i, c, t in _fo[:3]) + '  →  ') if _fo else ''
+    _fig_note = (_fig_head + '密度 %.1f 处/万字（%s）——**只画像不判定**：比喻本身不是病，'
+                 '无效比喻与堆砌才是病；本仓样本量不足以定阈值'
+                 % (r.get('fig_per_w', 0),
+                    '、'.join('%s×%d' % (k, v) for k, v in
+                              sorted((r.get('fig_marker_count') or {}).items(), key=lambda x: -x[1])[:5]) or '无'))
+    # v1.29.23 校准：本项**恒为 INFO，不判 WARN**。
+    #   原设计「同一段 ≥2 个比喻引导词 → WARN」，回跑存量后**当场误伤全仓最好的两段**：
+    #     一部武侠样本 3 处「像」并列、一部现实题材样本 4 处层层递进的比喻（详见真源 figurative.gates）
+    #   病在「堆砌」不在「数量」——正则分不出「密集且递进」与「密集且空洞」，
+    #   而这两处的差别正是承接测试四问的活。按门禁校准通则「无区分度／误伤即拆级」，降为只列位置。
+    rows.append(('比喻画像', '%.1f 处/万字' % r.get('fig_per_w', 0),
+                 'INFO', _fig_note))
     rows.append(('连续 3 段等长段落', f"{r['same_run']} 处",
                  'PASS' if r['same_run'] == 0 else 'WARN', '疑似句式雷同，需复核'))
     rows.append(('最长段落占比', f"{r['longest_pct']:.1f}%",
@@ -443,6 +607,34 @@ def verdict(r: dict, rng: dict = None) -> list:
                  'PASS' if r['ascii_dq'] == 0 else 'FAIL', '标点须全角，跑 format_chapter.py'))
     sq_v = 'PASS' if r['ascii_sq'] == 0 else 'WARN'
     rows.append(('ASCII 单引号残留', f"{r['ascii_sq']} 个", sq_v, '脚本不自动改，需逐处确认'))
+    # ---- v2.2.0：正文内「」（S6.4③ 机器化）----
+    lq_note = ('正文内「」= WARN —— 样本里的「」是**来源排版格式**（有样本用它包人名／对白），'
+               '**输出统一用 “”**（prose-rules-supplement.md S6.4③）。'
+               '规划文档用「」引术语不受限；本项只扫 `## 正文` 节')
+    if r.get('lq_total'):
+        _hlq = '；'.join(f"第{i}行「…{t}…」" for i, t in r['lq_hits'][:3])
+        lq_note = f"{_hlq} → " + lq_note
+    rows.append(('正文内「」（含包人名）', f"{r.get('lq_total', 0)} 处",
+                 'PASS' if not r.get('lq_total') else 'WARN', lq_note))
+
+    # ---- v2.3.0：生理反应套话堆叠（reaction_cliches 密度判据）----
+    _rcstack = r.get('rc_stacks', [])
+    if _rcstack:
+        _rcdet = '；'.join(f"{a[1]}＋{b[1]}（相距 {b[0] - a[0]} 字）" for a, b in _rcstack[:2])
+        _rcnote = (f"反应堆叠：{_rcdet}。{RC_WINDOW} 字内两处生理套话＝拿模板当反应的全部，读者会认出来。"
+                   "删掉套话，用「动作停在哪／行为延迟了什么／看见哪个具体物件」承载"
+                   "（真人正例摘句：references/reaction-beats.md）")
+        _rcv = 'FAIL'
+    elif r.get('rc_total'):
+        _rcnote = ('单章出现生理反应套话 1 处（真人书也用但密度极低、从不堆叠）——'
+                   '承接测试问一句：它承载了不可替代的信息吗？能换成具体动作就换')
+        _rcv = 'WARN'
+    else:
+        _rcnote = '生理反应套话 0 处（词表：ai-flavor-lexicon.json reaction_cliches 节）'
+        _rcv = 'PASS'
+    rows.append(('生理反应套话堆叠',
+                 f"{r.get('rc_total', 0)} 处" + (f"（堆叠 {len(_rcstack)} 对）" if _rcstack else ''),
+                 _rcv, _rcnote))
     # ---- v1.26.0：正文内含 ASCII 字母/数字（同日回跑后拆成两条）----
     al_note = ('拉丁字母 = FAIL —— 中文正文里混进英文单词/字母，对读者是明显出戏，无正当理由。'
                '一律改为中文写法；若确为英文专名，须在章节备注写明理由')
@@ -469,6 +661,16 @@ def verdict(r: dict, rng: dict = None) -> list:
     rows.append(('均段长（参考值）', f"{ap:.1f} 字/段（{r['paras']} 段）", 'INFO',
                  '正例区间 12–149（《月光盒子》15.8／基准样本 30.2）。'
                  '不判定——v1.19.0 的「<16 FAIL」已撤销（会误杀用户交付的正例）'))
+    # v1.29.35：把均段长拆开成叙述段／对白段。**这一格才是能定位"叙述被拆成一句一段"的那一格**：
+    # 对白段天生短，混算会把均段长拉低，于是"叙述碎"在均段长上看不出来（详见 analyze() 里的实测注）。
+    rows.append(('　└ 其中：叙述段／对白段（参考值）',
+                 f"叙述 {r['nar_avg']:.1f} 字/段（{r['nar_paras']} 段）｜对白 {r['dia_avg']:.1f} 字/段（{r['dia_paras']} 段）",
+                 'INFO',
+                 '**分开看才是判据**：叙述段均长掉到 15 以下 ＝ 叙述被拆成了碎片（对白段短是正常的）。'
+                 '实测同一本书三版：第 1 章 叙述 18.8／对白 9.8｜第 2 章**旧稿** 叙述 10.2／对白 6.5｜'
+                 '第 2 章重写 叙述 21.6／对白 10.4。'
+                 '**看出来的差别全在叙述段（18.8 → 10.2 → 21.6），对白段一直在 10 上下。'
+                 '病在叙述段，不在对白段。**不判定，只报数'))
     sr = r['short_ratio']
     rows.append(('短句率（≤6 字句，参考值）', f"{sr * 100:.1f}%（{r['n_sent']} 句）", 'INFO',
                  '正例区间 0–45%（《月光盒子》31.4%）。不判定——v1.19.0 的 25% 线已撤销'))
@@ -590,15 +792,18 @@ def report(raws, files, ranges=None):
     degraded = [Path(f).name for f, rng in zip(files, ranges)
                 if rng and str(rng.get('label', '')).startswith('⚠️')]
     if degraded:
-        print('⚠️ 有 %d 章没解析到本书字数口径（%s）——字数判定用的是内置默认 2200-2800。'
-              % (len(degraded), '、'.join(degraded[:5])))
-        print('   请确认本书 .learnings/立项参数.json 已写好单章字数区间（生成方式见 SKILL.md）。')
+        print('WARN: 有 %d 章**没解析到本书字数口径**（%s）——判定表首行「字数区间来源」'
+              '已标「未确定」，**那几章的字数判定不作数**。' % (len(degraded), '、'.join(degraded[:5])))
+        print('   两处按顺序查：① **命令没指到本书目录**（查找起点＝命令行 ＞ 章节文件 ＞ 当前目录）；'
+              '② **本书确实没落盘** `.learnings/立项参数.json`（生成方式见 SKILL.md，'
+              '工具 `scripts/set_word_range.py`）。')
     return fails
 
 
 USAGE = '''用法:
   python chapter_stats.py <章节文件>      # 扫单个章节
   python chapter_stats.py --all <目录>    # 扫目录下所有「第*章.md」
+  python chapter_stats.py --lexicon       # 打印 AI 化表达禁用清单（与机检同一份真源）
 
 可选参数（一般不用给——脚本会自己找本书立项参数）:
   --min <n> / --max <n>          显式指定区间（优先级最高）
@@ -609,16 +814,73 @@ USAGE = '''用法:
 区间解析顺序: 命令行 ＞ 本书 .learnings/立项参数.json ＞ 分档表 ＞ 内置默认 2200-2800。
               报告里逐章打印「来源」——降级到默认档会显式告警。
 
-判据（v1.20.0 收窄为「确定性错误」）:
-  FAIL —— 破折号 / ASCII 直引号 / 标点错配 / 引号不配对 / 相邻行重复 /
-          叠字 / 跨章对白逐字复现 / 正文含拉丁字母 / 字数落在本书区间外
-  WARN —— 半角数字 / 标点连用 / 半截句 / 行尾无终止标点
+判据（v1.20.0 收窄为「确定性错误」；v1.29.23 补 AI 句式模板与比喻画像；v2.2.0 补正文「」；v2.3.0 补生理反应套话堆叠）:
+  FAIL —— AI 高频词 / AI 句式模板（不是A而是B 等）/ 破折号 / ASCII 直引号 / 标点错配 /
+          引号不配对 / 相邻行重复 / 叠字 / 跨章对白逐字复现 / 正文含拉丁字母 / 字数落在本书区间外 / 生理反应套话堆叠（800 字内 2 处，v2.3.0）
+  WARN —— 认知直述（看有无物象承载）/ 半角数字 / 标点连用 / 半截句 / 行尾无终止标点 / 正文内「」（v2.2.0：样本的排版格式，**输出统一用 “”**，见 S6.4③） / 生理反应套话孤立 1 处（v2.3.0）
   只报数不判定（风格项，不判 PASS/FAIL）:
+          **比喻密度与同段密集位置**（比喻本身不是病，无效比喻与堆砌才是；
+          实测最密的两处恰是全仓最好的句子，故不设判定）/
           对白行占比 / 均段长 / 均句长 / 短句率 / 碎句链 / 短对白链
   须人工核（脚本只定位）:
           S3.2 遮蔽测试待办段 / 承接测试四问（逐句举证，禁止打勾）
 
+AI 化表达清单真源: scripts/ai-flavor-lexicon.json（本脚本与三处文档共用一份，不再各自维护）。
+
 退出码: 0 = 无 FAIL；1 = 有 FAIL 或调用错误。'''
+
+
+def print_lexicon() -> int:
+    """打印清单真源（供文档与模板引用时取同一份内容，避免复制出第二份词表）。"""
+    print('# AI 化表达禁用清单（真源：scripts/ai-flavor-lexicon.json v%s）'
+          % LEXICON['_meta']['version'])
+    print()
+    print('## 第一档 · 命中即 FAIL 的 AI 词（%d 个）' % len(AI_WORDS))
+    cur = None
+    for x in LEXICON['tier1_words']:
+        if x['group'] != cur:
+            cur = x['group']
+            print()
+            print('### %s' % cur)
+        print('- `%s` —— %s → %s' % (x['word'], x['why'], x['fix']))
+    print()
+    print('## 第二档 · 语境判定（仅作连接词时算 AI 腔，%d 个）' % len(AI_WORDS_CTX))
+    for x in LEXICON['tier2_context']:
+        print('- `%s` —— %s' % (x['word'], x['why']))
+    print()
+    print('## 第三档 · 句式模板（命中即 FAIL，%d 条）' % len(AI_PATTERNS))
+    for x in LEXICON['tier3_patterns']:
+        print('- **%s** —— %s' % (x['name'], x['why']))
+        print('  改法：%s' % x['fix'])
+        if x.get('realfix'):
+            print('  %s' % x['realfix'])
+    print()
+    print('## 第三档附 · 提示项（判 WARN，%d 条）' % len(AI_ADVISORY))
+    for x in LEXICON['tier3_advisory']:
+        print('- **%s** —— %s' % (x['name'], x['why']))
+        print('  %s' % x['why_advisory'])
+    _rcsec = LEXICON.get('reaction_cliches')
+    if _rcsec:
+        print()
+        print('## 生理反应套话（密度判据，%d 类）' % len(_rcsec['patterns']))
+        print('  判据：%s' % _rcsec['_meta']['gate'])
+        for x in _rcsec['patterns']:
+            print('  - %-8s %s' % (x['name'], x['regex']))
+            if x.get('real_books'):
+                print('    真人书出现率：%s' % x['real_books'])
+        print('  背景：%s' % _rcsec['_meta']['background'])
+        print('  校准：%s' % _rcsec['_meta']['calibration'])
+        print('  不进表的（交承接测试）：+%s' % _rcsec['_meta']['why_not_gated'])
+        print('  改法：%s' % _rcsec['fix'])
+    print()
+    print('## 比喻：只画像不判定')
+    print('- 引导词：%s' % '、'.join(FIG_MARKERS))
+    print('- %s' % LEXICON['figurative']['why'])
+    print()
+    print('## 编辑须知')
+    for n in LEXICON['notes_for_editors']:
+        print('- %s' % n)
+    return 0
 
 
 def _take_flag(argv, name):
@@ -639,6 +901,9 @@ def main():
     if not argv or argv[0] in ('-h', '--help'):
         print(USAGE)
         return 0 if argv else 1
+
+    if argv[0] == '--lexicon':
+        return print_lexicon()
 
     min_words, rest = _take_flag(argv, '--min')
     max_words, rest = _take_flag(rest, '--max')

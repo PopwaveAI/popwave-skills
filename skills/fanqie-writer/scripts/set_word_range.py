@@ -55,10 +55,25 @@ def load_table(path=TABLE):
 
 
 def match_genre(table, genre):
-    """题材名 → (命中的键, {min,max,note})；匹配不到返回 (None, None)"""
+    """题材名 → (命中的键, {min,max,note})；匹配不到返回 (None, None)
+
+    **三级解析（v1.29.24 补第 2 级）**：
+      ① `genres` 精确命中
+      ② `genre_aliases` 别名表命中（**六问题的 10 个题材包名走这一级**）——
+         包名与分档表的键不是同一套坐标系（10 个包里只有「悬疑推理」同名），
+         别名只做**键名对齐**，指向的仍是已有档位，不新造数据。
+      ③ 模糊包含（最后兜底）
+
+    为什么必须有第 ② 级：2026-10-09 L2 实测，`--genre 种田日常` **直接退出、不落盘**
+    （退出本身是对的——没有静默退化），但后果是 **10 个题材包里有 9 个在立项第一步就卡住**，
+    「本书区间」这条 v1.29.16 建的机制**永远落不了盘**，门禁只能一路回落内置默认。
+    """
     genres = table.get("genres") or {}
     if genre in genres:
         return genre, genres[genre]
+    alias = (table.get("genre_aliases") or {}).get(genre)
+    if alias and alias in genres:
+        return alias, genres[alias]
     for k, v in genres.items():
         if k and (genre in k or k in genre):
             return k, v
@@ -87,8 +102,10 @@ def main():
     key, rng = match_genre(table, args.genre)
     if key is None:
         print("[X] 分档表里没有题材「%s」。" % args.genre)
-        print("    可选：%s" % "、".join(sorted((table.get("genres") or {}).keys())))
-        print("    新题材请先补 references/fanqie-platform-facts.md 四·补的表，再补 word-range.json，")
+        print("    可选（档位键）：%s" % "、".join(sorted((table.get("genres") or {}).keys())))
+        print("    可选（别名键·题材包名）：%s"
+              % "、".join(sorted((table.get("genre_aliases") or {}).keys())))
+        print("    新题材请先补 references/fanqie-platform-facts.md 四·补的两张表，再补 word-range.json，")
         print("    然后跑 python scripts/check_word_range_sync.py 校验两者一致。")
         return 2
 

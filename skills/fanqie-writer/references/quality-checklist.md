@@ -173,10 +173,11 @@
 
 ## 语言检查
 
-- [ ] **没有 AI 写作痕迹**
+- [ ] **没有 AI 写作痕迹**（**清单真源 `scripts/ai-flavor-lexicon.json`**，查法 `python scripts/chapter_stats.py --lexicon`）
   - 避免"此外""然而""强调"等 AI 词汇
   - 避免四字成语堆砌
   - 句式多样化
+  - **（v1.29.23 追加）**跑 `python scripts/chapter_stats.py <章>` 复核：「AI 高频词」「AI 句式模板」两项须 PASS（命中即 FAIL）；认知直述（他明白／她终于意识到）逐处看有没有物象承载，**不是一律删**；比喻只报数不判定
 
 - [ ] **"的"字不密集**
   - 没有连续多个"的"
