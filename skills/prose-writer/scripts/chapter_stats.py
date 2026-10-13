@@ -428,6 +428,47 @@ def analyze(path: Path) -> dict:
             no_end_punct.append((i, s))
         prev_line = s
 
+    # ---- v2.5.1 新增：半角标点（2026-10-13 真跑一章实测抓到的门禁缺口）----
+    # 由来：接续实跑时正文混入 6 处半角逗号——`format_chapter.py` 不管它，
+    #   本脚本旧版也没有这一项 → **一路畅通报"全部通过"**。
+    #   （对照：同一批检查里 ASCII 直引号**在**检查面上，当场就被抓了。这就是"缺维"。）
+    # 定级依据＝**全量回跑存量**（33 个样本，用本脚本自己的 extract_body 只扫正文）：
+    #   · 逗号／冒号／问号／叹号 —— 存量命中 **0**（8 本真人正例 ＋ 全部自产章节都没有）
+    #     → **FAIL**：中文正文里这几个半角符号零正当用途，判 FAIL 不误伤任何已被认可的样本。
+    #   · 半角分号 —— 存量命中 1 处，且是**采集残留**（「唐&#183;韩愈」里的 HTML 实体）
+    #   · 半角句点 —— 存量命中 19 处，全是**拿 `....` 当省略号**（网络文本常见写法）
+    #     → 二者**拆为 WARN**（纪律：误伤即拆级），并加排除规则：
+    #         句点排除「数字之间的点」（1.5）与「连续 ≥2 个点」（省略号写法）；
+    #         冒号排除「数字之间的冒号」（9:30）；分号排除 HTML 实体 `&#183;`。
+    hp_fail, hp_warn = [], []
+    for i, l in enumerate(lines, 1):
+        s = l.strip()
+        if not s or TITLE_LIKE.match(s) or s.startswith('>'):
+            continue
+        if re.match(r'^[-*+]\s|^\d+[\.、]\s', s):
+            continue
+        for m in re.finditer(r'[,:?!]', s):
+            ch, p = m.group(), m.start()
+            prv = s[p - 1] if p > 0 else ''
+            nxt = s[p + 1] if p + 1 < len(s) else ''
+            if ch == ':' and prv.isdigit() and nxt.isdigit():
+                continue                      # 9:30 这类时刻/比值
+            a, b = max(0, p - 10), min(len(s), m.end() + 10)
+            hp_fail.append((i, '…%s…' % s[a:b], ch))
+        for m in re.finditer(r'[;.]', s):
+            ch, p = m.group(), m.start()
+            prv = s[p - 1] if p > 0 else ''
+            nxt = s[p + 1] if p + 1 < len(s) else ''
+            if ch == '.':
+                if prv.isdigit() and nxt.isdigit():
+                    continue                  # 1.5
+                if prv == '.' or nxt == '.':
+                    continue                  # .... 当省略号
+            elif re.search(r'&#?\w+$', s[max(0, p - 7):p]):
+                continue                      # HTML 实体 &#183;
+            a, b = max(0, p - 10), min(len(s), m.end() + 10)
+            hp_warn.append((i, '…%s…' % s[a:b], ch))
+
     # 跨章对白复现检测用：末尾 12 行里的对白行（去标点后比对）
     tail_norm = [re.sub(r'[\s“”‘’"\'。，！？、；：]', '', l)
                  for l in lines[-20:] if any(q in l for q in FULL_QUOTES)]
@@ -487,6 +528,9 @@ def analyze(path: Path) -> dict:
         'dup_char': dup_char,
         'half_sent': half_sent,
         'no_end_punct': no_end_punct,
+        # --- v2.5.1 半角标点 ---
+        'half_punct_fail': hp_fail,
+        'half_punct_warn': hp_warn,
         'tail_dlg': tail_dlg,
         'dlg_line_ratio': (len(dlg_lines) / len(lines)) if lines else 0,
         # --- v1.21.0 承接测试定位材料 ---
@@ -664,6 +708,21 @@ def verdict(r: dict, rng: dict = None) -> list:
     hr = r['punct_repeat']
     rows.append(('标点连用（。。 ！！ ？？）', f"{len(hr)} 处",
                  'PASS' if not hr else 'WARN', (_loc(hr) if hr else '通用硬伤')))
+    # ---- v2.5.1：半角标点（拆两条：两类/两级，依据存量回跑）----
+    hpf = r.get('half_punct_fail', [])
+    rows.append(('半角标点（逗号/冒号/问号/叹号）', f"{len(hpf)} 处",
+                 'PASS' if not hpf else 'FAIL',
+                 (_loc([(i, t) for i, t, _c in hpf])
+                  + ' → 中文正文标点须全角（`,`→`，`　`:`→`：`　`?`→`？`　`!`→`！`）；'
+                    '脚本不自动改，逐处手工换') if hpf
+                 else '中文正文标点须全角（v2.5.1 新增）'))
+    hpw = r.get('half_punct_warn', [])
+    rows.append(('半角标点（分号/句点）', f"{len(hpw)} 处",
+                 'PASS' if not hpw else 'WARN',
+                 (_loc([(i, t) for i, t, _c in hpw])
+                  + ' → 已排除「数字里的点/冒号」与「连续点（省略号写法）」；'
+                    '余下须确认是否采集残留，输出统一全角') if hpw
+                 else '已排除小数与省略号写法（v2.5.1 新增）'))
     hq = r['quote_unbalanced']
     rows.append(('引号不配对（单行 “≠” ）', f"{len(hq)} 行",
                  'PASS' if not hq else 'FAIL', (_loc(hq) if hq else '通用硬伤')))
@@ -761,10 +820,15 @@ USAGE = '''用法:
 区间解析顺序: 命令行 ＞ 本书 .learnings/立项参数.json ＞ 分档表 ＞ 内置默认 2200-2800。
               报告里逐章打印「来源」——降级到默认档会显式告警。
 
-判据（v1.20.0 收窄为「确定性错误」；v1.29.23 补 AI 句式模板与比喻画像；v2.2.0 补正文「」；v2.3.0 补生理反应套话堆叠）:
+判据（v1.20.0 收窄为「确定性错误」；v1.29.23 补 AI 句式模板与比喻画像；v2.2.0 补正文「」；v2.3.0 补生理反应套话堆叠；v2.5.1 补半角标点）:
   FAIL —— AI 高频词 / AI 句式模板（不是A而是B 等）/ 破折号 / ASCII 直引号 / 标点错配 /
-          引号不配对 / 相邻行重复 / 叠字 / 跨章对白逐字复现 / 正文含拉丁字母 / 字数落在本书区间外 / 生理反应套话堆叠（800 字内 2 处，v2.3.0）
-  WARN —— 认知直述（看有无物象承载）/ 半角数字 / 标点连用 / 半截句 / 行尾无终止标点 / 正文内「」（v2.2.0：样本的排版格式，**输出统一用 “”**，见 S6.4③） / 生理反应套话孤立 1 处（v2.3.0）
+          引号不配对 / 相邻行重复 / 叠字 / 跨章对白逐字复现 / 正文含拉丁字母 /
+          半角标点（逗号/冒号/问号/叹号，v2.5.1）/
+          字数落在本书区间外 / 生理反应套话堆叠（800 字内 2 处，v2.3.0）
+  WARN —— 认知直述（看有无物象承载）/ 半角数字 / 半角标点（分号/句点，v2.5.1）/
+          标点连用 / 半截句 / 行尾无终止标点 /
+          正文内「」（v2.2.0：样本的排版格式，**输出统一用 “”**，见 S6.4③） /
+          生理反应套话孤立 1 处（v2.3.0）
   只报数不判定（风格项，不判 PASS/FAIL）:
           **比喻密度与同段密集位置**（比喻本身不是病，无效比喻与堆砌才是；
           实测最密的两处恰是全仓最好的句子，故不设判定）/

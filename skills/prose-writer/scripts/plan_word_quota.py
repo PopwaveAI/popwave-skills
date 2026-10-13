@@ -37,6 +37,14 @@
     # 写完核对：数出实际字数/段数，与目标对账（区间自动从本书立项参数取）
     python plan_word_quota.py --total 3000 --scenes 6 --check 第01章.md
 
+    # 逐场对账（甲8）：--scenes 与 --total 都可省——场数按 --actual 的项数推断、
+    # 目标按本书区间中值取（省掉的两个参数会在输出里显式标出）
+    python plan_word_quota.py --check 第01章.md --actual 206,63,1171,453,137,180
+
+    # 独处场（全场只有主角一个人）：标出场号，该场低于 70% 不判空场
+    #   ——「空场」告警在无对话场景上会误报（无第二人可补反应）；豁免须写理由
+    python plan_word_quota.py --check 第01章.md --actual 533,772,494,428 --solo-scenes 4
+
     # 不想写本书参数时，也可以直接指定题材/区间
     python plan_word_quota.py --total 3000 --scenes 6 --genre <题材名> --range-config <分档表 json>
 
@@ -106,8 +114,10 @@ def main():
         description="单章字数配额表（写前用）",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    ap.add_argument("--total", type=int, default=2250, help="本章目标字数（默认 2250）")
-    ap.add_argument("--scenes", type=int, required=True, help="本章场数")
+    ap.add_argument("--total", type=int, default=None,
+                    help="本章目标字数（不给则取本书区间的中值；查不到本书参数时用 2250）")
+    ap.add_argument("--scenes", type=int, default=None,
+                    help="本章场数（可省略——给了 --actual 就按它的项数推断）")
     ap.add_argument("--weights", type=str, default=None,
                     help="各场权重，逗号分隔（如 1,1.3,1.3,1,0.9,0.6）；不给则均分")
     ap.add_argument("--avg-para", type=float, default=None,
@@ -125,12 +135,35 @@ def main():
     ap.add_argument("--check", type=str, default=None, help="已写章节文件，写完对账用")
     ap.add_argument("--actual", type=str, default=None,
                     help="各场实际字数，逗号分隔（如 206,63,1171,453,137,180）→ 逐场差额表")
+    ap.add_argument("--solo-scenes", type=str, default=None,
+                    help="「独处场」场号，逗号分隔（如 4）——这些场低于目标的七成时不判空场；"
+                         "但豁免不是免检，交付说明里须写明为什么只能一个人在场、补了什么")
     args = ap.parse_args()
 
     rng = resolve_range(min_words=args.floor, max_words=args.ceil,
                         range_config=args.range_config, genre=args.genre,
                         book_dir=args.book, chapter_path=args.check)
     args.floor, args.ceil = rng["min"], rng["max"]
+
+    # ── v2.5.1：--scenes / --total 改为可省略（修「照文档抄的命令跑不通」）──────
+    # 由来：接续实跑时照 SKILL.md §9 的示例抄命令，直接报
+    #   `error: the following arguments are required: --scenes`——**示例里从来没写它**。
+    #   「文档写了、代码从没按那个方式工作过」＝文档与执行器的缺口。
+    # 顺带修同族第二处：--total 旧版硬编码 2250，而文档示例也不给 → 本书若定 3000 字，
+    #   对账基准会算错（把达标章显示成"超额"）。改为取本书区间中值。
+    notes = []
+    if args.scenes is None:
+        if args.actual:
+            n = len([x for x in args.actual.split(",") if x.strip()])
+            args.scenes = n
+            notes.append(f"未给 `--scenes`，按 `--actual` 的 {n} 项推断场数")
+        else:
+            print("[X] 请给 --scenes（本章场数）；若已数出各场实际字数，给 --actual 即可自动推断")
+            return 2
+    if args.total is None:
+        args.total = (args.floor + args.ceil) // 2
+        notes.append(f"未给 `--total`，按本书区间 {args.floor}-{args.ceil} 的中值 "
+                     f"{args.total} 字作计划基准")
 
     avg_para = args.avg_para or PARA_LEN_DEFAULT
     weights = None
@@ -148,6 +181,8 @@ def main():
     print()
     print(f"> **区间来源**：{rng['label']}——下限 {rng['min']} ／ 上限 {rng['max']}"
           + (f"（{rng['note']}）" if rng.get('note') else ""))
+    for _nt in notes:                       # v2.5.1：参数是推断出来的，显式告知（降级必须可见）
+        print(f"> （{_nt}）")
     if not (args.floor <= args.total <= args.ceil):
         print(f"> ⚠️ 目标 {args.total} 字**落在区间 {args.floor}-{args.ceil} 之外**——"
               f"先回立项确认本书单章字数区间。")
@@ -222,18 +257,39 @@ def main():
 
         print(f"### 逐场对账（甲8）")
         print()
+        # ── v2.5.2：独处场豁免（修「空场告警在无对话场景上结构性误报」）──────
+        # 真跑两本书都撞到同一现象：被判「空场」的那一场**只有主角一个人**
+        # （种田日常＝她独自在院里泡豆；古代言情＝她独自隔着院墙看见信）。
+        # 技能给的修法是「补场上另外几个人的反应与对白来回」——**无第二人时该修法没有材料**。
+        # 故给一个**显式豁免**：标了 --solo-scenes 的场不判空场，但
+        #   ① 输出里必须打印出来（豁免可见，不许静默）② 交付说明里必须写理由。
+        # 照「过渡章出口」的规矩办：**这是出口，不是豁免**——滥用表现是"场场都标独处"。
+        solo = set()
+        if args.solo_scenes:
+            try:
+                solo = {int(x) for x in args.solo_scenes.split(",") if x.strip()}
+            except ValueError:
+                print("[X] --solo-scenes 必须是逗号分隔的整数")
+                return 2
+            unknown = sorted(solo - {r["scene"] for r in rows})
+            if unknown:
+                print(f"[X] --solo-scenes 里的场号不存在：{unknown}（本章只有 1-{args.scenes} 场）")
+                return 2
         print("| 场 | 计划字 | 实际字 | 差额 | 判定 |")
         print("|---|---|---|---|---|")
-        over, under = [], []
+        over, under, solo_hit = [], [], []
         for r, a in zip(rows, actual):
             plan = r["chars"]
             diff = (a - plan) / plan * 100
             if diff < -30:
-                v = "❌ **空场**（低于 70%）"; under.append(r["scene"])
+                if r["scene"] in solo:
+                    v = "➖ **独处场**（已标注，不判空场）"; solo_hit.append(r["scene"])
+                else:
+                    v = "❌ **空场**（低于 70%）"; under.append(r["scene"])
             elif diff > 50:
                 v = "❌ **独大**（高于 150%）"; over.append(r["scene"])
             elif diff < -20:
-                v = "⚠️ 偏少"
+                v = "⚠️ 偏少（独处场已标注）" if r["scene"] in solo else "⚠️ 偏少"
             elif diff > 20:
                 v = "⚠️ 偏多"
             else:
@@ -251,6 +307,11 @@ def main():
         if under:
             print(f"> ❌ **场 {under} 是空场**——这些场**只写了一两句就跳过去了**，`跳`（动作级缺环）的温床。")
             print(f"> **补法**：给这些场补「场上另外几个人各自的反应」与对白来回，**不是补形容词**。")
+        if solo_hit:
+            print(f"> ➖ **场 {solo_hit} 低于 70%，已标为「独处场」，不判空场。**")
+            print(f"> **豁免不是免检**——交付说明里必须写明两件事：**这些场为什么只能一个人在场**、"
+                  f"**补了什么**（应补她自己的动作／记忆，**不是补形容词**）。")
+            print(f"> ⚠️ **这是出口不是豁免**：滥用表现是「场场都标独处」。别拿它绕开空场告警。")
         if not over and not under:
             print(f"> ✅ 逐场分布均衡。**这一项（甲8）过了。**")
         print()
