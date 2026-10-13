@@ -300,8 +300,8 @@ skillVersions
 
 | 缺什么 | 影响 | 临时口径 |
 |:--|:--|:--|
-| 入口侧无模板依赖 | 无 | 入口不产出成品也不读模板；L2 成品模板归 `book-decon-dimension` 的 `templates/`（31 份），入口只在 Step 4 核对版本目录 `_meta/templates.json` |
-| 卷级骨架模板（在 `book-decon-dimension` 侧） | 骨架交付的呈现一致性 | 仍列在执行 skill 的待补清单；入口侧不阻塞 |
+| 入口侧无模板依赖 | 无 | 入口不产出成品也不读模板；L2 成品模板归独立技能包 `book-decon-dim-templates`（31 份，按 `<book-decon-dim-templates 包根>/templates/` 读取），入口只在 Step 4 核对版本目录 `_meta/templates.json` |
+| 卷级骨架模板（在 `book-decon-dim-templates` 侧） | 骨架交付的呈现一致性 | 仍列在执行 skill 的待补清单；入口侧不阻塞 |
 
 ## 版本
 

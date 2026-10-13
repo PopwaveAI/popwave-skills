@@ -30,7 +30,7 @@ description: Book deconstruction execution skill (Phase 0, T1.2). Runs L1 batch 
 
 ## 模板与稳定契约
 
-L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md` 为准**（弱加载，按需读取）。每份模板头部自带 `template_id` 与 `template_version`；产出时照该文件的一级小节骨架落盘，不临时自造小节。
+L2 六模块与收尾成品的**逐文件骨架以模板包 `<book-decon-dim-templates 包根>/templates/` 下的 `.tpl.md` 为准**（弱加载，按需读取；模板资源包已拆为独立技能包 `book-decon-dim-templates`，本包不再内置 `templates/` 目录）。每份模板头部自带 `template_id` 与 `template_version`；产出时照该文件的一级小节骨架落盘，不临时自造小节。
 
 ### 稳定契约（改动即契约变更）
 
@@ -38,9 +38,9 @@ L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md`
 |:-:|:--|:--|
 | 1 | **目录名** | `剧情库/`、`角色与势力库/`、`力量与战斗/`、`世界观/`、`赛道特色/`、`文风DNA/`、`立项/` |
 | 2 | **文件名** | 各模块下的固定文件名（含 `爽点.md`、根 `索引.md`、`CHANGELOG.md`、`_meta/templates.json`） |
-| 3 | **一级小节骨架** | 每个文件的一级小节（即 `templates/` 各 `.tpl.md` 的「一级小节骨架」表） |
+| 3 | **一级小节骨架** | 每个文件的一级小节（即模板包 `<book-decon-dim-templates 包根>/templates/` 各 `.tpl.md` 的「一级小节骨架」表） |
 
-改这三样中任何一样，属**契约变更**，必须同时做三件事：①改 `templates/` 对应 `.tpl.md` 并升 `template_version`（宿主按 `_meta/templates.json` 记录的 `templateId` / `templateVersion` 判读）；②同步文档（本 SKILL.md 的「L2 产物结构要点」表与入口 skill `book-decon` 的收尾核对口径）；③在 `CHANGELOG.md` 写一条契约变更。**只改一边即视为断裂。**
+改这三样中任何一样，属**契约变更**，必须同时做三件事：①改模板包 `<book-decon-dim-templates 包根>/templates/` 对应 `.tpl.md` 并升 `template_version`（宿主按 `_meta/templates.json` 记录的 `templateId` / `templateVersion` 判读）；②同步文档（本 SKILL.md 的「L2 产物结构要点」表与入口 skill `book-decon` 的收尾核对口径）；③在 `CHANGELOG.md` 写一条契约变更。**只改一边即视为断裂。**
 
 ### 可变细节（随时可调）
 
@@ -48,7 +48,7 @@ L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md`
 
 ### 模板清单（31 份）
 
-| 模块 | 模板 | 目标文件 | 文件数 |
+| 模块 | 模板（均在模板包 `<book-decon-dim-templates 包根>` 下，路径相对该包根） | 目标文件 | 文件数 |
 |:--|:--|:--|:-:|
 | 剧情库 | `templates/剧情库-分卷.tpl.md`、`剧情库-动力引擎.tpl.md`、`剧情库-各卷切片.tpl.md`、`剧情库-索引.tpl.md` | `剧情库/{卷N}-{卷名}.md` ×N、`动力引擎.md`、`各卷切片.md`、`索引.md` | 4 |
 | 角色与势力库 | `templates/角色与势力库-主角卡.tpl.md`、`-盟友卡`、`-敌人卡`、`-配角卡`、`-势力卡`、`-总表与版图`、`-各卷出场角色对账表` | 同名 7 个 `.md` | 7 |
@@ -58,7 +58,7 @@ L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md`
 | 文风DNA | `templates/文风DNA-通用笔触基底.tpl.md` | `通用笔触基底.md` | 1 |
 | 收尾 | `templates/爽点.tpl.md`、`立项-L0核心卖点`、`立项-L1命运图`、`立项-L2命运图plus`、`立项-L3全书大纲`、`立项-逆向破解`、`索引.tpl.md`、`CHANGELOG.tpl.md` | `爽点.md`、`立项/00-L0核心卖点.md`…`04-逆向破解.md`、根 `索引.md`、`CHANGELOG.md` | 8 |
 
-> `templates/` 只覆盖**完整交付**的 L2 成品与收尾件；骨架交付（`outline`）的三份产物模板尚未提供，按「骨架交付」节与 `references/骨架交付.md` 的字段骨架落地（见「待补清单」）。
+> 模板包 `<book-decon-dim-templates 包根>/templates/` 只覆盖**完整交付**的 L2 成品与收尾件；骨架交付（`outline`）的三份产物模板尚未提供，按「骨架交付」节与 `references/骨架交付.md` 的字段骨架落地（见「待补清单」）。
 
 ### 模板留痕：`_meta/templates.json`
 
@@ -141,9 +141,9 @@ L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md`
 
 `剧情库（分卷与动力引擎）→ 角色与势力库 → 力量与战斗 → 世界观 → 赛道特色 → 文风DNA → 爽点.md → 立项/ → 索引.md → CHANGELOG.md`
 
-**Step 8 依序产出成品**：**按 `templates/` 下对应 `.tpl.md` 的「一级小节骨架」产出**（模板未覆盖的文件不得在本步产出），读 L1 批次档案（必要时精读原文）完成叙事流整合并写入。
+**Step 8 依序产出成品**：**按模板包 `<book-decon-dim-templates 包根>/templates/` 下对应 `.tpl.md` 的「一级小节骨架」产出**（模板未覆盖的文件不得在本步产出），读 L1 批次档案（必要时精读原文）完成叙事流整合并写入。
 
-**L2 产物结构要点（速览；一级小节骨架与必填字段以 `templates/` 同名 `.tpl.md` 为准）**：
+**L2 产物结构要点（速览；一级小节骨架与必填字段以模板包 `<book-decon-dim-templates 包根>/templates/` 同名 `.tpl.md` 为准）**：
 
 | 模块 | 文件 | 结构要点 |
 |:--|:--|:--|
@@ -163,7 +163,7 @@ L2 六模块与收尾成品的**逐文件骨架以 `templates/` 下的 `.tpl.md`
 | 2 | 证据归表尾 | ch 锚点归入表格列或段尾证据行，**正文不内联 chXX** |
 | 3 | 量化标 🔒 | 关键数值不省略、不发明 |
 | 4 | 与 L1 一致 | 成品证据回溯到批次档案，不自行推翻 |
-| 5 | 结构命中 | 命中 `templates/` 同名 `.tpl.md` 的一级小节骨架（上表仅作速览对应） |
+| 5 | 结构命中 | 命中模板包 `<book-decon-dim-templates 包根>/templates/` 同名 `.tpl.md` 的一级小节骨架（上表仅作速览对应） |
 | 6 | 标题洁净 | H1 只留内容词，不挂书名前缀与格式后缀 |
 | 7 | 实例可溯 | 表格里填的「实例」必须是原文出现过的串，且挂的 ch 指向的章里真能找到它；**模型先验里的类型文学通用词（本书没写过的词）不得充当实例** |
 
@@ -296,7 +296,7 @@ L0/L1 遇到**未识别章节边界**时**不自行猜测**：
 13. **outline 越界交付** — 骨架交付（`outline`）**不得产出六模块、`爽点.md`、`立项/`**，也不得对外声称"六模块拆解完成"；需要六模块必须**新建版本**另跑 `standard` / `deep`。
 14. **骨架充作六模块证据** — 骨架产物**未取证**，不得作为 L2 证据来源或六模块事实地基；后续对同范围精拆须**新建版本**、以骨架版本为**父版本**，并在档案中标明「输入为未取证骨架」，不得直接复制骨架结论充数。
 15. **整卷跳过** — 骨架抽样必须逐卷进行，**不得整卷跳过**；必含章（卷首/卷末/卷末钩子章）未命中即不通过 `samplingDeclared` 前不得落 `骨架/` 产物。
-16. **脱离模板自造骨架 / 契约变更只改一边** — L2 成品必须按 `templates/` 对应 `.tpl.md` 的一级小节骨架产出（模板未覆盖的文件不得产出）；改目录名、文件名、一级小节骨架属契约变更，必须**同时**改模板（升 `template_version`）、同步文档与入口核对口径、并在 `CHANGELOG.md` 留痕，只改一边即视为断裂。
+16. **脱离模板自造骨架 / 契约变更只改一边** — L2 成品必须按模板包 `<book-decon-dim-templates 包根>/templates/` 对应 `.tpl.md` 的一级小节骨架产出（模板未覆盖的文件不得产出）；改目录名、文件名、一级小节骨架属契约变更，必须**同时**改模板（升 `template_version`）、同步文档与入口核对口径、并在 `CHANGELOG.md` 留痕，只改一边即视为断裂。
 17. **降级与待扩展静默** — 未产出、降级、待扩展的文件必须在 `_meta/templates.json` 的 `gaps` 登记，并与根 `索引.md` 降级清单、`CHANGELOG.md` 三处一致；缺 `_meta/templates.json` 视为 L2 未收尾。
 
 ## 速查表
@@ -311,7 +311,7 @@ L0/L1 遇到**未识别章节边界**时**不自行猜测**：
 | 章节清单与卷内序号 | 源包根 `manifest.json` / `合并章节索引.json` | Step 3 / Step 4 / 骨架抽样 |
 | 本次范围、重点、交付物与档位 | 版本目录 `拆解配置.json` | Step 1 / Step 7 / 骨架分流 |
 | 已通过批次与断点 | 版本目录 `检查点.json` 与各批标志 | 续拆 |
-| 某个成品文件的一级小节与必填字段 | `templates/` 下同名 `.tpl.md`（含 `template_id` / `template_version`） | 各模块与收尾产出前（Step 8 / Step 9） |
+| 某个成品文件的一级小节与必填字段 | 模板包 `<book-decon-dim-templates 包根>/templates/` 下同名 `.tpl.md`（含 `template_id` / `template_version`） | 各模块与收尾产出前（Step 8 / Step 9） |
 | 稳定契约与可变细节的边界 | 本文「模板与稳定契约」节 | 改模板、改文件名或改小节骨架前 |
 | 模板留痕字段 | 版本目录 `_meta/templates.json` | Step 9 收尾 |
 
@@ -322,8 +322,8 @@ L0/L1 遇到**未识别章节边界**时**不自行猜测**：
 | 卷级骨架模板（`骨架/卷级骨架.md`、`骨架/索引.md`、`骨架/_未取证声明.md`） | 骨架九字段与未取证声明的呈现一致性 | 用「骨架交付」节与 `references/骨架交付.md` 的字段骨架落地；模板待补 |
 | 试拆（不足 20 章）质量规则 | 少量章节无法按完整六模块交付 | 第一期临时限制：不启动、不放开交付 |
 
-> 已补齐：六模块与收尾的**逐文件模板**（`templates/`，31 份）与 `_meta/templates.json` 留痕口径。L2 产出按模板执行，不再用「L2 产物结构要点」表代替模板——该表降级为速览。
+> 已补齐：六模块与收尾的**逐文件模板**（模板包 `<book-decon-dim-templates 包根>/templates/`，31 份）与 `_meta/templates.json` 留痕口径。L2 产出按模板执行，不再用「L2 产物结构要点」表代替模板——该表降级为速览。
 
 ## 版本
 
-当前版本 v0.2.0（第零期 T1.2；本版补齐 L2 六模块与收尾的逐文件模板 31 份，新增「模板与稳定契约」节与 `_meta/templates.json` 留痕要求）。版本口径与同目录 `skill.json` 的 `version` 单点一致。
+当前版本 v0.2.1（v0.2.0 补齐 L2 六模块与收尾的逐文件模板 31 份，新增「模板与稳定契约」节与 `_meta/templates.json` 留痕要求；本版把 31 份模板拆出为独立技能包 `book-decon-dim-templates`，本包 SKILL.md 与 references 内容不变，仅模板路径引用改指该包）。版本口径与同目录 `skill.json` 的 `version` 单点一致。

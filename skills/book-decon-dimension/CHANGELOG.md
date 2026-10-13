@@ -1,3 +1,11 @@
+## v0.2.1 | 2026-10-13
+
+**产物模板拆出为独立技能包 `book-decon-dim-templates`（v0.1.0），本包减重。**
+
+- runner 容器注入单技能总量限制 ≤128KB，原包（SKILL.md + references + 31 份模板）约 175KB 超限；`templates/` 整目录原样迁入新技能包 `book-decon-dim-templates`，模板内容零改动。
+- 本包仅剩 SKILL.md、`references/`（三份交付格式）与元数据；SKILL.md 中所有 `templates/` 路径引用改为 `<book-decon-dim-templates 包根>/templates/`，仅改路径归属表述，执行逻辑与门禁不变。
+- 模板契约不变：改模板仍按「模板与稳定契约」节三同步（模板升 `template_version` + 文档 + CHANGELOG 留痕），只是模板落在新包内。
+
 ## v0.2.0 | 2026-10-12
 
 **拆书执行 skill 迁入技能仓库，与桌面端解耦。**

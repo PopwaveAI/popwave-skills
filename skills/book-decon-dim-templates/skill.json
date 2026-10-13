@@ -1,0 +1,22 @@
+{
+  "id": "book-decon-dim-templates",
+  "version": "0.1.0",
+  "displayName": "拆书执行模板集",
+  "description": "book-decon-dimension 的产物模板资源包：当 book-decon-dimension 产出 L2 六模块、爽点、立项 L0-L3 等成品时，按本技能包根 templates/ 路径按需读取 31 份 .tpl.md 模板；本包不含执行规程。",
+  "tags": ["拆书与分析"],
+  "entry": "SKILL.md",
+  "activation": {
+    "slashCommands": [],
+    "default": false
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": false,
+    "network": false,
+    "shell": false
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 60000
+  }
+}
