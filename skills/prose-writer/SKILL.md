@@ -7,7 +7,7 @@ metadata:
   sibling: "fanqie-writer（番茄平台：立项 → 细纲；与本技能可配合，不必二选一）"
   relationship: "通用正文写作技能——不绑定任何平台、任何题材、任何形态。可单独安装使用；也可接手立项技能交过来的稿子；已有正文（含半截稿）可续写"
   self_contained: "本技能自包含——全部文件都是本技能自己的，不与其他技能共享文件、不校验与其他技能的一致性、不依赖任何其他技能。收尾自检跑 prd/self_check.py"
-  version: "2.5.2"
+  version: "2.5.3"
   language: zh-CN
 ---
 
