@@ -1,0 +1,28 @@
+{
+  "id": "pop-drama-workbench",
+  "name": "pop-drama-workbench",
+  "version": "2.0.0",
+  "displayName": "短剧创作工作台",
+  "description": "当用户说「做短剧/新短剧/接着写/导入已有剧本」时用它。短剧创作工作台：建项目、维护创作总表、按用户当前要做的事路由到市场、对标、故事、分集、剧本、审稿模块，不强制线性流程。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧创作"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-workbench",
+      "短剧",
+      "做短剧",
+      "新短剧",
+      "短剧项目",
+      "drama"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

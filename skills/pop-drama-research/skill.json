@@ -1,20 +1,20 @@
 {
   "id": "pop-drama-research",
   "name": "pop-drama-research",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "短剧资料检索",
-  "description": "当用户说「查短剧市场/拆解参考剧/查这个职业/找资料」时用它。为短剧立项、人物、场景、卡点检索市场数据、参考剧结构、职业与文化细节，结论带来源与日期写入调研采风目录。",
+  "description": "当用户说「查短剧市场/查平台规则/查这个职业/找文化细节」时用它。为市场、故事、剧本模块检索市场数据、平台规则、职业与场景、文化适配，结论带来源与日期写入资料目录。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
-    "短剧剧本线"
+    "短剧创作"
   ],
   "activation": {
     "slashCommands": [
       "pop-drama-research",
       "短剧资料",
       "短剧调研",
-      "拆解短剧",
+      "查短剧市场",
       "drama-research"
     ]
   },
