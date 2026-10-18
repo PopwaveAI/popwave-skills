@@ -1,0 +1,27 @@
+{
+  "id": "pop-drama-review",
+  "name": "pop-drama-review",
+  "version": "1.0.0",
+  "displayName": "短剧剧本审核",
+  "description": "当用户说「审剧本/剧本打分/检查这一集」时用它。按格式、卡点、开头、转折、台词、可拍性、连续性、合规八项逐集审核短剧剧本，给 PASS/CONDITIONAL/REJECT 与逐条改法。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本线"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-review",
+      "审短剧剧本",
+      "剧本审核",
+      "短剧审核",
+      "drama-review"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

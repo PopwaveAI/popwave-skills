@@ -1,0 +1,28 @@
+{
+  "id": "pop-drama-plot",
+  "name": "pop-drama-plot",
+  "version": "1.0.0",
+  "displayName": "短剧分集大纲",
+  "description": "当用户说「短剧分集/分集大纲/卡点/付费墙/每集写什么」时用它。把立项骨架拆成每集的核心冲突、转折、卡点与下集开头，产出主线结构表、分集大纲、前10集节拍表与钩子台账。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本线"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-plot",
+      "短剧分集",
+      "分集大纲",
+      "短剧卡点",
+      "付费墙",
+      "drama-plot"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
