@@ -13,7 +13,7 @@ test('独立索引不污染内置目录，相同内容重建包完全一致', as
   try {
     for (const directory of ['skills/builtin-editor', 'community/community-editor']) {
       await mkdir(path.join(root, directory), { recursive: true });
-      await writeFile(path.join(root, directory, 'skill.json'), JSON.stringify({ id: path.basename(directory), version: '1.0.0', description: 'Test writing editor skill', entry: 'SKILL.md' }));
+      await writeFile(path.join(root, directory, 'skill.json'), JSON.stringify({ id: path.basename(directory), version: '1.0.0', summary: 'Test fixture skill for registry builds.', description: 'Test writing editor skill', entry: 'SKILL.md' }));
       await writeFile(path.join(root, directory, 'SKILL.md'), 'Edit prose with care.');
     }
     execFileSync(process.execPath, [buildScript], { cwd: root });
