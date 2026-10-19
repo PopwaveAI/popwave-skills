@@ -285,7 +285,6 @@ one_line: 待seed产出
 | 文件 | 读取时机 | 内容 |
 |:--|:--|:--|
 | `状态.md` | 每轮 | 唯一总表：focus、单元章号、模块就绪、降级记录 |
-| `templates/项目总控.html` | 老板要看展示面板 | 由状态.md 套值导出，agent 不读 |
 | `references/onboarding-guide.md` | 用户首次触发 | 首次引导语 |
 | `<pop-lantern-plot 包根>/references/内容库/剧情-情绪打分表.md` | 标情绪目标与达标检查 | 情绪刻度唯一权威 |
 | `<pop-lantern-stage 包根>/references/内容库/力量体系模板库.md` | 建力量体系前 | 力量配方 |

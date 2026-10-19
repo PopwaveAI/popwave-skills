@@ -273,7 +273,6 @@ one_line: 待seed产出
 | `状态.md` | 每轮 | 唯一总表：focus、章号、模块就绪、降级记录 |
 | `文风dna/文风锚定.md` | write 环节 | 文风锚点 |
 | `正文/ch{NNN-1}.txt` | write 环节（必读） | 上一章正文，前馈 |
-| `templates/项目总控.html` | 老板要看展示面板 | 由状态.md 套值导出，agent 不读 |
 | `references/onboarding-guide.md` | 用户首次触发 | 首次引导语 |
 
 ---
