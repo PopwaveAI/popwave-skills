@@ -1,3 +1,7 @@
+## 3.2.4 - 2026-10-19
+
+- 补充市场卡面 summary 与精选元数据。
+
 # CHANGELOG — pop-visual-art-bible
 
 ## v3.2.3 | 2026-09-21

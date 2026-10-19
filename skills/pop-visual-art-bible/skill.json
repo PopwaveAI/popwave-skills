@@ -1,17 +1,29 @@
 {
   "id": "pop-visual-art-bible",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "displayName": "Art Bible · 美术设定集",
   "description": "当用户说「美术设定集/出设定集/定妆/视觉圣经」时用它，也在要给一部小说定统一画风与视觉身份时进。产出美术设定集，作为后续封面、人设、漫画的统一真源。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["pop-visual-art-bible", "美术设定集", "出设定集", "设计角色形象", "设计场景形象", "角色视觉身份", "定妆", "视觉圣经"]
+    "slashCommands": [
+      "pop-visual-art-bible",
+      "美术设定集",
+      "出设定集",
+      "设计角色形象",
+      "设计场景形象",
+      "角色视觉身份",
+      "定妆",
+      "视觉圣经"
+    ]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["小说推书与IP化专家"],
+  "tags": [
+    "小说推书与IP化专家"
+  ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "给一部小说定统一画风与视觉身份的美术设定集。"
 }

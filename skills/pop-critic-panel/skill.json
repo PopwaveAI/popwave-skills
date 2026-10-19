@@ -1,13 +1,29 @@
 {
   "id": "pop-critic-panel",
   "name": "pop-critic-panel",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "displayName": "多子Agent盲评挑刺团",
   "description": "当用户说「挑刺/盲评/评审团/多视野评审/群聊评审」时用它，也在要给某个产物换个视角挑毛病时进。对章纲、卷纲、设定档、正文等产物发起多子 Agent 隔离盲评，产出裁决报告供拍板。只评审不改稿。",
   "entry": "SKILL.md",
-  "tags": ["长篇网文专家", "评审"],
-  "activation": { "slashCommands": ["pop-critic-panel", "挑刺", "盲评", "评审团", "多视野评审", "群聊评审"] },
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "tags": [
+    "长篇网文专家",
+    "评审"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-critic-panel",
+      "挑刺",
+      "盲评",
+      "评审团",
+      "多视野评审",
+      "群聊评审"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "组织多个子 Agent 盲评产物，产出挑刺裁决报告。"
 }

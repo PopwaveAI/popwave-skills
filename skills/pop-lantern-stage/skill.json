@@ -1,7 +1,7 @@
 {
   "id": "pop-lantern-stage",
   "name": "pop-lantern-stage",
-  "version": "4.4.3",
+  "version": "4.4.4",
   "displayName": "舞台设定",
   "description": "当用户说「世界构筑/舞台/卷舞台/角色库/金手指」时用它，也在立项稿已定、要长世界与人物长档时进。灯塔流的舞台：产出设定档与人物库，供排剧情与写正文取用。",
   "entry": "SKILL.md",
@@ -21,5 +21,6 @@
     ]
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "长世界与人物长档：设定档与角色库。"
 }

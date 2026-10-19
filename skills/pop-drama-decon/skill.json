@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-decon",
   "name": "pop-drama-decon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "短剧对标拆解",
   "description": "当用户说「拆对标/拉片/看看参考剧怎么拍」时用它。拆 3-5 部短剧的结构：一句话、信息差、前3集卡点、付费墙、中点、人物功能与制作约束，提炼可复用招式与避坑清单，不抄剧情。",
   "entry": "SKILL.md",
@@ -23,5 +23,6 @@
     "writeProjectFiles": true
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "拆 3-5 部对标短剧，提炼可复用招式与避坑清单。"
 }

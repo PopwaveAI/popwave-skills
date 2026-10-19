@@ -104,7 +104,10 @@ async function main() {
     skills.push({
       id: manifest.id,
       displayName: manifest.displayName || manifest.id,
+      summary: manifest.summary,
       description: manifest.description,
+      ...(manifest.featured !== undefined ? { featured: manifest.featured } : {}),
+      ...(manifest.hidden !== undefined ? { hidden: manifest.hidden } : {}),
       latest: manifest.version,
       channels: {
         [isPrerelease(manifest.version) ? "beta" : "stable"]: manifest.version

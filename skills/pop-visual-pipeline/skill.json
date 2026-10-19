@@ -1,7 +1,7 @@
 {
   "id": "pop-visual-pipeline",
   "name": "pop-visual-pipeline",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "description": "当用户说「小说视觉化/做封面人设漫画/视觉总入口」时用它，也在要给一部小说成体系地出图时从这里进。按正确顺序调度各视觉功能，先打好美术设定集地基再出图。",
   "skills": [
     "pop-visual-asset",
@@ -28,5 +28,6 @@
       "出场景图"
     ],
     "target": "visual-pipeline"
-  }
+  },
+  "summary": "小说视觉化总入口，按顺序调度设定集、人设与漫画。"
 }

@@ -1,7 +1,8 @@
 ---
 name: "novel-evaluator-pro"
 description: "当用户说「给这本小说打分/评估质量/要专业反馈」时用它，也在要拿六维度量化一部小说时进。产出六维度评分与结构化简评。"
-version: "1.1.0"
+summary: 按六维度给一部小说打分并输出结构化简评。
+version: "1.1.2"
 author: "WorkBuddy"
 ---
 

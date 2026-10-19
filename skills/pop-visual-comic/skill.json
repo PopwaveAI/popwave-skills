@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-comic",
-  "version": "8.2.5",
+  "version": "8.2.6",
   "displayName": "网文转漫画",
   "description": "当用户说「网文转漫画/章节漫画/漫画连载」时用它，也在要把小说章节变成漫画时进。把整章剧情转成多格漫画页，跨章保持人物与画风一致。",
   "entry": "SKILL.md",
@@ -22,5 +22,6 @@
     "小说推书与IP化专家"
   ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "把整章小说转成人物与画风一致的多格漫画。"
 }

@@ -1,7 +1,8 @@
 ---
 name: jingmei-ppt
 description: 为专业幻灯片和可复用 PPT 模板提供视觉设计指导。适用于创建或优化 PPT/PPTX、选择审美方向、从参考图提炼视觉系统，以及改善层级、信息密度、字体、间距、构图与一致性；覆盖咨询研报、正式工作汇报、中国社区党建活动、高饱和艺术市集、编辑画册和历史教学等风格。
-version: "1.0.0"
+summary: 为 PPT 选审美方向与视觉系统，给出可复用版式规范。
+version: "1.0.2"
 author: "精美 PPT"
 license: "MIT。本包取自 Trae 官方插件 jingmei-ppt v1.0.0 的 Skill 部分，作者署名与许可全文见同目录 LICENSE。"
 ---

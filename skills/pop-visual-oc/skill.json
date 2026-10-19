@@ -1,17 +1,34 @@
 {
   "id": "pop-visual-oc",
-  "version": "7.2.4",
+  "version": "7.2.5",
   "displayName": "网文视觉推广素材生成 · OC设定卡",
   "description": "当用户说「人设图/立绘/角色卡/势力卡/地理卡/规则卡」时用它，也在要给小说做带文字说明的视觉推广素材时进。从原文提炼设定，产出设定卡成品图。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["pop-visual-oc", "人设图", "角色图", "OC", "立绘", "角色卡", "设定卡", "传播卡", "势力卡", "地理卡", "规则卡", "场景卡", "世界观卡"]
+    "slashCommands": [
+      "pop-visual-oc",
+      "人设图",
+      "角色图",
+      "OC",
+      "立绘",
+      "角色卡",
+      "设定卡",
+      "传播卡",
+      "势力卡",
+      "地理卡",
+      "规则卡",
+      "场景卡",
+      "世界观卡"
+    ]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["小说推书与IP化专家"],
+  "tags": [
+    "小说推书与IP化专家"
+  ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "从原文提炼设定，产出带文字说明的设定卡。"
 }

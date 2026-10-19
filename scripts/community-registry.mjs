@@ -62,7 +62,10 @@ export async function buildCommunityRegistry(root, distRoot) {
       const packageUrl = `community/${manifest.id}/${manifest.version}/${digest}/skill-package.zip`;
       await mkdir(path.dirname(path.join(distRoot, packageUrl)), { recursive: true });
       await writeFile(path.join(distRoot, packageUrl), bytes);
-      skills.push({ id: manifest.id, displayName: manifest.displayName || manifest.id, description: manifest.description, latest: manifest.version,
+      skills.push({ id: manifest.id, displayName: manifest.displayName || manifest.id, summary: manifest.summary, description: manifest.description,
+        ...(manifest.featured !== undefined ? { featured: manifest.featured } : {}),
+        ...(manifest.hidden !== undefined ? { hidden: manifest.hidden } : {}),
+        latest: manifest.version,
         versions: [{ version: manifest.version, packageUrl, checksum: `sha256-${digest}`, packageSize: bytes.length }] });
     } finally { await rm(temp, { recursive: true, force: true }); }
   }

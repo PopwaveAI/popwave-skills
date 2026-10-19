@@ -75,7 +75,10 @@ async function readCommunitySkillManifest(skillRoot, directoryName, skillFilePat
     id: name,
     version: metadata.get("version") || "0.1.0",
     displayName: metadata.get("name") || directoryName,
+    summary: metadata.get("summary"),
     description: metadata.get("description"),
+    featured: readOptionalInteger(metadata.get("featured")),
+    hidden: readOptionalBoolean(metadata.get("hidden")),
     entry: path.basename(skillFilePath),
     activation: {
       slashCommands: [name],
@@ -93,6 +96,19 @@ async function readCommunitySkillManifest(skillRoot, directoryName, skillFilePat
     },
     _source: "frontmatter"
   };
+}
+
+function readOptionalInteger(value) {
+  if (value === undefined || value === "") return undefined;
+  const number = Number(value);
+  return Number.isInteger(number) ? number : value;
+}
+
+function readOptionalBoolean(value) {
+  if (value === undefined || value === "") return undefined;
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return value;
 }
 
 export async function readSkillManifest(skillRoot, directoryName) {
@@ -164,6 +180,35 @@ export async function validateSkillManifest({ directoryName, skillRoot, manifest
       hint: source === "frontmatter"
         ? "Add a frontmatter description explaining when this skill should be used."
         : "Add a concise sentence describing what this skill helps users accomplish."
+    }));
+  }
+
+  const summary = typeof manifest.summary === "string" ? manifest.summary.trim() : "";
+  const summaryLength = Array.from(summary).length;
+  if (summaryLength < 8 || summaryLength > 40) {
+    fail(formatSkillValidationError({
+      skillId: directoryName,
+      filePath: manifestPath,
+      problem: "summary is required and must be 8-40 characters",
+      hint: "Write a user-facing one-liner about what this skill produces (not when to trigger it)."
+    }));
+  }
+
+  if (manifest.featured !== undefined && (!Number.isInteger(manifest.featured) || manifest.featured < 1 || manifest.featured > 99)) {
+    fail(formatSkillValidationError({
+      skillId: directoryName,
+      filePath: manifestPath,
+      problem: "featured must be an integer between 1 and 99",
+      hint: "Use a small integer such as 10 for the first featured slot, or omit featured."
+    }));
+  }
+
+  if (manifest.hidden !== undefined && typeof manifest.hidden !== "boolean") {
+    fail(formatSkillValidationError({
+      skillId: directoryName,
+      filePath: manifestPath,
+      problem: "hidden must be a boolean",
+      hint: "Set hidden to true for internal skills that should not appear in the market, or omit it."
     }));
   }
 

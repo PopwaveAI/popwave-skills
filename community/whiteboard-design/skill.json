@@ -1,7 +1,8 @@
 {
   "id": "whiteboard-design",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "displayName": "画板",
+  "summary": "生成可编辑的白板图、流程图与架构图。",
   "description": "当用户说「画关系图/架构图/流程图/思维导图」时用它，也在要把一堆关系摆清楚时进。产出可编辑的自包含白板 HTML，并保留可继续编辑的源文件。",
   "author": "TRAE",
   "entry": "SKILL.md",

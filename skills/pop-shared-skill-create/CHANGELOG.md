@@ -1,3 +1,7 @@
+## 9.1.2 - 2026-10-19
+
+- 补充市场卡面 summary 与精选元数据。
+
 # CHANGELOG — pop-shared-skill-create
 
 ## v9.1.1 | 2026-09-20

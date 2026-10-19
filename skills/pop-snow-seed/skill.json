@@ -1,13 +1,31 @@
 {
   "id": "pop-snow-seed",
   "name": "pop-snow-seed",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "displayName": "统一管线立项",
   "description": "当用户说「立项/开始新书/做种子/我有个想法」时用它，也在项目刚建好、要定故事骨架时进。雪花流的立项：把模糊想法做成全书立项稿，供舞台与剧情两个环节取用。",
   "entry": "SKILL.md",
-  "tags": ["长篇网文专家", "统一管线"],
-  "activation": { "slashCommands": ["pop-snow-seed", "立项", "开始新书", "seed", "做种子", "创意", "写创意", "改编"] },
-  "permissions": { "readProjectFiles": true, "writeProjectFiles": true },
+  "tags": [
+    "长篇网文专家",
+    "统一管线"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-snow-seed",
+      "立项",
+      "开始新书",
+      "seed",
+      "做种子",
+      "创意",
+      "写创意",
+      "改编"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "把模糊想法做成雪花流的全书立项稿。"
 }

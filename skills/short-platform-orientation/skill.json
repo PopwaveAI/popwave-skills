@@ -1,6 +1,6 @@
 {
   "id": "short-platform-orientation",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "displayName": "平台定位器",
   "description": "当用户说「选平台/平台定位/投哪个平台」时用它，也在短篇创作起步要定目标平台时进。对比各平台调性、字数与付费模式，匹配出一到两个最合适的平台。",
   "entry": "SKILL.md",
@@ -23,5 +23,6 @@
   "loadPolicy": {
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
-  }
+  },
+  "summary": "按平台调性与付费模式匹配短篇投稿平台。"
 }

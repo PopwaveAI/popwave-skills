@@ -1,6 +1,6 @@
 {
   "id": "pop-shared-skill-create",
-  "version": "9.1.1",
+  "version": "9.1.2",
   "displayName": "Skill 设计规范",
   "description": "当用户说「创建技能/改造skill/skill规范」时用它，也在要新增或修复一个技能包、需要设计规范时进。它给技能包的设计规范与落盘顺序，告诉你技能该写成什么样。",
   "entry": "SKILL.md",
@@ -17,5 +17,13 @@
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["番茄长篇网文专家", "小说推书与IP化专家", "起点长篇网文专家", "网文拆书专家", "短篇小说专家"]
+  "tags": [
+    "番茄长篇网文专家",
+    "小说推书与IP化专家",
+    "起点长篇网文专家",
+    "网文拆书专家",
+    "短篇小说专家"
+  ],
+  "summary": "技能包的设计规范与落盘顺序。",
+  "hidden": true
 }

@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-story",
   "name": "pop-drama-story",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "短剧故事核与人物",
   "description": "当用户说「短剧故事核/一句话故事/人物关系/结局/场景」时用它。把市场卖点做成能撑几十集的故事核、20个冲突源、人物关系与语言指纹、可拍场景与视觉规则，不排分集。",
   "entry": "SKILL.md",
@@ -24,5 +24,6 @@
     "writeProjectFiles": true
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "把短剧卖点做成能撑几十集的故事核与人物关系。"
 }

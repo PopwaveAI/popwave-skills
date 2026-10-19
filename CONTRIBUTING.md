@@ -23,12 +23,24 @@ This is the Popwave-native format. The hub also accepts community-style skills t
 ```markdown
 ---
 name: my-skill-id
+summary: 一句话说清这个技能产出什么（8-40 字，卡面用）。
 description: Use when the user needs this skill for a specific task.
 version: 0.1.0
 ---
-```
 
 For community-style skills, `version` is optional and defaults to `0.1.0`. The directory name must match `name`.
+
+## Market Metadata
+
+Every skill must define two different strings:
+
+- `summary`：8-40 字，写给用户看，说明「能做什么／产出什么」，进入市场卡片。
+- `description`：写给模型看，说明「什么时候用它」，进入详情页「适用场景」。
+
+Optional catalog fields:
+
+- `featured`: integer 1-99. Lower values rank earlier. The desktop market shows the first three featured skills.
+- `hidden`: boolean. Internal plumbing skills use `true`; they stay callable but do not appear in the market.
 
 For large skills maintained in their own repositories, add the external repository as a Git submodule under `skills/<skill-id>` instead of copying files into this repo. See `docs/submodule-skill-workflow.md`.
 
