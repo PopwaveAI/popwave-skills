@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.29.48 - 2026-10-19
+
+- 补 `displayName`「番茄小说写作」：网页与桌面卡片不再显示英文标识。
+
 ## 1.29.47 - 2026-10-19
 
 - 新增 `webInclude`：Web 端同步只取 `SKILL.md`、`references/golden-opening.md`、`references/emotion-curve.md`，避开 192KB 文本上限。
