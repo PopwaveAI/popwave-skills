@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.29.47 - 2026-10-19
+
+- 新增 `webInclude`：Web 端同步只取 `SKILL.md`、`references/golden-opening.md`、`references/emotion-curve.md`，避开 192KB 文本上限。
+
 ## 1.29.46 - 2026-10-19
 
 - 补充市场卡面 summary 与精选元数据。
