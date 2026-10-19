@@ -1,11 +1,19 @@
 {
   "id": "pop-decon",
-  "version": "26.3.2",
+  "version": "26.3.3",
   "displayName": "拆书专家入口",
   "description": "当用户说「拆书/解构/deconstruct/对标」时用它，也在要拿一部成书拆出可复用的写法时从这里进。负责取得原文、问清范围，再把单书拆解交给下一环节，不常驻。",
-  "tags": ["拆书与分析"],
+  "tags": [
+    "拆书与分析"
+  ],
   "entry": "SKILL.md",
-  "activation": { "slashCommands": ["拆书", "解构", "deconstruct"] },
+  "activation": {
+    "slashCommands": [
+      "拆书",
+      "解构",
+      "deconstruct"
+    ]
+  },
   "skills": [
     "tool-download-webnovel",
     "pop-decon-dimension"
@@ -15,10 +23,16 @@
     "writeProjectFiles": true
   },
   "pipeline": {
-    "upstream": ["tool-download-webnovel"],
-    "downstream": ["pop-decon-dimension"],
+    "upstream": [
+      "tool-download-webnovel"
+    ],
+    "downstream": [
+      "pop-decon-dimension"
+    ],
     "expert": "pop-decon"
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "拆书入口：取原文、定范围，再转入深度拆解。",
+  "featured": 30
 }

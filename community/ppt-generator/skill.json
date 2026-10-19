@@ -1,7 +1,8 @@
 {
   "id": "ppt-generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "高质量 PPT",
+  "summary": "把文档、图片或想法生成单文件 HTML 演示文稿。",
   "description": "当用户说「生成PPT/做演示文稿/把材料讲成一页页/要一个单文件deck」时用它，也在要把文档、图片、链接或一段需求做成可直接打开的演示稿时进。产出单文件 HTML 演示文稿。",
   "author": "TRAE",
   "entry": "SKILL.md",

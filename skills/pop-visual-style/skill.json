@@ -1,17 +1,26 @@
 {
   "id": "pop-visual-style",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "displayName": "通用文生图",
   "description": "当用户说「文生图/生成图片/画一张图/画风库」时用它，也在要纯文生图或挑画风时进。内置几十种画风库，选画风加画面描述即出图，也是其它视觉功能共用的画风来源。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["pop-visual-style", "文生图", "画图", "生成图片", "画风库"]
+    "slashCommands": [
+      "pop-visual-style",
+      "文生图",
+      "画图",
+      "生成图片",
+      "画风库"
+    ]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["小说推书与IP化专家"],
+  "tags": [
+    "小说推书与IP化专家"
+  ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "内置几十种画风的文生图入口。"
 }

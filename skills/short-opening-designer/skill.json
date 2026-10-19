@@ -1,6 +1,6 @@
 {
   "id": "short-opening-designer",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "displayName": "开篇设计器",
   "description": "当用户说「开篇设计/导语/黄金三句」时用它，也在脑洞定了要设计开篇时进。产出卖点主轴、完整导语与付费钩子策略。",
   "entry": "SKILL.md",
@@ -23,5 +23,6 @@
   "loadPolicy": {
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
-  }
+  },
+  "summary": "设计短篇的卖点主轴、导语与付费钩子。"
 }

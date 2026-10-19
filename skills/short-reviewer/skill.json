@@ -1,6 +1,6 @@
 {
   "id": "short-reviewer",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "displayName": "短篇评审器",
   "description": "当用户说「评审/诊断/这稿子怎么样」时用它，也在短篇正文草稿写完后要过质量时进。九维评分并指出亮点与不足，只诊断不改稿。",
   "entry": "SKILL.md",
@@ -25,5 +25,6 @@
   "loadPolicy": {
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
-  }
+  },
+  "summary": "按九维给短篇草稿打分，只诊断不改稿。"
 }

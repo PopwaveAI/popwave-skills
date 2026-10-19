@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-review",
   "name": "pop-drama-review",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "短剧审稿",
   "description": "当用户说「审剧本/剧本打分/检查这一集」时用它。按格式、卡点、开头、转折、台词、可拍性、连续性、合规八项逐集审短剧剧本，给 PASS/CONDITIONAL/REJECT 与逐条改法。",
   "entry": "SKILL.md",
@@ -23,5 +23,6 @@
     "writeProjectFiles": true
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "按八项标准逐集审短剧剧本，给出逐条改法。"
 }

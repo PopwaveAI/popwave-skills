@@ -1,17 +1,28 @@
 {
   "id": "pop-comic-content",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "displayName": "漫画内容物料",
   "description": "当用户说「漫画推广/漫画种草/漫画安利」时用它，也在要把一部漫画做成可投放内容时进。读图理解漫画后产出口播脚本、种草笔记、短视频文案三件套。",
   "entry": "SKILL.md",
   "activation": {
-    "slashCommands": ["pop-comic-content", "漫画内容", "漫画推广", "漫画种草", "漫画安利", "读图产内容", "漫画做成视频"]
+    "slashCommands": [
+      "pop-comic-content",
+      "漫画内容",
+      "漫画推广",
+      "漫画种草",
+      "漫画安利",
+      "读图产内容",
+      "漫画做成视频"
+    ]
   },
   "permissions": {
     "readProjectFiles": true,
     "writeProjectFiles": true
   },
-  "tags": ["小说推书与IP化专家"],
+  "tags": [
+    "小说推书与IP化专家"
+  ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "读完漫画，产出推荐口播、种草笔记与短视频文案。"
 }

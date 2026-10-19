@@ -1,7 +1,8 @@
 {
   "id": "browser-skill",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "浏览器操控（BrowserSkill）",
+  "summary": "驱动已登录浏览器打开网页、填表点击并截图。",
   "description": "当用户要操作自己已登录的网站、或要整页长截图时用它，也在要把某个网页流程走完并抓下数据时进。驱动本机已登录的浏览器打开页面、填表点击、抓取数据并截图。",
   "author": "Popwave",
   "entry": "SKILL.md",

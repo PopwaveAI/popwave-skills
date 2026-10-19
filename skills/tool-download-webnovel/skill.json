@@ -1,6 +1,6 @@
 {
   "id": "tool-download-webnovel",
-  "version": "7.4.3",
+  "version": "7.4.4",
   "displayName": "网文搜索下载TXT",
   "description": "当用户说「下载小说/把某本书下成TXT」时用它，也就是用户点名要某部网文原文时进。按书名与作者搜索下载并校验，交付干净的 TXT。",
   "tags": [
@@ -31,5 +31,6 @@
   "loadPolicy": {
     "includeReferences": "on-demand",
     "maxPromptChars": 20000
-  }
+  },
+  "summary": "按书名与作者搜索下载网文原文，交付干净 TXT。"
 }

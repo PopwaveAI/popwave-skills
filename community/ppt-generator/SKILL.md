@@ -1,7 +1,8 @@
 ---
 name: ppt-generator
 description: Create single-file HTML slide decks from user-provided documents, images, links, or written briefs.
-version: "1.0.0"
+summary: 把文档、图片或想法生成单文件 HTML 演示文稿。
+version: "1.0.2"
 author: "TRAE"
 license: "原包未声明许可。本包取自 Trae 官方插件 ppt-generator v1.0.0 的 Skill 部分。"
 ---

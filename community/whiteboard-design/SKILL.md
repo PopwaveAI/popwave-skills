@@ -1,9 +1,10 @@
 ---
 name: whiteboard-design
-version: "0.2.0"
+version: "0.2.2"
 author: "TRAE"
 license: "原包声明 UNLICENSED，第三方组件另见同目录 THIRD_PARTY_NOTICES.md。本包取自 Trae 官方插件 whiteboard v0.2.0 的 Skill 部分。"
 description: Plan, create, edit, validate, and export editable visual whiteboards as self-contained Whiteboard HTML by default, with .excalidraw retained as the editable source. Use for information architecture, visual hierarchy, relationship maps, editable diagrams, scene import/export, theme enforcement, and browser-free delivery through the bundled controlled workbench.
+summary: 生成可编辑的白板图、流程图与架构图。
 ---
 
 # Whiteboard Design Skill

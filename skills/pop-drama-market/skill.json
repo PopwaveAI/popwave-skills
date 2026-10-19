@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-market",
   "name": "pop-drama-market",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "短剧市场定位",
   "description": "当用户说「短剧选题/定平台/定题材/多少集/卖点是什么」时用它。定平台、受众、题材、集数、时长、预算、商业承诺、核心信息差与标题候选，产出市场定位文件；不做故事和分集。",
   "entry": "SKILL.md",
@@ -23,5 +23,6 @@
     "writeProjectFiles": true
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "定短剧的平台、受众、题材、集数与商业卖点。"
 }

@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-beats",
   "name": "pop-drama-beats",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "短剧分集卡点",
   "description": "当用户说「分集/卡点/付费墙/前10集怎么排」时用它。把故事核拆成逐集核心冲突、转折、卡点与下集开头，排前10集秒级节拍与钩子台账，产出分集卡点表。",
   "entry": "SKILL.md",
@@ -24,5 +24,6 @@
     "writeProjectFiles": true
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "把短剧故事核排成逐集卡点与钩子台账。"
 }

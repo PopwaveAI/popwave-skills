@@ -1,6 +1,6 @@
 {
   "id": "pop-visual-cover",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "displayName": "网文封面生成",
   "description": "当用户说「网文封面/小说封面/场景图」时用它，也在要给这本书做封面或场景画面时进。可凭想法搜参考图设计，也可读原文理解后出图。",
   "entry": "SKILL.md",
@@ -21,5 +21,7 @@
     "小说推书与IP化专家"
   ],
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "summary": "给小说生成封面与场景画面。",
+  "featured": 20
 }
