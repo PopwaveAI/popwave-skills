@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-shotintent",
   "name": "pop-drama-shotintent",
-  "version": "1.0.0",
-  "displayName": "短剧镜头意图",
-  "description": "当用户说「拆镜头/镜头意图/交给AI做/做分镜」时用它。把审稿通过的短剧剧本拆成 12-13 镜、一镜一动作的镜头意图表，标情绪、参考 ID、生成风险与 fallback，交 AI 制作组写提示词。",
+  "version": "2.0.0",
+  "displayName": "短剧分镜",
+  "description": "当用户说「拆镜头/分镜/镜头意图/交给AI做」时用它。它是剧本子页：把审稿通过的剧本拆成 12-13 镜、一镜一动作的分镜表，标情绪、参考 ID、生成风险与 fallback，交 AI 制作组写提示词。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
@@ -12,7 +12,8 @@
   "activation": {
     "slashCommands": [
       "pop-drama-shotintent",
-      "拆短剧镜头",
+      "拆短剧分镜",
+      "分镜",
       "镜头意图",
       "短剧分镜",
       "drama-shotintent"
@@ -24,5 +25,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把剧本拆成可交给 AI 制作的 12-13 镜镜头意图表。"
+  "summary": "剧本子页：把剧本拆成 12-13 镜分镜表。"
 }

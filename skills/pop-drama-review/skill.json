@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-review",
   "name": "pop-drama-review",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "displayName": "短剧剧本包审稿",
-  "description": "当用户说「审剧本/审镜头/剧本打包检查」时用它。审剧本、镜头意图与交付包：卡点、开头、转折、台词、可拍性、镜头数、风险 fallback、连续性与合规，给 PASS/CONDITIONAL/REJECT 与逐条改法。",
+  "description": "当用户说「审剧本/审分镜/剧本打包检查」时用它。按设定、人物、分集、剧本、分镜、连续性、合规、交付八段审短剧剧本包，给 PASS/CONDITIONAL/REJECT 与逐条改法。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
@@ -25,5 +25,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "审剧本、镜头意图与交付包，给 PASS/REJECT 与改法。"
+  "summary": "审设定、人物、分集、剧本、分镜与交付包。"
 }

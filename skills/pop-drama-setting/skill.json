@@ -1,0 +1,29 @@
+{
+  "id": "pop-drama-setting",
+  "name": "pop-drama-setting",
+  "version": "1.0.0",
+  "displayName": "短剧设定库",
+  "description": "当用户说「短剧设定/故事核/世界观/视觉风格/场景库/道具服装/声音/合规/语言风格」时用它。建短剧设定库八份：故事核、世界与规则、视觉风格、场景库、道具与服装、声音基调、合规红线、语言风格，供人物、分集、剧本、分镜引用。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本包"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-setting",
+      "短剧设定",
+      "短剧世界观",
+      "短剧视觉",
+      "短剧场景库",
+      "drama-setting"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "建短剧八份设定库，供人物、分集、剧本、分镜引用。"
+}

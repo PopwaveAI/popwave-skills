@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-script",
   "name": "pop-drama-script",
-  "version": "3.0.0",
-  "displayName": "短剧剧本写作",
-  "description": "当用户说「写剧本/写第N集/下一集/EP00X」时用它。按分集卡点表写单集短剧剧本，按 1 主场景、3 主要角色、12-13 镜、台词70-80字 写，交付单集剧本与全剧合订本，PASS 后交镜头意图。",
+  "version": "4.0.0",
+  "displayName": "短剧剧本",
+  "description": "当用户说「写剧本/写第N集/下一集/全剧合订」时用它。按分集卡点写单集短剧剧本，交付单集剧本、全剧合订本与台词统计；分镜是剧本子页，由 shotintent 生成，不再单独一级。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
@@ -25,5 +25,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "按 AI 可生成约束写单集剧本与全剧合订本。"
+  "summary": "写单集剧本、全剧合订本与台词统计，分镜收为子页。"
 }

@@ -1,0 +1,29 @@
+{
+  "id": "pop-drama-character",
+  "name": "pop-drama-character",
+  "version": "1.0.0",
+  "displayName": "短剧人物库",
+  "description": "当用户说「短剧人物/人设/关系/选角/视觉锚点」时用它。建短剧人物库五份：人物总表、主要人物卡、配角与功能位、关系图、选角与视觉锚点，供分集、剧本、分镜与交付引用。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本包"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-character",
+      "短剧人物",
+      "短剧人设",
+      "短剧关系",
+      "短剧选角",
+      "drama-character"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "建短剧人物库、关系图与选角视觉锚点。"
+}
