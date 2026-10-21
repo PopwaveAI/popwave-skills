@@ -1,13 +1,13 @@
 {
   "id": "pop-drama-research",
   "name": "pop-drama-research",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "displayName": "短剧资料检索",
-  "description": "当用户说「查短剧市场/查平台规则/查这个职业/找文化细节」时用它。为市场、故事、剧本模块检索市场数据、平台规则、职业与场景、文化适配，结论带来源与日期写入资料目录。",
+  "description": "当用户说「查短剧市场/查平台规则/查这个职业/查AI模型能力」时用它。为市场、故事、剧本、镜头意图检索市场数据、平台规则、职业与场景、文化适配、AI 工具与模型能力，结论带来源与日期写入资料目录。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
-    "短剧创作"
+    "短剧剧本包"
   ],
   "activation": {
     "slashCommands": [
@@ -24,5 +24,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "为短剧项目检索市场数据、平台规则与职业细节。"
+  "summary": "检索短剧市场、平台、考据与 AI 模型能力。"
 }

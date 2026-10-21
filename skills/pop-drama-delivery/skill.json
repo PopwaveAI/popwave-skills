@@ -1,0 +1,28 @@
+{
+  "id": "pop-drama-delivery",
+  "name": "pop-drama-delivery",
+  "version": "1.0.0",
+  "displayName": "短剧剧本包交付",
+  "description": "当用户说「打包/交付/给甲方或制作/收尾」时用它。收齐 00-07 全部文件，生成剧本包说明、一句话故事与卖点、人物小传合集、全剧台词统计、平台合规自查五份交付文件，并检查 B 组能否直接开工。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本包"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-delivery",
+      "短剧交付",
+      "剧本包",
+      "打包交付",
+      "drama-delivery"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "收齐短剧剧本包并生成五份交付文件。"
+}

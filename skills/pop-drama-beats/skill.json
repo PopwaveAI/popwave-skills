@@ -1,13 +1,13 @@
 {
   "id": "pop-drama-beats",
   "name": "pop-drama-beats",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "displayName": "短剧分集卡点",
-  "description": "当用户说「分集/卡点/付费墙/前10集怎么排」时用它。把故事核拆成逐集核心冲突、转折、卡点与下集开头，排前10集秒级节拍与钩子台账，产出分集卡点表。",
+  "description": "当用户说「分集/卡点/付费墙/前10集怎么排」时用它。把故事核拆成逐集核心冲突、转折、卡点、下集开头与镜头预算，按单集12-13镜、1主场景、3主要角色、台词70-80字排前10集节拍与钩子台账。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
-    "短剧创作"
+    "短剧剧本包"
   ],
   "activation": {
     "slashCommands": [
@@ -25,5 +25,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把短剧故事核排成逐集卡点与钩子台账。"
+  "summary": "把故事拆成逐集冲突、卡点与镜头预算。"
 }

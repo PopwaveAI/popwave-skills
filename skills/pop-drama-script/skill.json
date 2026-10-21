@@ -1,13 +1,13 @@
 {
   "id": "pop-drama-script",
   "name": "pop-drama-script",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "displayName": "短剧剧本写作",
-  "description": "当用户说「写剧本/写第N集/下一集/EP00X」时用它。按分集卡点表写单集短剧剧本：场次头、人物行、△动作、角色台词、OS、字幕与集尾卡点，一次三集一组交付。",
+  "description": "当用户说「写剧本/写第N集/下一集/EP00X」时用它。按分集卡点表写单集短剧剧本，按 1 主场景、3 主要角色、12-13 镜、台词70-80字 写，交付单集剧本与全剧合订本，PASS 后交镜头意图。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",
-    "短剧创作"
+    "短剧剧本包"
   ],
   "activation": {
     "slashCommands": [
@@ -25,5 +25,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "按分集卡点表写单集短剧剧本。"
+  "summary": "按 AI 可生成约束写单集剧本与全剧合订本。"
 }
