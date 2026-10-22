@@ -1,27 +1,27 @@
 {
   "id": "fanqie-complete-mode",
   "name": "fanqie-complete-mode",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "番茄完本模式",
-  "summary": "番茄新人 15/30 万字完本流水线，含黄金三章、钩子轮换与爽点节奏。",
-  "description": "当用户要在番茄写一本 15 或 30 万字的完本小说时用它。它是叠加在 pop-snow-* 结构骨架上的番茄写法层：赛道诊断、黄金三章、章末钩子、三章一循环、爽点五形态、批末质检与完本包。只写番茄读者要什么、怎么快、怎么爽、怎么翻、怎么钩；立项、舞台、卷纲、章纲、正文、审稿仍由 pop-snow-* 负责。",
+  "summary": "番茄完本计划：规划、3 万字试读、批次写作与完本质检。",
+  "description": "当用户要在番茄写一本 15 或 30 万字的完本小说时用它。它只做模式契约与路由：赛道诊断到 fanqie-plan，正文到 fanqie-write，批末与完本到 fanqie-review；目标阶段、自动续跑、停等、终止由宿主 goal 负责。不绑定雪花内容模块，不保证签约。",
   "entry": "SKILL.md",
   "tags": [
     "番茄小说",
-    "完本模式",
+    "完本计划",
     "长篇网文专家"
   ],
   "skills": [
-    "pop-snow-seed",
-    "pop-snow-stage",
-    "pop-snow-plot",
-    "pop-outline",
-    "pop-write",
-    "pop-review"
+    "fanqie-plan",
+    "fanqie-write",
+    "fanqie-review",
+    "pop-snow-research",
+    "pop-ai-reduce-lite"
   ],
   "activation": {
     "slashCommands": [
       "fanqie-complete-mode",
+      "番茄完本计划",
       "番茄完本模式"
     ]
   },
@@ -32,7 +32,7 @@
   },
   "loadPolicy": {
     "includeReferences": "on-demand",
-    "maxPromptChars": 50000
+    "maxPromptChars": 30000
   },
   "author": "popwave",
   "license": "UNLICENSED"

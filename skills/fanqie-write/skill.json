@@ -1,0 +1,31 @@
+{
+  "id": "fanqie-write",
+  "name": "fanqie-write",
+  "version": "0.1.0",
+  "displayName": "番茄正文写手",
+  "summary": "按章纲写番茄正文：承接、章末钩子、爽点落地与降 AI 味。",
+  "description": "当番茄完本计划已有章纲、需要写 2000-2500 字正文时用它。只写正文，不改章纲、不改状态、不写全书；负责承接、章末钩子、爽点可见化与去 AI 味。",
+  "entry": "SKILL.md",
+  "tags": [
+    "番茄小说",
+    "完本计划",
+    "正文"
+  ],
+  "activation": {
+    "slashCommands": [
+      "fanqie-write",
+      "番茄正文写手"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 30000
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

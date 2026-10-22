@@ -1,0 +1,31 @@
+{
+  "id": "fanqie-plan",
+  "name": "fanqie-plan",
+  "version": "0.1.0",
+  "displayName": "番茄完本规划",
+  "summary": "番茄完本规划：赛道诊断、黄金三章、卷爽点表与章纲。",
+  "description": "当番茄完本计划需要做赛道诊断、立项、黄金开篇、卷爽点表或逐章章纲时用它。只做规划层，不写正文、不做审稿；所有规则是番茄口径，不依赖雪花内容模块。",
+  "entry": "SKILL.md",
+  "tags": [
+    "番茄小说",
+    "完本计划",
+    "规划"
+  ],
+  "activation": {
+    "slashCommands": [
+      "fanqie-plan",
+      "番茄完本规划"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true,
+    "network": false
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 40000
+  },
+  "author": "popwave",
+  "license": "UNLICENSED"
+}

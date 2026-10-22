@@ -1,28 +1,32 @@
-# 番茄完本流水线总表
+# 番茄完本计划 · 文件协议与 goal 契约
 
-## 两条 goal
+## 目录
 
-| 阶段 | goal | 目标 | 结束 | 验收 |
-| --- | --- | --- | --- | --- |
-| 试读 | 试读 goal | 3 万字，约 12-15 章 | `completed` | 字数 ≥30000；章数=章日志数；phase ≥7；每章 ≥1800 字；`stop=false` |
-| 完本 | 完本 goal | 15/30 万字 | `completed` | 全书字数 ≥目标；章数=章日志数；phase 7/8；无空章；`stop` 每 10 章 |
+```text
+状态.md
+立项/
+  00-立项卡.md
+  01-黄金开篇.md
+人物/
+剧情/
+  00-卷爽点表.md
+章纲/
+  ch{NNN}-章纲.md
+正文/
+  ch{NNN}.txt
+剧情日志/
+  ch{NNN}.md
+  全书日志.md
+目标/
+  spec.md
+验收/
+  verify.mjs
+完本包/
+```
 
-试读完成 → 用户确认 → 开完本 goal。完本从现有进度继续，不重写试读章。
+目录名借雪花流的文件协议；内容、模板、字段全部由番茄四包定义，不读雪花内容模块。
 
-## 阶段路由
-
-| 阶段 | 结构技能 | 本技能 reference | 产出 | 硬门禁 |
-| --- | --- | --- | --- | --- |
-| 赛道诊断 | 无 | `genre-fit.md` | 2-3 个赛道建议 | 30 万字可行性五问 |
-| 规划 | `pop-snow-seed` | `golden-three.md` | 立项稿、黄金开篇三版 | 前 300 字爆点、前 1/3 爽点 |
-| 舞台 | `pop-snow-stage` | `emotion-and-payoff.md` | 人物、世界、金手指/替代驱动 | 主形态已定 |
-| 卷纲 | `pop-snow-plot` | `emotion-and-payoff.md` | 卷纲、爽点分布表 | 不得连续 3 章无爽点 |
-| 章纲 | `pop-outline` | `hook-and-reversal.md` | 逐章章纲 | 钩子五型、相邻不同型 |
-| 正文 | `pop-write` | `quality-gate.md` | 正文 | 字数、章末钩子、承接四问 |
-| 审稿 | `pop-review` | `quality-gate.md` | 章日志、批次报告 | 四块报告齐全 |
-| 完本 | `pop-review` | `quality-gate.md` | 完本包 | 字数、章数、日志、phase |
-
-## 状态.md
+## 状态总账
 
 ```text
 mode: fanqie_complete
@@ -38,24 +42,44 @@ payoff_form: 碾压 | 信息兑付 | 认可 | 关系兑付 | 整活兑付
 paid_off_chapters: N
 ```
 
-## goal.create 工具
+## 两条 goal
 
-如果宿主提供 `goal.create`：
+### 试读 goal
+
+- 目标 3 万字，约 12-15 章。
+- 验收：正文 ≥30000 字；章文件数=章日志数；phase ≥7；每章 ≥1800 字；`stop=false`。
+- 完成出试读报告：字数、章数、黄金三章、钩子类型、问题、建议。
+
+### 完本 goal
+
+- 目标 15/30 万字。
+- 验收：全书字数 ≥目标；章文件数=章日志数；phase 7/8；无空章。
+- `stop`：距 `last_confirmed_chapter` 的成章数 ≥10 → 停等。
+- 从试读进度继续；不重写已确认章。
+
+## 阶段与门禁
+
+| 阶段 | 技能 | 必读 | 产出 | 门禁 |
+| --- | --- | --- | --- | --- |
+| 赛道诊断 | fanqie-plan | genre-fit | 2-3 个赛道建议 | 30 万字可行性五问 |
+| 规划 | fanqie-plan | golden-three | 立项卡、黄金开篇、spec、verifier | 前 300 字爆点、前 1/3 爽点 |
+| 卷纲 | fanqie-plan | emotion-and-payoff | 卷爽点表 | 不得连续 3 章无爽点 |
+| 章纲 | fanqie-plan | hook-and-reversal | 章纲 | 钩子五型、相邻不同型 |
+| 正文 | fanqie-write | prose-rules | 正文 | 字数、章末钩子、承接四问 |
+| 批末 | fanqie-review | quality-gate | 章日志、批次报告 | 四块报告齐全 |
+| 完本 | fanqie-review | quality-gate | 完本包 | 字数、章数、日志、phase |
+
+## goal.create
 
 - 只在用户明确同意开始下一阶段时调用。
-- 只创建 `planning` 目标；不确认、不执行、不继续。
-- 确认/继续/终止永远由用户操作。
-- 一个对话只能有一个活动目标；创建失败就如实告诉用户，不重试刷目标。
+- 只创建 `planning`；不确认、不执行、不继续。
+- 绑定当前 run 的 user/project/conversation；一个对话只能有一个活动目标。
+- 创建失败（GOAL_ACTIVE / PROJECT_BUSY / 余额不足）原样告诉用户，不重试。
+- 没有该工具时，给用户可发送的 `/goal` 指令。
 
 ## 恢复
 
 - 每章落盘；`状态.md` 记录当前章与已确认章。
 - 中断后从最后一章继续；不重复写已确认章。
-- 连续 3 轮无推进，goal 会置 `blocked`；不要自己重启，等用户处理。
+- 连续 3 轮无推进，goal 置 `blocked`；等用户处理，不自行重启。
 - 用户终止后不再自动续跑。
-
-## 冲突裁决
-
-- 番茄写法与雪花流结构冲突时：结构产物按 `pop-snow-*`，写法按本技能。
-- 用户明确要求与技能规则冲突时：先说明代价，用户坚持就按用户，记录在 `状态.md` 的降级记录。
-- 不静默降级；不记录就开写视为流程违规。
