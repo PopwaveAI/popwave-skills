@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-pipeline",
   "name": "pop-snow-pipeline",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "displayName": "雪花流工作台",
   "description": "当用户说「新建项目/导入/接续旧稿/现在该做什么」时用它。雪花流工作台：建项目、维护状态总表、按用户当前要做的事路由到立项、舞台、剧情、章纲、正文、审稿模块，不强制线性阶段。",
   "entry": "SKILL.md",
