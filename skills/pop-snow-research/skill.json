@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-research",
   "name": "pop-snow-research",
-  "version": "5.10.2",
+  "version": "5.11.0",
   "displayName": "实时联网搜索站（双模式：A 找素材＋B 找模版）",
   "description": "当用户说「查资料/搜资料/调研/采风/考据」时用它，也在写章纲或正文缺真实材料时被上游点名触发。实时联网找真实素材或内容配方。拆书不归它。三线共用。",
   "entry": "SKILL.md",
