@@ -1,26 +1,28 @@
 {
   "id": "pop-snow-stage",
   "name": "pop-snow-stage",
-  "version": "3.0.0",
-  "displayName": "舞台设定",
-  "description": "当用户说「世界构筑/舞台/角色库/金手指」时用它，也在立项稿已定、要长世界与人物长档时进。雪花流的舞台：产出可直接落笔的设定档与人物库，供排剧情与写正文取用。",
+  "version": "8.0.0",
+  "displayName": "设定与人物卡",
+  "description": "当用户说「定世界/定人物/补设定」时用它。只补这一卷要用的：世界四块（规则、势力、地理、质感）与人物六项，不建百科。",
   "entry": "SKILL.md",
   "tags": [
     "长篇网文专家",
-    "统一管线"
+    "设定"
   ],
   "activation": {
     "slashCommands": [
       "pop-snow-stage",
-      "世界构筑",
-      "舞台",
-      "卷舞台",
-      "卷刷新",
-      "角色库",
-      "金手指"
+      "设定",
+      "世界",
+      "人物卡",
+      "补设定"
     ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "产出可直接落笔的设定档与人物库。"
+  "summary": "世界四块 + 人物六项，够写就行。"
 }

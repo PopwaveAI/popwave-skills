@@ -1,0 +1,28 @@
+{
+  "id": "pop-snow-write",
+  "name": "pop-snow-write",
+  "version": "8.0.0",
+  "displayName": "正文与收尾",
+  "description": "当用户说「写这章/续写/改稿/审稿」时用它。正文交给写作工具，主 agent 只做字数、结构、去 AI 味三项收尾，并写一行章日志。",
+  "entry": "SKILL.md",
+  "tags": [
+    "长篇网文专家",
+    "正文"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-snow-write",
+      "写正文",
+      "续写",
+      "改稿",
+      "审稿"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "正文由工具写，主 agent 收尾与记录。"
+}
