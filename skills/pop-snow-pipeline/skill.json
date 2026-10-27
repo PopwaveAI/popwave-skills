@@ -1,43 +1,28 @@
 {
   "id": "pop-snow-pipeline",
   "name": "pop-snow-pipeline",
-  "version": "2.0.2",
-  "displayName": "雪花流工作台",
-  "description": "当用户说「新建项目/导入/接续旧稿/现在该做什么」时用它。雪花流工作台：建项目、维护状态总表、按用户当前要做的事路由到立项、舞台、剧情、章纲、正文、审稿模块，不强制线性阶段。",
+  "version": "8.0.0",
+  "displayName": "长篇工作台",
+  "description": "当用户说「新建项目/导入/续写/现在该做什么」时用它。只负责建七个目录、写五行状态、按用户说法路由到立项、设定、卷纲章纲、正文，不写内容、不评审美。",
   "entry": "SKILL.md",
   "tags": [
     "长篇网文专家",
-    "统一管线"
+    "工作台"
   ],
   "activation": {
     "slashCommands": [
       "pop-snow-pipeline",
-      "雪花工作台",
-      "管线总控",
-      "初始化项目",
       "新建项目",
       "导入",
       "续写",
-      "迁移"
+      "现在该做什么"
     ]
   },
-  "skills": [
-    "pop-snow-seed",
-    "pop-snow-stage",
-    "pop-snow-plot",
-    "pop-outline",
-    "pop-write",
-    "pop-review",
-    "pop-snow-research",
-    "pop-dna-style",
-    "tool-download-webnovel"
-  ],
   "permissions": {
     "readProjectFiles": true,
-    "writeProjectFiles": true,
-    "network": false
+    "writeProjectFiles": true
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "雪花流创作总入口，按当前环节路由到各模块。"
+  "summary": "建项目、记状态、按环节路由。"
 }

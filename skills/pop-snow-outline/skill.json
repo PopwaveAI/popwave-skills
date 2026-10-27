@@ -1,0 +1,27 @@
+{
+  "id": "pop-snow-outline",
+  "name": "pop-snow-outline",
+  "version": "8.0.0",
+  "displayName": "卷纲与章纲",
+  "description": "当用户说「排卷/卷纲/章纲」时用它。卷纲写四块，章纲只写五栏且可选；首三章建议写，之后可直接写正文。",
+  "entry": "SKILL.md",
+  "tags": [
+    "长篇网文专家",
+    "大纲"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-snow-outline",
+      "卷纲",
+      "章纲",
+      "排卷"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "卷纲四块、章纲五栏，章纲可选。"
+}
