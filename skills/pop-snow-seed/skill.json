@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-seed",
   "name": "pop-snow-seed",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "displayName": "开书立项",
   "description": "当用户说「立项/开书/开始新书/我有个想法/想写本书」时用它，也在项目刚建好、要定故事骨架时进。多轮问清用户想写什么样的书，去书库找相似作品做对照，产出开书前的故事 brief。",
   "entry": "SKILL.md",
