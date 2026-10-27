@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-pipeline",
   "name": "pop-snow-pipeline",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "displayName": "长篇工作台",
   "description": "当用户说「新建项目/导入/续写/现在该做什么」时用它。只负责建七个目录、写五行状态、按用户说法路由到立项、设定、卷纲章纲、正文，不写内容、不评审美。",
   "entry": "SKILL.md",

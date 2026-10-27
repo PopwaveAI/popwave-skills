@@ -174,3 +174,7 @@ powershell -ExecutionPolicy Bypass -File "<包根>\scripts\word-count.ps1" -Path
 | `<pop-emergent-state 包根>/references/内容模板库.md` | 涌现线按需读取。需要新设定时择取 |
 | `pop-snow-research`（定向检索） | 首写按需；修改不派。缺真实材料时提交检索需求，等待回报 |
 | `scripts/word-count.ps1` | 存档后。字数与段落长度检查 |
+
+## 交付提醒
+
+本次任务只要产出了文档（brief、故事核、试写章、设定、人物卡、章纲、正文、审核报告等），交付回复必须写清产出了哪几份、各自路径，并提醒用户可点开右侧文件夹按钮预览详细内容；没有文档产出就不写这段。

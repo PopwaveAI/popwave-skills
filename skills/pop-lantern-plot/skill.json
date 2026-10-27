@@ -1,7 +1,7 @@
 {
   "id": "pop-lantern-plot",
   "name": "pop-lantern-plot",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "displayName": "剧情编排",
   "description": "当用户说「剧情白描/推演剧情/卷纲/幕白描/卷需求」时用它，也在一个单元写到头、要排下一单元时进。灯塔流的剧情编排：排上升线表与单元剧，供章纲环节切章。",
   "entry": "SKILL.md",

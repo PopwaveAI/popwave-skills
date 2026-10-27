@@ -1,7 +1,7 @@
 {
   "id": "pop-critic-panel",
   "name": "pop-critic-panel",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "displayName": "多子Agent盲评挑刺团",
   "description": "当用户说「挑刺/盲评/评审团/多视野评审/群聊评审」时用它，也在要给某个产物换个视角挑毛病时进。对章纲、卷纲、设定档、正文等产物发起多子 Agent 隔离盲评，产出裁决报告供拍板。只评审不改稿。",
   "entry": "SKILL.md",
