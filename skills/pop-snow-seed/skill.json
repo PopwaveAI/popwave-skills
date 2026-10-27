@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-seed",
   "name": "pop-snow-seed",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "displayName": "开书立项",
   "description": "当用户说「立项/开书/开始新书/我有个想法/想写本书」时用它。先确认赛道、标签组合、篇幅三步，再调正文工具出开局画面定调、调创意工具出三个 brief 候选，用户选定后落一份故事 brief。",
   "entry": "SKILL.md",

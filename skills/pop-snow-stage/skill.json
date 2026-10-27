@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-stage",
   "name": "pop-snow-stage",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "displayName": "设定与人物卡",
   "description": "当用户说「定世界/定人物/补设定」时用它。按立项故事核写全书设定档案：世界、力量、冲突、画风四部分加人物卡；冲突只定偏向与敌人表。",
   "entry": "SKILL.md",
