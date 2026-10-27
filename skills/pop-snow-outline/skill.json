@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-outline",
   "name": "pop-snow-outline",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "displayName": "卷纲与章纲",
   "description": "当用户说「排卷/卷纲/章纲」时用它。卷纲先写 400-800 字卷剧情，再写卷目标、卷级敌人、卷末变化与分章推进；章纲只写五栏且可选。",
   "entry": "SKILL.md",

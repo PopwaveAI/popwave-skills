@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-stage",
   "name": "pop-snow-stage",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "displayName": "设定与人物卡",
   "description": "当用户说「定世界/定人物/补设定」时用它。按立项故事核写四份设定文档：世界观、世界画风、力量与社会体系、战斗冲突表现，另加人物卡。",
   "entry": "SKILL.md",
