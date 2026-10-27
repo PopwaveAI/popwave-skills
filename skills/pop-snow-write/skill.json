@@ -1,7 +1,7 @@
 {
   "id": "pop-snow-write",
   "name": "pop-snow-write",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "displayName": "正文与收尾",
   "description": "当用户说「写这章/续写/改稿/审稿」时用它。正文交给写作工具，主 agent 只做字数、结构、去 AI 味三项收尾，并写一行章日志。",
   "entry": "SKILL.md",
