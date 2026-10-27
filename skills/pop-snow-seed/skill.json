@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-seed",
   "name": "pop-snow-seed",
-  "version": "7.0.0",
-  "displayName": "统一管线立项",
-  "description": "当用户说「立项/开始新书/做种子/我有个想法」时用它，也在项目刚建好、要定故事骨架时进。雪花流的立项：把模糊想法做成全书立项稿，供舞台与剧情两个环节取用。",
+  "version": "8.0.0",
+  "displayName": "开书立项",
+  "description": "当用户说「立项/开书/开始新书/我有个想法/想写本书」时用它，也在项目刚建好、要定故事骨架时进。多轮问清用户想写什么样的书，去书库找相似作品做对照，产出开书前的故事 brief。",
   "entry": "SKILL.md",
   "tags": [
     "长篇网文专家",
@@ -27,5 +27,5 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把模糊想法做成雪花流的全书立项稿。"
+  "summary": "问清用户想写什么样的书，找相似书对照，产出四段故事 brief。"
 }
