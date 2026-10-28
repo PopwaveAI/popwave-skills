@@ -1,6 +1,7 @@
 {
   "id": "pop-ai-reduce-lite",
-  "version": "9.0.0",
+  "version": "9.0.1",
+  "layer": "foundation",
   "displayName": "去AI味改写",
   "description": "当用户说「去AI味/降AI/润色」时用它，也在创作管线要求清一遍文本痕迹时被调用。按用户要求改写文本，再做重复句式、标点与段落长度的机械检查。",
   "entry": "SKILL.md",

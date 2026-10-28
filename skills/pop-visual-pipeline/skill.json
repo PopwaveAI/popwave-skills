@@ -2,7 +2,8 @@
   "id": "pop-visual-pipeline",
   "name": "pop-visual-pipeline",
   "displayName": "小说视觉化",
-  "version": "4.3.3",
+  "version": "4.3.4",
+  "layer": "foundation",
   "description": "当用户说「小说视觉化/做封面人设漫画/视觉总入口」时用它，也在要给一部小说成体系地出图时从这里进。按正确顺序调度各视觉功能，先打好美术设定集地基再出图。",
   "skills": [
     "pop-visual-asset",
