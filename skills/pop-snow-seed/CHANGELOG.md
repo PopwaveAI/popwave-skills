@@ -543,3 +543,7 @@
 
 **废弃**：pop-qidian-seed(v14.0.0)、pop-fanqie-seed(v14.0.2)、test-adapt(v2.0.0) 3 件 skill 待 P8 统一删除；旧版历史见 `_archive/changelog-history/`。
 
+## v10.1.1 | 2026-10-30
+
+- 回滚 idea 一次生成完整立项包，恢复 idea → setting → outline 多次方案；避免单次输出撞模型额度。
+- brief 仍保留 detail 长方案卡与 critical 标记。
