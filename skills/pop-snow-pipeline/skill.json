@@ -1,9 +1,9 @@
 {
   "id": "pop-snow-pipeline",
   "name": "pop-snow-pipeline",
-  "version": "8.1.0",
+  "version": "9.0.0",
   "displayName": "长篇工作台",
-  "description": "当用户说「新建项目/导入/续写/现在该做什么」时用它。只负责建七个目录、写五行状态、按用户说法路由到立项、设定、卷纲章纲、正文，不写内容、不评审美。",
+  "description": "当用户说「新建项目/导入/续写/现在该做什么」时用它。默认走快线：seed 出全书大纲、设定摘要、人物卡与前 10 章章纲，write 批量写 3-5 章并拼成稿；stage/outline 只在精修或补后续章纲时进入。",
   "entry": "SKILL.md",
   "tags": [
     "长篇网文专家",
