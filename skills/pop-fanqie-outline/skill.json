@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-outline",
   "name": "pop-fanqie-outline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "全书大纲·番茄",
   "description": "当用户说「立项/开书/开始新书/我有个想法/想写本书」时用它（番茄平台）。先做需求访谈与题材弹药选择，产出五节立项融合稿、快线设定摘要与人物卡、卷 1 卷纲和前 10 章章纲，再写第 0 章样张；之后直接交给正文技能。",
   "entry": "SKILL.md",
