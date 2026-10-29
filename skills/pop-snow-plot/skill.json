@@ -27,5 +27,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "在舞台设定之上排本阶段的卷纲与幕白描。"
+  "summary": "在舞台设定之上排本阶段的卷纲与幕白描。",
+  "hidden": true
 }

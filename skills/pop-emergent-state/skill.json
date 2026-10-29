@@ -31,5 +31,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把立项卡与资料收成世界装配单。"
+  "summary": "把立项卡与资料收成世界装配单。",
+  "hidden": true
 }

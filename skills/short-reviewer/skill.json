@@ -26,5 +26,6 @@
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
   },
-  "summary": "按九维给短篇草稿打分，只诊断不改稿。"
+  "summary": "按九维给短篇草稿打分，只诊断不改稿。",
+  "hidden": true
 }

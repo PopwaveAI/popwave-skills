@@ -1,0 +1,27 @@
+{
+  "id": "short-zhihu-write",
+  "name": "short-zhihu-write",
+  "version": "1.0.0",
+  "displayName": "短篇正文·知乎",
+  "description": "当用户说「按这个结构写正文/写正文/继续写/审一下」时用它。按大纲的剧情弧线逐段写知乎盐言短篇，做完付费钩子与九维自检，输出正文与可选审稿报告。",
+  "entry": "SKILL.md",
+  "tags": [
+    "知乎短篇",
+    "正文"
+  ],
+  "activation": {
+    "slashCommands": [
+      "short-zhihu-write",
+      "短篇正文",
+      "写短篇",
+      "审短篇"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "短篇正文：按大纲逐段写，自检并去 AI 味。"
+}

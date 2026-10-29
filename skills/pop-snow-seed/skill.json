@@ -27,5 +27,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "先访谈选题，产出全书大纲与前10章章纲。"
+  "summary": "先访谈选题，产出全书大纲与前10章章纲。",
+  "hidden": true
 }

@@ -27,5 +27,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "每章写完后的验收、日志与状态档更新。"
+  "summary": "每章写完后的验收、日志与状态档更新。",
+  "hidden": true
 }

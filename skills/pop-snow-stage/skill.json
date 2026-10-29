@@ -24,5 +24,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "世界四块 + 人物六项，够写就行。"
+  "summary": "世界四块 + 人物六项，够写就行。",
+  "hidden": true
 }

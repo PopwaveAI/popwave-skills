@@ -1,0 +1,27 @@
+{
+  "id": "short-zhihu-outline",
+  "name": "short-zhihu-outline",
+  "version": "1.0.0",
+  "displayName": "短篇大纲·知乎",
+  "description": "当用户说「有个短篇想法/想写知乎故事/帮我定导语/搭个短篇结构」时用它。先定平台与篇幅，再出脑洞、导语与付费钩子、剧情弧线与角色，产出可直接写正文的短篇大纲。",
+  "entry": "SKILL.md",
+  "tags": [
+    "知乎短篇",
+    "大纲"
+  ],
+  "activation": {
+    "slashCommands": [
+      "short-zhihu-outline",
+      "短篇大纲",
+      "短篇立项",
+      "搭结构"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "短篇大纲：平台、脑洞、导语与结构，一次排完。"
+}

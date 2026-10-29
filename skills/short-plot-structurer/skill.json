@@ -24,5 +24,6 @@
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
   },
-  "summary": "为短篇搭剧情结构、角色与可写骨架。"
+  "summary": "为短篇搭剧情结构、角色与可写骨架。",
+  "hidden": true
 }

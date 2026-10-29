@@ -24,5 +24,6 @@
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
   },
-  "summary": "按平台调性与付费模式匹配短篇投稿平台。"
+  "summary": "按平台调性与付费模式匹配短篇投稿平台。",
+  "hidden": true
 }

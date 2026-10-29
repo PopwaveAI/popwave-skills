@@ -26,5 +26,6 @@
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
   },
-  "summary": "按已定结构把短篇正文写出来。"
+  "summary": "按已定结构把短篇正文写出来。",
+  "hidden": true
 }

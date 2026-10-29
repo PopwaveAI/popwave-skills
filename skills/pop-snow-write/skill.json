@@ -24,5 +24,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "批量写 3-5 章正文，收尾后拼成稿附件。"
+  "summary": "批量写 3-5 章正文，收尾后拼成稿附件。",
+  "hidden": true
 }

@@ -27,5 +27,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把模糊想法做成灯塔流的全书立项稿。"
+  "summary": "把模糊想法做成灯塔流的全书立项稿。",
+  "hidden": true
 }

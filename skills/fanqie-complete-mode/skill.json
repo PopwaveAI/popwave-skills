@@ -35,5 +35,6 @@
     "maxPromptChars": 30000
   },
   "author": "popwave",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "hidden": true
 }

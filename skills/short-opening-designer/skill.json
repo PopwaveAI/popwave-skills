@@ -24,5 +24,6 @@
     "includeReferences": "on-demand",
     "maxPromptChars": 80000
   },
-  "summary": "设计短篇的卖点主轴、导语与付费钩子。"
+  "summary": "设计短篇的卖点主轴、导语与付费钩子。",
+  "hidden": true
 }

@@ -22,5 +22,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "长世界与人物长档：设定档与角色库。"
+  "summary": "长世界与人物长档：设定档与角色库。",
+  "hidden": true
 }

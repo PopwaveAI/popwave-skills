@@ -22,5 +22,6 @@
   "author": "popwave",
   "license": "UNLICENSED",
   "summary": "按章纲与文风锚定写出一章正文。",
-  "featured": 10
+  "featured": 10,
+  "hidden": true
 }

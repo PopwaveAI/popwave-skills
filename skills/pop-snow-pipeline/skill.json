@@ -24,5 +24,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "建项目、记状态、按环节路由。"
+  "summary": "建项目、记状态、按环节路由。",
+  "hidden": true
 }

@@ -39,5 +39,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "灯塔流创作总入口，按当前环节路由到各模块。"
+  "summary": "灯塔流创作总入口，按当前环节路由到各模块。",
+  "hidden": true
 }

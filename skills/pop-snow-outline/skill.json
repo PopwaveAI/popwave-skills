@@ -23,5 +23,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "卷纲四块、章纲五栏，章纲可选。"
+  "summary": "卷纲四块、章纲五栏，章纲可选。",
+  "hidden": true
 }

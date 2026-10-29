@@ -22,5 +22,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把一章要演什么排成写作前的章纲清单。"
+  "summary": "把一章要演什么排成写作前的章纲清单。",
+  "hidden": true
 }

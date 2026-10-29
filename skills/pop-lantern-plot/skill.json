@@ -27,5 +27,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把舞台设定排成上升线与单元剧剧情。"
+  "summary": "把舞台设定排成上升线与单元剧剧情。",
+  "hidden": true
 }

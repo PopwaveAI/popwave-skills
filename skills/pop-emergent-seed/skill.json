@@ -26,5 +26,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "把模糊想法收成涌现流的立项卡。"
+  "summary": "把模糊想法收成涌现流的立项卡。",
+  "hidden": true
 }

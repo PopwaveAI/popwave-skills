@@ -36,5 +36,6 @@
   },
   "author": "popwave",
   "license": "UNLICENSED",
-  "summary": "涌现流创作总入口，按当前环节路由到各模块。"
+  "summary": "涌现流创作总入口，按当前环节路由到各模块。",
+  "hidden": true
 }

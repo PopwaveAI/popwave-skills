@@ -10,5 +10,6 @@
     "SKILL.md",
     "references/golden-opening.md",
     "references/emotion-curve.md"
-  ]
+  ],
+  "hidden": true
 }
