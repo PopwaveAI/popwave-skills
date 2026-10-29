@@ -81,6 +81,9 @@ library/
 # 新流程探索：skill 探索与测试的本地工作区，不入库
 /新流程探索/
 
+# 归档区：已从 skills/ 下架的 skill（含隐藏 skill），本地保留，不入库
+/archive/
+
 # 拆书原文源txt（版权敏感，不入库；L1批次md拆解笔记保留）
 library/知名小说wiki/*/_temp/batches/src/
 library/知名小说wiki/诡秘之主/_temp/chapters/

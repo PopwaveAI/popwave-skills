@@ -2,7 +2,7 @@
 
 > 依据专家配置图（2026-08-13）整理的 skill 分类索引。图中 5 位专家各自绑定一组 skill；未在图中分配、但属于某专家命名空间家族的 skill 归入「通用·子组件」区，可按需提升到对应专家。
 >
-> 注（2026-10-29 平台编队）：写作类官方专家收口为番茄 / 起点 / 晋江 / 七猫 / 知乎短篇五个平台专家，每位只绑「大纲 + 正文」两个平台技能。长篇由 `pop-snow-seed` / `pop-snow-write` 复制出 `pop-{platform}-outline` / `pop-{platform}-write` 四套，首版内容一致；短篇由旧 7 步链压缩为 `short-zhihu-outline` / `short-zhihu-write`。snow / lantern / emergent / 中篇 / 短篇旧链从市场隐藏，内容保留一个版本，供旧专家与用户自建专家继续读取。
+> 注（2026-10-29 平台编队）：写作类官方专家收口为番茄 / 起点 / 晋江 / 七猫 / 知乎短篇五个平台专家，每位只绑「大纲 + 正文」两个平台技能。长篇由 `pop-snow-seed` / `pop-snow-write` 复制出 `pop-{platform}-outline` / `pop-{platform}-write` 四套，首版内容一致；短篇由旧 7 步链压缩为 `short-zhihu-outline` / `short-zhihu-write`。snow / lantern / emergent / 中篇 / 短篇旧链从市场隐藏；2026-10-30 起这些隐藏 skill 已从仓库 `skills/` 下架，移到本地归档 `archive/skills/`（不入库）。仍被可见 skill 引用的 `pop-visual-shared`、`pop-outline`、`short-reviewer`、`pop-shared-skill-create` 继续留在 `skills/`。
 
 | 专家 | 大纲技能 | 正文技能 |
 |:--|:--|:--|
