@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-write",
   "name": "pop-fanqie-write",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "正文写作·番茄",
   "description": "当用户说「写正文/继续写/写下一批/改稿/审稿」时用它（番茄平台）。按大纲技能给的章纲批量写 3-5 章正文，逐章做字数、结构、去 AI 味与章日志，最后自动拼成 成稿/第N批.md 附件。",
   "entry": "SKILL.md",
