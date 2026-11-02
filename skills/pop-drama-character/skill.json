@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-character",
   "name": "pop-drama-character",
-  "version": "1.0.0",
+  "version": "5.0.0",
   "displayName": "短剧人物库",
   "description": "当用户说「短剧人物/人设/关系/选角/视觉锚点」时用它。建短剧人物库五份：人物总表、主要人物卡、配角与功能位、关系图、选角与视觉锚点，供分集、剧本、分镜与交付引用。",
   "entry": "SKILL.md",
