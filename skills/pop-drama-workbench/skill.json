@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-workbench",
   "name": "pop-drama-workbench",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "displayName": "短剧剧本包工作台",
-  "description": "当用户说「做短剧/新短剧/接着写/导入已有剧本」时用它。短剧剧本包工作台：按概览、设定、人物、分集、剧本、交付六个创作对象组织项目，分镜收在剧本内，交付可让 AI 制作组直接开工。",
+  "description": "当用户说「做短剧/新短剧/接着写/导入已有剧本」时用它。短剧剧本包工作台：在设定、人物、分集、剧本、交付等创作对象之上运行 SOP 阶段机（prep→brief→characters→outline→episodes→script→delivery），带完成判据、闸门与账本。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",

@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-beats",
   "name": "pop-drama-beats",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "displayName": "短剧分集",
   "description": "当用户说「分集/卡点/付费墙/前10集怎么排」时用它。把设定与人物拆成逐集核心冲突、转折、卡点、下集开头与预算，输出分集卡点表、前10集节拍、钩子台账、预算表四份。",
   "entry": "SKILL.md",

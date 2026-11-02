@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-delivery",
   "name": "pop-drama-delivery",
-  "version": "2.0.0",
+  "version": "5.0.0",
   "displayName": "短剧剧本包交付",
   "description": "当用户说「打包/交付/给甲方或制作/收尾」时用它。收齐 00-06 全部文件，生成 07-交付 五份文件：剧本包说明、一句话故事与卖点、人物小传合集、全剧台词统计、平台合规自查，并检查 B 组能否直接开工。",
   "entry": "SKILL.md",
