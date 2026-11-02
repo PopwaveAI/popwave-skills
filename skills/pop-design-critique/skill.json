@@ -1,0 +1,27 @@
+{
+  "id": "pop-design-critique",
+  "version": "1.0.0",
+  "displayName": "页面设计评审",
+  "description": "当用户说「看这个设计/评审这个页面/挑界面毛病/这个页面哪里不好看/设计评审」时启用。对截图或运行中的页面按可用性、视觉层次、一致性、可读性四维出评审报告，每条落到位置-问题-影响，按阻断/干扰/打磨定级。只审不改。",
+  "entry": "SKILL.md",
+  "tags": [
+    "通用",
+    "设计评审"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-design-critique",
+      "设计评审",
+      "评审页面",
+      "挑界面毛病",
+      "看这个设计"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "对页面截图做结构化设计评审，产出位置-问题-影响三段式报告。"
+}

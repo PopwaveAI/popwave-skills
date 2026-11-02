@@ -68,6 +68,9 @@
 ### 编辑与查稿
 `pop-editor`——三个检查模式（文风质感／剧情内容／情绪节奏），一次只跑一个：拆段后拿毛病清单逐段打分出汇总报告；对章纲核兑现／落点／推进／钩子／矛盾；用情绪表逐点标分并查密度（每 300 字至少 1 个 4 分情绪点）。**番茄／起点／灯塔／涌现四条长篇线共用**（与 `pop-review` 的分工：review 管章节验收存档，editor 管查稿找问题）。
 
+### 前端设计评审
+`pop-design-critique`——审截图不改代码：按可用性／视觉层次／一致性／可读性四维挑问题，每条必须落到「位置-问题-影响」，按阻断／干扰／打磨定级，上限 10 条。缺「用户在这一页要完成什么」就不开审；交互、滚动、响应式、键盘可达标为未验证，不算验收。**与生成类技能的分工：`frontend-design`／`solo-design` 负责生成，本 skill 负责挑刺。**
+
 ### 元能力（skill 开发）
 `pop-shared-skill-create`
 
@@ -88,6 +91,7 @@
 | `short-*` | 短篇 | 短篇专家 |
 | `pop-video-*` `pop-content-card` `pop-comic-test` `pop-recommend` | 视频物料/推书 | 通用·视频物料 |
 | `pop-ai-reduce-lite` | 去AI味改写（全库唯一脚本宿主） | 通用 |
+| `pop-design-critique` | 页面设计评审（只审不改） | 通用 |
 | `pop-shared-skill-create` | skill 元能力 | 通用 |
 | `tool-*` | 共享工具 | 跨专家共用 |
 
