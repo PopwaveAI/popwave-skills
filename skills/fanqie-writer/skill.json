@@ -1,0 +1,34 @@
+{
+  "id": "fanqie-writer",
+  "name": "fanqie-writer",
+  "displayName": "番茄小说写作",
+  "version": "2.0.0",
+  "entry": "SKILL.md",
+  "description": "番茄平台分章写作。一次 run 只做一件任务（T1 卖点卡、T2 立项卡、T3 卷爽点表、T4 章纲、T5 正文、T6 审稿、T7 批末报告）。每轮先读 状态.md 的 下一步，再按任务配方组装任务包；不重做已完成的立项，不在同一轮连做章纲和正文。",
+  "summary": "单任务化的番茄写作流程，靠卖点卡、剧情快照与章日志保持连续性。",
+  "tags": [
+    "番茄网文",
+    "单任务",
+    "长篇连载"
+  ],
+  "activation": {
+    "slashCommands": [
+      "fanqie-writer",
+      "番茄写作",
+      "写下一章"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "loadPolicy": {
+    "includeReferences": "on-demand",
+    "maxPromptChars": 6000
+  },
+  "webInclude": [
+    "SKILL.md"
+  ],
+  "author": "popwave",
+  "license": "UNLICENSED"
+}
