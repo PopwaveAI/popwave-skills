@@ -1,0 +1,19 @@
+{
+  "id": "pop-fanqie-setting",
+  "name": "pop-fanqie-setting",
+  "version": "2.0.0",
+  "displayName": "设定·番茄",
+  "description": "番茄写作设定环节：金手指限制、世界底线、权力阶梯、经济锚点与项目级写作规则。不写人物卡、大纲或正文。",
+  "entry": "SKILL.md",
+  "tags": ["番茄网文", "设定", "世界观"],
+  "activation": {
+    "slashCommands": ["pop-fanqie-setting", "设定", "世界观"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "生成世界.md 与写作规则.md。"
+}

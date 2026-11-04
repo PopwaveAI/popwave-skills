@@ -1,0 +1,19 @@
+{
+  "id": "pop-qimao-recap",
+  "name": "pop-qimao-recap",
+  "version": "2.0.0",
+  "displayName": "剧情review·七猫",
+  "description": "七猫写作剧情 review 环节：从已落盘正文提取事件、新事实、人物状态、伏笔与下一章钩子，写入 recap.json、characters.json 与全书日志。",
+  "entry": "SKILL.md",
+  "tags": ["七猫网文", "剧情复盘", "状态"],
+  "activation": {
+    "slashCommands": ["pop-qimao-recap", "剧情review", "剧情复盘"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "正文落盘后更新事件、人物状态与伏笔。"
+}

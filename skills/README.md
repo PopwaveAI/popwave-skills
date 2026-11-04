@@ -3,14 +3,16 @@
 > 依据专家配置图（2026-08-13）整理的 skill 分类索引。图中 5 位专家各自绑定一组 skill；未在图中分配、但属于某专家命名空间家族的 skill 归入「通用·子组件」区，可按需提升到对应专家。
 >
 > 注（2026-10-29 平台编队）：写作类官方专家收口为番茄 / 起点 / 晋江 / 七猫 / 知乎短篇五个平台专家，每位只绑「大纲 + 正文」两个平台技能。长篇由 `pop-snow-seed` / `pop-snow-write` 复制出 `pop-{platform}-outline` / `pop-{platform}-write` 四套，首版内容一致；短篇由旧 7 步链压缩为 `short-zhihu-outline` / `short-zhihu-write`。snow / lantern / emergent / 中篇 / 短篇旧链从市场隐藏；2026-10-30 起这些隐藏 skill 已从仓库 `skills/` 下架，移到本地归档 `archive/skills/`（不入库）。仍被可见 skill 引用的 `pop-visual-shared`、`pop-outline`、`short-reviewer`、`pop-shared-skill-create` 继续留在 `skills/`。
+>
+> 注（2026-11-05 六环节重构，需求 0430）：长篇由「大纲 + 正文」拆成六个环节技能：`pop-{platform}-idea` / `-setting` / `-character` / `-plot` / `-write` / `-recap`。番茄已绑六包并接 v2 槽位协议。起点 / 晋江 / 七猫先复制 `idea` / `setting` / `character` / `plot` / `recap` 五个占位包；`-write` 未替换，仍配旧 `-outline` 使用，等平台切换时再一起换。旧 `pop-fanqie-outline` / `pop-{platform}-write` 保留一个版本作薄壳。
 
-| 专家 | 大纲技能 | 正文技能 |
+| 平台 | 环节技能 | 状态 |
 |:--|:--|:--|
-| 番茄网文专家 | `pop-fanqie-outline` | `pop-fanqie-write` |
-| 起点网文专家 | `pop-qidian-outline` | `pop-qidian-write` |
-| 晋江网文专家 | `pop-jinjiang-outline` | `pop-jinjiang-write` |
-| 七猫网文专家 | `pop-qimao-outline` | `pop-qimao-write` |
-| 知乎短篇专家 | `short-zhihu-outline` | `short-zhihu-write` |
+| 番茄网文专家 | `pop-fanqie-*` 六包 | 已绑定 |
+| 起点网文专家 | `pop-qidian-*` 五个占位包 + 旧 outline/write | 占位 |
+| 晋江网文专家 | `pop-jinjiang-*` 五个占位包 + 旧 outline/write | 占位 |
+| 七猫网文专家 | `pop-qimao-*` 五个占位包 + 旧 outline/write | 占位 |
+| 知乎短篇专家 | `short-zhihu-outline` / `short-zhihu-write` | 未重构 |
 
 ## 一、五大专家 → Skill 对应
 

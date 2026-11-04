@@ -1,0 +1,19 @@
+{
+  "id": "pop-qimao-character",
+  "name": "pop-qimao-character",
+  "version": "2.0.0",
+  "displayName": "人物设计·七猫",
+  "description": "七猫写作人物设计环节：主角、核心配角、对手阶梯，以及正文每章都要读的人物索引（正式名/别名/称呼/性别/关系阶段）。",
+  "entry": "SKILL.md",
+  "tags": ["七猫网文", "人物", "人设"],
+  "activation": {
+    "slashCommands": ["pop-qimao-character", "人物", "人设"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "生成人物卡.md 与人物索引.md。"
+}

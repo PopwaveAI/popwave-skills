@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "chapter": 1,
+  "events": [
+    {
+      "summary": "本章真正发生的事，一句话",
+      "time": "故事内时间",
+      "place": "地点",
+      "promises": ["这条事件兑现了哪条承诺"]
+    }
+  ],
+  "newFacts": [
+    {
+      "fact": "新出现且影响后文的事实",
+      "evidence": "正文证据短语",
+      "status": "confirmed | pending"
+    }
+  ],
+  "characterStates": [
+    {
+      "name": "正式名",
+      "changes": {
+        "location": "位置",
+        "situation": "处境",
+        "relationship": "关系阶段",
+        "knowledge": "已知信息",
+        "items": "持有物品"
+      },
+      "sourceChapter": 1
+    }
+  ],
+  "openThreads": [
+    {
+      "id": "thread-001",
+      "status": "open | advanced | resolved",
+      "note": "伏笔或未兑现承诺",
+      "firstChapter": 1,
+      "lastChapter": 1
+    }
+  ],
+  "nextHooks": [
+    {
+      "hook": "章末钩子",
+      "plannedChapter": 2
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "blueprint | character | world",
+      "detail": "冲突内容",
+      "status": "open"
+    }
+  ],
+  "current": {
+    "chapter": 1,
+    "characters": ["正式名"],
+    "openThreads": ["thread-001"]
+  }
+}

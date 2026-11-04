@@ -1,0 +1,19 @@
+{
+  "id": "pop-qidian-idea",
+  "name": "pop-qidian-idea",
+  "version": "2.0.0",
+  "displayName": "创意·起点",
+  "description": "起点写作创意环节：访谈收敛、读题材弹药、产出 2-3 个定位候选与故事核心。只做决策级，不写设定、人物、大纲或正文。",
+  "entry": "SKILL.md",
+  "tags": ["起点网文", "创意", "立项"],
+  "activation": {
+    "slashCommands": ["pop-qidian-idea", "创意", "立项"]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "访谈 → 定位候选 → 故事核心。"
+}
