@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-idea",
   "name": "pop-fanqie-idea",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "displayName": "创意·番茄",
   "description": "番茄写作创意环节：访谈收敛、读题材弹药、产出 2-3 个定位候选与故事核心。只做决策级，不写设定、人物、大纲或正文。",
   "entry": "SKILL.md",

@@ -1,7 +1,7 @@
 # pop-fanqie-plot
 
 > 剧情大纲环节（番茄）：分卷设计、卷纲、前 10 章章纲；后续每 10 章续补。
-> 当前版本 2.0.0。
+> 当前版本 2.1.0。
 
 ## 负责什么
 
@@ -18,17 +18,28 @@
 
 ### Step 0 定范围
 
-- 已有卷纲：读现有卷纲与章纲，找下一卷或下一个 10 章缺口。
-- 一次只排一卷，或一次只补 10 章；不一次排全书。
+1. 先看提示词里的「创作循环」段：它停在「卷纲」时排卷纲，停在「章纲」时只补章纲；两者都不是而用户没点名时，先说明当前进度再问。
+2. 已有卷纲：读现有卷纲与章纲，找下一卷或下一个 10 章缺口。
+3. 一次只排一卷，或一次只补 10 章；不一次排全书。
 
 ### Step 1 生成卷纲或章纲
 
-调 `popwave-write-outline`，协议 v2：
+调 `popwave-write-outline`，协议 v2。按当前节点选模式：
 
-- `protocolVersion`：2；`brief`：一句"排第 N 卷卷纲/补 chNNN–chMMM"。
-- `context` 按段标题装：必填 `【故事核心】【总控设定摘要】【总控人物】【既定剧情】`（用 `popwave_project_site_read` 读 `/pages/settings`、`/pages/characters`、`/pages/plot`）；可选 `【剧情快照】`（读 `/pages/snapshots`）、`【卷纲模板】`。
-- 只装本卷相关的人与线，不要整份人物库。
-- `constraints`：卷数、本卷目标章节范围、每章五栏、需要避免的桥段。
+**卷纲（`mode=volume` 或省略）**
+
+- `brief`：一句「排第 N 卷卷纲」。
+- `context` 必填 `【故事核心】【总控设定摘要】【总控人物】【既定剧情】`；可选 `【剧情快照】`（读 `/pages/snapshots`）、`【卷纲模板】`。总预算 32 KB。
+- 用 `popwave_project_site_read` 读 `/pages/settings`、`/pages/characters`、`/pages/plot`，只装本卷相关的人与线，不要整份人物库。
+
+**章纲（`mode=chapter`）**
+
+- `brief`：一句「补 chNNN–chMMM 章纲」。
+- `context` 必填 `【本章定位】【卷纲节选】【出场人物】【前情摘要】`；可选 `【上一章结尾】【伏笔清单】【文风 DNA】`。总预算 16 KB。
+- `【本章定位】`写这一章在卷内的位置、要推进的卷目标；`【卷纲节选】`只取相关段落，不贴整卷；`【出场人物】`只列本章会出场的人；`【前情摘要】`取上一章快照与未解决伏笔。
+- 章纲一次只补当前一批（默认 10 章），不把全书章纲一次排完。
+
+`constraints`：卷数、本卷目标章节范围、每章五栏、需要避免的桥段。
 
 要求：
 
@@ -49,7 +60,8 @@
 2. 本卷每章都推进卷目标；章末钩子落在下一章可接的位置。
 3. 章纲与人物索引的出场名单一致，不出现索引里没有的角色。
 
-用 `popwave_project_site_update` 把本卷写进总控 `pages.plot`：`volumes`（id／title／goal／enemy／climax／chapters）、`lines`（主线/支线/伏笔）、`foreshadows`；没变化不调用。
+用 `popwave_project_site_update` 把本卷写进总控 `pages.plot`：`volumes`（id／title／goal／enemy／climax／chapters）、`lines`（主线/支线/伏笔）、`foreshadows`；章纲按章号写进对应卷的 `chapters`（number／title／note／status），已存在就按 number 覆盖，不改章号。没变化不调用。
+不再手写流程待办：下一步由宿主按创作循环生成；只有用户明确要求的事项才写进 `todos`。
 
 交接给 `pop-fanqie-write`；章纲不足时由本环节补，正文环节不自己编。
 

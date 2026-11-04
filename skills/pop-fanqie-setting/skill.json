@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-setting",
   "name": "pop-fanqie-setting",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "displayName": "设定·番茄",
   "description": "番茄写作设定环节：金手指限制、世界底线、权力阶梯、经济锚点与项目级写作规则。不写人物卡、大纲或正文。",
   "entry": "SKILL.md",
