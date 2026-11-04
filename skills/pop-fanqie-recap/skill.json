@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-recap",
   "name": "pop-fanqie-recap",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "剧情review·番茄",
   "description": "番茄写作剧情 review 环节：从已落盘正文提取事件、新事实、人物状态、伏笔与下一章钩子，写入 recap.json、characters.json 与全书日志。",
   "entry": "SKILL.md",
