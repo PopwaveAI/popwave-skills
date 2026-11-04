@@ -25,8 +25,9 @@
 
 调 `popwave-write-outline`，协议 v2：
 
-- `stage`：`outline`
-- `blocks`：`storyCore`、`worldSummary`、`characterCards`、`volumeTemplate` 必填；`previousRecap`、`previousChapterOutlines` 按需。
+- `protocolVersion`：2；`brief`：一句"排第 N 卷卷纲/补 chNNN–chMMM"。
+- `context` 按段标题装：必填 `【故事核心】【总控设定摘要】【总控人物】【既定剧情】`（用 `popwave_project_site_read` 读 `/pages/settings`、`/pages/characters`、`/pages/plot`）；可选 `【剧情快照】`（读 `/pages/snapshots`）、`【卷纲模板】`。
+- 只装本卷相关的人与线，不要整份人物库。
 - `constraints`：卷数、本卷目标章节范围、每章五栏、需要避免的桥段。
 
 要求：
@@ -47,6 +48,8 @@
 1. 每章五栏齐全；事件能被正文直接执行。
 2. 本卷每章都推进卷目标；章末钩子落在下一章可接的位置。
 3. 章纲与人物索引的出场名单一致，不出现索引里没有的角色。
+
+用 `popwave_project_site_update` 把本卷写进总控 `pages.plot`：`volumes`（id／title／goal／enemy／climax／chapters）、`lines`（主线/支线/伏笔）、`foreshadows`；没变化不调用。
 
 交接给 `pop-jinjiang-write`；章纲不足时由本环节补，正文环节不自己编。
 

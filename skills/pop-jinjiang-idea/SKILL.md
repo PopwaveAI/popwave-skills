@@ -44,17 +44,18 @@
 
 调 `popwave-write-idea`，协议 v2：
 
-- `stage`：`idea`
-- `blocks`：`userWords`、`confirmedDecisions`、`platformProfile` 必填；`libraryRefs`、`benchmarkExcerpt`、`characterBriefs` 按需。
+- `protocolVersion`：2；`brief`：一句"出定位候选"。
+- `context` 按段标题装：必填 `【用户原话】【已确认决策】【平台与分类】`；可选 `【总控头卡】`（用 `popwave_project_site_read` 读 `/profile`）、`【题材弹药参考】【对标开局】【已有角色锚点】`。
+- 只装用户选过或本轮要用的弹药；不要把整份弹药卡塞进去。
 - 候选之间必须换世界、换主角位置或换终点；只换措辞不算；不写第一章细节。
 
 候选全文先写入 `立项/brief候选.md`，一个候选一节。用 Ask 让用户选或合成；选项正文只写一句核心，`reference.path` 指到文档里的候选小节。用户不选就停，不自动选推荐。
 
 ### Step 4 故事核心
 
-用户选定后，把候选全文（≤300 字）并入 `confirmedDecisions`，再调 `popwave-write-idea`，`stage` 仍为 `idea`：
+用户选定后，把候选全文（≤300 字）并入 `【已确认决策】`，再调 `popwave-write-idea`：
 
-- `blocks`：`userWords`、`confirmedDecisions`、`platformProfile` 必填；`libraryRefs`、`benchmarkExcerpt` 按需。
+- `context` 必填 `【用户原话】【已确认决策】【平台与分类】`；可选 `【总控头卡】【题材弹药参考】【对标开局】`。
 - 产出：一句话 ≤60 字；一段话 300–500 字、六要素齐全；主线四阶冲突；支线 2–4 条、每条四栏；循环 4–6 拍。
 - 不写正文句、不写对白、不写设定机制。
 
@@ -71,6 +72,8 @@
 ### Step 6 交接
 
 在故事.md 末尾写：已锁定项、待定项、用户原话、下一步（默认 `pop-jinjiang-setting`）。
+
+用 `popwave_project_site_update` 同步总控头卡：`profile` 写 name／oneLine／genre／storyLine／styleDna／tags（读不出就不写），`rules` 写本书规则；没变化不调用。
 
 ## 红线
 

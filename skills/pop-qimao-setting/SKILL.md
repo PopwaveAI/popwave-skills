@@ -27,8 +27,8 @@
 
 调 `popwave-write-setting`，协议 v2：
 
-- `stage`：`setting`
-- `blocks`：`storyCore`、`genreAmmo` 必填；`existingSetting`、`characterCards` 按需。
+- `protocolVersion`：2；`mode`：`setting`；`brief`：一句"写设定"。
+- `context` 按段标题装：必填 `【故事核心】【题材弹药】`；可选 `【总控设定】`（用 `popwave_project_site_read` 读 `/pages/settings/rules`）、`【人物与势力】`、`【本书规则】`（读 `/rules`）。
 - `constraints`：世界底线条数、权力阶梯级数、经济锚点条数；必须避免的设定（用户雷点）。
 
 要求：
@@ -62,6 +62,8 @@
 1. 世界底线每条都能在正文里被执行，不是口号。
 2. 金手指限制与分卷设计不打架：每一卷至少用到一次限制。
 3. 写作规则能被正文直接照做，不含「尽量」「适当」这类空话。
+
+用 `popwave_project_site_update` 把本轮设定写进总控 `pages.settings`（`rules` 至少一条 canon；有势力与地图时补 `map`）；写作规则同步到 `rules.text`；没变化不调用。
 
 交接给 `pop-qimao-character`；写作规则路径写进故事.md 交接段。
 

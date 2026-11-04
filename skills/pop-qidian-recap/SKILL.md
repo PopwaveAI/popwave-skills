@@ -21,8 +21,8 @@
 
 - `正文/ch{NNN}.md` 全文。
 - `章纲/ch{NNN}.md`：核对章纲声明的事件是否都有落点。
-- `人物/人物索引.md`：只核对出场人物。
-- 上一版 `recap.json`（有则读）。
+- 用 `popwave_project_site_read` 读 `/pages/characters` 与 `/pages/plot`：只核对本章出场人物、未解决伏笔。
+- 读 `/pages/snapshots/plot` 与最近两条 `/pages/snapshots/chapters`。
 - 数据结构见 `templates/recap.schema.json`。
 
 ### Step 2 提取
@@ -38,9 +38,12 @@
 
 ### Step 3 落盘
 
-1. `recap.json`：保留最近章节的条目；`current` 对象覆盖成本章结束时的状态。
-2. `characters.json`：合并进人物索引镜像；`provenance` 不明时不写。
-3. `剧情日志/全书日志.md`：追加本章事件与新事实；旧行不改。
+1. 用 `popwave_project_site_update` 写 `pages.snapshots`：
+   - `plot`：本章结束时的当前局面（summary 150–400 字、chapterId、openThreads ≤5）；
+   - `chapters`：追加本章（chapterId／title／summary 60–160 字／openThreads）。
+2. 同步人物状态到 `pages.characters.roles`（只写变化项；不确定的不写）。
+3. `recap.json`：保留最近章节条目，作为工具/排查用的本地镜像。
+4. `剧情日志/全书日志.md`：追加本章事件与新事实；旧行不改。
 
 ### Step 4 门禁
 

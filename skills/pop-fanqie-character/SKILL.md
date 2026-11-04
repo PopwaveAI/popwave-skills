@@ -27,9 +27,8 @@
 
 调 `popwave-write-setting`，协议 v2：
 
-- `stage`：`character`
-- `blocks`：`storyCore`、`rosterSchema` 必填；`genreAmmo`、`existingCharacters` 按需。
-- `rosterSchema` 传 `templates/人物索引.tpl.md` 的字段行。
+- `protocolVersion`：2；`mode`：`character`；`brief`：一句"写人物卡与索引"。
+- `context` 按段标题装：必填 `【故事核心】【人物索引字段】`（后者用 `templates/人物索引.tpl.md` 的字段行）；可选 `【总控人物】`（读 `/pages/characters`）、`【世界规则】`（读 `/pages/settings/rules`）、`【题材人设套路】`。
 - `constraints`：主角 5 项、配角 3–5 人、对手 3 档；不新增故事.md 没有的角色。
 
 要求：
@@ -56,6 +55,8 @@
 1. 人物卡里出现的每个名字，索引里都有一行；索引里没有人物卡里不存在的角色。
 2. 主角与主要反派的别名、称呼能覆盖旧稿与用户原话里的叫法。
 3. 对手阶梯与本卷卷级敌人对得上。
+
+用 `popwave_project_site_update` 把人物写进总控 `pages.characters.roles`（name／kind／status／arc／relations）与 `factions.members`；索引只留项目文件，不把整行塞进总控；没变化不调用。
 
 交接给 `pop-fanqie-plot`；把两份文件路径写进故事.md 交接段。
 

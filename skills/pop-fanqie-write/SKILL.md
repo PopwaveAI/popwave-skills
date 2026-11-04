@@ -22,25 +22,19 @@
 
 ### Step 1 装槽位
 
-调 `popwave-write-body`，协议 v2，`stage` 为 `body`：
+先用 `popwave_project_site_read` 选料（不要整份读文档）：
 
-必填：
+1. 读本章章纲；用 `mode=search` 查出场人物名，命中 `characters.roles`；
+2. 查未解决的 `plot.foreshadows` 与当前卷相关的 `plot.lines`；
+3. 读 `/pages/snapshots/plot`（当前状态）与最近两章 `snapshots.chapters`；
+4. 读 `/pages/settings/rules` 的 canon 规则与 `/rules` 的本书规则。
 
-- `chapterOutline`：本章章纲全文。
-- `appearingCharacters`：本章出场的 `人物/人物卡.md` 条目原文（只取出场的）。
-- `characterIndex`：`人物/人物索引.md` 相关行。
-- `worldBottomLines`：`设定/世界.md` 的 3 条世界底线 + 文风关键词。
-- `writingRules`：`设定/写作规则.md` 全文。
+调 `popwave-write-body`，协议 v2：
 
-可选：
-
-- `previousEnding`：上一章末 1,000 汉字原文（逐字，不改写）；第一章读第 0 章试写或故事开场。
-- `activeThreads`：`.popwave/metrics/recap.json` 里相关线索，≤6 条。
-- `styleDna`：文风 DNA 摘要（用户当次指定优先）。
-
-`constraints`：字数区间（软目标，默认 2000–2500）、视角、必须发生/必须避免、禁区。
-
-装料原则：只装本章要用的；不把整份世界、整份人物卡、全部日志塞进去。工具会裁剪可选槽并回报收据。
+- `protocolVersion`：2；`brief`：一句"写第 N 章"。
+- `context` 按段标题装：必填 `【本章章纲】【出场人物】【人物索引】【世界规则】【本书规则】`；可选 `【剧情快照】【上一章结尾】`（1,000 汉字原文）、`【活跃伏笔】【文风 DNA】`。
+- 只装本章要用的条目；不把整份世界、整份人物卡、全部日志塞进去。
+- `constraints`：字数区间（软目标，默认 2000–2500）、视角、必须发生/必须避免、禁区。
 
 ### Step 2 落盘
 
@@ -61,7 +55,9 @@
 
 ### Step 4 交接给剧情 review
 
-正文落盘后进入 `pop-fanqie-recap`，更新本章 recap 与人物状态；不要在本环节自行总结全书剧情。
+正文落盘后**必须**继续进入 `pop-fanqie-recap`，更新本章快照与人物状态；不要在本环节自行总结全书剧情。
+
+用 `popwave_project_site_update` 把本章写进总控 `pages.manuscript`：`chapter`（number／title／wordCount／status）与 `chapterIndex`；正文文件本身按项目规范落盘，没变化不调用。
 
 ### Step 5 回报
 
