@@ -48,6 +48,7 @@
    - `plot`：本章结束时的当前局面（summary 150–400 字、chapterId、openThreads ≤5、presentCharacters 本章仍在场的人）；
    - `chapters`：追加本章（chapterId／title／summary 60–160 字／tags／characters／facts／hooks／conflicts／openThreads）。
 2. 回流人物状态到 `pages.characters.roles`：只写出场人物的 `currentState`（location／situation／relationStage／knowledge／items／injuries／goalChange／chapter），并追加一条 `timeline`（chapter／change）；不改 `base` 与历史行。
+   - `currentState` 用 `merge` 覆盖对应角色的字段；`timeline` 用 `op: "append"` 追加到 `/pages/characters/roles/{下标}/timeline`，不要整段重写。
 3. 回流剧情线：把本章推进的 `pages.plot.volumes[].lines[].beats` 中对应 beat 标 `done`；没写进正文的标 `dropped`，未推进的保持 `planned`。
 4. 回流伏笔状态：`foreshadows` 的 `state` 按正文推进或回收更新；新埋的补进清单。
 5. `recap.json`：保留最近章节条目，作为工具/排查用的本地镜像。
