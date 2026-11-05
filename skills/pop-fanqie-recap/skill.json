@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-recap",
   "name": "pop-fanqie-recap",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "displayName": "剧情review·番茄",
   "description": "番茄写作剧情 review 环节：从已落盘正文提取事件、新事实、人物状态与关系变化、伏笔与下一章钩子，写进 pages.snapshots 与 pages.characters。",
   "entry": "SKILL.md",

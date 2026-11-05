@@ -54,7 +54,25 @@
   "conflicts": ["与章纲、人物卡、世界底线的冲突，一条一句"],
   "current": {
     "chapter": 1,
-    "characters": ["正式名"],
+    "summary": "本章结束时的当前局势，150–400 字",
+    "time": "故事内时间",
+    "place": "地点",
+    "situation": "一句话点明敌我态势与当前目标",
+    "characters": [
+      {
+        "name": "正式名",
+        "state": "位置／伤损／处境",
+        "goal": "这一阶段想达成什么"
+      }
+    ],
+    "lines": [
+      {
+        "name": "剧情线名",
+        "kind": "main | sub | foreshadow",
+        "progress": "推进到本章的最新一步",
+        "status": "done | active | planned"
+      }
+    ],
     "presentCharacters": ["章末仍在场的人"],
     "openThreads": ["thread-001"]
   }

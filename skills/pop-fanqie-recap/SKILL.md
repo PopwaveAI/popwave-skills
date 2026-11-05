@@ -1,7 +1,7 @@
 # pop-fanqie-recap
 
 > 剧情 review 环节（番茄）：从已落盘正文提取事件、新事实、人物状态、伏笔与下一章钩子。
-> 当前版本 2.3.0。
+> 当前版本 2.4.0。
 
 ## 负责什么
 
@@ -45,7 +45,10 @@
 ### Step 3 落盘
 
 1. 用 `popwave_project_site_update` 写 `pages.snapshots`：
-   - `plot`：本章结束时的当前局面（summary 150–400 字、chapterId、openThreads ≤5、presentCharacters 本章仍在场的人）；
+   - `plot`：本章结束时的立体局面——`summary` 150–400 字、`chapterId`、`time` 故事内时间、`place` 地点、`situation` 一句话点明敌我态势与当前目标；
+     `characters` 列章末仍在场的人，每人 `{name, state, goal}`（state 写位置／伤损／处境，goal 写这一阶段想达成什么）；
+     `lines` 列各剧情线推进到本章的最新一步，每条 `{name, kind, progress, status}`，status 取 `done｜active｜planned`；
+     再写 `openThreads` ≤5 与 `presentCharacters`。
    - `chapters`：追加本章（chapterId／title／summary 60–160 字／tags／characters／facts／hooks／conflicts／openThreads）。
 2. 回流人物状态到 `pages.characters.roles`：只写出场人物的 `currentState`（location／situation／relationStage／knowledge／items／injuries／goalChange／chapter），并追加一条 `timeline`（chapter／change）；不改 `base` 与历史行。
    - `currentState` 用 `merge` 覆盖对应角色的字段；`timeline` 用 `op: "append"` 追加到 `/pages/characters/roles/{下标}/timeline`，不要整段重写。
