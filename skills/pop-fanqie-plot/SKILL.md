@@ -67,7 +67,7 @@
 用 `popwave_project_site_update` 把本卷写进总控 `pages.plot`：
 
 - `volumes`：`id`／`title`／`status`（`draft` 或 `final`）／`goal`／`enemy`／`climax`／`chapters`（number／title／note／status）。
-- 卷内剧情线写在卷的 `lines`：`id`／`name`／`kind`（main｜sub｜foreshadow）／`beats`（`chapter`／`text`／`status=planned`）。
+- 卷内剧情线写在卷的 `lines`：`id`／`name`／`kind`（main｜sub｜foreshadow）／`summary`（这条线在本卷要完成什么，Markdown，2–4 句）／`beats`（`chapter`／`text`／`status=planned`）。
 - 新增 beat 用 `op: "append"` 追加到 `/pages/plot/volumes/{下标}/lines/{下标}/beats`，不整段重写；同一章同一线的 beat 先读后补。
 - `foreshadows` 照旧；章纲按 number 覆盖，不改章号。
 - 当前卷 `status=final` 后，后续轮只补 `lines.beats` 与章纲；beat 的 `done`／`dropped` 由 recap 按正文标，本环节只写 `planned`。
