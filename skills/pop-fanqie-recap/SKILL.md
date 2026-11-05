@@ -1,7 +1,7 @@
 # pop-fanqie-recap
 
 > 剧情 review 环节（番茄）：从已落盘正文提取事件、新事实、人物状态、伏笔与下一章钩子。
-> 当前版本 2.2.0。
+> 当前版本 2.3.0。
 
 ## 负责什么
 
@@ -49,6 +49,7 @@
    - `chapters`：追加本章（chapterId／title／summary 60–160 字／tags／characters／facts／hooks／conflicts／openThreads）。
 2. 回流人物状态到 `pages.characters.roles`：只写出场人物的 `currentState`（location／situation／relationStage／knowledge／items／injuries／goalChange／chapter），并追加一条 `timeline`（chapter／change）；不改 `base` 与历史行。
    - `currentState` 用 `merge` 覆盖对应角色的字段；`timeline` 用 `op: "append"` 追加到 `/pages/characters/roles/{下标}/timeline`，不要整段重写。
+   - 关系变化时更新双方 `relations`：`type` 用 2–4 字短标签、`status` 与 `lastChapter` 同步，不只改主角一侧。
 3. 回流剧情线：把本章推进的 `pages.plot.volumes[].lines[].beats` 中对应 beat 标 `done`；没写进正文的标 `dropped`，未推进的保持 `planned`。
 4. 回流伏笔状态：`foreshadows` 的 `state` 按正文推进或回收更新；新埋的补进清单。
 5. `recap.json`：保留最近章节条目，作为工具/排查用的本地镜像。
@@ -61,7 +62,8 @@
 2. 正文出现的每个名字，在章快照的 `characters` 里有对应条目或有别名映射。
 3. 新事实带证据短语；没有证据的写「待核」。
 4. 伏笔状态不倒退：`resolved` 不被改回 `open`。
-5. 人物 `currentState` 的 8 项只按本章正文写；没有变化的字段继承上一版，不凭推测补。
+5. 关系变化必须落到双方人物档案，短标签保持 2–4 字，不写整句解释。
+6. 人物 `currentState` 的 8 项只按本章正文写；没有变化的字段继承上一版，不凭推测补。
 
 ## 红线
 

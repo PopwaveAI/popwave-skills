@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-character",
   "name": "pop-fanqie-character",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "displayName": "人物设计·番茄",
   "description": "番茄写作人物设计环节：主角、核心配角、对手阶梯，以及正文每章都要读的人物索引（正式名/别名/称呼/性别/关系阶段）。",
   "entry": "SKILL.md",
