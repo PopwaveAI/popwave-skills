@@ -1,6 +1,9 @@
 {
-  "version": 1,
+  "version": 2,
   "chapter": 1,
+  "tags": ["角色动态", "新事实", "伏笔钩子", "冲突", "场景", "时间"],
+  "characters": ["本章出场人名"],
+  "presentCharacters": ["章末仍在场的人"],
   "events": [
     {
       "summary": "本章真正发生的事，一句话",
@@ -9,22 +12,26 @@
       "promises": ["这条事件兑现了哪条承诺"]
     }
   ],
-  "newFacts": [
+  "facts": [
     {
       "fact": "新出现且影响后文的事实",
       "evidence": "正文证据短语",
       "status": "confirmed | pending"
     }
   ],
+  "hooks": ["本章新埋或推进的伏笔钩子"],
   "characterStates": [
     {
       "name": "正式名",
       "changes": {
         "location": "位置",
         "situation": "处境",
-        "relationship": "关系阶段",
-        "knowledge": "已知信息",
-        "items": "持有物品"
+        "relationStage": "关系阶段",
+        "knowledge": ["已知信息"],
+        "items": ["持有物"],
+        "injuries": ["伤损"],
+        "goalChange": "目标变化",
+        "chapter": 1
       },
       "sourceChapter": 1
     }
@@ -44,16 +51,11 @@
       "plannedChapter": 2
     }
   ],
-  "conflicts": [
-    {
-      "kind": "blueprint | character | world",
-      "detail": "冲突内容",
-      "status": "open"
-    }
-  ],
+  "conflicts": ["与章纲、人物卡、世界底线的冲突，一条一句"],
   "current": {
     "chapter": 1,
     "characters": ["正式名"],
+    "presentCharacters": ["章末仍在场的人"],
     "openThreads": ["thread-001"]
   }
 }

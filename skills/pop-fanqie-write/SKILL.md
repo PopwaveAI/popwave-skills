@@ -1,7 +1,7 @@
 # pop-fanqie-write
 
 > 正文环节（番茄）：一次写一章，写完落盘并交 `pop-fanqie-recap` 更新剧情状态。
-> 当前版本 2.1.0。
+> 当前版本 2.2.0。
 
 ## 何时用
 
@@ -28,15 +28,18 @@
 先用 `popwave_project_site_read` 选料（不要整份读文档）：
 
 1. 读本章章纲；用 `mode=search` 查出场人物名，命中 `characters.roles`；
-2. 查未解决的 `plot.foreshadows` 与当前卷相关的 `plot.lines`；
-3. 读 `/pages/snapshots/plot`（当前状态）与最近两章 `snapshots.chapters`；
-4. 读 `/pages/settings/rules` 的 canon 规则与 `/rules` 的本书规则。
+2. 读本章章号在 `plot.volumes[].lines[].beats` 里的推进项，只按这些 beat 写，不临时加剧情线；
+3. 读出本章出场人物的 `currentState`（位置／处境／关系阶段／持有物）作为本章开场局面；
+4. 查未解决的 `plot.foreshadows` 与当前卷相关的 `plot.lines`；
+5. 读 `/pages/snapshots/plot`（当前状态）与最近两章 `snapshots.chapters`；
+6. 读 `/pages/settings/rules` 的 canon 规则与 `/rules` 的本书规则。
 
 调 `popwave-write-body`，协议 v2：
 
 - `protocolVersion`：2；`brief`：一句"写第 N 章"。
 - `context` 按段标题装：必填 `【本章章纲】【出场人物】【人物索引】【世界规则】【本书规则】`；可选 `【剧情快照】【上一章结尾】`（1,000 汉字原文）、`【活跃伏笔】【文风 DNA】`。
 - 只装本章要用的条目；不把整份世界、整份人物卡、全部日志塞进去。
+- 章纲声明的 beat 是本章的推进范围；不自行改卷目标、不替后续章预写剧情。
 - `constraints`：字数区间（软目标，默认 2000–2500）、视角、必须发生/必须避免、禁区。
 
 ### Step 2 落盘
@@ -58,7 +61,7 @@
 
 ### Step 4 交接给剧情 review
 
-正文落盘后**必须**继续进入 `pop-fanqie-recap`，更新本章快照与人物状态；不要在本环节自行总结全书剧情。
+正文落盘后**必须**继续进入 `pop-fanqie-recap`，更新本章快照、人物 `currentState`／`timeline` 与剧情线 beat 状态；不要在本环节自行总结全书剧情或改人物状态。
 
 用 `popwave_project_site_update` 把本章写进总控 `pages.manuscript`：`chapter`（number／title／wordCount／status）与 `chapterIndex`；正文文件本身按项目规范落盘，没变化不调用。
 不再手写流程待办：下一步由宿主按创作循环生成；只有用户明确要求的事项才写进 `todos`。
