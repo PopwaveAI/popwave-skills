@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-plot",
   "name": "pop-fanqie-plot",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "displayName": "剧情大纲·番茄",
   "description": "番茄写作剧情大纲环节：一次一排一卷或一次补 10 章，产出卷纲与五栏章纲。不写正文，不改设定。",
   "entry": "SKILL.md",

@@ -1,7 +1,7 @@
 # pop-fanqie-write
 
 > 正文环节（番茄）：一次写一章，写完落盘并交 `pop-fanqie-recap` 更新剧情状态。
-> 当前版本 2.2.0。
+> 当前版本 2.3.0。
 
 ## 何时用
 
@@ -32,12 +32,13 @@
 3. 读出本章出场人物的 `currentState`（位置／处境／关系阶段／持有物）作为本章开场局面；
 4. 查未解决的 `plot.foreshadows` 与当前卷相关的 `plot.lines`；
 5. 读 `/pages/snapshots/plot`（当前状态）与最近两章 `snapshots.chapters`；
-6. 读 `/pages/settings/rules` 的 canon 规则与 `/rules` 的本书规则。
+6. 读 `/pages/settings/rules` 的 canon 规则、`/pages/settings/map` 与 `/pages/settings/history` 的空间与时代约束、`/rules` 的本书规则。
+7. 若用户点名了已解锁的赛道知识，按正文环节只取 `t_style`、`t_checklist`、`t_copyrisk`；先读 `/library/<id>/index.md`，不读 `all.md`。
 
 调 `popwave-write-body`，协议 v2：
 
 - `protocolVersion`：2；`brief`：一句"写第 N 章"。
-- `context` 按段标题装：必填 `【本章章纲】【出场人物】【人物索引】【世界规则】【本书规则】`；可选 `【剧情快照】【上一章结尾】`（1,000 汉字原文）、`【活跃伏笔】【文风 DNA】`。
+- `context` 按段标题装：必填 `【本章章纲】【出场人物】【人物索引】【世界规则】【本书规则】`；可选 `【剧情快照】【上一章结尾】`（1,000 汉字原文）、`【活跃伏笔】【文风 DNA】【赛道知识】`。
 - 只装本章要用的条目；不把整份世界、整份人物卡、全部日志塞进去。
 - 章纲声明的 beat 是本章的推进范围；不自行改卷目标、不替后续章预写剧情。
 - `constraints`：字数区间（软目标，默认 2000–2500）、视角、必须发生/必须避免、禁区。

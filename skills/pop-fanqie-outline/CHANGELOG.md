@@ -27,3 +27,9 @@
 - 对应项目总控 Phase 2：续补卷纲/章纲前先读 `.popwave/metrics/library.json` 的 `pages.plot.volumes`、`pages.characters.roles`、`pages.settings.rules`，沿用正式卷名/章号/人物名，不另起一套。
 - `pending` 文档仍按草稿读；正式层缺失或对应页为空时完全回退现有草稿路径。
 - Step 0 项目资产清单加入 `library.json`；红线新增第 10 条：续补不另起结构。
+
+## v1.0.5 | 2026-11-06
+
+- 4e 快线设定补 `设定/世界地图.md` 与 `设定/世界历史.md`：世界格局、势力分区、地标与分区关系，以及时代背景与关键前史。
+- 每本书都生成，按题材控制体量；都市／甜宠可只写主舞台与 2–4 条前史。
+- 总控 `pages.settings` 同步写 `map` 与 `history`，不再只写 `rules`。

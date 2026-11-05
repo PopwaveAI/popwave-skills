@@ -1,7 +1,7 @@
 {
   "id": "pop-fanqie-write",
   "name": "pop-fanqie-write",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "displayName": "正文写作·番茄",
   "description": "番茄写作正文环节：按槽位装料，一次写一章，落盘后做字数、结构、人名引号与去 AI 味报告，并交接剧情 review。",
   "entry": "SKILL.md",
