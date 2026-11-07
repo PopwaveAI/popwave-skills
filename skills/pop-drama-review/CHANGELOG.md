@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.2.0 - 2026-11-08
+
+合并 pop-drama-delivery，增加 polish；按 mode 路由：review / polish / delivery。
+
 ## 5.1.0 - 2026-11-07
 
 新增五维评估：信息差/爽点/期待感/节奏/清晰，任一项低于 6 分阻塞。

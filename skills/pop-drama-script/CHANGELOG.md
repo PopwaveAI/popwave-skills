@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.1.0 - 2026-11-08
+
+合并 pop-drama-shotintent，按 mode 路由：script / shotintent。
+
 ## 5.0.0 - 2026-11-02
 
 - 增加 SOP `script` 阶段的 Web 阅读稿模式：90-120 秒、约 1000 字、2-4 场。

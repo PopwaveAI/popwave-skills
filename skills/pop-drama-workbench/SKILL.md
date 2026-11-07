@@ -1,6 +1,6 @@
 # pop-drama-workbench
 
-> 短剧剧本包工作台。当前版本 v5.1.0（2026-11-07：增加故事脉络线、事件逻辑集纲、五维评估与人物/梗概字段升级）。
+> 短剧剧本包工作台。当前版本 v6.0.0（2026-11-08：短剧 skill 合并为 6 个，按阶段与 mode 路由）。
 > 本技能做五件事：建项目、维护创作总表、按 SOP 阶段与创作对象路由、跑闸门、检查交付完整性。
 
 ---
@@ -127,19 +127,19 @@ A 组交付的不是一份剧本，是**一个能让 B 组直接开工的剧本�
 
 ## 模块清单
 
-| 模块 | skill | 层级 | 产出 |
+| 模块 | skill / mode | 层级 | 产出 |
 |:--|:--|:--|:--|
 | 工作台 | 本技能 | 概览 | `00-创作总表.md` |
-| 市场定位 | `pop-drama-market` | 项目背景 | `01-市场定位.md` |
-| 对标拆解 | `pop-drama-decon` | 项目背景 | `02-对标拆解.md` |
-| 设定 | `pop-drama-setting` | 一级 | `03-设定/` 八份 |
-| 人物 | `pop-drama-character` | 一级 | `04-人物/` 五份 |
-| 分集 | `pop-drama-beats` | 一级 | `05-分集/` 四份 |
-| 剧本 | `pop-drama-script` | 一级 | `06-剧本/` 正文、合订本、台词统计 |
-| 分镜 | `pop-drama-shotintent` | 剧本子页 | `06-剧本/分镜/` |
-| 审稿 | `pop-drama-review` | 动作 | `06-剧本/审稿/` |
-| 交付 | `pop-drama-delivery` | 一级 | `07-交付/` 五份 |
-| 资料检索 | `pop-drama-research` | 工具 | `资料/` |
+| 市场定位 | `pop-drama-market`（mode=market） | 项目背景 | `01-市场定位.md` |
+| 对标拆解 | `pop-drama-market`（mode=decon） | 项目背景 | `02-对标拆解.md` |
+| 设定 | `pop-drama-bible`（mode=setting） | 一级 | `03-设定/` 八份 |
+| 人物 | `pop-drama-bible`（mode=character） | 一级 | `04-人物/` 五份 |
+| 分集 | `pop-drama-beats` | 一级 | `05-分集/` 故事脉络、粗纲、集纲 |
+| 剧本 | `pop-drama-script`（mode=script） | 一级 | `06-剧本/` 正文、合订本、台词统计 |
+| 分镜 | `pop-drama-script`（mode=shotintent） | 剧本子页 | `06-剧本/分镜/` |
+| 审稿/润色 | `pop-drama-review`（mode=review / polish） | 动作 | `06-剧本/审稿/` |
+| 交付 | `pop-drama-review`（mode=delivery） | 一级 | `07-交付/` 五份 |
+| 资料检索 | `pop-drama-market`（mode=research） | 工具 | `资料/` |
 
 ---
 
@@ -147,16 +147,17 @@ A 组交付的不是一份剧本，是**一个能让 B 组直接开工的剧本�
 
 | 用户说 | 直接进 | 开工前检查 |
 |:--|:--|:--|
-| 选题 / 平台 / 题材 / 卖点 / 多少集 | market | 无 |
-| 拆对标 / 拉片 / 参考剧 | decon | 无 |
-| 故事核 / 世界 / 规则 / 视觉 / 场景 / 道具 / 声音 / 合规 / 语言风格 | setting | 市场定位（至少三项） |
-| 人物 / 人设 / 关系 / 选角 / 视觉锚点 | character | 故事核 |
-| 分集 / 卡点 / 付费墙 / 前 10 集 | beats | 设定库、人物库 |
-| 写剧本 / 写第 N 集 / 全剧合订 | script | 本集分集卡点、人物、场景 |
-| 拆镜头 / 分镜 / 镜头意图 / 交给 AI 做 | shotintent（从剧本进） | 本集剧本已 PASS |
-| 审剧本 / 审分镜 / 打分 | review | 剧本或分镜 |
-| 打包 / 交付 / 给甲方或制作 | delivery | 00-06 全部就绪 |
-| 查资料 | research | 无 |
+| 选题 / 平台 / 题材 / 卖点 / 多少集 | `pop-drama-market`（market） | 无 |
+| 拆对标 / 拉片 / 参考剧 | `pop-drama-market`（decon） | 无 |
+| 故事核 / 世界 / 规则 / 视觉 / 场景 / 道具 / 声音 / 合规 / 语言风格 | `pop-drama-bible`（setting） | 市场定位（至少三项） |
+| 人物 / 人设 / 关系 / 选角 / 视觉锚点 | `pop-drama-bible`（character） | 故事核 |
+| 分集 / 卡点 / 付费墙 / 前 10 集 | `pop-drama-beats` | 设定库、人物库 |
+| 写剧本 / 写第 N 集 / 全剧合订 | `pop-drama-script`（script） | 本集分集卡点、人物、场景 |
+| 拆镜头 / 分镜 / 镜头意图 / 交给 AI 做 | `pop-drama-script`（shotintent） | 本集剧本已 PASS |
+| 审剧本 / 审分镜 / 打分 | `pop-drama-review`（review） | 剧本或分镜 |
+| 润色这一集 | `pop-drama-review`（polish） | 本集审稿意见 |
+| 打包 / 交付 / 给甲方或制作 | `pop-drama-review`（delivery） | 00-06 全部就绪 |
+| 查资料 | `pop-drama-market`（research） | 无 |
 | 新建 / 导入 / 续写 | 本工作台 | 见 Step 1 / Step 2 |
 
 **日常路由不经过本技能**：用户说“写第 5 集”，主 agent 读 `00-创作总表.md`，直接加载 `pop-drama-script`。只有建项目、导入、状态重建、交付检查时才进工作台。
@@ -388,13 +389,12 @@ A 组交 `06-剧本/分镜/`，B 组据此写 prompt。A 组只写“观众看�
 | `references/短剧剧本与小说差异.md` | 判断写法时 | 十项硬差异、样本统计 |
 | `references/平台与市场.md` | market/decon | 平台、题材、集数、付费墙 |
 | `references/资料源清单.md` | research | 来源与方法 |
-| `<pop-drama-setting 包根>/SKILL.md` | 建设定库 | 八份设定文件与检查 |
-| `<pop-drama-character 包根>/SKILL.md` | 建人物库 | 五份人物文件与检查 |
+| `<pop-drama-bible 包根>/SKILL.md` | 建设定库 / 人物库 | 八份设定、五份人物与检查 |
 | `<pop-drama-script 包根>/SKILL.md` | 写剧本/分镜 | 剧本与分镜子页 |
-| `<pop-drama-delivery 包根>/SKILL.md` | 打包 | 五份交付文件与检查 |
+| `<pop-drama-review 包根>/SKILL.md` | 审稿 / 润色 / 打包 | 五维评分、润色规则与五份交付 |
 
 ---
 
 ## 版本
 
-当前版本 v4.0.0（2026-10-19：按创作对象重排 IA）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本 v6.0.0（2026-11-08：合并为 6 个短剧 skill，按阶段与 mode 路由）。完整版本历史见 [CHANGELOG.md](CHANGELOG.md)。

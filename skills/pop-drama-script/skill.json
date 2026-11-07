@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-script",
   "name": "pop-drama-script",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "displayName": "短剧剧本",
   "description": "当用户说「写剧本/写第N集/下一集/全剧合订」时用它。按分集卡点写单集短剧剧本，交付单集剧本、全剧合订本与台词统计；分镜是剧本子页，由 shotintent 生成，不再单独一级。",
   "entry": "SKILL.md",

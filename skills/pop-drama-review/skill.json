@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-review",
   "name": "pop-drama-review",
-  "version": "5.1.0",
-  "displayName": "短剧剧本包审稿",
-  "description": "当用户说「审剧本/审分镜/剧本打包检查」时用它。按设定、人物、分集、剧本、分镜、连续性、合规、交付八段审短剧剧本包，给 PASS/CONDITIONAL/REJECT 与逐条改法。",
+  "version": "5.2.0",
+  "displayName": "短剧审稿、润色与交付",
+  "description": "当用户说「审剧本/审分镜/润色这一集/剧本打包」时用它。review 按八段审稿并给五维评分；polish 按审稿意见润色单集；delivery 检查并打包五份交付。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",

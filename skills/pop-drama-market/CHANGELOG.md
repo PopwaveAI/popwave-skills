@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.0.0 - 2026-11-08
+
+合并 pop-drama-decon 与 pop-drama-research，按 mode 路由：market / decon / research。
+
 ## 4.0.0 - 2026-10-19
 
 按新 IA 调整定位。

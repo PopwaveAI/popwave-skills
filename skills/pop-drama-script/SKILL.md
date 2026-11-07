@@ -1,7 +1,19 @@
 # pop-drama-script
 
-> 短剧剧本模块。当前版本 v5.0.0（2026-11-02：增加 SOP `script` 阶段的 Web 阅读稿模式与集末闸门）。
-> 本模块把集纲的一集，写成一集可读、可拍、可拆镜的剧本。
+> 短剧剧本与镜头模块（合并原 pop-drama-shotintent）。当前版本 v5.1.0。
+> 本模块把集纲的一集，写成一集可读、可拍、可拆镜的剧本；剧本通过后再拆镜头意图。
+
+---
+
+## 两种 mode
+
+| mode | 阶段 | 主产物 | 前置 |
+|:--|:--|:--|:--|
+| `script`（默认） | script | `06-剧本/EP{NNN}.md` | 本集集纲、人物、场景库 |
+| `shotintent` | 剧本通过后 | `06-剧本/分镜/EP{NNN}.md` | 本集剧本 PASS |
+
+- 分镜完整 12 字段与 A→B 交接见 [references/shotintent.md](references/shotintent.md)。
+- 一次最多写 5 集正文；超过 5 集先审。
 
 ---
 
@@ -42,13 +54,13 @@
 - `06-剧本/EP{NNN}.md`：单集剧本。
 - `06-剧本/全剧剧本.md`：全剧合订本。
 - `06-剧本/台词统计.md`：每集台词字数与语音秒数。
-- `06-剧本/分镜/EP{NNN}.md`：分镜子页，由 `pop-drama-shotintent` 生成。
+- `06-剧本/分镜/EP{NNN}.md`：分镜子页，由本 skill 的 `mode=shotintent` 生成。
 - `06-剧本/审稿/EP{NNN}-审稿.md`：审稿记录，由 `pop-drama-review` 生成。
 
 **边界**：
 
 - 不改分集卡点的方向。
-- 不写分镜 12 字段（归 shotintent）。
+- 不写分镜 12 字段（归本 skill 的 `mode=shotintent`）。
 - 不写首帧 prompt、不做抽卡、不做剪辑。
 
 **执行方式**：主 agent 直接执行。一次写 3 集为一组，写完即交 review。用户点名单集时只写单集。
@@ -227,7 +239,7 @@
 
 ## 分镜与审稿
 
-- 分镜：剧本 PASS 后，交 `pop-drama-shotintent`，输出 `06-剧本/分镜/EP{NNN}.md`。工作台上它是剧本的子页，不是一级阶段。
+- 分镜：剧本 PASS 后，切到本 skill 的 `mode=shotintent`，输出 `06-剧本/分镜/EP{NNN}.md`。工作台上它是剧本的子页，不是一级阶段。
 - 审稿：交 `pop-drama-review`，输出 `06-剧本/审稿/EP{NNN}-审稿.md`。
 
 **不要**在剧本里写首帧 prompt 或运动指令。

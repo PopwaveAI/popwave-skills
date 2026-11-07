@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 6.0.0 - 2026-11-08
+
+短剧 skill 合并为 6 个：workbench、market、bible、beats、script、review。
+
+- market 合并 decon 与 research，按 mode 路由。
+- bible 合并 setting 与 character，按 mode 路由。
+- script 合并 shotintent，按 mode 路由。
+- review 合并 delivery，并增加 polish。
+- 路由表与模块清单改为 skill + mode，不再按 11 个独立包分发。
+
 ## 5.1.0 - 2026-11-07
 
 增加 storyline 阶段（故事脉络线）；人物小传扩 9 字段；集纲改事件逻辑；审稿加五维评估。

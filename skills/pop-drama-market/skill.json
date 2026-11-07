@@ -1,9 +1,9 @@
 {
   "id": "pop-drama-market",
   "name": "pop-drama-market",
-  "version": "4.0.0",
-  "displayName": "短剧市场定位",
-  "description": "当用户说「短剧选题/定平台/定题材/多少集/卖点是什么」时用它。定平台、受众、题材、生产模式、集数、时长、镜头数、预算、商业承诺、核心信息差与标题候选；它是项目背景输入，不占一级创作对象。",
+  "version": "5.0.0",
+  "displayName": "短剧市场与对标",
+  "description": "当用户说「短剧选题/定平台/定题材/多少集/卖点是什么/拆对标/拉片/查短剧资料」时用它。market 定平台、受众、题材、生产模式、规格、卖点与标题；decon 拆 3-5 部对标；research 查市场数据与平台规则。",
   "entry": "SKILL.md",
   "tags": [
     "短剧专家",

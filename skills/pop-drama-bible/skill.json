@@ -1,0 +1,29 @@
+{
+  "id": "pop-drama-bible",
+  "name": "pop-drama-bible",
+  "version": "1.0.0",
+  "displayName": "短剧设定与人物",
+  "description": "当用户说「短剧故事核/短剧设定/世界观/人物小传/人设/人物关系」时用它。合并原 setting 与 character：mode=setting 写故事核 8 字段与八份设定库；mode=character 写 6-8 人九字段人物小传。",
+  "entry": "SKILL.md",
+  "tags": [
+    "短剧专家",
+    "短剧剧本包"
+  ],
+  "activation": {
+    "slashCommands": [
+      "pop-drama-bible",
+      "短剧设定",
+      "短剧人物",
+      "故事核",
+      "人物小传",
+      "drama-bible"
+    ]
+  },
+  "permissions": {
+    "readProjectFiles": true,
+    "writeProjectFiles": true
+  },
+  "author": "popwave",
+  "license": "UNLICENSED",
+  "summary": "短剧故事核、八份设定与 6-8 人九字段人物小传。"
+}
