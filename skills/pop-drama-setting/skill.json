@@ -1,7 +1,7 @@
 {
   "id": "pop-drama-setting",
   "name": "pop-drama-setting",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "displayName": "短剧设定库",
   "description": "当用户说「短剧设定/故事核/世界观/视觉风格/场景库/道具服装/声音/合规/语言风格」时用它。建短剧设定库八份：故事核、世界与规则、视觉风格、场景库、道具与服装、声音基调、合规红线、语言风格，供人物、分集、剧本、分镜引用。",
   "entry": "SKILL.md",
